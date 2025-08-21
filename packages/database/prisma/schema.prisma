@@ -1,0 +1,448 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  walletAddress   String?   @unique
+  email           String?   @unique
+  username        String    @unique
+  displayName     String
+  avatar          String?
+  bio             String?
+  isVerified      Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  servers         ServerMember[]
+  messages        Message[]
+  reactions       Reaction[]
+  ownedServers    Server[]
+  threads         Thread[]
+  posts           Post[]
+  comments        Comment[]
+  votes           Vote[]
+  tokens          Token[]
+  sessions        Session[]
+  notifications   Notification[]
+  
+  @@index([username])
+  @@index([walletAddress])
+  @@index([email])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  token        String   @unique
+  refreshToken String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([token])
+  @@index([userId])
+}
+
+model Server {
+  id              String    @id @default(cuid())
+  name            String
+  description     String?
+  icon            String?
+  banner          String?
+  ownerId         String
+  isPublic        Boolean   @default(true)
+  tokenGated      Boolean   @default(false)
+  requiredTokens  Json?
+  maxMembers      Int       @default(100000)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  owner           User      @relation(fields: [ownerId], references: [id])
+  channels        Channel[]
+  members         ServerMember[]
+  roles           Role[]
+  invites         Invite[]
+  bans            Ban[]
+  
+  @@index([name])
+  @@index([ownerId])
+}
+
+model Channel {
+  id              String        @id @default(cuid())
+  serverId        String
+  name            String
+  description     String?
+  type            ChannelType   @default(TEXT)
+  position        Int           @default(0)
+  isPrivate       Boolean       @default(false)
+  parentId        String?
+  slowMode        Int           @default(0)
+  nsfw            Boolean       @default(false)
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  server          Server        @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  parent          Channel?      @relation("ChannelCategory", fields: [parentId], references: [id])
+  children        Channel[]     @relation("ChannelCategory")
+  messages        Message[]
+  threads         Thread[]
+  permissions     ChannelPermission[]
+  
+  @@unique([serverId, name])
+  @@index([serverId])
+}
+
+model Message {
+  id              String    @id @default(cuid())
+  channelId       String
+  userId          String
+  content         String
+  editedAt        DateTime?
+  attachments     Json?
+  embeds          Json?
+  isPinned        Boolean   @default(false)
+  replyToId       String?
+  threadId        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  channel         Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id])
+  replyTo         Message?  @relation("MessageReply", fields: [replyToId], references: [id])
+  replies         Message[] @relation("MessageReply")
+  thread          Thread?   @relation(fields: [threadId], references: [id])
+  reactions       Reaction[]
+  
+  @@index([channelId, createdAt])
+  @@index([userId])
+  @@index([threadId])
+}
+
+model Thread {
+  id              String    @id @default(cuid())
+  channelId       String
+  userId          String
+  name            String
+  archived        Boolean   @default(false)
+  locked          Boolean   @default(false)
+  autoArchive     Int       @default(10080)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  channel         Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id])
+  messages        Message[]
+  
+  @@index([channelId])
+  @@index([userId])
+}
+
+model Post {
+  id              String    @id @default(cuid())
+  communityId     String
+  userId          String
+  title           String
+  content         String
+  url             String?
+  thumbnail       String?
+  isPinned        Boolean   @default(false)
+  isLocked        Boolean   @default(false)
+  score           Int       @default(0)
+  viewCount       Int       @default(0)
+  commentCount    Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id])
+  comments        Comment[]
+  votes           Vote[]
+  awards          Award[]
+  
+  @@index([communityId, createdAt])
+  @@index([userId])
+  @@index([score])
+}
+
+model Comment {
+  id              String    @id @default(cuid())
+  postId          String
+  userId          String
+  parentId        String?
+  content         String
+  editedAt        DateTime?
+  score           Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  post            Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id])
+  parent          Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
+  replies         Comment[] @relation("CommentReplies")
+  votes           Vote[]
+  
+  @@index([postId, createdAt])
+  @@index([userId])
+}
+
+model Community {
+  id              String    @id @default(cuid())
+  name            String    @unique
+  displayName     String
+  description     String?
+  icon            String?
+  banner          String?
+  rules           Json?
+  isPublic        Boolean   @default(true)
+  isNsfw          Boolean   @default(false)
+  memberCount     Int       @default(0)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  posts           Post[]
+  members         CommunityMember[]
+  moderators      Moderator[]
+  flairs          Flair[]
+  
+  @@index([name])
+}
+
+model ServerMember {
+  id              String    @id @default(cuid())
+  serverId        String
+  userId          String
+  nickname        String?
+  joinedAt        DateTime  @default(now())
+  isMuted         Boolean   @default(false)
+  isDeafened      Boolean   @default(false)
+  
+  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  roles           MemberRole[]
+  
+  @@unique([serverId, userId])
+  @@index([serverId])
+  @@index([userId])
+}
+
+model Role {
+  id              String    @id @default(cuid())
+  serverId        String
+  name            String
+  color           String?
+  position        Int       @default(0)
+  permissions     BigInt    @default(0)
+  mentionable     Boolean   @default(false)
+  hoisted         Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  
+  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  members         MemberRole[]
+  channelPerms    ChannelPermission[]
+  
+  @@unique([serverId, name])
+  @@index([serverId])
+}
+
+model MemberRole {
+  id              String        @id @default(cuid())
+  memberId        String
+  roleId          String
+  
+  member          ServerMember  @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  role            Role          @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  
+  @@unique([memberId, roleId])
+}
+
+model ChannelPermission {
+  id              String    @id @default(cuid())
+  channelId       String
+  roleId          String?
+  userId          String?
+  allow           BigInt    @default(0)
+  deny            BigInt    @default(0)
+  
+  channel         Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  role            Role?     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  
+  @@index([channelId])
+  @@index([roleId])
+}
+
+model CommunityMember {
+  id              String    @id @default(cuid())
+  communityId     String
+  userId          String
+  karma           Int       @default(0)
+  joinedAt        DateTime  @default(now())
+  
+  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  
+  @@unique([communityId, userId])
+  @@index([communityId])
+  @@index([userId])
+}
+
+model Moderator {
+  id              String    @id @default(cuid())
+  communityId     String
+  userId          String
+  permissions     Json
+  addedAt         DateTime  @default(now())
+  
+  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  
+  @@unique([communityId, userId])
+}
+
+model Vote {
+  id              String    @id @default(cuid())
+  userId          String
+  postId          String?
+  commentId       String?
+  value           Int
+  createdAt       DateTime  @default(now())
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post            Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  comment         Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+  @@index([postId])
+  @@index([commentId])
+}
+
+model Award {
+  id              String    @id @default(cuid())
+  postId          String
+  userId          String
+  type            String
+  createdAt       DateTime  @default(now())
+  
+  post            Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  
+  @@index([postId])
+}
+
+model Flair {
+  id              String    @id @default(cuid())
+  communityId     String
+  text            String
+  backgroundColor String?
+  textColor       String?
+  
+  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  
+  @@index([communityId])
+}
+
+model Token {
+  id              String    @id @default(cuid())
+  userId          String
+  address         String
+  symbol          String
+  name            String
+  decimals        Int
+  balance         String
+  chain           String
+  verified        Boolean   @default(false)
+  
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, address, chain])
+  @@index([userId])
+}
+
+model Reaction {
+  id              String    @id @default(cuid())
+  messageId       String
+  userId          String
+  emoji           String
+  createdAt       DateTime  @default(now())
+  
+  message         Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+}
+
+model Invite {
+  id              String    @id @default(cuid())
+  code            String    @unique
+  serverId        String
+  inviterId       String
+  uses            Int       @default(0)
+  maxUses         Int?
+  maxAge          Int?
+  temporary       Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  expiresAt       DateTime?
+  
+  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  
+  @@index([code])
+  @@index([serverId])
+}
+
+model Ban {
+  id              String    @id @default(cuid())
+  serverId        String
+  userId          String
+  reason          String?
+  bannedBy        String
+  createdAt       DateTime  @default(now())
+  
+  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  
+  @@unique([serverId, userId])
+  @@index([serverId])
+}
+
+model Notification {
+  id              String            @id @default(cuid())
+  userId          String
+  type            NotificationType
+  title           String
+  content         String
+  data            Json?
+  isRead          Boolean           @default(false)
+  createdAt       DateTime          @default(now())
+  
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId, isRead])
+}
+
+enum ChannelType {
+  TEXT
+  VOICE
+  VIDEO
+  FORUM
+  STAGE
+  CATEGORY
+  ANNOUNCEMENT
+}
+
+enum NotificationType {
+  MENTION
+  REPLY
+  FOLLOW
+  LIKE
+  COMMENT
+  AWARD
+  SYSTEM
+  DM
+}

@@ -1,0 +1,46 @@
+export const PERMISSIONS = {
+  VIEW_CHANNEL: 1n << 0n,
+  SEND_MESSAGES: 1n << 1n,
+  EMBED_LINKS: 1n << 2n,
+  ATTACH_FILES: 1n << 3n,
+  READ_MESSAGE_HISTORY: 1n << 4n,
+  MENTION_EVERYONE: 1n << 5n,
+  USE_EXTERNAL_EMOJIS: 1n << 6n,
+  CONNECT: 1n << 7n,
+  SPEAK: 1n << 8n,
+  MUTE_MEMBERS: 1n << 9n,
+  DEAFEN_MEMBERS: 1n << 10n,
+  MOVE_MEMBERS: 1n << 11n,
+  USE_VAD: 1n << 12n,
+  MANAGE_CHANNELS: 1n << 13n,
+  MANAGE_ROLES: 1n << 14n,
+  MANAGE_WEBHOOKS: 1n << 15n,
+  MANAGE_SERVER: 1n << 16n,
+  KICK_MEMBERS: 1n << 17n,
+  BAN_MEMBERS: 1n << 18n,
+  ADMINISTRATOR: 1n << 19n,
+} as const;
+
+export const LIMITS = {
+  MESSAGE_MAX_LENGTH: 4000,
+  USERNAME_MIN_LENGTH: 3,
+  USERNAME_MAX_LENGTH: 30,
+  DISPLAY_NAME_MAX_LENGTH: 50,
+  BIO_MAX_LENGTH: 500,
+  SERVER_NAME_MAX_LENGTH: 100,
+  CHANNEL_NAME_MAX_LENGTH: 100,
+  ROLE_NAME_MAX_LENGTH: 100,
+  FILE_SIZE_MAX: 100 * 1024 * 1024,
+  AVATAR_SIZE_MAX: 8 * 1024 * 1024,
+  MAX_REACTIONS_PER_MESSAGE: 20,
+  MAX_ROLES_PER_SERVER: 250,
+  MAX_CHANNELS_PER_SERVER: 500,
+} as const;
+
+export const REGEX = {
+  USERNAME: /^[a-zA-Z0-9_-]+$/,
+  CHANNEL_NAME: /^[a-z0-9-]+$/,
+  ETHEREUM_ADDRESS: /^0x[a-fA-F0-9]{40}$/,
+  URL: /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/,
+  EMAIL: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+} as const;

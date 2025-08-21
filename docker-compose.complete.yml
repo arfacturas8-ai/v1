@@ -1,0 +1,786 @@
+version: '3.9'
+
+services:
+  # ===========================================
+  # CORE DATABASE SERVICES
+  # ===========================================
+  
+  # PostgreSQL with TimescaleDB for time-series data
+  postgres:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cryb_user
+      POSTGRES_PASSWORD: cryb_password
+      POSTGRES_DB: cryb
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+      POSTGRES_HOST_AUTH_METHOD: md5
+      SHARED_PRELOAD_LIBRARIES: 'timescaledb,pg_stat_statements,pg_cron,pgaudit'
+      TIMESCALEDB_TELEMETRY: off
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./scripts/timescale-init.sql:/docker-entrypoint-initdb.d/02-timescale.sql
+      - ./backups/postgres:/backups
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryb_user -d cryb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cryb-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cryb.gg
+      PGADMIN_DEFAULT_PASSWORD: admin_password
+      PGADMIN_LISTEN_PORT: 5050
+    ports:
+      - "5050:5050"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+
+  # ===========================================
+  # CACHE & SESSION SERVICES
+  # ===========================================
+  
+  # Redis Master for caching and real-time features
+  redis-master:
+    image: redis:7-alpine
+    container_name: cryb-redis-master
+    restart: unless-stopped
+    command: >
+      redis-server
+      --requirepass cryb_redis_password
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+      --appendfsync everysec
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "cryb_redis_password", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Replica for read scaling
+  redis-replica:
+    image: redis:7-alpine
+    container_name: cryb-redis-replica
+    restart: unless-stopped
+    command: >
+      redis-server
+      --slaveof redis-master 6379
+      --masterauth cryb_redis_password
+      --requirepass cryb_redis_password
+      --maxmemory 1gb
+      --maxmemory-policy allkeys-lru
+    ports:
+      - "6381:6379"
+    volumes:
+      - redis_replica_data:/data
+    networks:
+      - cryb-network
+    depends_on:
+      - redis-master
+
+  # Redis Commander for Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: cryb-redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: master:redis-master:6379:0:cryb_redis_password,replica:redis-replica:6379:0:cryb_redis_password
+    ports:
+      - "8081:8081"
+    networks:
+      - cryb-network
+    depends_on:
+      - redis-master
+      - redis-replica
+
+  # ===========================================
+  # SEARCH & ANALYTICS
+  # ===========================================
+  
+  # Elasticsearch for full-text search
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: cryb-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - cluster.name=cryb-cluster
+      - node.name=cryb-node-1
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - xpack.security.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+  # Kibana for Elasticsearch visualization
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: cryb-kibana
+    restart: unless-stopped
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+      SERVER_NAME: cryb-kibana
+      SERVER_HOST: "0.0.0.0"
+    ports:
+      - "5601:5601"
+    networks:
+      - cryb-network
+    depends_on:
+      - elasticsearch
+
+  # ===========================================
+  # MESSAGE QUEUE & TASK PROCESSING
+  # ===========================================
+  
+  # RabbitMQ for message queuing
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: cryb-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: cryb_rabbit
+      RABBITMQ_DEFAULT_PASS: cryb_rabbit_password
+      RABBITMQ_DEFAULT_VHOST: cryb
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./config/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ===========================================
+  # STORAGE SERVICES
+  # ===========================================
+  
+  # MinIO for S3-compatible object storage
+  minio:
+    image: minio/minio:latest
+    container_name: cryb-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: cryb_minio_admin
+      MINIO_ROOT_PASSWORD: cryb_minio_password
+      MINIO_DEFAULT_BUCKETS: cryb-uploads,cryb-avatars,cryb-attachments,cryb-backups
+      MINIO_BROWSER_REDIRECT_URL: http://localhost:9001
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # ===========================================
+  # MONITORING & OBSERVABILITY
+  # ===========================================
+  
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: cryb-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--storage.tsdb.retention.time=30d'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/prometheus/alerts.yml:/etc/prometheus/alerts.yml
+      - prometheus_data:/prometheus
+    networks:
+      - cryb-network
+
+  # Grafana for metrics visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: cryb-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin_password
+      GF_INSTALL_PLUGINS: redis-datasource,redis-app,redis-explorer
+      GF_SERVER_ROOT_URL: http://localhost:3001
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - cryb-network
+    depends_on:
+      - prometheus
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: cryb-jaeger
+    restart: unless-stopped
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+      COLLECTOR_OTLP_ENABLED: "true"
+      SPAN_STORAGE_TYPE: elasticsearch
+      ES_SERVER_URLS: http://elasticsearch:9200
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+    networks:
+      - cryb-network
+    depends_on:
+      - elasticsearch
+
+  # Loki for log aggregation
+  loki:
+    image: grafana/loki:latest
+    container_name: cryb-loki
+    restart: unless-stopped
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./config/loki/loki-config.yaml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    networks:
+      - cryb-network
+
+  # Promtail for log collection
+  promtail:
+    image: grafana/promtail:latest
+    container_name: cryb-promtail
+    restart: unless-stopped
+    command: -config.file=/etc/promtail/config.yml
+    volumes:
+      - ./config/promtail/promtail-config.yml:/etc/promtail/config.yml
+      - /var/log:/var/log:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    networks:
+      - cryb-network
+    depends_on:
+      - loki
+
+  # ===========================================
+  # WEBRTC & REAL-TIME COMMUNICATION
+  # ===========================================
+  
+  # LiveKit for WebRTC video/audio
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: cryb-livekit
+    restart: unless-stopped
+    command: --config /etc/livekit.yaml
+    environment:
+      LIVEKIT_KEYS: devkey:secret
+      LIVEKIT_WEBHOOK_URLS: http://api:3000/webhooks/livekit
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    volumes:
+      - ./config/livekit/livekit.yaml:/etc/livekit.yaml
+    networks:
+      - cryb-network
+
+  # Janus Gateway as backup WebRTC server
+  janus:
+    image: canyan/janus-gateway:latest
+    container_name: cryb-janus
+    restart: unless-stopped
+    ports:
+      - "8088:8088"
+      - "8089:8089"
+      - "8889:8889"
+      - "8000:8000"
+      - "7088:7088"
+      - "7089:7089"
+    volumes:
+      - ./config/janus:/usr/local/etc/janus
+    networks:
+      - cryb-network
+
+  # ===========================================
+  # API GATEWAY & PROXY
+  # ===========================================
+  
+  # Kong API Gateway
+  kong-database:
+    image: postgres:13
+    container_name: cryb-kong-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kong
+      POSTGRES_PASSWORD: kong_password
+      POSTGRES_DB: kong
+    volumes:
+      - kong_db_data:/var/lib/postgresql/data
+    networks:
+      - cryb-network
+
+  kong-migration:
+    image: kong:3.4
+    container_name: cryb-kong-migration
+    command: kong migrations bootstrap
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong_password
+      KONG_PG_DATABASE: kong
+    networks:
+      - cryb-network
+    depends_on:
+      - kong-database
+    restart: on-failure
+
+  kong:
+    image: kong:3.4
+    container_name: cryb-kong
+    restart: unless-stopped
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_HOST: kong-database
+      KONG_PG_USER: kong
+      KONG_PG_PASSWORD: kong_password
+      KONG_PG_DATABASE: kong
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+      - "8001:8001"
+      - "8444:8444"
+    networks:
+      - cryb-network
+    depends_on:
+      - kong-database
+      - kong-migration
+
+  # Nginx as main reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: cryb-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./config/nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./config/nginx/ssl:/etc/nginx/ssl
+      - nginx_cache:/var/cache/nginx
+      - ./static:/usr/share/nginx/html
+    networks:
+      - cryb-network
+    depends_on:
+      - api
+      - web
+
+  # ===========================================
+  # IDENTITY & ACCESS MANAGEMENT
+  # ===========================================
+  
+  # Keycloak for identity management
+  keycloak-db:
+    image: postgres:13
+    container_name: cryb-keycloak-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: keycloak_password
+      POSTGRES_DB: keycloak
+    volumes:
+      - keycloak_db_data:/var/lib/postgresql/data
+    networks:
+      - cryb-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    container_name: cryb-keycloak
+    restart: unless-stopped
+    command: start-dev
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: keycloak_password
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin_password
+      KC_HOSTNAME: localhost
+      KC_HOSTNAME_PORT: 8080
+      KC_HTTP_ENABLED: "true"
+    ports:
+      - "8080:8080"
+    networks:
+      - cryb-network
+    depends_on:
+      - keycloak-db
+
+  # ===========================================
+  # APPLICATION SERVICES
+  # ===========================================
+  
+  # Main API Service
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: cryb-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb?schema=public
+      REDIS_URL: redis://:cryb_redis_password@redis-master:6379/0
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      RABBITMQ_URL: amqp://cryb_rabbit:cryb_rabbit_password@rabbitmq:5672/cryb
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: cryb_minio_admin
+      MINIO_SECRET_KEY: cryb_minio_password
+      LIVEKIT_URL: ws://livekit:7880
+      LIVEKIT_API_KEY: devkey
+      LIVEKIT_API_SECRET: secret
+      JAEGER_AGENT_HOST: jaeger
+      JAEGER_AGENT_PORT: 6831
+      KEYCLOAK_URL: http://keycloak:8080
+      KEYCLOAK_REALM: cryb
+      KEYCLOAK_CLIENT_ID: cryb-api
+      KEYCLOAK_CLIENT_SECRET: api_secret
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/api:/app
+      - /app/node_modules
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+      - redis-master
+      - elasticsearch
+      - rabbitmq
+      - minio
+      - livekit
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Web Frontend Service
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+    container_name: cryb-web
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+      NEXT_PUBLIC_WS_URL: ws://localhost:3000
+      NEXT_PUBLIC_LIVEKIT_URL: ws://localhost:7880
+    ports:
+      - "3002:3000"
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - cryb-network
+    depends_on:
+      - api
+
+  # Admin Dashboard
+  admin:
+    build:
+      context: ./apps/admin
+      dockerfile: Dockerfile
+    container_name: cryb-admin
+    restart: unless-stopped
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:3000
+      NEXT_PUBLIC_GRAFANA_URL: http://localhost:3001
+      NEXT_PUBLIC_KIBANA_URL: http://localhost:5601
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./apps/admin:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - cryb-network
+    depends_on:
+      - api
+
+  # ===========================================
+  # WORKER SERVICES
+  # ===========================================
+  
+  # Message Processing Worker
+  worker-messages:
+    build:
+      context: ./services/workers
+      dockerfile: Dockerfile.messages
+    container_name: cryb-worker-messages
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb?schema=public
+      REDIS_URL: redis://:cryb_redis_password@redis-master:6379/0
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      RABBITMQ_URL: amqp://cryb_rabbit:cryb_rabbit_password@rabbitmq:5672/cryb
+    volumes:
+      - ./services/workers:/app
+      - /app/node_modules
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+      - redis-master
+      - rabbitmq
+
+  # Media Processing Worker
+  worker-media:
+    build:
+      context: ./services/workers
+      dockerfile: Dockerfile.media
+    container_name: cryb-worker-media
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb?schema=public
+      REDIS_URL: redis://:cryb_redis_password@redis-master:6379/0
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: cryb_minio_admin
+      MINIO_SECRET_KEY: cryb_minio_password
+    volumes:
+      - ./services/workers:/app
+      - /app/node_modules
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+      - redis-master
+      - minio
+
+  # Analytics Worker
+  worker-analytics:
+    build:
+      context: ./services/workers
+      dockerfile: Dockerfile.analytics
+    container_name: cryb-worker-analytics
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb?schema=public
+      REDIS_URL: redis://:cryb_redis_password@redis-master:6379/0
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      PROMETHEUS_PUSHGATEWAY_URL: http://prometheus:9090
+    volumes:
+      - ./services/workers:/app
+      - /app/node_modules
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+      - redis-master
+      - elasticsearch
+      - prometheus
+
+  # Notification Worker
+  worker-notifications:
+    build:
+      context: ./services/workers
+      dockerfile: Dockerfile.notifications
+    container_name: cryb-worker-notifications
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb?schema=public
+      REDIS_URL: redis://:cryb_redis_password@redis-master:6379/0
+      RABBITMQ_URL: amqp://cryb_rabbit:cryb_rabbit_password@rabbitmq:5672/cryb
+    volumes:
+      - ./services/workers:/app
+      - /app/node_modules
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+      - redis-master
+      - rabbitmq
+
+  # Blockchain Worker
+  worker-blockchain:
+    build:
+      context: ./services/workers
+      dockerfile: Dockerfile.blockchain
+    container_name: cryb-worker-blockchain
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb?schema=public
+      REDIS_URL: redis://:cryb_redis_password@redis-master:6379/0
+      ETHEREUM_RPC_URL: https://mainnet.infura.io/v3/YOUR_INFURA_KEY
+      POLYGON_RPC_URL: https://polygon-rpc.com
+    volumes:
+      - ./services/workers:/app
+      - /app/node_modules
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+      - redis-master
+
+  # ===========================================
+  # DEVELOPMENT TOOLS
+  # ===========================================
+  
+  # Mailhog for email testing
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: cryb-mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - cryb-network
+
+  # Adminer for database management (alternative to pgAdmin)
+  adminer:
+    image: adminer:latest
+    container_name: cryb-adminer
+    restart: unless-stopped
+    ports:
+      - "8082:8080"
+    networks:
+      - cryb-network
+    depends_on:
+      - postgres
+
+  # Portainer for Docker management
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: cryb-portainer
+    restart: unless-stopped
+    ports:
+      - "9443:9443"
+      - "8083:8000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    networks:
+      - cryb-network
+
+# ===========================================
+# NETWORKS
+# ===========================================
+networks:
+  cryb-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ===========================================
+# VOLUMES
+# ===========================================
+volumes:
+  postgres_data:
+  pgadmin_data:
+  redis_data:
+  redis_replica_data:
+  elasticsearch_data:
+  rabbitmq_data:
+  minio_data:
+  prometheus_data:
+  grafana_data:
+  loki_data:
+  kong_db_data:
+  keycloak_db_data:
+  nginx_cache:
+  portainer_data:
