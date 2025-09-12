@@ -1,0 +1,12 @@
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0LXVzZXItc29ja2V0LWF1dGgtMTIzIiwic2Vzc2lvbklkIjoiY2MyY2ZhYzItMThmMC00NjIzLWI2OWUtNjk2YzcwMmE0MTNmIiwiZW1haWwiOiJzb2NrZXR0ZXN0QGNyeWIuYWkiLCJ3YWxsZXRBZGRyZXNzIjpudWxsLCJpc1ZlcmlmaWVkIjp0cnVlLCJpYXQiOjE3NTc1OTUxMjAsImV4cCI6MTc1NzU5NjAyMCwiYXVkIjoiY3J5Yi11c2VycyIsImlzcyI6ImNyeWItcGxhdGZvcm0ifQ.MGHXnu9w0O61zfyz-8Py0AeuR4pegf3kRsIuCFNyHm8",
+  "payload": {
+    "userId": "test-user-socket-auth-123",
+    "sessionId": "cc2cfac2-18f0-4623-b69e-696c702a413f",
+    "email": "sockettest@cryb.ai",
+    "walletAddress": null,
+    "isVerified": true
+  },
+  "usage": "Copy the token above for Socket.io testing",
+  "expires": "15 minutes from generation"
+}

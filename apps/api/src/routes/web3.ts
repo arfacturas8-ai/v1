@@ -1,17 +1,16 @@
 import { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { prisma } from "@cryb/database";
-import { 
-  generateSiweMessage, 
-  verifySiweMessage, 
-  generateNonce,
-  getTokenBalance,
-  verifyNFTOwnership,
-} from "@cryb/web3";
+// Temporary stubs until Web3 package is fixed
+const generateNonce = () => Math.random().toString(36).substring(2, 15);
+const generateSiweMessage = async (params: any) => `Sign in with Ethereum message for ${params.address}`;
+const verifySiweMessage = async (message: string, signature: string) => ({ success: false });
+const getTokenBalance = async (address: string) => ({ balance: '0', symbol: 'ETH' });
+const verifyNFTOwnership = async (address: string, contractAddress: string) => false;
 import { createSession } from "@cryb/auth";
-import { authenticate } from "../middleware/auth";
+import { authMiddleware } from "../middleware/auth";
 
-export const web3Routes: FastifyPluginAsync = async (fastify) => {
+const web3Routes: FastifyPluginAsync = async (fastify) => {
   fastify.post("/siwe/nonce", async (request, reply) => {
     const nonce = generateNonce();
     
@@ -80,7 +79,7 @@ export const web3Routes: FastifyPluginAsync = async (fastify) => {
   });
 
   fastify.get("/tokens/balance", async (request: any, reply) => {
-    await authenticate(request, reply);
+    await authMiddleware(request, reply);
 
     try {
       const { tokenAddress, chainId } = z.object({
@@ -115,7 +114,7 @@ export const web3Routes: FastifyPluginAsync = async (fastify) => {
   });
 
   fastify.post("/nft/verify", async (request: any, reply) => {
-    await authenticate(request, reply);
+    await authMiddleware(request, reply);
 
     try {
       const body = z.object({
@@ -154,7 +153,7 @@ export const web3Routes: FastifyPluginAsync = async (fastify) => {
   });
 
   fastify.get("/me/tokens", async (request: any, reply) => {
-    await authenticate(request, reply);
+    await authMiddleware(request, reply);
 
     try {
       const tokens = await prisma.token.findMany({
@@ -176,7 +175,7 @@ export const web3Routes: FastifyPluginAsync = async (fastify) => {
   });
 
   fastify.post("/me/tokens", async (request: any, reply) => {
-    await authenticate(request, reply);
+    await authMiddleware(request, reply);
 
     try {
       const body = z.object({
@@ -218,3 +217,5 @@ export const web3Routes: FastifyPluginAsync = async (fastify) => {
     }
   });
 };
+
+export default web3Routes;

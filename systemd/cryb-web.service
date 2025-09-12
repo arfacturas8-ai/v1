@@ -1,0 +1,24 @@
+[Unit]
+Description=CRYB Web Frontend
+Documentation=https://github.com/cryb-platform
+After=network.target cryb-api.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/cryb-platform/apps/web
+Environment=NODE_ENV=production
+Environment=PORT=3000
+Environment=PATH=/home/ubuntu/.nvm/versions/node/v22.18.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+ExecStart=/home/ubuntu/.nvm/versions/node/v22.18.0/bin/npm run dev
+Restart=always
+RestartSec=10
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=cryb-web
+KillMode=mixed
+KillSignal=SIGINT
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target

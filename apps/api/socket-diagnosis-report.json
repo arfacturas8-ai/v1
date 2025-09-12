@@ -1,0 +1,19 @@
+{
+  "timestamp": "2025-09-12T03:13:49.822Z",
+  "results": {
+    "authEndpoint": false,
+    "tokenGeneration": false,
+    "tokenValidation": false,
+    "socketConnection": false,
+    "socketAuth": false,
+    "realtimeEvents": false,
+    "redisConnection": false
+  },
+  "summary": {
+    "criticalIssues": 5,
+    "totalIssues": 6,
+    "overallStatus": "critical"
+  },
+  "testToken": null,
+  "testUserId": null
+}

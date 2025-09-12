@@ -1,0 +1,140 @@
+{
+  "timestamp": "2025-09-12T02:20:16.535Z",
+  "overallCompletion": 33,
+  "categoryStats": {
+    "authentication": {
+      "percentage": 0,
+      "passed": 0,
+      "total": 2,
+      "status": "❌"
+    },
+    "discord": {
+      "percentage": 0,
+      "passed": 0,
+      "total": 0,
+      "status": "❌"
+    },
+    "reddit": {
+      "percentage": 0,
+      "passed": 0,
+      "total": 0,
+      "status": "❌"
+    },
+    "realtime": {
+      "percentage": 0,
+      "passed": 0,
+      "total": 1,
+      "status": "❌"
+    },
+    "voice": {
+      "percentage": 0,
+      "passed": 0,
+      "total": 2,
+      "status": "❌"
+    },
+    "media": {
+      "percentage": 0,
+      "passed": 0,
+      "total": 2,
+      "status": "❌"
+    },
+    "search": {
+      "percentage": 0,
+      "passed": 0,
+      "total": 2,
+      "status": "❌"
+    },
+    "mobile": {
+      "percentage": 100,
+      "passed": 3,
+      "total": 3,
+      "status": "✅"
+    },
+    "infrastructure": {
+      "percentage": 67,
+      "passed": 2,
+      "total": 3,
+      "status": "⚠️"
+    }
+  },
+  "detailedResults": {
+    "authentication": {
+      "tests": 2,
+      "passed": 0,
+      "details": [
+        "❌ User registration failed: 400",
+        "❌ User login failed: 401"
+      ]
+    },
+    "discord": {
+      "tests": 0,
+      "passed": 0,
+      "details": [
+        "❌ Cannot test Discord features - no auth token"
+      ]
+    },
+    "reddit": {
+      "tests": 0,
+      "passed": 0,
+      "details": [
+        "❌ Cannot test Reddit features - no auth token"
+      ]
+    },
+    "realtime": {
+      "tests": 1,
+      "passed": 0,
+      "details": [
+        "❌ Socket.IO endpoint failed: 400",
+        "⚠️ Full real-time testing requires WebSocket client"
+      ]
+    },
+    "voice": {
+      "tests": 2,
+      "passed": 0,
+      "details": [
+        "❌ Voice rooms failed: 404",
+        "❌ LiveKit integration failed: 404"
+      ]
+    },
+    "media": {
+      "tests": 2,
+      "passed": 0,
+      "details": [
+        "❌ Upload endpoint failed: 404",
+        "❌ MinIO storage not healthy: undefined"
+      ]
+    },
+    "search": {
+      "tests": 2,
+      "passed": 0,
+      "details": [
+        "❌ Elasticsearch not healthy: undefined",
+        "❌ Search endpoint failed: 401"
+      ]
+    },
+    "mobile": {
+      "tests": 3,
+      "passed": 3,
+      "details": [
+        "✅ Mobile app structure exists",
+        "✅ React Native config exists",
+        "✅ Android and iOS build configurations exist"
+      ]
+    },
+    "infrastructure": {
+      "tests": 3,
+      "passed": 2,
+      "details": [
+        "❌ API health failed: 404",
+        "✅ Frontend accessible",
+        "✅ Docker configuration exists"
+      ]
+    }
+  },
+  "recommendations": [
+    "🔐 Fix authentication issues for secure user access",
+    "⚡ Critical: Fix Socket.IO for real-time features",
+    "🎤 Implement voice/video features with LiveKit",
+    "🔍 Enable and configure Elasticsearch for search"
+  ]
+}

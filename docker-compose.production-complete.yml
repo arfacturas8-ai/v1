@@ -1,0 +1,498 @@
+# ==============================================
+# CRYB PLATFORM - COMPLETE PRODUCTION DEPLOYMENT
+# ==============================================
+# Single-command deployment for immediate production use
+# Includes: Frontend (Next.js), Backend (API), Database, Redis, Nginx
+# ==============================================
+
+version: '3.9'
+
+services:
+  # ==============================================
+  # FRONTEND APPLICATION (Next.js)
+  # ==============================================
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile
+      args:
+        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        VCS_REF: ${VCS_REF:-$(git rev-parse --short HEAD)}
+        VERSION: ${VERSION:-1.0.0}
+    container_name: cryb-web-production
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: "0.0.0.0"
+      NEXT_TELEMETRY_DISABLED: 1
+      
+      # API Configuration
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
+      NEXT_PUBLIC_WS_URL: ${NEXT_PUBLIC_WS_URL:-ws://localhost:3001}
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
+      
+      # Features
+      NEXT_PUBLIC_ENABLE_WEB3: ${NEXT_PUBLIC_ENABLE_WEB3:-true}
+      NEXT_PUBLIC_ENABLE_VOICE: ${NEXT_PUBLIC_ENABLE_VOICE:-true}
+      NEXT_PUBLIC_ENABLE_UPLOADS: ${NEXT_PUBLIC_ENABLE_UPLOADS:-true}
+      
+      # External Services
+      NEXT_PUBLIC_LIVEKIT_URL: ${NEXT_PUBLIC_LIVEKIT_URL:-wss://localhost:7880}
+      NEXT_PUBLIC_CDN_URL: ${NEXT_PUBLIC_CDN_URL:-http://localhost:9000}
+      
+      # Security
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET:-default-secret-change-in-production}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+    volumes:
+      - web_logs:/app/.next/cache
+    networks:
+      - cryb-network
+    depends_on:
+      api:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # ==============================================
+  # API SERVICE (Backend)
+  # ==============================================
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+      args:
+        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        VCS_REF: ${VCS_REF:-$(git rev-parse --short HEAD)}
+        VERSION: ${VERSION:-1.0.0}
+    container_name: cryb-api-production
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      HOST: 0.0.0.0
+      LOG_LEVEL: info
+      
+      # Database
+      DATABASE_URL: postgresql://${POSTGRES_USER:-cryb_user}:${POSTGRES_PASSWORD:-cryb_password_secure_2024}@postgres:5432/${POSTGRES_DB:-cryb}?connection_limit=50&pool_timeout=30
+      
+      # Redis
+      REDIS_URL: redis://:${REDIS_PASSWORD:-cryb_redis_secure_2024}@redis:6379/0
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-cryb_redis_secure_2024}
+      
+      # Security
+      JWT_SECRET: ${JWT_SECRET:-secure-jwt-secret-change-in-production-2024}
+      JWT_EXPIRES_IN: 15m
+      REFRESH_TOKEN_EXPIRES_IN: 30d
+      TRUST_PROXY: true
+      SECURE_COOKIES: true
+      
+      # External Services
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-cryb_minio_admin}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-cryb_minio_secure_password_2024}
+      LIVEKIT_URL: ws://livekit:7880
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-devkey}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:-secret}
+      
+      # Rate Limiting & Security
+      RATE_LIMIT_MAX_REQUESTS: 200
+      RATE_LIMIT_WINDOW_MS: 60000
+      BRUTE_FORCE_MAX_ATTEMPTS: 3
+      BRUTE_FORCE_BLOCK_DURATION: 1800000
+      DDOS_MAX_CONNECTIONS: 200
+      DDOS_MAX_REQUESTS_PER_SECOND: 50
+      
+      # Features
+      ENABLE_WEB3: true
+      ENABLE_VOICE_VIDEO: true
+      ENABLE_FILE_UPLOADS: true
+      ENABLE_REAL_TIME: true
+      ENABLE_SEARCH: true
+      ENABLE_ANALYTICS: true
+      
+      # File Uploads
+      MAX_FILE_SIZE: 104857600
+      MAX_FILES_PER_REQUEST: 10
+      
+    ports:
+      - "${API_PORT:-3001}:3001"
+    volumes:
+      - api_logs:/app/logs
+      - api_uploads:/app/uploads
+      - api_temp:/app/temp
+    networks:
+      - cryb-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==============================================
+  # DATABASE SERVICES
+  # ==============================================
+  postgres:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres-production
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-cryb_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cryb_password_secure_2024}
+      POSTGRES_DB: ${POSTGRES_DB:-cryb}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/complete-init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - postgres_backups:/backups
+    networks:
+      - cryb-network
+    command: >
+      postgres
+      -c max_connections=200
+      -c shared_buffers=256MB
+      -c effective_cache_size=1GB
+      -c maintenance_work_mem=64MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=16MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=4MB
+      -c min_wal_size=1GB
+      -c max_wal_size=4GB
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-cryb_user} -d ${POSTGRES_DB:-cryb}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  redis:
+    image: redis:7-alpine
+    container_name: cryb-redis-production
+    restart: unless-stopped
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass ${REDIS_PASSWORD:-cryb_redis_secure_2024}
+      --maxmemory 1gb
+      --maxmemory-policy allkeys-lru
+      --tcp-keepalive 300
+      --tcp-backlog 511
+      --timeout 0
+      --databases 16
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # ==============================================
+  # SEARCH AND STORAGE
+  # ==============================================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: cryb-elasticsearch-production
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+    ports:
+      - "${ELASTICSEARCH_PORT:-9200}:9200"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - cryb-network
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=10s || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  minio:
+    image: minio/minio:latest
+    container_name: cryb-minio-production
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-cryb_minio_admin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-cryb_minio_secure_password_2024}
+      MINIO_DEFAULT_BUCKETS: cryb-media,cryb-uploads,cryb-avatars,cryb-attachments,cryb-thumbnails,cryb-backups
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - minio_data:/data
+      - minio_config:/root/.minio
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # ==============================================
+  # REAL-TIME COMMUNICATION
+  # ==============================================
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: cryb-livekit-production
+    restart: unless-stopped
+    command: --config /etc/livekit.yaml
+    environment:
+      LIVEKIT_KEYS: ${LIVEKIT_API_KEY:-devkey}:${LIVEKIT_API_SECRET:-secret}
+    ports:
+      - "${LIVEKIT_PORT:-7880}:7880"
+      - "${LIVEKIT_RTC_PORT_RANGE:-50000-50100}:50000-50100/udp"
+    volumes:
+      - ./config/livekit/livekit.yaml:/etc/livekit.yaml:ro
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+  # ==============================================
+  # REVERSE PROXY & LOAD BALANCER
+  # ==============================================
+  nginx:
+    image: nginx:alpine
+    container_name: cryb-nginx-production
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config/nginx/production.conf:/etc/nginx/nginx.conf:ro
+      - ./config/nginx/ssl:/etc/nginx/ssl:ro
+      - nginx_logs:/var/log/nginx
+      - nginx_cache:/var/cache/nginx
+    networks:
+      - cryb-network
+    depends_on:
+      - web
+      - api
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+
+  # ==============================================
+  # MONITORING (Optional - can be disabled for basic deployment)
+  # ==============================================
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: cryb-prometheus-production
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    ports:
+      - "${PROMETHEUS_PORT:-9090}:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./config/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+      - prometheus_data:/prometheus
+    networks:
+      - cryb-network
+    profiles: ["monitoring"]
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: cryb-grafana-production
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin123}
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource,redis-datasource
+      GF_SERVER_ROOT_URL: ${GRAFANA_ROOT_URL:-http://localhost:3002}
+    ports:
+      - "${GRAFANA_PORT:-3002}:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
+    networks:
+      - cryb-network
+    depends_on:
+      - prometheus
+    profiles: ["monitoring"]
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+
+# ==============================================
+# NETWORKS
+# ==============================================
+networks:
+  cryb-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+          gateway: 172.30.0.1
+
+# ==============================================
+# VOLUMES
+# ==============================================
+volumes:
+  # Application data
+  web_logs:
+    driver: local
+  api_logs:
+    driver: local
+  api_uploads:
+    driver: local
+  api_temp:
+    driver: local
+  
+  # Database data
+  postgres_data:
+    driver: local
+  postgres_backups:
+    driver: local
+  redis_data:
+    driver: local
+  
+  # Search and storage
+  elasticsearch_data:
+    driver: local
+  minio_data:
+    driver: local
+  minio_config:
+    driver: local
+  
+  # Monitoring
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  
+  # Nginx
+  nginx_logs:
+    driver: local
+  nginx_cache:
+    driver: local

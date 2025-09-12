@@ -1,0 +1,983 @@
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+/home/ubuntu/cryb-platform/apps/api/node_modules/.bin/tsx:2
+basedir=$(dirname "$(echo "$0" | sed -e 's,\\,/,g')")
+          ^^^^^^^
+
+SyntaxError: missing ) after argument list
+    at wrapSafe (node:internal/modules/cjs/loader:1620:18)
+    at Module._compile (node:internal/modules/cjs/loader:1662:20)
+    at Object..js (node:internal/modules/cjs/loader:1820:10)
+    at Module.load (node:internal/modules/cjs/loader:1423:32)
+    at Function._load (node:internal/modules/cjs/loader:1246:12)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/ProcessContainer.js:292:27
+    at wrapper (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/once.js:12:16)
+    at next (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/waterfall.js:96:20)
+    at /home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/node_modules/async/internal/onlyOnce.js:12:16
+    at WriteStream.<anonymous> (/home/ubuntu/.nvm/versions/node/v22.18.0/lib/node_modules/pm2/lib/Utility.js:186:13)
+2025-09-12T01:31:57: 
+> @cryb/api@0.0.1 dev
+> tsx watch src/index.ts
+
+2025-09-12T01:35:30: 
+> @cryb/api@0.0.1 dev
+> tsx watch src/index.ts
+
+2025-09-12T01:35:49: 
+> @cryb/api@0.0.1 dev
+> tsx watch src/index.ts
+
+2025-09-12T02:04:31: 
+2025-09-12T02:04:31: > @cryb/api@0.0.1 dev
+2025-09-12T02:04:31: > tsx watch src/index.ts
+2025-09-12T02:04:31: 
+2025-09-12T02:06:17: 🤖 Initializing AI integration service...
+2025-09-12T02:06:17: ✅ OpenAI client initialized successfully
+2025-09-12T02:06:17: ✅ NLP tools initialized successfully
+2025-09-12T02:06:17: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:06:17: 🔍 Initializing detection services...
+2025-09-12T02:06:17: 🤖 ML models initialized for spam detection
+2025-09-12T02:06:17: 🧠 Emotion classifier initialized
+2025-09-12T02:06:17: ⚡ Initializing enhancement services...
+2025-09-12T02:06:17: 🧠 Smart tagging service initialized
+2025-09-12T02:06:17: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:06:17: 🔍 Real-time fraud monitoring started
+2025-09-12T02:06:17: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:06:17: 🔨 Initializing automated ban system...
+2025-09-12T02:06:17: 🔍 Automated ban system monitoring started
+2025-09-12T02:06:17: ✅ All moderation services initialized successfully
+2025-09-12T02:06:17: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:06:17: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:06:17: 🤖 Initializing AI integration service...
+2025-09-12T02:06:17: ✅ OpenAI client initialized successfully
+2025-09-12T02:06:17: ✅ NLP tools initialized successfully
+2025-09-12T02:06:17: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:06:17: 🔍 Initializing detection services...
+2025-09-12T02:06:17: 🤖 ML models initialized for spam detection
+2025-09-12T02:06:17: 🧠 Emotion classifier initialized
+2025-09-12T02:06:17: ⚡ Initializing enhancement services...
+2025-09-12T02:06:17: 🧠 Smart tagging service initialized
+2025-09-12T02:06:17: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:06:17: 🔍 Real-time fraud monitoring started
+2025-09-12T02:06:17: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:06:17: 🔨 Initializing automated ban system...
+2025-09-12T02:06:17: 🔍 Automated ban system monitoring started
+2025-09-12T02:06:17: ✅ All moderation services initialized successfully
+2025-09-12T02:06:17: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:06:17: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:06:29: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+2025-09-12T02:06:29: 🔄 Attempting to connect to database...
+2025-09-12T02:06:30: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:30:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:30:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8) {
+2025-09-12T02:06:30:   errno: -99,
+2025-09-12T02:06:30:   code: 'EADDRNOTAVAIL',
+2025-09-12T02:06:30:   syscall: 'connect',
+2025-09-12T02:06:30:   address: '127.0.0.1',
+2025-09-12T02:06:30:   port: 6380
+2025-09-12T02:06:30: }
+2025-09-12T02:06:30: [ioredis] Unhandled error event: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:30:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:30:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8)
+2025-09-12T02:06:30: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:30:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:30:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8) {
+2025-09-12T02:06:30:   errno: -99,
+2025-09-12T02:06:30:   code: 'EADDRNOTAVAIL',
+2025-09-12T02:06:30:   syscall: 'connect',
+2025-09-12T02:06:30:   address: '127.0.0.1',
+2025-09-12T02:06:30:   port: 6380
+2025-09-12T02:06:30: }
+2025-09-12T02:06:30: [ioredis] Unhandled error event: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:30:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:30:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:30:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8)
+2025-09-12T02:06:31: [ioredis] Unhandled error event: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:31:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:31:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:31:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:31:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8)
+2025-09-12T02:06:31: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:31:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:31:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:31:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:31:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8) {
+2025-09-12T02:06:31:   errno: -99,
+2025-09-12T02:06:31:   code: 'EADDRNOTAVAIL',
+2025-09-12T02:06:31:   syscall: 'connect',
+2025-09-12T02:06:31:   address: '127.0.0.1',
+2025-09-12T02:06:31:   port: 6380
+2025-09-12T02:06:31: }
+2025-09-12T02:06:31: [ioredis] Unhandled error event: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:31:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:31:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:31:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:31:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8)
+2025-09-12T02:06:32: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:32:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:32:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8) {
+2025-09-12T02:06:32:   errno: -99,
+2025-09-12T02:06:32:   code: 'EADDRNOTAVAIL',
+2025-09-12T02:06:32:   syscall: 'connect',
+2025-09-12T02:06:32:   address: '127.0.0.1',
+2025-09-12T02:06:32:   port: 6380
+2025-09-12T02:06:32: }
+2025-09-12T02:06:32: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:32:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:32:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8) {
+2025-09-12T02:06:32:   errno: -99,
+2025-09-12T02:06:32:   code: 'EADDRNOTAVAIL',
+2025-09-12T02:06:32:   syscall: 'connect',
+2025-09-12T02:06:32:   address: '127.0.0.1',
+2025-09-12T02:06:32:   port: 6380
+2025-09-12T02:06:32: }
+2025-09-12T02:06:32: [ioredis] Unhandled error event: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:32:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:32:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8)
+2025-09-12T02:06:32: [ioredis] Unhandled error event: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:32:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:32:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8)
+2025-09-12T02:06:32: Error: connect EADDRNOTAVAIL 127.0.0.1:6380 - Local (0.0.0.0:0)
+2025-09-12T02:06:32:     at internalConnect (node:net:1110:16)
+2025-09-12T02:06:32:     at defaultTriggerAsyncIdScope (node:internal/async_hooks:464:18)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.emitLookup [as callback] (node:net:1432:9)
+2025-09-12T02:06:32:     at GetAddrInfoReqWrap.onlookup [as oncomplete] (node:dns:113:8) {
+2025-09-12T02:06:32:   errno: -99,
+2025-09-12T02:06:32:   code: 'EADDRNOTAVAIL',
+2025-09-12T02:06:32:   syscall: 'connect',
+2025-09-12T02:06:32:   address: '127.0.0.1',
+2025-09-12T02:06:32:   port: 6380
+2025-09-12T02:06:32: }
+2025-09-12T02:06:32: 🚨 Production security issues detected:
+2025-09-12T02:06:32: 
+2025-09-12T02:06:32:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:06:32:   • Redis should not use localhost in production
+2025-09-12T02:06:32:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:06:32: 
+2025-09-12T02:06:32: These issues must be resolved before deploying to production.
+2025-09-12T02:06:32: ✅ Database connected successfully
+2025-09-12T02:12:43: 
+2025-09-12T02:12:43: > @cryb/api@0.0.1 dev
+2025-09-12T02:12:43: > tsx watch src/index.ts
+2025-09-12T02:12:43: 
+2025-09-12T02:13:42: 🤖 Initializing AI integration service...
+2025-09-12T02:13:42: ✅ OpenAI client initialized successfully
+2025-09-12T02:13:42: ✅ NLP tools initialized successfully
+2025-09-12T02:13:42: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:13:42: 🔍 Initializing detection services...
+2025-09-12T02:13:42: 🤖 ML models initialized for spam detection
+2025-09-12T02:13:42: 🧠 Emotion classifier initialized
+2025-09-12T02:13:42: ⚡ Initializing enhancement services...
+2025-09-12T02:13:42: 🧠 Smart tagging service initialized
+2025-09-12T02:13:42: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:13:42: 🔍 Real-time fraud monitoring started
+2025-09-12T02:13:42: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:13:42: 🔨 Initializing automated ban system...
+2025-09-12T02:13:42: 🔍 Automated ban system monitoring started
+2025-09-12T02:13:42: ✅ All moderation services initialized successfully
+2025-09-12T02:13:42: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:13:42: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:13:42: 🤖 Initializing AI integration service...
+2025-09-12T02:13:42: ✅ OpenAI client initialized successfully
+2025-09-12T02:13:42: ✅ NLP tools initialized successfully
+2025-09-12T02:13:42: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:13:42: 🔍 Initializing detection services...
+2025-09-12T02:13:42: 🤖 ML models initialized for spam detection
+2025-09-12T02:13:42: 🧠 Emotion classifier initialized
+2025-09-12T02:13:42: ⚡ Initializing enhancement services...
+2025-09-12T02:13:42: 🧠 Smart tagging service initialized
+2025-09-12T02:13:42: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:13:42: 🔍 Real-time fraud monitoring started
+2025-09-12T02:13:42: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:13:42: 🔨 Initializing automated ban system...
+2025-09-12T02:13:42: 🔍 Automated ban system monitoring started
+2025-09-12T02:13:42: ✅ All moderation services initialized successfully
+2025-09-12T02:13:42: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:13:42: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:13:46: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  override existing env vars with { override: true }
+2025-09-12T02:13:46: 🔄 Attempting to connect to database...
+2025-09-12T02:13:47: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:13:47: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:13:47: ✅ OpenAI service health check passed
+2025-09-12T02:13:47: ✅ OpenAI service health check passed
+2025-09-12T02:13:47: ✅ Database connected successfully
+2025-09-12T02:13:48: 🚨 Production security issues detected:
+2025-09-12T02:13:48: 
+2025-09-12T02:13:48:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:13:48:   • Redis should not use localhost in production
+2025-09-12T02:13:48:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:13:48: 
+2025-09-12T02:13:48: These issues must be resolved before deploying to production.
+2025-09-12T02:33:27: 2:33:26 AM [tsx] change in ./src/app.ts Rerunning...
+2025-09-12T02:35:06: 🤖 Initializing AI integration service...
+2025-09-12T02:35:06: ✅ OpenAI client initialized successfully
+2025-09-12T02:35:06: ✅ NLP tools initialized successfully
+2025-09-12T02:35:06: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:35:06: 🔍 Initializing detection services...
+2025-09-12T02:35:06: 🤖 ML models initialized for spam detection
+2025-09-12T02:35:06: 🧠 Emotion classifier initialized
+2025-09-12T02:35:06: ⚡ Initializing enhancement services...
+2025-09-12T02:35:06: 🧠 Smart tagging service initialized
+2025-09-12T02:35:06: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:35:06: 🔍 Real-time fraud monitoring started
+2025-09-12T02:35:06: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:35:06: 🔨 Initializing automated ban system...
+2025-09-12T02:35:06: 🔍 Automated ban system monitoring started
+2025-09-12T02:35:06: ✅ All moderation services initialized successfully
+2025-09-12T02:35:06: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:35:06: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:35:06: 🤖 Initializing AI integration service...
+2025-09-12T02:35:06: ✅ OpenAI client initialized successfully
+2025-09-12T02:35:06: ✅ NLP tools initialized successfully
+2025-09-12T02:35:06: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:35:06: 🔍 Initializing detection services...
+2025-09-12T02:35:06: 🤖 ML models initialized for spam detection
+2025-09-12T02:35:06: 🧠 Emotion classifier initialized
+2025-09-12T02:35:06: ⚡ Initializing enhancement services...
+2025-09-12T02:35:06: 🧠 Smart tagging service initialized
+2025-09-12T02:35:06: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:35:06: 🔍 Real-time fraud monitoring started
+2025-09-12T02:35:06: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:35:06: 🔨 Initializing automated ban system...
+2025-09-12T02:35:06: 🔍 Automated ban system monitoring started
+2025-09-12T02:35:06: ✅ All moderation services initialized successfully
+2025-09-12T02:35:06: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:35:06: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:35:19: [dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+2025-09-12T02:35:19: 🔄 Attempting to connect to database...
+2025-09-12T02:35:21: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:35:21: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:35:21: ✅ OpenAI service health check passed
+2025-09-12T02:35:21: ✅ OpenAI service health check passed
+2025-09-12T02:35:22: ✅ Database connected successfully
+2025-09-12T02:35:22: 🚨 Production security issues detected:
+2025-09-12T02:35:22: 
+2025-09-12T02:35:22:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:35:22:   • Redis should not use localhost in production
+2025-09-12T02:35:22:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:35:22: 
+2025-09-12T02:35:22: These issues must be resolved before deploying to production.
+2025-09-12T02:36:49: 2:36:49 AM [tsx] change in ./src/app.ts Rerunning...
+2025-09-12T02:38:19: 🤖 Initializing AI integration service...
+2025-09-12T02:38:19: ✅ OpenAI client initialized successfully
+2025-09-12T02:38:19: ✅ NLP tools initialized successfully
+2025-09-12T02:38:19: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:38:19: 🔍 Initializing detection services...
+2025-09-12T02:38:19: 🤖 ML models initialized for spam detection
+2025-09-12T02:38:19: 🧠 Emotion classifier initialized
+2025-09-12T02:38:19: ⚡ Initializing enhancement services...
+2025-09-12T02:38:19: 🧠 Smart tagging service initialized
+2025-09-12T02:38:19: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:38:19: 🔍 Real-time fraud monitoring started
+2025-09-12T02:38:19: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:38:19: 🔨 Initializing automated ban system...
+2025-09-12T02:38:19: 🔍 Automated ban system monitoring started
+2025-09-12T02:38:19: ✅ All moderation services initialized successfully
+2025-09-12T02:38:19: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:38:19: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:38:19: 🤖 Initializing AI integration service...
+2025-09-12T02:38:19: ✅ OpenAI client initialized successfully
+2025-09-12T02:38:19: ✅ NLP tools initialized successfully
+2025-09-12T02:38:19: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:38:19: 🔍 Initializing detection services...
+2025-09-12T02:38:19: 🤖 ML models initialized for spam detection
+2025-09-12T02:38:19: 🧠 Emotion classifier initialized
+2025-09-12T02:38:19: ⚡ Initializing enhancement services...
+2025-09-12T02:38:19: 🧠 Smart tagging service initialized
+2025-09-12T02:38:19: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:38:19: 🔍 Real-time fraud monitoring started
+2025-09-12T02:38:19: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:38:19: 🔨 Initializing automated ban system...
+2025-09-12T02:38:19: 🔍 Automated ban system monitoring started
+2025-09-12T02:38:19: ✅ All moderation services initialized successfully
+2025-09-12T02:38:19: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:38:19: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:38:31: [dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 observe env with Radar: https://dotenvx.com/radar
+2025-09-12T02:38:31: 🔄 Attempting to connect to database...
+2025-09-12T02:38:32: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:38:32: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:38:32: ✅ OpenAI service health check passed
+2025-09-12T02:38:33: ✅ OpenAI service health check passed
+2025-09-12T02:38:34: ✅ Database connected successfully
+2025-09-12T02:38:34: 🚨 Production security issues detected:
+2025-09-12T02:38:34: 
+2025-09-12T02:38:34:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:38:34:   • Redis should not use localhost in production
+2025-09-12T02:38:34:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:38:34: 
+2025-09-12T02:38:34: These issues must be resolved before deploying to production.
+2025-09-12T02:48:15: 2:48:15 AM [tsx] change in ./src/routes/servers.ts Rerunning...
+2025-09-12T02:48:35: 2:48:35 AM [tsx] change in ./src/routes/servers.ts Restarting...
+2025-09-12T02:48:40: 2:48:40 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T02:48:41: c
+2025-09-12T02:49:34: 🤖 Initializing AI integration service...
+2025-09-12T02:49:34: ✅ OpenAI client initialized successfully
+2025-09-12T02:49:34: ✅ NLP tools initialized successfully
+2025-09-12T02:49:34: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:49:34: 🔍 Initializing detection services...
+2025-09-12T02:49:34: 🤖 ML models initialized for spam detection
+2025-09-12T02:49:34: 🧠 Emotion classifier initialized
+2025-09-12T02:49:34: ⚡ Initializing enhancement services...
+2025-09-12T02:49:34: 🧠 Smart tagging service initialized
+2025-09-12T02:49:34: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:49:34: 🔍 Real-time fraud monitoring started
+2025-09-12T02:49:34: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:49:34: 🔨 Initializing automated ban system...
+2025-09-12T02:49:34: 🔍 Automated ban system monitoring started
+2025-09-12T02:49:34: ✅ All moderation services initialized successfully
+2025-09-12T02:49:34: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:49:34: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:49:34: 🤖 Initializing AI integration service...
+2025-09-12T02:49:34: ✅ OpenAI client initialized successfully
+2025-09-12T02:49:34: ✅ NLP tools initialized successfully
+2025-09-12T02:49:34: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:49:34: 🔍 Initializing detection services...
+2025-09-12T02:49:34: 🤖 ML models initialized for spam detection
+2025-09-12T02:49:34: 🧠 Emotion classifier initialized
+2025-09-12T02:49:34: ⚡ Initializing enhancement services...
+2025-09-12T02:49:34: 🧠 Smart tagging service initialized
+2025-09-12T02:49:34: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:49:34: 🔍 Real-time fraud monitoring started
+2025-09-12T02:49:34: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:49:34: 🔨 Initializing automated ban system...
+2025-09-12T02:49:34: 🔍 Automated ban system monitoring started
+2025-09-12T02:49:34: ✅ All moderation services initialized successfully
+2025-09-12T02:49:34: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:49:34: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:49:43: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+2025-09-12T02:49:43: 🔄 Attempting to connect to database...
+2025-09-12T02:49:44: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:49:44: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:49:46: ✅ OpenAI service health check passed
+2025-09-12T02:49:46: ✅ OpenAI service health check passed
+2025-09-12T02:49:47: ✅ Database connected successfully
+2025-09-12T02:49:48: 🚨 Production security issues detected:
+2025-09-12T02:49:48: 
+2025-09-12T02:49:48:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:49:48:   • Redis should not use localhost in production
+2025-09-12T02:49:48:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:49:48: 
+2025-09-12T02:49:48: These issues must be resolved before deploying to production.
+2025-09-12T02:51:28: 2:51:28 AM [tsx] change in ./src/routes/channels.ts Rerunning...
+2025-09-12T02:52:17: 🤖 Initializing AI integration service...
+2025-09-12T02:52:17: ✅ OpenAI client initialized successfully
+2025-09-12T02:52:17: ✅ NLP tools initialized successfully
+2025-09-12T02:52:17: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:52:17: 🔍 Initializing detection services...
+2025-09-12T02:52:17: 🤖 ML models initialized for spam detection
+2025-09-12T02:52:17: 🧠 Emotion classifier initialized
+2025-09-12T02:52:17: ⚡ Initializing enhancement services...
+2025-09-12T02:52:17: 🧠 Smart tagging service initialized
+2025-09-12T02:52:17: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:52:17: 🔍 Real-time fraud monitoring started
+2025-09-12T02:52:17: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:52:17: 🔨 Initializing automated ban system...
+2025-09-12T02:52:17: 🔍 Automated ban system monitoring started
+2025-09-12T02:52:17: ✅ All moderation services initialized successfully
+2025-09-12T02:52:17: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:52:17: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:52:17: 🤖 Initializing AI integration service...
+2025-09-12T02:52:17: ✅ OpenAI client initialized successfully
+2025-09-12T02:52:17: ✅ NLP tools initialized successfully
+2025-09-12T02:52:17: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:52:17: 🔍 Initializing detection services...
+2025-09-12T02:52:17: 🤖 ML models initialized for spam detection
+2025-09-12T02:52:17: 🧠 Emotion classifier initialized
+2025-09-12T02:52:17: ⚡ Initializing enhancement services...
+2025-09-12T02:52:17: 🧠 Smart tagging service initialized
+2025-09-12T02:52:17: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:52:17: 🔍 Real-time fraud monitoring started
+2025-09-12T02:52:17: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:52:17: 🔨 Initializing automated ban system...
+2025-09-12T02:52:17: 🔍 Automated ban system monitoring started
+2025-09-12T02:52:17: ✅ All moderation services initialized successfully
+2025-09-12T02:52:17: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:52:17: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:52:25: [dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 auto-backup env with Radar: https://dotenvx.com/radar
+2025-09-12T02:52:25: 🔄 Attempting to connect to database...
+2025-09-12T02:52:26: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:52:26: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:52:27: ✅ OpenAI service health check passed
+2025-09-12T02:52:27: ✅ OpenAI service health check passed
+2025-09-12T02:52:28: ✅ Database connected successfully
+2025-09-12T02:52:28: 🚨 Production security issues detected:
+2025-09-12T02:52:28: 
+2025-09-12T02:52:28:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:52:28:   • Redis should not use localhost in production
+2025-09-12T02:52:28:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:52:28: 
+2025-09-12T02:52:28: These issues must be resolved before deploying to production.
+2025-09-12T02:53:45: 2:53:45 AM [tsx] change in ./src/app.ts Rerunning...
+2025-09-12T02:53:50: node:internal/modules/run_main:123
+2025-09-12T02:53:50:     triggerUncaughtException(
+2025-09-12T02:53:50:     ^
+2025-09-12T02:53:50: 
+2025-09-12T02:53:50: Error: Transform failed with 1 error:
+2025-09-12T02:53:50: /home/ubuntu/cryb-platform/apps/api/src/app.ts:21:47: ERROR: Syntax error "n"
+2025-09-12T02:53:50:     at failureErrorWithLog (/home/ubuntu/cryb-platform/node_modules/.pnpm/esbuild@0.25.8/node_modules/esbuild/lib/main.js:1467:15)
+2025-09-12T02:53:50:     at /home/ubuntu/cryb-platform/node_modules/.pnpm/esbuild@0.25.8/node_modules/esbuild/lib/main.js:736:50
+2025-09-12T02:53:50:     at responseCallbacks.<computed> (/home/ubuntu/cryb-platform/node_modules/.pnpm/esbuild@0.25.8/node_modules/esbuild/lib/main.js:603:9)
+2025-09-12T02:53:50:     at handleIncomingPacket (/home/ubuntu/cryb-platform/node_modules/.pnpm/esbuild@0.25.8/node_modules/esbuild/lib/main.js:658:12)
+2025-09-12T02:53:50:     at Socket.readFromStdout (/home/ubuntu/cryb-platform/node_modules/.pnpm/esbuild@0.25.8/node_modules/esbuild/lib/main.js:581:7)
+2025-09-12T02:53:50:     at Socket.emit (node:events:518:28)
+2025-09-12T02:53:50:     at addChunk (node:internal/streams/readable:561:12)
+2025-09-12T02:53:50:     at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+2025-09-12T02:53:50:     at Readable.push (node:internal/streams/readable:392:5)
+2025-09-12T02:53:50:     at Pipe.onStreamRead (node:internal/stream_base_commons:189:23) {
+2025-09-12T02:53:50:   name: 'TransformError'
+2025-09-12T02:53:50: }
+2025-09-12T02:53:50: 
+2025-09-12T02:53:50: Node.js v22.18.0
+2025-09-12T02:54:29: 2:54:29 AM [tsx] change in ./src/app.ts Rerunning...
+2025-09-12T02:54:29: c
+2025-09-12T02:54:43: 2:54:43 AM [tsx] change in ./src/app.ts Restarting...
+2025-09-12T02:54:48: 2:54:48 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T02:54:48: c
+2025-09-12T02:55:38: 🤖 Initializing AI integration service...
+2025-09-12T02:55:38: ✅ OpenAI client initialized successfully
+2025-09-12T02:55:38: ✅ NLP tools initialized successfully
+2025-09-12T02:55:38: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:55:38: 🔍 Initializing detection services...
+2025-09-12T02:55:38: 🤖 ML models initialized for spam detection
+2025-09-12T02:55:38: 🧠 Emotion classifier initialized
+2025-09-12T02:55:38: ⚡ Initializing enhancement services...
+2025-09-12T02:55:38: 🧠 Smart tagging service initialized
+2025-09-12T02:55:38: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:55:38: 🔍 Real-time fraud monitoring started
+2025-09-12T02:55:38: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:55:38: 🔨 Initializing automated ban system...
+2025-09-12T02:55:38: 🔍 Automated ban system monitoring started
+2025-09-12T02:55:38: ✅ All moderation services initialized successfully
+2025-09-12T02:55:38: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:55:38: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:55:38: 🤖 Initializing AI integration service...
+2025-09-12T02:55:38: ✅ OpenAI client initialized successfully
+2025-09-12T02:55:38: ✅ NLP tools initialized successfully
+2025-09-12T02:55:38: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:55:38: 🔍 Initializing detection services...
+2025-09-12T02:55:38: 🤖 ML models initialized for spam detection
+2025-09-12T02:55:38: 🧠 Emotion classifier initialized
+2025-09-12T02:55:38: ⚡ Initializing enhancement services...
+2025-09-12T02:55:38: 🧠 Smart tagging service initialized
+2025-09-12T02:55:38: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:55:38: 🔍 Real-time fraud monitoring started
+2025-09-12T02:55:38: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:55:38: 🔨 Initializing automated ban system...
+2025-09-12T02:55:38: 🔍 Automated ban system monitoring started
+2025-09-12T02:55:38: ✅ All moderation services initialized successfully
+2025-09-12T02:55:38: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:55:38: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:55:45: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+2025-09-12T02:55:45: 🔄 Attempting to connect to database...
+2025-09-12T02:55:47: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:55:47: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:55:47: ✅ OpenAI service health check passed
+2025-09-12T02:55:47: ✅ OpenAI service health check passed
+2025-09-12T02:55:47: ✅ Database connected successfully
+2025-09-12T02:55:47: 🚨 Production security issues detected:
+2025-09-12T02:55:47: 
+2025-09-12T02:55:47:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:55:47:   • Redis should not use localhost in production
+2025-09-12T02:55:47:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:55:47: 
+2025-09-12T02:55:47: These issues must be resolved before deploying to production.
+2025-09-12T02:56:58: 2:56:58 AM [tsx] change in ./src/app.ts Rerunning...
+2025-09-12T02:57:32: 2:57:32 AM [tsx] change in ./src/app.ts Restarting...
+2025-09-12T02:57:37: 2:57:37 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T02:57:37: c
+2025-09-12T02:58:28: 🤖 Initializing AI integration service...
+2025-09-12T02:58:28: ✅ OpenAI client initialized successfully
+2025-09-12T02:58:28: ✅ NLP tools initialized successfully
+2025-09-12T02:58:28: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:58:28: 🔍 Initializing detection services...
+2025-09-12T02:58:28: 🤖 ML models initialized for spam detection
+2025-09-12T02:58:28: 🧠 Emotion classifier initialized
+2025-09-12T02:58:28: ⚡ Initializing enhancement services...
+2025-09-12T02:58:28: 🧠 Smart tagging service initialized
+2025-09-12T02:58:29: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:58:29: 🔍 Real-time fraud monitoring started
+2025-09-12T02:58:29: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:58:29: 🔨 Initializing automated ban system...
+2025-09-12T02:58:29: 🔍 Automated ban system monitoring started
+2025-09-12T02:58:29: ✅ All moderation services initialized successfully
+2025-09-12T02:58:29: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:58:29: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T02:58:29: 🤖 Initializing AI integration service...
+2025-09-12T02:58:29: ✅ OpenAI client initialized successfully
+2025-09-12T02:58:29: ✅ NLP tools initialized successfully
+2025-09-12T02:58:29: 🤖 AI Integration Service initialized successfully
+2025-09-12T02:58:29: 🔍 Initializing detection services...
+2025-09-12T02:58:29: 🤖 ML models initialized for spam detection
+2025-09-12T02:58:29: 🧠 Emotion classifier initialized
+2025-09-12T02:58:29: ⚡ Initializing enhancement services...
+2025-09-12T02:58:29: 🧠 Smart tagging service initialized
+2025-09-12T02:58:29: 📋 Loaded 2 blacklisted addresses
+2025-09-12T02:58:29: 🔍 Real-time fraud monitoring started
+2025-09-12T02:58:29: 🤖 Initializing auto-moderation engine...
+2025-09-12T02:58:29: 🔨 Initializing automated ban system...
+2025-09-12T02:58:29: 🔍 Automated ban system monitoring started
+2025-09-12T02:58:29: ✅ All moderation services initialized successfully
+2025-09-12T02:58:29: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T02:58:29: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T02:58:36: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+2025-09-12T02:58:36: 🔄 Attempting to connect to database...
+2025-09-12T02:58:37: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:58:37: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T02:58:37: ✅ OpenAI service health check passed
+2025-09-12T02:58:38: ✅ OpenAI service health check passed
+2025-09-12T02:58:38: ✅ Database connected successfully
+2025-09-12T02:58:38: 🚨 Production security issues detected:
+2025-09-12T02:58:38: 
+2025-09-12T02:58:38:   • DATABASE_URL should not use localhost in production
+2025-09-12T02:58:38:   • Redis should not use localhost in production
+2025-09-12T02:58:38:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T02:58:38: 
+2025-09-12T02:58:38: These issues must be resolved before deploying to production.
+2025-09-12T03:03:14: 3:03:14 AM [tsx] change in ./src/app.ts Rerunning...
+2025-09-12T03:03:14: c
+2025-09-12T03:03:57: 3:03:57 AM [tsx] change in ./src/app.ts Restarting...
+2025-09-12T03:04:02: 3:04:02 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:04:03: c
+2025-09-12T03:04:57: 🤖 Initializing AI integration service...
+2025-09-12T03:04:57: ✅ OpenAI client initialized successfully
+2025-09-12T03:04:57: ✅ NLP tools initialized successfully
+2025-09-12T03:04:57: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:04:57: 🔍 Initializing detection services...
+2025-09-12T03:04:57: 🤖 ML models initialized for spam detection
+2025-09-12T03:04:57: 🧠 Emotion classifier initialized
+2025-09-12T03:04:57: ⚡ Initializing enhancement services...
+2025-09-12T03:04:57: 🧠 Smart tagging service initialized
+2025-09-12T03:04:57: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:04:57: 🔍 Real-time fraud monitoring started
+2025-09-12T03:04:57: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:04:57: 🔨 Initializing automated ban system...
+2025-09-12T03:04:57: 🔍 Automated ban system monitoring started
+2025-09-12T03:04:57: ✅ All moderation services initialized successfully
+2025-09-12T03:04:57: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:04:57: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T03:04:57: 🤖 Initializing AI integration service...
+2025-09-12T03:04:57: ✅ OpenAI client initialized successfully
+2025-09-12T03:04:57: ✅ NLP tools initialized successfully
+2025-09-12T03:04:57: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:04:57: 🔍 Initializing detection services...
+2025-09-12T03:04:57: 🤖 ML models initialized for spam detection
+2025-09-12T03:04:57: 🧠 Emotion classifier initialized
+2025-09-12T03:04:57: ⚡ Initializing enhancement services...
+2025-09-12T03:04:57: 🧠 Smart tagging service initialized
+2025-09-12T03:04:57: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:04:57: 🔍 Real-time fraud monitoring started
+2025-09-12T03:04:57: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:04:57: 🔨 Initializing automated ban system...
+2025-09-12T03:04:57: 🔍 Automated ban system monitoring started
+2025-09-12T03:04:57: ✅ All moderation services initialized successfully
+2025-09-12T03:04:57: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:04:57: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T03:05:06: [dotenv@17.2.2] injecting env (0) from .env -- tip: ⚙️  write to custom object with { processEnv: myObject }
+2025-09-12T03:05:06: 🔄 Attempting to connect to database...
+2025-09-12T03:05:10: ✅ Database connected successfully
+2025-09-12T03:05:10: 🚨 Production security issues detected:
+2025-09-12T03:05:10: 
+2025-09-12T03:05:10:   • DATABASE_URL should not use localhost in production
+2025-09-12T03:05:10:   • Redis should not use localhost in production
+2025-09-12T03:05:10:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T03:05:10: 
+2025-09-12T03:05:10: These issues must be resolved before deploying to production.
+2025-09-12T03:11:18: 3:11:18 AM [tsx] change in ./src/socket/crash-safe-socket.ts Rerunning...
+2025-09-12T03:12:10: 🤖 Initializing AI integration service...
+2025-09-12T03:12:10: ✅ OpenAI client initialized successfully
+2025-09-12T03:12:10: ✅ NLP tools initialized successfully
+2025-09-12T03:12:10: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:12:10: 🔍 Initializing detection services...
+2025-09-12T03:12:10: 🤖 ML models initialized for spam detection
+2025-09-12T03:12:10: 🧠 Emotion classifier initialized
+2025-09-12T03:12:10: ⚡ Initializing enhancement services...
+2025-09-12T03:12:10: 🧠 Smart tagging service initialized
+2025-09-12T03:12:10: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:12:10: 🔍 Real-time fraud monitoring started
+2025-09-12T03:12:10: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:12:10: 🔨 Initializing automated ban system...
+2025-09-12T03:12:10: 🔍 Automated ban system monitoring started
+2025-09-12T03:12:10: ✅ All moderation services initialized successfully
+2025-09-12T03:12:10: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:12:10: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T03:12:10: 🤖 Initializing AI integration service...
+2025-09-12T03:12:10: ✅ OpenAI client initialized successfully
+2025-09-12T03:12:10: ✅ NLP tools initialized successfully
+2025-09-12T03:12:10: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:12:10: 🔍 Initializing detection services...
+2025-09-12T03:12:10: 🤖 ML models initialized for spam detection
+2025-09-12T03:12:10: 🧠 Emotion classifier initialized
+2025-09-12T03:12:10: ⚡ Initializing enhancement services...
+2025-09-12T03:12:10: 🧠 Smart tagging service initialized
+2025-09-12T03:12:10: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:12:10: 🔍 Real-time fraud monitoring started
+2025-09-12T03:12:10: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:12:10: 🔨 Initializing automated ban system...
+2025-09-12T03:12:10: 🔍 Automated ban system monitoring started
+2025-09-12T03:12:10: ✅ All moderation services initialized successfully
+2025-09-12T03:12:10: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:12:10: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T03:12:21: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+2025-09-12T03:12:21: 🔄 Attempting to connect to database...
+2025-09-12T03:12:22: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:12:22: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:12:22: ✅ OpenAI service health check passed
+2025-09-12T03:12:22: ✅ OpenAI service health check passed
+2025-09-12T03:12:23: ✅ Database connected successfully
+2025-09-12T03:12:23: 🚨 Production security issues detected:
+2025-09-12T03:12:23: 
+2025-09-12T03:12:23:   • DATABASE_URL should not use localhost in production
+2025-09-12T03:12:23:   • Redis should not use localhost in production
+2025-09-12T03:12:23:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T03:12:23: 
+2025-09-12T03:12:23: These issues must be resolved before deploying to production.
+2025-09-12T03:16:05: 3:16:05 AM [tsx] change in ./src/socket/discord-realtime.ts Rerunning...
+2025-09-12T03:16:25: 3:16:25 AM [tsx] change in ./src/socket/discord-realtime.ts Restarting...
+2025-09-12T03:16:31: 3:16:31 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:16:31: c
+2025-09-12T03:17:21: 🤖 Initializing AI integration service...
+2025-09-12T03:17:21: ✅ OpenAI client initialized successfully
+2025-09-12T03:17:21: ✅ NLP tools initialized successfully
+2025-09-12T03:17:21: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:17:21: 🔍 Initializing detection services...
+2025-09-12T03:17:21: 🤖 ML models initialized for spam detection
+2025-09-12T03:17:21: 🧠 Emotion classifier initialized
+2025-09-12T03:17:21: ⚡ Initializing enhancement services...
+2025-09-12T03:17:21: 🧠 Smart tagging service initialized
+2025-09-12T03:17:21: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:17:21: 🔍 Real-time fraud monitoring started
+2025-09-12T03:17:21: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:17:21: 🔨 Initializing automated ban system...
+2025-09-12T03:17:21: 🔍 Automated ban system monitoring started
+2025-09-12T03:17:21: ✅ All moderation services initialized successfully
+2025-09-12T03:17:21: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:17:21: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T03:17:21: 🤖 Initializing AI integration service...
+2025-09-12T03:17:21: ✅ OpenAI client initialized successfully
+2025-09-12T03:17:21: ✅ NLP tools initialized successfully
+2025-09-12T03:17:21: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:17:21: 🔍 Initializing detection services...
+2025-09-12T03:17:21: 🤖 ML models initialized for spam detection
+2025-09-12T03:17:21: 🧠 Emotion classifier initialized
+2025-09-12T03:17:21: ⚡ Initializing enhancement services...
+2025-09-12T03:17:21: 🧠 Smart tagging service initialized
+2025-09-12T03:17:21: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:17:21: 🔍 Real-time fraud monitoring started
+2025-09-12T03:17:21: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:17:21: 🔨 Initializing automated ban system...
+2025-09-12T03:17:21: 🔍 Automated ban system monitoring started
+2025-09-12T03:17:21: ✅ All moderation services initialized successfully
+2025-09-12T03:17:21: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:17:21: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T03:17:24: 3:17:24 AM [tsx] change in ./src/socket/discord-realtime.ts Restarting...
+2025-09-12T03:17:29: 3:17:29 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:17:30: c
+2025-09-12T03:17:43: 3:17:43 AM [tsx] change in ./src/socket/discord-realtime.ts Restarting...
+2025-09-12T03:17:48: 3:17:48 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:17:48: c
+2025-09-12T03:18:02: 3:18:02 AM [tsx] change in ./src/socket/discord-realtime.ts Restarting...
+2025-09-12T03:18:07: 3:18:07 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:18:07: c
+2025-09-12T03:18:57: 🤖 Initializing AI integration service...
+2025-09-12T03:18:57: ✅ OpenAI client initialized successfully
+2025-09-12T03:18:57: ✅ NLP tools initialized successfully
+2025-09-12T03:18:57: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:18:57: 🔍 Initializing detection services...
+2025-09-12T03:18:58: 🤖 ML models initialized for spam detection
+2025-09-12T03:18:58: 🧠 Emotion classifier initialized
+2025-09-12T03:18:58: ⚡ Initializing enhancement services...
+2025-09-12T03:18:58: 🧠 Smart tagging service initialized
+2025-09-12T03:18:58: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:18:58: 🔍 Real-time fraud monitoring started
+2025-09-12T03:18:58: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:18:58: 🔨 Initializing automated ban system...
+2025-09-12T03:18:58: 🔍 Automated ban system monitoring started
+2025-09-12T03:18:58: ✅ All moderation services initialized successfully
+2025-09-12T03:18:58: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:18:58: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T03:18:58: 🤖 Initializing AI integration service...
+2025-09-12T03:18:58: ✅ OpenAI client initialized successfully
+2025-09-12T03:18:58: ✅ NLP tools initialized successfully
+2025-09-12T03:18:58: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:18:58: 🔍 Initializing detection services...
+2025-09-12T03:18:58: 🤖 ML models initialized for spam detection
+2025-09-12T03:18:58: 🧠 Emotion classifier initialized
+2025-09-12T03:18:58: ⚡ Initializing enhancement services...
+2025-09-12T03:18:58: 🧠 Smart tagging service initialized
+2025-09-12T03:18:58: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:18:58: 🔍 Real-time fraud monitoring started
+2025-09-12T03:18:58: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:18:58: 🔨 Initializing automated ban system...
+2025-09-12T03:18:58: 🔍 Automated ban system monitoring started
+2025-09-12T03:18:58: ✅ All moderation services initialized successfully
+2025-09-12T03:18:58: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:18:58: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T03:19:07: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 encrypt with Dotenvx: https://dotenvx.com
+2025-09-12T03:19:07: 🔄 Attempting to connect to database...
+2025-09-12T03:19:08: ✅ OpenAI service health check passed
+2025-09-12T03:19:08: ✅ OpenAI service health check passed
+2025-09-12T03:19:08: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:19:08: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:19:10: ✅ Database connected successfully
+2025-09-12T03:19:10: 🚨 Production security issues detected:
+2025-09-12T03:19:10: 
+2025-09-12T03:19:10:   • DATABASE_URL should not use localhost in production
+2025-09-12T03:19:10:   • Redis should not use localhost in production
+2025-09-12T03:19:10:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T03:19:10: 
+2025-09-12T03:19:10: These issues must be resolved before deploying to production.
+2025-09-12T03:20:36: 3:20:36 AM [tsx] change in ./src/socket/crash-safe-integration.ts Rerunning...
+2025-09-12T03:20:55: 3:20:55 AM [tsx] change in ./src/socket/crash-safe-integration.ts Restarting...
+2025-09-12T03:21:00: 3:21:00 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:21:00: c
+2025-09-12T03:21:13: 3:21:13 AM [tsx] change in ./src/socket/crash-safe-integration.ts Restarting...
+2025-09-12T03:21:18: 3:21:18 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:21:18: c
+2025-09-12T03:21:37: 3:21:37 AM [tsx] change in ./src/socket/crash-safe-integration.ts Restarting...
+2025-09-12T03:21:42: 3:21:42 AM [tsx] Process didn't exit in 5s. Force killing...
+2025-09-12T03:21:42: c
+2025-09-12T03:22:29: 🤖 Initializing AI integration service...
+2025-09-12T03:22:29: ✅ OpenAI client initialized successfully
+2025-09-12T03:22:29: ✅ NLP tools initialized successfully
+2025-09-12T03:22:29: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:22:29: 🔍 Initializing detection services...
+2025-09-12T03:22:29: 🤖 ML models initialized for spam detection
+2025-09-12T03:22:29: 🧠 Emotion classifier initialized
+2025-09-12T03:22:29: ⚡ Initializing enhancement services...
+2025-09-12T03:22:29: 🧠 Smart tagging service initialized
+2025-09-12T03:22:29: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:22:29: 🔍 Real-time fraud monitoring started
+2025-09-12T03:22:29: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:22:29: 🔨 Initializing automated ban system...
+2025-09-12T03:22:29: 🔍 Automated ban system monitoring started
+2025-09-12T03:22:29: ✅ All moderation services initialized successfully
+2025-09-12T03:22:29: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:22:29: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T03:22:29: 🤖 Initializing AI integration service...
+2025-09-12T03:22:29: ✅ OpenAI client initialized successfully
+2025-09-12T03:22:29: ✅ NLP tools initialized successfully
+2025-09-12T03:22:29: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:22:29: 🔍 Initializing detection services...
+2025-09-12T03:22:29: 🤖 ML models initialized for spam detection
+2025-09-12T03:22:29: 🧠 Emotion classifier initialized
+2025-09-12T03:22:29: ⚡ Initializing enhancement services...
+2025-09-12T03:22:29: 🧠 Smart tagging service initialized
+2025-09-12T03:22:29: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:22:29: 🔍 Real-time fraud monitoring started
+2025-09-12T03:22:29: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:22:29: 🔨 Initializing automated ban system...
+2025-09-12T03:22:29: 🔍 Automated ban system monitoring started
+2025-09-12T03:22:29: ✅ All moderation services initialized successfully
+2025-09-12T03:22:29: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:22:29: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T03:22:41: [dotenv@17.2.2] injecting env (0) from .env -- tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild
+2025-09-12T03:22:41: 🔄 Attempting to connect to database...
+2025-09-12T03:22:44: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:22:44: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:22:44: ✅ OpenAI service health check passed
+2025-09-12T03:22:44: ✅ OpenAI service health check passed
+2025-09-12T03:22:47: ✅ Database connected successfully
+2025-09-12T03:22:47: 🚨 Production security issues detected:
+2025-09-12T03:22:47: 
+2025-09-12T03:22:47:   • DATABASE_URL should not use localhost in production
+2025-09-12T03:22:47:   • Redis should not use localhost in production
+2025-09-12T03:22:47:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T03:22:47: 
+2025-09-12T03:22:47: These issues must be resolved before deploying to production.
+2025-09-12T03:36:12: 3:36:12 AM [tsx] change in ./src/app.ts Rerunning...
+2025-09-12T03:36:57: 🤖 Initializing AI integration service...
+2025-09-12T03:36:57: ✅ OpenAI client initialized successfully
+2025-09-12T03:36:57: ✅ NLP tools initialized successfully
+2025-09-12T03:36:57: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:36:57: 🔍 Initializing detection services...
+2025-09-12T03:36:57: 🤖 ML models initialized for spam detection
+2025-09-12T03:36:57: 🧠 Emotion classifier initialized
+2025-09-12T03:36:57: ⚡ Initializing enhancement services...
+2025-09-12T03:36:57: 🧠 Smart tagging service initialized
+2025-09-12T03:36:57: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:36:57: 🔍 Real-time fraud monitoring started
+2025-09-12T03:36:57: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:36:57: 🔨 Initializing automated ban system...
+2025-09-12T03:36:57: 🔍 Automated ban system monitoring started
+2025-09-12T03:36:57: ✅ All moderation services initialized successfully
+2025-09-12T03:36:57: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:36:57: ✅ Enhanced Moderation Service initialized for moderation routes
+2025-09-12T03:36:57: 🤖 Initializing AI integration service...
+2025-09-12T03:36:57: ✅ OpenAI client initialized successfully
+2025-09-12T03:36:57: ✅ NLP tools initialized successfully
+2025-09-12T03:36:57: 🤖 AI Integration Service initialized successfully
+2025-09-12T03:36:57: 🔍 Initializing detection services...
+2025-09-12T03:36:57: 🤖 ML models initialized for spam detection
+2025-09-12T03:36:57: 🧠 Emotion classifier initialized
+2025-09-12T03:36:57: ⚡ Initializing enhancement services...
+2025-09-12T03:36:57: 🧠 Smart tagging service initialized
+2025-09-12T03:36:57: 📋 Loaded 2 blacklisted addresses
+2025-09-12T03:36:57: 🔍 Real-time fraud monitoring started
+2025-09-12T03:36:57: 🤖 Initializing auto-moderation engine...
+2025-09-12T03:36:57: 🔨 Initializing automated ban system...
+2025-09-12T03:36:57: 🔍 Automated ban system monitoring started
+2025-09-12T03:36:57: ✅ All moderation services initialized successfully
+2025-09-12T03:36:57: 🚀 Enhanced Moderation Service initialized successfully
+2025-09-12T03:36:57: ✅ Enhanced Moderation Service initialized for AI routes
+2025-09-12T03:37:04: [dotenv@17.2.2] injecting env (0) from .env -- tip: 📡 version env with Radar: https://dotenvx.com/radar
+2025-09-12T03:37:04: 🔄 Attempting to connect to database...
+2025-09-12T03:37:05: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:37:05: IMPORTANT! Eviction policy is allkeys-lru. It should be "noeviction"
+2025-09-12T03:37:06: ✅ OpenAI service health check passed
+2025-09-12T03:37:06: ✅ OpenAI service health check passed
+2025-09-12T03:37:07: ✅ Database connected successfully
+2025-09-12T03:37:07: 🚨 Production security issues detected:
+2025-09-12T03:37:07: 
+2025-09-12T03:37:07:   • DATABASE_URL should not use localhost in production
+2025-09-12T03:37:07:   • Redis should not use localhost in production
+2025-09-12T03:37:07:   • FRONTEND_URL should use HTTPS in production
+2025-09-12T03:37:07: 
+2025-09-12T03:37:07: These issues must be resolved before deploying to production.

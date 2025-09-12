@@ -1,0 +1,244 @@
+config:
+  target: 'http://localhost:3002'
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm-up phase"
+    # Load test phase
+    - duration: 300
+      arrivalRate: 20
+      name: "Load test phase"
+    # Spike test phase
+    - duration: 120
+      arrivalRate: 100
+      name: "Spike test phase"
+    # Sustained load phase
+    - duration: 600
+      arrivalRate: 50
+      name: "Sustained load phase"
+  processor: "./load-test-helpers.js"
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+  variables:
+    testUser:
+      - "loadtest1@example.com"
+      - "loadtest2@example.com"
+      - "loadtest3@example.com"
+      - "loadtest4@example.com"
+      - "loadtest5@example.com"
+
+before:
+  flow:
+    - log: "Starting comprehensive load test"
+
+scenarios:
+  # Authentication Load Test
+  - name: "Authentication Flow"
+    weight: 20
+    flow:
+      - post:
+          url: "/api/auth/register"
+          json:
+            email: "{{ $randomString() }}@example.com"
+            username: "{{ $randomString() }}"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+            - json: "$.user.id"
+              as: "userId"
+      - think: 2
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomString() }}@example.com"
+            password: "TestPassword123!"
+      - think: 1
+      - get:
+          url: "/api/auth/me"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+
+  # Server and Channel Operations
+  - name: "Discord Server Operations"
+    weight: 25
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ testUser }}"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - post:
+          url: "/api/servers"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "Load Test Server {{ $randomString() }}"
+            description: "Server for load testing"
+          capture:
+            - json: "$.server.id"
+              as: "serverId"
+            - json: "$.server.inviteCode"
+              as: "inviteCode"
+      - think: 1
+      - post:
+          url: "/api/servers/{{ serverId }}/channels"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "load-test-channel"
+            type: "text"
+          capture:
+            - json: "$.channel.id"
+              as: "channelId"
+      - think: 1
+      - loop:
+          over: [1, 2, 3, 4, 5]
+          flow:
+            - post:
+                url: "/api/servers/{{ serverId }}/channels/{{ channelId }}/messages"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  content: "Load test message {{ $randomInt(1, 1000) }}"
+            - think: 0.5
+
+  # Reddit Community Operations
+  - name: "Reddit Community Operations"
+    weight: 25
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ testUser }}"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - post:
+          url: "/api/communities"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "loadtest{{ $randomString() }}"
+            title: "Load Test Community"
+            description: "Community for load testing"
+            type: "public"
+          capture:
+            - json: "$.community.id"
+              as: "communityId"
+      - think: 1
+      - loop:
+          over: [1, 2, 3]
+          flow:
+            - post:
+                url: "/api/communities/{{ communityId }}/posts"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  title: "Load test post {{ $randomString() }}"
+                  content: "This is a load test post with content {{ $randomInt(1, 1000) }}"
+                  type: "text"
+                capture:
+                  - json: "$.post.id"
+                    as: "postId"
+            - think: 0.5
+            - post:
+                url: "/api/communities/{{ communityId }}/posts/{{ postId }}/vote"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  vote: "up"
+            - think: 0.3
+
+  # File Upload Load Test
+  - name: "File Upload Operations"
+    weight: 15
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ testUser }}"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - function: "generateTestFile"
+      - post:
+          url: "/api/uploads/image"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          formData:
+            file: "{{ testFileData }}"
+      - think: 2
+      - post:
+          url: "/api/uploads/video"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          formData:
+            file: "{{ testVideoData }}"
+      - think: 3
+
+  # Real-time Messaging Load Test
+  - name: "Socket.IO Real-time Messaging"
+    weight: 15
+    flow:
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ testUser }}"
+            password: "TestPassword123!"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      - function: "connectSocket"
+      - function: "sendMessages"
+      - think: 10
+      - function: "disconnectSocket"
+
+expect:
+  - statusCode: 200
+  - statusCode: 201
+  - statusCode: 204
+
+  # Performance expectations
+  - contentType: json
+  - hasProperty: success
+
+  # Response time expectations
+  - maxResponseTime: 5000  # 5 seconds max for any request
+  
+  # Error rate expectations  
+  - errorRate:
+      max: 0.05  # 5% error rate maximum
+
+plugins:
+  expect: {}
+  metrics-by-endpoint: {}
+  hls:
+    writeToFile: './load-test-results.json'
+
+# Custom metrics
+metrics:
+  - name: "auth_response_time"
+    summary: "Authentication response times"
+  - name: "message_throughput"
+    summary: "Messages sent per second"
+  - name: "upload_success_rate"
+    summary: "File upload success rate"
+  - name: "socket_connection_time"
+    summary: "Socket.IO connection establishment time"
+
+# Health checks during load test
+healthCheck:
+  url: "/api/health"
+  interval: 30
+  timeout: 5000
+  expect:
+    - statusCode: 200
+    - hasProperty: "status"

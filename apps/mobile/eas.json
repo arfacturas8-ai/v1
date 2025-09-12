@@ -1,0 +1,99 @@
+{
+  "cli": {
+    "version": ">= 5.0.0",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "env": {
+        "NODE_ENV": "development",
+        "APP_VARIANT": "development"
+      },
+      "ios": {
+        "simulator": true,
+        "buildConfiguration": "Debug",
+        "bundleIdentifier": "app.cryb.ios.dev"
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleDebug"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview",
+      "env": {
+        "NODE_ENV": "staging",
+        "APP_VARIANT": "staging"
+      },
+      "ios": {
+        "buildConfiguration": "Release",
+        "bundleIdentifier": "app.cryb.ios.staging",
+        "enterpriseProvisioning": "adhoc"
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "production": {
+      "channel": "production",
+      "env": {
+        "NODE_ENV": "production",
+        "APP_VARIANT": "production",
+        "EXPO_PUBLIC_ENVIRONMENT": "production",
+        "EXPO_PUBLIC_API_BASE_URL": "http://api.cryb.ai",
+        "EXPO_PUBLIC_WS_URL": "ws://api.cryb.ai",
+        "EXPO_PUBLIC_BUILD_TYPE": "production"
+      },
+      "ios": {
+        "buildConfiguration": "Release",
+        "bundleIdentifier": "app.cryb.ios",
+        "enterpriseProvisioning": "universal"
+      },
+      "android": {
+        "buildType": "aab",
+        "gradleCommand": ":app:bundleRelease"
+      }
+    },
+    "production-simulator": {
+      "extends": "production",
+      "ios": {
+        "simulator": true
+      }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "TO_BE_CONFIGURED",
+        "ascAppId": "TO_BE_CONFIGURED",
+        "appleTeamId": "TO_BE_CONFIGURED",
+        "sku": "cryb-ios-app",
+        "language": "en-US",
+        "companyName": "CRYB",
+        "appName": "CRYB"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./google-play-service-account.json",
+        "track": "production",
+        "releaseStatus": "draft",
+        "changesNotSentForReview": false
+      }
+    },
+    "preview": {
+      "ios": {
+        "appleId": "your-apple-id@email.com",
+        "ascAppId": "your-staging-app-id",
+        "appleTeamId": "your-apple-team-id"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./google-play-service-account.json",
+        "track": "internal"
+      }
+    }
+  }
+}

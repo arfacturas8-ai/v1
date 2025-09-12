@@ -1,0 +1,362 @@
+# ==============================================
+# CRYB PLATFORM - POSTGRESQL CUSTOM QUERIES
+# ==============================================
+# Business metrics and performance monitoring queries
+# ==============================================
+
+# ==============================================
+# USER METRICS
+# ==============================================
+cryb_users_total:
+  query: "SELECT COUNT(*) as count FROM users"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Total number of registered users"
+
+cryb_users_active_24h:
+  query: "SELECT COUNT(*) as count FROM users WHERE last_seen > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE" 
+        description: "Number of users active in last 24 hours"
+
+cryb_users_new_24h:
+  query: "SELECT COUNT(*) as count FROM users WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of new users registered in last 24 hours"
+
+cryb_users_by_status:
+  query: "SELECT status, COUNT(*) as count FROM users GROUP BY status"
+  master: true
+  metrics:
+    - status:
+        usage: "LABEL"
+        description: "User status"
+    - count:
+        usage: "GAUGE"
+        description: "Number of users by status"
+
+# ==============================================
+# MESSAGE METRICS
+# ==============================================
+cryb_messages_total:
+  query: "SELECT COUNT(*) as count FROM messages"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Total number of messages sent"
+
+cryb_messages_24h:
+  query: "SELECT COUNT(*) as count FROM messages WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of messages sent in last 24 hours"
+
+cryb_messages_by_channel:
+  query: "SELECT channel_id, COUNT(*) as count FROM messages WHERE created_at > NOW() - INTERVAL '1 hour' GROUP BY channel_id ORDER BY count DESC LIMIT 10"
+  master: true
+  metrics:
+    - channel_id:
+        usage: "LABEL"
+        description: "Channel ID"
+    - count:
+        usage: "GAUGE"
+        description: "Number of messages per channel in last hour"
+
+cryb_messages_failed_24h:
+  query: "SELECT COUNT(*) as count FROM message_failures WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of failed messages in last 24 hours"
+
+# ==============================================
+# VOICE/VIDEO CALL METRICS
+# ==============================================
+cryb_calls_active:
+  query: "SELECT COUNT(*) as count FROM voice_calls WHERE status = 'active'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of active voice/video calls"
+
+cryb_calls_total_24h:
+  query: "SELECT COUNT(*) as count FROM voice_calls WHERE started_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Total calls started in last 24 hours"
+
+cryb_calls_duration_avg:
+  query: "SELECT AVG(EXTRACT(EPOCH FROM (ended_at - started_at))) as avg_duration FROM voice_calls WHERE ended_at IS NOT NULL AND started_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - avg_duration:
+        usage: "GAUGE"
+        description: "Average call duration in seconds for last 24 hours"
+
+cryb_calls_quality_poor:
+  query: "SELECT COUNT(*) as count FROM voice_calls WHERE quality_rating < 3 AND ended_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of poor quality calls in last 24 hours"
+
+# ==============================================
+# SERVER AND CHANNEL METRICS
+# ==============================================
+cryb_servers_total:
+  query: "SELECT COUNT(*) as count FROM servers"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Total number of servers/communities"
+
+cryb_servers_active_24h:
+  query: "SELECT COUNT(DISTINCT s.id) as count FROM servers s JOIN channels c ON s.id = c.server_id JOIN messages m ON c.id = m.channel_id WHERE m.created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of active servers in last 24 hours"
+
+cryb_channels_total:
+  query: "SELECT COUNT(*) as count FROM channels"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Total number of channels"
+
+cryb_channels_by_type:
+  query: "SELECT type, COUNT(*) as count FROM channels GROUP BY type"
+  master: true
+  metrics:
+    - type:
+        usage: "LABEL"
+        description: "Channel type"
+    - count:
+        usage: "GAUGE"
+        description: "Number of channels by type"
+
+# ==============================================
+# PERFORMANCE METRICS
+# ==============================================
+cryb_db_slow_queries:
+  query: "SELECT COUNT(*) as count FROM pg_stat_statements WHERE mean_time > 1000"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of slow queries (>1s) in statement stats"
+
+cryb_db_connections_by_state:
+  query: "SELECT state, COUNT(*) as count FROM pg_stat_activity WHERE datname = 'cryb' GROUP BY state"
+  master: true
+  metrics:
+    - state:
+        usage: "LABEL"
+        description: "Connection state"
+    - count:
+        usage: "GAUGE"
+        description: "Number of connections by state"
+
+cryb_db_locks_waiting:
+  query: "SELECT COUNT(*) as count FROM pg_locks WHERE NOT granted"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of locks currently waiting"
+
+cryb_db_table_sizes:
+  query: "SELECT schemaname||'.'||tablename as table_name, pg_total_relation_size(schemaname||'.'||tablename) as size_bytes FROM pg_tables WHERE schemaname = 'public' ORDER BY size_bytes DESC LIMIT 10"
+  master: true
+  metrics:
+    - table_name:
+        usage: "LABEL"
+        description: "Table name"
+    - size_bytes:
+        usage: "GAUGE"
+        description: "Table size in bytes"
+
+# ==============================================
+# AUTHENTICATION AND SECURITY METRICS
+# ==============================================
+cryb_auth_attempts_24h:
+  query: "SELECT COUNT(*) as count FROM auth_logs WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Authentication attempts in last 24 hours"
+
+cryb_auth_failures_24h:
+  query: "SELECT COUNT(*) as count FROM auth_logs WHERE success = false AND created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Failed authentication attempts in last 24 hours"
+
+cryb_auth_failures_by_ip:
+  query: "SELECT ip_address, COUNT(*) as count FROM auth_logs WHERE success = false AND created_at > NOW() - INTERVAL '1 hour' GROUP BY ip_address HAVING COUNT(*) > 5 ORDER BY count DESC LIMIT 10"
+  master: true
+  metrics:
+    - ip_address:
+        usage: "LABEL"
+        description: "IP address"
+    - count:
+        usage: "GAUGE"
+        description: "Number of failed attempts from this IP in last hour"
+
+# ==============================================
+# FILE UPLOAD AND MEDIA METRICS
+# ==============================================
+cryb_uploads_24h:
+  query: "SELECT COUNT(*) as count FROM file_uploads WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of file uploads in last 24 hours"
+
+cryb_uploads_size_24h:
+  query: "SELECT COALESCE(SUM(file_size), 0) as total_bytes FROM file_uploads WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - total_bytes:
+        usage: "GAUGE"
+        description: "Total bytes uploaded in last 24 hours"
+
+cryb_uploads_by_type:
+  query: "SELECT file_type, COUNT(*) as count, SUM(file_size) as total_bytes FROM file_uploads WHERE created_at > NOW() - INTERVAL '24 hours' GROUP BY file_type"
+  master: true
+  metrics:
+    - file_type:
+        usage: "LABEL"
+        description: "File type"
+    - count:
+        usage: "GAUGE"
+        description: "Number of uploads by file type"
+    - total_bytes:
+        usage: "GAUGE"
+        description: "Total bytes by file type"
+
+# ==============================================
+# ERROR AND CRASH MONITORING
+# ==============================================
+cryb_errors_24h:
+  query: "SELECT COUNT(*) as count FROM error_logs WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of errors logged in last 24 hours"
+
+cryb_errors_by_type:
+  query: "SELECT error_type, COUNT(*) as count FROM error_logs WHERE created_at > NOW() - INTERVAL '1 hour' GROUP BY error_type ORDER BY count DESC LIMIT 10"
+  master: true
+  metrics:
+    - error_type:
+        usage: "LABEL"
+        description: "Error type"
+    - count:
+        usage: "GAUGE"
+        description: "Number of errors by type in last hour"
+
+cryb_crashes_24h:
+  query: "SELECT COUNT(*) as count FROM crash_reports WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of crash reports in last 24 hours"
+
+# ==============================================
+# NOTIFICATION METRICS
+# ==============================================
+cryb_notifications_sent_24h:
+  query: "SELECT COUNT(*) as count FROM notifications WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of notifications sent in last 24 hours"
+
+cryb_notifications_failed_24h:
+  query: "SELECT COUNT(*) as count FROM notifications WHERE status = 'failed' AND created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of failed notifications in last 24 hours"
+
+cryb_notifications_by_type:
+  query: "SELECT type, COUNT(*) as count FROM notifications WHERE created_at > NOW() - INTERVAL '1 hour' GROUP BY type"
+  master: true
+  metrics:
+    - type:
+        usage: "LABEL"
+        description: "Notification type"
+    - count:
+        usage: "GAUGE"
+        description: "Number of notifications by type in last hour"
+
+# ==============================================
+# SEARCH AND INDEXING METRICS
+# ==============================================
+cryb_search_queries_24h:
+  query: "SELECT COUNT(*) as count FROM search_logs WHERE created_at > NOW() - INTERVAL '24 hours'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of search queries in last 24 hours"
+
+cryb_search_slow_queries:
+  query: "SELECT COUNT(*) as count FROM search_logs WHERE response_time > 1000 AND created_at > NOW() - INTERVAL '1 hour'"
+  master: true
+  metrics:
+    - count:
+        usage: "GAUGE"
+        description: "Number of slow search queries (>1s) in last hour"
+
+# ==============================================
+# TIMESCALEDB HYPERTABLE METRICS
+# ==============================================
+cryb_hypertable_chunks:
+  query: "SELECT hypertable_name, COUNT(*) as chunk_count FROM timescaledb_information.chunks GROUP BY hypertable_name"
+  master: true
+  metrics:
+    - hypertable_name:
+        usage: "LABEL"
+        description: "Hypertable name"
+    - chunk_count:
+        usage: "GAUGE"
+        description: "Number of chunks in hypertable"
+
+cryb_hypertable_size:
+  query: "SELECT hypertable_name, total_bytes FROM hypertable_detailed_size('messages') UNION ALL SELECT hypertable_name, total_bytes FROM hypertable_detailed_size('user_activities')"
+  master: true
+  metrics:
+    - hypertable_name:
+        usage: "LABEL"
+        description: "Hypertable name"
+    - total_bytes:
+        usage: "GAUGE"
+        description: "Total size of hypertable in bytes"

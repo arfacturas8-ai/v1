@@ -13,6 +13,9 @@ export default function HomePage() {
           </div>
           <div className="flex flex-1 items-center justify-end space-x-4">
             <nav className="flex items-center space-x-4">
+              <Link href="/profile">
+                <Button variant="ghost">Profile</Button>
+              </Link>
               <Link href="/login">
                 <Button variant="ghost">Sign In</Button>
               </Link>
@@ -35,8 +38,18 @@ export default function HomePage() {
             </p>
           </div>
           <div className="flex gap-4">
-            <Link href="/register">
-              <Button size="lg">Get Started</Button>
+            <Link href="/chat">
+              <Button size="lg">💬 Open Chat</Button>
+            </Link>
+            <Link href="/servers">
+              <Button variant="outline" size="lg">
+                🔍 Discover Servers
+              </Button>
+            </Link>
+            <Link href="/reddit-demo">
+              <Button variant="outline" size="lg">
+                🚀 Reddit Features Demo
+              </Button>
             </Link>
             <Link href="/explore">
               <Button variant="outline" size="lg">

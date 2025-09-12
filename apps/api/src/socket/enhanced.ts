@@ -3,6 +3,7 @@ import { createAdapter } from '@socket.io/redis-adapter';
 import Redis from 'ioredis';
 import { FastifyInstance } from 'fastify';
 import { verifyToken } from '@cryb/auth';
+import { AuthService } from '../services/auth';
 import { prisma } from '@cryb/database';
 
 interface SocketWithAuth extends Socket {
@@ -12,6 +13,8 @@ interface SocketWithAuth extends Socket {
 }
 
 export function setupSocketHandlers(io: Server, app: FastifyInstance) {
+  // Initialize AuthService for proper JWT validation
+  const authService = new AuthService((app as any).redis);
   // ============================================
   // REDIS ADAPTER SETUP
   // ============================================
@@ -36,9 +39,14 @@ export function setupSocketHandlers(io: Server, app: FastifyInstance) {
         return next(new Error('Authentication required'));
       }
 
-      const payload = verifyToken(token);
+      // Use comprehensive token validation with session and blacklist checks
+      const validation = await authService.validateAccessToken(token);
+      if (!validation.valid) {
+        return next(new Error(validation.reason || 'Authentication failed'));
+      }
+
       const user = await prisma.user.findUnique({
-        where: { id: payload.userId },
+        where: { id: validation.payload.userId },
         include: {
           communityMembers: {
             select: {

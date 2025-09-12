@@ -1,0 +1,1 @@
+-- CreateTable migrations for existing database

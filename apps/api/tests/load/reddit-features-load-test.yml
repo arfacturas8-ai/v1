@@ -1,0 +1,497 @@
+config:
+  target: 'http://localhost:3002'
+  phases:
+    # Reddit-specific usage patterns
+    
+    # Morning browsing - moderate activity
+    - duration: 180
+      arrivalRate: 15
+      rampTo: 30
+      name: "Morning browsing"
+    
+    # Lunch break peak - high posting and commenting
+    - duration: 120
+      arrivalRate: 50
+      rampTo: 80
+      name: "Lunch break peak"
+    
+    # Afternoon discussion - sustained activity
+    - duration: 240
+      arrivalRate: 40
+      name: "Afternoon discussions"
+    
+    # Evening peak - maximum activity
+    - duration: 300
+      arrivalRate: 100
+      rampTo: 150
+      name: "Evening peak hours"
+    
+    # Late night browsing - moderate activity
+    - duration: 180
+      arrivalRate: 25
+      name: "Late night browsing"
+    
+    # Stress test - viral post simulation
+    - duration: 120
+      arrivalRate: 300
+      name: "Viral content simulation"
+
+  processor: "./reddit-load-helpers.js"
+  
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+      'User-Agent': 'Reddit-Load-Test/1.0'
+
+  variables:
+    # Reddit community categories
+    communityTypes: ["technology", "gaming", "askreddit", "funny", "science", "news", "worldnews", "pics", "videos", "music"]
+    
+    # Post types for realistic content
+    postTypes: ["text", "link", "image", "video", "poll"]
+    
+    # Subreddit settings
+    subredditSettings:
+      - { type: "public", nsfw: false, restricted: false }
+      - { type: "restricted", nsfw: false, restricted: true }
+      - { type: "private", nsfw: false, restricted: false }
+
+scenarios:
+  # Community Management - 15% of traffic
+  - name: "Reddit Community Management"
+    weight: 15
+    flow:
+      - function: "authenticateRedditUser"
+      
+      # Create subreddit/community
+      - post:
+          url: "/api/v1/communities"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generateCommunityData"
+          json:
+            name: "{{ communityName }}"
+            title: "{{ communityTitle }}"
+            description: "{{ communityDescription }}"
+            type: "{{ communityType }}"
+            category: "{{ communityCategory }}"
+            nsfw: "{{ isNSFW }}"
+            restricted: "{{ isRestricted }}"
+            allowImages: true
+            allowVideos: true
+            allowPolls: true
+            allowCrossposts: true
+            spoilersEnabled: true
+            language: "en"
+            suggestedSort: "hot"
+          capture:
+            - json: "$.community.id"
+              as: "communityId"
+            - json: "$.community.name"
+              as: "communityName"
+          expect:
+            - statusCode: 201
+            - hasProperty: "community"
+            - responseTime: 3000
+
+      - think: 2
+
+      # Set community rules
+      - post:
+          url: "/api/v1/communities/{{ communityId }}/rules"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            rules:
+              - title: "Be respectful"
+                description: "Treat all community members with respect and kindness"
+                priority: 1
+              - title: "No spam"
+                description: "Do not post spam or excessive self-promotion"
+                priority: 2
+              - title: "Stay on topic"
+                description: "Keep posts relevant to the community topic"
+                priority: 3
+          expect:
+            - statusCode: 201
+
+      - think: 1
+
+      # Configure community settings
+      - patch:
+          url: "/api/v1/communities/{{ communityId }}"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            welcomeMessage: "Welcome to r/{{ communityName }}!"
+            submissionText: "Please read the rules before posting"
+            publicDescription: "{{ communityDescription }}"
+            publicTraffic: true
+            allowDiscovery: true
+            headerTitle: "{{ communityTitle }}"
+            submitLinkLabel: "Share Link"
+            submitTextLabel: "Create Post"
+            wikiEnabled: true
+            acceptFollowers: true
+          expect:
+            - statusCode: 200
+
+  # Post Creation and Management - 35% of traffic
+  - name: "Reddit Post Operations"
+    weight: 35
+    flow:
+      - function: "authenticateRedditUser"
+      - function: "joinRandomCommunity"
+      
+      # Create various types of posts
+      - loop:
+          count: 3
+          flow:
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                beforeRequest: "generatePostContent"
+                json:
+                  title: "{{ postTitle }}"
+                  content: "{{ postContent }}"
+                  type: "{{ postType }}"
+                  url: "{{ postUrl }}"
+                  nsfw: "{{ postNSFW }}"
+                  spoiler: "{{ postSpoiler }}"
+                  flairId: "{{ postFlair }}"
+                  sendReplies: true
+                  crosspostable: true
+                  tags: "{{ postTags }}"
+                capture:
+                  - json: "$.post.id"
+                    as: "postId"
+                  - json: "$.post.permalink"
+                    as: "postPermalink"
+                expect:
+                  - statusCode: 201
+                  - hasProperty: "post"
+                  - responseTime: 2000
+
+            - think: 1
+
+            # Vote on the post
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts/{{ postId }}/vote"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  vote: "{{ randomVote() }}"
+                expect:
+                  - statusCode: 200
+                  - responseTime: 500
+
+            - think: 0.5
+
+            # Add post flair
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts/{{ postId }}/flair"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  flairText: "{{ randomFlair() }}"
+                  flairCssClass: "{{ flairClass() }}"
+                expect:
+                  - statusCode: 200
+
+            # Edit post occasionally
+            - function: "maybeEditPost"
+
+            # Save/unsave post
+            - function: "maybeSavePost"
+
+  # Commenting System - 30% of traffic
+  - name: "Reddit Comment Operations"  
+    weight: 30
+    flow:
+      - function: "authenticateRedditUser"
+      - function: "findPopularPost"
+      
+      # Add top-level comments
+      - loop:
+          count: 5
+          flow:
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts/{{ postId }}/comments"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                beforeRequest: "generateCommentContent"
+                json:
+                  content: "{{ commentContent }}"
+                  parentId: null
+                  depth: 0
+                capture:
+                  - json: "$.comment.id"
+                    as: "commentId"
+                expect:
+                  - statusCode: 201
+                  - hasProperty: "comment"
+                  - responseTime: 1000
+
+            - think: 1
+
+            # Vote on comment
+            - post:
+                url: "/api/v1/comments/{{ commentId }}/vote"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  vote: "{{ randomVote() }}"
+                expect:
+                  - statusCode: 200
+
+            # Add reply to comment (create thread)
+            - post:
+                url: "/api/v1/comments/{{ commentId }}/reply"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  content: "{{ generateReplyContent() }}"
+                capture:
+                  - json: "$.comment.id"
+                    as: "replyId"
+                expect:
+                  - statusCode: 201
+
+            - think: 0.5
+
+            # Vote on reply
+            - post:
+                url: "/api/v1/comments/{{ replyId }}/vote"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  vote: "{{ randomVote() }}"
+                expect:
+                  - statusCode: 200
+
+            # Award comment occasionally
+            - function: "maybeAwardComment"
+
+            # Report comment occasionally
+            - function: "maybeReportComment"
+
+  # Voting and Karma System - 10% of traffic
+  - name: "Reddit Voting System"
+    weight: 10  
+    flow:
+      - function: "authenticateRedditUser"
+      
+      # Mass voting simulation (browsing behavior)
+      - loop:
+          count: 20
+          flow:
+            - function: "findRandomContent"
+            
+            # Vote on random posts
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts/{{ contentId }}/vote"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  vote: "{{ randomWeightedVote() }}"
+                expect:
+                  - statusCode: 200
+                  - responseTime: 300
+
+            - think: 0.2
+
+            # Check user karma
+            - get:
+                url: "/api/v1/users/@me/karma"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                expect:
+                  - statusCode: 200
+                  - hasProperty: "karma"
+
+  # User Interaction and Social Features - 5% of traffic
+  - name: "Reddit Social Features"
+    weight: 5
+    flow:
+      - function: "authenticateRedditUser"
+      
+      # Follow users
+      - function: "followRandomUsers"
+      
+      # Send private messages
+      - post:
+          url: "/api/v1/messages"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generatePrivateMessage"
+          json:
+            to: "{{ targetUsername }}"
+            subject: "{{ messageSubject }}"
+            body: "{{ messageBody }}"
+            from_subreddit: null
+          expect:
+            - statusCode: 201
+
+      # Check inbox
+      - get:
+          url: "/api/v1/messages/inbox"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            limit: 25
+            mark: false
+          expect:
+            - statusCode: 200
+
+      # Award posts/comments
+      - function: "awardRandomContent"
+
+      # Join/leave subreddits
+      - function: "manageSubredditMemberships"
+
+  # Content Moderation - 5% of traffic
+  - name: "Reddit Moderation Actions"
+    weight: 5
+    flow:
+      - function: "authenticateModeratorUser"
+      
+      # Review reported content
+      - get:
+          url: "/api/v1/communities/{{ communityId }}/reports"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            limit: 50
+            type: "all"
+          expect:
+            - statusCode: 200
+
+      # Moderate posts
+      - function: "moderateRandomPosts"
+      
+      # Moderate comments  
+      - function: "moderateRandomComments"
+      
+      # Ban/unban users
+      - function: "manageBannedUsers"
+      
+      # Update community settings
+      - function: "updateCommunityModeration"
+
+# Reddit-specific performance expectations
+expect:
+  - statusCode:
+      - 200
+      - 201
+      - 204
+      - 400
+      - 401
+      - 403
+      - 404
+      - 429
+
+  # Reddit response time expectations
+  - responseTime: 5000
+
+# Reddit performance thresholds  
+thresholds:
+  # Post operations
+  http.response_time.posts:
+    p95: 2000  # Post creation within 2s
+    p99: 4000  # Post creation within 4s
+
+  # Comment operations (should be faster)
+  http.response_time.comments:
+    p95: 1000  # Comments within 1s
+    p99: 2000  # Comments within 2s
+
+  # Voting operations (should be very fast)
+  http.response_time.votes:
+    p95: 300   # Votes within 300ms
+    p99: 500   # Votes within 500ms
+
+  # Community operations
+  http.response_time.communities:
+    p95: 3000  # Community creation within 3s
+    p99: 5000  # Community creation within 5s
+
+  # Throughput requirements
+  http.request_rate.votes: 1000      # 1000 votes/sec
+  http.request_rate.comments: 200    # 200 comments/sec
+  http.request_rate.posts: 50        # 50 posts/sec
+
+  # Error rates
+  http.request_errors.votes:
+    rate: 0.01  # Voting error rate < 1%
+  
+  http.request_errors.comments:
+    rate: 0.03  # Comment error rate < 3%
+    
+  http.request_errors.posts:
+    rate: 0.05  # Post error rate < 5%
+
+plugins:
+  expect: {}
+  metrics-by-endpoint:
+    useOnlyRequestNames: true
+  hls:
+    writeToFile: './reddit-load-test-results.json'
+
+# Reddit-specific metrics
+metrics:
+  - name: "posts_per_second"
+    summary: "Reddit post creation rate"
+    
+  - name: "comments_per_second"  
+    summary: "Comment creation rate"
+    
+  - name: "votes_per_second"
+    summary: "Voting operations per second"
+    
+  - name: "community_creation_time"
+    summary: "Community/subreddit creation times"
+    
+  - name: "karma_distribution"
+    summary: "User karma point distribution"
+    
+  - name: "moderation_actions_per_second"
+    summary: "Moderation actions processing rate"
+    
+  - name: "user_engagement_rate"
+    summary: "User interaction and engagement metrics"
+    
+  - name: "content_discovery_time"
+    summary: "Time to discover and load content"
+
+# Health monitoring for Reddit features
+healthCheck:
+  url: "/api/v1/health/reddit"
+  interval: 30
+  timeout: 5000
+  expect:
+    - statusCode: 200
+    - hasProperty: "redditServices"
+
+# Reddit feature monitoring
+monitoring:
+  # Content metrics
+  - active_communities
+  - active_posts
+  - active_comments
+  - daily_votes
+  
+  # User metrics
+  - active_users
+  - user_karma_distribution
+  - user_engagement_rate
+  
+  # Moderation metrics  
+  - moderation_queue_depth
+  - reported_content_count
+  - banned_users_count
+  
+  # Performance metrics
+  - vote_processing_time
+  - comment_thread_depth
+  - content_loading_time

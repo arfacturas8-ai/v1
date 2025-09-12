@@ -1,0 +1,31 @@
+{
+  "database": {
+    "host": "ls-5c069fe376b304c5cf07654fbb327aa9ce9115ef.cona660s8zf0.us-east-1.rds.amazonaws.com",
+    "port": 5432,
+    "database": "cryb-ai",
+    "username": "dbmasteruser"
+  },
+  "backup": {
+    "schedule": {
+      "full": "0 2 * * *",
+      "incremental": "0 */4 * * *",
+      "transaction_log": "*/15 * * * *"
+    },
+    "retention": {
+      "full_days": 30,
+      "incremental_days": 7,
+      "transaction_log_days": 2
+    },
+    "storage": {
+      "local_path": "/home/ubuntu/cryb-platform/backups/postgres",
+      "s3": {
+        "bucket": "cryb-platform-backups",
+        "region": "us-east-1",
+        "path_prefix": "postgres-backups"
+      }
+    },
+    "compression": true,
+    "encryption": true,
+    "verify_integrity": true
+  }
+}

@@ -1,0 +1,203 @@
+config:
+  target: 'http://localhost:3001'
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm-up"
+    
+    # Gradual ramp-up to test scaling
+    - duration: 120
+      arrivalRate: 10
+      rampTo: 50
+      name: "Gradual ramp-up"
+    
+    # Sustained high load
+    - duration: 180
+      arrivalRate: 50
+      name: "Sustained load"
+    
+    # Peak load to test crash-proof claims
+    - duration: 60
+      arrivalRate: 100
+      name: "Peak load test"
+    
+    # Spike test - sudden traffic burst
+    - duration: 30
+      arrivalRate: 200
+      name: "Spike test"
+
+  processor: "./load-test-helpers.js"
+  
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+      'User-Agent': 'Artillery Load Test'
+
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+
+scenarios:
+  # Test user registration under load
+  - name: "User Registration Load Test"
+    weight: 30
+    flow:
+      - post:
+          url: "/auth/register"
+          name: "register"
+          beforeRequest: "generateUniqueUser"
+          json:
+            email: "{{ email }}"
+            username: "{{ username }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.accessToken"
+              as: "accessToken"
+            - json: "$.user.id"
+              as: "userId"
+          expect:
+            - statusCode: 201
+            - hasProperty: "accessToken"
+          
+      # Verify account immediately after registration
+      - get:
+          url: "/users/me"
+          name: "verify-account"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          expect:
+            - statusCode: 200
+
+  # Test user login under heavy load
+  - name: "User Login Load Test"
+    weight: 40
+    flow:
+      - post:
+          url: "/auth/login"
+          name: "login"
+          beforeRequest: "generateExistingUser"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.accessToken"
+              as: "accessToken"
+            - json: "$.refreshToken" 
+              as: "refreshToken"
+          expect:
+            - statusCode: 200
+            - hasProperty: "accessToken"
+
+      # Test token validation under load
+      - get:
+          url: "/users/me"
+          name: "token-validation"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          expect:
+            - statusCode: 200
+
+      # Test refresh token functionality
+      - post:
+          url: "/auth/refresh"
+          name: "token-refresh"
+          json:
+            refreshToken: "{{ refreshToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "accessToken"
+
+  # Test brute force protection
+  - name: "Brute Force Protection Test"
+    weight: 10
+    flow:
+      - loop:
+          - post:
+              url: "/auth/login"
+              name: "brute-force-attempt"
+              json:
+                email: "target@example.com"
+                password: "wrongpassword"
+        count: 6
+      
+      # Should be blocked after 5 attempts
+      - post:
+          url: "/auth/login"
+          name: "blocked-login"
+          json:
+            email: "target@example.com"
+            password: "wrongpassword"
+          expect:
+            - statusCode: 429
+
+  # Test concurrent session management
+  - name: "Session Management Load Test"
+    weight: 15
+    flow:
+      # Login to create session
+      - post:
+          url: "/auth/login"
+          name: "session-login"
+          beforeRequest: "generateExistingUser"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.accessToken"
+              as: "accessToken"
+
+      # Get session info
+      - get:
+          url: "/auth/sessions"
+          name: "get-sessions"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          expect:
+            - statusCode: 200
+
+      # Logout
+      - post:
+          url: "/auth/logout"
+          name: "logout"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          expect:
+            - statusCode: 200
+
+  # Test password reset under load
+  - name: "Password Reset Load Test"
+    weight: 5
+    flow:
+      - post:
+          url: "/auth/forgot-password"
+          name: "forgot-password"
+          beforeRequest: "generateExistingUser"
+          json:
+            email: "{{ email }}"
+          expect:
+            - statusCode: 200
+
+# Custom expectations for crash-proof verification
+expect:
+  # No server should crash (5xx errors should be minimal)
+  - statusCode:
+      - 200
+      - 201
+      - 400
+      - 401
+      - 403
+      - 429
+  
+  # Response time should stay reasonable even under load
+  - responseTime: 5000  # 5 seconds max
+
+# Performance thresholds
+thresholds:
+  http.response_time:
+    p95: 2000  # 95% of requests should complete within 2s
+    p99: 5000  # 99% of requests should complete within 5s
+  
+  http.request_rate: 1000  # Should handle at least 1000 requests per second
+  
+  errors.rate: 0.05  # Error rate should be less than 5%

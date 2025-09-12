@@ -1,0 +1,499 @@
+'use client';
+
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import {
+  TrendingUp,
+  Clock,
+  BarChart3,
+  Flame,
+  Filter,
+  RefreshCw,
+  AlertTriangle,
+  Loader2,
+  ChevronDown,
+  Eye,
+  EyeOff,
+  Settings
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { RedditErrorBoundary, useRedditErrorReporting } from '../error-boundaries/reddit-error-boundary';
+import { PostCard } from './post-card';
+import { Post, SortType, VoteType } from './post-types';
+
+export type TimeFilter = 'hour' | 'day' | 'week' | 'month' | 'year' | 'all';
+
+interface PostFeedProps {
+  subreddit?: string;
+  initialPosts?: Post[];
+  defaultSort?: SortType;
+  defaultTimeFilter?: TimeFilter;
+  showFilters?: boolean;
+  showNSFW?: boolean;
+  onVote?: (postId: string, voteType: VoteType | null) => Promise<void>;
+  onSave?: (postId: string, saved: boolean) => Promise<void>;
+  onHide?: (postId: string) => Promise<void>;
+  onReport?: (postId: string, reason: string) => Promise<void>;
+  className?: string;
+}
+
+interface FeedState {
+  posts: Post[];
+  loading: boolean;
+  error: string | null;
+  hasMore: boolean;
+  page: number;
+  sort: SortType;
+  timeFilter: TimeFilter;
+  showNSFW: boolean;
+  hiddenPosts: Set<string>;
+  refreshing: boolean;
+  lastFetch: number;
+}
+
+const SORT_OPTIONS = [
+  { value: 'hot' as SortType, label: 'Hot', icon: <Flame className="h-4 w-4" />, description: 'Rising posts' },
+  { value: 'new' as SortType, label: 'New', icon: <Clock className="h-4 w-4" />, description: 'Latest posts' },
+  { value: 'top' as SortType, label: 'Top', icon: <BarChart3 className="h-4 w-4" />, description: 'Highest rated' },
+  { value: 'rising' as SortType, label: 'Rising', icon: <TrendingUp className="h-4 w-4" />, description: 'Trending up' },
+  { value: 'controversial' as SortType, label: 'Controversial', icon: <AlertTriangle className="h-4 w-4" />, description: 'Most debated' },
+];
+
+const TIME_OPTIONS = [
+  { value: 'hour' as TimeFilter, label: 'Past Hour' },
+  { value: 'day' as TimeFilter, label: 'Past 24 Hours' },
+  { value: 'week' as TimeFilter, label: 'Past Week' },
+  { value: 'month' as TimeFilter, label: 'Past Month' },
+  { value: 'year' as TimeFilter, label: 'Past Year' },
+  { value: 'all' as TimeFilter, label: 'All Time' },
+];
+
+const POSTS_PER_PAGE = 25;
+const REFRESH_COOLDOWN = 5000; // 5 seconds
+
+export function PostFeed({
+  subreddit,
+  initialPosts = [],
+  defaultSort = 'hot',
+  defaultTimeFilter = 'day',
+  showFilters = true,
+  showNSFW = false,
+  onVote,
+  onSave,
+  onHide,
+  onReport,
+  className
+}: PostFeedProps) {
+  const { reportError } = useRedditErrorReporting('post-feed');
+  const [state, setState] = useState<FeedState>({
+    posts: initialPosts,
+    loading: false,
+    error: null,
+    hasMore: true,
+    page: 1,
+    sort: defaultSort,
+    timeFilter: defaultTimeFilter,
+    showNSFW,
+    hiddenPosts: new Set(),
+    refreshing: false,
+    lastFetch: 0,
+  });
+
+  // Build API URL with error handling
+  const buildApiUrl = useCallback((page: number, sort: SortType, timeFilter: TimeFilter) => {
+    try {
+      const baseUrl = subreddit ? `/api/communities/${subreddit}/posts` : '/api/posts';
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: POSTS_PER_PAGE.toString(),
+        sort,
+      });
+
+      // Only add time filter for relevant sorts
+      if (['top', 'controversial'].includes(sort)) {
+        params.append('time', timeFilter);
+      }
+
+      return `${baseUrl}?${params.toString()}`;
+    } catch (error) {
+      reportError(error as Error, { page, sort, timeFilter, subreddit });
+      return '/api/posts'; // Fallback URL
+    }
+  }, [subreddit, reportError]);
+
+  // Fetch posts with comprehensive error handling
+  const fetchPosts = useCallback(async (
+    page: number,
+    sort: SortType,
+    timeFilter: TimeFilter,
+    replace = false
+  ) => {
+    const now = Date.now();
+    if (!replace && now - state.lastFetch < REFRESH_COOLDOWN) {
+      return; // Rate limiting
+    }
+
+    setState(prev => ({
+      ...prev,
+      loading: true,
+      error: null,
+      refreshing: replace,
+      lastFetch: now,
+    }));
+
+    try {
+      const url = buildApiUrl(page, sort, timeFilter);
+      const response = await fetch(url, {
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to fetch posts');
+      }
+
+      const newPosts = data.data.items || [];
+      const hasMore = data.data.hasMore ?? false;
+
+      setState(prev => ({
+        ...prev,
+        posts: replace ? newPosts : [...prev.posts, ...newPosts],
+        loading: false,
+        hasMore,
+        page: replace ? 2 : page + 1,
+        refreshing: false,
+      }));
+
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to load posts';
+      
+      setState(prev => ({
+        ...prev,
+        loading: false,
+        refreshing: false,
+        error: errorMessage,
+      }));
+
+      reportError(error as Error, {
+        action: 'fetch-posts',
+        page,
+        sort,
+        timeFilter,
+        subreddit,
+        replace,
+      });
+    }
+  }, [buildApiUrl, state.lastFetch, reportError]);
+
+  // Handle sort change
+  const handleSortChange = useCallback((newSort: SortType) => {
+    setState(prev => ({
+      ...prev,
+      sort: newSort,
+      page: 1,
+      posts: [],
+      hasMore: true,
+      error: null,
+    }));
+    fetchPosts(1, newSort, state.timeFilter, true);
+  }, [fetchPosts, state.timeFilter]);
+
+  // Handle time filter change
+  const handleTimeFilterChange = useCallback((newTimeFilter: TimeFilter) => {
+    setState(prev => ({
+      ...prev,
+      timeFilter: newTimeFilter,
+      page: 1,
+      posts: [],
+      hasMore: true,
+      error: null,
+    }));
+    fetchPosts(1, state.sort, newTimeFilter, true);
+  }, [fetchPosts, state.sort]);
+
+  // Handle refresh
+  const handleRefresh = useCallback(() => {
+    fetchPosts(1, state.sort, state.timeFilter, true);
+  }, [fetchPosts, state.sort, state.timeFilter]);
+
+  // Handle load more
+  const handleLoadMore = useCallback(() => {
+    if (!state.loading && state.hasMore) {
+      fetchPosts(state.page, state.sort, state.timeFilter);
+    }
+  }, [fetchPosts, state.loading, state.hasMore, state.page, state.sort, state.timeFilter]);
+
+  // Handle post hiding
+  const handleHide = useCallback(async (postId: string) => {
+    setState(prev => ({
+      ...prev,
+      hiddenPosts: new Set([...prev.hiddenPosts, postId]),
+    }));
+
+    try {
+      await onHide?.(postId);
+    } catch (error) {
+      // Revert on error
+      setState(prev => ({
+        ...prev,
+        hiddenPosts: new Set([...prev.hiddenPosts].filter(id => id !== postId)),
+      }));
+      reportError(error as Error, { postId, action: 'hide' });
+    }
+  }, [onHide, reportError]);
+
+  // Toggle NSFW visibility
+  const toggleNSFW = useCallback(() => {
+    setState(prev => ({ ...prev, showNSFW: !prev.showNSFW }));
+  }, []);
+
+  // Filter visible posts
+  const visiblePosts = useMemo(() => {
+    try {
+      return state.posts.filter(post => {
+        // Hide hidden posts
+        if (state.hiddenPosts.has(post.id)) return false;
+        
+        // Hide NSFW posts if disabled
+        if (post.isNsfw && !state.showNSFW) return false;
+        
+        // Hide deleted posts unless they have visible replies
+        if (post.isDeleted) return false;
+        
+        return true;
+      });
+    } catch (error) {
+      reportError(error as Error, { action: 'filter-posts' });
+      return state.posts;
+    }
+  }, [state.posts, state.hiddenPosts, state.showNSFW, reportError]);
+
+  // Load initial posts
+  useEffect(() => {
+    if (initialPosts.length === 0) {
+      fetchPosts(1, state.sort, state.timeFilter, true);
+    }
+  }, [fetchPosts, initialPosts.length, state.sort, state.timeFilter]);
+
+  // Intersection observer for infinite scroll
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting && state.hasMore && !state.loading) {
+          handleLoadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    const sentinel = document.getElementById('feed-sentinel');
+    if (sentinel) {
+      observer.observe(sentinel);
+    }
+
+    return () => observer.disconnect();
+  }, [handleLoadMore, state.hasMore, state.loading]);
+
+  return (
+    <RedditErrorBoundary context="post-feed" fallback={<FeedErrorFallback onRetry={handleRefresh} />}>
+      <div className={cn("space-y-4", className)}>
+        {/* Feed controls */}
+        {showFilters && (
+          <div className="flex items-center justify-between p-4 bg-white border rounded-lg">
+            {/* Sort options */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm font-medium text-gray-700">Sort by:</span>
+              <div className="flex gap-1">
+                {SORT_OPTIONS.map((option) => (
+                  <Button
+                    key={option.value}
+                    variant={state.sort === option.value ? "default" : "ghost"}
+                    size="sm"
+                    onClick={() => handleSortChange(option.value)}
+                    className="h-8"
+                    title={option.description}
+                  >
+                    {option.icon}
+                    <span className="ml-1 hidden sm:inline">{option.label}</span>
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {/* Time filter (for top/controversial) */}
+            {['top', 'controversial'].includes(state.sort) && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-700">From:</span>
+                <select
+                  value={state.timeFilter}
+                  onChange={(e) => handleTimeFilterChange(e.target.value as TimeFilter)}
+                  className="text-sm border rounded px-2 py-1"
+                >
+                  {TIME_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Additional controls */}
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleNSFW}
+                className={cn("h-8", state.showNSFW && "bg-red-50 text-red-600")}
+                title={state.showNSFW ? "Hide NSFW content" : "Show NSFW content"}
+              >
+                {state.showNSFW ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                <span className="ml-1 hidden sm:inline">NSFW</span>
+              </Button>
+              
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={state.refreshing}
+                className="h-8"
+              >
+                <RefreshCw className={cn("h-4 w-4", state.refreshing && "animate-spin")} />
+                <span className="ml-1 hidden sm:inline">Refresh</span>
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {/* Error display */}
+        {state.error && (
+          <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+            <div className="flex items-center gap-2 text-red-600">
+              <AlertTriangle className="h-4 w-4" />
+              <span>{state.error}</span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRefresh}
+              className="mt-2"
+            >
+              Try Again
+            </Button>
+          </div>
+        )}
+
+        {/* Posts */}
+        <div className="space-y-4">
+          {visiblePosts.map((post, index) => (
+            <PostCard
+              key={post.id}
+              post={post}
+              onVote={onVote}
+              onSave={onSave}
+              onShare={(postId) => {
+                // Share functionality
+                const url = `${window.location.origin}/r/${post.community?.name}/comments/${postId}`;
+                navigator.clipboard.writeText(url);
+              }}
+              onHide={handleHide}
+              onReport={onReport}
+            />
+          ))}
+        </div>
+
+        {/* Loading states */}
+        {state.loading && visiblePosts.length === 0 && (
+          <div className="flex items-center justify-center py-12">
+            <div className="text-center">
+              <Loader2 className="h-8 w-8 animate-spin mx-auto mb-2" />
+              <p className="text-gray-600">Loading posts...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Load more trigger */}
+        {state.hasMore && visiblePosts.length > 0 && (
+          <div id="feed-sentinel" className="flex items-center justify-center py-8">
+            {state.loading ? (
+              <div className="text-center">
+                <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+                <p className="text-sm text-gray-600">Loading more posts...</p>
+              </div>
+            ) : (
+              <Button
+                variant="outline"
+                onClick={handleLoadMore}
+                className="px-6"
+              >
+                Load More Posts
+              </Button>
+            )}
+          </div>
+        )}
+
+        {/* End of feed */}
+        {!state.hasMore && visiblePosts.length > 0 && (
+          <div className="text-center py-8 text-gray-500">
+            <p>You've reached the end!</p>
+            <Button
+              variant="ghost"
+              onClick={handleRefresh}
+              className="mt-2"
+            >
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Refresh for new posts
+            </Button>
+          </div>
+        )}
+
+        {/* Empty state */}
+        {!state.loading && visiblePosts.length === 0 && !state.error && (
+          <div className="text-center py-12">
+            <div className="text-gray-500">
+              <Filter className="h-12 w-12 mx-auto mb-4 opacity-50" />
+              <h3 className="text-lg font-medium mb-2">No posts found</h3>
+              <p className="mb-4">
+                {subreddit 
+                  ? `No posts in r/${subreddit} with current filters`
+                  : 'No posts match your current filters'
+                }
+              </p>
+              <Button variant="outline" onClick={handleRefresh}>
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Refresh
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </RedditErrorBoundary>
+  );
+}
+
+// Error fallback component
+function FeedErrorFallback({ onRetry }: { onRetry: () => void }) {
+  return (
+    <div className="p-8 text-center bg-red-50 border border-red-200 rounded-lg">
+      <AlertTriangle className="h-12 w-12 text-red-500 mx-auto mb-4" />
+      <h3 className="text-lg font-medium text-red-800 mb-2">
+        Failed to load feed
+      </h3>
+      <p className="text-red-600 mb-4">
+        Something went wrong while loading the post feed.
+      </p>
+      <Button onClick={onRetry} variant="outline">
+        <RefreshCw className="h-4 w-4 mr-2" />
+        Try Again
+      </Button>
+    </div>
+  );
+}

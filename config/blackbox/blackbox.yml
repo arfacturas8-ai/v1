@@ -1,0 +1,393 @@
+# ==============================================
+# BLACKBOX EXPORTER CONFIGURATION
+# ==============================================
+# Uptime and external service monitoring
+# ==============================================
+
+modules:
+  # ==============================================
+  # HTTP MONITORING MODULES
+  # ==============================================
+  
+  # Basic HTTP 2xx check
+  http_2xx:
+    prober: http
+    timeout: 5s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 201, 202, 204]
+      follow_redirects: true
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: false
+      fail_if_ssl: false
+      fail_if_not_ssl: false
+      fail_if_body_matches_regexp: []
+      fail_if_body_not_matches_regexp: []
+      fail_if_header_matches: []
+      fail_if_header_not_matches: []
+      tls_config:
+        insecure_skip_verify: false
+        server_name: ""
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+        Accept: "*/*"
+        Cache-Control: "no-cache"
+      compression: ""
+      proxy_url: ""
+
+  # HTTP with POST data (for API endpoints)
+  http_post_2xx:
+    prober: http
+    timeout: 10s
+    http:
+      method: POST
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 201, 202]
+      follow_redirects: false
+      preferred_ip_protocol: "ip4"
+      headers:
+        Content-Type: "application/json"
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+      body: '{"health": "check"}'
+
+  # HTTPS with SSL certificate validation
+  http_2xx_ssl:
+    prober: http
+    timeout: 5s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 201, 202, 204]
+      follow_redirects: true
+      fail_if_not_ssl: true
+      preferred_ip_protocol: "ip4"
+      tls_config:
+        insecure_skip_verify: false
+        min_version: TLS12
+        max_version: TLS13
+        cert_file: ""
+        key_file: ""
+        ca_file: ""
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+
+  # API health check with JSON response validation
+  http_api_health:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      follow_redirects: false
+      preferred_ip_protocol: "ip4"
+      fail_if_body_not_matches_regexp:
+        - '"status":\s*"(ok|healthy|up)"'
+        - '"database":\s*"(connected|healthy|up)"'
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+        Accept: "application/json"
+        Cache-Control: "no-cache"
+
+  # WebSocket connection check
+  http_websocket:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1"]
+      valid_status_codes: [101]  # WebSocket upgrade
+      headers:
+        Upgrade: "websocket"
+        Connection: "Upgrade"
+        Sec-WebSocket-Key: "dGhlIHNhbXBsZSBub25jZQ=="
+        Sec-WebSocket-Version: "13"
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+
+  # Authentication required endpoints
+  http_2xx_auth:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 401]  # Allow 401 to verify auth is working
+      follow_redirects: false
+      preferred_ip_protocol: "ip4"
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+        Authorization: "Bearer YOUR_MONITORING_TOKEN"
+
+  # ==============================================
+  # TCP MONITORING MODULES
+  # ==============================================
+  
+  # Basic TCP connect
+  tcp_connect:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: false
+      query_response: []
+      tls: false
+      tls_config:
+        insecure_skip_verify: false
+
+  # TCP with TLS (for SSL certificate monitoring)
+  tcp_connect_tls:
+    prober: tcp
+    timeout: 10s
+    tcp:
+      preferred_ip_protocol: "ip4"
+      tls: true
+      tls_config:
+        insecure_skip_verify: false
+        min_version: TLS12
+        max_version: TLS13
+        server_name: ""
+
+  # Database connection check (PostgreSQL)
+  tcp_postgres:
+    prober: tcp
+    timeout: 10s
+    tcp:
+      preferred_ip_protocol: "ip4"
+      query_response:
+        - expect: "^\\x00"  # PostgreSQL startup message
+          send: ""
+
+  # Redis connection check
+  tcp_redis:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      preferred_ip_protocol: "ip4"
+      query_response:
+        - send: "PING\r\n"
+        - expect: "PONG"
+
+  # SSH connection check
+  tcp_ssh:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      preferred_ip_protocol: "ip4"
+      query_response:
+        - expect: "^SSH-[12]\\.[\\d\\.]+"
+
+  # ==============================================
+  # DNS MONITORING MODULES
+  # ==============================================
+  
+  # DNS A record lookup
+  dns_a:
+    prober: dns
+    timeout: 5s
+    dns:
+      preferred_ip_protocol: "ip4"
+      ip_protocol_fallback: false
+      query_name: "cryb.ai"
+      query_type: "A"
+      valid_rcodes: 
+        - NOERROR
+      validate_answer_rrs:
+        fail_if_matches_regexp: []
+        fail_if_not_matches_regexp: []
+      validate_authority_rrs:
+        fail_if_matches_regexp: []
+        fail_if_not_matches_regexp: []
+      validate_additional_rrs:
+        fail_if_matches_regexp: []
+        fail_if_not_matches_regexp: []
+
+  # DNS AAAA record (IPv6) lookup
+  dns_aaaa:
+    prober: dns
+    timeout: 5s
+    dns:
+      preferred_ip_protocol: "ip6"
+      query_name: "cryb.ai"
+      query_type: "AAAA"
+      valid_rcodes:
+        - NOERROR
+
+  # DNS MX record lookup
+  dns_mx:
+    prober: dns
+    timeout: 5s
+    dns:
+      preferred_ip_protocol: "ip4"
+      query_name: "cryb.ai"
+      query_type: "MX"
+      valid_rcodes:
+        - NOERROR
+
+  # DNS SOA record lookup
+  dns_soa:
+    prober: dns
+    timeout: 5s
+    dns:
+      preferred_ip_protocol: "ip4"
+      query_name: "cryb.ai"
+      query_type: "SOA"
+      valid_rcodes:
+        - NOERROR
+
+  # ==============================================
+  # ICMP MONITORING MODULES
+  # ==============================================
+  
+  # ICMP ping (IPv4)
+  icmp_ipv4:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip4"
+      dont_fragment: false
+      payload_size: 64
+
+  # ICMP ping (IPv6)
+  icmp_ipv6:
+    prober: icmp
+    timeout: 5s
+    icmp:
+      preferred_ip_protocol: "ip6"
+      payload_size: 64
+
+  # ==============================================
+  # GRPC MONITORING MODULES
+  # ==============================================
+  
+  # gRPC health check
+  grpc_health:
+    prober: grpc
+    timeout: 10s
+    grpc:
+      preferred_ip_protocol: "ip4"
+      service: ""
+      tls: false
+      tls_config:
+        insecure_skip_verify: false
+
+  # gRPC with TLS
+  grpc_health_tls:
+    prober: grpc
+    timeout: 10s
+    grpc:
+      preferred_ip_protocol: "ip4"
+      service: ""
+      tls: true
+      tls_config:
+        insecure_skip_verify: false
+        server_name: ""
+
+  # ==============================================
+  # CUSTOM CRYB PLATFORM MODULES
+  # ==============================================
+  
+  # Socket.io connection health
+  cryb_socketio_health:
+    prober: http
+    timeout: 15s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1"]
+      valid_status_codes: [200]
+      follow_redirects: true
+      preferred_ip_protocol: "ip4"
+      fail_if_body_not_matches_regexp:
+        - '"engine":\s*"socket\\.io"'
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+        Accept: "application/json"
+
+  # LiveKit media server health
+  cryb_livekit_health:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      follow_redirects: false
+      preferred_ip_protocol: "ip4"
+      fail_if_body_not_matches_regexp:
+        - '"version":\s*"[\\d\\.]+"'
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+        Accept: "application/json"
+
+  # Elasticsearch cluster health
+  cryb_elasticsearch_health:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      follow_redirects: false
+      preferred_ip_protocol: "ip4"
+      fail_if_body_not_matches_regexp:
+        - '"status":\s*"(green|yellow)"'
+        - '"cluster_name":\s*"cryb"'
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+        Accept: "application/json"
+
+  # MinIO storage health
+  cryb_minio_health:
+    prober: http
+    timeout: 10s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200, 403]  # 403 is normal for unauthenticated requests
+      follow_redirects: false
+      preferred_ip_protocol: "ip4"
+      headers:
+        User-Agent: "Blackbox-Exporter/1.0 (Cryb Platform Monitor)"
+
+  # Redis health check with authentication
+  cryb_redis_health:
+    prober: tcp
+    timeout: 5s
+    tcp:
+      preferred_ip_protocol: "ip4"
+      query_response:
+        - send: "AUTH cryb_redis_password\r\n"
+        - expect: "OK"
+        - send: "PING\r\n" 
+        - expect: "PONG"
+        - send: "INFO server\r\n"
+        - expect: "redis_version"
+
+  # PostgreSQL health with basic query
+  cryb_postgres_health:
+    prober: tcp
+    timeout: 10s
+    tcp:
+      preferred_ip_protocol: "ip4"
+      query_response: []  # Just test connection, actual queries handled by postgres_exporter
+
+  # End-to-end user journey simulation
+  cryb_e2e_user_flow:
+    prober: http
+    timeout: 30s
+    http:
+      method: GET
+      valid_http_versions: ["HTTP/1.1", "HTTP/2.0"]
+      valid_status_codes: [200]
+      follow_redirects: true
+      preferred_ip_protocol: "ip4"
+      fail_if_body_not_matches_regexp:
+        - "Cryb"  # Ensure the main page loads correctly
+      headers:
+        User-Agent: "Mozilla/5.0 (compatible; Blackbox-Exporter/1.0; Cryb Platform Monitor)"
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+        Accept-Language: "en-US,en;q=0.5"
+        Accept-Encoding: "gzip, deflate"
+        DNT: "1"
+        Connection: "keep-alive"
+        Upgrade-Insecure-Requests: "1"

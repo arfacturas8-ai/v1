@@ -1,0 +1,172 @@
+# Dockerfile for BullMQ Dashboard/Queue Monitor
+FROM node:20-alpine
+
+# Install dependencies
+RUN apk add --no-cache curl
+
+# Create app user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S dashboard -u 1001 -G nodejs
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files and install dashboard dependencies
+COPY package.json ./
+RUN npm install @bull-board/express @bull-board/api @bull-board/ui ioredis express basic-auth
+
+# Create dashboard application
+RUN cat > dashboard.js << 'EOF'
+const express = require('express');
+const { createBullBoard } = require('@bull-board/api');
+const { BullAdapter } = require('@bull-board/api/bullAdapter');
+const { ExpressAdapter } = require('@bull-board/express');
+const { Queue } = require('bullmq');
+const Redis = require('ioredis');
+const basicAuth = require('basic-auth');
+
+// Create Redis connection
+const redis = new Redis({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: parseInt(process.env.REDIS_PORT) || 6379,
+  password: process.env.REDIS_PASSWORD || '',
+  maxRetriesPerRequest: 3,
+  retryDelayOnFailover: 100,
+  enableReadyCheck: false,
+  maxLoadingTimeout: 1000,
+});
+
+// Basic Authentication Middleware
+const auth = (req, res, next) => {
+  const credentials = basicAuth(req);
+  const validUser = process.env.BASIC_AUTH_USER || 'admin';
+  const validPass = process.env.BASIC_AUTH_PASS || 'admin123';
+  
+  if (!credentials || credentials.name !== validUser || credentials.pass !== validPass) {
+    res.set('WWW-Authenticate', 'Basic realm="Queue Dashboard"');
+    return res.status(401).send('Authentication required');
+  }
+  
+  next();
+};
+
+// Initialize queues
+const queues = [
+  'messages',
+  'notifications', 
+  'media',
+  'analytics',
+  'moderation',
+  'blockchain',
+  'email',
+  'push',
+  'sms',
+  'in-app',
+  'webhook'
+].map(name => new Queue(name, { connection: redis }));
+
+// Create Bull Board
+const serverAdapter = new ExpressAdapter();
+serverAdapter.setBasePath('/queues');
+
+const bullBoard = createBullBoard({
+  queues: queues.map(queue => new BullAdapter(queue)),
+  serverAdapter
+});
+
+// Create Express app
+const app = express();
+
+// Apply basic authentication to all routes
+app.use(auth);
+
+// Add Bull Board routes
+app.use('/queues', serverAdapter.getRouter());
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'ok', 
+    timestamp: new Date().toISOString(),
+    queues: queues.length 
+  });
+});
+
+// Redirect root to queues dashboard
+app.get('/', (req, res) => {
+  res.redirect('/queues');
+});
+
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Queue Dashboard running on port ${PORT}`);
+  console.log(`Dashboard available at http://localhost:${PORT}/queues`);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM received, shutting down gracefully');
+  redis.disconnect();
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT received, shutting down gracefully');
+  redis.disconnect();
+  process.exit(0);
+});
+EOF
+
+# Health check script
+RUN cat > healthcheck.js << 'EOF'
+const http = require('http');
+
+const options = {
+  hostname: 'localhost',
+  port: process.env.PORT || 3000,
+  path: '/health',
+  timeout: 2000,
+  headers: {
+    'Authorization': 'Basic ' + Buffer.from(
+      (process.env.BASIC_AUTH_USER || 'admin') + ':' + 
+      (process.env.BASIC_AUTH_PASS || 'admin123')
+    ).toString('base64')
+  }
+};
+
+const req = http.request(options, (res) => {
+  if (res.statusCode === 200) {
+    process.exit(0);
+  } else {
+    process.exit(1);
+  }
+});
+
+req.on('error', () => {
+  process.exit(1);
+});
+
+req.on('timeout', () => {
+  req.destroy();
+  process.exit(1);
+});
+
+req.end();
+EOF
+
+# Change ownership to app user
+RUN chown -R dashboard:nodejs /app
+
+# Switch to non-root user
+USER dashboard
+
+# Expose port
+EXPOSE 3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+    CMD node healthcheck.js
+
+# Start the dashboard
+CMD ["node", "dashboard.js"]

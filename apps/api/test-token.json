@@ -1,0 +1,19 @@
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0LXVzZXItc29ja2V0LWF1dGgtMTIzIiwic2Vzc2lvbklkIjoidGVzdC1zZXNzaW9uLXNvY2tldC00NTYiLCJ1c2VybmFtZSI6InNvY2tldHVzZXIiLCJlbWFpbCI6InNvY2tldHRlc3RAY3J5Yi5haSIsImlzVmVyaWZpZWQiOnRydWUsImlhdCI6MTc1NzUzMjc5OSwiZXhwIjoxNzU4MTM3NTk5fQ.dH0D4AvdJl9rQ5VUzV712ORafJT8Xa7t-sT-MTKDlic",
+  "payload": {
+    "userId": "test-user-socket-auth-123",
+    "sessionId": "test-session-socket-456",
+    "username": "socketuser",
+    "email": "sockettest@cryb.ai",
+    "isVerified": true,
+    "iat": 1757532799,
+    "exp": 1758137599
+  },
+  "usage": "Copy the token above and paste it into the Socket.io test client",
+  "instructions": [
+    "1. Open socket-test.html in your browser",
+    "2. Paste this token into the JWT input field",
+    "3. Click \"Connect with Token\"",
+    "4. Test various real-time events"
+  ]
+}

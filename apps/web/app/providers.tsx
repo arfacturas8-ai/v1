@@ -1,48 +1,24 @@
 "use client";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ThemeProvider } from "next-themes";
-import { WagmiProvider } from "wagmi";
-import { createConfig, http } from "wagmi";
-import { mainnet, polygon, arbitrum, base } from "wagmi/chains";
-import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { walletConnect, injected, coinbaseWallet } from "wagmi/connectors";
 import { useState } from "react";
-
-const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || "demo";
-
-const config = createConfig({
-  chains: [mainnet, polygon, arbitrum, base],
-  connectors: [
-    injected(),
-    walletConnect({ projectId }),
-    coinbaseWallet({ appName: "CRYB Platform" }),
-  ],
-  transports: {
-    [mainnet.id]: http(),
-    [polygon.id]: http(),
-    [arbitrum.id]: http(),
-    [base.id]: http(),
-  },
-});
-
-if (projectId !== "demo") {
-  createWeb3Modal({
-    wagmiConfig: config,
-    projectId,
-  });
-}
+import { AppErrorBoundary } from "@/components/error-boundaries/app-error-boundary";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 60 * 1000, // 1 minute
+        refetchOnWindowFocus: false,
+      },
+    },
+  }));
 
   return (
-    <WagmiProvider config={config}>
+    <AppErrorBoundary>
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          {children}
-        </ThemeProvider>
+        {children}
       </QueryClientProvider>
-    </WagmiProvider>
+    </AppErrorBoundary>
   );
 }

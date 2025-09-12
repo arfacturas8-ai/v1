@@ -1,0 +1,9 @@
+# CRYB Platform Database Backup Jobs
+# Full backup daily at 2 AM
+0 2 * * * /home/ubuntu/cryb-platform/backups/postgres/scripts/full-backup.sh >> /var/log/cryb-backup.log 2>&1
+
+# Schema backup weekly on Sunday at 1 AM
+0 1 * * 0 /home/ubuntu/cryb-platform/backups/postgres/scripts/schema-backup.sh >> /var/log/cryb-backup.log 2>&1
+
+# Data backup every 6 hours
+0 */6 * * * /home/ubuntu/cryb-platform/backups/postgres/scripts/data-backup.sh >> /var/log/cryb-backup.log 2>&1

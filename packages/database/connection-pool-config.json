@@ -1,0 +1,81 @@
+{
+  "datasource": {
+    "provider": "postgresql",
+    "url": "postgresql://dbmasteruser:OwCVEGP3w4%28%24gij%3DVmBD6R54Nj3%5E%238rB@ls-5c069fe376b304c5cf07654fbb327aa9ce9115ef.cona660s8zf0.us-east-1.rds.amazonaws.com:5432/cryb-ai",
+    "connection_limit": 20,
+    "pool_timeout": 10,
+    "connect_timeout": 60
+  },
+  "generator": {
+    "provider": "prisma-client-js",
+    "output": "../node_modules/.prisma/client",
+    "binaryTargets": [
+      "native",
+      "linux-openssl-1.1.x"
+    ],
+    "previewFeatures": [
+      "metrics",
+      "tracing"
+    ]
+  },
+  "client": {
+    "log": [
+      {
+        "level": "warn",
+        "emit": "event"
+      },
+      {
+        "level": "info",
+        "emit": "event"
+      },
+      {
+        "level": "error",
+        "emit": "event"
+      }
+    ],
+    "errorFormat": "pretty",
+    "transactionOptions": {
+      "maxWait": 5000,
+      "timeout": 10000,
+      "isolationLevel": "ReadCommitted"
+    }
+  },
+  "optimizations": {
+    "pool": {
+      "min": 2,
+      "max": 20,
+      "acquireTimeoutMillis": 30000,
+      "idleTimeoutMillis": 300000,
+      "reapIntervalMillis": 1000,
+      "createRetryIntervalMillis": 100
+    },
+    "query": {
+      "timeout": 30000,
+      "batchTransactions": true,
+      "interactive_transactions": true
+    },
+    "memory": {
+      "cache_size": "256MB",
+      "max_memory_usage": "512MB"
+    }
+  },
+  "environments": {
+    "development": {
+      "pool_size": 5,
+      "log_level": "debug",
+      "slow_query_threshold": 1000
+    },
+    "production": {
+      "pool_size": 20,
+      "log_level": "warn",
+      "slow_query_threshold": 2000,
+      "connection_timeout": 30000,
+      "statement_timeout": 60000
+    },
+    "test": {
+      "pool_size": 2,
+      "log_level": "error",
+      "connection_timeout": 5000
+    }
+  }
+}

@@ -24,28 +24,33 @@ services:
       timeout: 5s
       retries: 5
 
-  # Redis Cluster for caching and Socket.io
+  # Redis for caching, Socket.io, and BullMQ
   redis:
     image: redis:7-alpine
     container_name: cryb-redis
     restart: unless-stopped
-    command: >
-      redis-server
-      --appendonly yes
-      --requirepass cryb_redis_password
-      --maxmemory 512mb
-      --maxmemory-policy allkeys-lru
+    command: redis-server /etc/redis/redis.conf
     ports:
       - "6380:6379"
     volumes:
       - redis_data:/data
+      - ./config/redis/redis.conf:/etc/redis/redis.conf
+      - ./config/redis/users.acl:/etc/redis/users.acl
     networks:
       - cryb-network
     healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      test: ["CMD", "redis-cli", "-a", "cryb_redis_password", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
 
   # Elasticsearch for search functionality
   elasticsearch:
@@ -114,21 +119,47 @@ services:
       timeout: 20s
       retries: 3
 
-  # RabbitMQ for message queuing (alternative to BullMQ/Redis)
+  # RabbitMQ for message queuing with management interface
   rabbitmq:
-    image: rabbitmq:3-management-alpine
+    image: rabbitmq:3.13-management-alpine
     container_name: cryb-rabbitmq
     restart: unless-stopped
+    hostname: cryb-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: cryb
       RABBITMQ_DEFAULT_PASS: cryb_password
+      RABBITMQ_DEFAULT_VHOST: cryb-prod
+      RABBITMQ_CONFIG_FILE: /etc/rabbitmq/rabbitmq
+      RABBITMQ_MNESIA_BASE: /var/lib/rabbitmq/mnesia
+      RABBITMQ_LOG_BASE: /var/log/rabbitmq
+      RABBITMQ_NODENAME: cryb-rabbitmq@rabbitmq
+      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 0.6
+      RABBITMQ_DISK_FREE_LIMIT: 2GB
     ports:
       - "5672:5672"
       - "15672:15672"
+      - "25672:25672"  # Clustering port
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_logs:/var/log/rabbitmq
+      - ./config/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./config/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
     networks:
       - cryb-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
     profiles:
       - messaging
 
@@ -229,6 +260,28 @@ services:
     profiles:
       - tools
 
+  # LiveKit server for WebRTC voice/video
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: cryb-livekit
+    restart: unless-stopped
+    command: --config /etc/livekit.yaml
+    ports:
+      - "7880:7880"     # HTTP API
+      - "7881:7881"     # RTC TCP fallback
+      - "3478:3478/udp" # TURN UDP
+      - "5349:5349"     # TURN TLS
+      - "50000-60000:50000-60000/udp" # RTC port range
+      - "61000-62000:61000-62000/udp" # TURN relay range
+    volumes:
+      - ./config/livekit/livekit.yaml:/etc/livekit.yaml
+    depends_on:
+      - redis
+    networks:
+      - cryb-network
+    environment:
+      - LIVEKIT_CONFIG=/etc/livekit.yaml
+
   # Nginx reverse proxy (for development)
   nginx:
     image: nginx:alpine
@@ -245,10 +298,81 @@ services:
       - postgres
       - redis
       - elasticsearch
+      - livekit
     networks:
       - cryb-network
     profiles:
       - proxy
+
+  # Queue Workers Service
+  workers:
+    build:
+      context: ./services/workers
+      dockerfile: Dockerfile
+    container_name: cryb-workers
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_redis_password
+      RABBITMQ_URL: amqp://cryb:cryb_password@rabbitmq:5672/cryb-prod
+      SENDGRID_API_KEY: ${SENDGRID_API_KEY}
+      FROM_EMAIL: noreply@cryb.ai
+      VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      S3_BUCKET: ${S3_BUCKET}
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.8'
+        reservations:
+          memory: 512M
+          cpus: '0.4'
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # Queue Monitoring Dashboard
+  bull-board:
+    build:
+      context: ./services/workers
+      dockerfile: Dockerfile.dashboard
+    container_name: cryb-queue-dashboard
+    restart: unless-stopped
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_redis_password
+      BASIC_AUTH_USER: admin
+      BASIC_AUTH_PASS: ${QUEUE_DASHBOARD_PASSWORD:-admin123}
+    ports:
+      - "3050:3000"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    profiles:
+      - monitoring
 
 networks:
   cryb-network:
@@ -267,6 +391,8 @@ volumes:
   minio_data:
     driver: local
   rabbitmq_data:
+    driver: local
+  rabbitmq_logs:
     driver: local
   prometheus_data:
     driver: local

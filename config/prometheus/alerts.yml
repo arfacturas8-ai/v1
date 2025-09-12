@@ -1,0 +1,523 @@
+# ==============================================
+# CRYB PLATFORM - PROMETHEUS ALERTING RULES
+# ==============================================
+# Production-ready alerting rules
+# Covers: Application, Infrastructure, Security alerts
+# ==============================================
+
+groups:
+  # ==============================================
+  # APPLICATION ALERTS
+  # ==============================================
+  - name: cryb.application
+    rules:
+      # High error rate on API
+      - alert: HighAPIErrorRate
+        expr: |
+          (
+            sum(rate(http_requests_total{job="cryb-api",code=~"5.."}[5m])) by (instance) /
+            sum(rate(http_requests_total{job="cryb-api"}[5m])) by (instance)
+          ) > 0.05
+        for: 2m
+        labels:
+          severity: critical
+          service: cryb-api
+          alert_type: application
+        annotations:
+          summary: "High API error rate detected"
+          description: "Instance {{ $labels.instance }} has error rate above 5% for 2 minutes (current: {{ $value | humanizePercentage }})"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-api-error-rate"
+          dashboard: "https://monitoring.cryb.ai/d/api-overview"
+      
+      # API service down
+      - alert: APIServiceDown
+        expr: up{job="cryb-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: cryb-api
+          alert_type: availability
+        annotations:
+          summary: "API service is down"
+          description: "API instance {{ $labels.instance }} has been down for more than 1 minute"
+          runbook_url: "https://wiki.cryb.ai/runbooks/service-down"
+      
+      # High database connections
+      - alert: HighDatabaseConnections
+        expr: |
+          (
+            pg_stat_database_numbackends / pg_settings_max_connections * 100
+          ) > 80
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          alert_type: connections
+        annotations:
+          summary: "High database connection usage"
+          description: "PostgreSQL has {{ $value | humanizePercentage }} connection usage"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-db-connections"
+
+  # ==============================================
+  # INFRASTRUCTURE ALERTS
+  # ==============================================
+  - name: cryb.infrastructure
+    rules:
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: |
+          (
+            100 - (avg(rate(node_cpu_seconds_total{mode="idle"}[5m])) by (instance) * 100)
+          ) > 80
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: resource
+        annotations:
+          summary: "High CPU usage detected"
+          description: "Instance {{ $labels.instance }} has CPU usage above 80% (current: {{ $value | humanizePercentage }})"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-cpu"
+      
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100
+          ) > 85
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: resource
+        annotations:
+          summary: "High memory usage detected"
+          description: "Instance {{ $labels.instance }} has memory usage above 85% (current: {{ $value | humanizePercentage }})"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-memory"
+
+  # ==============================================
+  # EXTERNAL SERVICES ALERTS
+  # ==============================================
+  - name: cryb.external
+    rules:
+      # Website down
+      - alert: WebsiteDown
+        expr: probe_success{job="blackbox-http"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          alert_type: external
+        annotations:
+          summary: "Website is down"
+          description: "{{ $labels.instance }} is not responding to HTTP checks"
+          runbook_url: "https://wiki.cryb.ai/runbooks/website-down"
+      
+      # SSL certificate expiring
+      - alert: SSLCertificateExpiringSoon
+        expr: |
+          (probe_ssl_earliest_cert_expiry - time()) / 86400 < 30
+        for: 0m
+        labels:
+          severity: warning
+          alert_type: ssl
+        annotations:
+          summary: "SSL certificate expiring soon"
+          description: "SSL certificate for {{ $labels.instance }} expires in {{ $value }} days"
+          runbook_url: "https://wiki.cryb.ai/runbooks/ssl-expiring"
+
+  # ==============================================
+  # SOCKET.IO REAL-TIME ALERTS
+  # ==============================================
+  - name: cryb.realtime
+    rules:
+      # High Socket.io connection failures
+      - alert: HighSocketIOConnectionFailures
+        expr: |
+          (
+            rate(socketio_connection_errors_total[5m]) / rate(socketio_connection_attempts_total[5m])
+          ) > 0.10
+        for: 3m
+        labels:
+          severity: warning
+          service: socketio
+          alert_type: realtime
+        annotations:
+          summary: "High Socket.io connection failure rate"
+          description: "Socket.io has {{ $value | humanizePercentage }} connection failure rate over 3 minutes"
+          runbook_url: "https://wiki.cryb.ai/runbooks/socketio-failures"
+      
+      # Socket.io message queue backlog
+      - alert: SocketIOMessageBacklog
+        expr: |
+          socketio_message_queue_size > 1000
+        for: 2m
+        labels:
+          severity: warning
+          service: socketio
+          alert_type: realtime
+        annotations:
+          summary: "Socket.io message queue backlog"
+          description: "Socket.io message queue has {{ $value }} pending messages"
+          runbook_url: "https://wiki.cryb.ai/runbooks/socketio-backlog"
+      
+      # High real-time message latency
+      - alert: HighRealtimeMessageLatency
+        expr: |
+          histogram_quantile(0.95, rate(socketio_message_duration_seconds_bucket[5m])) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          service: socketio
+          alert_type: performance
+        annotations:
+          summary: "High real-time message latency"
+          description: "95th percentile message latency is {{ $value }}s"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-latency"
+
+  # ==============================================
+  # DATABASE PERFORMANCE ALERTS
+  # ==============================================
+  - name: cryb.database
+    rules:
+      # Slow database queries
+      - alert: SlowDatabaseQueries
+        expr: |
+          histogram_quantile(0.95, rate(pg_stat_statements_mean_time_seconds_bucket[5m])) > 1.0
+        for: 5m
+        labels:
+          severity: warning
+          service: postgresql
+          alert_type: performance
+        annotations:
+          summary: "Slow database queries detected"
+          description: "95th percentile query time is {{ $value }}s"
+          runbook_url: "https://wiki.cryb.ai/runbooks/slow-queries"
+      
+      # Database deadlocks
+      - alert: DatabaseDeadlocks
+        expr: |
+          rate(pg_stat_database_deadlocks[5m]) > 0.01
+        for: 1m
+        labels:
+          severity: critical
+          service: postgresql
+          alert_type: integrity
+        annotations:
+          summary: "Database deadlocks detected"
+          description: "Database has {{ $value }} deadlocks per second"
+          runbook_url: "https://wiki.cryb.ai/runbooks/deadlocks"
+      
+      # High database lock waits
+      - alert: HighDatabaseLockWaits
+        expr: |
+          pg_locks_count{mode="AccessExclusiveLock"} > 10
+        for: 2m
+        labels:
+          severity: warning
+          service: postgresql
+          alert_type: performance
+        annotations:
+          summary: "High database lock waits"
+          description: "Database has {{ $value }} exclusive locks waiting"
+          runbook_url: "https://wiki.cryb.ai/runbooks/lock-waits"
+      
+      # Database replication lag (if using replicas)
+      - alert: DatabaseReplicationLag
+        expr: |
+          pg_stat_replication_lag_seconds > 60
+        for: 2m
+        labels:
+          severity: warning
+          service: postgresql
+          alert_type: replication
+        annotations:
+          summary: "Database replication lag high"
+          description: "Replication lag is {{ $value }}s behind primary"
+          runbook_url: "https://wiki.cryb.ai/runbooks/replication-lag"
+
+  # ==============================================
+  # REDIS CACHE ALERTS
+  # ==============================================
+  - name: cryb.redis
+    rules:
+      # High Redis memory usage
+      - alert: HighRedisMemoryUsage
+        expr: |
+          (
+            redis_memory_used_bytes / redis_memory_max_bytes * 100
+          ) > 85
+        for: 5m
+        labels:
+          severity: warning
+          service: redis
+          alert_type: resource
+        annotations:
+          summary: "High Redis memory usage"
+          description: "Redis memory usage is {{ $value | humanizePercentage }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/redis-memory"
+      
+      # Redis connection pool exhaustion
+      - alert: RedisConnectionPoolExhaustion
+        expr: |
+          redis_connected_clients / redis_config_maxclients * 100 > 80
+        for: 3m
+        labels:
+          severity: critical
+          service: redis
+          alert_type: connections
+        annotations:
+          summary: "Redis connection pool near exhaustion"
+          description: "Redis has {{ $value | humanizePercentage }} of max connections in use"
+          runbook_url: "https://wiki.cryb.ai/runbooks/redis-connections"
+      
+      # High Redis eviction rate
+      - alert: HighRedisEvictionRate
+        expr: |
+          rate(redis_evicted_keys_total[5m]) > 100
+        for: 5m
+        labels:
+          severity: warning
+          service: redis
+          alert_type: cache
+        annotations:
+          summary: "High Redis key eviction rate"
+          description: "Redis is evicting {{ $value }} keys per second"
+          runbook_url: "https://wiki.cryb.ai/runbooks/redis-evictions"
+
+  # ==============================================
+  # LIVEKIT VOICE/VIDEO ALERTS
+  # ==============================================
+  - name: cryb.livekit
+    rules:
+      # High LiveKit connection failures
+      - alert: HighLiveKitConnectionFailures
+        expr: |
+          (
+            rate(livekit_room_connection_failed_total[5m]) / rate(livekit_room_connection_total[5m])
+          ) > 0.05
+        for: 3m
+        labels:
+          severity: warning
+          service: livekit
+          alert_type: media
+        annotations:
+          summary: "High LiveKit connection failure rate"
+          description: "LiveKit has {{ $value | humanizePercentage }} connection failure rate"
+          runbook_url: "https://wiki.cryb.ai/runbooks/livekit-failures"
+      
+      # High video/audio packet loss
+      - alert: HighMediaPacketLoss
+        expr: |
+          (
+            rate(livekit_packet_loss_total[5m]) / rate(livekit_packets_total[5m])
+          ) > 0.02
+        for: 2m
+        labels:
+          severity: warning
+          service: livekit
+          alert_type: media_quality
+        annotations:
+          summary: "High media packet loss"
+          description: "Media packet loss is {{ $value | humanizePercentage }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/packet-loss"
+      
+      # LiveKit room capacity exceeded
+      - alert: LiveKitRoomCapacityExceeded
+        expr: |
+          livekit_room_participants > 50
+        for: 1m
+        labels:
+          severity: warning
+          service: livekit
+          alert_type: capacity
+        annotations:
+          summary: "LiveKit room approaching capacity"
+          description: "Room {{ $labels.room }} has {{ $value }} participants"
+          runbook_url: "https://wiki.cryb.ai/runbooks/room-capacity"
+
+  # ==============================================
+  # ELASTICSEARCH SEARCH ALERTS
+  # ==============================================
+  - name: cryb.elasticsearch
+    rules:
+      # Elasticsearch cluster health
+      - alert: ElasticsearchClusterNotHealthy
+        expr: |
+          elasticsearch_cluster_health_status{color!="green"} == 1
+        for: 2m
+        labels:
+          severity: critical
+          service: elasticsearch
+          alert_type: cluster
+        annotations:
+          summary: "Elasticsearch cluster not healthy"
+          description: "Elasticsearch cluster status is {{ $labels.color }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/elasticsearch-health"
+      
+      # High search latency
+      - alert: HighElasticsearchSearchLatency
+        expr: |
+          elasticsearch_indices_search_query_time_seconds / elasticsearch_indices_search_query_total > 0.5
+        for: 5m
+        labels:
+          severity: warning
+          service: elasticsearch
+          alert_type: performance
+        annotations:
+          summary: "High Elasticsearch search latency"
+          description: "Average search time is {{ $value }}s"
+          runbook_url: "https://wiki.cryb.ai/runbooks/elasticsearch-latency"
+      
+      # Low disk space for Elasticsearch
+      - alert: ElasticsearchLowDiskSpace
+        expr: |
+          (
+            elasticsearch_filesystem_data_available_bytes / elasticsearch_filesystem_data_size_bytes * 100
+          ) < 15
+        for: 5m
+        labels:
+          severity: critical
+          service: elasticsearch
+          alert_type: storage
+        annotations:
+          summary: "Elasticsearch low disk space"
+          description: "Elasticsearch has {{ $value | humanizePercentage }} disk space remaining"
+          runbook_url: "https://wiki.cryb.ai/runbooks/elasticsearch-disk"
+
+  # ==============================================
+  # BUSINESS KPI ALERTS
+  # ==============================================
+  - name: cryb.business
+    rules:
+      # Low user registration rate
+      - alert: LowUserRegistrationRate
+        expr: |
+          rate(cryb_user_registrations_total[1h]) < 0.1
+        for: 30m
+        labels:
+          severity: warning
+          alert_type: business
+        annotations:
+          summary: "Low user registration rate"
+          description: "User registration rate is {{ $value }} per second over last hour"
+          dashboard: "https://monitoring.cryb.ai/d/business-kpis"
+      
+      # High message failure rate
+      - alert: HighMessageFailureRate
+        expr: |
+          (
+            rate(cryb_messages_failed_total[10m]) / rate(cryb_messages_total[10m])
+          ) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: business
+        annotations:
+          summary: "High message failure rate"
+          description: "Message failure rate is {{ $value | humanizePercentage }}"
+          dashboard: "https://monitoring.cryb.ai/d/messaging-overview"
+      
+      # Voice call quality degradation
+      - alert: VoiceCallQualityDegradation
+        expr: |
+          (
+            rate(cryb_voice_calls_poor_quality_total[15m]) / rate(cryb_voice_calls_total[15m])
+          ) > 0.05
+        for: 10m
+        labels:
+          severity: warning
+          alert_type: business
+        annotations:
+          summary: "Voice call quality degradation"
+          description: "{{ $value | humanizePercentage }} of voice calls have poor quality"
+          dashboard: "https://monitoring.cryb.ai/d/voice-quality"
+
+  # ==============================================
+  # SECURITY ALERTS
+  # ==============================================
+  - name: cryb.security
+    rules:
+      # High authentication failure rate
+      - alert: HighAuthenticationFailureRate
+        expr: |
+          rate(cryb_auth_failures_total[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          alert_type: security
+        annotations:
+          summary: "High authentication failure rate"
+          description: "Authentication failures: {{ $value }} per second"
+          runbook_url: "https://wiki.cryb.ai/runbooks/auth-failures"
+      
+      # Suspicious IP activity
+      - alert: SuspiciousIPActivity
+        expr: |
+          rate(cryb_requests_by_ip_total[5m]) > 1000
+        for: 1m
+        labels:
+          severity: critical
+          alert_type: security
+        annotations:
+          summary: "Suspicious IP activity detected"
+          description: "IP {{ $labels.ip }} is making {{ $value }} requests per second"
+          runbook_url: "https://wiki.cryb.ai/runbooks/suspicious-ip"
+      
+      # Multiple failed login attempts
+      - alert: BruteForceAttackDetected
+        expr: |
+          increase(cryb_auth_failures_total[10m]) > 50
+        for: 0m
+        labels:
+          severity: critical
+          alert_type: security
+        annotations:
+          summary: "Potential brute force attack detected"
+          description: "{{ $value }} failed login attempts in last 10 minutes from {{ $labels.ip }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/brute-force"
+
+  # ==============================================
+  # CONTAINER AND DOCKER ALERTS
+  # ==============================================
+  - name: cryb.containers
+    rules:
+      # Container restart loop
+      - alert: ContainerRestartLoop
+        expr: |
+          increase(container_last_seen[5m]) > 3
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: container
+        annotations:
+          summary: "Container restart loop detected"
+          description: "Container {{ $labels.name }} has restarted {{ $value }} times in 5 minutes"
+          runbook_url: "https://wiki.cryb.ai/runbooks/container-restart"
+      
+      # High container CPU usage
+      - alert: HighContainerCPUUsage
+        expr: |
+          (
+            rate(container_cpu_usage_seconds_total[5m]) * 100
+          ) > 80
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: container
+        annotations:
+          summary: "High container CPU usage"
+          description: "Container {{ $labels.name }} CPU usage: {{ $value | humanizePercentage }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/container-cpu"
+      
+      # Container out of memory
+      - alert: ContainerOutOfMemory
+        expr: |
+          (
+            container_memory_usage_bytes / container_spec_memory_limit_bytes * 100
+          ) > 90
+        for: 2m
+        labels:
+          severity: critical
+          alert_type: container
+        annotations:
+          summary: "Container running out of memory"
+          description: "Container {{ $labels.name }} memory usage: {{ $value | humanizePercentage }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/container-memory"

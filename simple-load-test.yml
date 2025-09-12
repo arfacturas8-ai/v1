@@ -1,0 +1,14 @@
+config:
+  target: 'http://localhost:3001'
+  phases:
+    - duration: 30
+      arrivalRate: 2
+      name: "Simple health check test"
+
+scenarios:
+  - name: "Health Check"
+    flow:
+      - get:
+          url: "/health"
+          expect:
+            - statusCode: 200

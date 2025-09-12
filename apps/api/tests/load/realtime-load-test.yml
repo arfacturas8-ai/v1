@@ -1,0 +1,210 @@
+config:
+  target: 'ws://localhost:3001'
+  phases:
+    # Gradual connection ramp-up
+    - duration: 60
+      arrivalRate: 10
+      name: "Connection ramp-up"
+    
+    # Heavy messaging load
+    - duration: 180
+      arrivalRate: 25
+      name: "Heavy messaging"
+    
+    # Peak concurrent users
+    - duration: 120
+      arrivalRate: 50
+      name: "Peak concurrency"
+    
+    # Stress test - maximum load
+    - duration: 60
+      arrivalRate: 100
+      name: "Stress test"
+
+  processor: "./websocket-helpers.js"
+  
+  ws:
+    # Connection timeout
+    timeout: 30000
+
+scenarios:
+  # Test massive concurrent messaging
+  - name: "High Volume Messaging"
+    weight: 50
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+          
+      # Authenticate WebSocket connection
+      - emit:
+          channel: "authenticate"
+          data:
+            token: "{{ generateAuthToken() }}"
+          acknowledge:
+            match:
+              success: true
+      
+      # Join multiple channels
+      - loop:
+          - emit:
+              channel: "channel:join"
+              data:
+                channelId: "{{ generateChannelId() }}"
+              acknowledge:
+                match:
+                  success: true
+        count: 3
+      
+      # Send messages rapidly
+      - loop:
+          - think: 100  # 100ms between messages
+          - emit:
+              channel: "message:send"
+              data:
+                channelId: "{{ channelId }}"
+                content: "Load test message {{ $randomString() }}"
+              acknowledge:
+                match:
+                  success: true
+        count: 20
+      
+      # Test typing indicators under load
+      - loop:
+          - emit:
+              channel: "typing:start"
+              data:
+                channelId: "{{ channelId }}"
+          - think: 2000
+          - emit:
+              channel: "typing:stop"
+              data:
+                channelId: "{{ channelId }}"
+        count: 5
+
+  # Test presence updates under load
+  - name: "Presence Update Storm"
+    weight: 25
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+          
+      - emit:
+          channel: "authenticate"
+          data:
+            token: "{{ generateAuthToken() }}"
+          acknowledge:
+            match:
+              success: true
+      
+      # Rapidly change presence status
+      - loop:
+          - emit:
+              channel: "presence:update"
+              data:
+                status: "{{ randomStatus() }}"
+                activity:
+                  type: "playing"
+                  name: "Load Test Game {{ $randomInt(1, 100) }}"
+          - think: 500
+        count: 30
+
+  # Test connection resilience
+  - name: "Connection Stress Test"
+    weight: 15
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+          
+      - emit:
+          channel: "authenticate"
+          data:
+            token: "{{ generateAuthToken() }}"
+          acknowledge:
+            match:
+              success: true
+      
+      # Rapid connect/disconnect cycles
+      - loop:
+          - disconnect: {}
+          - think: 1000
+          - connect:
+              url: "/"
+          - emit:
+              channel: "authenticate"
+              data:
+                token: "{{ generateAuthToken() }}"
+              acknowledge:
+                match:
+                  success: true
+        count: 5
+
+  # Test error handling under load
+  - name: "Error Scenario Testing"
+    weight: 10
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+          
+      - emit:
+          channel: "authenticate"
+          data:
+            token: "{{ generateAuthToken() }}"
+      
+      # Send invalid messages to test error handling
+      - emit:
+          channel: "message:send"
+          data:
+            channelId: "nonexistent-channel"
+            content: "This should fail"
+          response:
+            channel: "error"
+            
+      - emit:
+          channel: "message:send"
+          data:
+            channelId: ""
+            content: ""
+          response:
+            channel: "error"
+            
+      # Try to join invalid channels
+      - emit:
+          channel: "channel:join"
+          data:
+            channelId: "invalid-channel-id"
+          response:
+            channel: "error"
+
+# Performance expectations for WebSocket load test
+expect:
+  # Connection should establish quickly
+  ws.connect_time: 1000
+  
+  # Messages should be acknowledged promptly
+  ws.response_time: 2000
+  
+  # Connection should remain stable
+  ws.connection_errors: 0.02  # Less than 2% connection errors
+
+# Memory and resource monitoring
+monitor:
+  # Monitor server resources during test
+  - memory_usage
+  - cpu_usage  
+  - connection_count
+  - message_throughput
+
+# Custom metrics for real-time testing
+metrics:
+  - name: "messages_per_second"
+    type: "rate"
+    
+  - name: "concurrent_connections"
+    type: "gauge"
+    
+  - name: "typing_indicators_active"
+    type: "gauge"

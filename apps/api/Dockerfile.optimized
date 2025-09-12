@@ -1,0 +1,191 @@
+# ==============================================
+# CRYB API - OPTIMIZED PRODUCTION DOCKERFILE
+# ==============================================
+# Multi-stage build with security and performance optimizations
+
+# Build arguments
+ARG NODE_VERSION=20.11.1
+ARG PNPM_VERSION=8.15.0
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
+# ==============================================
+# BASE STAGE - Common dependencies
+# ==============================================
+FROM node:${NODE_VERSION}-alpine AS base
+
+# Install security updates and system dependencies
+RUN apk update && apk upgrade && \
+    apk add --no-cache \
+    dumb-init \
+    libc6-compat \
+    python3 \
+    make \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    musl-dev \
+    giflib-dev \
+    pixman-dev \
+    pangomm-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    curl \
+    && rm -rf /var/cache/apk/* \
+    && addgroup --system --gid 1001 nodejs \
+    && adduser --system --uid 1001 apiserver
+
+# Install pnpm globally with caching
+RUN npm install -g pnpm@${PNPM_VERSION} --registry=https://registry.npmjs.org/ \
+    && npm cache clean --force
+
+WORKDIR /app
+
+# ==============================================
+# DEPENDENCIES STAGE - Install dependencies
+# ==============================================
+FROM base AS deps
+
+# Copy package files for dependency installation
+COPY package*.json pnpm-lock.yaml ./
+
+# Install dependencies with cache mounting and optimization
+RUN --mount=type=cache,target=/root/.pnpm-store,sharing=locked \
+    pnpm config set store-dir /root/.pnpm-store && \
+    pnpm install --frozen-lockfile --production=false && \
+    pnpm prune --production=false
+
+# ==============================================
+# BUILD STAGE - Build application
+# ==============================================
+FROM base AS builder
+
+# Copy dependencies from deps stage
+COPY --from=deps /app/node_modules ./node_modules
+
+# Copy source code (use .dockerignore to exclude unnecessary files)
+COPY . .
+
+# Set build environment
+ENV NODE_ENV=production
+ENV CI=1
+ENV SKIP_ENV_VALIDATION=1
+
+# Generate Prisma client
+RUN pnpm exec prisma generate
+
+# Build the application with optimizations
+RUN pnpm run build && \
+    pnpm run type-check
+
+# Install production dependencies only
+RUN --mount=type=cache,target=/root/.pnpm-store,sharing=locked \
+    pnpm install --frozen-lockfile --production && \
+    pnpm prune --production
+
+# Clean up development files
+RUN rm -rf \
+    src \
+    tests \
+    __tests__ \
+    *.test.ts \
+    *.spec.ts \
+    jest.config.js \
+    .eslintrc* \
+    .prettierrc* \
+    tsconfig.json \
+    README.md
+
+# ==============================================
+# PRODUCTION STAGE - Runtime environment
+# ==============================================
+FROM node:${NODE_VERSION}-alpine AS production
+
+# Install runtime dependencies only
+RUN apk update && apk upgrade && \
+    apk add --no-cache \
+    dumb-init \
+    cairo \
+    jpeg \
+    pango \
+    musl \
+    giflib \
+    pixman \
+    pangomm \
+    libjpeg-turbo \
+    freetype \
+    curl \
+    tini \
+    && rm -rf /var/cache/apk/*
+
+# Create non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 apiserver
+
+# Set working directory
+WORKDIR /app
+
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/logs /app/uploads /app/temp /app/cache && \
+    chown -R apiserver:nodejs /app
+
+# Copy built application from builder stage
+COPY --from=builder --chown=apiserver:nodejs /app/dist ./dist
+COPY --from=builder --chown=apiserver:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=apiserver:nodejs /app/package.json ./package.json
+COPY --from=builder --chown=apiserver:nodejs /app/prisma ./prisma
+
+# Copy health check script
+COPY --chown=apiserver:nodejs docker/healthcheck.js ./healthcheck.js
+
+# Set production environment variables
+ENV NODE_ENV=production
+ENV NODE_OPTIONS="--max-old-space-size=2048 --enable-source-maps"
+ENV PORT=3001
+ENV HOST=0.0.0.0
+ENV LOG_LEVEL=info
+ENV UV_THREADPOOL_SIZE=16
+
+# Security: Remove sensitive files and set proper permissions
+RUN rm -rf /usr/local/lib/node_modules/npm && \
+    find /app -name "*.map" -delete && \
+    chmod 755 /app && \
+    chmod -R 644 /app/dist && \
+    chmod +x /app/healthcheck.js
+
+# Expose application port
+EXPOSE 3001
+
+# Switch to non-root user for security
+USER apiserver
+
+# Add comprehensive health check
+HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=3 \
+    CMD node healthcheck.js || exit 1
+
+# Use tini as PID 1 to handle signals properly
+ENTRYPOINT ["tini", "--"]
+
+# Start the application with optimizations
+CMD ["node", "--enable-source-maps", "--max-old-space-size=2048", "dist/index.js"]
+
+# ==============================================
+# METADATA LABELS
+# ==============================================
+LABEL org.opencontainers.image.title="CRYB API Server"
+LABEL org.opencontainers.image.description="Production-optimized Discord-like API built with Fastify and TypeScript"
+LABEL org.opencontainers.image.version=${VERSION}
+LABEL org.opencontainers.image.created=${BUILD_DATE}
+LABEL org.opencontainers.image.source="https://github.com/cryb-ai/platform"
+LABEL org.opencontainers.image.revision=${VCS_REF}
+LABEL org.opencontainers.image.vendor="CRYB AI"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL org.opencontainers.image.documentation="https://docs.cryb.ai"
+LABEL maintainer="devops@cryb.ai"
+
+# Security labels
+LABEL security.non-root="true"
+LABEL security.userid="1001"
+LABEL security.capabilities="none"

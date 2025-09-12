@@ -1,0 +1,25 @@
+# Redis ACL Users Configuration for Queue System
+
+# Default user (disabled for security)
+user default off
+
+# Admin user with full access
+user cryb-admin on >cryb_admin_password ~* &* +@all
+
+# Worker user for BullMQ operations
+user cryb-worker on >cryb_worker_password ~bullmq:* ~queue:* ~streams:* ~jobs:* ~failed:* ~completed:* ~waiting:* ~active:* ~delayed:* ~repeat:* ~meta:* ~events:* ~progress:* ~logs:* ~stats:* +@all -@dangerous -flushall -flushdb -shutdown -debug -config
+
+# Application user for general queue operations
+user cryb-app on >cryb_app_password ~bullmq:* ~queue:* ~streams:* ~jobs:* ~session:* ~cache:* ~rate-limit:* +@read +@write +@stream +@list +@hash +@set +@sortedset +@string +@connection +@keyspace +@pubsub +@hyperloglog +@geo +@bitmap -@dangerous -flushall -flushdb -shutdown -debug -config
+
+# Monitoring user for metrics and health checks
+user cryb-monitor on >cryb_monitor_password ~* +@read +info +ping +client +memory +slowlog +latency +@connection -@write -@admin
+
+# Analytics user for read-only analytics data
+user cryb-analytics on >cryb_analytics_password ~analytics:* ~stats:* ~metrics:* +@read +@connection -@write -@admin
+
+# Redis CLI user for administrative tasks
+user cryb-cli on >cryb_cli_password ~* +@all
+
+# Backup user for replication and backup operations
+user cryb-backup on >cryb_backup_password ~* +@read +sync +psync +replconf +@connection -@write -@admin

@@ -1,0 +1,61 @@
+# ==============================================
+# CRYB API - DEVELOPMENT DOCKERFILE
+# ==============================================
+
+FROM node:20.11.1-alpine AS development
+
+# Install system dependencies
+RUN apk add --no-cache \
+    libc6-compat \
+    python3 \
+    make \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    musl-dev \
+    giflib-dev \
+    pixman-dev \
+    pangomm-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    curl
+
+# Set working directory
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm@8.15.0 nodemon@3.0.3
+
+# Copy package files first for better caching
+COPY package*.json pnpm-lock.yaml ./
+
+# Install ALL dependencies (dev + prod) for development
+RUN pnpm install --frozen-lockfile
+
+# Copy source code
+COPY . .
+
+# Generate Prisma client
+RUN pnpm exec prisma generate
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/uploads /app/temp
+
+# Copy health check script
+COPY docker/healthcheck.js ./healthcheck.js
+
+# Expose ports
+EXPOSE 3001 9229
+
+# Set environment variables
+ENV NODE_ENV=development
+ENV PORT=3001
+ENV HOST=0.0.0.0
+
+# Add health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD node healthcheck.js
+
+# Development command with nodemon for hot reloading
+CMD ["pnpm", "dev"]

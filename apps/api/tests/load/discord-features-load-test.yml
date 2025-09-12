@@ -1,0 +1,407 @@
+config:
+  target: 'http://localhost:3002'
+  phases:
+    # Discord-specific load phases simulating real usage patterns
+    
+    # Early morning - low activity
+    - duration: 180
+      arrivalRate: 5
+      rampTo: 15
+      name: "Early morning activity"
+    
+    # Peak gaming hours - high activity
+    - duration: 300
+      arrivalRate: 40
+      rampTo: 80
+      name: "Peak gaming hours"
+    
+    # Evening social hours - maximum activity
+    - duration: 240
+      arrivalRate: 100
+      rampTo: 150
+      name: "Evening social peak"
+    
+    # Late night gaming - sustained high load
+    - duration: 180
+      arrivalRate: 60
+      name: "Late night gaming"
+    
+    # Stress test - server raids and massive events
+    - duration: 120
+      arrivalRate: 200
+      name: "Server raid simulation"
+
+  processor: "./discord-load-helpers.js"
+  
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+      'User-Agent': 'Discord-Load-Test/1.0'
+
+  variables:
+    # Discord server types for testing
+    serverTypes: ["gaming", "community", "study", "tech", "art", "music"]
+    
+    # Channel types to create
+    channelTypes: 
+      - { name: "general", type: "text" }
+      - { name: "announcements", type: "text" }
+      - { name: "random", type: "text" }
+      - { name: "memes", type: "text" }
+      - { name: "voice-chat", type: "voice" }
+      - { name: "gaming-room", type: "voice" }
+
+scenarios:
+  # Server Creation and Management - 20% of load
+  - name: "Discord Server Management"
+    weight: 20
+    flow:
+      - function: "authenticateDiscordUser"
+      
+      # Create server with realistic settings
+      - post:
+          url: "/api/v1/servers"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "{{ serverType }} Server {{ $randomString() }}"
+            description: "Load test server for {{ serverType }} community"
+            type: "public"
+            category: "{{ serverType }}"
+            region: "us-east"
+            verificationLevel: "medium"
+            explicitContentFilter: "disabled"
+            defaultMessageNotifications: "mentions"
+            afkChannelId: null
+            afkTimeout: 300
+            systemChannelId: null
+            systemChannelFlags: 0
+          capture:
+            - json: "$.server.id"
+              as: "serverId"
+            - json: "$.server.inviteCode"
+              as: "inviteCode"
+          expect:
+            - statusCode: 201
+            - hasProperty: "server"
+            - responseTime: 3000
+
+      - think: 2
+
+      # Create multiple channels with different types
+      - loop:
+          over: "{{ channelTypes }}"
+          flow:
+            - post:
+                url: "/api/v1/servers/{{ serverId }}/channels"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  name: "{{ $loopElement.name }}"
+                  type: "{{ $loopElement.type }}"
+                  topic: "Load test channel for {{ $loopElement.name }}"
+                  nsfw: false
+                  rateLimitPerUser: 0
+                  position: "{{ $loopIndex }}"
+                  permissionOverwrites: []
+                capture:
+                  - json: "$.channel.id"
+                    as: "channelId_{{ $loopIndex }}"
+                expect:
+                  - statusCode: 201
+                  - hasProperty: "channel"
+                  - responseTime: 2000
+            
+            - think: 0.5
+
+      # Set server permissions and roles
+      - post:
+          url: "/api/v1/servers/{{ serverId }}/roles"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "Load Tester"
+            color: 0x99AAB5
+            hoist: true
+            position: 1
+            permissions: "0x0000000008000000"  # Send Messages permission
+            mentionable: true
+          expect:
+            - statusCode: 201
+
+      - think: 1
+
+      # Update server settings
+      - patch:
+          url: "/api/v1/servers/{{ serverId }}"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            description: "Updated description for load test server"
+            banner: null
+            splash: null
+            discoverySplash: null
+            features: []
+            preferredLocale: "en-US"
+            publicUpdatesChannelId: null
+            rulesChannelId: null
+          expect:
+            - statusCode: 200
+
+  # Channel Messaging - 40% of load
+  - name: "Channel Messaging"
+    weight: 40
+    flow:
+      - function: "authenticateDiscordUser"
+      - function: "joinRandomServer"
+      
+      # Send messages with various content types
+      - loop:
+          count: 10
+          flow:
+            - post:
+                url: "/api/v1/servers/{{ serverId }}/channels/{{ channelId }}/messages"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                beforeRequest: "generateMessageContent"
+                json:
+                  content: "{{ messageContent }}"
+                  nonce: "{{ messageNonce }}"
+                  tts: false
+                  embed: "{{ messageEmbed }}"
+                  allowedMentions:
+                    parse: []
+                    roles: []
+                    users: []
+                    repliedUser: true
+                  messageReference: null
+                  components: []
+                  stickerIds: []
+                  files: []
+                capture:
+                  - json: "$.message.id"
+                    as: "messageId"
+                expect:
+                  - statusCode: 201
+                  - hasProperty: "message"
+                  - responseTime: 1500
+
+            - think: 0.8
+
+            # React to messages randomly
+            - function: "maybeReactToMessage"
+
+            # Edit messages occasionally
+            - function: "maybeEditMessage"
+
+      # Bulk delete messages (moderator action)
+      - function: "maybeBulkDeleteMessages"
+
+  # Voice Channel Operations - 15% of load
+  - name: "Voice Channel Operations"
+    weight: 15
+    flow:
+      - function: "authenticateDiscordUser"
+      - function: "joinRandomServer"
+      - function: "findVoiceChannel"
+      
+      # Join voice channel
+      - post:
+          url: "/api/v1/voice/join"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            serverId: "{{ serverId }}"
+            channelId: "{{ voiceChannelId }}"
+            selfMute: false
+            selfDeaf: false
+          expect:
+            - statusCode: 200
+
+      - think: 5
+
+      # Update voice state
+      - patch:
+          url: "/api/v1/voice/state"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            serverId: "{{ serverId }}"
+            channelId: "{{ voiceChannelId }}"
+            selfMute: "{{ $randomBoolean }}"
+            selfDeaf: "{{ $randomBoolean }}"
+          expect:
+            - statusCode: 200
+
+      - think: 15
+
+      # Leave voice channel
+      - post:
+          url: "/api/v1/voice/leave"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            serverId: "{{ serverId }}"
+            channelId: "{{ voiceChannelId }}"
+          expect:
+            - statusCode: 200
+
+  # Server Member Management - 15% of load  
+  - name: "Server Member Management"
+    weight: 15
+    flow:
+      - function: "authenticateDiscordUser"
+      
+      # Join server via invite
+      - post:
+          url: "/api/v1/invites/{{ inviteCode }}"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - responseTime: 2000
+
+      - think: 2
+
+      # Get server members
+      - get:
+          url: "/api/v1/servers/{{ serverId }}/members"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            limit: 100
+            after: null
+          expect:
+            - statusCode: 200
+
+      # Update member settings
+      - patch:
+          url: "/api/v1/servers/{{ serverId }}/members/@me"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            nick: "LoadTester{{ $randomInt(1, 1000) }}"
+          expect:
+            - statusCode: 200
+
+      - think: 5
+
+      # Leave server
+      - delete:
+          url: "/api/v1/servers/{{ serverId }}/members/@me"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 204
+
+  # Real-time Events via WebSocket - 10% of load
+  - name: "Discord WebSocket Events"
+    weight: 10
+    flow:
+      - function: "authenticateDiscordUser"
+      - function: "connectDiscordWebSocket"
+      - function: "subscribeToGuildEvents"
+      - function: "simulateUserActivity"
+      - function: "handleRealtimeEvents" 
+      - function: "disconnectDiscordWebSocket"
+
+# Performance expectations for Discord features
+expect:
+  - statusCode:
+      - 200
+      - 201
+      - 204
+      - 400
+      - 401
+      - 403
+      - 404
+      - 429
+
+  # Discord-specific response time expectations
+  - responseTime: 5000
+
+# Discord-specific performance thresholds
+thresholds:
+  # Message sending should be fast
+  http.response_time.messages:
+    p95: 1000  # 95% of messages should send within 1s
+    p99: 2000  # 99% of messages should send within 2s
+
+  # Server operations can be slower
+  http.response_time.servers:
+    p95: 3000  # Server creation within 3s
+    p99: 5000  # Server creation within 5s
+
+  # Voice operations need to be responsive
+  http.response_time.voice:
+    p95: 500   # Voice joins within 500ms
+    p99: 1000  # Voice joins within 1s
+
+  # Message throughput requirements
+  http.request_rate.messages: 500  # Should handle 500 messages/sec
+
+  # Error rates for different operations
+  http.request_errors.messages:
+    rate: 0.02  # Message error rate < 2%
+  
+  http.request_errors.voice:
+    rate: 0.05  # Voice error rate < 5%
+  
+  http.request_errors.servers:
+    rate: 0.03  # Server operation error rate < 3%
+
+plugins:
+  expect: {}
+  metrics-by-endpoint:
+    useOnlyRequestNames: true
+  hls:
+    writeToFile: './discord-load-test-results.json'
+
+# Discord-specific metrics
+metrics:
+  - name: "messages_per_second"
+    summary: "Discord message sending rate"
+    
+  - name: "server_creation_time"
+    summary: "Server creation response times"
+    
+  - name: "channel_creation_time"
+    summary: "Channel creation response times"
+    
+  - name: "voice_join_time"
+    summary: "Voice channel join times"
+    
+  - name: "member_join_time"
+    summary: "Server member join times"
+    
+  - name: "websocket_events_per_second"
+    summary: "WebSocket events processing rate"
+    
+  - name: "concurrent_voice_users"
+    summary: "Number of users in voice channels"
+    
+  - name: "message_edit_rate"
+    summary: "Message editing success rate"
+
+# Health monitoring specific to Discord features
+healthCheck:
+  url: "/api/v1/health/discord"
+  interval: 30
+  timeout: 5000
+  expect:
+    - statusCode: 200
+    - hasProperty: "discordServices"
+
+# Discord feature monitoring
+monitoring:
+  # Discord-specific metrics
+  - active_servers
+  - active_channels
+  - active_voice_connections
+  - message_queue_depth
+  - voice_quality_metrics
+  
+  # Real-time metrics
+  - websocket_connections_discord
+  - presence_updates_per_second
+  - typing_indicators_active

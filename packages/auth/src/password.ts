@@ -1,6 +1,9 @@
 import bcrypt from "bcryptjs";
 
-const SALT_ROUNDS = 12;
+// Optimized salt rounds for better performance while maintaining security
+// Production: 10 rounds (good security, ~100-200ms)
+// Development: 8 rounds (adequate security, ~25-50ms)
+const SALT_ROUNDS = process.env.NODE_ENV === 'production' ? 10 : 8;
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, SALT_ROUNDS);

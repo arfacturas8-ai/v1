@@ -1,0 +1,114 @@
+export interface Comment {
+  id: string;
+  content: string;
+  postId: string;
+  parentId?: string;
+  userId: string;
+  score: number;
+  upvotes: number;
+  downvotes: number;
+  depth: number;
+  createdAt: string;
+  updatedAt: string;
+  editedAt?: string;
+  isDeleted: boolean;
+  isRemoved: boolean;
+  isCollapsed: boolean;
+  isStickied: boolean;
+  isLocked: boolean;
+  user: {
+    id: string;
+    username: string;
+    displayName?: string;
+    avatar?: string;
+    karma?: number;
+    flair?: UserFlair;
+    badges?: UserBadge[];
+  };
+  userVote?: VoteType;
+  awards?: CommentAward[];
+  replies?: Comment[];
+  replyCount: number;
+  hasMore?: boolean;
+  loadMoreId?: string;
+}
+
+export interface UserFlair {
+  id: string;
+  text: string;
+  color: string;
+  backgroundColor: string;
+}
+
+export interface UserBadge {
+  id: string;
+  name: string;
+  icon: string;
+  color: string;
+}
+
+export interface CommentAward {
+  id: string;
+  type: string;
+  name: string;
+  icon: string;
+  count: number;
+}
+
+export type VoteType = 'upvote' | 'downvote';
+export type CommentSortType = 'best' | 'top' | 'new' | 'controversial' | 'old' | 'qa';
+
+export interface CommentState {
+  loading: boolean;
+  error: CommentError | null;
+  optimisticVote?: VoteType;
+  optimisticScore: number;
+  retryCount: number;
+  isEditing: boolean;
+  isReplying: boolean;
+  collapsed: boolean;
+  repliesLoaded: boolean;
+  repliesLoading: boolean;
+  repliesError: string | null;
+}
+
+export interface CommentError {
+  code: string;
+  message: string;
+  recoverable: boolean;
+  timestamp: string;
+}
+
+export interface CommentTreeProps {
+  comments: Comment[];
+  postId: string;
+  maxDepth?: number;
+  collapsed?: boolean;
+  sort?: CommentSortType;
+  onVote?: (commentId: string, voteType: VoteType | null) => Promise<void>;
+  onReply?: (parentId: string, content: string) => Promise<Comment>;
+  onEdit?: (commentId: string, content: string) => Promise<void>;
+  onDelete?: (commentId: string) => Promise<void>;
+  onLoadMore?: (parentId: string, after?: string) => Promise<Comment[]>;
+  onReport?: (commentId: string, reason: string) => Promise<void>;
+  onCollapse?: (commentId: string, collapsed: boolean) => void;
+}
+
+export interface CommentFormData {
+  content: string;
+  parentId?: string;
+}
+
+export interface CommentThreadProps {
+  comment: Comment;
+  depth: number;
+  maxDepth: number;
+  isLast?: boolean;
+  onVote?: (commentId: string, voteType: VoteType | null) => Promise<void>;
+  onReply?: (parentId: string, content: string) => Promise<Comment>;
+  onEdit?: (commentId: string, content: string) => Promise<void>;
+  onDelete?: (commentId: string) => Promise<void>;
+  onLoadMore?: (parentId: string, after?: string) => Promise<Comment[]>;
+  onReport?: (commentId: string, reason: string) => Promise<void>;
+  onCollapse?: (commentId: string, collapsed: boolean) => void;
+}

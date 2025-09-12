@@ -1,0 +1,350 @@
+config:
+  target: 'ws://localhost:3002'
+  phases:
+    # WebSocket connection phases simulating real-time usage
+    
+    # Morning gradual connection buildup
+    - duration: 120
+      arrivalRate: 10
+      rampTo: 50
+      name: "Morning connection buildup"
+    
+    # Peak real-time activity (gaming/chat hours)
+    - duration: 300
+      arrivalRate: 100
+      rampTo: 200
+      name: "Peak real-time activity"
+    
+    # Sustained high concurrency
+    - duration: 240
+      arrivalRate: 150
+      name: "Sustained high concurrency"
+    
+    # Evening social peak - maximum concurrent users
+    - duration: 180
+      arrivalRate: 300
+      rampTo: 500
+      name: "Evening social peak"
+    
+    # Stress test - connection storm
+    - duration: 120
+      arrivalRate: 1000
+      name: "Connection storm stress test"
+    
+    # Recovery and graceful degradation
+    - duration: 180
+      arrivalRate: 50
+      name: "Recovery phase"
+
+  processor: "./websocket-load-helpers.js"
+  
+  # WebSocket specific configuration
+  ws:
+    # Connection timeout
+    timeout: 10000
+    # Subprotocol (if needed)
+    # subprotocols: ['v1.cryb.protocol']
+
+scenarios:
+  # Basic Real-time Messaging - 40% of connections
+  - name: "Real-time Messaging"
+    weight: 40
+    engine: ws
+    flow:
+      # Establish WebSocket connection
+      - connect:
+          url: "/"
+      
+      # Authenticate WebSocket connection
+      - function: "authenticateWebSocket"
+      
+      # Join multiple channels for realistic usage
+      - function: "joinMultipleChannels"
+      
+      # Send messages with various patterns
+      - loop:
+          count: 20
+          flow:
+            - function: "sendRealtimeMessage"
+            - think: 1000  # 1 second between messages
+      
+      # Test typing indicators
+      - function: "testTypingIndicators"
+      
+      # Test message reactions
+      - function: "testMessageReactions"
+      
+      # Stay connected for realistic session duration
+      - think: 30000  # 30 seconds
+      
+      # Graceful disconnect
+      - function: "gracefulDisconnect"
+
+  # Voice Chat WebSocket Signaling - 20% of connections
+  - name: "Voice Chat Signaling"
+    weight: 20
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+      
+      - function: "authenticateWebSocket"
+      
+      # Join voice channel
+      - function: "joinVoiceChannel"
+      
+      # WebRTC signaling simulation
+      - function: "simulateWebRTCSignaling"
+      
+      # Voice state updates
+      - loop:
+          count: 10
+          flow:
+            - function: "updateVoiceState"
+            - think: 5000  # 5 seconds between state updates
+      
+      # Leave voice channel
+      - function: "leaveVoiceChannel"
+
+  # Presence and Status Updates - 15% of connections
+  - name: "Presence Management"
+    weight: 15
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+      
+      - function: "authenticateWebSocket"
+      
+      # Subscribe to presence updates
+      - function: "subscribeToPresence"
+      
+      # Rapid presence changes (simulating active users)
+      - loop:
+          count: 15
+          flow:
+            - function: "updatePresenceStatus"
+            - think: 2000  # 2 seconds between updates
+      
+      # Activity status updates
+      - function: "updateActivityStatus"
+      
+      # Stay online for session
+      - think: 60000  # 1 minute
+
+  # Real-time Notifications - 10% of connections
+  - name: "Notification Streaming"
+    weight: 10
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+      
+      - function: "authenticateWebSocket"
+      
+      # Subscribe to notification channels
+      - function: "subscribeToNotifications"
+      
+      # Simulate receiving and acknowledging notifications
+      - function: "handleNotificationStream"
+      
+      # Test notification preferences updates
+      - function: "updateNotificationPreferences"
+      
+      # Keep connection alive for notifications
+      - think: 45000  # 45 seconds
+
+  # Live Events and Broadcasting - 10% of connections
+  - name: "Live Event Streaming"
+    weight: 10
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+      
+      - function: "authenticateWebSocket"
+      
+      # Join live event stream
+      - function: "joinLiveEventStream"
+      
+      # Send live reactions and comments
+      - loop:
+          count: 25
+          flow:
+            - function: "sendLiveReaction"
+            - think: 800   # Fast reactions
+      
+      # Test live polling/voting
+      - function: "participateInLivePoll"
+      
+      # Leave event stream
+      - function: "leaveLiveEventStream"
+
+  # Connection Stress Testing - 5% of connections
+  - name: "Connection Resilience Testing"
+    weight: 5
+    engine: ws
+    flow:
+      - connect:
+          url: "/"
+      
+      - function: "authenticateWebSocket"
+      
+      # Rapid connect/disconnect cycles
+      - loop:
+          count: 5
+          flow:
+            - disconnect: {}
+            - think: 1000
+            - connect:
+                url: "/"
+            - function: "authenticateWebSocket"
+            - think: 2000
+      
+      # Test connection recovery
+      - function: "testConnectionRecovery"
+      
+      # Simulate network interruptions
+      - function: "simulateNetworkInterruption"
+
+# WebSocket performance expectations
+expect:
+  # Connection establishment should be fast
+  ws.connect_time: 2000  # 2 seconds max
+  
+  # Messages should be delivered quickly
+  ws.response_time: 1000  # 1 second max for message delivery
+  
+  # Low connection error rate
+  ws.connection_errors: 0.02  # Less than 2% connection errors
+  
+  # Message delivery success rate
+  ws.message_success_rate: 0.98  # 98% message delivery success
+
+# WebSocket performance thresholds
+thresholds:
+  # Connection metrics
+  ws.connect_time:
+    p95: 1000   # 95% of connections establish within 1s
+    p99: 2000   # 99% of connections establish within 2s
+    max: 5000   # No connection should take longer than 5s
+  
+  # Message delivery metrics
+  ws.message_latency:
+    p95: 500    # 95% of messages delivered within 500ms
+    p99: 1000   # 99% of messages delivered within 1s
+    max: 3000   # No message should take longer than 3s
+  
+  # Real-time metrics
+  ws.typing_indicator_latency:
+    p95: 200    # Typing indicators within 200ms
+    p99: 500    # Typing indicators within 500ms
+  
+  ws.presence_update_latency:
+    p95: 300    # Presence updates within 300ms
+    p99: 750    # Presence updates within 750ms
+  
+  # Connection stability
+  ws.connection_drops:
+    rate: 0.05  # Less than 5% unexpected disconnections
+  
+  ws.reconnection_success:
+    rate: 0.95  # 95% successful reconnections
+  
+  # Throughput requirements
+  ws.messages_per_second: 10000     # Should handle 10k messages/sec
+  ws.concurrent_connections: 5000   # Should handle 5k concurrent connections
+  ws.events_per_second: 20000       # Should handle 20k events/sec
+
+plugins:
+  # WebSocket specific metrics
+  websocket-metrics: {}
+  
+  # Real-time performance monitoring
+  metrics-by-endpoint:
+    useOnlyRequestNames: true
+  
+  # Results output
+  hls:
+    writeToFile: './websocket-load-test-results.json'
+
+# WebSocket and real-time specific metrics
+metrics:
+  - name: "concurrent_websocket_connections"
+    summary: "Number of active WebSocket connections"
+    type: "gauge"
+    
+  - name: "messages_per_second"
+    summary: "Real-time message throughput"
+    type: "rate"
+    
+  - name: "connection_establishment_time"
+    summary: "Time to establish WebSocket connections"
+    
+  - name: "message_delivery_latency"
+    summary: "End-to-end message delivery times"
+    
+  - name: "typing_indicator_latency"
+    summary: "Typing indicator propagation times"
+    
+  - name: "presence_update_latency"
+    summary: "Presence status update propagation times"
+    
+  - name: "voice_signaling_latency"
+    summary: "Voice chat signaling response times"
+    
+  - name: "notification_delivery_rate"
+    summary: "Real-time notification delivery rate"
+    
+  - name: "connection_recovery_time"
+    summary: "Time to recover from connection drops"
+    
+  - name: "event_processing_rate"
+    summary: "WebSocket event processing throughput"
+    
+  - name: "memory_per_connection"
+    summary: "Memory usage per WebSocket connection"
+    
+  - name: "cpu_usage_realtime"
+    summary: "CPU usage for real-time operations"
+
+# Health monitoring for WebSocket services
+healthCheck:
+  url: "/api/v1/health/websocket"
+  interval: 15
+  timeout: 3000
+  expect:
+    - statusCode: 200
+    - hasProperty: "websocketServices"
+
+# Real-time system monitoring
+monitoring:
+  # Connection metrics
+  - active_websocket_connections
+  - connection_pool_utilization
+  - failed_connection_attempts
+  - connection_duration_avg
+  
+  # Message metrics
+  - messages_sent_per_second
+  - messages_received_per_second
+  - message_queue_depth
+  - message_delivery_failures
+  
+  # Real-time features
+  - typing_indicators_active
+  - presence_updates_per_second
+  - voice_connections_active
+  - live_event_participants
+  
+  # Performance metrics
+  - websocket_server_cpu
+  - websocket_server_memory
+  - redis_pubsub_performance
+  - event_loop_latency
+  
+  # Network metrics
+  - bandwidth_utilization
+  - packet_loss_rate
+  - connection_quality_metrics
+  - geographic_latency_distribution

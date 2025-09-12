@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CADisableMinimumFrameDurationOnPhone</key>
+    <true/>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>$(DEVELOPMENT_LANGUAGE)</string>
+    <key>CFBundleDisplayName</key>
+    <string>CRYB</string>
+    <key>CFBundleExecutable</key>
+    <string>$(EXECUTABLE_NAME)</string>
+    <key>CFBundleIdentifier</key>
+    <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>$(PRODUCT_NAME)</string>
+    <key>CFBundlePackageType</key>
+    <string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleSignature</key>
+    <string>????</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLName</key>
+        <string>cryb</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>cryb</string>
+        </array>
+      </dict>
+    </array>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+    <key>LSRequiresIPhoneOS</key>
+    <true/>
+    <key>NSAllowsArbitraryLoads</key>
+    <false/>
+    <key>NSAppTransportSecurity</key>
+    <dict>
+      <key>NSAllowsArbitraryLoads</key>
+      <false/>
+      <key>NSAllowsLocalNetworking</key>
+      <true/>
+    </dict>
+    <key>NSCameraUsageDescription</key>
+    <string>CRYB needs access to your camera to take photos and videos for sharing in chats and voice calls.</string>
+    <key>NSContactsUsageDescription</key>
+    <string>CRYB can optionally access your contacts to help you find friends who are already using the app.</string>
+    <key>NSExceptionDomains</key>
+    <dict>
+      <key>localhost</key>
+      <dict>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <false/>
+      </dict>
+    </dict>
+    <key>NSFaceIDUsageDescription</key>
+    <string>CRYB uses Face ID and Touch ID for secure authentication and to protect your account.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>CRYB can optionally use your location to find nearby friends and servers.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow $(PRODUCT_NAME) to access your location</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>CRYB can optionally use your location to find nearby friends and servers.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>CRYB needs access to your microphone for voice messages and voice/video calls.</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>CRYB needs permission to save photos and videos you receive.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>CRYB needs access to your photo library to share images and videos in chats.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+      <string>audio</string>
+      <string>voip</string>
+      <string>background-processing</string>
+      <string>background-fetch</string>
+      <string>fetch</string>
+    </array>
+    <key>UILaunchStoryboardName</key>
+    <string>SplashScreen</string>
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+      <string>arm64</string>
+    </array>
+    <key>UIRequiresFullScreen</key>
+    <false/>
+    <key>UIStatusBarStyle</key>
+    <string>UIStatusBarStyleDefault</string>
+    <key>UISupportedInterfaceOrientations</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    </array>
+    <key>UISupportedInterfaceOrientations~ipad</key>
+    <array>
+      <string>UIInterfaceOrientationPortrait</string>
+      <string>UIInterfaceOrientationPortraitUpsideDown</string>
+      <string>UIInterfaceOrientationLandscapeLeft</string>
+      <string>UIInterfaceOrientationLandscapeRight</string>
+    </array>
+    <key>UIUserInterfaceStyle</key>
+    <string>Automatic</string>
+    <key>UIViewControllerBasedStatusBarAppearance</key>
+    <false/>
+  </dict>
+</plist>

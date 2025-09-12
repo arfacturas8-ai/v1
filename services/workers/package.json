@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "tsx watch src/index.ts",
+    "dev:crash-proof": "tsx watch src/crash-proof-index.ts",
+    "start": "tsx src/crash-proof-index.ts",
+    "start:crash-proof": "tsx src/crash-proof-index.ts",
+    "start:legacy": "tsx src/index.ts",
     "start:messages": "tsx src/workers/messages.worker.ts",
     "start:notifications": "tsx src/workers/notifications.worker.ts",
     "start:media": "tsx src/workers/media.worker.ts",

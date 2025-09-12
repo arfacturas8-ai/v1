@@ -1,8 +1,334 @@
-global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
+# ==============================================
+# CRYB PLATFORM - PROMETHEUS CONFIGURATION
+# ==============================================
+# Production-ready monitoring configuration
+# Includes: Service discovery, alerting, federation
+# ==============================================
 
+global:
+  scrape_interval:     15s # Set the scrape interval to every 15 seconds
+  evaluation_interval: 15s # Evaluate rules every 15 seconds
+  
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'cryb-monitor'
+    environment: 'production'
+    cluster: 'cryb-platform'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+
+# Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+rule_files:
+  - "alerts.yml"
+  - "recording_rules.yml"
+
+# A scrape configuration containing exactly one endpoint to scrape:
 scrape_configs:
+  # ==============================================
+  # PROMETHEUS SELF-MONITORING
+  # ==============================================
   - job_name: 'prometheus'
     static_configs:
       - targets: ['localhost:9090']
+    scrape_interval: 5s
+    metrics_path: /metrics
+
+  # ==============================================
+  # NODE EXPORTER - SYSTEM METRICS
+  # ==============================================
+  - job_name: 'node-exporter'
+    static_configs:
+      - targets: 
+        - 'cryb-node-exporter:9100'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+
+  # ==============================================
+  # CRYB API APPLICATION METRICS
+  # ==============================================
+  - job_name: 'cryb-api'
+    static_configs:
+      - targets: 
+        - 'cryb-api-1:9464'
+        - 'cryb-api-2:9465'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    metrics_path: /metrics
+    params:
+      format: ['prometheus']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'cryb-api'
+    metric_relabel_configs:
+      # Drop high cardinality metrics to prevent memory issues
+      - source_labels: [__name__]
+        regex: 'nodejs_eventloop_lag_.*|nodejs_heap_.*'
+        action: drop
+
+  # ==============================================
+  # CRYB WEB APPLICATION METRICS
+  # ==============================================
+  - job_name: 'cryb-web'
+    static_configs:
+      - targets: 
+        - 'cryb-web-1:9466'
+        - 'cryb-web-2:9467'
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'cryb-web'
+
+  # ==============================================
+  # POSTGRESQL METRICS (via postgres_exporter)
+  # ==============================================
+  - job_name: 'postgresql'
+    static_configs:
+      - targets: 
+        - 'cryb-postgres-exporter:9187'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'postgresql'
+
+  # ==============================================
+  # REDIS METRICS (via redis_exporter)
+  # ==============================================
+  - job_name: 'redis'
+    static_configs:
+      - targets: 
+        - 'cryb-redis-exporter:9121'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'redis'
+
+  # ==============================================
+  # NGINX METRICS (via nginx-prometheus-exporter)
+  # ==============================================
+  - job_name: 'nginx'
+    static_configs:
+      - targets: 
+        - 'cryb-nginx-exporter:9113'
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'nginx'
+
+  # ==============================================
+  # ELASTICSEARCH METRICS (via elasticsearch_exporter)
+  # ==============================================
+  - job_name: 'elasticsearch'
+    static_configs:
+      - targets: 
+        - 'cryb-elasticsearch-exporter:9114'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'elasticsearch'
+
+  # ==============================================
+  # MINIO METRICS
+  # ==============================================
+  - job_name: 'minio'
+    static_configs:
+      - targets: 
+        - 'minio:9000'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    metrics_path: /minio/v2/metrics/cluster
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'minio'
+
+  # ==============================================
+  # LIVEKIT METRICS
+  # ==============================================
+  - job_name: 'livekit'
+    static_configs:
+      - targets: 
+        - 'livekit:7880'
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'livekit'
+
+  # ==============================================
+  # BLACKBOX EXPORTER - EXTERNAL MONITORING
+  # ==============================================
+  - job_name: 'blackbox-http'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://cryb.ai
+        - https://api.cryb.ai/health
+        - https://livekit.cryb.ai
+        - https://monitoring.cryb.ai
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # ==============================================
+  # BLACKBOX EXPORTER - SSL CERTIFICATE MONITORING
+  # ==============================================
+  - job_name: 'blackbox-ssl'
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+      - targets:
+        - cryb.ai:443
+        - api.cryb.ai:443
+        - livekit.cryb.ai:443
+        - monitoring.cryb.ai:443
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  # ==============================================
+  # CADVISOR - CONTAINER METRICS
+  # ==============================================
+  - job_name: 'cadvisor'
+    static_configs:
+      - targets: 
+        - 'cryb-cadvisor:8080'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'cadvisor'
+    metric_relabel_configs:
+      # Only keep container metrics we care about
+      - source_labels: [__name__]
+        regex: 'container_(cpu|memory|network|fs)_.*'
+        action: keep
+      - source_labels: [container_label_com_docker_compose_service]
+        target_label: compose_service
+
+  # ==============================================
+  # ALERTMANAGER METRICS
+  # ==============================================
+  - job_name: 'alertmanager'
+    static_configs:
+      - targets: 
+        - 'alertmanager:9093'
+    scrape_interval: 15s
+    scrape_timeout: 5s
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'alertmanager'
+
+  # ==============================================
+  # GRAFANA METRICS
+  # ==============================================
+  - job_name: 'grafana'
+    static_configs:
+      - targets: 
+        - 'grafana:3000'
+    scrape_interval: 30s
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'grafana'
+
+# ==============================================
+# REMOTE WRITE CONFIGURATION (for long-term storage)
+# ==============================================
+# Uncomment and configure if using remote storage like Thanos or Cortex
+# remote_write:
+#   - url: "https://prometheus-remote-write.example.com/api/v1/write"
+#     queue_config:
+#       max_samples_per_send: 1000
+#       max_shards: 200
+#       capacity: 2500
+
+# ==============================================
+# FEDERATION CONFIGURATION
+# ==============================================
+# Uncomment if setting up Prometheus federation
+# - job_name: 'federate'
+#   scrape_interval: 15s
+#   honor_labels: true
+#   metrics_path: '/federate'
+#   params:
+#     'match[]':
+#       - '{job=~"prometheus"}'
+#       - '{__name__=~"job:.*"}'
+#   static_configs:
+#     - targets:
+#       - 'prometheus-federation:9090'

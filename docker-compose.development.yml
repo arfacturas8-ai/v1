@@ -1,0 +1,420 @@
+# ==============================================
+# CRYB PLATFORM - DEVELOPMENT DOCKER COMPOSE
+# ==============================================
+# Hot reloading enabled for all services
+# Optimized for development workflow
+
+version: '3.9'
+
+services:
+  # ==============================================
+  # APPLICATION SERVICES - DEVELOPMENT
+  # ==============================================
+  
+  # API Service with hot reloading
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: cryb-api-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      HOST: 0.0.0.0
+      LOG_LEVEL: debug
+      
+      # Hot reloading
+      NODEMON: "true"
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: 1000
+      
+      # Database
+      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb?connection_limit=20&pool_timeout=30
+      
+      # Redis
+      REDIS_URL: redis://:cryb_redis_password@redis:6379/0
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_redis_password
+      
+      # Security (dev keys)
+      JWT_SECRET: dev-jwt-secret-change-in-production
+      JWT_EXPIRES_IN: 24h
+      REFRESH_TOKEN_EXPIRES_IN: 7d
+      TRUST_PROXY: true
+      SECURE_COOKIES: false
+      
+      # External Services
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin123
+      LIVEKIT_URL: ws://livekit:7880
+      LIVEKIT_API_KEY: devkey
+      LIVEKIT_API_SECRET: secret
+      
+      # Development Features
+      ENABLE_SWAGGER: true
+      ENABLE_GRAPHQL_PLAYGROUND: true
+      ENABLE_CORS: true
+      ENABLE_REQUEST_LOGGING: true
+      
+      # Performance (relaxed for dev)
+      RATE_LIMIT_MAX_REQUESTS: 1000
+      RATE_LIMIT_WINDOW_MS: 60000
+      
+      # File Uploads
+      MAX_FILE_SIZE: 104857600
+      MAX_FILES_PER_REQUEST: 10
+      
+    ports:
+      - "3001:3001"
+      - "9229:9229"  # Node.js debugging port
+    volumes:
+      - ./apps/api/src:/app/src:cached
+      - ./apps/api/prisma:/app/prisma:cached
+      - ./packages:/app/packages:cached
+      - api_dev_logs:/app/logs
+      - api_dev_uploads:/app/uploads
+      - api_dev_node_modules:/app/node_modules
+    networks:
+      - cryb-dev-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    command: ["pnpm", "dev"]
+
+  # Web Service with hot reloading
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+      target: development
+    container_name: cryb-web-dev
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      
+      # Hot reloading
+      FAST_REFRESH: true
+      CHOKIDAR_USEPOLLING: true
+      CHOKIDAR_INTERVAL: 1000
+      WATCHPACK_POLLING: true
+      
+      # API Connection
+      NEXT_PUBLIC_API_URL: http://localhost:3001
+      NEXT_PUBLIC_WS_URL: ws://localhost:3001
+      
+      # External Services
+      NEXT_PUBLIC_LIVEKIT_URL: ws://localhost:7880
+      NEXT_PUBLIC_MINIO_URL: http://localhost:9000
+      
+      # Development Features
+      NEXT_PUBLIC_DEV_MODE: true
+      NEXT_TELEMETRY_DISABLED: 1
+      
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web:/app:cached
+      - ./packages:/app/packages:cached
+      - web_dev_node_modules:/app/node_modules
+      - web_dev_next:/app/.next
+    networks:
+      - cryb-dev-network
+    depends_on:
+      - api
+    command: ["pnpm", "dev"]
+
+  # ==============================================
+  # INFRASTRUCTURE SERVICES
+  # ==============================================
+  
+  # PostgreSQL with optimized development settings
+  postgres:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cryb_user
+      POSTGRES_PASSWORD: cryb_password
+      POSTGRES_DB: cryb
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./backups/postgres:/backups
+    networks:
+      - cryb-dev-network
+    command: >
+      postgres
+      -c max_connections=100
+      -c shared_buffers=128MB
+      -c effective_cache_size=512MB
+      -c maintenance_work_mem=32MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=8MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=2MB
+      -c log_min_duration_statement=500
+      -c log_statement=all
+      -c log_destination=stderr
+      -c logging_collector=on
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryb_user -d cryb"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Redis with development optimizations
+  redis:
+    image: redis:7-alpine
+    container_name: cryb-redis-dev
+    restart: unless-stopped
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass cryb_redis_password
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --save 60 10
+      --tcp-keepalive 300
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - cryb-dev-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # Elasticsearch for search
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: cryb-elasticsearch-dev
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    ports:
+      - "9201:9200"
+    volumes:
+      - elasticsearch_dev_data:/usr/share/elasticsearch/data
+    networks:
+      - cryb-dev-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # MinIO for S3-compatible storage
+  minio:
+    image: minio/minio:latest
+    container_name: cryb-minio-dev
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+      MINIO_DEFAULT_BUCKETS: cryb-media,cryb-uploads,cryb-backups
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_dev_data:/data
+    networks:
+      - cryb-dev-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # LiveKit for WebRTC
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: cryb-livekit-dev
+    restart: unless-stopped
+    command: --config /etc/livekit.yaml --dev
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "3478:3478/udp"
+      - "5349:5349"
+      - "50000-50100:50000-50100/udp"
+    volumes:
+      - ./config/livekit/livekit.yaml:/etc/livekit.yaml
+    networks:
+      - cryb-dev-network
+    depends_on:
+      - redis
+    environment:
+      - LIVEKIT_CONFIG=/etc/livekit.yaml
+      - LIVEKIT_KEYS=devkey:secret
+
+  # ==============================================
+  # DEVELOPMENT TOOLS
+  # ==============================================
+  
+  # Redis Commander for Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: cryb-redis-commander-dev
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: local:redis:6379:0:cryb_redis_password
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - cryb-dev-network
+
+  # pgAdmin for PostgreSQL management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cryb-pgadmin-dev
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cryb.ai
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_dev_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - cryb-dev-network
+
+  # Kibana for Elasticsearch
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: cryb-kibana-dev
+    restart: unless-stopped
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - xpack.security.enabled=false
+    ports:
+      - "5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - cryb-dev-network
+
+  # ==============================================
+  # MONITORING STACK (OPTIONAL)
+  # ==============================================
+  
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: cryb-prometheus-dev
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=7d'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_dev_data:/prometheus
+    networks:
+      - cryb-dev-network
+    profiles:
+      - monitoring
+
+  # Grafana
+  grafana:
+    image: grafana/grafana:latest
+    container_name: cryb-grafana-dev
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin123
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
+    ports:
+      - "3002:3000"
+    volumes:
+      - grafana_dev_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+    depends_on:
+      - prometheus
+    networks:
+      - cryb-dev-network
+    profiles:
+      - monitoring
+
+# ==============================================
+# NETWORKS
+# ==============================================
+networks:
+  cryb-dev-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
+
+# ==============================================
+# VOLUMES
+# ==============================================
+volumes:
+  # Application volumes
+  api_dev_logs:
+    driver: local
+  api_dev_uploads:
+    driver: local
+  api_dev_node_modules:
+    driver: local
+  web_dev_node_modules:
+    driver: local
+  web_dev_next:
+    driver: local
+    
+  # Database volumes
+  postgres_dev_data:
+    driver: local
+  redis_dev_data:
+    driver: local
+  elasticsearch_dev_data:
+    driver: local
+  minio_dev_data:
+    driver: local
+  
+  # Tools volumes
+  pgadmin_dev_data:
+    driver: local
+    
+  # Monitoring volumes
+  prometheus_dev_data:
+    driver: local
+  grafana_dev_data:
+    driver: local

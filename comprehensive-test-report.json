@@ -1,0 +1,406 @@
+{
+  "timestamp": "2025-09-11T21:39:59.181Z",
+  "totalTests": 8,
+  "passedTests": 7,
+  "failedTests": 1,
+  "criticalIssues": [
+    {
+      "timestamp": "2025-09-11T21:40:12.619Z",
+      "message": "Test suite failed with error: Cannot read properties of undefined (reading 'id')",
+      "type": "CRITICAL"
+    }
+  ],
+  "warnings": [],
+  "detailedResults": {
+    "API Health Endpoint": {
+      "passed": true,
+      "timestamp": "2025-09-11T21:39:59.717Z",
+      "url": "http://api.cryb.ai/health",
+      "responseTime": 479,
+      "status": {
+        "status": "degraded",
+        "data": {
+          "status": "degraded",
+          "timestamp": "2025-09-11T21:39:59.650Z",
+          "checks": {
+            "api": "healthy",
+            "database": "healthy",
+            "redis": "healthy",
+            "elasticsearch": "disabled",
+            "minio": "healthy",
+            "realtime": "healthy"
+          }
+        }
+      }
+    },
+    "Localhost API Health": {
+      "passed": true,
+      "timestamp": "2025-09-11T21:39:59.897Z",
+      "url": "http://localhost:3001/health",
+      "responseTime": 180,
+      "status": {
+        "status": "degraded",
+        "data": {
+          "status": "degraded",
+          "timestamp": "2025-09-11T21:39:59.893Z",
+          "checks": {
+            "api": "healthy",
+            "database": "healthy",
+            "redis": "healthy",
+            "elasticsearch": "disabled",
+            "minio": "healthy",
+            "realtime": "healthy"
+          }
+        }
+      }
+    },
+    "Web Platform Access": {
+      "passed": true,
+      "timestamp": "2025-09-11T21:40:00.691Z",
+      "url": "http://platform.cryb.ai",
+      "responseTime": 794,
+      "status": {
+        "status": 200,
+        "headers": {
+          "server": "nginx/1.18.0 (Ubuntu)",
+          "date": "Thu, 11 Sep 2025 21:40:00 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "keep-alive",
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate"
+        }
+      }
+    },
+    "Localhost Web Access": {
+      "passed": true,
+      "timestamp": "2025-09-11T21:40:01.414Z",
+      "url": "http://localhost:3000",
+      "responseTime": 722
+    },
+    "User Registration": {
+      "passed": true,
+      "timestamp": "2025-09-11T21:40:06.524Z",
+      "userId": "cmffxmbaw0000jeuhtjdihqy5",
+      "hasTokens": true,
+      "responseTime": 5109
+    },
+    "User Login": {
+      "passed": true,
+      "timestamp": "2025-09-11T21:40:11.322Z",
+      "hasTokens": true,
+      "responseTime": 4796,
+      "tokenExpiry": "2025-09-11T21:55:11.168Z"
+    },
+    "JWT Validation": {
+      "passed": true,
+      "timestamp": "2025-09-11T21:40:11.732Z",
+      "responseTime": 409,
+      "userData": {
+        "id": "cmffxmbaw0000jeuhtjdihqy5",
+        "username": "testuser_1757626799181",
+        "displayName": "Test User",
+        "email": "test_1757626799181@example.com",
+        "walletAddress": "",
+        "avatar": "",
+        "bio": "",
+        "isVerified": false,
+        "createdAt": "2025-09-11T21:40:06.200Z"
+      },
+      "error": null
+    },
+    "Token Refresh": {
+      "passed": false,
+      "timestamp": "2025-09-11T21:40:11.891Z",
+      "error": "Request failed with status code 401",
+      "responseTime": 157
+    }
+  },
+  "performance": {
+    "api_health": {
+      "responseTime": 479,
+      "success": true,
+      "result": {
+        "status": "degraded",
+        "data": {
+          "status": "degraded",
+          "timestamp": "2025-09-11T21:39:59.650Z",
+          "checks": {
+            "api": "healthy",
+            "database": "healthy",
+            "redis": "healthy",
+            "elasticsearch": "disabled",
+            "minio": "healthy",
+            "realtime": "healthy"
+          }
+        }
+      }
+    },
+    "localhost_api_health": {
+      "responseTime": 180,
+      "success": true,
+      "result": {
+        "status": "degraded",
+        "data": {
+          "status": "degraded",
+          "timestamp": "2025-09-11T21:39:59.893Z",
+          "checks": {
+            "api": "healthy",
+            "database": "healthy",
+            "redis": "healthy",
+            "elasticsearch": "disabled",
+            "minio": "healthy",
+            "realtime": "healthy"
+          }
+        }
+      }
+    },
+    "web_platform": {
+      "responseTime": 794,
+      "success": true,
+      "result": {
+        "status": 200,
+        "headers": {
+          "server": "nginx/1.18.0 (Ubuntu)",
+          "date": "Thu, 11 Sep 2025 21:40:00 GMT",
+          "content-type": "text/html; charset=utf-8",
+          "transfer-encoding": "chunked",
+          "connection": "keep-alive",
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate"
+        }
+      }
+    },
+    "localhost_web": {
+      "responseTime": 722,
+      "success": true,
+      "result": {
+        "status": 200
+      }
+    },
+    "user_registration": {
+      "responseTime": 5109,
+      "success": true,
+      "result": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "cmffxmbaw0000jeuhtjdihqy5",
+            "username": "testuser_1757626799181",
+            "displayName": "Test User",
+            "email": "test_1757626799181@example.com",
+            "walletAddress": "",
+            "isVerified": false
+          },
+          "tokens": {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWZmeG1iYXcwMDAwamV1aHRqZGlocXk1Iiwic2Vzc2lvbklkIjoiYTY0YjlmYmYtYjczZi00ZWFlLTgyNmEtOWU2YjJlOTU2ZDkxIiwiZW1haWwiOiJ0ZXN0XzE3NTc2MjY3OTkxODFAZXhhbXBsZS5jb20iLCJ3YWxsZXRBZGRyZXNzIjpudWxsLCJpc1ZlcmlmaWVkIjpmYWxzZSwianRpIjoiOWMwNGFlYmYtN2UzZS00OGFiLWEwNWMtMzYxNzFjMGNmNjkyIiwiaWF0IjoxNzU3NjI2ODA2LCJleHAiOjE3NTc2Mjc3MDYsImF1ZCI6ImNyeWItdXNlcnMiLCJpc3MiOiJjcnliLXBsYXRmb3JtIn0.AShHKJ43-XML6UlGoUGD90CTvad9J_q9G7dQ3ElLmuA",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWZmeG1iYXcwMDAwamV1aHRqZGlocXk1Iiwic2Vzc2lvbklkIjoiYTY0YjlmYmYtYjczZi00ZWFlLTgyNmEtOWU2YjJlOTU2ZDkxIiwidHlwZSI6InJlZnJlc2giLCJqdGkiOiJjNDhiZmUxNi1jNDlmLTRhNjMtYjQ5OC04NGI1ZDFhYzdkOTAiLCJpYXQiOjE3NTc2MjY4MDYsImV4cCI6MTc2MDIxODgwNiwiYXVkIjoiY3J5Yi11c2VycyIsImlzcyI6ImNyeWItcGxhdGZvcm0ifQ.zIFeQg-5ETU6fTsBYEum0RHWnQV8uHDkpFNg4nY1xSA",
+            "expiresAt": "2025-09-11T21:55:06.279Z"
+          }
+        }
+      }
+    },
+    "user_login": {
+      "responseTime": 4796,
+      "success": true,
+      "result": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "cmffxmbaw0000jeuhtjdihqy5",
+            "username": "testuser_1757626799181",
+            "displayName": "Test User",
+            "email": "test_1757626799181@example.com",
+            "walletAddress": ""
+          },
+          "tokens": {
+            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWZmeG1iYXcwMDAwamV1aHRqZGlocXk1Iiwic2Vzc2lvbklkIjoiZmQyZWU0YTgtMTE1ZS00ZjZjLWEwOTQtZGUwNzZmNjI0ODU5IiwiZW1haWwiOiJ0ZXN0XzE3NTc2MjY3OTkxODFAZXhhbXBsZS5jb20iLCJ3YWxsZXRBZGRyZXNzIjpudWxsLCJpc1ZlcmlmaWVkIjpmYWxzZSwianRpIjoiYzRkNTFhYzEtNDAzYS00NWQyLTg3MjItNWE1ZTA0Yjg1YjhmIiwiaWF0IjoxNzU3NjI2ODExLCJleHAiOjE3NTc2Mjc3MTEsImF1ZCI6ImNyeWItdXNlcnMiLCJpc3MiOiJjcnliLXBsYXRmb3JtIn0.gQbpdFjbRsIbmA1J7XZSJv7gjgfgFLd4T8qUZy1Yhjs",
+            "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWZmeG1iYXcwMDAwamV1aHRqZGlocXk1Iiwic2Vzc2lvbklkIjoiZmQyZWU0YTgtMTE1ZS00ZjZjLWEwOTQtZGUwNzZmNjI0ODU5IiwidHlwZSI6InJlZnJlc2giLCJqdGkiOiI5NjY5YWU5ZC0wNTVkLTQ3NTktYmNmMS0yYWU3YTEzMmExMWEiLCJpYXQiOjE3NTc2MjY4MTEsImV4cCI6MTc2MDIxODgxMSwiYXVkIjoiY3J5Yi11c2VycyIsImlzcyI6ImNyeWItcGxhdGZvcm0ifQ.J9Iji8I2itTPt5ZC6cSWgcNUdOekOJOWwwhyCGoN0c8",
+            "expiresAt": "2025-09-11T21:55:11.168Z"
+          }
+        }
+      }
+    },
+    "jwt_validation": {
+      "responseTime": 409,
+      "success": true,
+      "result": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "cmffxmbaw0000jeuhtjdihqy5",
+            "username": "testuser_1757626799181",
+            "displayName": "Test User",
+            "email": "test_1757626799181@example.com",
+            "walletAddress": "",
+            "avatar": "",
+            "bio": "",
+            "isVerified": false,
+            "createdAt": "2025-09-11T21:40:06.200Z"
+          }
+        }
+      }
+    },
+    "token_refresh": {
+      "responseTime": 157,
+      "success": false,
+      "error": "Request failed with status code 401"
+    },
+    "discord_server_creation": {
+      "responseTime": 726,
+      "success": true,
+      "result": {
+        "success": true,
+        "data": {
+          "id": "cmffxmg2f0002jeuhka44rekw",
+          "name": "Test Server 1757626811893",
+          "description": "Test server for integration testing",
+          "icon": null,
+          "banner": null,
+          "splash": null,
+          "discoverySplash": null,
+          "ownerId": "cmffxmbaw0000jeuhtjdihqy5",
+          "isPublic": true,
+          "tokenGated": false,
+          "requiredTokens": null,
+          "maxMembers": 100000,
+          "maxPresences": null,
+          "maxVideoChannelUsers": null,
+          "approximateMemberCount": null,
+          "approximatePresenceCount": null,
+          "permissions": null,
+          "features": [],
+          "verificationLevel": 0,
+          "defaultMessageNotifications": 0,
+          "explicitContentFilter": 0,
+          "mfaLevel": 0,
+          "systemChannelId": null,
+          "systemChannelFlags": 0,
+          "rulesChannelId": null,
+          "maxPresences2": null,
+          "vanityUrlCode": null,
+          "premiumTier": 0,
+          "premiumSubscriptionCount": null,
+          "preferredLocale": "en-US",
+          "publicUpdatesChannelId": null,
+          "nsfw": false,
+          "nsfwLevel": 0,
+          "createdAt": "2025-09-11T21:40:12.375Z",
+          "updatedAt": "2025-09-11T21:40:12.375Z",
+          "channels": [
+            {
+              "id": "cmffxmg2f0003jeuhv9kql9ea",
+              "serverId": "cmffxmg2f0002jeuhka44rekw",
+              "name": "Text Channels",
+              "topic": null,
+              "description": null,
+              "type": "CATEGORY",
+              "position": 0,
+              "isPrivate": false,
+              "parentId": null,
+              "slowMode": 0,
+              "nsfw": false,
+              "bitrate": null,
+              "userLimit": null,
+              "rtcRegion": null,
+              "videoQualityMode": null,
+              "defaultAutoArchiveDuration": null,
+              "flags": 0,
+              "lastMessageId": null,
+              "lastPinTimestamp": null,
+              "createdAt": "2025-09-11T21:40:12.375Z",
+              "updatedAt": "2025-09-11T21:40:12.375Z"
+            },
+            {
+              "id": "cmffxmg2f0004jeuhjh0l4jcp",
+              "serverId": "cmffxmg2f0002jeuhka44rekw",
+              "name": "general",
+              "topic": null,
+              "description": null,
+              "type": "TEXT",
+              "position": 1,
+              "isPrivate": false,
+              "parentId": null,
+              "slowMode": 0,
+              "nsfw": false,
+              "bitrate": null,
+              "userLimit": null,
+              "rtcRegion": null,
+              "videoQualityMode": null,
+              "defaultAutoArchiveDuration": null,
+              "flags": 0,
+              "lastMessageId": null,
+              "lastPinTimestamp": null,
+              "createdAt": "2025-09-11T21:40:12.375Z",
+              "updatedAt": "2025-09-11T21:40:12.375Z"
+            },
+            {
+              "id": "cmffxmg2f0005jeuh7o7n4lnz",
+              "serverId": "cmffxmg2f0002jeuhka44rekw",
+              "name": "Voice Channels",
+              "topic": null,
+              "description": null,
+              "type": "CATEGORY",
+              "position": 2,
+              "isPrivate": false,
+              "parentId": null,
+              "slowMode": 0,
+              "nsfw": false,
+              "bitrate": null,
+              "userLimit": null,
+              "rtcRegion": null,
+              "videoQualityMode": null,
+              "defaultAutoArchiveDuration": null,
+              "flags": 0,
+              "lastMessageId": null,
+              "lastPinTimestamp": null,
+              "createdAt": "2025-09-11T21:40:12.375Z",
+              "updatedAt": "2025-09-11T21:40:12.375Z"
+            },
+            {
+              "id": "cmffxmg2f0006jeuhs4bjcw1q",
+              "serverId": "cmffxmg2f0002jeuhka44rekw",
+              "name": "General",
+              "topic": null,
+              "description": null,
+              "type": "VOICE",
+              "position": 3,
+              "isPrivate": false,
+              "parentId": null,
+              "slowMode": 0,
+              "nsfw": false,
+              "bitrate": null,
+              "userLimit": null,
+              "rtcRegion": null,
+              "videoQualityMode": null,
+              "defaultAutoArchiveDuration": null,
+              "flags": 0,
+              "lastMessageId": null,
+              "lastPinTimestamp": null,
+              "createdAt": "2025-09-11T21:40:12.375Z",
+              "updatedAt": "2025-09-11T21:40:12.375Z"
+            }
+          ],
+          "_count": {
+            "members": 1
+          }
+        }
+      }
+    }
+  },
+  "security": {},
+  "summary": {
+    "totalTests": 8,
+    "passedTests": 7,
+    "failedTests": 1,
+    "successRate": 87.5,
+    "criticalIssuesCount": 1,
+    "warningsCount": 0
+  },
+  "recommendations": [
+    "Address failed tests before production deployment",
+    "Critical security issues found - immediate attention required"
+  ]
+}

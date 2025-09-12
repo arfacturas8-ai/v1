@@ -1,0 +1,216 @@
+{{/* ==============================================
+CRYB PLATFORM - ALERTMANAGER TEMPLATES
+==============================================
+Custom templates for alert notifications
+============================================== */}}
+
+{{/* Define a title template */}}
+{{ define "cryb.title" }}
+[{{ .Status | toUpper }}{{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{ end }}] {{ .GroupLabels.alertname }} - Cryb Platform
+{{ end }}
+
+{{/* Define a detailed message template */}}
+{{ define "cryb.message" }}
+{{ if gt (len .Alerts.Firing) 0 }}
+🔥 **FIRING ALERTS** ({{ .Alerts.Firing | len }})
+{{ range .Alerts.Firing }}
+---
+**Alert:** {{ .Annotations.summary }}
+**Severity:** {{ .Labels.severity | title }}
+**Service:** {{ .Labels.service }}
+**Instance:** {{ .Labels.instance }}
+**Started:** {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}
+
+**Description:** {{ .Annotations.description }}
+
+{{ if .Annotations.runbook_url }}**📖 Runbook:** {{ .Annotations.runbook_url }}{{ end }}
+{{ if .Annotations.dashboard }}**📊 Dashboard:** {{ .Annotations.dashboard }}{{ end }}
+{{ end }}
+{{ end }}
+
+{{ if gt (len .Alerts.Resolved) 0 }}
+✅ **RESOLVED ALERTS** ({{ .Alerts.Resolved | len }})
+{{ range .Alerts.Resolved }}
+---
+**Alert:** {{ .Annotations.summary }}
+**Service:** {{ .Labels.service }}
+**Instance:** {{ .Labels.instance }}
+**Duration:** {{ (.EndsAt.Sub .StartsAt).Round .second }}
+**Resolved:** {{ .EndsAt.Format "2006-01-02 15:04:05 UTC" }}
+{{ end }}
+{{ end }}
+
+**🔗 Links:**
+- [Monitoring Dashboard](https://monitoring.cryb.ai)
+- [Grafana Alerts](https://monitoring.cryb.ai/alerting)
+- [System Status](https://status.cryb.ai)
+{{ end }}
+
+{{/* Slack-specific template */}}
+{{ define "slack.cryb.text" }}
+{{ if gt (len .Alerts.Firing) 0 }}
+*🔥 FIRING ALERTS ({{ .Alerts.Firing | len }})*
+{{ range .Alerts.Firing }}
+*Alert:* {{ .Annotations.summary }}
+*Service:* {{ .Labels.service }}{{ if .Labels.instance }} | *Instance:* {{ .Labels.instance }}{{ end }}
+*Started:* {{ .StartsAt.Format "15:04:05" }}
+*Severity:* {{ .Labels.severity | upper }}
+
+{{ .Annotations.description }}
+
+{{ if .Annotations.runbook_url }}📖 <{{ .Annotations.runbook_url }}|Runbook>{{ end }}{{ if .Annotations.dashboard }} | 📊 <{{ .Annotations.dashboard }}|Dashboard>{{ end }}
+
+{{ end }}
+{{ end }}
+
+{{ if gt (len .Alerts.Resolved) 0 }}
+*✅ RESOLVED ({{ .Alerts.Resolved | len }})*
+{{ range .Alerts.Resolved }}
+*Alert:* {{ .Annotations.summary }} | *Service:* {{ .Labels.service }} | *Duration:* {{ (.EndsAt.Sub .StartsAt).Round .second }}
+{{ end }}
+{{ end }}
+{{ end }}
+
+{{/* Email HTML template */}}
+{{ define "email.cryb.html" }}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ template "cryb.title" . }}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background-color: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; text-align: center; }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 20px; }
+        .alert-item { margin-bottom: 20px; padding: 15px; border-radius: 5px; border-left: 4px solid; }
+        .alert-critical { background-color: #fee; border-left-color: #e53e3e; }
+        .alert-warning { background-color: #fffbf0; border-left-color: #ed8936; }
+        .alert-resolved { background-color: #f0fff4; border-left-color: #38a169; }
+        .alert-title { font-weight: bold; color: #2d3748; margin-bottom: 5px; }
+        .alert-meta { font-size: 12px; color: #718096; margin-bottom: 10px; }
+        .alert-description { color: #4a5568; line-height: 1.5; }
+        .footer { background-color: #edf2f7; padding: 15px; text-align: center; font-size: 12px; color: #718096; }
+        .btn { display: inline-block; padding: 8px 16px; background-color: #4299e1; color: white; text-decoration: none; border-radius: 4px; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Cryb Platform Alert</h1>
+            <p>{{ .CommonLabels.alertname }} - {{ .Status | title }}</p>
+        </div>
+        
+        <div class="content">
+            {{ if gt (len .Alerts.Firing) 0 }}
+            <h2 style="color: #e53e3e;">🔥 Firing Alerts ({{ .Alerts.Firing | len }})</h2>
+            {{ range .Alerts.Firing }}
+            <div class="alert-item alert-{{ .Labels.severity }}">
+                <div class="alert-title">{{ .Annotations.summary }}</div>
+                <div class="alert-meta">
+                    <strong>Service:</strong> {{ .Labels.service }} | 
+                    <strong>Instance:</strong> {{ .Labels.instance }} | 
+                    <strong>Severity:</strong> {{ .Labels.severity | title }} |
+                    <strong>Started:</strong> {{ .StartsAt.Format "2006-01-02 15:04:05 UTC" }}
+                </div>
+                <div class="alert-description">{{ .Annotations.description }}</div>
+                <div style="margin-top: 10px;">
+                    {{ if .Annotations.runbook_url }}<a href="{{ .Annotations.runbook_url }}" class="btn">📖 View Runbook</a>{{ end }}
+                    {{ if .Annotations.dashboard }}<a href="{{ .Annotations.dashboard }}" class="btn">📊 View Dashboard</a>{{ end }}
+                </div>
+            </div>
+            {{ end }}
+            {{ end }}
+            
+            {{ if gt (len .Alerts.Resolved) 0 }}
+            <h2 style="color: #38a169;">✅ Resolved Alerts ({{ .Alerts.Resolved | len }})</h2>
+            {{ range .Alerts.Resolved }}
+            <div class="alert-item alert-resolved">
+                <div class="alert-title">{{ .Annotations.summary }}</div>
+                <div class="alert-meta">
+                    <strong>Service:</strong> {{ .Labels.service }} | 
+                    <strong>Duration:</strong> {{ (.EndsAt.Sub .StartsAt).Round .second }} |
+                    <strong>Resolved:</strong> {{ .EndsAt.Format "2006-01-02 15:04:05 UTC" }}
+                </div>
+            </div>
+            {{ end }}
+            {{ end }}
+        </div>
+        
+        <div class="footer">
+            <p>🔗 Quick Links: 
+                <a href="https://monitoring.cryb.ai">Monitoring Dashboard</a> | 
+                <a href="https://monitoring.cryb.ai/alerting">Alert Manager</a> | 
+                <a href="https://status.cryb.ai">Status Page</a>
+            </p>
+            <p>This alert was generated by Cryb Platform Monitoring System</p>
+        </div>
+    </div>
+</body>
+</html>
+{{ end }}
+
+{{/* Email plain text template */}}
+{{ define "email.cryb.text" }}
+{{ template "cryb.title" . }}
+
+{{ template "cryb.message" . }}
+
+---
+This alert was generated by Cryb Platform Monitoring System
+Monitoring Dashboard: https://monitoring.cryb.ai
+Alert Manager: https://monitoring.cryb.ai/alerting
+Status Page: https://status.cryb.ai
+{{ end }}
+
+{{/* Microsoft Teams template */}}
+{{ define "teams.cryb.message" }}
+{
+  "@type": "MessageCard",
+  "@context": "http://schema.org/extensions",
+  "themeColor": "{{ if eq .Status "firing" }}d63333{{ else }}2dc653{{ end }}",
+  "summary": "{{ template "cryb.title" . }}",
+  "sections": [
+    {
+      "activityTitle": "{{ template "cryb.title" . }}",
+      "activitySubtitle": "Cryb Platform Monitoring",
+      "activityImage": "https://cryb.ai/logo.png",
+      "facts": [
+        {{ if gt (len .Alerts.Firing) 0 }}
+        {{ range $index, $alert := .Alerts.Firing }}
+        {{ if $index }},{{ end }}
+        {
+          "name": "{{ $alert.Annotations.summary }}",
+          "value": "Service: {{ $alert.Labels.service }} | Severity: {{ $alert.Labels.severity }}"
+        }
+        {{ end }}
+        {{ end }}
+      ],
+      "markdown": true
+    }
+  ],
+  "potentialActions": [
+    {
+      "@type": "OpenUri",
+      "name": "View Dashboard",
+      "targets": [
+        {
+          "os": "default",
+          "uri": "https://monitoring.cryb.ai"
+        }
+      ]
+    },
+    {
+      "@type": "OpenUri", 
+      "name": "View Alerts",
+      "targets": [
+        {
+          "os": "default",
+          "uri": "https://monitoring.cryb.ai/alerting"
+        }
+      ]
+    }
+  ]
+}
+{{ end }}

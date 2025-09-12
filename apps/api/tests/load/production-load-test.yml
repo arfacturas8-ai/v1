@@ -1,0 +1,411 @@
+config:
+  target: 'http://localhost:3002'
+  phases:
+    # Warm-up phase - gradual ramp-up
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 20
+      name: "Warm-up phase"
+    
+    # Normal load simulation - simulates typical production traffic
+    - duration: 300
+      arrivalRate: 30
+      name: "Normal production load"
+    
+    # Peak load simulation - handles high traffic periods
+    - duration: 180
+      arrivalRate: 50
+      rampTo: 100
+      name: "Peak load simulation"
+    
+    # Stress test - tests system breaking point
+    - duration: 120
+      arrivalRate: 150
+      name: "Stress test"
+    
+    # Spike test - sudden traffic bursts
+    - duration: 60
+      arrivalRate: 300
+      name: "Spike test"
+    
+    # Recovery test - verify system stability after stress
+    - duration: 180
+      arrivalRate: 20
+      name: "Recovery phase"
+
+  processor: "./production-load-helpers.js"
+  
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+      'User-Agent': 'Production-Load-Test-Suite/1.0'
+
+  variables:
+    # Production-like user pool
+    testUsers:
+      - "produser1@example.com"
+      - "produser2@example.com"
+      - "produser3@example.com"
+      - "produser4@example.com"
+      - "produser5@example.com"
+      - "produser6@example.com"
+      - "produser7@example.com"
+      - "produser8@example.com"
+      - "produser9@example.com"
+      - "produser10@example.com"
+
+# Comprehensive scenarios covering all key user flows
+scenarios:
+  # Authentication Load Test - 25% of traffic
+  - name: "Authentication Flow"
+    weight: 25
+    flow:
+      # Test user registration under load
+      - post:
+          url: "/api/v1/auth/register"
+          beforeRequest: "generateProductionUser"
+          json:
+            email: "{{ email }}"
+            username: "{{ username }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.accessToken"
+              as: "authToken"
+            - json: "$.user.id"
+              as: "userId"
+          expect:
+            - statusCode: 201
+            - hasProperty: "accessToken"
+            - responseTime: 3000
+
+      - think: 2
+
+      # Test login flow
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.accessToken"
+              as: "loginToken"
+          expect:
+            - statusCode: 200
+            - hasProperty: "accessToken"
+            - responseTime: 2000
+
+      - think: 1
+
+      # Verify token validation
+      - get:
+          url: "/api/v1/auth/me"
+          headers:
+            Authorization: "Bearer {{ loginToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "user"
+
+  # Discord Features Load Test - 30% of traffic
+  - name: "Discord Features"
+    weight: 30
+    flow:
+      # Authenticate first
+      - function: "authenticateUser"
+
+      # Create server
+      - post:
+          url: "/api/v1/servers"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "Load Test Server {{ $randomString() }}"
+            description: "Production load test server"
+            type: "public"
+          capture:
+            - json: "$.server.id"
+              as: "serverId"
+            - json: "$.server.inviteCode"
+              as: "inviteCode"
+          expect:
+            - statusCode: 201
+            - hasProperty: "server"
+            - responseTime: 2000
+
+      - think: 1
+
+      # Create multiple channels in parallel
+      - loop:
+          over: ["general", "random", "announcements"]
+          flow:
+            - post:
+                url: "/api/v1/servers/{{ serverId }}/channels"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  name: "{{ $loopElement }}"
+                  type: "text"
+                capture:
+                  - json: "$.channel.id"
+                    as: "channelId"
+                expect:
+                  - statusCode: 201
+                  - hasProperty: "channel"
+
+      - think: 2
+
+      # Send messages to channels
+      - loop:
+          count: 5
+          flow:
+            - post:
+                url: "/api/v1/servers/{{ serverId }}/channels/{{ channelId }}/messages"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  content: "Production load test message {{ $randomInt(1, 1000) }}"
+                expect:
+                  - statusCode: 201
+                  - responseTime: 1000
+
+            - think: 0.5
+
+      # Test server member operations
+      - post:
+          url: "/api/v1/servers/{{ serverId }}/members"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            inviteCode: "{{ inviteCode }}"
+          expect:
+            - statusCode: 200
+
+  # Reddit Features Load Test - 25% of traffic  
+  - name: "Reddit Features"
+    weight: 25
+    flow:
+      # Authenticate first
+      - function: "authenticateUser"
+
+      # Create community
+      - post:
+          url: "/api/v1/communities"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "loadtest{{ $randomString() }}"
+            title: "Production Load Test Community"
+            description: "Community for production load testing"
+            type: "public"
+          capture:
+            - json: "$.community.id"
+              as: "communityId"
+          expect:
+            - statusCode: 201
+            - hasProperty: "community"
+            - responseTime: 2000
+
+      - think: 1
+
+      # Create posts
+      - loop:
+          count: 3
+          flow:
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  title: "Load test post {{ $randomString() }}"
+                  content: "This is a production load test post with content {{ $randomInt(1, 1000) }}"
+                  type: "text"
+                capture:
+                  - json: "$.post.id"
+                    as: "postId"
+                expect:
+                  - statusCode: 201
+                  - hasProperty: "post"
+
+            - think: 0.5
+
+            # Vote on post
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts/{{ postId }}/vote"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  vote: "up"
+                expect:
+                  - statusCode: 200
+
+            # Add comments
+            - post:
+                url: "/api/v1/communities/{{ communityId }}/posts/{{ postId }}/comments"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  content: "Load test comment {{ $randomString() }}"
+                expect:
+                  - statusCode: 201
+
+            - think: 0.3
+
+  # File Upload and Media Load Test - 10% of traffic
+  - name: "Media Upload Operations"
+    weight: 10
+    flow:
+      # Authenticate first
+      - function: "authenticateUser"
+
+      # Test image upload
+      - function: "generateImageFile"
+      - post:
+          url: "/api/v1/uploads/image"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          formData:
+            file: "{{ imageFileData }}"
+          expect:
+            - statusCode: 200
+            - responseTime: 5000
+
+      - think: 2
+
+      # Test video upload (smaller file for load testing)
+      - function: "generateVideoFile"
+      - post:
+          url: "/api/v1/uploads/video"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          formData:
+            file: "{{ videoFileData }}"
+          expect:
+            - statusCode: 200
+            - responseTime: 10000
+
+  # WebSocket Real-time Communication Load Test - 10% of traffic
+  - name: "Real-time WebSocket Communication"
+    weight: 10
+    flow:
+      # Authenticate first
+      - function: "authenticateUser"
+
+      # Test WebSocket connections and messaging
+      - function: "establishWebSocketConnection"
+      - function: "joinMultipleChannels"
+      - function: "sendRealtimeMessages"
+      - function: "testTypingIndicators"
+      - function: "testPresenceUpdates"
+      - function: "disconnectWebSocket"
+
+# Performance expectations and thresholds
+expect:
+  - statusCode: 
+      - 200
+      - 201
+      - 204
+
+  # Response time expectations (production-grade)
+  - responseTime: 5000  # Maximum 5 seconds for any request
+
+  # Content type validation
+  - contentType: json
+
+# Advanced performance thresholds
+thresholds:
+  # Response time thresholds
+  http.response_time:
+    p50: 500    # 50% of requests should complete within 500ms
+    p95: 2000   # 95% of requests should complete within 2s
+    p99: 5000   # 99% of requests should complete within 5s
+    max: 10000  # No request should take longer than 10s
+
+  # Request rate thresholds
+  http.request_rate: 
+    min: 100    # Should handle at least 100 requests per second
+
+  # Error rate thresholds  
+  http.request_errors:
+    rate: 0.05  # Error rate should be less than 5%
+
+  # Success rate thresholds
+  http.codes.2xx:
+    rate: 0.85  # At least 85% of requests should be successful (2xx codes)
+
+plugins:
+  # Enhanced metrics collection
+  expect: {}
+  
+  # Detailed endpoint metrics
+  metrics-by-endpoint:
+    useOnlyRequestNames: true
+    
+  # HTML report generation
+  hls:
+    writeToFile: './load-test-results.json'
+
+# Custom metrics for production monitoring
+metrics:
+  - name: "auth_latency"
+    summary: "Authentication endpoint response times"
+    
+  - name: "discord_ops_throughput"
+    summary: "Discord operations throughput (servers/channels/messages per second)"
+    
+  - name: "reddit_ops_throughput"
+    summary: "Reddit operations throughput (communities/posts/comments per second)"
+    
+  - name: "upload_success_rate"
+    summary: "File upload success rate and throughput"
+    
+  - name: "websocket_performance"
+    summary: "WebSocket connection and messaging performance"
+    
+  - name: "database_connection_pool"
+    summary: "Database connection pool utilization"
+    
+  - name: "memory_usage"
+    summary: "Server memory usage during load test"
+    
+  - name: "cpu_utilization"
+    summary: "Server CPU utilization during load test"
+
+# Health monitoring during load test
+healthCheck:
+  url: "/api/v1/health"
+  interval: 30
+  timeout: 5000
+  expect:
+    - statusCode: 200
+    - hasProperty: "status"
+    - hasProperty: "timestamp"
+
+# Performance monitoring
+monitoring:
+  # System resource monitoring
+  - memory_usage
+  - cpu_usage
+  - disk_io
+  - network_io
+  
+  # Application-specific monitoring
+  - database_connections
+  - redis_connections
+  - active_websocket_connections
+  - queue_depth
+  
+  # Response time monitoring
+  - endpoint_response_times
+  - database_query_times
+  - cache_hit_rates
+
+# Test completion criteria
+completion:
+  # Stop test if error rate exceeds threshold
+  errorRate: 0.15  # Stop if error rate exceeds 15%
+  
+  # Stop test if response time degrades significantly
+  responseTime: 
+    p95: 10000  # Stop if 95th percentile exceeds 10s
+    
+  # Memory usage limits
+  memoryUsage: 85  # Stop if memory usage exceeds 85%

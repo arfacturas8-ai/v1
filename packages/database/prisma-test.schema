@@ -1,0 +1,20 @@
+// Prisma schema for test environment
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+  binaryTargets = ["native", "linux-openssl-1.1.x"]
+  previewFeatures = ["metrics", "tracing"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Connection pool configuration (set via environment variables):
+// DATABASE_CONNECTION_LIMIT=2
+// DATABASE_POOL_TIMEOUT=10
+// DATABASE_CONNECT_TIMEOUT=60
+
+// Copy your existing schema models here...
+// (This would include all the models from your main schema.prisma)

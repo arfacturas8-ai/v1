@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.io Authentication Test</title>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #1e1e1e;
+            color: #ffffff;
+        }
+        .container {
+            background-color: #2e2e2e;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        input, button, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #444;
+            background-color: #3e3e3e;
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+        button {
+            cursor: pointer;
+            background-color: #007acc;
+        }
+        button:hover {
+            background-color: #005a99;
+        }
+        .log {
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            padding: 10px;
+            height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .success { color: #4caf50; }
+        .error { color: #f44336; }
+        .info { color: #2196f3; }
+        .warning { color: #ff9800; }
+        .status {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .status.connected { background-color: #4caf50; color: white; }
+        .status.disconnected { background-color: #f44336; color: white; }
+        .status.connecting { background-color: #ff9800; color: white; }
+    </style>
+</head>
+<body>
+    <h1>Socket.io Authentication Test - CRYB Platform</h1>
+    
+    <div class="container">
+        <h3>Connection Status: <span id="status" class="status disconnected">DISCONNECTED</span></h3>
+        <p>Server: <strong>http://localhost:3002</strong></p>
+        
+        <h3>JWT Authentication</h3>
+        <input type="text" id="token" placeholder="Enter JWT token here..." />
+        <button onclick="connect()">Connect with Token</button>
+        <button onclick="disconnect()">Disconnect</button>
+    </div>
+
+    <div class="container">
+        <h3>Test Real-time Events</h3>
+        <button onclick="testPing()">Test Ping/Pong</button>
+        <button onclick="testPresenceUpdate()">Test Presence Update</button>
+        <button onclick="testJoinChannel()">Test Join Channel</button>
+        <button onclick="testSendMessage()">Test Send Message</button>
+        <button onclick="testTyping()">Test Typing Indicator</button>
+    </div>
+
+    <div class="container">
+        <h3>Event Log</h3>
+        <button onclick="clearLog()">Clear Log</button>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        let socket = null;
+        const logDiv = document.getElementById('log');
+        const statusSpan = document.getElementById('status');
+        const tokenInput = document.getElementById('token');
+
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            logDiv.appendChild(logEntry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        function updateStatus(status) {
+            statusSpan.textContent = status.toUpperCase();
+            statusSpan.className = `status ${status}`;
+        }
+
+        function connect() {
+            const token = tokenInput.value.trim();
+            
+            if (!token) {
+                log('❌ Please enter a JWT token', 'error');
+                return;
+            }
+
+            if (socket) {
+                socket.disconnect();
+            }
+
+            log('🔄 Attempting to connect with JWT token...', 'info');
+            updateStatus('connecting');
+
+            // Connect with multiple auth methods for compatibility
+            socket = io('http://localhost:3002', {
+                auth: {
+                    token: token
+                },
+                extraHeaders: {
+                    'Authorization': `Bearer ${token}`
+                },
+                query: {
+                    token: token
+                },
+                transports: ['polling', 'websocket'],
+                timeout: 10000
+            });
+
+            // Connection events
+            socket.on('connect', () => {
+                log('✅ Socket connected successfully!', 'success');
+                updateStatus('connected');
+                log(`🔗 Socket ID: ${socket.id}`, 'info');
+            });
+
+            socket.on('disconnect', (reason) => {
+                log(`❌ Socket disconnected: ${reason}`, 'error');
+                updateStatus('disconnected');
+            });
+
+            socket.on('connect_error', (error) => {
+                log(`💥 Connection error: ${error.message}`, 'error');
+                updateStatus('disconnected');
+                
+                // Parse authentication errors
+                if (error.message.includes('Authentication')) {
+                    log('🔐 Authentication failed - check your JWT token', 'error');
+                } else if (error.message.includes('token')) {
+                    log('🔐 Token-related error - verify token format and validity', 'error');
+                }
+            });
+
+            // Authentication success
+            socket.on('authenticated', (data) => {
+                log('🔐 Authentication successful!', 'success');
+                if (data) {
+                    log(`👤 User data: ${JSON.stringify(data)}`, 'info');
+                }
+            });
+
+            // Real-time events
+            socket.on('pong', (data) => {
+                log('🏓 Pong received!', 'success');
+                if (data) {
+                    log(`📊 Pong data: ${JSON.stringify(data)}`, 'info');
+                }
+            });
+
+            socket.on('presence-update', (data) => {
+                log(`👁️ Presence update: ${JSON.stringify(data)}`, 'info');
+            });
+
+            socket.on('new-message', (message) => {
+                log(`📨 New message received: ${JSON.stringify(message)}`, 'success');
+            });
+
+            socket.on('user-typing', (data) => {
+                log(`⌨️ User typing: ${data.displayName} in channel ${data.channelId}`, 'info');
+            });
+
+            socket.on('user-stop-typing', (data) => {
+                log(`⌨️ User stopped typing: ${data.userId} in channel ${data.channelId}`, 'info');
+            });
+
+            socket.on('error', (error) => {
+                log(`💥 Socket error: ${JSON.stringify(error)}`, 'error');
+            });
+
+            // Generic event listener for debugging
+            socket.onAny((eventName, ...args) => {
+                log(`📡 Event received: ${eventName}`, 'info');
+                if (args.length > 0) {
+                    log(`📄 Event data: ${JSON.stringify(args)}`, 'info');
+                }
+            });
+        }
+
+        function disconnect() {
+            if (socket) {
+                socket.disconnect();
+                socket = null;
+                log('🔌 Manually disconnected', 'warning');
+                updateStatus('disconnected');
+            }
+        }
+
+        function testPing() {
+            if (!socket || !socket.connected) {
+                log('❌ Socket not connected', 'error');
+                return;
+            }
+            
+            log('🏓 Sending ping...', 'info');
+            socket.emit('ping');
+        }
+
+        function testPresenceUpdate() {
+            if (!socket || !socket.connected) {
+                log('❌ Socket not connected', 'error');
+                return;
+            }
+            
+            const presenceData = {
+                status: 'online',
+                activity: 'Testing Socket.io authentication'
+            };
+            
+            log('👁️ Updating presence...', 'info');
+            socket.emit('update-presence', presenceData);
+        }
+
+        function testJoinChannel() {
+            if (!socket || !socket.connected) {
+                log('❌ Socket not connected', 'error');
+                return;
+            }
+            
+            const channelData = {
+                channelId: 'test-channel-123'
+            };
+            
+            log('🚪 Attempting to join channel...', 'info');
+            socket.emit('join-channel', channelData);
+        }
+
+        function testSendMessage() {
+            if (!socket || !socket.connected) {
+                log('❌ Socket not connected', 'error');
+                return;
+            }
+            
+            const messageData = {
+                channelId: 'test-channel-123',
+                content: 'Hello from Socket.io test client! 👋',
+                timestamp: new Date().toISOString()
+            };
+            
+            log('📨 Sending test message...', 'info');
+            socket.emit('send-message', messageData);
+        }
+
+        function testTyping() {
+            if (!socket || !socket.connected) {
+                log('❌ Socket not connected', 'error');
+                return;
+            }
+            
+            const typingData = {
+                channelId: 'test-channel-123'
+            };
+            
+            log('⌨️ Sending typing indicator...', 'info');
+            socket.emit('typing', typingData);
+            
+            // Stop typing after 3 seconds
+            setTimeout(() => {
+                socket.emit('stop-typing', typingData);
+                log('⌨️ Stopped typing indicator', 'info');
+            }, 3000);
+        }
+
+        function clearLog() {
+            logDiv.innerHTML = '';
+        }
+
+        // Auto-populate with a sample JWT token format
+        tokenInput.value = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0LXVzZXItaWQiLCJzZXNzaW9uSWQiOiJ0ZXN0LXNlc3Npb24taWQiLCJpYXQiOjE2OTQyNTc0MjEsImV4cCI6MTY5NDg2MjIyMX0.sample-signature';
+
+        log('🔧 Socket.io Authentication Test Client loaded', 'info');
+        log('💡 Enter a valid JWT token and click "Connect with Token"', 'info');
+        log('🎯 Test various real-time events after connecting', 'info');
+    </script>
+</body>
+</html>

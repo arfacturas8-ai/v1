@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Chat Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+        .connected { background: #065f46; }
+        .disconnected { background: #991b1b; }
+        .connecting { background: #f59e0b; }
+        
+        .form-group {
+            margin: 20px 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #374151;
+            border-radius: 5px;
+            background: #374151;
+            color: white;
+            font-size: 14px;
+        }
+        
+        button {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        
+        button:hover {
+            background: #2563eb;
+        }
+        
+        button:disabled {
+            background: #6b7280;
+            cursor: not-allowed;
+        }
+        
+        .messages {
+            background: #111827;
+            border: 1px solid #374151;
+            border-radius: 5px;
+            height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+            margin: 20px 0;
+        }
+        
+        .message {
+            margin: 5px 0;
+            padding: 5px;
+            border-radius: 3px;
+            background: #1f2937;
+        }
+        
+        .timestamp {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+        
+        .event-type {
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+    </style>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Socket.IO Chat Test Client</h1>
+    
+    <div id="status" class="status connecting">
+        Status: Connecting...
+    </div>
+    
+    <div class="form-group">
+        <button onclick="connect()">Connect</button>
+        <button onclick="disconnect()">Disconnect</button>
+        <button onclick="clearMessages()">Clear Messages</button>
+    </div>
+    
+    <div class="form-group">
+        <label>Server ID:</label>
+        <input type="text" id="serverId" value="demo-server-1" placeholder="Enter server ID">
+        <button onclick="joinServer()">Join Server</button>
+    </div>
+    
+    <div class="form-group">
+        <label>Channel ID:</label>
+        <input type="text" id="channelId" value="demo-channel-1" placeholder="Enter channel ID">
+        <button onclick="joinChannel()">Join Channel</button>
+    </div>
+    
+    <div class="form-group">
+        <label>Message:</label>
+        <textarea id="messageContent" placeholder="Type your message here..." rows="3"></textarea>
+        <button onclick="sendMessage()">Send Message</button>
+    </div>
+    
+    <div class="form-group">
+        <button onclick="startTyping()">Start Typing</button>
+        <button onclick="stopTyping()">Stop Typing</button>
+    </div>
+    
+    <div class="messages" id="messages">
+        <div class="message">
+            <span class="timestamp">[Starting...]</span>
+            <span class="event-type">INFO</span>
+            Chat test client initialized
+        </div>
+    </div>
+    
+    <script>
+        let socket = null;
+        let isConnected = false;
+        
+        function addMessage(type, data, timestamp = new Date()) {
+            const messages = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+            
+            const timeStr = timestamp.toLocaleTimeString();
+            messageDiv.innerHTML = `
+                <span class="timestamp">[${timeStr}]</span>
+                <span class="event-type">${type}</span>
+                ${typeof data === 'object' ? JSON.stringify(data, null, 2) : data}
+            `;
+            
+            messages.appendChild(messageDiv);
+            messages.scrollTop = messages.scrollHeight;
+        }
+        
+        function updateStatus(status, className) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = `Status: ${status}`;
+            statusDiv.className = `status ${className}`;
+            isConnected = className === 'connected';
+        }
+        
+        function connect() {
+            if (socket) {
+                socket.disconnect();
+            }
+            
+            updateStatus('Connecting...', 'connecting');
+            addMessage('INFO', 'Attempting to connect to Socket.IO server...');
+            
+            socket = io('http://localhost:3001', {
+                transports: ['websocket', 'polling'],
+                upgrade: true,
+                rememberUpgrade: true,
+                timeout: 30000,
+                forceNew: false,
+                reconnection: true,
+                reconnectionDelay: 1000,
+                reconnectionAttempts: 10,
+                randomizationFactor: 0.5,
+                autoConnect: true,
+            });
+            
+            // Connection events
+            socket.on('connect', () => {
+                updateStatus('Connected', 'connected');
+                addMessage('SUCCESS', `Connected with ID: ${socket.id}`);
+                
+                // Send presence update
+                socket.emit('update-presence', { status: 'online' });
+            });
+            
+            socket.on('disconnect', (reason) => {
+                updateStatus('Disconnected', 'disconnected');
+                addMessage('ERROR', `Disconnected: ${reason}`);
+            });
+            
+            socket.on('connect_error', (error) => {
+                updateStatus('Connection Error', 'disconnected');
+                addMessage('ERROR', `Connection error: ${error.message}`);
+            });
+            
+            socket.on('error', (error) => {
+                addMessage('ERROR', `Socket error: ${error}`);
+            });
+            
+            // Chat events
+            socket.on('new-message', (message) => {
+                addMessage('MESSAGE', message);
+            });
+            
+            socket.on('user-typing', (data) => {
+                addMessage('TYPING', `${data.username || data.userId} is typing in channel ${data.channelId}`);
+            });
+            
+            socket.on('user-stop-typing', (data) => {
+                addMessage('TYPING', `${data.userId} stopped typing in channel ${data.channelId}`);
+            });
+            
+            socket.on('channel-history', (data) => {
+                addMessage('HISTORY', `Received ${data.messages.length} messages for channel ${data.channelId}`);
+            });
+            
+            socket.on('user-joined-channel', (data) => {
+                addMessage('JOIN', `${data.username} joined channel`);
+            });
+            
+            socket.on('user-left-channel', (data) => {
+                addMessage('LEAVE', `User ${data.userId} left channel`);
+            });
+            
+            socket.on('server-state', (data) => {
+                addMessage('SERVER', 'Received server state');
+            });
+            
+            socket.on('presence-update', (data) => {
+                addMessage('PRESENCE', `${data.userId} is now ${data.status}`);
+            });
+            
+            // Catch all other events
+            const originalEmit = socket.emit;
+            socket.emit = function(eventName, ...args) {
+                addMessage('SEND', `${eventName}: ${JSON.stringify(args)}`);
+                return originalEmit.apply(this, [eventName, ...args]);
+            };
+        }
+        
+        function disconnect() {
+            if (socket) {
+                socket.disconnect();
+                socket = null;
+            }
+            updateStatus('Disconnected', 'disconnected');
+            addMessage('INFO', 'Manually disconnected');
+        }
+        
+        function joinServer() {
+            const serverId = document.getElementById('serverId').value;
+            if (!socket || !isConnected || !serverId) {
+                addMessage('ERROR', 'Not connected or no server ID');
+                return;
+            }
+            socket.emit('join-server', { serverId });
+        }
+        
+        function joinChannel() {
+            const channelId = document.getElementById('channelId').value;
+            if (!socket || !isConnected || !channelId) {
+                addMessage('ERROR', 'Not connected or no channel ID');
+                return;
+            }
+            socket.emit('join-channel', { channelId });
+        }
+        
+        function sendMessage() {
+            const channelId = document.getElementById('channelId').value;
+            const content = document.getElementById('messageContent').value;
+            if (!socket || !isConnected || !channelId || !content) {
+                addMessage('ERROR', 'Not connected, no channel ID, or no message content');
+                return;
+            }
+            socket.emit('send-message', { 
+                channelId, 
+                content, 
+                attachments: [],
+                embeds: []
+            });
+            document.getElementById('messageContent').value = '';
+        }
+        
+        function startTyping() {
+            const channelId = document.getElementById('channelId').value;
+            if (!socket || !isConnected || !channelId) {
+                addMessage('ERROR', 'Not connected or no channel ID');
+                return;
+            }
+            socket.emit('typing', { channelId });
+        }
+        
+        function stopTyping() {
+            const channelId = document.getElementById('channelId').value;
+            if (!socket || !isConnected || !channelId) {
+                addMessage('ERROR', 'Not connected or no channel ID');
+                return;
+            }
+            socket.emit('stop-typing', { channelId });
+        }
+        
+        function clearMessages() {
+            const messages = document.getElementById('messages');
+            messages.innerHTML = '';
+        }
+        
+        // Auto-connect on page load
+        window.addEventListener('load', () => {
+            setTimeout(connect, 1000);
+        });
+        
+        // Handle Enter key in message textarea
+        document.getElementById('messageContent').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

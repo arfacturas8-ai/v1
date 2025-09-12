@@ -1,0 +1,127 @@
+export interface BasePost {
+  id: string;
+  title: string;
+  type: PostType;
+  userId: string;
+  communityId?: string;
+  score: number;
+  upvotes: number;
+  downvotes: number;
+  commentCount: number;
+  createdAt: string;
+  updatedAt: string;
+  isDeleted: boolean;
+  isNsfw: boolean;
+  isLocked: boolean;
+  isStickied: boolean;
+  flair?: PostFlair;
+  user: {
+    id: string;
+    username: string;
+    displayName?: string;
+    avatar?: string;
+    karma?: number;
+  };
+  community?: {
+    id: string;
+    name: string;
+    displayName: string;
+    icon?: string;
+  };
+  userVote?: VoteType;
+  isSaved?: boolean;
+  awards?: PostAward[];
+}
+
+export interface TextPost extends BasePost {
+  type: 'text';
+  content: string;
+}
+
+export interface LinkPost extends BasePost {
+  type: 'link';
+  url: string;
+  thumbnail?: string;
+  linkPreview?: {
+    title?: string;
+    description?: string;
+    image?: string;
+    domain: string;
+  };
+}
+
+export interface ImagePost extends BasePost {
+  type: 'image';
+  imageUrl: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  caption?: string;
+}
+
+export interface PollPost extends BasePost {
+  type: 'poll';
+  pollOptions: PollOption[];
+  pollEndsAt?: string;
+  allowMultipleChoices: boolean;
+  totalVotes: number;
+  userVote?: string[];
+}
+
+export interface PollOption {
+  id: string;
+  text: string;
+  votes: number;
+  percentage: number;
+}
+
+export type Post = TextPost | LinkPost | ImagePost | PollPost;
+export type PostType = 'text' | 'link' | 'image' | 'poll';
+export type VoteType = 'upvote' | 'downvote';
+export type SortType = 'hot' | 'new' | 'top' | 'rising' | 'controversial';
+
+export interface PostFlair {
+  id: string;
+  text: string;
+  color: string;
+  backgroundColor: string;
+  isModOnly: boolean;
+}
+
+export interface PostAward {
+  id: string;
+  type: string;
+  name: string;
+  icon: string;
+  count: number;
+  value: number;
+}
+
+export interface PostStats {
+  views: number;
+  shareCount: number;
+  reportCount: number;
+  crosspostCount: number;
+}
+
+export interface PostInteraction {
+  vote?: VoteType;
+  saved: boolean;
+  hidden: boolean;
+  reported: boolean;
+}
+
+// Error handling types
+export interface PostError {
+  code: string;
+  message: string;
+  recoverable: boolean;
+  timestamp: string;
+}
+
+export interface PostState {
+  loading: boolean;
+  error: PostError | null;
+  optimisticVote?: VoteType;
+  optimisticSave?: boolean;
+  retryCount: number;
+}

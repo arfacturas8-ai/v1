@@ -1,0 +1,505 @@
+config:
+  target: 'http://localhost:3002'
+  phases:
+    # Authentication load phases simulating realistic usage patterns
+    
+    # Morning login rush (8-10 AM)
+    - duration: 180
+      arrivalRate: 20
+      rampTo: 60
+      name: "Morning login rush"
+    
+    # Lunch break registrations (12-1 PM)  
+    - duration: 120
+      arrivalRate: 30
+      rampTo: 50
+      name: "Lunch break activity"
+    
+    # Evening peak (6-9 PM)
+    - duration: 300
+      arrivalRate: 80
+      rampTo: 150
+      name: "Evening peak hours"
+    
+    # Late night moderate activity
+    - duration: 180
+      arrivalRate: 25
+      name: "Late night activity"
+    
+    # Stress test - Black Friday simulation
+    - duration: 180
+      arrivalRate: 300
+      name: "Authentication stress test"
+    
+    # Recovery period
+    - duration: 120
+      arrivalRate: 10
+      name: "Recovery period"
+
+  processor: "./auth-load-helpers.js"
+  
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+      'User-Agent': 'Auth-Load-Test/1.0'
+      'X-Forwarded-For': '{{ $randomIP() }}'
+
+scenarios:
+  # User Registration Load Test - 25% of traffic
+  - name: "User Registration Flow"
+    weight: 25
+    flow:
+      # Test new user registration
+      - post:
+          url: "/api/v1/auth/register"
+          beforeRequest: "generateUniqueRegistration"
+          json:
+            email: "{{ email }}"
+            username: "{{ username }}"
+            password: "{{ password }}"
+            firstName: "{{ firstName }}"
+            lastName: "{{ lastName }}"
+            dateOfBirth: "{{ dateOfBirth }}"
+            acceptTerms: true
+            acceptPrivacy: true
+            marketingOptIn: "{{ marketingOptIn }}"
+          capture:
+            - json: "$.accessToken"
+              as: "registrationToken"
+            - json: "$.user.id"
+              as: "userId"
+            - json: "$.refreshToken"
+              as: "refreshToken"
+          expect:
+            - statusCode: 201
+            - hasProperty: "accessToken"
+            - hasProperty: "refreshToken"
+            - hasProperty: "user"
+            - responseTime: 5000
+
+      - think: 2
+
+      # Immediate profile verification
+      - get:
+          url: "/api/v1/auth/me"
+          headers:
+            Authorization: "Bearer {{ registrationToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "user"
+            - responseTime: 1000
+
+      # Email verification simulation (optional)
+      - function: "maybeVerifyEmail"
+
+  # User Login Flow - 40% of traffic
+  - name: "User Login Flow"
+    weight: 40
+    flow:
+      # Standard email/password login
+      - post:
+          url: "/api/v1/auth/login"
+          beforeRequest: "generateLoginCredentials"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+            rememberMe: "{{ rememberMe }}"
+            deviceFingerprint: "{{ deviceFingerprint }}"
+          capture:
+            - json: "$.accessToken"
+              as: "loginToken"
+            - json: "$.refreshToken"
+              as: "refreshToken"
+            - json: "$.user.id"
+              as: "userId"
+            - json: "$.expiresIn"
+              as: "tokenExpiry"
+          expect:
+            - statusCode: 200
+            - hasProperty: "accessToken"
+            - hasProperty: "refreshToken"
+            - responseTime: 3000
+
+      - think: 1
+
+      # Validate token immediately after login
+      - get:
+          url: "/api/v1/auth/me"
+          headers:
+            Authorization: "Bearer {{ loginToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "user"
+            - responseTime: 500
+
+      # Check user permissions
+      - get:
+          url: "/api/v1/auth/permissions"
+          headers:
+            Authorization: "Bearer {{ loginToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "permissions"
+
+      # Update last activity
+      - post:
+          url: "/api/v1/auth/activity"
+          headers:
+            Authorization: "Bearer {{ loginToken }}"
+          json:
+            action: "login"
+            timestamp: "{{ $timestamp }}"
+            userAgent: "{{ $userAgent }}"
+          expect:
+            - statusCode: 200
+
+  # OAuth Authentication Flow - 15% of traffic
+  - name: "OAuth Authentication Flow"
+    weight: 15
+    flow:
+      # Google OAuth simulation
+      - get:
+          url: "/api/v1/auth/oauth/google"
+          qs:
+            redirect_uri: "https://example.com/auth/callback"
+            state: "{{ $randomString() }}"
+          expect:
+            - statusCode: 302
+            - responseTime: 1000
+
+      - think: 3
+
+      # OAuth callback simulation
+      - post:
+          url: "/api/v1/auth/oauth/callback"
+          beforeRequest: "generateOAuthCallback"
+          json:
+            provider: "google"
+            code: "{{ authCode }}"
+            state: "{{ authState }}"
+            redirect_uri: "https://example.com/auth/callback"
+          capture:
+            - json: "$.accessToken"
+              as: "oauthToken"
+            - json: "$.user.id"
+              as: "userId"
+          expect:
+            - statusCode: 200
+            - hasProperty: "accessToken"
+            - responseTime: 4000
+
+      # Verify OAuth user profile
+      - get:
+          url: "/api/v1/auth/me"
+          headers:
+            Authorization: "Bearer {{ oauthToken }}"
+          expect:
+            - statusCode: 200
+
+  # Token Management - 10% of traffic
+  - name: "Token Refresh and Validation"
+    weight: 10
+    flow:
+      - function: "authenticateExistingUser"
+
+      # Test token refresh
+      - post:
+          url: "/api/v1/auth/refresh"
+          json:
+            refreshToken: "{{ refreshToken }}"
+          capture:
+            - json: "$.accessToken"
+              as: "newAccessToken"
+            - json: "$.refreshToken"
+              as: "newRefreshToken"
+          expect:
+            - statusCode: 200
+            - hasProperty: "accessToken"
+            - responseTime: 2000
+
+      - think: 1
+
+      # Validate new token
+      - get:
+          url: "/api/v1/auth/me"
+          headers:
+            Authorization: "Bearer {{ newAccessToken }}"
+          expect:
+            - statusCode: 200
+
+      # Revoke old refresh token
+      - post:
+          url: "/api/v1/auth/revoke"
+          json:
+            refreshToken: "{{ refreshToken }}"
+          expect:
+            - statusCode: 200
+
+      # List active sessions
+      - get:
+          url: "/api/v1/auth/sessions"
+          headers:
+            Authorization: "Bearer {{ newAccessToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "sessions"
+
+  # Password Management - 5% of traffic
+  - name: "Password Management Flow"
+    weight: 5
+    flow:
+      # Password reset request
+      - post:
+          url: "/api/v1/auth/forgot-password"
+          beforeRequest: "generatePasswordReset"
+          json:
+            email: "{{ email }}"
+            captchaToken: "{{ captchaToken }}"
+          expect:
+            - statusCode: 200
+            - responseTime: 2000
+
+      - think: 5
+
+      # Password reset completion simulation
+      - post:
+          url: "/api/v1/auth/reset-password"
+          json:
+            token: "{{ resetToken }}"
+            newPassword: "{{ newPassword }}"
+            confirmPassword: "{{ newPassword }}"
+          expect:
+            - statusCode: 200
+
+      # Login with new password
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ newPassword }}"
+          capture:
+            - json: "$.accessToken"
+              as: "resetLoginToken"
+          expect:
+            - statusCode: 200
+
+  # Security and Rate Limiting - 3% of traffic
+  - name: "Security Testing"
+    weight: 3
+    flow:
+      # Test rate limiting with failed logins
+      - loop:
+          count: 6
+          flow:
+            - post:
+                url: "/api/v1/auth/login"
+                json:
+                  email: "victim@example.com"
+                  password: "wrongpassword{{ $randomString() }}"
+                expect:
+                  - statusCode: [400, 401, 429]
+
+      - think: 1
+
+      # Should be rate limited now
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "victim@example.com"
+            password: "correctpassword"
+          expect:
+            - statusCode: 429
+            - hasProperty: "retryAfter"
+
+  # Multi-Factor Authentication - 2% of traffic
+  - name: "Multi-Factor Authentication"
+    weight: 2
+    flow:
+      - function: "authenticateExistingUser"
+
+      # Enable 2FA
+      - post:
+          url: "/api/v1/auth/2fa/enable"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            password: "{{ password }}"
+          capture:
+            - json: "$.qrCode"
+              as: "qrCode"
+            - json: "$.secret"
+              as: "totpSecret"
+          expect:
+            - statusCode: 200
+
+      # Verify 2FA setup
+      - post:
+          url: "/api/v1/auth/2fa/verify"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generateTOTPCode"
+          json:
+            code: "{{ totpCode }}"
+          expect:
+            - statusCode: 200
+
+      # Login with 2FA
+      - post:
+          url: "/api/v1/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.requires2FA"
+              as: "requires2FA"
+          expect:
+            - statusCode: 200
+
+      # Provide 2FA code
+      - post:
+          url: "/api/v1/auth/2fa/authenticate"
+          beforeRequest: "generateTOTPCode"
+          json:
+            code: "{{ totpCode }}"
+            tempToken: "{{ tempToken }}"
+          capture:
+            - json: "$.accessToken"
+              as: "mfaToken"
+          expect:
+            - statusCode: 200
+
+# Authentication-specific performance expectations
+expect:
+  - statusCode:
+      - 200
+      - 201
+      - 302
+      - 400
+      - 401
+      - 403
+      - 422
+      - 429
+
+  # Authentication response time expectations
+  - responseTime: 8000
+
+# Authentication performance thresholds
+thresholds:
+  # Registration operations
+  http.response_time.register:
+    p95: 5000  # Registration within 5s
+    p99: 8000  # Registration within 8s
+
+  # Login operations (should be faster)
+  http.response_time.login:
+    p95: 3000  # Login within 3s
+    p99: 5000  # Login within 5s
+
+  # Token operations (should be very fast)
+  http.response_time.token:
+    p95: 1000  # Token refresh within 1s
+    p99: 2000  # Token refresh within 2s
+
+  # OAuth operations
+  http.response_time.oauth:
+    p95: 4000  # OAuth within 4s
+    p99: 6000  # OAuth within 6s
+
+  # Password operations
+  http.response_time.password:
+    p95: 2000  # Password reset within 2s
+    p99: 4000  # Password reset within 4s
+
+  # Throughput requirements
+  http.request_rate.login: 100      # 100 logins/sec
+  http.request_rate.register: 25    # 25 registrations/sec
+  http.request_rate.token: 200      # 200 token operations/sec
+
+  # Error rates
+  http.request_errors.login:
+    rate: 0.02  # Login error rate < 2%
+  
+  http.request_errors.register:
+    rate: 0.05  # Registration error rate < 5%
+    
+  http.request_errors.token:
+    rate: 0.01  # Token error rate < 1%
+
+  # Security requirements
+  auth.failed_logins.rate: 0.15     # Max 15% failed login attempts
+  auth.rate_limit.triggered: 10     # Rate limiting should trigger
+  auth.suspicious_activity: 5       # Should detect suspicious patterns
+
+plugins:
+  expect: {}
+  metrics-by-endpoint:
+    useOnlyRequestNames: true
+  hls:
+    writeToFile: './auth-load-test-results.json'
+
+# Authentication-specific metrics
+metrics:
+  - name: "registrations_per_second"
+    summary: "User registration rate"
+    
+  - name: "logins_per_second"
+    summary: "User login rate"
+    
+  - name: "token_refresh_rate"
+    summary: "Token refresh operations per second"
+    
+  - name: "oauth_completion_time"
+    summary: "OAuth flow completion times"
+    
+  - name: "password_reset_time"
+    summary: "Password reset flow completion times"
+    
+  - name: "failed_login_attempts"
+    summary: "Failed login attempt rate"
+    
+  - name: "rate_limit_triggers"
+    summary: "Rate limiting activation count"
+    
+  - name: "mfa_authentication_time"
+    summary: "Multi-factor authentication completion times"
+    
+  - name: "session_duration"
+    summary: "User session duration tracking"
+    
+  - name: "concurrent_sessions"
+    summary: "Concurrent active sessions"
+
+# Health monitoring for authentication
+healthCheck:
+  url: "/api/v1/health/auth"
+  interval: 15
+  timeout: 3000
+  expect:
+    - statusCode: 200
+    - hasProperty: "authServices"
+
+# Authentication monitoring
+monitoring:
+  # Core auth metrics
+  - active_sessions
+  - failed_login_attempts
+  - password_reset_requests
+  - oauth_completions
+  
+  # Security metrics
+  - rate_limit_violations
+  - suspicious_login_patterns
+  - account_lockouts
+  - brute_force_attempts
+  
+  # Performance metrics
+  - auth_response_times
+  - token_generation_time
+  - database_auth_queries
+  - cache_hit_rates
+  
+  # System metrics
+  - auth_server_cpu
+  - auth_server_memory
+  - database_connections
+  - redis_auth_cache

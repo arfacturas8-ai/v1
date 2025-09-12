@@ -1,0 +1,323 @@
+version: '3.9'
+
+services:
+  # Optimized PostgreSQL with TimescaleDB
+  postgres:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres-optimized
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cryb_user
+      POSTGRES_PASSWORD: cryb_password
+      POSTGRES_DB: cryb
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.utf8"
+      # Performance tuning environment variables
+      POSTGRES_SHARED_BUFFERS: "1GB"
+      POSTGRES_EFFECTIVE_CACHE_SIZE: "3GB"
+      POSTGRES_WORK_MEM: "16MB"
+      POSTGRES_MAINTENANCE_WORK_MEM: "256MB"
+      POSTGRES_CHECKPOINT_COMPLETION_TARGET: "0.9"
+      POSTGRES_WAL_BUFFERS: "16MB"
+      POSTGRES_MAX_CONNECTIONS: "200"
+      POSTGRES_SHARED_PRELOAD_LIBRARIES: "timescaledb,pg_stat_statements"
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./config/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./scripts/complete-init-db.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./scripts/timescale-optimization.sql:/docker-entrypoint-initdb.d/02-timescale.sql
+    command: 
+      - "postgres"
+      - "-c"
+      - "config_file=/etc/postgresql/postgresql.conf"
+      - "-c"
+      - "shared_preload_libraries=timescaledb,pg_stat_statements"
+      - "-c"
+      - "max_connections=200"
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "effective_cache_size=3GB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=256MB"
+      - "-c"
+      - "checkpoint_completion_target=0.9"
+      - "-c"
+      - "wal_buffers=16MB"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "effective_io_concurrency=200"
+      - "-c"
+      - "log_statement=all"
+      - "-c"
+      - "log_min_duration_statement=1000"
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryb_user -d cryb -h localhost -p 5432"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    shm_size: 256mb
+
+  # PgBouncer for connection pooling
+  pgbouncer:
+    image: pgbouncer/pgbouncer:latest
+    container_name: cryb-pgbouncer
+    restart: unless-stopped
+    environment:
+      # Fixed database connection string format
+      DATABASES: 'cryb=host=postgres port=5432 dbname=cryb user=cryb_user password=cryb_password'
+      POOL_MODE: transaction
+      SERVER_RESET_QUERY: 'DISCARD ALL'
+      MAX_CLIENT_CONN: 1000
+      DEFAULT_POOL_SIZE: 20
+      MIN_POOL_SIZE: 5
+      RESERVE_POOL_SIZE: 5
+      SERVER_LIFETIME: 3600
+      SERVER_IDLE_TIMEOUT: 600
+      LOG_CONNECTIONS: 1
+      LOG_DISCONNECTIONS: 1
+      LOG_POOLER_ERRORS: 1
+      STATS_PERIOD: 60
+      # Admin configuration
+      ADMIN_USERS: cryb_user
+      AUTH_TYPE: md5
+      AUTH_FILE: /etc/pgbouncer/userlist.txt
+    ports:
+      - "6432:5432"
+    volumes:
+      - ./config/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "psql -h localhost -p 5432 -U cryb_user -d cryb -c 'SELECT 1;' || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # Redis with optimized configuration
+  redis-master:
+    image: redis:7-alpine
+    container_name: cryb-redis-master
+    restart: unless-stopped
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass cryb_redis_password
+      --maxmemory 1gb
+      --maxmemory-policy allkeys-lru
+      --maxclients 10000
+      --timeout 300
+      --tcp-keepalive 60
+      --tcp-backlog 511
+      --databases 16
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --rdbcompression yes
+      --rdbchecksum yes
+      --stop-writes-on-bgsave-error no
+      --lazyfree-lazy-eviction yes
+      --lazyfree-lazy-expire yes
+      --lazyfree-lazy-server-del yes
+      --replica-lazy-flush yes
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_master_data:/data
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "cryb_redis_password", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis replica for read scaling
+  redis-replica:
+    image: redis:7-alpine
+    container_name: cryb-redis-replica
+    restart: unless-stopped
+    command: >
+      redis-server
+      --appendonly yes
+      --requirepass cryb_redis_password
+      --maxmemory 1gb
+      --maxmemory-policy allkeys-lru
+      --maxclients 10000
+      --timeout 300
+      --tcp-keepalive 60
+      --replicaof redis-master 6379
+      --masterauth cryb_redis_password
+    ports:
+      - "6381:6379"
+    volumes:
+      - redis_replica_data:/data
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "cryb_redis_password", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Elasticsearch with performance optimizations
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: cryb-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - cluster.routing.allocation.disk.threshold_enabled=false
+      - bootstrap.memory_lock=true
+      - indices.memory.index_buffer_size=20%
+      - indices.memory.min_index_buffer_size=96mb
+      - thread_pool.write.queue_size=1000
+      - thread_pool.search.queue_size=2000
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 60s
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 2g
+
+  # MinIO with optimization
+  minio:
+    image: minio/minio:latest
+    container_name: cryb-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin123
+      MINIO_DEFAULT_BUCKETS: "cryb-media,cryb-uploads,cryb-backups"
+      MINIO_SERVER_URL: http://minio:9000
+      MINIO_BROWSER_REDIRECT_URL: http://localhost:9001
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+
+  # LiveKit for WebRTC with optimization
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: cryb-livekit
+    restart: unless-stopped
+    command: --config /etc/livekit.yaml --bind 0.0.0.0
+    ports:
+      - "7880:7880"     # HTTP API
+      - "7881:7881"     # RTC TCP fallback
+      - "3478:3478/udp" # TURN UDP
+      - "5349:5349"     # TURN TLS
+      - "50000-60000:50000-60000/udp" # RTC port range
+      - "61000-62000:61000-62000/udp" # TURN relay range
+    volumes:
+      - ./config/livekit/livekit.yaml:/etc/livekit.yaml
+    depends_on:
+      redis-master:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    environment:
+      - LIVEKIT_CONFIG=/etc/livekit.yaml
+
+  # Database monitoring and admin tools
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: cryb-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@cryb.ai
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    profiles:
+      - tools
+
+  # Redis monitoring
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: cryb-redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: "master:redis-master:6379:0:cryb_redis_password,replica:redis-replica:6379:0:cryb_redis_password"
+      HTTP_USER: admin
+      HTTP_PASSWORD: admin123
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis-master
+      - redis-replica
+    networks:
+      - cryb-network
+    profiles:
+      - tools
+
+networks:
+  cryb-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  postgres_data:
+    driver: local
+  redis_master_data:
+    driver: local
+  redis_replica_data:
+    driver: local
+  elasticsearch_data:
+    driver: local
+  minio_data:
+    driver: local
+  pgadmin_data:
+    driver: local

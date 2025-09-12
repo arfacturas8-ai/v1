@@ -1,0 +1,564 @@
+name: CRYB Platform CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop, staging ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main, develop ]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  NODE_VERSION: '20.11.1'
+  PNPM_VERSION: '8.15.0'
+
+jobs:
+  # ==============================================
+  # CODE QUALITY AND SECURITY
+  # ==============================================
+  quality-checks:
+    name: Quality & Security Checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install pnpm
+        run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Lint codebase
+        run: pnpm run lint
+      
+      - name: Type checking
+        run: pnpm run type-check
+      
+      - name: Security audit
+        run: pnpm audit --audit-level moderate
+      
+      - name: License compliance check
+        run: pnpm run license-check
+        continue-on-error: true
+      
+      - name: SAST with CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript,typescript
+      
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  # ==============================================
+  # UNIT AND INTEGRATION TESTS
+  # ==============================================
+  test-api:
+    name: API Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: quality-checks
+    
+    services:
+      postgres:
+        image: timescale/timescaledb:latest-pg15
+        env:
+          POSTGRES_USER: test_user
+          POSTGRES_PASSWORD: test_password
+          POSTGRES_DB: test_db
+        options: >-
+          --health-cmd "pg_isready -U test_user -d test_db"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install pnpm
+        run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build API
+        run: pnpm run build --filter=api
+        
+      - name: Setup test database
+        run: |
+          cd apps/api
+          pnpm exec prisma migrate deploy
+          pnpm exec prisma db seed
+        env:
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379/1
+      
+      - name: Run API unit tests
+        run: pnpm run test --filter=api
+        env:
+          NODE_ENV: test
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379/1
+          JWT_SECRET: test-secret
+      
+      - name: Run API integration tests
+        run: pnpm run test:integration --filter=api
+        env:
+          NODE_ENV: test
+          DATABASE_URL: postgresql://test_user:test_password@localhost:5432/test_db
+          REDIS_URL: redis://localhost:6379/1
+          JWT_SECRET: test-secret
+      
+      - name: Upload API test coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./apps/api/coverage/lcov.info
+          flags: api
+          name: api-coverage
+
+  test-web:
+    name: Web Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quality-checks
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install pnpm
+        run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Build Web app
+        run: pnpm run build --filter=web
+      
+      - name: Run Web unit tests
+        run: pnpm run test --filter=web
+      
+      - name: Run E2E tests
+        run: pnpm run test:e2e --filter=web
+      
+      - name: Upload Web test coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./apps/web/coverage/lcov.info
+          flags: web
+          name: web-coverage
+
+  test-mobile:
+    name: Mobile Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: quality-checks
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install pnpm
+        run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Run Mobile unit tests
+        run: pnpm run test --filter=mobile
+      
+      - name: Upload Mobile test coverage
+        uses: codecov/codecov-action@v4
+        with:
+          file: ./apps/mobile/coverage/lcov.info
+          flags: mobile
+          name: mobile-coverage
+
+  # ==============================================
+  # SECURITY SCANNING
+  # ==============================================
+  security-scan:
+    name: Security Scanning
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [test-api, test-web, test-mobile]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+      
+      - name: Upload Trivy results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+      
+      - name: OWASP ZAP Scan
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          target: 'http://localhost:3001'
+        continue-on-error: true
+
+  # ==============================================
+  # BUILD AND PUSH CONTAINER IMAGES
+  # ==============================================
+  build-images:
+    name: Build Container Images
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [test-api, test-web, test-mobile]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging' || startsWith(github.ref, 'refs/tags/v')
+    
+    strategy:
+      matrix:
+        service: [api, web]
+        
+    outputs:
+      api-image: ${{ steps.image.outputs.api-image }}
+      web-image: ${{ steps.image.outputs.web-image }}
+      api-digest: ${{ steps.image.outputs.api-digest }}
+      web-digest: ${{ steps.image.outputs.web-digest }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+      
+      - name: Build and push image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/${{ matrix.service }}
+          file: ./apps/${{ matrix.service }}/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+            VCS_REF=${{ github.sha }}
+            VERSION=${{ steps.meta.outputs.version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+      
+      - name: Set image output
+        id: image
+        run: |
+          echo "${{ matrix.service }}-image=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ matrix.service }}:${{ steps.meta.outputs.version }}" >> $GITHUB_OUTPUT
+          echo "${{ matrix.service }}-digest=${{ steps.build.outputs.digest }}" >> $GITHUB_OUTPUT
+
+  # ==============================================
+  # MOBILE BUILD (ANDROID/IOS)
+  # ==============================================
+  build-mobile:
+    name: Build Mobile Apps
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs: test-mobile
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+      
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+      
+      - name: Install pnpm
+        run: npm install -g pnpm@${{ env.PNPM_VERSION }}
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      - name: Setup Expo
+        uses: expo/expo-github-action@v8
+        with:
+          expo-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+      
+      - name: Build Android APK
+        run: |
+          cd apps/mobile
+          npx expo prebuild --platform android
+          cd android
+          ./gradlew assembleRelease
+      
+      - name: Sign Android APK
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > keystore.jks
+          jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 \
+            -keystore keystore.jks \
+            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
+            -keypass "${{ secrets.KEY_PASSWORD }}" \
+            ./apps/mobile/android/app/build/outputs/apk/release/app-release-unsigned.apk \
+            "${{ secrets.KEY_ALIAS }}"
+          zipalign -v 4 \
+            ./apps/mobile/android/app/build/outputs/apk/release/app-release-unsigned.apk \
+            ./apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+      
+      - name: Upload Android artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-build
+          path: ./apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+          retention-days: 30
+
+  # ==============================================
+  # STAGING DEPLOYMENT
+  # ==============================================
+  deploy-staging:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs: [build-images, security-scan]
+    if: github.ref == 'refs/heads/staging'
+    environment:
+      name: staging
+      url: https://staging.cryb.ai
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Deploy to ECS Staging
+        run: |
+          aws ecs update-service \
+            --cluster cryb-staging \
+            --service cryb-api-staging \
+            --force-new-deployment
+          
+          aws ecs update-service \
+            --cluster cryb-staging \
+            --service cryb-web-staging \
+            --force-new-deployment
+      
+      - name: Wait for deployment
+        run: |
+          aws ecs wait services-stable \
+            --cluster cryb-staging \
+            --services cryb-api-staging cryb-web-staging
+      
+      - name: Run smoke tests
+        run: |
+          curl -f https://staging-api.cryb.ai/health || exit 1
+          curl -f https://staging.cryb.ai || exit 1
+      
+      - name: Notify deployment
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+  # ==============================================
+  # PRODUCTION DEPLOYMENT
+  # ==============================================
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [build-images, security-scan]
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: production
+      url: https://cryb.ai
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      
+      - name: Create deployment backup
+        run: |
+          aws rds create-db-snapshot \
+            --db-instance-identifier cryb-production \
+            --db-snapshot-identifier cryb-production-$(date +%Y%m%d%H%M%S)
+      
+      - name: Deploy to ECS Production (Blue-Green)
+        run: |
+          # Update task definitions with new image
+          aws ecs register-task-definition \
+            --cli-input-json file://infrastructure/aws/task-definitions/api-production.json
+          
+          aws ecs register-task-definition \
+            --cli-input-json file://infrastructure/aws/task-definitions/web-production.json
+          
+          # Deploy with rolling update
+          aws ecs update-service \
+            --cluster cryb-production \
+            --service cryb-api-production \
+            --force-new-deployment
+          
+          aws ecs update-service \
+            --cluster cryb-production \
+            --service cryb-web-production \
+            --force-new-deployment
+      
+      - name: Wait for deployment
+        timeout-minutes: 15
+        run: |
+          aws ecs wait services-stable \
+            --cluster cryb-production \
+            --services cryb-api-production cryb-web-production
+      
+      - name: Run production smoke tests
+        run: |
+          curl -f https://api.cryb.ai/health || exit 1
+          curl -f https://cryb.ai || exit 1
+          
+          # Run critical path tests
+          npm run test:smoke-production
+      
+      - name: Rollback on failure
+        if: failure()
+        run: |
+          echo "Deployment failed, initiating rollback..."
+          aws ecs update-service \
+            --cluster cryb-production \
+            --service cryb-api-production \
+            --task-definition cryb-api-production:PREVIOUS
+          
+          aws ecs update-service \
+            --cluster cryb-production \
+            --service cryb-web-production \
+            --task-definition cryb-web-production:PREVIOUS
+      
+      - name: Notify deployment success
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          text: '🚀 Production deployment successful!'
+      
+      - name: Notify deployment failure
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          text: '🔥 Production deployment failed and rolled back!'
+
+  # ==============================================
+  # CLEANUP
+  # ==============================================
+  cleanup:
+    name: Cleanup Old Images
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [deploy-production, deploy-staging]
+    if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging')
+    
+    steps:
+      - name: Delete old container images
+        run: |
+          # Keep last 10 images per service
+          gh api --paginate \
+            "/user/packages/container/${{ env.IMAGE_NAME }}-api/versions" \
+            --jq '.[] | select(.created_at < (now - 86400 * 30 | strftime("%Y-%m-%dT%H:%M:%SZ"))) | .id' \
+            | head -n -10 \
+            | xargs -I {} gh api --method DELETE "/user/packages/container/${{ env.IMAGE_NAME }}-api/versions/{}"

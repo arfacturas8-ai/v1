@@ -1,0 +1,393 @@
+{
+  "vhosts": [
+    {
+      "name": "cryb-prod"
+    }
+  ],
+  "users": [
+    {
+      "name": "cryb",
+      "password_hash": "cryb_password",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "administrator"
+    },
+    {
+      "name": "cryb-worker",
+      "password_hash": "worker_password",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": "monitoring"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "cryb",
+      "vhost": "cryb-prod",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    },
+    {
+      "user": "cryb-worker",
+      "vhost": "cryb-prod",
+      "configure": "",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "policies": [
+    {
+      "vhost": "cryb-prod",
+      "name": "ha-policy",
+      "pattern": "^(email|notifications|background|analytics|moderation|blockchain).*",
+      "apply-to": "queues",
+      "definition": {
+        "ha-mode": "exactly",
+        "ha-params": 2,
+        "ha-sync-mode": "automatic",
+        "message-ttl": 86400000,
+        "max-length": 10000,
+        "max-length-bytes": 1048576000,
+        "overflow": "reject-publish"
+      },
+      "priority": 1
+    },
+    {
+      "vhost": "cryb-prod",
+      "name": "dlx-policy",
+      "pattern": "^(?!.*\\.dlq$).*",
+      "apply-to": "queues",
+      "definition": {
+        "dead-letter-exchange": "cryb.dlx",
+        "dead-letter-routing-key": "failed"
+      },
+      "priority": 0
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "cryb.direct",
+      "vhost": "cryb-prod",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "cryb.topic",
+      "vhost": "cryb-prod",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "cryb.fanout",
+      "vhost": "cryb-prod",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "cryb.headers",
+      "vhost": "cryb-prod",
+      "type": "headers",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "cryb.dlx",
+      "vhost": "cryb-prod",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "cryb.retry",
+      "vhost": "cryb-prod",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "email.notifications",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 86400000,
+        "x-max-length": 5000,
+        "x-max-priority": 10,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "email.notifications.priority",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 86400000,
+        "x-max-length": 1000,
+        "x-max-priority": 10,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "push.notifications",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 86400000,
+        "x-max-length": 5000,
+        "x-max-priority": 10,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "sms.notifications",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 86400000,
+        "x-max-length": 2000,
+        "x-max-priority": 10,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "background.analytics",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 172800000,
+        "x-max-length": 10000,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "background.moderation",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 172800000,
+        "x-max-length": 5000,
+        "x-max-priority": 10,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "background.media.processing",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 300000,
+        "x-max-length": 1000,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "background.blockchain",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 600000,
+        "x-max-length": 2000,
+        "x-max-priority": 10,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "background.reports",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 3600000,
+        "x-max-length": 500,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "background.cleanup",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 3600000,
+        "x-max-length": 100,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "realtime.messages",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 60000,
+        "x-max-length": 10000,
+        "x-max-priority": 10,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "realtime.presence",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 30000,
+        "x-max-length": 5000,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "failed.dlq",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 604800000,
+        "x-max-length": 10000,
+        "x-queue-type": "classic"
+      }
+    },
+    {
+      "name": "retry.queue",
+      "vhost": "cryb-prod",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-message-ttl": 60000,
+        "x-dead-letter-exchange": "cryb.direct",
+        "x-max-length": 5000,
+        "x-queue-type": "classic"
+      }
+    }
+  ],
+  "bindings": [
+    {
+      "source": "cryb.direct",
+      "vhost": "cryb-prod",
+      "destination": "email.notifications",
+      "destination_type": "queue",
+      "routing_key": "email.standard"
+    },
+    {
+      "source": "cryb.direct",
+      "vhost": "cryb-prod",
+      "destination": "email.notifications.priority",
+      "destination_type": "queue",
+      "routing_key": "email.priority"
+    },
+    {
+      "source": "cryb.direct",
+      "vhost": "cryb-prod",
+      "destination": "push.notifications",
+      "destination_type": "queue",
+      "routing_key": "push.standard"
+    },
+    {
+      "source": "cryb.direct",
+      "vhost": "cryb-prod",
+      "destination": "sms.notifications",
+      "destination_type": "queue",
+      "routing_key": "sms.standard"
+    },
+    {
+      "source": "cryb.topic",
+      "vhost": "cryb-prod",
+      "destination": "background.analytics",
+      "destination_type": "queue",
+      "routing_key": "background.analytics.*"
+    },
+    {
+      "source": "cryb.topic",
+      "vhost": "cryb-prod",
+      "destination": "background.moderation",
+      "destination_type": "queue",
+      "routing_key": "background.moderation.*"
+    },
+    {
+      "source": "cryb.topic",
+      "vhost": "cryb-prod",
+      "destination": "background.media.processing",
+      "destination_type": "queue",
+      "routing_key": "background.media.*"
+    },
+    {
+      "source": "cryb.topic",
+      "vhost": "cryb-prod",
+      "destination": "background.blockchain",
+      "destination_type": "queue",
+      "routing_key": "background.blockchain.*"
+    },
+    {
+      "source": "cryb.topic",
+      "vhost": "cryb-prod",
+      "destination": "background.reports",
+      "destination_type": "queue",
+      "routing_key": "background.reports.*"
+    },
+    {
+      "source": "cryb.topic",
+      "vhost": "cryb-prod",
+      "destination": "background.cleanup",
+      "destination_type": "queue",
+      "routing_key": "background.cleanup.*"
+    },
+    {
+      "source": "cryb.fanout",
+      "vhost": "cryb-prod",
+      "destination": "realtime.messages",
+      "destination_type": "queue",
+      "routing_key": ""
+    },
+    {
+      "source": "cryb.fanout",
+      "vhost": "cryb-prod",
+      "destination": "realtime.presence",
+      "destination_type": "queue",
+      "routing_key": ""
+    },
+    {
+      "source": "cryb.dlx",
+      "vhost": "cryb-prod",
+      "destination": "failed.dlq",
+      "destination_type": "queue",
+      "routing_key": "failed"
+    },
+    {
+      "source": "cryb.retry",
+      "vhost": "cryb-prod",
+      "destination": "retry.queue",
+      "destination_type": "queue",
+      "routing_key": "retry"
+    }
+  ],
+  "global_parameters": [
+    {
+      "name": "cluster_name",
+      "value": "cryb-prod-cluster"
+    }
+  ],
+  "parameters": []
+}
