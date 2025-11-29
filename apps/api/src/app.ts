@@ -140,11 +140,19 @@ export async function buildApp(opts = {}): Promise<FastifyInstance> {
   console.log('✅ Cookie support registered');
   
   console.log('🔄 Registering CORS...');
-  // CORS configuration
+  // CORS configuration - SECURITY: Strict origin checking
   await app.register(cors, {
     origin: (origin, cb) => {
       const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:3002,http://localhost:3003,http://localhost:19001').split(',');
-      if (!origin || allowedOrigins.includes(origin)) {
+      // In production, require origin header; in development allow same-origin requests
+      if (!origin) {
+        // Allow same-origin requests (no origin header) only in development
+        if (process.env.NODE_ENV === 'development') {
+          cb(null, true);
+        } else {
+          cb(new Error('Origin header required'), false);
+        }
+      } else if (allowedOrigins.includes(origin)) {
         cb(null, true);
       } else {
         cb(new Error('Not allowed by CORS'), false);
@@ -617,12 +625,16 @@ Real-time features use Socket.io. Connect to \`/socket.io\` and authenticate wit
     const { VideoTranscodingService } = await import('./services/video-transcoding.js');
     const { FileUploadService } = await import('./services/file-upload.js');
     
+    // SECURITY: MinIO credentials MUST be set via environment variables
+    if (!process.env.MINIO_ACCESS_KEY || !process.env.MINIO_SECRET_KEY) {
+      app.log.warn('⚠️ MinIO credentials not configured - file uploads will be disabled');
+    }
     minioService = new MinioService({
       endpoint: process.env.MINIO_ENDPOINT || 'localhost',
       port: parseInt(process.env.MINIO_PORT || '9000'),
       useSSL: process.env.MINIO_USE_SSL === 'true',
-      accessKey: process.env.MINIO_ACCESS_KEY || 'crybe0eef044684b122e',
-      secretKey: process.env.MINIO_SECRET_KEY || 'b99c16168f617c3b695a0e92f91d95166f385cbf7124818535729bc55836696b'
+      accessKey: process.env.MINIO_ACCESS_KEY || '',
+      secretKey: process.env.MINIO_SECRET_KEY || ''
     });
     
     // await minioService.initialize(); // MinioService doesn't have initialize method
@@ -637,8 +649,8 @@ Real-time features use Socket.io. Connect to \`/socket.io\` and authenticate wit
     fileUploadService = new FileUploadService({
       endpoint: process.env.MINIO_ENDPOINT || 'localhost',
       port: parseInt(process.env.MINIO_PORT || '9000'),
-      accessKey: process.env.MINIO_ACCESS_KEY || 'crybe0eef044684b122e',
-      secretKey: process.env.MINIO_SECRET_KEY || 'b99c16168f617c3b695a0e92f91d95166f385cbf7124818535729bc55836696b',
+      accessKey: process.env.MINIO_ACCESS_KEY || '',
+      secretKey: process.env.MINIO_SECRET_KEY || '',
       useSSL: process.env.MINIO_USE_SSL === 'true'
     });
     app.log.info('✅ File upload service initialized');

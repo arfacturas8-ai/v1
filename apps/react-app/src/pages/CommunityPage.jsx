@@ -103,37 +103,38 @@ function CommunityPage() {
     }
   ]
 
-  useEffect(() => {
-    const loadCommunity = async () => {
-      setLoading(true)
-      setError(null)
+  // Extract loadCommunity as a callback for retry functionality
+  const loadCommunity = useCallback(async () => {
+    setLoading(true)
+    setError(null)
 
-      try {
-        // 1. Load from cache instantly
-        const cachedPosts = await offlineStorage.getPosts({ communityName })
+    try {
+      // 1. Load from cache instantly
+      const cachedPosts = await offlineStorage.getPosts({ communityName })
 
-        if (cachedPosts.length > 0) {
-          setPosts(cachedPosts)
-        }
-
-        // 2. Fetch fresh data (simulated with mock data)
-        await new Promise(resolve => setTimeout(resolve, 500))
-
-        setCommunity(mockCommunityData)
-        setPosts(mockPosts)
-        setIsJoined(Math.random() > 0.5) // Random join status
-
-        // 3. Save fresh data to cache
-        await offlineStorage.savePosts(mockPosts)
-
-      } catch (err) {
-        console.error('Error loading community:', err)
-        setError('Failed to load community data. Using cached data if available.')
-      } finally {
-        setLoading(false)
+      if (cachedPosts.length > 0) {
+        setPosts(cachedPosts)
       }
-    }
 
+      // 2. Fetch fresh data (simulated with mock data)
+      await new Promise(resolve => setTimeout(resolve, 500))
+
+      setCommunity(mockCommunityData)
+      setPosts(mockPosts)
+      setIsJoined(Math.random() > 0.5) // Random join status
+
+      // 3. Save fresh data to cache
+      await offlineStorage.savePosts(mockPosts)
+
+    } catch (err) {
+      console.error('Error loading community:', err)
+      setError('Failed to load community data. Using cached data if available.')
+    } finally {
+      setLoading(false)
+    }
+  }, [communityName, mockCommunityData, mockPosts])
+
+  useEffect(() => {
     loadCommunity()
 
     // Add offline listener
@@ -147,7 +148,7 @@ function CommunityPage() {
       window.removeEventListener('online', handleOnline)
       window.removeEventListener('offline', handleOffline)
     }
-  }, [communityName])
+  }, [communityName, loadCommunity])
 
   const handleJoin = useCallback(() => {
     if (!isJoined) {
@@ -369,7 +370,7 @@ function CommunityPage() {
             <h2 className="text-2xl font-bold text-white mb-3">Error Loading Community</h2>
             <p className="text-[#8b949e] mb-6">{error}</p>
             <Button
-              onClick={() => window.location.reload()}
+              onClick={loadCommunity}
               variant="primary"
               className="w-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]"
             >

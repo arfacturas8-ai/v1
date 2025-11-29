@@ -67,40 +67,41 @@ function ChatPage({ user, onNavigate }) {
   useLoadingAnnouncement(loading, 'Loading chat')
   useErrorAnnouncement(error)
 
-  // Load servers and channels
-  useEffect(() => {
-    const loadChatData = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const [serversRes, dmsRes] = await Promise.all([
-          apiService.get('/chat/servers').catch(() => ({ success: false, data: [] })),
-          apiService.get('/messages/conversations').catch(() => ({ success: false, data: [] }))
-        ])
+  // Load servers and channels - extracted as callback for retry functionality
+  const loadChatData = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const [serversRes, dmsRes] = await Promise.all([
+        apiService.get('/chat/servers').catch(() => ({ success: false, data: [] })),
+        apiService.get('/messages/conversations').catch(() => ({ success: false, data: [] }))
+      ])
 
-        if (serversRes.success && serversRes.data) {
-          const serversList = serversRes.data.servers || serversRes.data || []
-          setServers(serversList)
+      if (serversRes.success && serversRes.data) {
+        const serversList = serversRes.data.servers || serversRes.data || []
+        setServers(serversList)
 
-          if (serversList.length > 0 && !activeServer) {
-            setActiveServer(serversList[0].id)
-            if (serversList[0].channels?.length > 0) {
-              setActiveChannel(serversList[0].channels[0].id)
-            }
+        if (serversList.length > 0 && !activeServer) {
+          setActiveServer(serversList[0].id)
+          if (serversList[0].channels?.length > 0) {
+            setActiveChannel(serversList[0].channels[0].id)
           }
         }
-
-        if (dmsRes.success && dmsRes.data) {
-          setDirectMessages(dmsRes.data.conversations || dmsRes.data || [])
-        }
-      } catch (err) {
-        console.error('Failed to load chat data:', err)
-        setError('Failed to load chat data. Please try again.')
-      } finally {
-        setLoading(false)
       }
-    }
 
+      if (dmsRes.success && dmsRes.data) {
+        setDirectMessages(dmsRes.data.conversations || dmsRes.data || [])
+      }
+    } catch (err) {
+      console.error('Failed to load chat data:', err)
+      setError('Failed to load chat data. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }, [activeServer])
+
+  // Initial data load
+  useEffect(() => {
     loadChatData()
   }, [])
 
@@ -246,9 +247,9 @@ function ChatPage({ user, onNavigate }) {
           <h2 className="text-2xl font-bold text-white mb-2">Something went wrong</h2>
           <p className="text-[#c9d1d9] mb-6">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={loadChatData}
             className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] transition-all"
-            aria-label="Try reloading the page"
+            aria-label="Try loading chat again"
           >
             Try Again
           </button>

@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-import { Plus, FileText, AlertCircle, CheckCircle, Link as LinkIcon, Image as ImageIcon } from 'lucide-react'
+import { Plus, FileText, AlertCircle, CheckCircle, Link as LinkIcon, Image as ImageIcon, Loader } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card'
 import { RichTextEditor } from '../components/social/RichTextEditor'
 import communityService from '../services/communityService'
+import postsService from '../services/postsService'
 import { cn } from '../lib/utils'
 import { motion } from 'framer-motion'
 import { useResponsive } from '../hooks/useResponsive'
+import { useAuth } from '../contexts/AuthContext'
 
 function CreatePostPage() {
   const navigate = useNavigate()
   const { isMobile, isTablet } = useResponsive()
+  const { user } = useAuth()
   const [formData, setFormData] = useState({
     title: '',
     content: '',
@@ -89,7 +92,7 @@ function CreatePostPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     if (!validateForm()) return
 
     setLoading(true)
@@ -98,48 +101,40 @@ function CreatePostPage() {
       const postData = {
         title: formData.title.trim(),
         content: formData.content.trim(),
-        community: formData.community,
-        author: 'currentuser', // This would come from auth context
-        timestamp: Date.now(),
-        score: 1,
-        userVote: 'upvote',
-        commentCount: 0,
-        awards: [],
-        flair: null,
-        edited: false,
-        isSaved: false,
-        media: null,
-        linkUrl: formData.type === 'link' ? formData.url : null,
-        linkTitle: null,
-        linkDescription: null,
-        linkThumbnail: null
+        communityId: formData.community,
+        type: formData.type,
+        url: formData.type === 'link' ? formData.url : undefined
       }
 
-      // Handle image upload (placeholder - in real app would upload to cloud storage)
+      // Handle image upload
       if (formData.type === 'image' && formData.image) {
-        postData.media = {
-          type: 'image',
-          url: URL.createObjectURL(formData.image),
-          width: 800,
-          height: 600,
-          thumbnail: URL.createObjectURL(formData.image)
+        // Create FormData for file upload
+        const uploadFormData = new FormData()
+        uploadFormData.append('file', formData.image)
+        uploadFormData.append('type', 'post-image')
+
+        // Upload image first (this would go to /api/v1/uploads)
+        // For now, we'll include the image in the post creation
+        postData.media = formData.image
+      }
+
+      // Use the posts service to create the post
+      const result = await postsService.createPost(postData)
+
+      if (result.success) {
+        // Navigate to the new post or community
+        const postId = result.data?.post?.id || result.post?.id
+        if (postId) {
+          navigate(`/post/${postId}`)
+        } else {
+          navigate(formData.community ? `/c/${formData.community}` : '/home')
         }
+      } else {
+        throw new Error(result.error || 'Failed to create post')
       }
-
-      // For now, we'll store in localStorage as the data service uses sample data
-      const existingPosts = JSON.parse(localStorage.getItem('user_posts') || '[]')
-      const newPost = {
-        id: `post_${Date.now()}`,
-        ...postData
-      }
-      existingPosts.unshift(newPost)
-      localStorage.setItem('user_posts', JSON.stringify(existingPosts))
-
-      // Navigate to the community page or home
-      navigate(formData.community ? `/c/${formData.community}` : '/home')
     } catch (error) {
       console.error('Error creating post:', error)
-      setErrors({ submit: 'Failed to create post. Please try again.' })
+      setErrors({ submit: error.message || 'Failed to create post. Please try again.' })
     } finally {
       setLoading(false)
     }
