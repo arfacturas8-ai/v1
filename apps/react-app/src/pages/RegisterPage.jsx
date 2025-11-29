@@ -117,7 +117,7 @@ export default function RegisterPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-full sm:max-w-[480px] md:max-w-[440px]">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl p-3.5 sm:p-4">
+        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl p-3.5 sm:p-4">
           <div className="text-center mb-3 sm:mb-2.5">
             <div className="flex justify-center mb-1.5 sm:mb-[5px]">
               <div className="w-11 h-11 sm:w-10 sm:h-10 rounded-[10px] bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center" aria-hidden="true">
@@ -282,7 +282,7 @@ export default function RegisterPage() {
                   checked={acceptTerms}
                   onChange={(e) => setAcceptTerms(e.target.checked)}
                   required
-                  className="w-3 h-3 min-w-[12px] min-h-[12px] rounded-sm border border-white/10/40 bg-transparent mt-0.5 mr-1.5 cursor-pointer accent-blue-500"
+                  className="w-3 h-3 min-w-[12px] min-h-[12px] rounded-sm border border-white/20 bg-transparent mt-0.5 mr-1.5 cursor-pointer accent-blue-500"
                   aria-required="true"
                   aria-invalid={error && error.includes('Terms') ? "true" : "false"}
                 />

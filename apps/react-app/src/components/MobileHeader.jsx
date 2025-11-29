@@ -6,6 +6,7 @@ import {
   ShoppingBag, Hash, Wallet, Coins
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import apiService from '../services/api'
 
 function MobileHeader() {
   const location = useLocation()
@@ -14,20 +15,39 @@ function MobileHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [unreadNotifications, setUnreadNotifications] = useState(0)
 
   const userMenuRef = useRef(null)
   const mobileMenuRef = useRef(null)
 
+  // Standardized navigation - matches Header.jsx
   const navItems = [
     { href: '/home', label: 'Home', icon: Home },
     { href: '/communities', label: 'Communities', icon: Hash },
     { href: '/nft-marketplace', label: 'Explore', icon: ShoppingBag },
     { href: '/crypto', label: 'Stats', icon: Coins },
     { href: '/messages', label: 'Messages', icon: MessageCircle },
-    { href: '/users', label: 'Users', icon: Users },
-    { href: '/activity', label: 'Activity', icon: Activity },
-    { href: '/bots', label: 'Bots', icon: Bot },
   ]
+
+  // Fetch unread notifications count
+  useEffect(() => {
+    if (!user) return
+
+    const fetchUnread = async () => {
+      try {
+        const response = await apiService.get('/notifications?limit=1&unread=true')
+        if (response.success && response.data) {
+          setUnreadNotifications(response.data.total || response.data.notifications?.length || 0)
+        }
+      } catch (err) {
+        // Silently fail
+      }
+    }
+
+    fetchUnread()
+    const interval = setInterval(fetchUnread, 30000)
+    return () => clearInterval(interval)
+  }, [user])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -90,11 +110,14 @@ function MobileHeader() {
                   <Link
                     to="/notifications"
                     className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:text-white transition-colors"
+                    aria-label={`Notifications${unreadNotifications > 0 ? ` (${unreadNotifications} unread)` : ''}`}
                   >
                     <Bell size={18} />
-                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
-                      3
-                    </span>
+                    {unreadNotifications > 0 && (
+                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                        {unreadNotifications > 9 ? '9+' : unreadNotifications}
+                      </span>
+                    )}
                   </Link>
 
                   {/* User Menu */}

@@ -6,6 +6,7 @@ import {
   Wallet, Coins, Bot, ShoppingBag, ChevronDown
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import apiService from '../services/api'
 
 const iconMap = {
   Home: Home,
@@ -30,6 +31,8 @@ function Header() {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isNotificationOpen, setIsNotificationOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
+  const [notifications, setNotifications] = useState([])
+  const [loadingNotifications, setLoadingNotifications] = useState(false)
 
   const userMenuRef = useRef(null)
   const notificationRef = useRef(null)
@@ -70,6 +73,30 @@ function Header() {
     navigate('/login')
   }
 
+  // Fetch notifications
+  useEffect(() => {
+    if (!user) return
+
+    const fetchNotifications = async () => {
+      setLoadingNotifications(true)
+      try {
+        const response = await apiService.get('/notifications?limit=5')
+        if (response.success && response.data) {
+          setNotifications(response.data.notifications || [])
+        }
+      } catch (err) {
+        // Silently fail
+      } finally {
+        setLoadingNotifications(false)
+      }
+    }
+
+    fetchNotifications()
+    // Refresh every 60 seconds
+    const interval = setInterval(fetchNotifications, 60000)
+    return () => clearInterval(interval)
+  }, [user])
+
   const navItems = [
     { path: '/home', label: 'Home', icon: 'Home' },
     { path: '/communities', label: 'Communities', icon: 'Hash' },
@@ -77,13 +104,7 @@ function Header() {
     { path: '/crypto', label: 'Stats', icon: 'Coins' }
   ]
 
-  const mockNotifications = [
-    { id: 1, type: 'bid', message: 'New bid on your NFT', time: '2m ago', read: false },
-    { id: 2, type: 'follow', message: 'crypto_whale started following you', time: '1h ago', read: false },
-    { id: 3, type: 'like', message: 'Your post received 10 likes', time: '3h ago', read: true }
-  ]
-
-  const unreadCount = mockNotifications.filter(n => !n.read).length
+  const unreadCount = notifications.filter(n => !n.read).length
 
   return (
     <>
@@ -162,22 +183,38 @@ function Header() {
                           <h3 className="font-semibold text-white">Notifications</h3>
                         </div>
                         <div className="max-h-80 overflow-y-auto">
-                          {mockNotifications.map((notification) => (
-                            <div
-                              key={notification.id}
-                              className="px-4 py-3 hover:bg-[#161b22]/60 transition-colors cursor-pointer"
-                            >
-                              <div className="flex items-start gap-3">
-                                {!notification.read && (
-                                  <span className="w-2 h-2 mt-2 bg-[#58a6ff] rounded-full flex-shrink-0"></span>
-                                )}
-                                <div className="flex-1 min-w-0">
-                                  <p className="text-sm text-[#c9d1d9]">{notification.message}</p>
-                                  <p className="text-xs text-[#8b949e] mt-1">{notification.time}</p>
+                          {loadingNotifications ? (
+                            <div className="px-4 py-8 text-center text-[#8b949e] text-sm">
+                              Loading...
+                            </div>
+                          ) : notifications.length === 0 ? (
+                            <div className="px-4 py-8 text-center text-[#8b949e] text-sm">
+                              No notifications yet
+                            </div>
+                          ) : (
+                            notifications.map((notification) => (
+                              <div
+                                key={notification.id}
+                                className="px-4 py-3 hover:bg-[#161b22]/60 transition-colors cursor-pointer"
+                                onClick={() => {
+                                  setIsNotificationOpen(false)
+                                  navigate('/notifications')
+                                }}
+                              >
+                                <div className="flex items-start gap-3">
+                                  {!notification.read && (
+                                    <span className="w-2 h-2 mt-2 bg-[#58a6ff] rounded-full flex-shrink-0"></span>
+                                  )}
+                                  <div className="flex-1 min-w-0">
+                                    <p className="text-sm text-[#c9d1d9]">{notification.message || notification.content}</p>
+                                    <p className="text-xs text-[#8b949e] mt-1">
+                                      {notification.createdAt ? new Date(notification.createdAt).toLocaleDateString() : ''}
+                                    </p>
+                                  </div>
                                 </div>
                               </div>
-                            </div>
-                          ))}
+                            ))
+                          )}
                         </div>
                         <div className="p-3 border-t border-white/10">
                           <Link
