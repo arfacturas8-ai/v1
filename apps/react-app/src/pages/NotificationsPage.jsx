@@ -373,7 +373,7 @@ function NotificationsPage() {
             <h3 className="text-xl font-semibold text-white mb-2">Failed to Load Notifications</h3>
             <p className="text-[#8b949e] mb-6">{error}</p>
             <button
-              onClick={() => window.location.reload()}
+              onClick={fetchNotifications}
               className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-white font-medium touch-target"
               aria-label="Try again to load notifications"
             >

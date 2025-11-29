@@ -394,7 +394,7 @@ function ProfilePage() {
             <h2 className="text-2xl font-bold text-white mb-3">Error Loading Profile</h2>
             <p className="text-[#8b949e] mb-6">{error}</p>
             <div className="flex gap-3 justify-center">
-              <Button variant="primary" onClick={() => window.location.reload()} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Try Again</Button>
+              <Button variant="primary" onClick={loadProfileData} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Try Again</Button>
               <Link to="/">
                 <Button variant="secondary" className="bg-[#161b22]/60 border border-white/10 text-[#c9d1d9]">Go Home</Button>
               </Link>
