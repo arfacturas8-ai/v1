@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`AdminPage Component Snapshot matches snapshot for authorized admin user 1`] = `
+<div
+  aria-label="Admin dashboard page"
+  role="main"
+  style="padding: 20px; max-width: 1200px; margin: 0px auto;"
+>
+  <h1>
+    Admin Dashboard
+  </h1>
+  <p>
+    Admin features coming soon...
+  </p>
+</div>
+`;
+
+exports[`AdminPage Component Snapshot matches snapshot for unauthenticated user 1`] = `null`;
+
+exports[`AdminPage Component Snapshot matches snapshot for unauthorized access 1`] = `null`;

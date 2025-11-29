@@ -1,0 +1,792 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cryb-queues
+  labels:
+    name: cryb-queues
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: queue-config
+  namespace: cryb-queues
+data:
+  REDIS_HOST: "redis-cluster.cryb-queues.svc.cluster.local"
+  REDIS_PORT: "6379"
+  RABBITMQ_URL: "amqp://rabbitmq-cluster.cryb-queues.svc.cluster.local:5672"
+  KAFKA_BROKERS: "kafka-cluster.cryb-queues.svc.cluster.local:9092"
+  QUEUE_MONITORING_ENABLED: "true"
+  QUEUE_METRICS_PORT: "9464"
+  NODE_ENV: "production"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: queue-secrets
+  namespace: cryb-queues
+type: Opaque
+stringData:
+  REDIS_PASSWORD: ""
+  RABBITMQ_DEFAULT_USER: "cryb"
+  RABBITMQ_DEFAULT_PASS: "secure-password"
+  KAFKA_USERNAME: "cryb"
+  KAFKA_PASSWORD: "secure-password"
+  OPENAI_API_KEY: "your-openai-key"
+  PERSPECTIVE_API_KEY: "your-perspective-key"
+  VAPID_PUBLIC_KEY: "your-vapid-public-key"
+  VAPID_PRIVATE_KEY: "your-vapid-private-key"
+  FCM_SERVER_KEY: "your-fcm-server-key"
+  SMTP_HOST: "smtp.gmail.com"
+  SMTP_USER: "your-email@gmail.com"
+  SMTP_PASSWORD: "your-app-password"
+
+---
+# Redis Cluster
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-cluster
+  namespace: cryb-queues
+spec:
+  serviceName: redis-cluster
+  replicas: 3
+  selector:
+    matchLabels:
+      app: redis-cluster
+  template:
+    metadata:
+      labels:
+        app: redis-cluster
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: queue-secrets
+              key: REDIS_PASSWORD
+        command:
+        - redis-server
+        - --requirepass
+        - $(REDIS_PASSWORD)
+        - --appendonly
+        - "yes"
+        - --save
+        - "900 1"
+        - --save
+        - "300 10"
+        - --save
+        - "60 10000"
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster
+  namespace: cryb-queues
+spec:
+  selector:
+    app: redis-cluster
+  ports:
+  - port: 6379
+    targetPort: 6379
+  type: ClusterIP
+
+---
+# RabbitMQ Cluster
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: rabbitmq-cluster
+  namespace: cryb-queues
+spec:
+  serviceName: rabbitmq-cluster
+  replicas: 3
+  selector:
+    matchLabels:
+      app: rabbitmq-cluster
+  template:
+    metadata:
+      labels:
+        app: rabbitmq-cluster
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:3-management-alpine
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        env:
+        - name: RABBITMQ_DEFAULT_USER
+          valueFrom:
+            secretKeyRef:
+              name: queue-secrets
+              key: RABBITMQ_DEFAULT_USER
+        - name: RABBITMQ_DEFAULT_PASS
+          valueFrom:
+            secretKeyRef:
+              name: queue-secrets
+              key: RABBITMQ_DEFAULT_PASS
+        - name: RABBITMQ_ERLANG_COOKIE
+          value: "cryb-rabbitmq-cookie"
+        volumeMounts:
+        - name: rabbitmq-data
+          mountPath: /var/lib/rabbitmq
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - rabbitmq-diagnostics
+            - status
+          initialDelaySeconds: 60
+          timeoutSeconds: 15
+        readinessProbe:
+          exec:
+            command:
+            - rabbitmq-diagnostics
+            - ping
+          initialDelaySeconds: 20
+          timeoutSeconds: 10
+  volumeClaimTemplates:
+  - metadata:
+      name: rabbitmq-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq-cluster
+  namespace: cryb-queues
+spec:
+  selector:
+    app: rabbitmq-cluster
+  ports:
+  - name: amqp
+    port: 5672
+    targetPort: 5672
+  - name: management
+    port: 15672
+    targetPort: 15672
+  type: ClusterIP
+
+---
+# Email Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: email-worker
+  namespace: cryb-queues
+  labels:
+    app: email-worker
+    component: queue-worker
+    worker-type: email
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: email-worker
+  template:
+    metadata:
+      labels:
+        app: email-worker
+        component: queue-worker
+        worker-type: email
+    spec:
+      containers:
+      - name: email-worker
+        image: cryb/queue-worker:latest
+        target: email-worker
+        ports:
+        - containerPort: 9464
+          name: metrics
+        env:
+        - name: WORKER_TYPE
+          value: "email"
+        - name: WORKER_CONCURRENCY
+          value: "5"
+        envFrom:
+        - configMapRef:
+            name: queue-config
+        - secretRef:
+            name: queue-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9464
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9464
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+# Media Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: media-worker
+  namespace: cryb-queues
+  labels:
+    app: media-worker
+    component: queue-worker
+    worker-type: media
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: media-worker
+  template:
+    metadata:
+      labels:
+        app: media-worker
+        component: queue-worker
+        worker-type: media
+    spec:
+      containers:
+      - name: media-worker
+        image: cryb/queue-worker:latest
+        target: media-worker
+        ports:
+        - containerPort: 9464
+          name: metrics
+        env:
+        - name: WORKER_TYPE
+          value: "media"
+        - name: WORKER_CONCURRENCY
+          value: "2"
+        envFrom:
+        - configMapRef:
+            name: queue-config
+        - secretRef:
+            name: queue-secrets
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: media-temp
+          mountPath: /tmp/media-processing
+        - name: media-output
+          mountPath: /tmp/media-output
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9464
+          initialDelaySeconds: 60
+          periodSeconds: 30
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9464
+          initialDelaySeconds: 10
+          periodSeconds: 10
+      volumes:
+      - name: media-temp
+        emptyDir:
+          sizeLimit: 5Gi
+      - name: media-output
+        emptyDir:
+          sizeLimit: 10Gi
+
+---
+# Moderation Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moderation-worker
+  namespace: cryb-queues
+  labels:
+    app: moderation-worker
+    component: queue-worker
+    worker-type: moderation
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: moderation-worker
+  template:
+    metadata:
+      labels:
+        app: moderation-worker
+        component: queue-worker
+        worker-type: moderation
+    spec:
+      containers:
+      - name: moderation-worker
+        image: cryb/queue-worker:latest
+        target: moderation-worker
+        ports:
+        - containerPort: 9464
+          name: metrics
+        env:
+        - name: WORKER_TYPE
+          value: "moderation"
+        - name: WORKER_CONCURRENCY
+          value: "5"
+        envFrom:
+        - configMapRef:
+            name: queue-config
+        - secretRef:
+            name: queue-secrets
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "800m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9464
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9464
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+# Analytics Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: analytics-worker
+  namespace: cryb-queues
+  labels:
+    app: analytics-worker
+    component: queue-worker
+    worker-type: analytics
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: analytics-worker
+  template:
+    metadata:
+      labels:
+        app: analytics-worker
+        component: queue-worker
+        worker-type: analytics
+    spec:
+      containers:
+      - name: analytics-worker
+        image: cryb/queue-worker:latest
+        target: analytics-worker
+        ports:
+        - containerPort: 9464
+          name: metrics
+        env:
+        - name: WORKER_TYPE
+          value: "analytics"
+        - name: WORKER_CONCURRENCY
+          value: "10"
+        envFrom:
+        - configMapRef:
+            name: queue-config
+        - secretRef:
+            name: queue-secrets
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "200m"
+          limits:
+            memory: "1Gi"
+            cpu: "600m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9464
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9464
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+# Push Notification Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: push-worker
+  namespace: cryb-queues
+  labels:
+    app: push-worker
+    component: queue-worker
+    worker-type: push-notifications
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: push-worker
+  template:
+    metadata:
+      labels:
+        app: push-worker
+        component: queue-worker
+        worker-type: push-notifications
+    spec:
+      containers:
+      - name: push-worker
+        image: cryb/queue-worker:latest
+        target: push-worker
+        ports:
+        - containerPort: 9464
+          name: metrics
+        env:
+        - name: WORKER_TYPE
+          value: "push-notifications"
+        - name: WORKER_CONCURRENCY
+          value: "8"
+        envFrom:
+        - configMapRef:
+            name: queue-config
+        - secretRef:
+            name: queue-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "400m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9464
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9464
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+# Queue Monitor Service
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: queue-monitor
+  namespace: cryb-queues
+  labels:
+    app: queue-monitor
+    component: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: queue-monitor
+  template:
+    metadata:
+      labels:
+        app: queue-monitor
+        component: monitoring
+    spec:
+      containers:
+      - name: queue-monitor
+        image: cryb/queue-monitor:latest
+        ports:
+        - containerPort: 9464
+          name: metrics
+        - containerPort: 3000
+          name: dashboard
+        envFrom:
+        - configMapRef:
+            name: queue-config
+        - secretRef:
+            name: queue-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "300m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 3000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+
+---
+# Services for monitoring
+apiVersion: v1
+kind: Service
+metadata:
+  name: queue-monitor
+  namespace: cryb-queues
+  labels:
+    app: queue-monitor
+spec:
+  selector:
+    app: queue-monitor
+  ports:
+  - name: dashboard
+    port: 3000
+    targetPort: 3000
+  - name: metrics
+    port: 9464
+    targetPort: 9464
+  type: ClusterIP
+
+---
+# Service for metrics collection
+apiVersion: v1
+kind: Service
+metadata:
+  name: queue-workers-metrics
+  namespace: cryb-queues
+  labels:
+    app: queue-workers
+    component: metrics
+spec:
+  selector:
+    component: queue-worker
+  ports:
+  - name: metrics
+    port: 9464
+    targetPort: 9464
+  type: ClusterIP
+
+---
+# ServiceMonitor for Prometheus
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: queue-system-metrics
+  namespace: cryb-queues
+  labels:
+    app: queue-system
+spec:
+  selector:
+    matchLabels:
+      component: queue-worker
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+# Horizontal Pod Autoscaler for Email Workers
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: email-worker-hpa
+  namespace: cryb-queues
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: email-worker
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+# Horizontal Pod Autoscaler for Media Workers
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: media-worker-hpa
+  namespace: cryb-queues
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: media-worker
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 85
+
+---
+# Horizontal Pod Autoscaler for Analytics Workers
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: analytics-worker-hpa
+  namespace: cryb-queues
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: analytics-worker
+  minReplicas: 3
+  maxReplicas: 15
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Pods
+    pods:
+      metric:
+        name: queue_depth
+      target:
+        type: AverageValue
+        averageValue: "100"
+
+---
+# PodDisruptionBudget for high availability
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: queue-workers-pdb
+  namespace: cryb-queues
+spec:
+  minAvailable: 50%
+  selector:
+    matchLabels:
+      component: queue-worker
+
+---
+# Network Policy for security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: queue-network-policy
+  namespace: cryb-queues
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: cryb-api
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 9464
+    - protocol: TCP
+      port: 3000
+  egress:
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 443
+    - protocol: TCP
+      port: 80
+  - to:
+    - podSelector:
+        matchLabels:
+          app: redis-cluster
+    ports:
+    - protocol: TCP
+      port: 6379
+  - to:
+    - podSelector:
+        matchLabels:
+          app: rabbitmq-cluster
+    ports:
+    - protocol: TCP
+      port: 5672

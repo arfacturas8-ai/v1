@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`PageLoader Snapshot matches snapshot in full screen mode 1`] = `
+<div>
+  <div
+    style="display: flex; align-items: center; justify-content: center; position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 9999;"
+  >
+    <div
+      style="display: flex; flex-direction: column; align-items: center; gap: 20px;"
+    >
+      <div
+        style="width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgb(255, 255, 255); font-size: 32px; font-weight: bold; animation: pulse 2s ease-in-out infinite;"
+      >
+        C
+      </div>
+      <div
+        style="width: 48px; height: 48px; border-top-color: #667eea; border-radius: 50%; animation: spin 1s linear infinite;"
+      />
+      <p
+        style="font-size: 14px; font-weight: 500;"
+      >
+        Loading...
+      </p>
+    </div>
+    <style>
+      
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.8;
+            transform: scale(0.95);
+          }
+        }
+      
+    </style>
+  </div>
+</div>
+`;
+
+exports[`PageLoader Snapshot matches snapshot in normal mode 1`] = `
+<div>
+  <div
+    style="display: flex; align-items: center; justify-content: center; padding: 80px 20px;"
+  >
+    <div
+      style="display: flex; flex-direction: column; align-items: center; gap: 20px;"
+    >
+      <div
+        style="width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgb(255, 255, 255); font-size: 32px; font-weight: bold; animation: pulse 2s ease-in-out infinite;"
+      >
+        C
+      </div>
+      <div
+        style="width: 48px; height: 48px; border-top-color: #667eea; border-radius: 50%; animation: spin 1s linear infinite;"
+      />
+      <p
+        style="font-size: 14px; font-weight: 500;"
+      >
+        Loading...
+      </p>
+    </div>
+    <style>
+      
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.8;
+            transform: scale(0.95);
+          }
+        }
+      
+    </style>
+  </div>
+</div>
+`;

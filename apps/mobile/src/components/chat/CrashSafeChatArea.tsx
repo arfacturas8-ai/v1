@@ -6,6 +6,7 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import {
   View,
+  Text,
   FlatList,
   StyleSheet,
   RefreshControl,
@@ -13,6 +14,7 @@ import {
   Alert,
   Dimensions,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useFocusEffect } from '@react-navigation/native';
@@ -24,6 +26,7 @@ import { ErrorBoundary, useErrorHandler } from '../ErrorBoundary';
 import { CrashDetector } from '../../utils/CrashDetector';
 import { useSocketStore } from '../../stores/socketStore';
 import { useAuthStore } from '../../stores/authStore';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 const { height } = Dimensions.get('window');
 
@@ -97,9 +100,10 @@ export const CrashSafeChatArea: React.FC<CrashSafeChatAreaProps> = ({
     refetch,
   } = useInfiniteQuery({
     queryKey: ['messages', channelId],
+    initialPageParam: null,
     queryFn: async ({ pageParam = null }) => {
       try {
-        const url = new URL(`http://localhost:3001/api/channels/${channelId}/messages`);
+        const url = new URL(`http://localhost:3002/api/channels/${channelId}/messages`);
         if (pageParam) url.searchParams.set('before', pageParam);
         url.searchParams.set('limit', MESSAGES_PER_PAGE.toString());
 
@@ -311,7 +315,7 @@ export const CrashSafeChatArea: React.FC<CrashSafeChatAreaProps> = ({
         author: {
           id: user?.id || '',
           username: user?.username || 'Unknown',
-          avatar: user?.avatar,
+          avatar: user?.avatarUrl,
         },
         channelId,
         createdAt: new Date().toISOString(),
@@ -570,7 +574,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   messagesContainer: {
-    paddingVertical: 8,
+    paddingVertical: spacing.sm,
   },
   loadingContainer: {
     flex: 1,
@@ -583,27 +587,27 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#000000',
-    padding: 20,
+    padding: spacing.xl,
   },
   errorText: {
     color: '#ff6b6b',
-    fontSize: 16,
+    fontSize: typography.body1,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: spacing.xl,
   },
   retryButton: {
     backgroundColor: '#4a9eff',
-    paddingHorizontal: 24,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.xxl,
+    paddingVertical: spacing.md,
     borderRadius: 8,
   },
   retryButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
   },
   loadingMore: {
-    padding: 16,
+    padding: spacing.lg,
     alignItems: 'center',
   },
   newMessagesIndicator: {
@@ -612,8 +616,8 @@ const styles = StyleSheet.create({
     left: 20,
     right: 20,
     backgroundColor: '#4a9eff',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    paddingVertical: spacing.sm,
+    paddingHorizontal: spacing.lg,
     borderRadius: 20,
     alignItems: 'center',
     shadowColor: '#000',
@@ -624,7 +628,7 @@ const styles = StyleSheet.create({
   },
   newMessagesText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
   },
 });

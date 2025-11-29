@@ -1,16 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  TextInput,
   ScrollView,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   Alert,
-  ActivityIndicator,
+  Animated,
+  TouchableOpacity,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -20,6 +19,9 @@ import * as Haptics from 'expo-haptics';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuthStore } from '../../stores/authStore';
 import { AuthStackParamList } from '../../navigation/AuthNavigator';
+import { Button, Input, Card } from '../../components/ui';
+import apiService from '../../services/RealApiService';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 type RegisterScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Register'>;
 
@@ -40,8 +42,8 @@ interface FormErrors {
 
 export function RegisterScreen() {
   const navigation = useNavigation<RegisterScreenNavigationProp>();
-  const { colors } = useTheme();
-  const { register, isLoading } = useAuthStore();
+  const { colors, spacing, typography } = useTheme();
+  const { setUser, setToken } = useAuthStore();
 
   const [formData, setFormData] = useState<RegisterFormData>({
     username: '',
@@ -53,6 +55,35 @@ export function RegisterScreen() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  // Animations
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(50)).current;
+  const logoScale = useRef(new Animated.Value(0.8)).current;
+  
+  useEffect(() => {
+    // Animate in
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.spring(logoScale, {
+        toValue: 1,
+        tension: 100,
+        friction: 8,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
 
   const validateForm = useCallback((): boolean => {
     const newErrors: FormErrors = {};
@@ -100,7 +131,12 @@ export function RegisterScreen() {
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: undefined }));
     }
-  }, [errors]);
+    
+    // Clear general error
+    if (error) {
+      setError(null);
+    }
+  }, [errors, error]);
 
   const handleRegister = useCallback(async () => {
     try {
@@ -109,40 +145,70 @@ export function RegisterScreen() {
         return;
       }
 
-      const success = await register({
-        username: formData.username.trim(),
-        email: formData.email.trim(),
-        password: formData.password,
-      });
+      setIsLoading(true);
+      setError(null);
+      
+      const result = await apiService.register(
+        formData.email.trim(),
+        formData.password,
+        formData.username.trim()
+      );
 
-      if (success) {
+      if (result.success && result.user && result.token) {
+        // Update auth store
+        setUser(result.user);
+        setToken(result.token);
+        
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         Alert.alert(
-          'Registration Successful',
-          'Welcome to CRYB! You can now start exploring communities.',
+          'Welcome to CRYB!',
+          'Your account has been created successfully. You can now start exploring communities.',
           [{ text: 'Get Started' }]
         );
         // Navigation will be handled by RootNavigator once authenticated
       } else {
+        setError(result.message || 'Registration failed. Please try again.');
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
       }
     } catch (error) {
       console.error('Registration error:', error);
+      setError('Network error. Please check your connection and try again.');
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-      
-      Alert.alert(
-        'Registration Failed',
-        'Unable to create account. Please try again.',
-        [{ text: 'OK' }]
-      );
+    } finally {
+      setIsLoading(false);
     }
-  }, [formData, validateForm, register]);
+  }, [formData, validateForm, setUser, setToken]);
 
   const isFormValid = formData.username.trim() && 
                      formData.email.trim() && 
                      formData.password && 
                      formData.confirmPassword && 
                      !isLoading;
+                     
+  const getPasswordStrength = (password: string) => {
+    let strength = 0;
+    if (password.length >= 8) strength++;
+    if (/[a-z]/.test(password)) strength++;
+    if (/[A-Z]/.test(password)) strength++;
+    if (/[0-9]/.test(password)) strength++;
+    if (/[^a-zA-Z0-9]/.test(password)) strength++;
+    return strength;
+  };
+  
+  const passwordStrength = getPasswordStrength(formData.password);
+  const getStrengthColor = () => {
+    if (passwordStrength <= 1) return colors.error;
+    if (passwordStrength <= 2) return colors.warning;
+    if (passwordStrength <= 3) return colors.info;
+    return colors.success;
+  };
+  
+  const getStrengthText = () => {
+    if (passwordStrength <= 1) return 'Weak';
+    if (passwordStrength <= 2) return 'Fair';
+    if (passwordStrength <= 3) return 'Good';
+    return 'Strong';
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -327,90 +393,99 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 0,
-    top: 0,
+    top: 8,
     padding: 8,
+    zIndex: 10,
+  },
+  logoContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 40,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  logoText: {
+    fontSize: 28,
+    fontWeight: '800',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ffffff',
+    fontWeight: '700',
     marginBottom: 8,
-    marginTop: 40,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.8)',
     textAlign: 'center',
+    lineHeight: 24,
   },
-  form: {
-    marginBottom: 32,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#ffffff',
-    marginBottom: 8,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
-  },
-  inputError: {
-    borderColor: '#ff6b6b',
-    backgroundColor: 'rgba(255,107,107,0.1)',
-  },
-  textInput: {
-    flex: 1,
-    color: '#ffffff',
-    fontSize: 16,
-    marginLeft: 12,
-  },
-  eyeButton: {
-    padding: 4,
-  },
-  errorText: {
-    color: '#ff6b6b',
-    fontSize: 12,
-    marginTop: 4,
-    marginLeft: 4,
-  },
-  registerButton: {
-    backgroundColor: '#ffffff',
-    paddingVertical: 18,
-    borderRadius: 12,
-    alignItems: 'center',
+  cardContainer: {
     marginBottom: 24,
   },
-  registerButtonDisabled: {
-    opacity: 0.5,
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+    borderWidth: 1,
   },
-  registerButtonText: {
-    color: '#6366f1',
-    fontSize: 18,
-    fontWeight: '600',
+  errorText: {
+    fontSize: 14,
+    marginLeft: 8,
+    flex: 1,
+  },
+  form: {
+    marginBottom: 16,
+  },
+  passwordStrengthContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    paddingHorizontal: 4,
+  },
+  strengthIndicator: {
+    flexDirection: 'row',
+    flex: 1,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: 'transparent',
+    marginRight: 8,
+    gap: 2,
+  },
+  strengthBar: {
+    flex: 1,
+    height: 4,
+    borderRadius: 2,
+  },
+  strengthText: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  termsContainer: {
+    marginBottom: 20,
+    paddingHorizontal: 4,
+  },
+  termsText: {
+    fontSize: 12,
+    lineHeight: 18,
+    textAlign: 'center',
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    paddingTop: 20,
   },
   footerText: {
-    color: 'rgba(255,255,255,0.8)',
     fontSize: 14,
-  },
-  loginLink: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
+    marginRight: 8,
   },
 });

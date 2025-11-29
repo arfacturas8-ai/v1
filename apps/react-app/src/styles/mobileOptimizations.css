@@ -1,0 +1,241 @@
+/**
+ * CRYB Mobile Optimizations
+ * Responsive styles for all screen sizes
+ */
+
+/* Base responsive typography */
+:root {
+  --font-xs: clamp(10px, 2vw, 12px);
+  --font-sm: clamp(12px, 2.5vw, 14px);
+  --font-base: clamp(14px, 3vw, 16px);
+  --font-lg: clamp(16px, 3.5vw, 18px);
+  --font-xl: clamp(18px, 4vw, 20px);
+  --font-2xl: clamp(20px, 4.5vw, 24px);
+  --font-3xl: clamp(24px, 5vw, 28px);
+  --font-4xl: clamp(28px, 6vw, 36px);
+
+  --spacing-xs: clamp(4px, 1vw, 8px);
+  --spacing-sm: clamp(8px, 2vw, 12px);
+  --spacing-md: clamp(12px, 3vw, 16px);
+  --spacing-lg: clamp(16px, 4vw, 24px);
+  --spacing-xl: clamp(24px, 5vw, 32px);
+  --spacing-2xl: clamp(32px, 6vw, 48px);
+}
+
+/* Touch-friendly tap targets */
+button, a, input, select, textarea {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Responsive containers */
+@media (max-width: 640px) {
+  /* Small devices */
+  body {
+    font-size: 14px;
+  }
+
+  h1 { font-size: var(--font-3xl); }
+  h2 { font-size: var(--font-2xl); }
+  h3 { font-size: var(--font-xl); }
+
+  /* Reduce padding on mobile */
+  [style*="padding: 32px"],
+  [style*="padding:32px"] {
+    padding: 16px !important;
+  }
+
+  [style*="padding: 48px"],
+  [style*="padding:48px"] {
+    padding: 20px !important;
+  }
+
+  /* Stack flex items on mobile */
+  [style*="display: flex"][style*="gap"] {
+    flex-wrap: wrap;
+  }
+
+  /* Full width cards on mobile */
+  [style*="maxWidth: '448px'"],
+  [style*="maxWidth: '600px'"],
+  [style*="maxWidth: '800px'"] {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Tablets */
+  [style*="padding: 40px"] {
+    padding: 24px !important;
+  }
+
+  /* Responsive grids */
+  [style*="gridTemplateColumns"] {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Small laptops */
+  [style*="maxWidth: '1200px'"] {
+    max-width: 100% !important;
+  }
+}
+
+/* Landscape mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  [style*="minHeight: '100vh'"] {
+    min-height: auto !important;
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: env(safe-area-inset-top)) {
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+}
+
+/* Prevent text size adjustment on iOS */
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Better tap highlighting */
+* {
+  -webkit-tap-highlight-color: rgba(88, 166, 255, 0.2);
+}
+
+/* Remove default button styles for touch */
+button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Prevent zoom on input focus (iOS) */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Responsive images */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Stack navigation on mobile */
+@media (max-width: 640px) {
+  nav[style*="display: flex"] {
+    flex-direction: column;
+  }
+}
+
+/* Responsive modals */
+@media (max-width: 640px) {
+  [role="dialog"],
+  [aria-modal="true"] {
+    width: calc(100vw - 32px) !important;
+    max-height: calc(100vh - 64px) !important;
+    margin: 32px 16px !important;
+  }
+}
+
+/* Better mobile form spacing */
+@media (max-width: 640px) {
+  form > * + * {
+    margin-top: 16px !important;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}
+
+/* Responsive font sizes for specific elements */
+@media (max-width: 640px) {
+  [style*="fontSize: '28px'"] {
+    font-size: 20px !important;
+  }
+
+  [style*="fontSize: '24px'"] {
+    font-size: 18px !important;
+  }
+
+  [style*="fontSize: '20px'"] {
+    font-size: 16px !important;
+  }
+}
+
+/* Touch-friendly buttons */
+@media (max-width: 640px) {
+  button,
+  [role="button"] {
+    padding: 12px 20px !important;
+    font-size: 16px !important;
+  }
+}
+
+/* Accessibility - prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  /* Already using dark theme, but ensure consistency */
+  body {
+    background: #0d1117;
+    color: #c9d1d9;
+  }
+}
+
+/* Responsive spacing utilities */
+@media (max-width: 640px) {
+  .space-y-6 > * + * {
+    margin-top: 16px !important;
+  }
+
+  .space-y-4 > * + * {
+    margin-top: 12px !important;
+  }
+
+  .gap-6 {
+    gap: 16px !important;
+  }
+
+  .gap-4 {
+    gap: 12px !important;
+  }
+}

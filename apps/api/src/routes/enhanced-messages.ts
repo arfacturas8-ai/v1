@@ -3,6 +3,9 @@ import { z } from "zod";
 import { prisma } from "@cryb/database";
 import { authMiddleware, serverContextMiddleware } from "../middleware/auth";
 import { throwBadRequest, throwNotFound, throwForbidden, throwUnauthorized } from "../middleware/errorHandler";
+import { EnhancedModerationService } from "../services/enhanced-moderation";
+import { Queue } from "bullmq";
+import Redis from "ioredis";
 
 // Validation schemas
 const MessageContentSchema = z.object({
@@ -100,6 +103,37 @@ const MessageUpdateSchema = z.object({
     color: z.number().int().min(0).max(16777215).optional()
   })).max(10).optional()
 });
+
+// Enhanced Moderation Service setup
+const redis = new Redis({
+  host: process.env.REDIS_HOST || 'localhost',
+  port: parseInt(process.env.REDIS_PORT || '6380'),
+  password: process.env.REDIS_PASSWORD,
+});
+
+const moderationQueue = new Queue('ai-moderation-messages', {
+  connection: redis,
+  defaultJobOptions: {
+    removeOnComplete: 500,
+    removeOnFail: 100,
+    attempts: 3,
+    backoff: {
+      type: 'exponential',
+      delay: 1000,
+    },
+  },
+});
+
+// Initialize Enhanced Moderation Service
+let enhancedModeration: EnhancedModerationService | null = null;
+
+try {
+  enhancedModeration = new EnhancedModerationService(moderationQueue);
+  console.log('✅ Enhanced Moderation Service initialized for message routes');
+} catch (error) {
+  console.error('❌ Failed to initialize Enhanced Moderation Service for message routes:', error);
+  // Service will be null, routes will handle gracefully
+}
 
 /**
  * Enhanced Messages API with comprehensive Discord-like functionality
@@ -480,6 +514,76 @@ const enhancedMessageRoutes: FastifyPluginAsync = async (fastify) => {
         }
       }
 
+      // AI Moderation check - analyze content before creating message
+      let moderationResult = null;
+      let messageBlocked = false;
+      
+      if (enhancedModeration && (data.content || data.attachments)) {
+        try {
+          const moderationRequest = {
+            id: `msg_pre_${Date.now()}_${request.userId}`,
+            type: 'message' as const,
+            data: {
+              userId: request.userId,
+              content: data.content,
+              attachments: data.attachments,
+              serverId: channel.serverId,
+              channelId: data.channelId,
+              metadata: {
+                userRoles: member.roles.map(r => r.role.name)
+              }
+            },
+            priority: 'medium' as const,
+            timestamp: new Date()
+          };
+
+          moderationResult = await enhancedModeration.processRequest(moderationRequest);
+          
+          // Check if message should be blocked
+          if (moderationResult.blocked || moderationResult.riskLevel === 'critical') {
+            messageBlocked = true;
+            
+            return reply.code(403).send({
+              success: false,
+              error: 'Message blocked by AI moderation',
+              details: {
+                reason: 'Content violates community guidelines',
+                riskLevel: moderationResult.riskLevel,
+                confidence: Math.round(moderationResult.confidence * 100),
+                actions: moderationResult.actions.filter(a => a.executed).map(a => a.type),
+                canAppeal: moderationResult.riskLevel !== 'critical'
+              }
+            });
+          }
+          
+          // Log moderation result for monitoring
+          if (moderationResult.riskLevel !== 'safe') {
+            fastify.log.warn('Message flagged by AI moderation:', {
+              userId: request.userId,
+              channelId: data.channelId,
+              riskLevel: moderationResult.riskLevel,
+              confidence: moderationResult.confidence,
+              blocked: messageBlocked
+            });
+          }
+          
+        } catch (moderationError) {
+          // Log but don't block message if moderation fails
+          fastify.log.error('AI moderation failed:', moderationError);
+          
+          // In production, you might want to queue for manual review
+          if (moderationError.message.includes('rate limit')) {
+            // Queue for later moderation
+            await (fastify as any).queues.messages?.add('delayed-moderation', {
+              content: data.content,
+              userId: request.userId,
+              channelId: data.channelId,
+              serverId: channel.serverId
+            });
+          }
+        }
+      }
+
       // Create message
       const message = await prisma.message.create({
         data: {
@@ -509,6 +613,30 @@ const enhancedMessageRoutes: FastifyPluginAsync = async (fastify) => {
         serverId: channel.serverId,
         userId: request.userId
       });
+
+      // Queue for post-processing AI moderation analysis (async)
+      if (enhancedModeration && !messageBlocked) {
+        try {
+          await moderationQueue.add('post-process-moderation', {
+            messageId: message.id,
+            userId: request.userId,
+            content: data.content,
+            attachments: data.attachments,
+            serverId: channel.serverId,
+            channelId: data.channelId,
+            preProcessResult: moderationResult ? {
+              riskLevel: moderationResult.riskLevel,
+              confidence: moderationResult.confidence,
+              serviceResults: moderationResult.serviceResults
+            } : null
+          }, {
+            delay: 1000, // Process after 1 second to allow message to be saved
+            priority: moderationResult?.riskLevel === 'high' ? 1 : 3
+          });
+        } catch (error) {
+          fastify.log.error('Failed to queue post-processing moderation:', error);
+        }
+      }
 
       return reply.code(201).send({
         success: true,

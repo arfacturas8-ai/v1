@@ -50,7 +50,7 @@ async function testAPIConnection() {
     
   } catch (error) {
     console.error('❌ API connection test failed:', error.message);
-    console.log('💡 Make sure the API server is running on port 3002');
+    console.log('💡 Make sure the API server is running on port 3001');
   }
 }
 

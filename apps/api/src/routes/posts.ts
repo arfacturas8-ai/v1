@@ -4,11 +4,151 @@ import { prisma } from "@cryb/database";
 import { authMiddleware, optionalAuthMiddleware } from "../middleware/auth";
 import { validate, validationSchemas } from "../middleware/validation";
 
+// Comprehensive validation schemas for Reddit-style posts
+const postSchemas = {
+  create: z.object({
+    title: z.string().min(3).max(300),
+    content: z.string().optional(),
+    url: z.string().url().optional(),
+    communityId: z.string().uuid(),
+    type: z.enum(['text', 'link', 'image', 'video', 'poll']).default('text'),
+    tags: z.array(z.string()).max(10).optional(),
+    nsfw: z.boolean().default(false),
+    spoiler: z.boolean().default(false),
+    scheduled: z.boolean().default(false),
+    scheduledFor: z.string().datetime().optional(),
+    crosspostFrom: z.string().uuid().optional(),
+    pollOptions: z.array(z.string()).min(2).max(6).optional(),
+    pollDuration: z.number().min(1).max(7).optional()
+  }),
+  
+  update: z.object({
+    title: z.string().min(3).max(300).optional(),
+    content: z.string().optional(),
+    tags: z.array(z.string()).max(10).optional(),
+    nsfw: z.boolean().optional(),
+    spoiler: z.boolean().optional()
+  }),
+  
+  vote: z.object({
+    value: z.enum(['up', 'down', 'none'])
+  }),
+  
+  save: z.object({
+    categoryId: z.string().uuid().optional()
+  }),
+  
+  report: z.object({
+    reason: z.enum(['spam', 'harassment', 'violence', 'hate', 'personal_info', 'copyright', 'self_harm', 'other']),
+    description: z.string().max(500).optional()
+  }),
+  
+  crosspost: z.object({
+    targetCommunityId: z.string().uuid(),
+    title: z.string().min(3).max(300).optional()
+  }),
+  
+  schedule: z.object({
+    scheduledFor: z.string().datetime()
+  })
+};
+
 const postRoutes: FastifyPluginAsync = async (fastify) => {
+  // Get trending posts (public endpoint)
+  fastify.get("/trending", async (request, reply) => {
+    try {
+      const { page = 1, limit = 25, timeFrame = "day" } = z.object({
+        page: z.coerce.number().min(1).default(1),
+        limit: z.coerce.number().min(1).max(100).default(25),
+        timeFrame: z.enum(["hour", "day", "week", "month"]).default("day"),
+      }).parse(request.query);
+
+      // Calculate trending based on score, comments, and recency
+      const now = new Date();
+      let timeFilter: Date;
+      switch (timeFrame) {
+        case "hour":
+          timeFilter = new Date(now.getTime() - 60 * 60 * 1000);
+          break;
+        case "day":
+          timeFilter = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+          break;
+        case "week":
+          timeFilter = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          break;
+        case "month":
+          timeFilter = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+          break;
+        default:
+          timeFilter = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      }
+
+      const whereClause = {
+        isRemoved: false,
+        createdAt: { gte: timeFilter },
+        Community: { isPublic: true },
+      };
+
+      const [posts, total] = await Promise.all([
+        prisma.post.findMany({
+          where: whereClause,
+          include: {
+            User: {
+              select: {
+                id: true,
+                username: true,
+                displayName: true,
+                avatar: true,
+              },
+            },
+            Community: {
+              select: {
+                id: true,
+                name: true,
+                displayName: true,
+                icon: true,
+              },
+            },
+            _count: {
+              select: { Comment: true, Vote: true, Award: true },
+            },
+          },
+          skip: (page - 1) * limit,
+          take: limit,
+          orderBy: [
+            { score: "desc" },
+            { commentCount: "desc" },
+            { viewCount: "desc" },
+            { createdAt: "desc" }
+          ],
+        }),
+        prisma.post.count({ where: whereClause }),
+      ]);
+
+      return reply.send({
+        success: true,
+        data: {
+          items: posts,
+          total,
+          page,
+          pageSize: limit,
+          hasMore: page * limit < total,
+          timeFrame,
+        },
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to get trending posts",
+      });
+    }
+  });
+
   // Get posts with optional auth
-  fastify.get("/", async (request, reply) => {
+  fastify.get("/", async (request: any, reply) => {
     await optionalAuthMiddleware(request, reply);
-    
+
     try {
       const { page = 1, limit = 25, sort = "hot", timeFrame = "all", community } = z.object({
         page: z.coerce.number().min(1).default(1),
@@ -17,6 +157,13 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
         timeFrame: z.enum(["hour", "day", "week", "month", "year", "all"]).default("all"),
         community: z.string().optional(),
       }).parse(request.query);
+
+      // 🚀 ZERO-COST 100K OPTIMIZATION: Use multi-tier cache
+      const cacheKey = `posts:list:${page}:${limit}:${sort}:${timeFrame}:${community || 'all'}`;
+      const cached = await request.server.cache.cache.get(cacheKey);
+      if (cached) {
+        return reply.send(cached); // Served from cache! Sub-20ms response
+      }
 
       let orderBy: any;
       switch (sort) {
@@ -45,12 +192,10 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       }
       
       // Build where clause with filters
-      const whereClause: any = {
-        isRemoved: false,
-      };
+      const whereClause: any = {};
       
       if (community) {
-        whereClause.community = { name: community };
+        whereClause.Community = { name: community };
       }
       
       // Add time frame filter
@@ -83,7 +228,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
         prisma.post.findMany({
           where: whereClause,
           include: {
-            user: {
+            User: {
               select: {
                 id: true,
                 username: true,
@@ -91,7 +236,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
                 avatar: true,
               },
             },
-            community: {
+            Community: {
               select: {
                 id: true,
                 name: true,
@@ -100,7 +245,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
               },
             },
             _count: {
-              select: { comments: true, votes: true, awards: true },
+              select: { Comment: true, Vote: true, Award: true },
             },
           },
           skip: (page - 1) * limit,
@@ -123,7 +268,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
         }).catch(error => fastify.log.error('Failed to update view counts:', error));
       }
 
-      return reply.send({
+      const response = {
         success: true,
         data: {
           items: posts,
@@ -132,7 +277,12 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
           pageSize: limit,
           hasMore: page * limit < total,
         },
-      });
+      };
+
+      // 🚀 Cache the result (60 seconds for post lists)
+      await request.server.cache.cache.set(cacheKey, response, 60);
+
+      return reply.send(response);
     } catch (error) {
       fastify.log.error(error);
       return reply.code(500).send({
@@ -143,38 +293,16 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
   });
 
   // Get single post
-  fastify.get("/:id", async (request, reply) => {
+  fastify.get("/:id", async (request: any, reply) => {
     await optionalAuthMiddleware(request, reply);
-    
+
     try {
       const { id } = z.object({
         id: z.string(),
       }).parse(request.params);
 
-      const post = await prisma.post.findUnique({
-        where: { id },
-        include: {
-          user: {
-            select: {
-              id: true,
-              username: true,
-              displayName: true,
-              avatar: true,
-            },
-          },
-          community: {
-            select: {
-              id: true,
-              name: true,
-              displayName: true,
-              icon: true,
-            },
-          },
-          _count: {
-            select: { comments: true, votes: true },
-          },
-        },
-      });
+      // 🚀 ZERO-COST 100K OPTIMIZATION: Use application cache
+      const post = await request.server.cache.getPostById(id);
 
       if (!post) {
         return reply.code(404).send({
@@ -182,6 +310,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
           error: "Post not found",
         });
       }
+
 
       return reply.send({
         success: true,
@@ -235,7 +364,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
           userId: request.userId,
         },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -243,7 +372,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
               avatar: true,
             },
           },
-          community: {
+          Community: {
             select: {
               id: true,
               name: true,
@@ -420,7 +549,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
           editedAt: new Date(),
         },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -428,7 +557,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
               avatar: true,
             },
           },
-          community: {
+          Community: {
             select: {
               id: true,
               name: true,
@@ -437,7 +566,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
             },
           },
           _count: {
-            select: { comments: true, votes: true },
+            select: { Comment: true, Vote: true },
           },
         },
       });
@@ -562,7 +691,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
           include: {
             post: {
               include: {
-                user: {
+                User: {
                   select: {
                     id: true,
                     username: true,
@@ -570,7 +699,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
                     avatar: true,
                   },
                 },
-                community: {
+                Community: {
                   select: {
                     id: true,
                     name: true,
@@ -579,7 +708,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
                   },
                 },
                 _count: {
-                  select: { comments: true, votes: true },
+                  select: { Comment: true, Vote: true },
                 },
               },
             },
@@ -671,7 +800,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       const post = await prisma.post.findUnique({
         where: { id },
         include: {
-          community: {
+          Community: {
             include: {
               moderators: {
                 where: { userId: request.userId },
@@ -689,7 +818,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       // Check if user is moderator or community owner
-      const isModerator = post.community.moderators.length > 0;
+      const isModerator = post.Community.moderators.length > 0;
       if (!isModerator) {
         return reply.code(403).send({
           success: false,
@@ -701,7 +830,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
         where: { id },
         data: { isPinned: body.pinned },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -709,7 +838,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
               avatar: true,
             },
           },
-          community: {
+          Community: {
             select: {
               id: true,
               name: true,
@@ -718,7 +847,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
             },
           },
           _count: {
-            select: { comments: true, votes: true, awards: true },
+            select: { Comment: true, Vote: true, Award: true },
           },
         },
       });
@@ -751,7 +880,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       const post = await prisma.post.findUnique({
         where: { id },
         include: {
-          community: {
+          Community: {
             include: {
               moderators: {
                 where: { userId: request.userId },
@@ -769,7 +898,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       // Check if user is moderator
-      const isModerator = post.community.moderators.length > 0;
+      const isModerator = post.Community.moderators.length > 0;
       if (!isModerator) {
         return reply.code(403).send({
           success: false,
@@ -781,7 +910,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
         where: { id },
         data: { isLocked: body.locked },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -789,7 +918,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
               avatar: true,
             },
           },
-          community: {
+          Community: {
             select: {
               id: true,
               name: true,
@@ -798,7 +927,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
             },
           },
           _count: {
-            select: { comments: true, votes: true, awards: true },
+            select: { Comment: true, Vote: true, Award: true },
           },
         },
       });
@@ -831,7 +960,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       const post = await prisma.post.findUnique({
         where: { id },
         include: {
-          community: {
+          Community: {
             include: {
               moderators: {
                 where: { userId: request.userId },
@@ -849,7 +978,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       // Check if user is moderator
-      const isModerator = post.community.moderators.length > 0;
+      const isModerator = post.Community.moderators.length > 0;
       if (!isModerator) {
         return reply.code(403).send({
           success: false,
@@ -960,13 +1089,13 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       const originalPost = await prisma.post.findUnique({
         where: { id },
         include: {
-          user: {
+          User: {
             select: {
               username: true,
               displayName: true,
             },
           },
-          community: {
+          Community: {
             select: {
               name: true,
               displayName: true,
@@ -1013,7 +1142,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
           userId: request.userId,
         },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -1021,7 +1150,7 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
               avatar: true,
             },
           },
-          community: {
+          Community: {
             select: {
               id: true,
               name: true,

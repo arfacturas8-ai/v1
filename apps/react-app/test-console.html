@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRYB Console Test</title>
+</head>
+<body>
+    <h1>CRYB Platform Console Test</h1>
+    <iframe id="platform" src="https://platform.cryb.ai" width="100%" height="400"></iframe>
+    <div id="errors" style="background: #000; color: #0f0; padding: 20px; font-family: monospace;">
+        <h3>Console Output:</h3>
+        <pre id="console"></pre>
+    </div>
+    <script>
+        // Override console methods to capture output
+        const origLog = console.log;
+        const origError = console.error;
+        const origWarn = console.warn;
+        
+        const output = document.getElementById('console');
+        
+        console.log = function(...args) {
+            output.innerHTML += '[LOG] ' + args.join(' ') + '\n';
+            origLog.apply(console, args);
+        };
+        
+        console.error = function(...args) {
+            output.innerHTML += '<span style="color: red">[ERROR] ' + args.join(' ') + '</span>\n';
+            origError.apply(console, args);
+        };
+        
+        console.warn = function(...args) {
+            output.innerHTML += '<span style="color: yellow">[WARN] ' + args.join(' ') + '</span>\n';
+            origWarn.apply(console, args);
+        };
+        
+        // Capture unhandled errors
+        window.addEventListener('error', (e) => {
+            output.innerHTML += '<span style="color: red">[UNCAUGHT] ' + e.message + ' at ' + e.filename + ':' + e.lineno + '</span>\n';
+        });
+        
+        // Try to load the app directly
+        setTimeout(() => {
+            output.innerHTML += '[INFO] Loading platform.cryb.ai...\n';
+        }, 1000);
+    </script>
+</body>
+</html>

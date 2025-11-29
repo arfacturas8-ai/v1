@@ -1,0 +1,34 @@
+CRYB Privacy Policy
+
+Last updated: September 2025
+
+We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we collect, use, and protect your information when you use the CRYB mobile application.
+
+INFORMATION WE COLLECT
+- Account information (username, email)
+- Communication data (messages, voice calls)
+- Device information (device ID, OS version)
+- Usage analytics (app usage patterns)
+
+HOW WE USE YOUR INFORMATION
+- Provide and maintain our services
+- Enable communication features
+- Improve app performance and security
+- Send important notifications
+
+DATA SECURITY
+- End-to-end encryption for sensitive communications
+- Secure local storage with device-level encryption
+- Regular security audits and updates
+- No data selling to third parties
+
+YOUR RIGHTS
+- Access your personal data
+- Delete your account and data
+- Control notification preferences
+- Export your data
+
+CONTACT US
+For privacy-related questions: privacy@cryb.app
+
+This policy may be updated periodically. Users will be notified of significant changes.

@@ -1,0 +1,139 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    name: Test & Lint
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd apps/react-app
+          npm ci
+
+      - name: Run linter
+        run: |
+          cd apps/react-app
+          npm run lint || true
+
+      - name: Run tests
+        run: |
+          cd apps/react-app
+          npm test -- --coverage --watchAll=false
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./apps/react-app/coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd apps/react-app
+          npm ci
+
+      - name: Build application
+        run: |
+          cd apps/react-app
+          npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Analyze bundle size
+        run: |
+          cd apps/react-app
+          du -sh dist/*
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-dist
+          path: apps/react-app/dist
+          retention-days: 7
+
+  security:
+    name: Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run npm audit
+        run: |
+          cd apps/react-app
+          npm audit --audit-level=moderate || true
+
+      - name: Run Snyk Security Scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: test
+          args: --severity-threshold=high
+
+  deploy-preview:
+    name: Deploy Preview
+    runs-on: ubuntu-latest
+    needs: [test, build]
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-dist
+          path: apps/react-app/dist
+
+      - name: Deploy to Vercel Preview
+        uses: amondnet/vercel-action@v25
+        if: ${{ secrets.VERCEL_TOKEN }}
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: apps/react-app

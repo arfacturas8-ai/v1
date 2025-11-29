@@ -1,0 +1,17 @@
+{
+  "timestamp": "2025-11-16 22:32:26",
+  "overall_status": "HEALTHY",
+  "checks": {
+    "disk_space": "HEALTHY","api_health": "HEALTHY","load_average": "0.64","frontend_build": "EXISTS","docker_cryb-redis-dev": "
+running","pm2_cryb-frontend": "online","docker_cryb-minio": "
+running","pm2_cryb-api": "online","api_responsive": "HEALTHY","memory": "HEALTHY","directories": "HEALTHY","database": "HEALTHY","frontend": "HEALTHY","docker_cryb-postgres-dev": "healthy","redis": "HEALTHY","database_direct": "HEALTHY","pm2": "HEALTHY","docker": "HEALTHY","pm2_cryb-workers": "online","docker_elasticsearch": "
+running","elasticsearch": "HEALTHY","redis_direct": "UNHEALTHY","log_size": "1.4G","log_rotation": "ENABLED","minio": "HEALTHY","swap": "HIGH"
+  },
+  "issues": [],
+  "warnings": ["Redis (localhost:6380): not responding","Swap usage high: 52% (may indicate memory pressure)"],
+  "system_info": {
+    "uptime": "up 3 weeks, 3 days, 5 hours, 47 minutes",
+    "hostname": "ip-172-26-13-67",
+    "platform": "CRYB Platform"
+  }
+}

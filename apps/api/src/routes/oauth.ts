@@ -37,7 +37,7 @@ export default async function oauthRoutes(fastify: FastifyInstance) {
   ]);
 
   // Create dedicated Redis client for auth service to avoid subscriber mode issues
-  const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0');
+  const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6380/0');
   const authService = new EnhancedAuthService(authRedisClient);
 
   // Helper to get client info

@@ -6,7 +6,7 @@
 import { create } from 'zustand';
 import { io, Socket } from 'socket.io-client';
 import NetInfo from '@react-native-community/netinfo';
-import { AppState } from 'react-native';
+import { AppState, Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { CrashDetector } from '../utils/CrashDetector';
@@ -32,7 +32,25 @@ export interface SocketState {
 }
 
 const config = Constants.expoConfig?.extra || {};
-const SOCKET_URL = config.wsUrl || 'ws://localhost:3002';
+// Use api.cryb.ai for production, local for development
+const getSocketUrl = () => {
+  // In production, always use the live API
+  if (!__DEV__) {
+    return 'wss://api.cryb.ai';
+  }
+  
+  // In development, check for explicit dev server or use live API as fallback
+  const devUrl = process.env.EXPO_PUBLIC_SOCKET_URL || config.socketUrl;
+  if (devUrl) {
+    return Platform.OS === 'android' && devUrl.includes('localhost') 
+      ? devUrl.replace('localhost', '10.0.2.2')
+      : devUrl;
+  }
+  
+  // Default to live API
+  return 'wss://api.cryb.ai';
+};
+const SOCKET_URL = getSocketUrl();
 const MAX_RECONNECT_ATTEMPTS = 10;
 const RECONNECT_INTERVALS = [1000, 2000, 5000, 10000, 30000]; // Progressive backoff
 const PING_INTERVAL = 30000; // 30 seconds
@@ -56,7 +74,18 @@ class SocketService {
 
   async initializeSocket(userId?: string): Promise<Socket> {
     try {
-      const token = await AsyncStorage.getItem('@auth_token');
+      // Get token from the same storage key used by ApiService
+      const tokensData = await AsyncStorage.getItem('@cryb_auth_tokens');
+      let token = null;
+      
+      if (tokensData) {
+        const tokens = JSON.parse(tokensData);
+        token = tokens.accessToken;
+      }
+      
+      if (!token) {
+        throw new Error('No authentication token available');
+      }
       
       const socket = io(SOCKET_URL, {
         transports: ['websocket', 'polling'],
@@ -69,6 +98,7 @@ class SocketService {
         },
         extraHeaders: {
           'User-Agent': 'CRYB-Mobile/1.0.0',
+          'Authorization': `Bearer ${token}`,
         },
       });
 
@@ -456,6 +486,185 @@ export const useSocketStore = create<SocketState>((set, get) => ({
 
       return false;
     }
+  },
+
+  // Discord-style Socket Methods
+  joinServer: (serverId: string) => {
+    const { socket } = get();
+    socket?.emit('server:join', { serverId });
+  },
+
+  leaveServer: (serverId: string) => {
+    const { socket } = get();
+    socket?.emit('server:leave', { serverId });
+  },
+
+  joinChannel: (channelId: string) => {
+    const { socket } = get();
+    socket?.emit('channel:join', { channelId });
+  },
+
+  leaveChannel: (channelId: string) => {
+    const { socket } = get();
+    socket?.emit('channel:leave', { channelId });
+  },
+
+  sendChatMessage: (channelId: string, content: string, options?: {
+    replyTo?: string;
+    attachments?: any[];
+    embeds?: any[];
+  }) => {
+    const { socket } = get();
+    socket?.emit('message:send', {
+      channelId,
+      content,
+      messageReference: options?.replyTo ? { messageId: options.replyTo } : undefined,
+      attachments: options?.attachments,
+      embeds: options?.embeds
+    });
+  },
+
+  startTyping: (channelId: string) => {
+    const { socket } = get();
+    socket?.emit('typing:start', { channelId });
+  },
+
+  stopTyping: (channelId: string) => {
+    const { socket } = get();
+    socket?.emit('typing:stop', { channelId });
+  },
+
+  updateVoiceState: (state: {
+    channelId?: string | null;
+    serverId?: string;
+    selfMute?: boolean;
+    selfDeaf?: boolean;
+    selfVideo?: boolean;
+  }) => {
+    const { socket } = get();
+    socket?.emit('voice:state_update', state);
+  },
+
+  updatePresence: (status: 'online' | 'idle' | 'dnd' | 'invisible', activity?: any) => {
+    const { socket } = get();
+    socket?.emit('presence:update', {
+      status,
+      activities: activity ? [activity] : [],
+      clientStatus: { mobile: status },
+      afk: status === 'idle'
+    });
+  },
+
+  addMessageReaction: (messageId: string, emoji: string) => {
+    const { socket } = get();
+    socket?.emit('message:react', { messageId, emoji });
+  },
+
+  removeMessageReaction: (messageId: string, emoji: string) => {
+    const { socket } = get();
+    socket?.emit('message:reaction_remove', { messageId, emoji });
+  },
+
+  editMessage: (messageId: string, content: string) => {
+    const { socket } = get();
+    socket?.emit('message:update', { messageId, content });
+  },
+
+  deleteMessage: (messageId: string, channelId: string) => {
+    const { socket } = get();
+    socket?.emit('message:delete', { messageId, channelId });
+  },
+
+  createThread: (channelId: string, messageId: string, name: string) => {
+    const { socket } = get();
+    socket?.emit('thread:create', { channelId, messageId, name });
+  },
+
+  executeSlashCommand: (commandName: string, options: Record<string, any>, channelId: string, serverId?: string) => {
+    const { socket } = get();
+    socket?.emit('interaction:create', {
+      type: 2, // APPLICATION_COMMAND
+      data: {
+        name: commandName,
+        options: Object.entries(options).map(([name, value]) => ({ name, value }))
+      },
+      channel_id: channelId,
+      guild_id: serverId,
+      token: 'interaction_token',
+      version: 1
+    });
+  },
+
+  // Utility method to set up common Discord event listeners
+  setupDiscordListeners: (handlers: {
+    onMessageCreate?: (message: any) => void;
+    onMessageUpdate?: (message: any) => void;
+    onMessageDelete?: (data: { messageId: string; channelId: string }) => void;
+    onTypingStart?: (data: { channelId: string; userId: string; username: string }) => void;
+    onTypingStop?: (data: { channelId: string; userId: string }) => void;
+    onVoiceStateUpdate?: (data: any) => void;
+    onPresenceUpdate?: (data: any) => void;
+    onReactionAdd?: (data: { messageId: string; userId: string; emoji: string }) => void;
+    onReactionRemove?: (data: { messageId: string; userId: string; emoji: string }) => void;
+    onServerJoined?: (data: { server: any; member: any }) => void;
+    onChannelCreate?: (channel: any) => void;
+    onChannelUpdate?: (channel: any) => void;
+    onChannelDelete?: (data: { channelId: string; serverId: string }) => void;
+    onMemberJoin?: (data: { serverId: string; member: any }) => void;
+    onMemberLeave?: (data: { serverId: string; userId: string }) => void;
+    onMemberUpdate?: (data: { serverId: string; member: any }) => void;
+  }) => {
+    const { socket } = get();
+    if (!socket) return;
+
+    // Message events
+    if (handlers.onMessageCreate) socket.on('message:create', handlers.onMessageCreate);
+    if (handlers.onMessageUpdate) socket.on('message:updated', handlers.onMessageUpdate);
+    if (handlers.onMessageDelete) socket.on('message:deleted', handlers.onMessageDelete);
+
+    // Typing events
+    if (handlers.onTypingStart) socket.on('typing:user_start', handlers.onTypingStart);
+    if (handlers.onTypingStop) socket.on('typing:user_stop', handlers.onTypingStop);
+
+    // Voice events
+    if (handlers.onVoiceStateUpdate) socket.on('voice:state_update', handlers.onVoiceStateUpdate);
+
+    // Presence events
+    if (handlers.onPresenceUpdate) socket.on('presence:user_update', handlers.onPresenceUpdate);
+
+    // Reaction events
+    if (handlers.onReactionAdd) socket.on('message:reaction_add', handlers.onReactionAdd);
+    if (handlers.onReactionRemove) socket.on('message:reaction_remove', handlers.onReactionRemove);
+
+    // Server events
+    if (handlers.onServerJoined) socket.on('server:joined', handlers.onServerJoined);
+
+    // Channel events
+    if (handlers.onChannelCreate) socket.on('channel:created', handlers.onChannelCreate);
+    if (handlers.onChannelUpdate) socket.on('channel:updated', handlers.onChannelUpdate);
+    if (handlers.onChannelDelete) socket.on('channel:deleted', handlers.onChannelDelete);
+
+    // Member events
+    if (handlers.onMemberJoin) socket.on('server:member_join', handlers.onMemberJoin);
+    if (handlers.onMemberLeave) socket.on('server:member_leave', handlers.onMemberLeave);
+    if (handlers.onMemberUpdate) socket.on('server:member_update', handlers.onMemberUpdate);
+  },
+
+  // Clean up Discord event listeners
+  cleanupDiscordListeners: () => {
+    const { socket } = get();
+    if (!socket) return;
+
+    const events = [
+      'message:create', 'message:updated', 'message:deleted',
+      'typing:user_start', 'typing:user_stop',
+      'voice:state_update', 'presence:user_update',
+      'message:reaction_add', 'message:reaction_remove',
+      'server:joined', 'channel:created', 'channel:updated', 'channel:deleted',
+      'server:member_join', 'server:member_leave', 'server:member_update'
+    ];
+
+    events.forEach(event => socket.off(event));
   },
 
   clearError: () => {

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRYB App Test</title>
+    <style>
+        body { 
+            background: #1a1a1a; 
+            color: #fff; 
+            font-family: monospace; 
+            margin: 0; 
+            padding: 20px; 
+        }
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .console {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-size: 12px;
+            border: 1px solid #555;
+        }
+        .error { color: #ff6b6b; }
+        .warn { color: #ffd43b; }
+        .log { color: #51cf66; }
+        .info { color: #339af0; }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #555;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .status {
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+        .status.success { background: #2b8a3e; }
+        .status.error { background: #c92a2a; }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>CRYB React App Debug Test</h1>
+        
+        <div id="app-status" class="status">Testing app...</div>
+        
+        <h2>Console Output</h2>
+        <div id="console" class="console">
+            <div>Waiting for app to load...</div>
+        </div>
+        
+        <h2>App Preview</h2>
+        <iframe src="http://localhost:3007" id="app-frame"></iframe>
+        
+        <h2>Network Status</h2>
+        <div id="network-status" class="console">
+            <div>Checking network status...</div>
+        </div>
+    </div>
+
+    <script>
+        const consoleDiv = document.getElementById('console');
+        const statusDiv = document.getElementById('app-status');
+        const networkDiv = document.getElementById('network-status');
+        let logs = [];
+        
+        function addLog(type, message, source = 'main') {
+            const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
+            const logEntry = `[${timestamp}] [${source}] [${type.toUpperCase()}] ${message}`;
+            logs.push(logEntry);
+            
+            const div = document.createElement('div');
+            div.className = type;
+            div.textContent = logEntry;
+            consoleDiv.appendChild(div);
+            
+            // Keep only last 100 logs
+            if (consoleDiv.children.length > 100) {
+                consoleDiv.removeChild(consoleDiv.firstChild);
+            }
+            
+            consoleDiv.scrollTop = consoleDiv.scrollHeight;
+        }
+        
+        // Test network connectivity
+        async function testNetwork() {
+            try {
+                const response = await fetch('http://localhost:3007');
+                if (response.ok) {
+                    addLog('info', 'Server is responding', 'network');
+                    statusDiv.textContent = 'Server is running';
+                    statusDiv.className = 'status success';
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                addLog('error', `Network error: ${error.message}`, 'network');
+                statusDiv.textContent = 'Server connection failed';
+                statusDiv.className = 'status error';
+            }
+        }
+        
+        // Test main.jsx directly
+        async function testMainJS() {
+            try {
+                const response = await fetch('http://localhost:3007/src/main.jsx');
+                if (response.ok) {
+                    addLog('info', 'main.jsx is accessible', 'network');
+                } else {
+                    addLog('error', `main.jsx not accessible: ${response.status}`, 'network');
+                }
+            } catch (error) {
+                addLog('error', `main.jsx fetch error: ${error.message}`, 'network');
+            }
+        }
+        
+        // Capture main window console
+        ['log', 'info', 'warn', 'error'].forEach(method => {
+            const original = console[method];
+            console[method] = function(...args) {
+                original.apply(console, args);
+                addLog(method, args.join(' '), 'main');
+            };
+        });
+        
+        // Handle uncaught errors
+        window.addEventListener('error', (e) => {
+            addLog('error', `Uncaught Error: ${e.message} at ${e.filename}:${e.lineno}`, 'main');
+        });
+        
+        window.addEventListener('unhandledrejection', (e) => {
+            addLog('error', `Unhandled Promise Rejection: ${e.reason}`, 'main');
+        });
+        
+        // Run tests
+        testNetwork();
+        testMainJS();
+        
+        // Try to monitor iframe
+        const iframe = document.getElementById('app-frame');
+        iframe.onload = function() {
+            try {
+                addLog('info', 'iframe loaded', 'iframe');
+                const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                const rootDiv = iframeDoc.getElementById('root');
+                
+                if (rootDiv) {
+                    addLog('info', `Root div found, innerHTML length: ${rootDiv.innerHTML.length}`, 'iframe');
+                    if (rootDiv.innerHTML.trim() === '') {
+                        addLog('warn', 'Root div is empty - React may not have mounted', 'iframe');
+                    } else {
+                        addLog('info', 'Root div has content - React appears to be working', 'iframe');
+                    }
+                } else {
+                    addLog('error', 'Root div not found in iframe', 'iframe');
+                }
+            } catch (error) {
+                addLog('error', `Cannot access iframe content: ${error.message}`, 'iframe');
+                addLog('info', 'This is normal due to CORS restrictions', 'iframe');
+            }
+        };
+        
+        iframe.onerror = function(error) {
+            addLog('error', `iframe error: ${error}`, 'iframe');
+        };
+        
+        // Monitor for changes every 2 seconds
+        setInterval(() => {
+            testNetwork();
+        }, 5000);
+    </script>
+</body>
+</html>

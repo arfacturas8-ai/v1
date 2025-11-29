@@ -1,0 +1,71 @@
+{
+  "timestamp": "2025-09-12T15:24:42.320Z",
+  "completionScore": 72.16666666666667,
+  "targetScore": 70,
+  "ready": true,
+  "results": {
+    "openai": {
+      "status": "failed",
+      "details": {
+        "apiKeyPresent": true,
+        "apiKeyValid": true,
+        "moderationEndpoint": false,
+        "categoryScores": false,
+        "rateLimiting": false
+      }
+    },
+    "services": {
+      "status": "failed",
+      "details": {
+        "toxicityDetection": false,
+        "spamDetection": false,
+        "nsfwDetection": false,
+        "sentimentAnalysis": false,
+        "fraudDetection": false,
+        "smartTagging": false,
+        "toxicitydetection": true,
+        "spamdetection": true,
+        "nsfwdetection": true,
+        "sentimentanalysis": true,
+        "frauddetection": true,
+        "smarttagging": true
+      }
+    },
+    "pipeline": {
+      "status": "good",
+      "details": {
+        "messageAnalysis": true,
+        "parallelProcessing": true,
+        "caching": true,
+        "priorityQueue": true,
+        "errorHandling": true,
+        "fallbackModes": true
+      }
+    },
+    "actions": {
+      "status": "good",
+      "details": {
+        "deleteMessage": true,
+        "warnUser": true,
+        "timeoutUser": true,
+        "banUser": true,
+        "escalationRules": false,
+        "automatedBans": true
+      }
+    },
+    "integration": {
+      "status": "good",
+      "details": {
+        "apiRoutes": true,
+        "messageHandlers": true,
+        "queueIntegration": true,
+        "databaseLogging": true,
+        "healthMonitoring": true
+      }
+    }
+  },
+  "recommendations": {
+    "priority": "Production testing and monitoring",
+    "nextSteps": "Prepare for App Store submission"
+  }
+}

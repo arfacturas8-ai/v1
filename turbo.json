@@ -17,7 +17,36 @@
     },
     "test": {
       "dependsOn": ["^test"],
-      "inputs": ["$TURBO_DEFAULT$", "test/**", "tests/**"]
+      "inputs": ["$TURBO_DEFAULT$", "test/**", "tests/**", "__tests__/**"],
+      "outputs": ["coverage/**"]
+    },
+    "test:unit": {
+      "dependsOn": ["^test:unit"],
+      "inputs": ["$TURBO_DEFAULT$", "__tests__/unit/**", "__tests__/helpers/**"],
+      "outputs": ["coverage/**"]
+    },
+    "test:integration": {
+      "dependsOn": ["^test:integration"],
+      "inputs": ["$TURBO_DEFAULT$", "__tests__/integration/**", "__tests__/helpers/**"],
+      "outputs": ["coverage/**"]
+    },
+    "test:e2e": {
+      "dependsOn": ["^test:e2e"],
+      "inputs": ["$TURBO_DEFAULT$", "tests/e2e/**", "playwright.config.ts"],
+      "outputs": ["test-results/**", "playwright-report/**"]
+    },
+    "test:load": {
+      "dependsOn": ["^test:load"],
+      "inputs": ["$TURBO_DEFAULT$", "tests/load/**"]
+    },
+    "test:security": {
+      "dependsOn": ["^test:security"],
+      "inputs": ["$TURBO_DEFAULT$", "tests/security/**"]
+    },
+    "test:coverage": {
+      "dependsOn": ["^test:coverage"],
+      "inputs": ["$TURBO_DEFAULT$", "src/**", "app/**", "components/**", "__tests__/**"],
+      "outputs": ["coverage/**"]
     },
     "type-check": {
       "dependsOn": ["^type-check"]

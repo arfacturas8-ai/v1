@@ -1,0 +1,1531 @@
+{
+	"info": {
+		"name": "CRYB Platform API",
+		"description": "Comprehensive API collection for the CRYB Platform - Discord-style chat with Reddit-style communities",
+		"version": "1.0.0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// Auto-refresh token if expired",
+					"if (pm.globals.get('tokenExpiry')) {",
+					"    const now = new Date().getTime();",
+					"    const expiry = new Date(pm.globals.get('tokenExpiry')).getTime();",
+					"    ",
+					"    if (now >= expiry - 60000) { // Refresh 1 minute before expiry",
+					"        console.log('Token expired, refreshing...');",
+					"        // This would trigger a refresh token request",
+					"    }",
+					"}"
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "refreshToken",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "userId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "serverId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "channelId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "messageId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "postId",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "communityId",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.tokens) {",
+									"        pm.collectionVariables.set('accessToken', response.data.tokens.accessToken);",
+									"        pm.collectionVariables.set('refreshToken', response.data.tokens.refreshToken);",
+									"        pm.collectionVariables.set('userId', response.data.user.id);",
+									"        pm.globals.set('tokenExpiry', response.data.tokens.expiresAt);",
+									"        console.log('User registered and tokens saved');",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"testuser{{$randomInt}}\",\n  \"displayName\": \"Test User\",\n  \"email\": \"test{{$randomInt}}@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"confirmPassword\": \"SecurePass123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/register",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "register"]
+						}
+					}
+				},
+				{
+					"name": "Login User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.tokens) {",
+									"        pm.collectionVariables.set('accessToken', response.data.tokens.accessToken);",
+									"        pm.collectionVariables.set('refreshToken', response.data.tokens.refreshToken);",
+									"        pm.collectionVariables.set('userId', response.data.user.id);",
+									"        pm.globals.set('tokenExpiry', response.data.tokens.expiresAt);",
+									"        console.log('User logged in and tokens saved');",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"SecurePass123!\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/login",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "login"]
+						}
+					}
+				},
+				{
+					"name": "Refresh Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.tokens) {",
+									"        pm.collectionVariables.set('accessToken', response.data.tokens.accessToken);",
+									"        pm.collectionVariables.set('refreshToken', response.data.tokens.refreshToken);",
+									"        pm.globals.set('tokenExpiry', response.data.tokens.expiresAt);",
+									"        console.log('Tokens refreshed');",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/refresh",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "refresh"]
+						}
+					}
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/auth/logout",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "auth", "logout"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users", "me"]
+						}
+					}
+				},
+				{
+					"name": "Update Current User",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"displayName\": \"Updated Display Name\",\n  \"bio\": \"Updated bio text\",\n  \"pronouns\": \"they/them\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users", "me"]
+						}
+					}
+				},
+				{
+					"name": "Get User by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/{{userId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users", "{{userId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update User Presence",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"ONLINE\",\n  \"clientStatus\": \"desktop\",\n  \"activities\": [\n    {\n      \"type\": \"GAME\",\n      \"name\": \"Playing Minecraft\",\n      \"details\": \"Building a castle\",\n      \"state\": \"In creative mode\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/users/me/presence",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "users", "me", "presence"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Servers",
+			"item": [
+				{
+					"name": "Get User Servers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.length > 0) {",
+									"        pm.collectionVariables.set('serverId', response.data[0].id);",
+									"        console.log('Server ID saved:', response.data[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers"]
+						}
+					}
+				},
+				{
+					"name": "Create Server",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.id) {",
+									"        pm.collectionVariables.set('serverId', response.data.id);",
+									"        console.log('Server created and ID saved:', response.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"My Test Server {{$randomInt}}\",\n  \"description\": \"A test server for API testing\",\n  \"isPublic\": true,\n  \"category\": \"GAMING\",\n  \"maxMembers\": 1000,\n  \"verificationLevel\": 0\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers"]
+						}
+					}
+				},
+				{
+					"name": "Get Server Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers/{{serverId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers", "{{serverId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Server",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Server Name\",\n  \"description\": \"Updated server description\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers/{{serverId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers", "{{serverId}}"]
+						}
+					}
+				},
+				{
+					"name": "Get Server Members",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers/{{serverId}}/members?page=1&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers", "{{serverId}}", "members"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Server Invite",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"maxUses\": 10,\n  \"maxAge\": 86400,\n  \"temporary\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers/{{serverId}}/invites",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers", "{{serverId}}", "invites"]
+						}
+					}
+				},
+				{
+					"name": "Join Server",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"inviteCode\": \"abc123xyz\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers/{{serverId}}/join",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers", "{{serverId}}", "join"]
+						}
+					}
+				},
+				{
+					"name": "Leave Server",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers/{{serverId}}/members/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers", "{{serverId}}", "members", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Channels",
+			"item": [
+				{
+					"name": "Get Server Channels",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.length > 0) {",
+									"        const textChannel = response.data.find(ch => ch.type === 'TEXT');",
+									"        if (textChannel) {",
+									"            pm.collectionVariables.set('channelId', textChannel.id);",
+									"            console.log('Channel ID saved:', textChannel.id);",
+									"        }",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/servers/{{serverId}}/channels",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "servers", "{{serverId}}", "channels"]
+						}
+					}
+				},
+				{
+					"name": "Create Channel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.id) {",
+									"        pm.collectionVariables.set('channelId', response.data.id);",
+									"        console.log('Channel created and ID saved:', response.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"test-channel-{{$randomInt}}\",\n  \"type\": \"TEXT\",\n  \"serverId\": \"{{serverId}}\",\n  \"topic\": \"Test channel for API testing\",\n  \"isPrivate\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/channels",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "channels"]
+						}
+					}
+				},
+				{
+					"name": "Get Channel Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/channels/{{channelId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "channels", "{{channelId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Channel",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"updated-channel-name\",\n  \"topic\": \"Updated channel topic\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/channels/{{channelId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "channels", "{{channelId}}"]
+						}
+					}
+				},
+				{
+					"name": "Delete Channel",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/channels/{{channelId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "channels", "{{channelId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Messages",
+			"item": [
+				{
+					"name": "Get Messages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/messages?channelId={{channelId}}&page=1&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "messages"],
+							"query": [
+								{
+									"key": "channelId",
+									"value": "{{channelId}}"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Send Message",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.id) {",
+									"        pm.collectionVariables.set('messageId', response.data.id);",
+									"        console.log('Message sent and ID saved:', response.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"channelId\": \"{{channelId}}\",\n  \"content\": \"Hello from Postman! 👋 Time: {{$timestamp}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/messages",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "messages"]
+						}
+					}
+				},
+				{
+					"name": "Edit Message",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Edited message content - {{$timestamp}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/messages/{{messageId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "messages", "{{messageId}}"]
+						}
+					}
+				},
+				{
+					"name": "Add Reaction",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"emoji\": \"👍\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/messages/{{messageId}}/reactions",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "messages", "{{messageId}}", "reactions"]
+						}
+					}
+				},
+				{
+					"name": "Remove Reaction",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/messages/{{messageId}}/reactions/👍",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "messages", "{{messageId}}", "reactions", "👍"]
+						}
+					}
+				},
+				{
+					"name": "Delete Message",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/messages/{{messageId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "messages", "{{messageId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Communities",
+			"item": [
+				{
+					"name": "Get Communities",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.items.length > 0) {",
+									"        pm.collectionVariables.set('communityId', response.data.items[0].id);",
+									"        console.log('Community ID saved:', response.data.items[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/communities?page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "communities"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Community by Name",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/communities/technology",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "communities", "technology"]
+						}
+					}
+				},
+				{
+					"name": "Create Community",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.id) {",
+									"        pm.collectionVariables.set('communityId', response.data.id);",
+									"        console.log('Community created and ID saved:', response.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"testcommunity{{$randomInt}}\",\n  \"displayName\": \"Test Community\",\n  \"description\": \"A test community for API testing\",\n  \"isPublic\": true,\n  \"category\": \"TECHNOLOGY\",\n  \"rules\": [\n    \"Be respectful\",\n    \"No spam\",\n    \"Stay on topic\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/communities",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "communities"]
+						}
+					}
+				},
+				{
+					"name": "Join Community",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/communities/technology/join",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "communities", "technology", "join"]
+						}
+					}
+				},
+				{
+					"name": "Leave Community",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/communities/technology/members/me",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "communities", "technology", "members", "me"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Posts",
+			"item": [
+				{
+					"name": "Get Posts",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.posts.length > 0) {",
+									"        pm.collectionVariables.set('postId', response.data.posts[0].id);",
+									"        console.log('Post ID saved:', response.data.posts[0].id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/posts?page=1&limit=25&sort=hot&timeFrame=all",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "posts"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "25"
+								},
+								{
+									"key": "sort",
+									"value": "hot"
+								},
+								{
+									"key": "timeFrame",
+									"value": "all"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 201) {",
+									"    const response = pm.response.json();",
+									"    if (response.success && response.data.id) {",
+									"        pm.collectionVariables.set('postId', response.data.id);",
+									"        console.log('Post created and ID saved:', response.data.id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"title\": \"Test Post from Postman {{$timestamp}}\",\n  \"content\": \"This is a test post created via the API. It contains some sample content to demonstrate the post creation functionality.\",\n  \"type\": \"TEXT\",\n  \"communityId\": \"{{communityId}}\",\n  \"isNsfw\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/posts",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "posts"]
+						}
+					}
+				},
+				{
+					"name": "Get Post Details",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/posts/{{postId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "posts", "{{postId}}"]
+						}
+					}
+				},
+				{
+					"name": "Update Post",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"content\": \"Updated post content - edited at {{$timestamp}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/posts/{{postId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "posts", "{{postId}}"]
+						}
+					}
+				},
+				{
+					"name": "Vote on Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"direction\": \"UP\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/posts/{{postId}}/vote",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "posts", "{{postId}}", "vote"]
+						}
+					}
+				},
+				{
+					"name": "Delete Post",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/posts/{{postId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "posts", "{{postId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "Get Comments",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/comments?postId={{postId}}&sort=best&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "comments"],
+							"query": [
+								{
+									"key": "postId",
+									"value": "{{postId}}"
+								},
+								{
+									"key": "sort",
+									"value": "best"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"postId\": \"{{postId}}\",\n  \"content\": \"Great post! Thanks for sharing this information. Comment created at {{$timestamp}}\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/comments",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "comments"]
+						}
+					}
+				},
+				{
+					"name": "Vote on Comment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"direction\": \"UP\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/comments/comment_123/vote",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "comments", "comment_123", "vote"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Voice & Video",
+			"item": [
+				{
+					"name": "Join Voice Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"mute\": false,\n  \"deaf\": false,\n  \"video\": false,\n  \"screenShare\": false,\n  \"quality\": \"auto\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/voice/channels/{{channelId}}/join",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "voice", "channels", "{{channelId}}", "join"]
+						}
+					}
+				},
+				{
+					"name": "Leave Voice Channel",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/voice/channels/{{channelId}}/leave",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "voice", "channels", "{{channelId}}", "leave"]
+						}
+					}
+				},
+				{
+					"name": "Get Voice Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/voice/status",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "voice", "status"]
+						}
+					}
+				},
+				{
+					"name": "Update Voice State",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"mute\": true,\n  \"deaf\": false,\n  \"video\": false,\n  \"screenShare\": false\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/voice/state",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "voice", "state"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "File Uploads",
+			"item": [
+				{
+					"name": "Upload File",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "type",
+									"value": "attachment",
+									"type": "text"
+								},
+								{
+									"key": "channelId",
+									"value": "{{channelId}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/uploads",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "uploads"]
+						}
+					}
+				},
+				{
+					"name": "Get Upload Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/uploads/upload_123",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "uploads", "upload_123"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "Search All Content",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search?q=technology&type=all&sort=relevance&page=1&limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "technology"
+								},
+								{
+									"key": "type",
+									"value": "all"
+								},
+								{
+									"key": "sort",
+									"value": "relevance"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "20"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Search Posts Only",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/search?q=gaming&type=posts&sort=new&time=week",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "search"],
+							"query": [
+								{
+									"key": "q",
+									"value": "gaming"
+								},
+								{
+									"key": "type",
+									"value": "posts"
+								},
+								{
+									"key": "sort",
+									"value": "new"
+								},
+								{
+									"key": "time",
+									"value": "week"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "Get Notifications",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/notifications?page=1&limit=50&unreadOnly=false",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "notifications"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								},
+								{
+									"key": "unreadOnly",
+									"value": "false"
+								}
+							]
+						}
+					}
+				},
+				{
+					"name": "Mark Notification as Read",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/notifications/notification_123/read",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "notifications", "notification_123", "read"]
+						}
+					}
+				},
+				{
+					"name": "Mark All Notifications as Read",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/notifications/mark-all-read",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "notifications", "mark-all-read"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Moderation",
+			"item": [
+				{
+					"name": "Report Content",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"type\": \"POST\",\n  \"targetId\": \"{{postId}}\",\n  \"reason\": \"SPAM\",\n  \"description\": \"This post appears to be spam content\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/moderation/reports",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "moderation", "reports"]
+						}
+					}
+				},
+				{
+					"name": "Get Moderation Actions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/moderation/actions?page=1&limit=50",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "moderation", "actions"],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "50"
+								}
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Web3 & NFT",
+			"item": [
+				{
+					"name": "Connect Wallet",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"walletAddress\": \"0x742d35Cc6634C0532925a3b8D6977E\",\n  \"signature\": \"0x...\",\n  \"message\": \"Sign in to CRYB with wallet...\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/web3/connect-wallet",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "web3", "connect-wallet"]
+						}
+					}
+				},
+				{
+					"name": "Get NFT Profile Pictures",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/nft/profile-pictures",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "nft", "profile-pictures"]
+						}
+					}
+				},
+				{
+					"name": "Set NFT Profile Picture",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/nft/profile-pictures/token_123/set",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "nft", "profile-pictures", "token_123", "set"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "Get User Analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/analytics/user",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "analytics", "user"]
+						}
+					}
+				},
+				{
+					"name": "Get Server Analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/analytics/servers/{{serverId}}",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "analytics", "servers", "{{serverId}}"]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Health & System",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/health",
+							"host": ["{{baseUrl}}"],
+							"path": ["health"]
+						}
+					}
+				},
+				{
+					"name": "API Documentation",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/documentation",
+							"host": ["{{baseUrl}}"],
+							"path": ["documentation"]
+						}
+					}
+				},
+				{
+					"name": "Metrics",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/metrics",
+							"host": ["{{baseUrl}}"],
+							"path": ["metrics"]
+						}
+					}
+				}
+			]
+		}
+	]
+}

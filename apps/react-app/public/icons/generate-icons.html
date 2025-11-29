@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate Icons</title>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <script>
+    function generateIcon(size) {
+      const canvas = document.getElementById('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      // White background
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Gradient background
+      const gradient = ctx.createLinearGradient(0, 0, size, size);
+      gradient.addColorStop(0, '#0052FF');
+      gradient.addColorStop(1, '#00D4FF');
+      
+      // Rounded square with gradient
+      const padding = size * 0.1;
+      const rectSize = size - padding * 2;
+      const radius = rectSize * 0.15;
+      
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(padding + radius, padding);
+      ctx.lineTo(padding + rectSize - radius, padding);
+      ctx.quadraticCurveTo(padding + rectSize, padding, padding + rectSize, padding + radius);
+      ctx.lineTo(padding + rectSize, padding + rectSize - radius);
+      ctx.quadraticCurveTo(padding + rectSize, padding + rectSize, padding + rectSize - radius, padding + rectSize);
+      ctx.lineTo(padding + radius, padding + rectSize);
+      ctx.quadraticCurveTo(padding, padding + rectSize, padding, padding + rectSize - radius);
+      ctx.lineTo(padding, padding + radius);
+      ctx.quadraticCurveTo(padding, padding, padding + radius, padding);
+      ctx.closePath();
+      ctx.fill();
+      
+      // White "C" letter in center
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = `bold ${size * 0.4}px -apple-system, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('C', size / 2, size / 2);
+      
+      return canvas.toDataURL('image/png');
+    }
+    
+    // Generate all sizes
+    const sizes = [16, 32, 96, 144, 192];
+    sizes.forEach(size => {
+      const dataUrl = generateIcon(size);
+      const link = document.createElement('a');
+      link.download = `icon-${size}x${size}.png`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      const text = document.createElement('div');
+      text.innerHTML = `<br>Right-click and save: icon-${size}x${size}.png<br>`;
+      document.body.appendChild(text);
+      const img = document.createElement('img');
+      img.src = dataUrl;
+      img.style.border = '1px solid #ccc';
+      img.style.margin = '10px';
+      document.body.appendChild(img);
+    });
+    
+    // Also create favicon
+    const favicon = generateIcon(32);
+    const favLink = document.createElement('a');
+    favLink.download = 'favicon.ico';
+    favLink.href = favicon;
+    document.body.appendChild(favLink);
+    const favText = document.createElement('div');
+    favText.innerHTML = '<br><b>Right-click and save as favicon.ico</b><br>';
+    document.body.appendChild(favText);
+    const favImg = document.createElement('img');
+    favImg.src = favicon;
+    favImg.style.border = '2px solid red';
+    document.body.appendChild(favImg);
+  </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+/**
+ * Cryb.ai - Login Page
+ * Dedicated login page with modern authentication
+ */
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
+import { Button } from '../components/ui/Button';
+import { useResponsive } from '../hooks/useResponsive';
+
+export default function LoginPage() {
+  const { isMobile, isTablet } = useResponsive();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { login, isAuthenticated, loading: authLoading } = useAuth();
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated && !authLoading) {
+      const from = location.state?.from?.pathname || '/home';
+      navigate(from, { replace: true });
+    }
+  }, [isAuthenticated, authLoading, navigate, location]);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    setError('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+
+    try {
+      const result = await login(formData.email, formData.password, rememberMe);
+      if (result.success) {
+        const from = location.state?.from?.pathname || '/home';
+        navigate(from, { replace: true });
+      } else {
+        setError(result.error || 'Login failed. Please check your credentials.');
+      }
+    } catch (err) {
+      setError(err.message || 'Login failed. Please check your credentials.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen text-white flex items-center justify-center px-3 py-3 sm:px-3 sm:py-3 pb-6 sm:pb-3 relative overflow-hidden bg-[#0d1117]" role="main" aria-label="Login page">
+      {/* Background blobs */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute w-64 sm:w-80 h-64 sm:h-80 rounded-full blur-[48px] opacity-25 bg-[#58a6ff] top-10 sm:top-[60px] left-5 sm:left-[30px]" />
+        <div className="absolute w-64 sm:w-80 h-64 sm:h-80 rounded-full blur-[48px] opacity-25 bg-[#a371f7] bottom-10 sm:bottom-[60px] right-5 sm:right-[30px]" />
+      </div>
+
+      <div className="relative z-10 w-full max-w-full sm:max-w-[480px] md:max-w-[440px]">
+        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl p-3.5 sm:p-4">
+          <div className="text-center mb-3 sm:mb-2.5">
+            <div className="flex justify-center mb-1.5 sm:mb-[5px]">
+              <div className="w-11 h-11 sm:w-10 sm:h-10 rounded-[10px] bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center" aria-hidden="true">
+                <Sparkles className="h-5.5 w-5.5 sm:h-5 sm:w-5 text-white" aria-hidden="true" />
+              </div>
+            </div>
+            <h1 className="text-xl sm:text-lg font-bold mb-1 text-white">Welcome back</h1>
+            <p className="text-[#8b949e] text-sm sm:text-[13px]">Enter your cryb</p>
+          </div>
+
+          {error && (
+            <div
+              className="mb-2 px-2.5 py-2.5 bg-red-500/10 border border-red-500/20 rounded-[10px] text-red-500 text-xs sm:text-xs"
+              role="alert"
+              aria-live="assertive"
+            >
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 sm:gap-2">
+            <div className="flex flex-col">
+              <label htmlFor="email" className="block text-xs sm:text-xs font-medium text-[#c9d1d9] mb-1">
+                Email
+              </label>
+              <div className="relative">
+                <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8b949e]" aria-hidden="true" />
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-[10px] pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-blue-500/50 min-h-[44px]"
+                  placeholder="you@example.com"
+                  autoComplete="email"
+                  aria-required="true"
+                  aria-invalid={error ? "true" : "false"}
+                />
+              </div>
+            </div>
+
+            <div className="flex flex-col">
+              <label htmlFor="password" className="block text-xs sm:text-xs font-medium text-[#c9d1d9] mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8b949e]" aria-hidden="true" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                  className="w-full bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-[10px] pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-blue-500/50 min-h-[44px]"
+                  placeholder="Enter your password"
+                  autoComplete="current-password"
+                  aria-required="true"
+                  aria-invalid={error ? "true" : "false"}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8b949e] bg-none border-none cursor-pointer p-1 flex items-center transition-colors hover:text-[#c9d1d9] min-h-[44px] min-w-[44px]"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-4 w-4" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between text-xs flex-wrap gap-1.5 sm:gap-0 sm:flex-nowrap">
+              <label className="flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  id="remember-me"
+                  name="remember-me"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-3 h-3 min-w-[12px] min-h-[12px] rounded-sm border border-white/10/40 bg-transparent mr-1.5 cursor-pointer accent-blue-500"
+                  aria-label="Remember me"
+                />
+                <span className="text-[#8b949e] text-xs">Remember me</span>
+              </label>
+              <Link to="/password-reset" className="text-blue-400 no-underline transition-colors whitespace-nowrap hover:text-blue-300">
+                Forgot password?
+              </Link>
+            </div>
+
+            <Button
+              type="submit"
+              size="lg"
+              fullWidth
+              loading={loading}
+              disabled={loading}
+              className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-[10px] px-4 py-2.5 sm:py-2.5 text-white font-semibold text-base sm:text-sm cursor-pointer flex items-center justify-center gap-1.5 transition-opacity w-full hover:opacity-90 min-h-[44px]"
+              aria-label="Sign in to your account"
+            >
+              {loading ? 'Signing in...' : 'Sign in'}
+              {!loading && <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />}
+            </Button>
+          </form>
+
+          <div className="my-3 sm:my-2.5 flex items-center">
+            <div className="flex-1 border-t border-white/10"></div>
+            <span className="px-2.5 text-xs sm:text-xs text-[#8b949e]">or</span>
+            <div className="flex-1 border-t border-white/10"></div>
+          </div>
+
+          <div className="text-center">
+            <p className="text-[#8b949e] text-sm sm:text-[13px]">
+              Don't have an account?{' '}
+              <Link
+                to="/register"
+                className="text-blue-400 font-medium no-underline transition-colors hover:text-blue-300"
+              >
+                Sign up for free
+              </Link>
+            </p>
+          </div>
+
+          <div className="mt-2 sm:mt-1.5 text-center">
+            <Link
+              to="/"
+              className="text-xs sm:text-xs text-[#8b949e] no-underline transition-colors hover:text-[#c9d1d9]"
+            >
+              ← Back to home
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+

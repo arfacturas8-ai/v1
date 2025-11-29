@@ -1,0 +1,915 @@
+# ==============================================
+# CRYB PLATFORM - ELK LOGGING STACK
+# ==============================================
+# Elasticsearch, Logstash, Kibana for centralized logging
+# Supports millions of log entries per day
+# ==============================================
+
+---
+# Elasticsearch Master Nodes
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch-master
+  namespace: cryb-monitoring
+  labels:
+    app: elasticsearch
+    role: master
+    tier: logging
+spec:
+  serviceName: elasticsearch-master
+  replicas: 3
+  selector:
+    matchLabels:
+      app: elasticsearch
+      role: master
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        role: master
+        tier: logging
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9114"
+    spec:
+      serviceAccountName: elasticsearch
+      
+      # Security Context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+      
+      # Node Selection
+      tolerations:
+        - key: cryb.io/monitoring-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      nodeSelector:
+        role: monitoring
+      
+      # Pod Anti-Affinity
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - elasticsearch
+                  - key: role
+                    operator: In
+                    values:
+                      - master
+              topologyKey: kubernetes.io/hostname
+      
+      initContainers:
+        - name: increase-vm-max-map
+          image: busybox:1.35
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+        
+        - name: increase-fd-ulimit
+          image: busybox:1.35
+          command: ["sh", "-c", "ulimit -n 65536"]
+          securityContext:
+            privileged: true
+        
+        - name: fix-permissions
+          image: busybox:1.35
+          command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
+          securityContext:
+            privileged: true
+      
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+          ports:
+            - name: rest
+              containerPort: 9200
+              protocol: TCP
+            - name: inter-node
+              containerPort: 9300
+              protocol: TCP
+          
+          env:
+            - name: cluster.name
+              value: "cryb-elasticsearch-cluster"
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: node.roles
+              value: "master"
+            - name: discovery.seed_hosts
+              value: "elasticsearch-master-0.elasticsearch-master.cryb-monitoring.svc.cluster.local,elasticsearch-master-1.elasticsearch-master.cryb-monitoring.svc.cluster.local,elasticsearch-master-2.elasticsearch-master.cryb-monitoring.svc.cluster.local"
+            - name: cluster.initial_master_nodes
+              value: "elasticsearch-master-0,elasticsearch-master-1,elasticsearch-master-2"
+            - name: ES_JAVA_OPTS
+              value: "-Xms2g -Xmx2g"
+            - name: xpack.security.enabled
+              value: "true"
+            - name: xpack.security.transport.ssl.enabled
+              value: "true"
+            - name: xpack.security.transport.ssl.verification_mode
+              value: "certificate"
+            - name: xpack.security.transport.ssl.key
+              value: "/usr/share/elasticsearch/config/certs/tls.key"
+            - name: xpack.security.transport.ssl.certificate
+              value: "/usr/share/elasticsearch/config/certs/tls.crt"
+            - name: xpack.security.transport.ssl.certificate_authorities
+              value: "/usr/share/elasticsearch/config/certs/ca.crt"
+            - name: xpack.security.http.ssl.enabled
+              value: "true"
+            - name: xpack.security.http.ssl.key
+              value: "/usr/share/elasticsearch/config/certs/tls.key"
+            - name: xpack.security.http.ssl.certificate
+              value: "/usr/share/elasticsearch/config/certs/tls.crt"
+            - name: xpack.security.http.ssl.certificate_authorities
+              value: "/usr/share/elasticsearch/config/certs/ca.crt"
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-credentials
+                  key: password
+          
+          resources:
+            requests:
+              memory: "4Gi"
+              cpu: "1000m"
+            limits:
+              memory: "8Gi"
+              cpu: "2000m"
+          
+          # Security Context
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          
+          # Health Checks
+          livenessProbe:
+            httpGet:
+              path: /_cluster/health
+              port: rest
+              scheme: HTTPS
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /_cluster/health?wait_for_status=yellow&timeout=5s
+              port: rest
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          # Volume Mounts
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
+            - name: elasticsearch-config
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              subPath: elasticsearch.yml
+            - name: elasticsearch-certs
+              mountPath: /usr/share/elasticsearch/config/certs
+              readOnly: true
+        
+        # Elasticsearch Exporter for Prometheus
+        - name: elasticsearch-exporter
+          image: quay.io/prometheuscommunity/elasticsearch-exporter:v1.6.0
+          ports:
+            - name: metrics
+              containerPort: 9114
+              protocol: TCP
+          
+          env:
+            - name: ES_URI
+              value: "https://localhost:9200"
+            - name: ES_USERNAME
+              value: "elastic"
+            - name: ES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-credentials
+                  key: password
+            - name: ES_SSL_SKIP_VERIFY
+              value: "true"
+          
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+      
+      volumes:
+        - name: elasticsearch-config
+          configMap:
+            name: elasticsearch-config
+        - name: elasticsearch-certs
+          secret:
+            secretName: elasticsearch-certs
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+        labels:
+          app: elasticsearch
+          role: master
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "gp3-encrypted"
+        resources:
+          requests:
+            storage: 200Gi
+
+---
+# Elasticsearch Data Nodes
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch-data
+  namespace: cryb-monitoring
+  labels:
+    app: elasticsearch
+    role: data
+    tier: logging
+spec:
+  serviceName: elasticsearch-data
+  replicas: 6
+  selector:
+    matchLabels:
+      app: elasticsearch
+      role: data
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+        role: data
+        tier: logging
+    spec:
+      serviceAccountName: elasticsearch
+      
+      tolerations:
+        - key: cryb.io/monitoring-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      nodeSelector:
+        role: monitoring
+      
+      # Pod Anti-Affinity for High Availability
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - elasticsearch
+                    - key: role
+                      operator: In
+                      values:
+                        - data
+                topologyKey: kubernetes.io/hostname
+      
+      initContainers:
+        - name: increase-vm-max-map
+          image: busybox:1.35
+          command: ["sysctl", "-w", "vm.max_map_count=262144"]
+          securityContext:
+            privileged: true
+        
+        - name: fix-permissions
+          image: busybox:1.35
+          command: ["sh", "-c", "chown -R 1000:1000 /usr/share/elasticsearch/data"]
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
+          securityContext:
+            privileged: true
+      
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+          ports:
+            - name: rest
+              containerPort: 9200
+              protocol: TCP
+            - name: inter-node
+              containerPort: 9300
+              protocol: TCP
+          
+          env:
+            - name: cluster.name
+              value: "cryb-elasticsearch-cluster"
+            - name: node.name
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: node.roles
+              value: "data,ingest"
+            - name: discovery.seed_hosts
+              value: "elasticsearch-master.cryb-monitoring.svc.cluster.local:9300"
+            - name: cluster.initial_master_nodes
+              value: "elasticsearch-master-0,elasticsearch-master-1,elasticsearch-master-2"
+            - name: ES_JAVA_OPTS
+              value: "-Xms4g -Xmx4g"
+            - name: xpack.security.enabled
+              value: "true"
+            - name: xpack.security.transport.ssl.enabled
+              value: "true"
+            - name: xpack.security.transport.ssl.verification_mode
+              value: "certificate"
+            - name: xpack.security.transport.ssl.key
+              value: "/usr/share/elasticsearch/config/certs/tls.key"
+            - name: xpack.security.transport.ssl.certificate
+              value: "/usr/share/elasticsearch/config/certs/tls.crt"
+            - name: xpack.security.transport.ssl.certificate_authorities
+              value: "/usr/share/elasticsearch/config/certs/ca.crt"
+            - name: ELASTIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-credentials
+                  key: password
+          
+          resources:
+            requests:
+              memory: "8Gi"
+              cpu: "2000m"
+            limits:
+              memory: "16Gi"
+              cpu: "4000m"
+          
+          volumeMounts:
+            - name: elasticsearch-data
+              mountPath: /usr/share/elasticsearch/data
+            - name: elasticsearch-config
+              mountPath: /usr/share/elasticsearch/config/elasticsearch.yml
+              subPath: elasticsearch.yml
+            - name: elasticsearch-certs
+              mountPath: /usr/share/elasticsearch/config/certs
+              readOnly: true
+      
+      volumes:
+        - name: elasticsearch-config
+          configMap:
+            name: elasticsearch-config
+        - name: elasticsearch-certs
+          secret:
+            secretName: elasticsearch-certs
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: elasticsearch-data
+        labels:
+          app: elasticsearch
+          role: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "gp3-encrypted"
+        resources:
+          requests:
+            storage: 1Ti
+
+---
+# Logstash Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: cryb-monitoring
+  labels:
+    app: logstash
+    tier: logging
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+        tier: logging
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9600"
+    spec:
+      serviceAccountName: logstash
+      
+      tolerations:
+        - key: cryb.io/monitoring-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      nodeSelector:
+        role: monitoring
+      
+      containers:
+        - name: logstash
+          image: docker.elastic.co/logstash/logstash:8.11.0
+          ports:
+            - name: beats
+              containerPort: 5044
+              protocol: TCP
+            - name: http
+              containerPort: 9600
+              protocol: TCP
+            - name: syslog
+              containerPort: 5514
+              protocol: TCP
+            - name: tcp
+              containerPort: 5000
+              protocol: TCP
+            - name: udp
+              containerPort: 5000
+              protocol: UDP
+          
+          env:
+            - name: LS_JAVA_OPTS
+              value: "-Xms2g -Xmx2g"
+            - name: ELASTICSEARCH_HOSTS
+              value: "https://elasticsearch-master.cryb-monitoring.svc.cluster.local:9200"
+            - name: ELASTICSEARCH_USERNAME
+              value: "elastic"
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-credentials
+                  key: password
+            - name: XPACK_MONITORING_ENABLED
+              value: "true"
+            - name: XPACK_MONITORING_ELASTICSEARCH_HOSTS
+              value: "https://elasticsearch-master.cryb-monitoring.svc.cluster.local:9200"
+            - name: XPACK_MONITORING_ELASTICSEARCH_USERNAME
+              value: "logstash_system"
+            - name: XPACK_MONITORING_ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-credentials
+                  key: logstash_password
+          
+          resources:
+            requests:
+              memory: "4Gi"
+              cpu: "1000m"
+            limits:
+              memory: "8Gi"
+              cpu: "2000m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          volumeMounts:
+            - name: logstash-config
+              mountPath: /usr/share/logstash/config/logstash.yml
+              subPath: logstash.yml
+            - name: logstash-pipeline
+              mountPath: /usr/share/logstash/pipeline
+            - name: logstash-patterns
+              mountPath: /usr/share/logstash/patterns
+            - name: elasticsearch-certs
+              mountPath: /usr/share/logstash/config/certs
+              readOnly: true
+      
+      volumes:
+        - name: logstash-config
+          configMap:
+            name: logstash-config
+        - name: logstash-pipeline
+          configMap:
+            name: logstash-pipeline
+        - name: logstash-patterns
+          configMap:
+            name: logstash-patterns
+        - name: elasticsearch-certs
+          secret:
+            secretName: elasticsearch-certs
+
+---
+# Kibana Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kibana
+  namespace: cryb-monitoring
+  labels:
+    app: kibana
+    tier: logging
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kibana
+  template:
+    metadata:
+      labels:
+        app: kibana
+        tier: logging
+    spec:
+      serviceAccountName: kibana
+      
+      tolerations:
+        - key: cryb.io/monitoring-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      nodeSelector:
+        role: monitoring
+      
+      containers:
+        - name: kibana
+          image: docker.elastic.co/kibana/kibana:8.11.0
+          ports:
+            - name: http
+              containerPort: 5601
+              protocol: TCP
+          
+          env:
+            - name: ELASTICSEARCH_HOSTS
+              value: "https://elasticsearch-master.cryb-monitoring.svc.cluster.local:9200"
+            - name: ELASTICSEARCH_USERNAME
+              value: "kibana_system"
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-credentials
+                  key: kibana_password
+            - name: SERVER_HOST
+              value: "0.0.0.0"
+            - name: SERVER_NAME
+              value: "kibana.cryb.ai"
+            - name: SERVER_PUBLICBASEURL
+              value: "https://logs.cryb.ai"
+            - name: XPACK_SECURITY_ENABLED
+              value: "true"
+            - name: XPACK_SECURITY_ENCRYPTIONKEY
+              valueFrom:
+                secretKeyRef:
+                  name: kibana-config
+                  key: encryption-key
+            - name: XPACK_REPORTING_ENCRYPTIONKEY
+              valueFrom:
+                secretKeyRef:
+                  name: kibana-config
+                  key: reporting-key
+            - name: XPACK_SECURITY_SESSIONTIMEOUT
+              value: "8h"
+          
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 1000
+          
+          livenessProbe:
+            httpGet:
+              path: /api/status
+              port: http
+            initialDelaySeconds: 120
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /api/status
+              port: http
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          volumeMounts:
+            - name: kibana-config
+              mountPath: /usr/share/kibana/config/kibana.yml
+              subPath: kibana.yml
+            - name: elasticsearch-certs
+              mountPath: /usr/share/kibana/config/certs
+              readOnly: true
+      
+      volumes:
+        - name: kibana-config
+          configMap:
+            name: kibana-config
+        - name: elasticsearch-certs
+          secret:
+            secretName: elasticsearch-certs
+
+---
+# Filebeat DaemonSet for Log Collection
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: filebeat
+  namespace: cryb-monitoring
+  labels:
+    app: filebeat
+    tier: logging
+spec:
+  selector:
+    matchLabels:
+      app: filebeat
+  template:
+    metadata:
+      labels:
+        app: filebeat
+        tier: logging
+    spec:
+      serviceAccountName: filebeat
+      terminationGracePeriodSeconds: 30
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+      
+      containers:
+        - name: filebeat
+          image: docker.elastic.co/beats/filebeat:8.11.0
+          args: [
+            "-c", "/etc/filebeat.yml",
+            "-e",
+          ]
+          
+          env:
+            - name: ELASTICSEARCH_HOST
+              value: "https://elasticsearch-master.cryb-monitoring.svc.cluster.local:9200"
+            - name: ELASTICSEARCH_PORT
+              value: "9200"
+            - name: ELASTICSEARCH_USERNAME
+              value: "elastic"
+            - name: ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-credentials
+                  key: password
+            - name: LOGSTASH_HOSTS
+              value: "logstash.cryb-monitoring.svc.cluster.local:5044"
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "100m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
+          
+          securityContext:
+            runAsUser: 0
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - CHOWN
+                - DAC_OVERRIDE
+                - SETGID
+                - SETUID
+          
+          volumeMounts:
+            - name: config
+              mountPath: /etc/filebeat.yml
+              readOnly: true
+              subPath: filebeat.yml
+            - name: data
+              mountPath: /usr/share/filebeat/data
+            - name: varlibdockercontainers
+              mountPath: /var/lib/docker/containers
+              readOnly: true
+            - name: varlog
+              mountPath: /var/log
+              readOnly: true
+            - name: elasticsearch-certs
+              mountPath: /usr/share/filebeat/certs
+              readOnly: true
+      
+      volumes:
+        - name: config
+          configMap:
+            defaultMode: 0600
+            name: filebeat-config
+        - name: varlibdockercontainers
+          hostPath:
+            path: /var/lib/docker/containers
+        - name: varlog
+          hostPath:
+            path: /var/log
+        - name: data
+          hostPath:
+            path: /var/lib/filebeat-data
+            type: DirectoryOrCreate
+        - name: elasticsearch-certs
+          secret:
+            secretName: elasticsearch-certs
+
+---
+# Service Accounts
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: elasticsearch
+  namespace: cryb-monitoring
+  labels:
+    app: elasticsearch
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: logstash
+  namespace: cryb-monitoring
+  labels:
+    app: logstash
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kibana
+  namespace: cryb-monitoring
+  labels:
+    app: kibana
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: filebeat
+  namespace: cryb-monitoring
+  labels:
+    app: filebeat
+
+---
+# Services
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-master
+  namespace: cryb-monitoring
+  labels:
+    app: elasticsearch
+    role: master
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: rest
+      port: 9200
+      targetPort: rest
+      protocol: TCP
+    - name: inter-node
+      port: 9300
+      targetPort: inter-node
+      protocol: TCP
+  selector:
+    app: elasticsearch
+    role: master
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-data
+  namespace: cryb-monitoring
+  labels:
+    app: elasticsearch
+    role: data
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: rest
+      port: 9200
+      targetPort: rest
+      protocol: TCP
+    - name: inter-node
+      port: 9300
+      targetPort: inter-node
+      protocol: TCP
+  selector:
+    app: elasticsearch
+    role: data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash
+  namespace: cryb-monitoring
+  labels:
+    app: logstash
+spec:
+  type: ClusterIP
+  ports:
+    - name: beats
+      port: 5044
+      targetPort: beats
+      protocol: TCP
+    - name: http
+      port: 9600
+      targetPort: http
+      protocol: TCP
+    - name: syslog
+      port: 5514
+      targetPort: syslog
+      protocol: TCP
+    - name: tcp
+      port: 5000
+      targetPort: tcp
+      protocol: TCP
+    - name: udp
+      port: 5000
+      targetPort: udp
+      protocol: UDP
+  selector:
+    app: logstash
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  namespace: cryb-monitoring
+  labels:
+    app: kibana
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 5601
+      targetPort: http
+      protocol: TCP
+  selector:
+    app: kibana

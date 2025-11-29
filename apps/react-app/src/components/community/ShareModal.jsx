@@ -1,0 +1,185 @@
+import React, { useState, useRef, useEffect } from 'react'
+import { useResponsive } from '../../hooks/useResponsive'
+
+const ShareModal = ({ post, onClose, onShare }) => {
+  const { isMobile, isTablet } = useResponsive()
+  const [copied, setCopied] = useState(false)
+  const modalRef = useRef(null)
+  const urlInputRef = useRef(null)
+
+  const postUrl = `${window.location.origin}/c/${post.community}/comments/${post.id}`
+
+  useEffect(() => {
+    // Focus the URL input when modal opens
+    if (urlInputRef.current) {
+      urlInputRef.current.select()
+    }
+
+    // Handle escape key
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose()
+      }
+    }
+
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [onClose])
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(postUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (error) {
+      // Fallback for browsers that don't support clipboard API
+      urlInputRef.current?.select()
+      document.execCommand('copy')
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
+
+  const shareOptions = [
+    {
+      name: 'Twitter',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+        </svg>
+      ),
+      url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(postUrl)}&text=${encodeURIComponent(post.title)}`,
+      color: 'text-blue-500'
+    },
+    {
+      name: 'Facebook',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+        </svg>
+      ),
+      url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(postUrl)}`,
+      color: 'text-blue-600'
+    },
+    {
+      name: 'CRYB',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701zM9.25 12C8.561 12 8 12.562 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095z"/>
+        </svg>
+      ),
+      url: `${window.location.origin}/submit?url=${encodeURIComponent(postUrl)}&title=${encodeURIComponent(post.title)}`,
+      color: 'text-orange-500'
+    },
+    {
+      name: 'LinkedIn',
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      ),
+      url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(postUrl)}`,
+      color: 'text-blue-700'
+    }
+  ]
+
+  return (
+    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/50" onClick={onClose}>
+      <div
+        ref={modalRef}
+        className="w-full max-w-lg sm:max-w-xl rounded-2xl bg-gray-900"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-white/10">
+          <h3 className="text-base sm:text-lg font-semibold">Share Post</h3>
+          <button
+            onClick={onClose}
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+            aria-label="Close modal"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+            </svg>
+          </button>
+        </div>
+
+        <div className="px-4 sm:px-6 py-4 space-y-4">
+          {/* Post Preview */}
+          <div className="p-3 border border-white/10 rounded-xl">
+            <h4 className="text-sm sm:text-base font-medium mb-1">
+              {post.title}
+            </h4>
+            <p className="text-xs text-muted">
+              r/{post.community} • u/{post.author}
+            </p>
+          </div>
+
+          {/* Copy URL */}
+          <div>
+            <label className="block text-xs sm:text-sm font-medium mb-2">Post URL</label>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <input
+                ref={urlInputRef}
+                type="text"
+                value={postUrl}
+                readOnly
+                className="flex-1 px-3 py-2 min-h-[44px] text-sm rounded-lg bg-white/5 border border-white/10 focus:border-blue-500 focus:outline-none"
+              />
+              <button
+                onClick={copyToClipboard}
+                className={`min-h-[44px] px-4 py-2 text-sm rounded-lg flex items-center justify-center gap-2 transition-colors ${
+                  copied
+                    ? 'bg-green-600 hover:bg-green-700'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                {copied ? (
+                  <>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                    <span className="hidden sm:inline">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                      <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
+                    </svg>
+                    <span className="hidden sm:inline">Copy</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Share Options */}
+          <div>
+            <label className="block text-xs sm:text-sm font-medium mb-2">Share to</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {shareOptions.map((option) => (
+                <a
+                  key={option.name}
+                  href={option.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-3 p-3 min-h-[44px] border border-white/10 rounded-xl ${option.color} hover:bg-white/5 transition-colors font-medium text-sm`}
+                  onClick={() => {
+                    onShare?.(post.id, option.name.toLowerCase())
+                    onClose()
+                  }}
+                >
+                  {option.icon}
+                  {option.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+
+export default ShareModal

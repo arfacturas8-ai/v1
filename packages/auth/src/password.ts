@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 
 // Optimized salt rounds for better performance while maintaining security
 // Production: 10 rounds (good security, ~100-200ms)

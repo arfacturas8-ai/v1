@@ -1,6 +1,9 @@
 import { FastifyPluginAsync } from "fastify";
 import { authMiddleware } from "../middleware/auth";
 import { FileUploadService, handleFileUpload } from "../services/file-upload";
+import { LocalFileStorageService, createLocalFileStorageService, handleLocalFileUpload } from "../services/local-file-storage";
+import path from 'path';
+import { createReadStream, existsSync } from 'fs';
 
 /**
  * File Upload API Routes
@@ -18,6 +21,159 @@ import { FileUploadService, handleFileUpload } from "../services/file-upload";
 const uploadRoutes: FastifyPluginAsync = async (fastify) => {
   // Get file upload service from app instance
   const uploadService = (fastify as any).services.fileUpload as FileUploadService;
+  
+  // Initialize local file storage service as fallback
+  const localStorageService = createLocalFileStorageService({
+    baseStoragePath: process.env.LOCAL_STORAGE_PATH || '/var/www/uploads',
+    baseUrl: process.env.LOCAL_STORAGE_URL || 'http://localhost:3002/api/v1/uploads/serve'
+  });
+  
+  // Helper function to determine which upload service to use
+  const getUploadService = () => {
+    if (uploadService) {
+      return { service: uploadService, type: 'minio', handler: handleFileUpload };
+    } else {
+      return { service: localStorageService, type: 'local', handler: handleLocalFileUpload };
+    }
+  };
+
+  /**
+   * File serving endpoint for local storage
+   */
+  fastify.get('/serve/:bucket/:userId/:filename', async (request: any, reply) => {
+    try {
+      const { bucket, userId, filename } = request.params;
+      
+      // Construct file path
+      const filePath = path.join(
+        process.env.LOCAL_STORAGE_PATH || '/var/www/uploads',
+        bucket,
+        userId,
+        filename
+      );
+      
+      // Check if file exists
+      if (!existsSync(filePath)) {
+        return reply.code(404).send({
+          success: false,
+          error: 'File not found'
+        });
+      }
+      
+      // Get file stats for headers
+      const fs = require('fs');
+      const stats = fs.statSync(filePath);
+      
+      // Set appropriate headers
+      reply.header('Content-Length', stats.size);
+      reply.header('Last-Modified', stats.mtime.toUTCString());
+      reply.header('Cache-Control', 'public, max-age=31536000'); // 1 year cache
+      
+      // Determine content type based on file extension
+      const ext = path.extname(filename).toLowerCase();
+      const contentTypes: Record<string, string> = {
+        '.jpg': 'image/jpeg',
+        '.jpeg': 'image/jpeg',
+        '.png': 'image/png',
+        '.gif': 'image/gif',
+        '.webp': 'image/webp',
+        '.svg': 'image/svg+xml',
+        '.mp4': 'video/mp4',
+        '.webm': 'video/webm',
+        '.mp3': 'audio/mpeg',
+        '.wav': 'audio/wav',
+        '.pdf': 'application/pdf',
+        '.txt': 'text/plain',
+        '.json': 'application/json'
+      };
+      
+      const contentType = contentTypes[ext] || 'application/octet-stream';
+      reply.header('Content-Type', contentType);
+      
+      // Stream the file
+      const stream = createReadStream(filePath);
+      reply.send(stream);
+      
+    } catch (error) {
+      fastify.log.error('File serving error:', error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to serve file'
+      });
+    }
+  });
+
+  /**
+   * @swagger
+   * /uploads:
+   *   get:
+   *     tags: [uploads]
+   *     summary: List uploaded files
+   *     description: Get a list of uploaded files for the authenticated user
+   *     security:
+   *       - Bearer: []
+   *     parameters:
+   *       - name: bucket
+   *         in: query
+   *         schema:
+   *           type: string
+   *         description: Filter by bucket name
+   *       - name: limit
+   *         in: query
+   *         schema:
+   *           type: integer
+   *           default: 50
+   *         description: Number of files to return
+   *     responses:
+   *       200:
+   *         description: Files retrieved successfully
+   */
+  fastify.get('/', {
+    preHandler: [authMiddleware],
+    schema: {
+      tags: ['uploads'],
+      summary: 'List uploaded files',
+      security: [{ Bearer: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          bucket: { type: 'string', description: 'Filter by bucket name' },
+          limit: { type: 'number', minimum: 1, maximum: 100, default: 50 }
+        }
+      }
+    }
+  }, async (request: any, reply) => {
+    try {
+      const { bucket = 'uploads', limit = 50 } = request.query;
+      const userId = request.userId;
+
+      const { service, type } = getUploadService();
+
+      // List files with optional bucket filtering
+      let files;
+      if (type === 'local') {
+        files = await (service as LocalFileStorageService).listFiles(bucket, `${userId}/`, limit);
+      } else {
+        files = await (service as FileUploadService).listFiles(bucket, `${userId}/`, limit);
+      }
+
+      return reply.send({
+        success: true,
+        data: {
+          files,
+          bucket,
+          count: files.length,
+          storageType: type
+        }
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to list files'
+      });
+    }
+  });
 
   /**
    * @swagger
@@ -60,12 +216,14 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       consumes: ['multipart/form-data']
     }
   }, async (request, reply) => {
-    await handleFileUpload(request, reply, uploadService, {
+    const { service, type, handler } = getUploadService();
+    
+    await handler(request, reply, service, {
       allowedTypes: [
         'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'
       ],
       maxSize: 5 * 1024 * 1024, // 5MB
-      bucket: 'cryb-avatars',
+      bucket: 'avatars',
       resize: {
         width: 512,
         height: 512,
@@ -113,7 +271,9 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       consumes: ['multipart/form-data']
     }
   }, async (request, reply) => {
-    await handleFileUpload(request, reply, uploadService, {
+    const { service, type, handler } = getUploadService();
+    
+    await handler(request, reply, service, {
       allowedTypes: [
         // Images
         'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
@@ -129,7 +289,7 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
         'application/zip', 'application/x-rar-compressed'
       ],
       maxSize: 50 * 1024 * 1024, // 50MB
-      bucket: 'cryb-attachments',
+      bucket: 'attachments',
       generateThumbnail: true,
       scanForMalware: true
     });
@@ -159,7 +319,9 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       consumes: ['multipart/form-data']
     }
   }, async (request, reply) => {
-    await handleFileUpload(request, reply, uploadService, {
+    const { service, type, handler } = getUploadService();
+    
+    await handler(request, reply, service, {
       allowedTypes: [
         // Images
         'image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/bmp',
@@ -169,7 +331,7 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
         'audio/mpeg', 'audio/mp4', 'audio/wav', 'audio/ogg', 'audio/webm'
       ],
       maxSize: 100 * 1024 * 1024, // 100MB
-      bucket: 'cryb-media',
+      bucket: 'media',
       resize: {
         width: 1920,
         height: 1080,
@@ -198,7 +360,9 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       security: [{ Bearer: [] }]
     }
   }, async (request, reply) => {
-    await handleFileUpload(request, reply, uploadService, {
+    const { service, type, handler } = getUploadService();
+    
+    await handler(request, reply, service, {
       allowedTypes: [
         'application/pdf',
         'application/msword',
@@ -212,18 +376,18 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
         'application/json'
       ],
       maxSize: 25 * 1024 * 1024, // 25MB
-      bucket: 'cryb-attachments',
+      bucket: 'attachments',
       scanForMalware: true
     });
   });
 
   /**
    * @swagger
-   * /api/v1/uploads/signed-url:
+   * /api/v1/uploads/presigned-url:
    *   post:
    *     tags: [uploads]
-   *     summary: Get signed upload URL
-   *     description: Get a signed URL for direct browser uploads
+   *     summary: Get presigned upload URL
+   *     description: Get a presigned URL for direct browser uploads
    *     security:
    *       - Bearer: []
    *     requestBody:
@@ -245,13 +409,13 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
    *                 description: Target bucket (optional)
    *     responses:
    *       200:
-   *         description: Signed URL generated successfully
+   *         description: Presigned URL generated successfully
    */
-  fastify.post('/signed-url', {
+  fastify.post('/presigned-url', {
     preHandler: [authMiddleware],
     schema: {
       tags: ['uploads'],
-      summary: 'Get signed upload URL',
+      summary: 'Get presigned upload URL',
       security: [{ Bearer: [] }],
       body: {
         type: 'object',
@@ -268,7 +432,17 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       const { filename, contentType, bucket } = request.body;
       const userId = request.userId;
 
-      const result = await uploadService.generateSignedUploadUrl(
+      const { service, type } = getUploadService();
+
+      if (type === 'local') {
+        // For local storage, we don't support presigned URLs
+        return reply.code(501).send({
+          success: false,
+          error: 'Presigned URLs not supported with local storage. Use direct upload endpoints instead.'
+        });
+      }
+
+      const result = await (service as FileUploadService).generateSignedUploadUrl(
         filename,
         contentType,
         userId,
@@ -330,15 +504,21 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       const { fileId } = request.params;
       const userId = request.userId;
 
+      const { service, type } = getUploadService();
+
       // TODO: Verify user owns the file or has permission to delete it
       // This would require querying your database for file ownership
 
       // For now, we'll extract bucket and filename from the fileId
       // In a real implementation, you'd look this up in your database
-      const bucket = 'cryb-uploads'; // Default bucket
+      const bucket = 'uploads'; // Default bucket
       const filename = fileId; // Simplified - in reality you'd have proper file tracking
 
-      await uploadService.deleteFile(bucket, filename);
+      if (type === 'local') {
+        await (service as LocalFileStorageService).deleteFile(bucket, userId, filename);
+      } else {
+        await (service as FileUploadService).deleteFile(bucket, filename);
+      }
 
       reply.send({
         success: true,
@@ -384,13 +564,21 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
   }, async (request: any, reply) => {
     try {
       const { fileId } = request.params;
+      const userId = (request as any).userId;
+
+      const { service, type } = getUploadService();
 
       // TODO: Look up file information from database
       // For now, return placeholder data
-      const bucket = 'cryb-uploads';
+      const bucket = 'uploads';
       const filename = fileId;
 
-      const info = await uploadService.getFileInfo(bucket, filename);
+      let info;
+      if (type === 'local') {
+        info = await (service as LocalFileStorageService).getFileInfo(bucket, userId, filename);
+      } else {
+        info = await (service as FileUploadService).getFileInfo(bucket, filename);
+      }
 
       reply.send({
         success: true,
@@ -398,6 +586,7 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
           fileId,
           bucket,
           filename,
+          storageType: type,
           ...info
         }
       });
@@ -452,21 +641,40 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
     try {
       const { fileId } = request.params;
       const { expiresIn = 3600 } = request.query;
+      const userId = (request as any).userId;
+
+      const { service, type } = getUploadService();
 
       // TODO: Look up file information from database and verify access permissions
-      const bucket = 'cryb-uploads';
+      const bucket = 'uploads';
       const filename = fileId;
 
-      const downloadUrl = await uploadService.getDownloadUrl(bucket, filename, expiresIn);
+      if (type === 'local') {
+        // For local storage, return the direct serve URL
+        const downloadUrl = `${process.env.LOCAL_STORAGE_URL || 'http://localhost:3002/api/v1/uploads/serve'}/${bucket}/${userId}/${filename}`;
+        
+        reply.send({
+          success: true,
+          data: {
+            downloadUrl,
+            expiresIn: null, // Local URLs don't expire
+            expiresAt: null,
+            storageType: 'local'
+          }
+        });
+      } else {
+        const downloadUrl = await (service as FileUploadService).getDownloadUrl(bucket, filename, expiresIn);
 
-      reply.send({
-        success: true,
-        data: {
-          downloadUrl,
-          expiresIn,
-          expiresAt: new Date(Date.now() + expiresIn * 1000).toISOString()
-        }
-      });
+        reply.send({
+          success: true,
+          data: {
+            downloadUrl,
+            expiresIn,
+            expiresAt: new Date(Date.now() + expiresIn * 1000).toISOString(),
+            storageType: 'minio'
+          }
+        });
+      }
     } catch (error) {
       reply.code(404).send({
         success: false,
@@ -499,7 +707,9 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       consumes: ['multipart/form-data']
     }
   }, async (request, reply) => {
-    await handleFileUpload(request, reply, uploadService, {
+    const { service, type, handler } = getUploadService();
+    
+    await handler(request, reply, service, {
       maxSize: 100 * 1024 * 1024, // 100MB per file
       generateThumbnail: true,
       scanForMalware: true
@@ -530,11 +740,18 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
     try {
       // TODO: Add admin permission check
       
-      await uploadService.cleanupTempFiles();
+      const { service, type } = getUploadService();
+      
+      if (type === 'local') {
+        await (service as LocalFileStorageService).cleanupTempFiles();
+      } else {
+        await (service as FileUploadService).cleanupTempFiles();
+      }
 
       reply.send({
         success: true,
-        message: 'Cleanup completed'
+        message: 'Cleanup completed',
+        storageType: type
       });
     } catch (error) {
       reply.code(500).send({
@@ -566,12 +783,19 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
     }
   }, async (request: any, reply) => {
     try {
-      const buckets = ['cryb-uploads', 'cryb-avatars', 'cryb-attachments', 'cryb-media', 'cryb-thumbnails'];
+      const { service, type } = getUploadService();
+      const buckets = ['uploads', 'avatars', 'attachments', 'media', 'thumbnails'];
       const stats: any = {};
 
       for (const bucket of buckets) {
         try {
-          const files = await uploadService.listFiles(bucket, undefined, 1000);
+          let files;
+          if (type === 'local') {
+            files = await (service as LocalFileStorageService).listFiles(bucket, undefined, 1000);
+          } else {
+            files = await (service as FileUploadService).listFiles(bucket, undefined, 1000);
+          }
+          
           stats[bucket] = {
             fileCount: files.length,
             totalSize: files.reduce((sum, file) => sum + (file.size || 0), 0)
@@ -583,7 +807,10 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
 
       reply.send({
         success: true,
-        data: stats
+        data: {
+          ...stats,
+          storageType: type
+        }
       });
     } catch (error) {
       reply.code(500).send({

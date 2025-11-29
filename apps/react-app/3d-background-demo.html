@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRYB 3D Animated Background Demo</title>
+    <style>
+        /* Basic Reset and Variables */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2d2d2d;
+            --bg-tertiary: #262626;
+            --accent-primary: #3b82f6;
+            --text-primary: #ffffff;
+            --text-secondary: #e5e5e5;
+            --text-muted: #a3a3a3;
+            --border-primary: #404040;
+            --radius-lg: 0.5rem;
+            --radius-xl: 0.75rem;
+            --space-lg: 1.5rem;
+            --space-xl: 2rem;
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* 3D ANIMATED GRID BACKGROUND SYSTEM */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: var(--bg-primary);
+            
+            /* Create the base grid pattern */
+            background-image: 
+                linear-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.08) 1px, transparent 1px),
+                linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+            
+            background-size: 
+                100px 100px,
+                100px 100px,
+                20px 20px,
+                20px 20px;
+            
+            /* Add perspective and 3D transformation */
+            transform: perspective(1000px) rotateX(25deg) rotateY(-5deg);
+            transform-origin: center center;
+            
+            /* Animate the grid movement */
+            animation: gridFlow 20s linear infinite, gridPulse 8s ease-in-out infinite alternate;
+            
+            /* Subtle gradient overlay for depth */
+            background-blend-mode: multiply;
+        }
+
+        /* Secondary layer for more complex movement */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: transparent;
+            
+            /* Diagonal grid lines for extra depth */
+            background-image: 
+                linear-gradient(45deg, rgba(96, 165, 250, 0.06) 1px, transparent 1px),
+                linear-gradient(-45deg, rgba(96, 165, 250, 0.04) 1px, transparent 1px);
+            
+            background-size: 50px 50px, 75px 75px;
+            
+            /* Counter-rotating animation for dynamic effect */
+            transform: perspective(800px) rotateX(15deg) rotateY(2deg);
+            animation: gridFlowReverse 25s linear infinite, depthShift 12s ease-in-out infinite alternate;
+            
+            /* Subtle opacity animation */
+            opacity: 0.6;
+        }
+
+        /* Keyframe animations for infinite movement */
+        @keyframes gridFlow {
+            0% {
+                background-position: 0 0, 0 0, 0 0, 0 0;
+                transform: perspective(1000px) rotateX(25deg) rotateY(-5deg) translateZ(0);
+            }
+            25% {
+                background-position: -25px -25px, -25px -25px, -5px -5px, -5px -5px;
+                transform: perspective(1000px) rotateX(23deg) rotateY(-3deg) translateZ(10px);
+            }
+            50% {
+                background-position: -50px -50px, -50px -50px, -10px -10px, -10px -10px;
+                transform: perspective(1000px) rotateX(27deg) rotateY(-7deg) translateZ(0);
+            }
+            75% {
+                background-position: -75px -75px, -75px -75px, -15px -15px, -15px -15px;
+                transform: perspective(1000px) rotateX(24deg) rotateY(-2deg) translateZ(10px);
+            }
+            100% {
+                background-position: -100px -100px, -100px -100px, -20px -20px, -20px -20px;
+                transform: perspective(1000px) rotateX(25deg) rotateY(-5deg) translateZ(0);
+            }
+        }
+
+        @keyframes gridFlowReverse {
+            0% {
+                background-position: 0 0, 0 0;
+                transform: perspective(800px) rotateX(15deg) rotateY(2deg) translateZ(0);
+            }
+            33% {
+                background-position: 17px 17px, -25px 25px;
+                transform: perspective(800px) rotateX(17deg) rotateY(4deg) translateZ(-5px);
+            }
+            66% {
+                background-position: 33px 33px, -50px 50px;
+                transform: perspective(800px) rotateX(13deg) rotateY(0deg) translateZ(-10px);
+            }
+            100% {
+                background-position: 50px 50px, -75px 75px;
+                transform: perspective(800px) rotateX(15deg) rotateY(2deg) translateZ(0);
+            }
+        }
+
+        @keyframes gridPulse {
+            0% {
+                filter: brightness(0.95) contrast(1.02);
+            }
+            100% {
+                filter: brightness(1.05) contrast(0.98);
+            }
+        }
+
+        @keyframes depthShift {
+            0% {
+                opacity: 0.6;
+                filter: blur(0px) brightness(1);
+            }
+            50% {
+                opacity: 0.8;
+                filter: blur(0.5px) brightness(1.1);
+            }
+            100% {
+                opacity: 0.4;
+                filter: blur(0px) brightness(0.9);
+            }
+        }
+
+        /* Floating particles */
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-particles::before {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(59, 130, 246, 0.4);
+            border-radius: 50%;
+            box-shadow: 
+                20vw 10vh 0 rgba(59, 130, 246, 0.2),
+                40vw 30vh 0 rgba(96, 165, 250, 0.3),
+                60vw 50vh 0 rgba(59, 130, 246, 0.1),
+                80vw 20vh 0 rgba(96, 165, 250, 0.4),
+                15vw 80vh 0 rgba(59, 130, 246, 0.2),
+                35vw 70vh 0 rgba(96, 165, 250, 0.1),
+                55vw 90vh 0 rgba(59, 130, 246, 0.3),
+                75vw 60vh 0 rgba(96, 165, 250, 0.2),
+                90vw 85vh 0 rgba(59, 130, 246, 0.1);
+            animation: floatingParticles 30s linear infinite;
+        }
+
+        @keyframes floatingParticles {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(10vw) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Demo card */
+        .demo-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            max-width: 600px;
+            z-index: 1;
+            position: relative;
+        }
+
+        .demo-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, 
+                rgba(59, 130, 246, 0.1), 
+                rgba(96, 165, 250, 0.05), 
+                rgba(59, 130, 246, 0.08)
+            );
+            border-radius: inherit;
+            z-index: -1;
+            opacity: 0.7;
+            animation: depthGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes depthGlow {
+            0% {
+                background: linear-gradient(45deg, 
+                    rgba(59, 130, 246, 0.1), 
+                    rgba(96, 165, 250, 0.05), 
+                    rgba(59, 130, 246, 0.08)
+                );
+            }
+            100% {
+                background: linear-gradient(45deg, 
+                    rgba(96, 165, 250, 0.08), 
+                    rgba(59, 130, 246, 0.12), 
+                    rgba(96, 165, 250, 0.06)
+                );
+            }
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary), #60a5fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .demo-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .demo-description {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .feature-list {
+            text-align: left;
+            max-width: 400px;
+            margin: 0 auto 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-icon {
+            margin-right: 0.5rem;
+            color: var(--accent-primary);
+        }
+
+        /* Performance optimizations */
+        body::before,
+        body::after,
+        .floating-particles::before {
+            contain: layout style paint;
+            transform-style: preserve-3d;
+            will-change: transform, background-position;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body::before {
+                background-size: 
+                    80px 80px,
+                    80px 80px,
+                    16px 16px,
+                    16px 16px;
+                animation: gridFlowSimple 15s linear infinite;
+            }
+            
+            body::after {
+                background-size: 40px 40px, 60px 60px;
+                animation: gridFlowReverseSimple 20s linear infinite;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+        }
+
+        @keyframes gridFlowSimple {
+            0% {
+                background-position: 0 0, 0 0, 0 0, 0 0;
+            }
+            100% {
+                background-position: -80px -80px, -80px -80px, -16px -16px, -16px -16px;
+            }
+        }
+
+        @keyframes gridFlowReverseSimple {
+            0% {
+                background-position: 0 0, 0 0;
+            }
+            100% {
+                background-position: 40px 40px, -60px 60px;
+            }
+        }
+
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            body::before,
+            body::after,
+            .floating-particles::before {
+                animation: none !important;
+            }
+            
+            body::before {
+                transform: perspective(1000px) rotateX(15deg) rotateY(-2deg);
+            }
+            
+            body::after {
+                transform: perspective(800px) rotateX(10deg) rotateY(1deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="floating-particles" aria-hidden="true"></div>
+
+    <!-- Demo Content -->
+    <div class="demo-card">
+        <h1 class="demo-title">CRYB Platform</h1>
+        <p class="demo-subtitle">3D Animated Grid Background</p>
+        <p class="demo-description">
+            Experience our futuristic, minimal 3D moving grid background that creates depth and infinite movement 
+            while maintaining a clean, professional aesthetic perfect for investor presentations.
+        </p>
+
+        <div class="feature-list">
+            <div class="feature-item">
+                <span class="feature-icon">✨</span>
+                <span>Smooth 60fps animations</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">🎯</span>
+                <span>3D perspective with depth layers</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">♾️</span>
+                <span>Infinite continuous movement</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">📱</span>
+                <span>Fully responsive design</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">⚡</span>
+                <span>Performance optimized</span>
+            </div>
+            <div class="feature-item">
+                <span class="feature-icon">♿</span>
+                <span>Accessibility compliant</span>
+            </div>
+        </div>
+
+        <p class="demo-description">
+            <strong>View the source code</strong> to see the CSS implementation using perspective transforms, 
+            keyframe animations, and layered background patterns for maximum visual impact.
+        </p>
+    </div>
+</body>
+</html>

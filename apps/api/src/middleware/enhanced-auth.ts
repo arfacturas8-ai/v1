@@ -7,7 +7,7 @@ import { createHash } from 'crypto';
 import Redis from 'ioredis';
 
 // Create a dedicated Redis client for enhanced auth middleware to avoid subscriber mode issues
-const enhancedAuthRedisClient = new Redis(process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0');
+const enhancedAuthRedisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6380/0');
 
 /**
  * Enhanced error handling for authentication middleware

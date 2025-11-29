@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>React Test</title>
+  <style>
+    body { margin: 0; padding: 20px; background: #121212; color: white; font-family: system-ui; }
+  </style>
+</head>
+<body>
+  <div id="react-test"></div>
+  
+  <script type="module">
+    import React from '/node_modules/.vite/deps/react.js?v=05313866';
+    import ReactDOM from '/node_modules/.vite/deps/react-dom_client.js?v=05313866';
+    
+    function SimpleTest() {
+      return React.createElement('div', { style: { padding: '20px', background: '#333', borderRadius: '8px' } }, 
+        React.createElement('h1', { style: { color: '#0052FF' } }, 'React is Working!'),
+        React.createElement('p', null, 'This is a simple test to verify React rendering.'),
+        React.createElement('button', { 
+          onClick: () => alert('React click event works!'),
+          style: { padding: '10px 20px', background: '#0052FF', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }
+        }, 'Test Click')
+      );
+    }
+    
+    const root = ReactDOM.createRoot(document.getElementById('react-test'));
+    root.render(React.createElement(SimpleTest));
+  </script>
+</body>
+</html>

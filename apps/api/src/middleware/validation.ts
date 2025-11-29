@@ -115,13 +115,23 @@ export const commonSchemas = {
     'From date must be before to date'
   ),
 
-  // Search schema
+  // Search schema with enhanced security
   search: z.object({
-    q: z.string().min(1).max(500),
+    q: z.string()
+      .min(1, 'Search query is required')
+      .max(500, 'Search query too long')
+      .transform((val) => val.trim()) // Trim whitespace
+      .refine(
+        (val) => !/[<>;"'\\{}()=]/.test(val), // Block potentially dangerous characters
+        'Search query contains invalid characters'
+      ),
     type: z.enum(['users', 'servers', 'channels', 'messages', 'posts', 'communities']).optional(),
-    page: z.coerce.number().min(1).default(1),
+    page: z.coerce.number().min(1).max(1000).default(1), // Add max page limit
     limit: z.coerce.number().min(1).max(100).default(20),
-    sort: z.string().optional(),
+    sort: z.string()
+      .max(50) // Limit sort field length
+      .regex(/^[a-zA-Z_][a-zA-Z0-9_]*$/, 'Invalid sort field') // Only allow valid field names
+      .optional(),
     order: z.enum(['asc', 'desc']).default('desc')
   })
 };
@@ -146,8 +156,20 @@ export const validationSchemas = {
     register: {
       body: z.object({
         email: z.string().email().optional(),
-        username: z.string().min(3).max(32).regex(/^[a-zA-Z0-9_-]+$/),
-        displayName: z.string().min(1).max(100),
+        username: z.string()
+          .min(3, 'Username must be at least 3 characters')
+          .max(32, 'Username must be at most 32 characters')
+          .regex(/^[a-zA-Z0-9_-]+$/, 'Username can only contain letters, numbers, underscores, and hyphens')
+          .transform((val) => val.toLowerCase().trim()),
+        displayName: z.string()
+          .min(1, 'Display name must be at least 1 character')
+          .max(100, 'Display name must be at most 100 characters')
+          .transform((val) => val.trim())
+          .refine(
+            (val) => !/[<>]/g.test(val), // Block HTML tags
+            'Display name cannot contain HTML tags'
+          )
+          .optional(),
         password: z.string().min(8).optional(),
         confirmPassword: z.string().min(8).optional(),
         walletAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional(),
@@ -163,7 +185,7 @@ export const validationSchemas = {
           if (data.walletAddress && data.signature && data.message) {
             return true;
           }
-          // Allow just username and displayName if no auth method is provided yet
+          // Allow just username if no auth method is provided yet
           // This supports the case where users register first then add auth methods later
           return true;
         },
@@ -177,13 +199,20 @@ export const validationSchemas = {
       body: z.object({
         username: z.string().optional(),
         email: z.string().email().optional(),
+        identifier: z.string().optional(), // Can be username or email
         password: z.string().optional(),
         walletAddress: z.string().regex(/^0x[a-fA-F0-9]{40}$/).optional(),
         signature: z.string().optional(),
         message: z.string().optional()
       }).refine(
-        (data) => (data.username || data.email) && data.password || 
-                 (data.walletAddress && data.signature && data.message),
+        (data) => {
+          // Password authentication: requires identifier OR (username OR email), plus password
+          const hasPasswordAuth = (data.identifier || data.username || data.email) && data.password;
+          // Wallet authentication: requires walletAddress, signature, and message
+          const hasWalletAuth = data.walletAddress && data.signature && data.message;
+          
+          return hasPasswordAuth || hasWalletAuth;
+        },
         'Valid credentials required'
       )
     }
@@ -205,32 +234,39 @@ export const validationSchemas = {
   server: {
     create: {
       body: z.object({
-        name: z.string().min(1).max(100),
-        description: z.string().max(1000).optional(),
-        icon: z.string().url().optional(),
-        banner: z.string().url().optional(),
+        name: z.string().min(1, "Server name is required").max(100, "Server name must be 100 characters or less"),
+        description: z.string().max(500, "Description must be 500 characters or less").optional(),
+        icon: z.string().url("Invalid icon URL").optional(),
+        banner: z.string().url("Invalid banner URL").optional(),
         isPublic: z.boolean().default(true),
+        category: z.enum(["GAMING", "MUSIC", "EDUCATION", "SCIENCE", "TECHNOLOGY", "ENTERTAINMENT", "OTHER"]).optional(),
+        maxMembers: z.number().min(1, "Max members must be at least 1").max(500000, "Max members cannot exceed 500,000").default(100000),
         tokenGated: z.boolean().default(false),
         requiredTokens: z.array(z.object({
-          address: z.string(),
-          minAmount: z.string(),
-          chainId: z.number()
-        })).optional()
+          contractAddress: z.string(),
+          tokenType: z.enum(["ERC20", "ERC721", "ERC1155"]),
+          minAmount: z.string().optional(),
+          tokenId: z.string().optional()
+        })).optional(),
+        rules: z.array(z.string().max(500)).max(20).optional(),
+        welcomeChannelId: z.string().optional(),
+        systemChannelId: z.string().optional(),
+        verificationLevel: z.enum(["NONE", "LOW", "MEDIUM", "HIGH", "HIGHEST"]).default("MEDIUM")
       })
     },
     update: {
       body: z.object({
         name: z.string().min(1).max(100).optional(),
-        description: z.string().max(1000).optional(),
+        description: z.string().max(500).optional(),
         icon: z.string().url().optional(),
         banner: z.string().url().optional(),
         isPublic: z.boolean().optional(),
-        tokenGated: z.boolean().optional(),
-        requiredTokens: z.array(z.object({
-          address: z.string(),
-          minAmount: z.string(),
-          chainId: z.number()
-        })).optional()
+        category: z.enum(["GAMING", "MUSIC", "EDUCATION", "SCIENCE", "TECHNOLOGY", "ENTERTAINMENT", "OTHER"]).optional(),
+        maxMembers: z.number().min(1).max(500000).optional(),
+        rules: z.array(z.string().max(500)).max(20).optional(),
+        welcomeChannelId: z.string().optional(),
+        systemChannelId: z.string().optional(),
+        verificationLevel: z.enum(["NONE", "LOW", "MEDIUM", "HIGH", "HIGHEST"]).optional()
       })
     }
   },
@@ -242,7 +278,7 @@ export const validationSchemas = {
         serverId: z.string().cuid(),
         name: z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/),
         description: z.string().max(500).optional(),
-        type: z.enum(['TEXT', 'VOICE', 'VIDEO', 'FORUM', 'STAGE', 'CATEGORY', 'ANNOUNCEMENT']).default('TEXT'),
+        type: z.enum(['GUILD_TEXT', 'DM', 'GUILD_VOICE', 'GROUP_DM', 'GUILD_CATEGORY', 'GUILD_ANNOUNCEMENT', 'ANNOUNCEMENT_THREAD', 'PUBLIC_THREAD', 'PRIVATE_THREAD', 'GUILD_STAGE_VOICE']).default('GUILD_TEXT'),
         parentId: z.string().cuid().optional(),
         isPrivate: z.boolean().default(false),
         slowMode: z.number().min(0).max(21600).default(0),
@@ -291,15 +327,34 @@ export const validationSchemas = {
     create: {
       body: z.object({
         communityId: z.string().cuid(),
-        title: z.string().min(1).max(300),
-        content: z.string().min(1).max(40000),
-        url: z.string().url().optional(),
-        thumbnail: z.string().url().optional()
-      })
+        title: z.string()
+          .min(1, 'Title is required')
+          .max(300, 'Title must be at most 300 characters')
+          .transform((val) => val.trim())
+          .refine(
+            (val) => !/[<>]/g.test(val), // Block HTML tags in titles
+            'Title cannot contain HTML tags'
+          ),
+        content: z.string()
+          .max(40000, 'Content must be at most 40,000 characters')
+          .transform((val) => val.trim())
+          .optional(),
+        url: z.string().url('Invalid URL format').optional(),
+        thumbnail: z.string().url('Invalid thumbnail URL format').optional()
+      }).refine(
+        (data) => data.content || data.url,
+        {
+          message: 'Either content or URL must be provided',
+          path: ['content']
+        }
+      )
     },
     update: {
       body: z.object({
-        content: z.string().min(1).max(40000)
+        content: z.string()
+          .min(1, 'Content is required')
+          .max(40000, 'Content must be at most 40,000 characters')
+          .transform((val) => val.trim())
       })
     }
   },

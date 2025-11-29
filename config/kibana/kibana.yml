@@ -1,0 +1,235 @@
+# ====================================================
+# CRYB Platform - Kibana Configuration
+# Real-time Analytics Dashboard and Visualization
+# ====================================================
+
+# Server Configuration
+server.port: 5601
+server.host: "0.0.0.0"
+server.name: "cryb-kibana"
+server.publicBaseUrl: "http://localhost:5601"
+
+# Elasticsearch Configuration
+elasticsearch.hosts: ["http://elasticsearch:9200"]
+elasticsearch.username: ""
+elasticsearch.password: ""
+elasticsearch.requestTimeout: 30000
+elasticsearch.shardTimeout: 30000
+
+# Security
+elasticsearch.ssl.verificationMode: none
+xpack.security.enabled: false
+xpack.security.encryptionKey: "cryb-platform-encryption-key-32-chars-long"
+xpack.encryptedSavedObjects.encryptionKey: "cryb-platform-saved-objects-key-32-chars-long"
+
+# Logging
+logging.level: info
+logging.dest: stdout
+logging.json: false
+
+# Advanced Features
+xpack.monitoring.enabled: true
+xpack.monitoring.collection.enabled: true
+
+# Canvas and Advanced Visualizations
+xpack.canvas.enabled: true
+
+# Machine Learning
+xpack.ml.enabled: true
+
+# Graph
+xpack.graph.enabled: true
+
+# Dashboard and Visualization Settings
+xpack.spaces.enabled: true
+xpack.spaces.maxSpaces: 1000
+
+# Data View Management
+data_views.scriptedFieldsEnabled: true
+
+# Advanced Data Processing
+xpack.data_enhanced.search.sessions.enabled: true
+
+# Telemetry
+telemetry.enabled: false
+telemetry.optIn: false
+
+# Dashboard Sharing
+xpack.dashboard_enhanced.enabled: true
+
+# Time Settings
+dateFormat: "MMM D, YYYY @ HH:mm:ss.SSS"
+dateFormat:tz: "Browser"
+
+# Performance Settings
+elasticsearch.requestHeadersWhitelist: ["authorization", "x-forwarded-for"]
+elasticsearch.customHeaders: {}
+
+# Maps Configuration
+xpack.maps.enabled: true
+xpack.maps.showMapVisualizationTypes: true
+
+# Observability
+xpack.observability.enabled: true
+
+# Lens (Modern Visualization)
+xpack.lens.enabled: true
+
+# Fleet and Elastic Agent
+xpack.fleet.enabled: true
+
+# Index Management
+xpack.index_management.enabled: true
+
+# Snapshot and Restore
+xpack.snapshot_restore.enabled: true
+
+# Cross Cluster Search
+xpack.cross_cluster_search.enabled: true
+
+# License Management
+xpack.license_management.enabled: true
+
+# Console
+console.enabled: true
+
+# Dev Tools
+xpack.dev_tools.enabled: true
+
+# Search Profiler
+xpack.searchprofiler.enabled: true
+
+# Grok Debugger
+xpack.grokdebugger.enabled: true
+
+# Painless Lab
+xpack.painless_lab.enabled: true
+
+# Index Lifecycle Management
+xpack.ilm.enabled: true
+
+# Rollup
+xpack.rollup.enabled: true
+
+# Transform
+xpack.transform.enabled: true
+
+# SQL
+xpack.sql.enabled: true
+
+# Watcher
+xpack.watcher.enabled: true
+
+# Reporting
+xpack.reporting.enabled: true
+xpack.reporting.capture.browser.chromium.disableSandbox: true
+
+# Custom Branding
+xpack.branding.applicationTitle: "CRYB Analytics"
+xpack.branding.logo: ""
+xpack.branding.faviconUrl: ""
+
+# Performance and Memory
+node.options.max-old-space-size: 2048
+
+# Data Plugin Settings
+data.search.aggs.shardDelay.enabled: true
+data.search.sessions.defaultExpiration: "7d"
+
+# New Platform Settings
+newPlatform.enabled: true
+
+# Saved Objects
+savedObjects.maxImportPayloadBytes: 26214400
+
+# Path Settings
+path.data: /usr/share/kibana/data
+
+# PID File
+pid.file: /usr/share/kibana/kibana.pid
+
+# Ops Configuration
+ops.interval: 30000
+
+# Metrics
+metrics.enabled: true
+
+# Status
+status.allowAnonymous: false
+
+# i18n
+i18n.locale: "en"
+
+# Custom CSS
+# uiSettings.overrides:
+#   "theme:darkMode": true
+
+# Advanced Search Settings
+data.search.timeout: 600000
+
+# Visualization Defaults
+visualization.tileMap.maxPrecision: 7
+
+# Region Map Settings
+regionmap:
+  includeElasticMapsService: true
+
+# Tile Map Settings
+tilemap.url: 'https://tiles.elastic.co/v2/default/{z}/{x}/{y}.png?elastic_tile_service_tos=agree&my_app_name=kibana'
+
+# Dashboard Time Settings
+timelion.enabled: true
+timelion.graphiteUrls: []
+
+# CRYB Platform Specific Settings
+
+# Custom Index Patterns
+kibana.index: ".kibana"
+kibana.defaultAppId: "dashboard"
+
+# Dashboard Auto-refresh
+dashboard.defaultLandingPage: "dashboard"
+
+# Search Settings
+discover.sampleSize: 500
+discover.maxDocFieldsDisplayed: 200
+
+# Histogram Settings
+histogram.maxBars: 100
+histogram.barTarget: 50
+
+# Visualization Settings
+visualization.visualize.legacyChartsLibrary: false
+
+# Advanced Analytics
+xpack.apm.enabled: false
+xpack.uptime.enabled: false
+xpack.infra.enabled: false
+xpack.logs.enabled: false
+
+# Custom Dashboard Settings for CRYB Analytics
+uiSettings.overrides:
+  "dateFormat": "MMM D, YYYY @ HH:mm:ss.SSS"
+  "defaultIndex": "cryb-posts-*"
+  "timepicker:timeDefaults": "{ \"from\": \"now-24h\", \"to\": \"now\" }"
+  "timepicker:refreshIntervalDefaults": "{ \"value\": 300000, \"pause\": false }"
+  "discover:searchFieldsFromSource": false
+  "doc_table:highlight": true
+  "discover:searchOnPageLoad": true
+  "state:storeInSessionStorage": false
+  "bfetch:disable": false
+  "courier:ignoreFilterIfFieldNotInIndex": false
+  "courier:setRequestPreference": "sessionId"
+  "courier:customRequestPreference": "custom"
+  "courier:maxConcurrentShardRequests": 0
+  "search:timeout": 600000
+  "histogram:maxBars": 100
+  "histogram:barTarget": 50
+  "visualize:enableLabs": true
+  "visualization:tileMap:maxPrecision": 7
+  "visualization:tileMap:WMSdefaults": "{\"enabled\":false,\"url\":\"https://basemap.nationalmap.gov/arcgis/services/USGSTopo/MapServer/WMSServer\",\"options\":{\"version\":\"1.3.0\",\"layers\":\"0\",\"format\":\"image/png\",\"transparent\":true,\"attribution\":\"Maps provided by USGS\",\"styles\":\"\"}}"
+  "securitySolution:enableNewsFeed": false
+  "securitySolution:ipReputationLinks": "[]"
+  "apm:enableSignificantTerms": false
+  "apm:enableServiceOverview": true
+  "apm:enableCorrelations": true

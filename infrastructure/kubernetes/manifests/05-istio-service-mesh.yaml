@@ -1,0 +1,600 @@
+# ==============================================
+# CRYB PLATFORM - ISTIO SERVICE MESH
+# ==============================================
+# Production-grade service mesh with security,
+# observability, and traffic management
+# ==============================================
+
+---
+# Istio Gateway for External Traffic
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: cryb-gateway
+  namespace: istio-system
+  labels:
+    app: cryb-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    # HTTPS Traffic
+    - port:
+        number: 443
+        name: https
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: cryb-tls-secret
+      hosts:
+        - api.cryb.ai
+        - app.cryb.ai
+        - monitoring.cryb.ai
+        - logs.cryb.ai
+        - auth.cryb.ai
+    
+    # HTTP Redirect to HTTPS
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - api.cryb.ai
+        - app.cryb.ai
+        - monitoring.cryb.ai
+        - logs.cryb.ai
+        - auth.cryb.ai
+      tls:
+        httpsRedirect: true
+
+---
+# Virtual Service for API Traffic
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: cryb-api-vs
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+spec:
+  hosts:
+    - api.cryb.ai
+  gateways:
+    - istio-system/cryb-gateway
+  http:
+    # Health Check Routes (No Auth Required)
+    - match:
+        - uri:
+            prefix: "/health"
+        - uri:
+            prefix: "/ready"
+        - uri:
+            prefix: "/metrics"
+      route:
+        - destination:
+            host: cryb-api.cryb-api.svc.cluster.local
+            port:
+              number: 80
+      timeout: 10s
+      retries:
+        attempts: 3
+        perTryTimeout: 5s
+        retryOn: 5xx,reset,connect-failure,refused-stream
+    
+    # Authentication Routes
+    - match:
+        - uri:
+            prefix: "/auth"
+      route:
+        - destination:
+            host: cryb-api.cryb-api.svc.cluster.local
+            port:
+              number: 80
+      timeout: 30s
+      retries:
+        attempts: 2
+        perTryTimeout: 15s
+      headers:
+        request:
+          add:
+            x-forwarded-proto: https
+            x-request-id: "%REQ(x-request-id)%"
+    
+    # API Routes (Authenticated)
+    - match:
+        - uri:
+            prefix: "/api"
+      route:
+        - destination:
+            host: cryb-api.cryb-api.svc.cluster.local
+            port:
+              number: 80
+          weight: 100
+      fault:
+        delay:
+          percentage:
+            value: 0.1
+          fixedDelay: 5s
+      timeout: 60s
+      retries:
+        attempts: 3
+        perTryTimeout: 20s
+        retryOn: 5xx,reset,connect-failure,refused-stream
+      headers:
+        request:
+          add:
+            x-forwarded-proto: https
+            x-request-id: "%REQ(x-request-id)%"
+    
+    # WebSocket Routes for Real-time Communication
+    - match:
+        - uri:
+            prefix: "/socket.io"
+        - headers:
+            upgrade:
+              exact: websocket
+      route:
+        - destination:
+            host: cryb-api.cryb-api.svc.cluster.local
+            port:
+              number: 80
+      timeout: 3600s  # Long timeout for WebSocket connections
+      headers:
+        request:
+          add:
+            x-forwarded-proto: https
+
+---
+# Virtual Service for Real-time Services
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: cryb-realtime-vs
+  namespace: cryb-realtime
+  labels:
+    app: cryb-realtime
+spec:
+  hosts:
+    - voice.cryb.ai
+    - video.cryb.ai
+  gateways:
+    - istio-system/cryb-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/livekit"
+      route:
+        - destination:
+            host: livekit.cryb-realtime.svc.cluster.local
+            port:
+              number: 7880
+      timeout: 3600s
+      headers:
+        request:
+          add:
+            x-forwarded-proto: https
+
+---
+# Virtual Service for Monitoring
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: cryb-monitoring-vs
+  namespace: cryb-monitoring
+  labels:
+    app: cryb-monitoring
+spec:
+  hosts:
+    - monitoring.cryb.ai
+  gateways:
+    - istio-system/cryb-gateway
+  http:
+    # Grafana
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: grafana.cryb-monitoring.svc.cluster.local
+            port:
+              number: 3000
+      timeout: 30s
+
+---
+# Virtual Service for Logging
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: cryb-logging-vs
+  namespace: cryb-monitoring
+  labels:
+    app: cryb-logging
+spec:
+  hosts:
+    - logs.cryb.ai
+  gateways:
+    - istio-system/cryb-gateway
+  http:
+    # Kibana
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: kibana.cryb-monitoring.svc.cluster.local
+            port:
+              number: 5601
+      timeout: 30s
+
+---
+# Destination Rule for API Service
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: cryb-api-dr
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+spec:
+  host: cryb-api.cryb-api.svc.cluster.local
+  trafficPolicy:
+    # Connection Pool Settings
+    connectionPool:
+      tcp:
+        maxConnections: 100
+        connectTimeout: 30s
+        tcpKeepalive:
+          time: 7200s
+          interval: 75s
+      http:
+        http1MaxPendingRequests: 64
+        http2MaxRequests: 1000
+        maxRequestsPerConnection: 2
+        maxRetries: 3
+        consecutiveGateway5xxErrors: 5
+        interval: 30s
+        baseEjectionTime: 30s
+        maxEjectionPercent: 50
+        minHealthPercent: 50
+    
+    # Load Balancer Settings
+    loadBalancer:
+      simple: LEAST_CONN
+    
+    # Circuit Breaker
+    outlierDetection:
+      consecutiveGateway5xxErrors: 5
+      consecutive5xxErrors: 5
+      interval: 30s
+      baseEjectionTime: 30s
+      maxEjectionPercent: 50
+      minHealthPercent: 30
+  
+  # Port-level policies
+  portLevelSettings:
+    - port:
+        number: 80
+      connectionPool:
+        tcp:
+          maxConnections: 50
+        http:
+          http1MaxPendingRequests: 32
+          maxRequestsPerConnection: 2
+
+---
+# Destination Rule for Database Services
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: cryb-database-dr
+  namespace: cryb-database
+  labels:
+    app: cryb-database
+spec:
+  host: "*.cryb-database.svc.cluster.local"
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 50
+        connectTimeout: 10s
+        tcpKeepalive:
+          time: 7200s
+          interval: 75s
+
+---
+# Service Entry for External Services
+apiVersion: networking.istio.io/v1beta1
+kind: ServiceEntry
+metadata:
+  name: external-services
+  namespace: istio-system
+spec:
+  hosts:
+    - api.github.com
+    - registry.hub.docker.com
+    - auth0.com
+    - *.amazonaws.com
+    - *.livekit.cloud
+  ports:
+    - number: 443
+      name: https
+      protocol: HTTPS
+    - number: 80
+      name: http
+      protocol: HTTP
+  location: MESH_EXTERNAL
+  resolution: DNS
+
+---
+# Authorization Policy for API Access
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: cryb-api-authz
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+spec:
+  selector:
+    matchLabels:
+      app: cryb-api
+  rules:
+    # Allow health checks from anywhere
+    - to:
+        - operation:
+            paths: ["/health", "/ready", "/metrics"]
+    
+    # Allow authentication requests
+    - to:
+        - operation:
+            paths: ["/auth/*"]
+    
+    # Allow API requests with valid JWT
+    - to:
+        - operation:
+            paths: ["/api/*"]
+      when:
+        - key: request.auth.claims[iss]
+          values: ["https://auth.cryb.ai"]
+        - key: request.auth.claims[aud]
+          values: ["cryb-api"]
+    
+    # Allow WebSocket connections with authentication
+    - to:
+        - operation:
+            paths: ["/socket.io/*"]
+      when:
+        - key: request.headers[upgrade]
+          values: ["websocket"]
+
+---
+# Peer Authentication for mTLS
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  mtls:
+    mode: STRICT
+
+---
+# Peer Authentication for API Services
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: cryb-api-mtls
+  namespace: cryb-api
+spec:
+  selector:
+    matchLabels:
+      app: cryb-api
+  mtls:
+    mode: STRICT
+  portLevelMtls:
+    9090:  # Metrics port
+      mode: PERMISSIVE
+
+---
+# Request Authentication for JWT Validation
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: cryb-jwt-auth
+  namespace: cryb-api
+spec:
+  selector:
+    matchLabels:
+      app: cryb-api
+  jwtRules:
+    - issuer: "https://auth.cryb.ai"
+      jwksUri: "https://auth.cryb.ai/.well-known/jwks.json"
+      audiences:
+        - "cryb-api"
+      forwardOriginalToken: true
+      fromHeaders:
+        - name: Authorization
+          prefix: "Bearer "
+      fromParams:
+        - "access_token"
+
+---
+# Telemetry Configuration for Observability
+apiVersion: telemetry.istio.io/v1alpha1
+kind: Telemetry
+metadata:
+  name: default
+  namespace: istio-system
+spec:
+  metrics:
+    - providers:
+        - name: prometheus
+    - overrides:
+        - match:
+            metric: REQUEST_COUNT
+          tagOverrides:
+            destination_service_name:
+              value: "%{DESTINATION_SERVICE_NAME}"
+            source_app:
+              value: "%{SOURCE_APP}"
+        - match:
+            metric: REQUEST_DURATION
+          tagOverrides:
+            destination_service_name:
+              value: "%{DESTINATION_SERVICE_NAME}"
+            source_app:
+              value: "%{SOURCE_APP}"
+  
+  tracing:
+    - providers:
+        - name: jaeger
+      randomSamplingPercentage: 1.0
+  
+  accessLogging:
+    - providers:
+        - name: otel
+
+---
+# EnvoyFilter for Custom Headers
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: custom-headers
+  namespace: istio-system
+spec:
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.local_ratelimit
+          typed_config:
+            "@type": type.googleapis.com/udpa.type.v1.TypedStruct
+            type_url: type.googleapis.com/envoy.extensions.filters.http.local_ratelimit.v3.LocalRateLimit
+            value:
+              stat_prefix: local_rate_limiter
+              token_bucket:
+                max_tokens: 10000
+                tokens_per_fill: 1000
+                fill_interval: 1s
+              filter_enabled:
+                runtime_key: local_rate_limit_enabled
+                default_value:
+                  numerator: 100
+                  denominator: HUNDRED
+              filter_enforced:
+                runtime_key: local_rate_limit_enforced
+                default_value:
+                  numerator: 100
+                  denominator: HUNDRED
+
+---
+# Istio Ingress Gateway Configuration
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  name: ingress-gateway
+  namespace: istio-system
+spec:
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        k8s:
+          service:
+            type: LoadBalancer
+            annotations:
+              service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+              service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+              service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+              service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERT_ID"
+              service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 1Gi
+            limits:
+              cpu: 2000m
+              memory: 2Gi
+          hpaSpec:
+            minReplicas: 3
+            maxReplicas: 20
+            metrics:
+              - type: Resource
+                resource:
+                  name: cpu
+                  target:
+                    type: Utilization
+                    averageUtilization: 70
+          tolerations:
+            - key: cryb.io/api-node
+              operator: Equal
+              value: "true"
+              effect: NoSchedule
+          nodeSelector:
+            role: api
+
+---
+# Traffic Policy for Canary Deployments
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: cryb-api-canary
+  namespace: cryb-api
+  labels:
+    app: cryb-api-canary
+spec:
+  hosts:
+    - cryb-api.cryb-api.svc.cluster.local
+  http:
+    # 10% traffic to canary version
+    - match:
+        - headers:
+            x-canary:
+              exact: "true"
+      route:
+        - destination:
+            host: cryb-api.cryb-api.svc.cluster.local
+            subset: canary
+          weight: 100
+    
+    # 90% traffic to stable version
+    - route:
+        - destination:
+            host: cryb-api.cryb-api.svc.cluster.local
+            subset: stable
+          weight: 90
+        - destination:
+            host: cryb-api.cryb-api.svc.cluster.local
+            subset: canary
+          weight: 10
+
+---
+# Destination Rule for Canary Deployment
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: cryb-api-canary-dr
+  namespace: cryb-api
+spec:
+  host: cryb-api.cryb-api.svc.cluster.local
+  subsets:
+    - name: stable
+      labels:
+        version: stable
+    - name: canary
+      labels:
+        version: canary
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 100
+      http:
+        http1MaxPendingRequests: 64
+        maxRequestsPerConnection: 2

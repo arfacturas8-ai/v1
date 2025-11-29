@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  postgres-replica:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres-replica
+    environment:
+      - POSTGRES_USER=cryb_user
+      - POSTGRES_PASSWORD=cryb_password
+      - POSTGRES_DB=cryb
+      - POSTGRES_REPLICATION_MODE=slave
+      - POSTGRES_REPLICATION_USER=cryb_replicator
+      - POSTGRES_REPLICATION_PASSWORD=cryb_replicator_pass_2024
+      - POSTGRES_MASTER_HOST=cryb-postgres-dev
+      - POSTGRES_MASTER_PORT_NUMBER=5432
+    ports:
+      - "5434:5432"
+    volumes:
+      - ./data/postgres-replica:/var/lib/postgresql/data
+    networks:
+      - cryb-dev-network
+    depends_on:
+      - postgres-backup
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryb_user -d cryb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-backup:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres-backup
+    environment:
+      - POSTGRES_USER=cryb_user
+      - POSTGRES_PASSWORD=cryb_password
+      - POSTGRES_DB=cryb
+      - POSTGRES_REPLICATION_MODE=slave
+      - POSTGRES_REPLICATION_USER=cryb_replicator
+      - POSTGRES_REPLICATION_PASSWORD=cryb_replicator_pass_2024
+      - POSTGRES_MASTER_HOST=cryb-postgres-dev
+      - POSTGRES_MASTER_PORT_NUMBER=5432
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./data/postgres-backup:/var/lib/postgresql/data
+    networks:
+      - cryb-dev-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryb_user -d cryb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  cryb-dev-network:
+    external: true
+    name: cryb-platform_cryb-dev-network

@@ -7,1086 +7,1662 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id              String    @id @default(cuid())
-  walletAddress   String?   @unique
-  email           String?   @unique
-  passwordHash    String?
-  google_id       String?   @unique
-  discord_id      String?   @unique
-  github_id       String?   @unique
-  username        String    @unique
-  discriminator   String    @default("0001")
-  displayName     String
-  avatar          String?
-  banner          String?
-  bio             String?
-  pronouns        String?
-  isVerified      Boolean   @default(false)
-  isBot           Boolean   @default(false)
-  isSystem        Boolean   @default(false)
-  premiumType     PremiumType @default(NONE)
-  publicFlags     Int       @default(0)
-  flags           Int       @default(0)
-  locale          String    @default("en-US")
-  mfaEnabled      Boolean   @default(false)
-  twoFactorSecret String?
-  twoFactorEnabled Boolean  @default(false)
-  twoFactorBackupCodes String[]  @default([])
-  lastSeenAt      DateTime?
-  bannedAt        DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  servers         ServerMember[]
-  messages        Message[]
-  reactions       Reaction[]
-  ownedServers    Server[]
-  threads         Thread[]
-  posts           Post[]
-  comments        Comment[]
-  votes           Vote[]
-  tokens          Token[]
-  sessions        Session[]
-  notifications   Notification[]
-  presence        UserPresence?
-  activities      UserActivity[]
-  friendsInitiated Friendship[] @relation("FriendshipInitiator")
-  friendsReceived Friendship[] @relation("FriendshipReceiver")
-  blockedUsers    Block[] @relation("BlockInitiator")
-  blockedByUsers  Block[] @relation("BlockTarget")
-  dmChannels      DirectMessageParticipant[]
-  voiceStates     VoiceState[]
-  
-  // Reddit-related relations
-  communityMemberships CommunityMember[]
-  moderatorRoles  Moderator[]
-  awardsGiven     Award[] @relation("AwardsGiven")
-  awardsReceived  Award[] @relation("AwardsReceived")
-  savedPosts      SavedPost[]
-  reports         Report[]
-  premiumUntil    DateTime?
-  
-  // Web3 relations
-  userNfts        UserNFT[]
-  profilePicture  UserProfilePicture?
-  userBadges      UserBadge[]
-  cryptoPayments  CryptoPayment[]
-  tipsSent        CryptoTip[] @relation("TipsSent")
-  tipsReceived    CryptoTip[] @relation("TipsReceived")
-  marketplaceListings MarketplaceListing[]
-  marketplaceBids MarketplaceBid[]
-  purchasesMade   MarketplaceSale[] @relation("PurchasesMade")
-  salesMade       MarketplaceSale[] @relation("SalesMade")
-  userStakes      UserStake[]
-  stakingRewards  StakingReward[]
-  governanceProposals GovernanceProposal[]
-  governanceVotes GovernanceVote[]
-  
-  // Enhanced file upload relations
-  uploadedFiles      UploadedFile[]
-  uploadSessions     ChunkedUploadSession[]
-  transcodingJobs    TranscodingJob[]
-  fileAccesses       FileAccessLog[]
-  
-  @@unique([username, discriminator])
-  @@index([username])
-  @@index([walletAddress])
-  @@index([email])
-  @@index([lastSeenAt])
+model AuditLog {
+  id         String   @id
+  serverId   String
+  userId     String?
+  targetId   String?
+  actionType Int
+  options    Json?
+  reason     String?
+  changes    Json?
+  createdAt  DateTime @default(now())
+  Server     Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@index([actionType])
+  @@index([createdAt])
+  @@index([serverId])
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  userId       String
-  token        String   @unique
-  refreshToken String   @unique
-  expiresAt    DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@index([token])
-  @@index([userId])
+model Award {
+  id                          String   @id
+  postId                      String?
+  commentId                   String?
+  type                        String
+  cost                        Int
+  message                     String?
+  anonymous                   Boolean  @default(false)
+  giverId                     String
+  receiverId                  String
+  createdAt                   DateTime @default(now())
+  Comment                     Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  User_Award_giverIdToUser    User     @relation("Award_giverIdToUser", fields: [giverId], references: [id], onDelete: Cascade)
+  Post                        Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User_Award_receiverIdToUser User     @relation("Award_receiverIdToUser", fields: [receiverId], references: [id], onDelete: Cascade)
+
+  @@index([commentId])
+  @@index([giverId])
+  @@index([postId])
+  @@index([receiverId])
 }
 
-model Server {
-  id              String    @id @default(cuid())
-  name            String
-  description     String?
-  icon            String?
-  banner          String?
-  splash          String?
-  discoverySplash String?
-  ownerId         String
-  isPublic        Boolean   @default(true)
-  tokenGated      Boolean   @default(false)
-  requiredTokens  Json?
-  maxMembers      Int       @default(100000)
-  maxPresences    Int?
-  maxVideoChannelUsers Int?
-  approximateMemberCount Int?
-  approximatePresenceCount Int?
-  permissions     String?
-  features        Json      @default("[]")
-  verificationLevel Int     @default(0)
-  defaultMessageNotifications Int @default(0)
-  explicitContentFilter Int @default(0)
-  mfaLevel        Int       @default(0)
-  systemChannelId String?
-  systemChannelFlags Int    @default(0)
-  rulesChannelId  String?
-  maxPresences2   Int?
-  vanityUrlCode   String?
-  premiumTier     Int       @default(0)
-  premiumSubscriptionCount Int?
-  preferredLocale String    @default("en-US")
-  publicUpdatesChannelId String?
-  nsfw            Boolean   @default(false)
-  nsfwLevel       Int       @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  owner           User      @relation(fields: [ownerId], references: [id])
-  channels        Channel[]
-  members         ServerMember[]
-  roles           Role[]
-  invites         Invite[]
-  bans            Ban[]
-  emojis          ServerEmoji[]
-  stickers        ServerSticker[]
-  auditLogs       AuditLog[]
-  analytics       ServerAnalytics[]
-  voiceStates     VoiceState[]
-  
-  // Web3 relations
-  tokenGatingRules TokenGatingRule[]
-  communityBadges CommunityBadge[]
-  
-  @@index([name])
-  @@index([ownerId])
-  @@index([vanityUrlCode])
+model Ban {
+  id        String   @id
+  serverId  String
+  userId    String
+  reason    String?
+  bannedBy  String
+  createdAt DateTime @default(now())
+  Server    Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@unique([serverId, userId])
+  @@index([serverId])
+}
+
+model Block {
+  id                         String   @id
+  blockerId                  String
+  blockedId                  String
+  createdAt                  DateTime @default(now())
+  User_Block_blockedIdToUser User     @relation("Block_blockedIdToUser", fields: [blockedId], references: [id], onDelete: Cascade)
+  User_Block_blockerIdToUser User     @relation("Block_blockerIdToUser", fields: [blockerId], references: [id], onDelete: Cascade)
+
+  @@unique([blockerId, blockedId])
+  @@index([blockedId])
+  @@index([blockerId])
 }
 
 model Channel {
-  id              String        @id @default(cuid())
-  serverId        String?
-  name            String
-  topic           String?
-  description     String?
-  type            ChannelType   @default(TEXT)
-  position        Int           @default(0)
-  isPrivate       Boolean       @default(false)
-  parentId        String?
-  slowMode        Int           @default(0)
-  nsfw            Boolean       @default(false)
-  bitrate         Int?          // For voice channels
-  userLimit       Int?          // For voice channels
-  rtcRegion       String?       // For voice channels
-  videoQualityMode Int?         // For voice channels
+  id                         String                     @id
+  serverId                   String?
+  name                       String
+  topic                      String?
+  description                String?
+  type                       ChannelType                @default(TEXT)
+  position                   Int                        @default(0)
+  isPrivate                  Boolean                    @default(false)
+  parentId                   String?
+  slowMode                   Int                        @default(0)
+  nsfw                       Boolean                    @default(false)
+  bitrate                    Int?
+  userLimit                  Int?
+  rtcRegion                  String?
+  videoQualityMode           Int?
   defaultAutoArchiveDuration Int?
-  flags           Int           @default(0)
-  lastMessageId   String?
-  lastPinTimestamp DateTime?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  
-  server          Server?       @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  parent          Channel?      @relation("ChannelCategory", fields: [parentId], references: [id])
-  children        Channel[]     @relation("ChannelCategory")
-  messages        Message[]
-  threads         Thread[]
-  permissions     ChannelPermission[]
-  voiceStates     VoiceState[]
-  dmParticipants  DirectMessageParticipant[]
-  
-  // Web3 relations
-  tokenGatingRules TokenGatingRule[]
-  
-  // Enhanced file upload relations
-  uploadedFiles      UploadedFile[]
-  
-  @@index([serverId])
-  @@index([type])
+  flags                      Int                        @default(0)
+  lastMessageId              String?
+  lastPinTimestamp           DateTime?
+  createdAt                  DateTime                   @default(now())
+  updatedAt                  DateTime
+  Channel                    Channel?                   @relation("ChannelToChannel", fields: [parentId], references: [id])
+  other_Channel              Channel[]                  @relation("ChannelToChannel")
+  Server                     Server?                    @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  ChannelPermission          ChannelPermission[]
+  DirectMessageParticipant   DirectMessageParticipant[]
+  Message                    Message[]
+  Thread                     Thread[]
+  TokenGatingRule            TokenGatingRule[]
+  UploadedFile               UploadedFile[]
+  VoiceState                 VoiceState[]
+
+  @@index([isPrivate])
+  @@index([name])
   @@index([parentId])
-}
-
-model Message {
-  id              String    @id @default(cuid())
-  channelId       String
-  userId          String
-  content         String
-  nonce           String?
-  tts             Boolean   @default(false)
-  timestamp       DateTime  @default(now())
-  editedTimestamp DateTime?
-  flags           Int       @default(0)
-  isPinned        Boolean   @default(false)
-  mentionEveryone Boolean   @default(false)
-  mentions        Json?     // Array of user mentions
-  mentionRoles    Json?     // Array of role mentions
-  mentionChannels Json?     // Array of channel mentions
-  replyToId       String?
-  threadId        String?
-  webhookId       String?
-  type            Int       @default(0)
-  activity        Json?
-  application     Json?
-  applicationId   String?
-  messageReference Json?
-  stickers        Json?
-  referencedMessage Json?
-  interaction     Json?
-  components      Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  channel         Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id])
-  replyTo         Message?  @relation("MessageReply", fields: [replyToId], references: [id])
-  replies         Message[] @relation("MessageReply")
-  thread          Thread?   @relation(fields: [threadId], references: [id])
-  reactions       Reaction[]
-  attachments     MessageAttachment[]
-  embeds          MessageEmbed[]
-  references      MessageReference[] @relation("MessageReference")
-  referencedBy    MessageReference[] @relation("ReferencedMessage")
-  
-  // Enhanced file upload relations
-  uploadedFiles   UploadedFile[]
-  
-  @@index([channelId, createdAt])
-  @@index([userId])
-  @@index([threadId])
+  @@index([parentId, position])
+  @@index([serverId])
+  @@index([serverId, type])
   @@index([type])
 }
 
-model Thread {
-  id              String    @id @default(cuid())
-  channelId       String
-  userId          String
-  name            String
-  archived        Boolean   @default(false)
-  locked          Boolean   @default(false)
-  autoArchive     Int       @default(10080)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  channel         Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id])
-  messages        Message[]
-  
+model ChannelPermission {
+  id        String  @id
+  channelId String
+  roleId    String?
+  userId    String?
+  allow     BigInt  @default(0)
+  deny      BigInt  @default(0)
+  Channel   Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  Role      Role?   @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
   @@index([channelId])
-  @@index([userId])
+  @@index([roleId])
 }
 
-model Post {
-  id              String    @id @default(cuid())
-  communityId     String
-  userId          String
-  title           String
-  content         String
-  url             String?
-  thumbnail       String?
-  flair           String?
-  nsfw            Boolean   @default(false)
-  isPinned        Boolean   @default(false)
-  isLocked        Boolean   @default(false)
-  isRemoved       Boolean   @default(false)
-  score           Int       @default(0)
-  viewCount       Int       @default(0)
-  commentCount    Int       @default(0)
-  editedAt        DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id])
-  comments        Comment[]
-  votes           Vote[]
-  awards          Award[]
-  savedPosts      SavedPost[]
-  reports         Report[]
-  
-  @@index([communityId, createdAt])
+model ChunkedUploadSession {
+  id             String        @id
+  userId         String
+  filename       String
+  mimeType       String
+  totalSize      Int
+  chunkSize      Int
+  totalChunks    Int
+  uploadedChunks Int           @default(0)
+  tempPath       String?
+  metadata       Json?
+  status         String        @default("active")
+  completed      Boolean       @default(false)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime
+  lastActivity   DateTime      @default(now())
+  expiresAt      DateTime
+  User           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  UploadChunk    UploadChunk[]
+
+  @@index([expiresAt])
+  @@index([lastActivity])
+  @@index([status])
   @@index([userId])
-  @@index([score])
 }
 
 model Comment {
-  id              String    @id @default(cuid())
-  postId          String
-  userId          String
-  parentId        String?
-  content         String
-  editedAt        DateTime?
-  score           Int       @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  post            Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id])
-  parent          Comment?  @relation("CommentReplies", fields: [parentId], references: [id])
-  replies         Comment[] @relation("CommentReplies")
-  votes           Vote[]
-  awards          Award[]
-  reports         Report[]
-  
+  id            String    @id
+  content       String
+  createdAt     DateTime  @default(now())
+  editedAt      DateTime?
+  parentId      String?
+  postId        String
+  score         Int       @default(0)
+  updatedAt     DateTime
+  userId        String
+  Award         Award[]
+  Comment       Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
+  other_Comment Comment[] @relation("CommentToComment")
+  Post          Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User          User      @relation(fields: [userId], references: [id])
+  Report        Report[]
+  Vote          Vote[]
+
   @@index([postId, createdAt])
   @@index([userId])
 }
 
 model Community {
-  id              String    @id @default(cuid())
-  name            String    @unique
-  displayName     String
+  id              String            @id
+  name            String            @unique
   description     String?
-  icon            String?
   banner          String?
+  createdAt       DateTime          @default(now())
+  displayName     String
+  icon            String?
+  isNsfw          Boolean           @default(false)
+  isPublic        Boolean           @default(true)
+  memberCount     Int               @default(0)
   rules           Json?
-  isPublic        Boolean   @default(true)
-  isNsfw          Boolean   @default(false)
-  memberCount     Int       @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  posts           Post[]
-  members         CommunityMember[]
-  moderators      Moderator[]
-  flairs          Flair[]
-  
-  // Web3 relations
-  tokenGatingRules TokenGatingRule[]
-  communityBadges CommunityBadge[]
-  
+  updatedAt       DateTime
+  CommunityBadge  CommunityBadge[]
+  CommunityMember CommunityMember[]
+  Flair           Flair[]
+  Moderator       Moderator[]
+  Post            Post[]
+  TokenGatingRule TokenGatingRule[]
+
   @@index([name])
 }
 
-model ServerMember {
-  id              String    @id @default(cuid())
-  serverId        String
-  userId          String
-  nickname        String?
-  avatar          String?
-  banner          String?
-  bio             String?
-  joinedAt        DateTime  @default(now())
-  premiumSince    DateTime?
-  deaf            Boolean   @default(false)
-  mute            Boolean   @default(false)
-  flags           Int       @default(0)
-  pending         Boolean   @default(false)
-  permissions     String?
-  communicationDisabledUntil DateTime?
-  
-  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  roles           MemberRole[]
-  
-  @@unique([serverId, userId])
+model CommunityBadge {
+  id            String        @id
+  serverId      String?
+  communityId   String?
+  collectionId  String
+  name          String
+  description   String?
+  image         String?
+  requirements  Json?
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime
+  NFTCollection NFTCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  Community     Community?    @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  Server        Server?       @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  UserBadge     UserBadge[]
+
+  @@index([collectionId])
+  @@index([communityId])
+  @@index([isActive])
   @@index([serverId])
-  @@index([userId])
-  @@index([joinedAt])
-}
-
-model Role {
-  id              String    @id @default(cuid())
-  serverId        String
-  name            String
-  color           String?
-  position        Int       @default(0)
-  permissions     BigInt    @default(0)
-  mentionable     Boolean   @default(false)
-  hoisted         Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  members         MemberRole[]
-  channelPerms    ChannelPermission[]
-  
-  @@unique([serverId, name])
-  @@index([serverId])
-}
-
-model MemberRole {
-  id              String        @id @default(cuid())
-  serverId        String
-  userId          String
-  roleId          String
-  
-  role            Role          @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  member          ServerMember  @relation(fields: [serverId, userId], references: [serverId, userId], onDelete: Cascade)
-  
-  @@unique([serverId, userId, roleId])
-  @@index([serverId, userId])
-  @@index([roleId])
-}
-
-model ChannelPermission {
-  id              String    @id @default(cuid())
-  channelId       String
-  roleId          String?
-  userId          String?
-  allow           BigInt    @default(0)
-  deny            BigInt    @default(0)
-  
-  channel         Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  role            Role?     @relation(fields: [roleId], references: [id], onDelete: Cascade)
-  
-  @@index([channelId])
-  @@index([roleId])
 }
 
 model CommunityMember {
-  id              String    @id @default(cuid())
-  communityId     String
-  userId          String
-  karma           Int       @default(0)
-  joinedAt        DateTime  @default(now())
-  
-  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id          String    @id
+  communityId String
+  userId      String
+  karma       Int       @default(0)
+  joinedAt    DateTime  @default(now())
+  Community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([communityId, userId])
   @@index([communityId])
   @@index([userId])
 }
 
-model Moderator {
-  id              String    @id @default(cuid())
-  communityId     String
-  userId          String
-  permissions     Json
-  addedAt         DateTime  @default(now())
-  
-  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@unique([communityId, userId])
+model CryptoPayment {
+  id               String                @id
+  userId           String
+  transactionType  CryptoTransactionType
+  provider         PaymentProvider
+  externalId       String?
+  status           PaymentStatus         @default(PENDING)
+  amount           String
+  currency         String
+  usdAmount        String?
+  recipientAddress String?
+  txHash           String?
+  chain            String                @default("ethereum")
+  metadata         Json?
+  webhookData      Json?
+  createdAt        DateTime              @default(now())
+  updatedAt        DateTime
+  completedAt      DateTime?
+  User             User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  CryptoTip        CryptoTip[]
+
+  @@unique([externalId, provider])
+  @@index([provider])
+  @@index([status])
+  @@index([txHash])
+  @@index([userId])
 }
 
-model Vote {
-  id              String    @id @default(cuid())
-  userId          String
-  postId          String?
-  commentId       String?
-  value           Int
-  createdAt       DateTime  @default(now())
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post            Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  comment         Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  
-  @@unique([userId, postId])
-  @@unique([userId, commentId])
-  @@index([postId])
-  @@index([commentId])
+model CryptoTip {
+  id                               String         @id
+  senderId                         String
+  recipientId                      String
+  paymentId                        String?
+  amount                           String
+  currency                         String
+  usdAmount                        String?
+  message                          String?
+  isAnonymous                      Boolean        @default(false)
+  status                           TipStatus      @default(PENDING)
+  txHash                           String?
+  createdAt                        DateTime       @default(now())
+  processedAt                      DateTime?
+  CryptoPayment                    CryptoPayment? @relation(fields: [paymentId], references: [id])
+  User_CryptoTip_recipientIdToUser User           @relation("CryptoTip_recipientIdToUser", fields: [recipientId], references: [id], onDelete: Cascade)
+  User_CryptoTip_senderIdToUser    User           @relation("CryptoTip_senderIdToUser", fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([recipientId])
+  @@index([senderId])
+  @@index([status])
 }
 
-model Award {
-  id              String    @id @default(cuid())
-  postId          String?
-  commentId       String?
-  type            String
-  cost            Int
-  message         String?
-  anonymous       Boolean   @default(false)
-  giverId         String
-  receiverId      String
-  createdAt       DateTime  @default(now())
-  
-  post            Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  comment         Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  giver           User      @relation("AwardsGiven", fields: [giverId], references: [id], onDelete: Cascade)
-  receiver        User      @relation("AwardsReceived", fields: [receiverId], references: [id], onDelete: Cascade)
-  
-  @@index([postId])
-  @@index([commentId])
-  @@index([giverId])
-  @@index([receiverId])
+model DirectMessageParticipant {
+  id                String   @id
+  channelId         String
+  userId            String
+  joinedAt          DateTime @default(now())
+  lastReadMessageId String?
+  Channel           Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  User              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([channelId, userId])
+  @@index([channelId])
+  @@index([userId])
+}
+
+model FileAccessLog {
+  id           String       @id
+  fileId       String
+  userId       String?
+  accessType   String
+  ipAddress    String?
+  userAgent    String?
+  referrer     String?
+  country      String?
+  region       String?
+  city         String?
+  responseTime Int?
+  bytesServed  Int?
+  accessedAt   DateTime     @default(now())
+  UploadedFile UploadedFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  User         User?        @relation(fields: [userId], references: [id])
+
+  @@index([accessedAt])
+  @@index([fileId])
+  @@index([ipAddress])
+  @@index([userId])
+}
+
+model FileAnalytics {
+  id               String       @id
+  fileId           String       @unique
+  viewCount        Int          @default(0)
+  uniqueViews      Int          @default(0)
+  downloadCount    Int          @default(0)
+  streamCount      Int          @default(0)
+  avgViewDuration  Float?
+  bounceRate       Float?
+  shareCount       Int          @default(0)
+  avgLoadTime      Float?
+  bandwidthUsed    BigInt       @default(0)
+  topCountries     Json?
+  topCities        Json?
+  hourlyStats      Json?
+  dailyStats       Json?
+  monthlyStats     Json?
+  deviceTypes      Json?
+  browsers         Json?
+  operatingSystems Json?
+  lastCalculated   DateTime     @default(now())
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime
+  UploadedFile     UploadedFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([downloadCount])
+  @@index([viewCount])
+}
+
+model FilePermission {
+  id                  String       @id
+  fileId              String       @unique
+  isPublic            Boolean      @default(false)
+  allowHotlinking     Boolean      @default(false)
+  requireAuth         Boolean      @default(true)
+  allowedUsers        String[]     @default([])
+  allowedRoles        String[]     @default([])
+  deniedUsers         String[]     @default([])
+  maxDownloads        Int?
+  downloadCount       Int          @default(0)
+  maxDownloadsPerUser Int?
+  availableFrom       DateTime?
+  availableUntil      DateTime?
+  allowedCountries    String[]     @default([])
+  deniedCountries     String[]     @default([])
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime
+  UploadedFile        UploadedFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([isPublic])
+}
+
+model FileVariant {
+  id           String       @id
+  fileId       String
+  type         String
+  format       String
+  filename     String
+  url          String
+  bucket       String
+  size         Int
+  width        Int?
+  height       Int?
+  quality      Int?
+  resolution   String?
+  bitrate      String?
+  duration     Float?
+  createdAt    DateTime     @default(now())
+  UploadedFile UploadedFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+
+  @@index([fileId])
+  @@index([type])
 }
 
 model Flair {
-  id              String    @id @default(cuid())
+  id              String    @id
   communityId     String
   text            String
   backgroundColor String?
   textColor       String?
-  
-  community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  
+  Community       Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+
   @@index([communityId])
 }
 
-// SavedPost model for Reddit functionality
-model SavedPost {
-  id              String    @id @default(cuid())
-  userId          String
-  postId          String
-  createdAt       DateTime  @default(now())
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post            Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
-  
-  @@unique([userId, postId])
-  @@index([userId])
-  @@index([postId])
-}
+model Friendship {
+  id                                String           @id
+  initiatorId                       String
+  receiverId                        String
+  status                            FriendshipStatus @default(PENDING)
+  createdAt                         DateTime         @default(now())
+  updatedAt                         DateTime
+  User_Friendship_initiatorIdToUser User             @relation("Friendship_initiatorIdToUser", fields: [initiatorId], references: [id], onDelete: Cascade)
+  User_Friendship_receiverIdToUser  User             @relation("Friendship_receiverIdToUser", fields: [receiverId], references: [id], onDelete: Cascade)
 
-// Report model for content reporting
-model Report {
-  id              String    @id @default(cuid())
-  reporterId      String
-  postId          String?
-  commentId       String?
-  reason          String
-  details         String?
-  status          ReportStatus @default(PENDING)
-  createdAt       DateTime  @default(now())
-  reviewedAt      DateTime?
-  reviewedBy      String?
-  
-  reporter        User      @relation(fields: [reporterId], references: [id], onDelete: Cascade)
-  post            Post?     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  comment         Comment?  @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  
-  @@index([reporterId])
-  @@index([postId])
-  @@index([commentId])
+  @@unique([initiatorId, receiverId])
+  @@index([initiatorId])
+  @@index([receiverId])
   @@index([status])
 }
 
-enum ReportStatus {
-  PENDING
-  REVIEWING
-  RESOLVED
-  DISMISSED
+model GovernanceProposal {
+  id              String           @id
+  proposerId      String
+  title           String
+  description     String
+  category        ProposalCategory
+  status          ProposalStatus   @default(DRAFT)
+  votingStartTime DateTime?
+  votingEndTime   DateTime?
+  quorum          String?
+  forVotes        String           @default("0")
+  againstVotes    String           @default("0")
+  abstainVotes    String           @default("0")
+  metadata        Json?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime
+  User            User             @relation(fields: [proposerId], references: [id], onDelete: Cascade)
+  GovernanceVote  GovernanceVote[]
+
+  @@index([category])
+  @@index([proposerId])
+  @@index([status])
+  @@index([votingEndTime])
+  @@index([votingStartTime])
+}
+
+model GovernanceVote {
+  id                 String             @id
+  proposalId         String
+  voterId            String
+  voteType           VoteType
+  votingPower        String
+  reason             String?
+  txHash             String?
+  createdAt          DateTime           @default(now())
+  GovernanceProposal GovernanceProposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
+  User               User               @relation(fields: [voterId], references: [id], onDelete: Cascade)
+
+  @@unique([proposalId, voterId])
+  @@index([createdAt])
+  @@index([proposalId])
+  @@index([voteType])
+  @@index([voterId])
+}
+
+model Invite {
+  id        String    @id
+  code      String    @unique
+  serverId  String
+  inviterId String
+  uses      Int       @default(0)
+  maxUses   Int?
+  maxAge    Int?
+  temporary Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  expiresAt DateTime?
+  Server    Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@index([code])
+  @@index([serverId])
+}
+
+model MarketplaceBid {
+  id                 String             @id
+  listingId          String
+  bidderId           String
+  amount             String
+  currency           String             @default("ETH")
+  usdAmount          String?
+  status             BidStatus          @default(ACTIVE)
+  expiresAt          DateTime?
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime
+  User               User               @relation(fields: [bidderId], references: [id], onDelete: Cascade)
+  MarketplaceListing MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+
+  @@index([amount])
+  @@index([bidderId])
+  @@index([createdAt])
+  @@index([listingId])
+  @@index([status])
+}
+
+model MarketplaceListing {
+  id              String            @id
+  sellerId        String
+  nftId           String
+  collectionId    String
+  price           String
+  currency        String            @default("ETH")
+  usdPrice        String?
+  listingType     ListingType       @default(FIXED_PRICE)
+  status          ListingStatus     @default(ACTIVE)
+  startTime       DateTime?
+  endTime         DateTime?
+  minBidIncrement String?
+  reservePrice    String?
+  metadata        Json?
+  views           Int               @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime
+  MarketplaceBid  MarketplaceBid[]
+  NFTCollection   NFTCollection     @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  NFT             NFT               @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  User            User              @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  MarketplaceSale MarketplaceSale[]
+
+  @@index([collectionId])
+  @@index([createdAt])
+  @@index([listingType])
+  @@index([nftId])
+  @@index([price])
+  @@index([sellerId])
+  @@index([status])
+}
+
+model MarketplaceSale {
+  id                                  String             @id
+  listingId                           String
+  buyerId                             String
+  sellerId                            String
+  nftId                               String
+  salePrice                           String
+  currency                            String             @default("ETH")
+  usdPrice                            String?
+  platformFee                         String?
+  royaltyFee                          String?
+  txHash                              String?
+  status                              SaleStatus         @default(PENDING)
+  createdAt                           DateTime           @default(now())
+  completedAt                         DateTime?
+  User_MarketplaceSale_buyerIdToUser  User               @relation("MarketplaceSale_buyerIdToUser", fields: [buyerId], references: [id], onDelete: Cascade)
+  MarketplaceListing                  MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
+  User_MarketplaceSale_sellerIdToUser User               @relation("MarketplaceSale_sellerIdToUser", fields: [sellerId], references: [id], onDelete: Cascade)
+
+  @@index([buyerId])
+  @@index([createdAt])
+  @@index([sellerId])
+  @@index([status])
+  @@index([txHash])
+}
+
+model MemberRole {
+  id           String       @id
+  serverId     String
+  userId       String
+  roleId       String
+  Role         Role         @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  ServerMember ServerMember @relation(fields: [serverId, userId], references: [serverId, userId], onDelete: Cascade)
+
+  @@unique([serverId, userId, roleId])
+  @@index([roleId])
+  @@index([serverId, userId])
+}
+
+model Message {
+  id                                                             String              @id
+  channelId                                                      String
+  userId                                                         String
+  content                                                        String
+  nonce                                                          String?
+  tts                                                            Boolean             @default(false)
+  timestamp                                                      DateTime            @default(now())
+  editedTimestamp                                                DateTime?
+  flags                                                          Int                 @default(0)
+  isPinned                                                       Boolean             @default(false)
+  mentionEveryone                                                Boolean             @default(false)
+  mentions                                                       Json?
+  mentionRoles                                                   Json?
+  mentionChannels                                                Json?
+  replyToId                                                      String?
+  threadId                                                       String?
+  webhookId                                                      String?
+  type                                                           Int                 @default(0)
+  activity                                                       Json?
+  application                                                    Json?
+  applicationId                                                  String?
+  messageReference                                               Json?
+  stickers                                                       Json?
+  referencedMessage                                              Json?
+  interaction                                                    Json?
+  components                                                     Json?
+  createdAt                                                      DateTime            @default(now())
+  updatedAt                                                      DateTime
+  Channel                                                        Channel             @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  Message                                                        Message?            @relation("MessageToMessage", fields: [replyToId], references: [id])
+  other_Message                                                  Message[]           @relation("MessageToMessage")
+  Thread                                                         Thread?             @relation(fields: [threadId], references: [id])
+  User                                                           User                @relation(fields: [userId], references: [id])
+  MessageAttachment                                              MessageAttachment[]
+  MessageEmbed                                                   MessageEmbed[]
+  MessageReference_MessageReference_messageIdToMessage           MessageReference[]  @relation("MessageReference_messageIdToMessage")
+  MessageReference_MessageReference_referencedMessageIdToMessage MessageReference[]  @relation("MessageReference_referencedMessageIdToMessage")
+  Reaction                                                       Reaction[]
+  UploadedFile                                                   UploadedFile[]
+
+  @@index([channelId, createdAt])
+  @@index([channelId, timestamp])
+  @@index([editedTimestamp])
+  @@index([replyToId])
+  @@index([threadId])
+  @@index([timestamp])
+  @@index([type])
+  @@index([userId])
+  @@index([userId, timestamp])
+}
+
+model MessageAnalytics {
+  id              String   @id
+  serverId        String?
+  channelId       String
+  userId          String
+  messageCount    Int      @default(1)
+  characterCount  Int      @default(0)
+  wordCount       Int      @default(0)
+  attachmentCount Int      @default(0)
+  mentionCount    Int      @default(0)
+  reactionCount   Int      @default(0)
+  timestamp       DateTime @default(now())
+
+  @@index([channelId, timestamp])
+  @@index([serverId, timestamp])
+  @@index([timestamp])
+  @@index([userId, timestamp])
+}
+
+model MessageAttachment {
+  id          String  @id
+  messageId   String
+  filename    String
+  description String?
+  contentType String
+  size        Int
+  url         String
+  proxyUrl    String
+  height      Int?
+  width       Int?
+  ephemeral   Boolean @default(false)
+  duration    Float?
+  waveform    String?
+  flags       Int     @default(0)
+  Message     Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+}
+
+model MessageEmbed {
+  id          String    @id
+  messageId   String
+  title       String?
+  type        String    @default("rich")
+  description String?
+  url         String?
+  timestamp   DateTime?
+  color       Int?
+  footer      Json?
+  image       Json?
+  thumbnail   Json?
+  video       Json?
+  provider    Json?
+  author      Json?
+  fields      Json?
+  Message     Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId])
+}
+
+model MessageReference {
+  id                                                    String   @id
+  messageId                                             String
+  channelId                                             String?
+  serverId                                              String?
+  referencedMessageId                                   String?
+  type                                                  Int      @default(0)
+  failIfNotExists                                       Boolean  @default(true)
+  Message_MessageReference_messageIdToMessage           Message  @relation("MessageReference_messageIdToMessage", fields: [messageId], references: [id], onDelete: Cascade)
+  Message_MessageReference_referencedMessageIdToMessage Message? @relation("MessageReference_referencedMessageIdToMessage", fields: [referencedMessageId], references: [id])
+
+  @@index([messageId])
+  @@index([referencedMessageId])
+}
+
+model Moderator {
+  id          String    @id
+  communityId String
+  userId      String
+  permissions Json
+  addedAt     DateTime  @default(now())
+  Community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([communityId, userId])
+}
+
+model NFT {
+  id                 String               @id
+  collectionId       String
+  tokenId            String
+  name               String
+  description        String?
+  image              String?
+  animationUrl       String?
+  attributes         Json?
+  metadata           Json?
+  ownerAddress       String?
+  rarity             Float?
+  lastSalePrice      String?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  MarketplaceListing MarketplaceListing[]
+  NFTCollection      NFTCollection        @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  UserNFT            UserNFT[]
+  UserProfilePicture UserProfilePicture[]
+
+  @@unique([collectionId, tokenId])
+  @@index([collectionId])
+  @@index([ownerAddress])
+  @@index([rarity])
+}
+
+model NFTCollection {
+  id                 String               @id
+  contractAddress    String
+  name               String
+  symbol             String
+  description        String?
+  image              String?
+  bannerImage        String?
+  chain              String               @default("ethereum")
+  verified           Boolean              @default(false)
+  floorPrice         String?
+  totalSupply        Int?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime
+  CommunityBadge     CommunityBadge[]
+  MarketplaceListing MarketplaceListing[]
+  NFT                NFT[]
+  NFTRequirement     NFTRequirement[]
+
+  @@unique([contractAddress, chain])
+  @@index([chain])
+  @@index([contractAddress])
+  @@index([verified])
+}
+
+model NFTRequirement {
+  id               String          @id
+  ruleId           String
+  collectionId     String
+  minTokens        Int             @default(1)
+  specificTokenIds Json?
+  NFTCollection    NFTCollection   @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  TokenGatingRule  TokenGatingRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  @@index([collectionId])
+  @@index([ruleId])
+}
+
+model Notification {
+  id                       String                     @id
+  userId                   String
+  type                     NotificationType
+  title                    String
+  content                  String
+  data                     Json?
+  isRead                   Boolean                    @default(false)
+  createdAt                DateTime                   @default(now())
+  User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  PushNotificationDelivery PushNotificationDelivery[]
+
+  @@index([userId, isRead])
+}
+
+model NotificationPreferences {
+  id                     String   @id
+  userId                 String   @unique
+  pushEnabled            Boolean  @default(true)
+  emailEnabled           Boolean  @default(true)
+  smsEnabled             Boolean  @default(false)
+  newMessageEnabled      Boolean  @default(true)
+  mentionEnabled         Boolean  @default(true)
+  replyEnabled           Boolean  @default(true)
+  followEnabled          Boolean  @default(true)
+  likeEnabled            Boolean  @default(true)
+  commentEnabled         Boolean  @default(true)
+  awardEnabled           Boolean  @default(true)
+  systemEnabled          Boolean  @default(true)
+  dmEnabled              Boolean  @default(true)
+  voiceCallEnabled       Boolean  @default(true)
+  serverInviteEnabled    Boolean  @default(true)
+  communityInviteEnabled Boolean  @default(true)
+  quietHoursEnabled      Boolean  @default(false)
+  quietHoursStart        String?
+  quietHoursEnd          String?
+  timezone               String?
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime
+  User                   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model NotificationQueue {
+  id          String               @id
+  userId      String
+  type        NotificationType
+  title       String
+  body        String
+  data        Json?
+  priority    NotificationPriority @default(NORMAL)
+  scheduledAt DateTime?
+  status      QueueStatus          @default(PENDING)
+  processedAt DateTime?
+  error       String?
+  retryCount  Int                  @default(0)
+  maxRetries  Int                  @default(3)
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime
+
+  @@index([createdAt])
+  @@index([priority])
+  @@index([scheduledAt])
+  @@index([status])
+  @@index([userId])
+}
+
+model NotificationTemplate {
+  id                       String                     @id
+  type                     NotificationType
+  name                     String
+  title                    String
+  body                     String
+  data                     Json?
+  priority                 NotificationPriority       @default(NORMAL)
+  sound                    String?
+  badge                    Boolean                    @default(true)
+  isActive                 Boolean                    @default(true)
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime
+  PushNotificationDelivery PushNotificationDelivery[]
+
+  @@unique([type, name])
+  @@index([isActive])
+  @@index([type])
+}
+
+model Post {
+  id           String      @id
+  title        String
+  content      String
+  commentCount Int         @default(0)
+  communityId  String
+  createdAt    DateTime    @default(now())
+  editedAt     DateTime?
+  flair        String?
+  isLocked     Boolean     @default(false)
+  isPinned     Boolean     @default(false)
+  isRemoved    Boolean     @default(false)
+  nsfw         Boolean     @default(false)
+  score        Int         @default(0)
+  thumbnail    String?
+  updatedAt    DateTime
+  url          String?
+  userId       String
+  viewCount    Int         @default(0)
+  Award        Award[]
+  Comment      Comment[]
+  Community    Community   @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  User         User        @relation(fields: [userId], references: [id])
+  Report       Report[]
+  SavedPost    SavedPost[]
+  Vote         Vote[]
+
+  @@index([communityId, createdAt])
+  @@index([score])
+  @@index([userId])
+}
+
+model PushDevice {
+  id                       String                     @id
+  userId                   String
+  deviceToken              String                     @unique
+  deviceType               DeviceType
+  deviceModel              String?
+  osVersion                String?
+  appVersion               String?
+  isActive                 Boolean                    @default(true)
+  lastActiveAt             DateTime                   @default(now())
+  createdAt                DateTime                   @default(now())
+  updatedAt                DateTime
+  User                     User                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  PushNotificationDelivery PushNotificationDelivery[]
+
+  @@index([deviceToken])
+  @@index([isActive])
+  @@index([userId])
+}
+
+model PushNotificationDelivery {
+  id                   String                @id
+  notificationId       String?
+  templateId           String?
+  deviceId             String
+  userId               String
+  title                String
+  body                 String
+  data                 Json?
+  status               DeliveryStatus        @default(PENDING)
+  provider             PushProvider
+  providerResponse     Json?
+  error                String?
+  sentAt               DateTime?
+  deliveredAt          DateTime?
+  clickedAt            DateTime?
+  retryCount           Int                   @default(0)
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime
+  PushDevice           PushDevice            @relation(fields: [deviceId], references: [id], onDelete: Cascade)
+  Notification         Notification?         @relation(fields: [notificationId], references: [id], onDelete: Cascade)
+  NotificationTemplate NotificationTemplate? @relation(fields: [templateId], references: [id])
+  User                 User                  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([deviceId])
+  @@index([provider])
+  @@index([status])
+  @@index([userId])
+}
+
+model Reaction {
+  id        String   @id
+  messageId String
+  userId    String
+  emoji     String
+  createdAt DateTime @default(now())
+  Message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([messageId, userId, emoji])
+  @@index([messageId])
+}
+
+model Report {
+  id         String       @id
+  reporterId String
+  postId     String?
+  commentId  String?
+  reason     String
+  details    String?
+  status     ReportStatus @default(PENDING)
+  createdAt  DateTime     @default(now())
+  reviewedAt DateTime?
+  reviewedBy String?
+  Comment    Comment?     @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  Post       Post?        @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User       User         @relation(fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@index([commentId])
+  @@index([postId])
+  @@index([reporterId])
+  @@index([status])
+}
+
+model Role {
+  id                String              @id
+  serverId          String
+  name              String
+  color             String?
+  position          Int                 @default(0)
+  permissions       BigInt              @default(0)
+  mentionable       Boolean             @default(false)
+  hoisted           Boolean             @default(false)
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime
+  ChannelPermission ChannelPermission[]
+  MemberRole        MemberRole[]
+  Server            Server              @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@unique([serverId, name])
+  @@index([serverId])
+}
+
+model SavedPost {
+  id        String   @id
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@index([postId])
+  @@index([userId])
+}
+
+model SecurityLog {
+  id        String   @id
+  type      String
+  userId    String?
+  ipAddress String
+  userAgent String
+  details   Json?
+  riskScore Int
+  location  String?
+  createdAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([ipAddress])
+  @@index([riskScore])
+  @@index([type])
+  @@index([userId])
+}
+
+model Server {
+  id                          String            @id
+  name                        String
+  description                 String?
+  icon                        String?
+  banner                      String?
+  splash                      String?
+  discoverySplash             String?
+  ownerId                     String
+  isPublic                    Boolean           @default(true)
+  tokenGated                  Boolean           @default(false)
+  requiredTokens              Json?
+  maxMembers                  Int               @default(100000)
+  maxPresences                Int?
+  maxVideoChannelUsers        Int?
+  approximateMemberCount      Int?
+  approximatePresenceCount    Int?
+  permissions                 String?
+  features                    Json              @default("[]")
+  verificationLevel           Int               @default(0)
+  defaultMessageNotifications Int               @default(0)
+  explicitContentFilter       Int               @default(0)
+  mfaLevel                    Int               @default(0)
+  systemChannelId             String?
+  systemChannelFlags          Int               @default(0)
+  rulesChannelId              String?
+  maxPresences2               Int?
+  vanityUrlCode               String?
+  premiumTier                 Int               @default(0)
+  premiumSubscriptionCount    Int?
+  preferredLocale             String            @default("en-US")
+  publicUpdatesChannelId      String?
+  nsfw                        Boolean           @default(false)
+  nsfwLevel                   Int               @default(0)
+  createdAt                   DateTime          @default(now())
+  updatedAt                   DateTime
+  AuditLog                    AuditLog[]
+  Ban                         Ban[]
+  Channel                     Channel[]
+  CommunityBadge              CommunityBadge[]
+  Invite                      Invite[]
+  Role                        Role[]
+  User                        User              @relation(fields: [ownerId], references: [id])
+  ServerAnalytics             ServerAnalytics[]
+  ServerEmoji                 ServerEmoji[]
+  ServerMember                ServerMember[]
+  ServerSticker               ServerSticker[]
+  TokenGatingRule             TokenGatingRule[]
+  VoiceState                  VoiceState[]
+
+  @@index([approximateMemberCount])
+  @@index([createdAt])
+  @@index([isPublic])
+  @@index([name])
+  @@index([ownerId])
+  @@index([tokenGated])
+  @@index([vanityUrlCode])
+}
+
+model ServerAnalytics {
+  id           String   @id
+  serverId     String
+  memberCount  Int
+  onlineCount  Int
+  messageCount Int
+  voiceMinutes Int
+  timestamp    DateTime @default(now())
+  Server       Server   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@index([serverId, timestamp])
+  @@index([timestamp])
+}
+
+model ServerEmoji {
+  id            String  @id
+  serverId      String
+  name          String
+  image         String
+  requireColons Boolean @default(true)
+  managed       Boolean @default(false)
+  animated      Boolean @default(false)
+  available     Boolean @default(true)
+  roles         Json?
+  user          Json?
+  Server        Server  @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@unique([serverId, name])
+  @@index([serverId])
+}
+
+model ServerMember {
+  id                         String       @id
+  serverId                   String
+  userId                     String
+  nickname                   String?
+  avatar                     String?
+  banner                     String?
+  bio                        String?
+  joinedAt                   DateTime     @default(now())
+  premiumSince               DateTime?
+  deaf                       Boolean      @default(false)
+  mute                       Boolean      @default(false)
+  flags                      Int          @default(0)
+  pending                    Boolean      @default(false)
+  permissions                String?
+  communicationDisabledUntil DateTime?
+  MemberRole                 MemberRole[]
+  Server                     Server       @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  User                       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([serverId, userId])
+  @@index([joinedAt])
+  @@index([serverId])
+  @@index([userId])
+}
+
+model ServerSticker {
+  id          String  @id
+  serverId    String?
+  name        String
+  description String?
+  tags        String
+  type        Int     @default(1)
+  formatType  Int
+  available   Boolean @default(true)
+  sortValue   Int?
+  Server      Server? @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  @@index([serverId])
+  @@index([type])
+}
+
+model Session {
+  id           String   @id
+  userId       String
+  token        String   @unique
+  refreshToken String   @unique
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime
+  User         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
+  @@index([refreshToken])
+  @@index([token])
+  @@index([userId])
+}
+
+model StakingPool {
+  id             String          @id
+  name           String
+  description    String?
+  tokenAddress   String
+  tokenSymbol    String
+  tokenName      String
+  chain          String          @default("ethereum")
+  apr            Float
+  lockPeriod     Int?
+  minStakeAmount String
+  maxStakeAmount String?
+  totalStaked    String          @default("0")
+  totalRewards   String          @default("0")
+  isActive       Boolean         @default(true)
+  startDate      DateTime
+  endDate        DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime
+  StakingReward  StakingReward[]
+  UserStake      UserStake[]
+
+  @@unique([tokenAddress, chain])
+  @@index([apr])
+  @@index([chain])
+  @@index([isActive])
+  @@index([tokenAddress])
+}
+
+model StakingReward {
+  id          String       @id
+  userId      String
+  poolId      String
+  stakeId     String
+  amount      String
+  currency    String
+  status      RewardStatus @default(PENDING)
+  txHash      String?
+  createdAt   DateTime     @default(now())
+  claimedAt   DateTime?
+  StakingPool StakingPool  @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  UserStake   UserStake    @relation(fields: [stakeId], references: [id], onDelete: Cascade)
+  User        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([poolId])
+  @@index([stakeId])
+  @@index([status])
+  @@index([userId])
+}
+
+model Thread {
+  id          String    @id
+  channelId   String
+  userId      String
+  name        String
+  archived    Boolean   @default(false)
+  locked      Boolean   @default(false)
+  autoArchive Int       @default(10080)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime
+  Message     Message[]
+  Channel     Channel   @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  User        User      @relation(fields: [userId], references: [id])
+
+  @@index([channelId])
+  @@index([userId])
 }
 
 model Token {
-  id              String    @id @default(cuid())
-  userId          String
-  address         String
-  symbol          String
-  name            String
-  decimals        Int
-  balance         String
-  chain           String
-  verified        Boolean   @default(false)
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id       String  @id
+  userId   String
+  address  String
+  symbol   String
+  name     String
+  decimals Int
+  balance  String
+  chain    String
+  verified Boolean @default(false)
+  User     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([userId, address, chain])
   @@index([userId])
 }
 
-// NFT Collections and Assets
-model NFTCollection {
-  id              String    @id @default(cuid())
-  contractAddress String
-  name            String
-  symbol          String
-  description     String?
-  image           String?
-  bannerImage     String?
-  chain           String    @default("ethereum")
-  verified        Boolean   @default(false)
-  floorPrice      String?   // In wei
-  totalSupply     Int?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  nfts            NFT[]
-  nftRequirements NFTRequirement[]
-  communityBadges CommunityBadge[]
-  marketplaceListings MarketplaceListing[]
-  
-  @@unique([contractAddress, chain])
-  @@index([contractAddress])
-  @@index([chain])
-  @@index([verified])
+model TokenGatingRule {
+  id               String             @id
+  serverId         String?
+  channelId        String?
+  communityId      String?
+  name             String
+  description      String?
+  ruleType         TokenGatingType
+  isActive         Boolean            @default(true)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime
+  NFTRequirement   NFTRequirement[]
+  Channel          Channel?           @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  Community        Community?         @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  Server           Server?            @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  TokenRequirement TokenRequirement[]
+
+  @@index([channelId])
+  @@index([communityId])
+  @@index([isActive])
+  @@index([ruleType])
+  @@index([serverId])
 }
 
-model NFT {
-  id              String    @id @default(cuid())
-  collectionId    String
-  tokenId         String
+model TokenRequirement {
+  id              String          @id
+  ruleId          String
+  tokenAddress    String
+  symbol          String
   name            String
-  description     String?
-  image           String?
-  animationUrl    String?
-  attributes      Json?
-  metadata        Json?
-  ownerAddress    String?
-  rarity          Float?
-  lastSalePrice   String?   // In wei
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  collection      NFTCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  userNfts        UserNFT[]
-  profilePictures UserProfilePicture[]
-  marketplaceListings MarketplaceListing[]
-  
-  @@unique([collectionId, tokenId])
-  @@index([ownerAddress])
-  @@index([collectionId])
-  @@index([rarity])
+  chain           String          @default("ethereum")
+  minAmount       String
+  TokenGatingRule TokenGatingRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
+
+  @@index([ruleId])
+  @@index([tokenAddress])
+}
+
+model TranscodingJob {
+  id             String       @id
+  fileId         String
+  userId         String
+  jobType        String
+  inputBucket    String
+  inputFilename  String
+  outputFormats  Json
+  priority       Int          @default(2)
+  status         String       @default("queued")
+  progress       Float        @default(0)
+  startedAt      DateTime?
+  completedAt    DateTime?
+  error          String?
+  outputs        Json?
+  thumbnails     Json?
+  preview        Json?
+  waveform       Json?
+  metadata       Json?
+  processingLogs String?
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime
+  UploadedFile   UploadedFile @relation(fields: [fileId], references: [id], onDelete: Cascade)
+  User           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
+  @@index([fileId])
+  @@index([priority])
+  @@index([status])
+  @@index([userId])
+}
+
+model UploadChunk {
+  id                   String               @id
+  sessionId            String
+  chunkIndex           Int
+  size                 Int
+  hash                 String?
+  uploaded             Boolean              @default(false)
+  uploadedAt           DateTime?
+  ChunkedUploadSession ChunkedUploadSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, chunkIndex])
+  @@index([sessionId])
+}
+
+model UploadedFile {
+  id               String           @id
+  userId           String
+  originalName     String
+  filename         String           @unique
+  mimeType         String
+  size             Int
+  hash             String           @unique
+  bucket           String
+  url              String
+  cdnUrl           String?
+  thumbnailUrl     String?
+  previewUrl       String?
+  width            Int?
+  height           Int?
+  duration         Float?
+  bitrate          Int?
+  framerate        Float?
+  channels         Int?
+  sampleRate       Int?
+  uploadType       String           @default("single")
+  channelId        String?
+  messageId        String?
+  processed        Boolean          @default(false)
+  scanPassed       Boolean          @default(false)
+  scanResult       Json?
+  validated        Boolean          @default(false)
+  validationErrors String[]         @default([])
+  securityFlags    Int              @default(0)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime
+  expiresAt        DateTime?
+  lastAccessedAt   DateTime?
+  FileAccessLog    FileAccessLog[]
+  FileAnalytics    FileAnalytics?
+  FilePermission   FilePermission?
+  FileVariant      FileVariant[]
+  TranscodingJob   TranscodingJob[]
+  Channel          Channel?         @relation(fields: [channelId], references: [id])
+  Message          Message?         @relation(fields: [messageId], references: [id])
+  User             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([bucket])
+  @@index([channelId])
+  @@index([createdAt])
+  @@index([expiresAt])
+  @@index([hash])
+  @@index([messageId])
+  @@index([mimeType])
+  @@index([userId])
+}
+
+model User {
+  id                                             String                     @id
+  email                                          String?                    @unique
+  username                                       String                     @unique
+  avatar                                         String?
+  bannedAt                                       DateTime?
+  banner                                         String?
+  bio                                            String?
+  createdAt                                      DateTime                   @default(now())
+  discord_id                                     String?                    @unique
+  discriminator                                  String                     @default("0001")
+  displayName                                    String
+  flags                                          Int                        @default(0)
+  github_id                                      String?                    @unique
+  google_id                                      String?                    @unique
+  isBot                                          Boolean                    @default(false)
+  isSystem                                       Boolean                    @default(false)
+  isVerified                                     Boolean                    @default(false)
+  lastSeenAt                                     DateTime?
+  locale                                         String                     @default("en-US")
+  mfaEnabled                                     Boolean                    @default(false)
+  passwordHash                                   String?
+  premiumUntil                                   DateTime?
+  pronouns                                       String?
+  publicFlags                                    Int                        @default(0)
+  twoFactorBackupCodes                           String[]                   @default([])
+  twoFactorEnabled                               Boolean                    @default(false)
+  twoFactorEnabledAt                             DateTime?
+  twoFactorSecret                                String?
+  updatedAt                                      DateTime
+  walletAddress                                  String?                    @unique
+  premiumType                                    String?                    @default("NONE")
+  Award_Award_giverIdToUser                      Award[]                    @relation("Award_giverIdToUser")
+  Award_Award_receiverIdToUser                   Award[]                    @relation("Award_receiverIdToUser")
+  Block_Block_blockedIdToUser                    Block[]                    @relation("Block_blockedIdToUser")
+  Block_Block_blockerIdToUser                    Block[]                    @relation("Block_blockerIdToUser")
+  ChunkedUploadSession                           ChunkedUploadSession[]
+  Comment                                        Comment[]
+  CommunityMember                                CommunityMember[]
+  CryptoPayment                                  CryptoPayment[]
+  CryptoTip_CryptoTip_recipientIdToUser          CryptoTip[]                @relation("CryptoTip_recipientIdToUser")
+  CryptoTip_CryptoTip_senderIdToUser             CryptoTip[]                @relation("CryptoTip_senderIdToUser")
+  DirectMessageParticipant                       DirectMessageParticipant[]
+  FileAccessLog                                  FileAccessLog[]
+  Friendship_Friendship_initiatorIdToUser        Friendship[]               @relation("Friendship_initiatorIdToUser")
+  Friendship_Friendship_receiverIdToUser         Friendship[]               @relation("Friendship_receiverIdToUser")
+  GovernanceProposal                             GovernanceProposal[]
+  GovernanceVote                                 GovernanceVote[]
+  MarketplaceBid                                 MarketplaceBid[]
+  MarketplaceListing                             MarketplaceListing[]
+  MarketplaceSale_MarketplaceSale_buyerIdToUser  MarketplaceSale[]          @relation("MarketplaceSale_buyerIdToUser")
+  MarketplaceSale_MarketplaceSale_sellerIdToUser MarketplaceSale[]          @relation("MarketplaceSale_sellerIdToUser")
+  Message                                        Message[]
+  Moderator                                      Moderator[]
+  Notification                                   Notification[]
+  NotificationPreferences                        NotificationPreferences?
+  Post                                           Post[]
+  PushDevice                                     PushDevice[]
+  PushNotificationDelivery                       PushNotificationDelivery[]
+  Reaction                                       Reaction[]
+  Report                                         Report[]
+  SavedPost                                      SavedPost[]
+  SecurityLog                                    SecurityLog[]
+  Server                                         Server[]
+  ServerMember                                   ServerMember[]
+  Session                                        Session[]
+  StakingReward                                  StakingReward[]
+  Thread                                         Thread[]
+  Token                                          Token[]
+  TranscodingJob                                 TranscodingJob[]
+  UploadedFile                                   UploadedFile[]
+  UserActivity                                   UserActivity[]
+  UserBadge                                      UserBadge[]
+  UserNFT                                        UserNFT[]
+  UserPresence                                   UserPresence?
+  UserProfilePicture                             UserProfilePicture?
+  UserStake                                      UserStake[]
+  VoiceState                                     VoiceState[]
+  Vote                                           Vote[]
+
+  @@unique([username, discriminator])
+  @@index([bannedAt])
+  @@index([createdAt])
+  @@index([email])
+  @@index([isVerified])
+  @@index([lastSeenAt])
+  @@index([username])
+  @@index([walletAddress])
+}
+
+model UserActivity {
+  id            String        @id
+  userId        String
+  presenceId    String?
+  type          ActivityType
+  name          String
+  details       String?
+  state         String?
+  applicationId String?
+  url           String?
+  createdAt     DateTime      @default(now())
+  timestamps    Json?
+  assets        Json?
+  party         Json?
+  secrets       Json?
+  instance      Boolean       @default(false)
+  flags         Int           @default(0)
+  UserPresence  UserPresence? @relation(fields: [presenceId], references: [id], onDelete: Cascade)
+  User          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([type])
+  @@index([userId])
+}
+
+model UserBadge {
+  id             String         @id
+  userId         String
+  badgeId        String
+  earnedAt       DateTime       @default(now())
+  isVisible      Boolean        @default(true)
+  CommunityBadge CommunityBadge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  User           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@index([badgeId])
+  @@index([userId])
 }
 
 model UserNFT {
-  id              String    @id @default(cuid())
-  userId          String
-  nftId           String
-  verified        Boolean   @default(false)
-  lastVerifiedAt  DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  nft             NFT       @relation(fields: [nftId], references: [id], onDelete: Cascade)
-  
+  id             String    @id
+  userId         String
+  nftId          String
+  verified       Boolean   @default(false)
+  lastVerifiedAt DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime
+  NFT            NFT       @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  User           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@unique([userId, nftId])
   @@index([userId])
   @@index([verified])
 }
 
-// NFT Profile Pictures
+model UserPresence {
+  id           String         @id
+  userId       String         @unique
+  status       PresenceStatus @default(OFFLINE)
+  clientStatus Json?
+  updatedAt    DateTime
+  UserActivity UserActivity[]
+  User         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([status])
+}
+
 model UserProfilePicture {
-  id              String    @id @default(cuid())
-  userId          String    @unique
-  nftId           String
-  isActive        Boolean   @default(true)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  nft             NFT       @relation(fields: [nftId], references: [id], onDelete: Cascade)
-  
-  @@index([userId])
+  id        String   @id
+  userId    String   @unique
+  nftId     String
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  NFT       NFT      @relation(fields: [nftId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   @@index([nftId])
-}
-
-// Token Gating System
-model TokenGatingRule {
-  id              String    @id @default(cuid())
-  serverId        String?
-  channelId       String?
-  communityId     String?
-  name            String
-  description     String?
-  ruleType        TokenGatingType
-  isActive        Boolean   @default(true)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  // Token requirements
-  tokenRequirements TokenRequirement[]
-  nftRequirements   NFTRequirement[]
-  
-  server          Server?   @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  channel         Channel?  @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  community       Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  
-  @@index([serverId])
-  @@index([channelId])
-  @@index([communityId])
-  @@index([ruleType])
-  @@index([isActive])
-}
-
-model TokenRequirement {
-  id              String    @id @default(cuid())
-  ruleId          String
-  tokenAddress    String
-  symbol          String
-  name            String
-  chain           String    @default("ethereum")
-  minAmount       String    // In wei
-  
-  rule            TokenGatingRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
-  
-  @@index([ruleId])
-  @@index([tokenAddress])
-}
-
-model NFTRequirement {
-  id              String    @id @default(cuid())
-  ruleId          String
-  collectionId    String
-  minTokens       Int       @default(1)
-  specificTokenIds Json?    // Array of token IDs
-  
-  rule            TokenGatingRule @relation(fields: [ruleId], references: [id], onDelete: Cascade)
-  collection      NFTCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  
-  @@index([ruleId])
-  @@index([collectionId])
-}
-
-// Community Badges
-model CommunityBadge {
-  id              String    @id @default(cuid())
-  serverId        String?
-  communityId     String?
-  collectionId    String
-  name            String
-  description     String?
-  image           String?
-  requirements    Json?     // Custom requirements
-  isActive        Boolean   @default(true)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  server          Server?   @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  community       Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  collection      NFTCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  userBadges      UserBadge[]
-  
-  @@index([serverId])
-  @@index([communityId])
-  @@index([collectionId])
-  @@index([isActive])
-}
-
-model UserBadge {
-  id              String    @id @default(cuid())
-  userId          String
-  badgeId         String
-  earnedAt        DateTime  @default(now())
-  isVisible       Boolean   @default(true)
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  badge           CommunityBadge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
-  
-  @@unique([userId, badgeId])
   @@index([userId])
-  @@index([badgeId])
-}
-
-// Crypto Payments System
-model CryptoPayment {
-  id              String    @id @default(cuid())
-  userId          String
-  transactionType CryptoTransactionType
-  provider        PaymentProvider
-  externalId      String?   // Provider transaction ID
-  status          PaymentStatus @default(PENDING)
-  amount          String    // In smallest unit (wei, satoshi, etc)
-  currency        String
-  usdAmount       String?
-  recipientAddress String?
-  txHash          String?
-  chain           String    @default("ethereum")
-  metadata        Json?
-  webhookData     Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  completedAt     DateTime?
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tips            CryptoTip[]
-  
-  @@unique([externalId, provider])
-  @@index([userId])
-  @@index([status])
-  @@index([provider])
-  @@index([txHash])
-}
-
-// Crypto Tipping System
-model CryptoTip {
-  id              String    @id @default(cuid())
-  senderId        String
-  recipientId     String
-  paymentId       String?
-  amount          String    // In wei
-  currency        String
-  usdAmount       String?
-  message         String?
-  isAnonymous     Boolean   @default(false)
-  status          TipStatus @default(PENDING)
-  txHash          String?
-  createdAt       DateTime  @default(now())
-  processedAt     DateTime?
-  
-  sender          User      @relation("TipsSent", fields: [senderId], references: [id], onDelete: Cascade)
-  recipient       User      @relation("TipsReceived", fields: [recipientId], references: [id], onDelete: Cascade)
-  payment         CryptoPayment? @relation(fields: [paymentId], references: [id])
-  
-  @@index([senderId])
-  @@index([recipientId])
-  @@index([status])
-  @@index([createdAt])
-}
-
-// NFT Marketplace
-model MarketplaceListing {
-  id              String    @id @default(cuid())
-  sellerId        String
-  nftId           String
-  collectionId    String
-  price           String    // In wei
-  currency        String    @default("ETH")
-  usdPrice        String?
-  listingType     ListingType @default(FIXED_PRICE)
-  status          ListingStatus @default(ACTIVE)
-  startTime       DateTime?
-  endTime         DateTime?
-  minBidIncrement String?   // For auctions
-  reservePrice    String?   // For auctions
-  metadata        Json?
-  views           Int       @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  seller          User      @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  nft             NFT       @relation(fields: [nftId], references: [id], onDelete: Cascade)
-  collection      NFTCollection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
-  bids            MarketplaceBid[]
-  sales           MarketplaceSale[]
-  
-  @@index([sellerId])
-  @@index([nftId])
-  @@index([collectionId])
-  @@index([status])
-  @@index([listingType])
-  @@index([price])
-  @@index([createdAt])
-}
-
-model MarketplaceBid {
-  id              String    @id @default(cuid())
-  listingId       String
-  bidderId        String
-  amount          String    // In wei
-  currency        String    @default("ETH")
-  usdAmount       String?
-  status          BidStatus @default(ACTIVE)
-  expiresAt       DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  listing         MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  bidder          User      @relation(fields: [bidderId], references: [id], onDelete: Cascade)
-  
-  @@index([listingId])
-  @@index([bidderId])
-  @@index([status])
-  @@index([amount])
-  @@index([createdAt])
-}
-
-model MarketplaceSale {
-  id              String    @id @default(cuid())
-  listingId       String
-  buyerId         String
-  sellerId        String
-  nftId           String
-  salePrice       String    // In wei
-  currency        String    @default("ETH")
-  usdPrice        String?
-  platformFee     String?
-  royaltyFee      String?
-  txHash          String?
-  status          SaleStatus @default(PENDING)
-  createdAt       DateTime  @default(now())
-  completedAt     DateTime?
-  
-  listing         MarketplaceListing @relation(fields: [listingId], references: [id], onDelete: Cascade)
-  buyer           User      @relation("PurchasesMade", fields: [buyerId], references: [id], onDelete: Cascade)
-  seller          User      @relation("SalesMade", fields: [sellerId], references: [id], onDelete: Cascade)
-  
-  @@index([buyerId])
-  @@index([sellerId])
-  @@index([status])
-  @@index([createdAt])
-  @@index([txHash])
-}
-
-// Staking System
-model StakingPool {
-  id              String    @id @default(cuid())
-  name            String
-  description     String?
-  tokenAddress    String
-  tokenSymbol     String
-  tokenName       String
-  chain           String    @default("ethereum")
-  apr             Float     // Annual percentage rate
-  lockPeriod      Int?      // In seconds
-  minStakeAmount  String    // In wei
-  maxStakeAmount  String?   // In wei
-  totalStaked     String    @default("0")
-  totalRewards    String    @default("0")
-  isActive        Boolean   @default(true)
-  startDate       DateTime
-  endDate         DateTime?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  stakes          UserStake[]
-  rewards         StakingReward[]
-  
-  @@unique([tokenAddress, chain])
-  @@index([tokenAddress])
-  @@index([chain])
-  @@index([isActive])
-  @@index([apr])
 }
 
 model UserStake {
-  id              String    @id @default(cuid())
-  userId          String
-  poolId          String
-  amount          String    // In wei
-  lockedUntil     DateTime?
-  status          StakeStatus @default(ACTIVE)
-  txHash          String?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  withdrawnAt     DateTime?
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  pool            StakingPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
-  rewards         StakingReward[]
-  
-  @@index([userId])
+  id            String          @id
+  userId        String
+  poolId        String
+  amount        String
+  lockedUntil   DateTime?
+  status        StakeStatus     @default(ACTIVE)
+  txHash        String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime
+  withdrawnAt   DateTime?
+  StakingReward StakingReward[]
+  StakingPool   StakingPool     @relation(fields: [poolId], references: [id], onDelete: Cascade)
+  User          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([createdAt])
   @@index([poolId])
   @@index([status])
-  @@index([createdAt])
-}
-
-model StakingReward {
-  id              String    @id @default(cuid())
-  userId          String
-  poolId          String
-  stakeId         String
-  amount          String    // In wei
-  currency        String
-  status          RewardStatus @default(PENDING)
-  txHash          String?
-  createdAt       DateTime  @default(now())
-  claimedAt       DateTime?
-  
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  pool            StakingPool @relation(fields: [poolId], references: [id], onDelete: Cascade)
-  stake           UserStake @relation(fields: [stakeId], references: [id], onDelete: Cascade)
-  
   @@index([userId])
-  @@index([poolId])
-  @@index([stakeId])
-  @@index([status])
-  @@index([createdAt])
 }
 
-// Governance System
-model GovernanceProposal {
-  id              String    @id @default(cuid())
-  proposerId      String
-  title           String
-  description     String
-  category        ProposalCategory
-  status          ProposalStatus @default(DRAFT)
-  votingStartTime DateTime?
-  votingEndTime   DateTime?
-  quorum          String?   // Minimum votes required
-  forVotes        String    @default("0")
-  againstVotes    String    @default("0")
-  abstainVotes    String    @default("0")
-  metadata        Json?
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  
-  proposer        User      @relation(fields: [proposerId], references: [id], onDelete: Cascade)
-  votes           GovernanceVote[]
-  
-  @@index([proposerId])
-  @@index([status])
-  @@index([category])
-  @@index([votingStartTime])
-  @@index([votingEndTime])
+model VoiceAnalytics {
+  id              String   @id
+  serverId        String?
+  channelId       String
+  userId          String
+  sessionDuration Int
+  timestamp       DateTime @default(now())
+
+  @@index([channelId, timestamp])
+  @@index([serverId, timestamp])
+  @@index([timestamp])
+  @@index([userId, timestamp])
 }
 
-model GovernanceVote {
-  id              String    @id @default(cuid())
-  proposalId      String
-  voterId         String
-  voteType        VoteType
-  votingPower     String    // Token amount used for voting
-  reason          String?
-  txHash          String?
-  createdAt       DateTime  @default(now())
-  
-  proposal        GovernanceProposal @relation(fields: [proposalId], references: [id], onDelete: Cascade)
-  voter           User      @relation(fields: [voterId], references: [id], onDelete: Cascade)
-  
-  @@unique([proposalId, voterId])
-  @@index([proposalId])
-  @@index([voterId])
-  @@index([voteType])
-  @@index([createdAt])
+model VoiceState {
+  id                      String    @id
+  userId                  String
+  serverId                String?
+  channelId               String?
+  sessionId               String
+  deaf                    Boolean   @default(false)
+  mute                    Boolean   @default(false)
+  selfDeaf                Boolean   @default(false)
+  selfMute                Boolean   @default(false)
+  selfStream              Boolean   @default(false)
+  selfVideo               Boolean   @default(false)
+  suppress                Boolean   @default(false)
+  requestToSpeakTimestamp DateTime?
+  connectedAt             DateTime  @default(now())
+  updatedAt               DateTime
+  Channel                 Channel?  @relation(fields: [channelId], references: [id])
+  Server                  Server?   @relation(fields: [serverId], references: [id], onDelete: Cascade)
+  User                    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, serverId])
+  @@index([channelId])
+  @@index([sessionId])
 }
 
-// Enums for Web3 features
-enum TokenGatingType {
-  TOKEN_BALANCE
-  NFT_OWNERSHIP
-  COMBINED
+model Vote {
+  id        String   @id
+  userId    String
+  postId    String?
+  commentId String?
+  value     Int
+  createdAt DateTime @default(now())
+  Comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  Post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+  @@unique([userId, postId])
+  @@index([commentId])
+  @@index([postId])
+}
+
+enum ActivityType {
+  PLAYING
+  STREAMING
+  LISTENING
+  WATCHING
   CUSTOM
-}
-
-enum CryptoTransactionType {
-  DEPOSIT
-  WITHDRAWAL
-  TIP
-  PURCHASE
-  SALE
-  STAKE
-  UNSTAKE
-  REWARD
-}
-
-enum PaymentProvider {
-  TRANSAK
-  MOONPAY
-  RAMP
-  MANUAL
-  ONCHAIN
-}
-
-enum PaymentStatus {
-  PENDING
-  PROCESSING
-  COMPLETED
-  FAILED
-  CANCELLED
-  REFUNDED
-}
-
-enum TipStatus {
-  PENDING
-  PROCESSING
-  COMPLETED
-  FAILED
-  CANCELLED
-}
-
-enum ListingType {
-  FIXED_PRICE
-  AUCTION
-  DUTCH_AUCTION
-  BUNDLE
-}
-
-enum ListingStatus {
-  DRAFT
-  ACTIVE
-  SOLD
-  CANCELLED
-  EXPIRED
+  COMPETING
 }
 
 enum BidStatus {
@@ -1096,114 +1672,6 @@ enum BidStatus {
   WON
   CANCELLED
   EXPIRED
-}
-
-enum SaleStatus {
-  PENDING
-  PROCESSING
-  COMPLETED
-  FAILED
-  CANCELLED
-  REFUNDED
-}
-
-enum StakeStatus {
-  ACTIVE
-  UNSTAKING
-  WITHDRAWN
-  SLASHED
-}
-
-enum RewardStatus {
-  PENDING
-  CLAIMABLE
-  CLAIMED
-  EXPIRED
-}
-
-enum ProposalCategory {
-  GOVERNANCE
-  TREASURY
-  PROTOCOL
-  COMMUNITY
-  TECHNICAL
-  OTHER
-}
-
-enum ProposalStatus {
-  DRAFT
-  ACTIVE
-  PASSED
-  FAILED
-  CANCELLED
-  EXECUTED
-}
-
-enum VoteType {
-  FOR
-  AGAINST
-  ABSTAIN
-}
-
-model Reaction {
-  id              String    @id @default(cuid())
-  messageId       String
-  userId          String
-  emoji           String
-  createdAt       DateTime  @default(now())
-  
-  message         Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@unique([messageId, userId, emoji])
-  @@index([messageId])
-}
-
-model Invite {
-  id              String    @id @default(cuid())
-  code            String    @unique
-  serverId        String
-  inviterId       String
-  uses            Int       @default(0)
-  maxUses         Int?
-  maxAge          Int?
-  temporary       Boolean   @default(false)
-  createdAt       DateTime  @default(now())
-  expiresAt       DateTime?
-  
-  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  
-  @@index([code])
-  @@index([serverId])
-}
-
-model Ban {
-  id              String    @id @default(cuid())
-  serverId        String
-  userId          String
-  reason          String?
-  bannedBy        String
-  createdAt       DateTime  @default(now())
-  
-  server          Server    @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  
-  @@unique([serverId, userId])
-  @@index([serverId])
-}
-
-model Notification {
-  id              String            @id @default(cuid())
-  userId          String
-  type            NotificationType
-  title           String
-  content         String
-  data            Json?
-  isRead          Boolean           @default(false)
-  createdAt       DateTime          @default(now())
-  
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@index([userId, isRead])
 }
 
 enum ChannelType {
@@ -1229,6 +1697,76 @@ enum ChannelType {
   ANNOUNCEMENT
 }
 
+enum CryptoTransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TIP
+  PURCHASE
+  SALE
+  STAKE
+  UNSTAKE
+  REWARD
+}
+
+enum DeliveryStatus {
+  PENDING
+  SENT
+  DELIVERED
+  FAILED
+  CLICKED
+  EXPIRED
+}
+
+enum DeviceType {
+  IOS
+  ANDROID
+  WEB
+  DESKTOP
+}
+
+enum FriendshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}
+
+enum GDPRRequestStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum GDPRRequestType {
+  DATA_EXPORT
+  DATA_DELETION
+  DATA_RECTIFICATION
+  DATA_PORTABILITY
+}
+
+enum ListingStatus {
+  DRAFT
+  ACTIVE
+  SOLD
+  CANCELLED
+  EXPIRED
+}
+
+enum ListingType {
+  FIXED_PRICE
+  AUCTION
+  DUTCH_AUCTION
+  BUNDLE
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  CRITICAL
+}
+
 enum NotificationType {
   MENTION
   REPLY
@@ -1238,6 +1776,37 @@ enum NotificationType {
   AWARD
   SYSTEM
   DM
+  MESSAGE
+  VOICE_CALL
+  VIDEO_CALL
+  SERVER_INVITE
+  COMMUNITY_INVITE
+  FRIEND_REQUEST
+  POST_COMMENT
+  POST_LIKE
+  LIVE_STREAM
+  NFT_TRANSFER
+  CRYPTO_TIP
+  COMMUNITY_POST
+  MAINTENANCE
+  SECURITY_ALERT
+}
+
+enum PaymentProvider {
+  TRANSAK
+  MOONPAY
+  RAMP
+  MANUAL
+  ONCHAIN
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
 }
 
 enum PremiumType {
@@ -1255,19 +1824,84 @@ enum PresenceStatus {
   OFFLINE
 }
 
-enum ActivityType {
-  PLAYING
-  STREAMING
-  LISTENING
-  WATCHING
-  CUSTOM
-  COMPETING
+enum ProposalCategory {
+  GOVERNANCE
+  TREASURY
+  PROTOCOL
+  COMMUNITY
+  TECHNICAL
+  OTHER
 }
 
-enum FriendshipStatus {
+enum ProposalStatus {
+  DRAFT
+  ACTIVE
+  PASSED
+  FAILED
+  CANCELLED
+  EXECUTED
+}
+
+enum PushProvider {
+  FCM
+  APNS
+  EXPO
+  WEB_PUSH
+  MOCK
+}
+
+enum QueueStatus {
   PENDING
-  ACCEPTED
-  BLOCKED
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  SCHEDULED
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWING
+  RESOLVED
+  DISMISSED
+}
+
+enum RewardStatus {
+  PENDING
+  CLAIMABLE
+  CLAIMED
+  EXPIRED
+}
+
+enum SaleStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum StakeStatus {
+  ACTIVE
+  UNSTAKING
+  WITHDRAWN
+  SLASHED
+}
+
+enum TipStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+enum TokenGatingType {
+  TOKEN_BALANCE
+  NFT_OWNERSHIP
+  COMBINED
+  CUSTOM
 }
 
 enum VoiceStateFlag {
@@ -1280,625 +1914,8 @@ enum VoiceStateFlag {
   SUPPRESS
 }
 
-// User Presence and Activity Tracking
-model UserPresence {
-  id              String          @id @default(cuid())
-  userId          String          @unique
-  status          PresenceStatus  @default(OFFLINE)
-  clientStatus    Json?           // { desktop?: string, mobile?: string, web?: string }
-  updatedAt       DateTime        @updatedAt
-  
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  activities      UserActivity[]
-  
-  @@index([status])
+enum VoteType {
+  FOR
+  AGAINST
+  ABSTAIN
 }
-
-model UserActivity {
-  id              String          @id @default(cuid())
-  userId          String
-  presenceId      String?
-  type            ActivityType
-  name            String
-  details         String?
-  state           String?
-  applicationId   String?
-  url             String?
-  createdAt       DateTime        @default(now())
-  timestamps      Json?           // { start?: number, end?: number }
-  assets          Json?           // { large_image?: string, large_text?: string, small_image?: string, small_text?: string }
-  party           Json?           // { id?: string, size?: [number, number] }
-  secrets         Json?           // { join?: string, spectate?: string, match?: string }
-  instance        Boolean         @default(false)
-  flags           Int             @default(0)
-  
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  presence        UserPresence?   @relation(fields: [presenceId], references: [id], onDelete: Cascade)
-  
-  @@index([userId])
-  @@index([type])
-}
-
-// Friend System
-model Friendship {
-  id              String          @id @default(cuid())
-  initiatorId     String
-  receiverId      String
-  status          FriendshipStatus @default(PENDING)
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  
-  initiator       User            @relation("FriendshipInitiator", fields: [initiatorId], references: [id], onDelete: Cascade)
-  receiver        User            @relation("FriendshipReceiver", fields: [receiverId], references: [id], onDelete: Cascade)
-  
-  @@unique([initiatorId, receiverId])
-  @@index([initiatorId])
-  @@index([receiverId])
-  @@index([status])
-}
-
-model Block {
-  id              String          @id @default(cuid())
-  blockerId       String
-  blockedId       String
-  createdAt       DateTime        @default(now())
-  
-  blocker         User            @relation("BlockInitiator", fields: [blockerId], references: [id], onDelete: Cascade)
-  blocked         User            @relation("BlockTarget", fields: [blockedId], references: [id], onDelete: Cascade)
-  
-  @@unique([blockerId, blockedId])
-  @@index([blockerId])
-  @@index([blockedId])
-}
-
-// Direct Messages
-model DirectMessageParticipant {
-  id              String          @id @default(cuid())
-  channelId       String
-  userId          String
-  joinedAt        DateTime        @default(now())
-  lastReadMessageId String?
-  
-  channel         Channel         @relation(fields: [channelId], references: [id], onDelete: Cascade)
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@unique([channelId, userId])
-  @@index([channelId])
-  @@index([userId])
-}
-
-// Voice System
-model VoiceState {
-  id              String          @id @default(cuid())
-  userId          String
-  serverId        String?
-  channelId       String?
-  sessionId       String
-  deaf            Boolean         @default(false)
-  mute            Boolean         @default(false)
-  selfDeaf        Boolean         @default(false)
-  selfMute        Boolean         @default(false)
-  selfStream      Boolean         @default(false)
-  selfVideo       Boolean         @default(false)
-  suppress        Boolean         @default(false)
-  requestToSpeakTimestamp DateTime?
-  connectedAt     DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
-  
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  server          Server?         @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  channel         Channel?        @relation(fields: [channelId], references: [id], onDelete: SetNull)
-  
-  @@unique([userId, serverId])
-  @@index([channelId])
-  @@index([sessionId])
-}
-
-// Enhanced Message System
-model MessageAttachment {
-  id              String          @id @default(cuid())
-  messageId       String
-  filename        String
-  description     String?
-  contentType     String
-  size            Int
-  url             String
-  proxyUrl        String
-  height          Int?
-  width           Int?
-  ephemeral       Boolean         @default(false)
-  duration        Float?          // For audio/video files
-  waveform        String?         // For audio files
-  flags           Int             @default(0)
-  
-  message         Message         @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  
-  @@index([messageId])
-}
-
-model MessageEmbed {
-  id              String          @id @default(cuid())
-  messageId       String
-  title           String?
-  type            String          @default("rich")
-  description     String?
-  url             String?
-  timestamp       DateTime?
-  color           Int?
-  footer          Json?           // { text: string, icon_url?: string, proxy_icon_url?: string }
-  image           Json?           // { url: string, proxy_url?: string, height?: number, width?: number }
-  thumbnail       Json?           // { url: string, proxy_url?: string, height?: number, width?: number }
-  video           Json?           // { url: string, proxy_url?: string, height?: number, width?: number }
-  provider        Json?           // { name?: string, url?: string }
-  author          Json?           // { name: string, url?: string, icon_url?: string, proxy_icon_url?: string }
-  fields          Json?           // Array of { name: string, value: string, inline?: boolean }
-  
-  message         Message         @relation(fields: [messageId], references: [id], onDelete: Cascade)
-  
-  @@index([messageId])
-}
-
-model MessageReference {
-  id              String          @id @default(cuid())
-  messageId       String
-  channelId       String?
-  serverId        String?
-  referencedMessageId String?
-  type            Int             @default(0) // 0: DEFAULT, 1: FORWARD
-  failIfNotExists Boolean         @default(true)
-  
-  message         Message         @relation("MessageReference", fields: [messageId], references: [id], onDelete: Cascade)
-  referencedMessage Message?      @relation("ReferencedMessage", fields: [referencedMessageId], references: [id], onDelete: SetNull)
-  
-  @@index([messageId])
-  @@index([referencedMessageId])
-}
-
-// Enhanced Server Features
-model ServerEmoji {
-  id              String          @id @default(cuid())
-  serverId        String
-  name            String
-  image           String
-  requireColons   Boolean         @default(true)
-  managed         Boolean         @default(false)
-  animated        Boolean         @default(false)
-  available       Boolean         @default(true)
-  roles           Json?           // Array of role IDs that can use this emoji
-  user            Json?           // User that created this emoji
-  
-  server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  
-  @@unique([serverId, name])
-  @@index([serverId])
-}
-
-model ServerSticker {
-  id              String          @id @default(cuid())
-  serverId        String?
-  name            String
-  description     String?
-  tags            String
-  type            Int             @default(1) // 1: STANDARD, 2: GUILD
-  formatType      Int             // 1: PNG, 2: APNG, 3: LOTTIE, 4: GIF
-  available       Boolean         @default(true)
-  sortValue       Int?
-  
-  server          Server?         @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  
-  @@index([serverId])
-  @@index([type])
-}
-
-model AuditLog {
-  id              String          @id @default(cuid())
-  serverId        String
-  userId          String?
-  targetId        String?
-  actionType      Int
-  options         Json?
-  reason          String?
-  changes         Json?           // Array of change objects
-  createdAt       DateTime        @default(now())
-  
-  server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  
-  @@index([serverId])
-  @@index([actionType])
-  @@index([createdAt])
-}
-
-// Analytics Tables (TimescaleDB)
-model MessageAnalytics {
-  id              String          @id @default(cuid())
-  serverId        String?
-  channelId       String
-  userId          String
-  messageCount    Int             @default(1)
-  characterCount  Int             @default(0)
-  wordCount       Int             @default(0)
-  attachmentCount Int             @default(0)
-  mentionCount    Int             @default(0)
-  reactionCount   Int             @default(0)
-  timestamp       DateTime        @default(now())
-  
-  @@index([timestamp])
-  @@index([serverId, timestamp])
-  @@index([channelId, timestamp])
-  @@index([userId, timestamp])
-}
-
-model VoiceAnalytics {
-  id              String          @id @default(cuid())
-  serverId        String?
-  channelId       String
-  userId          String
-  sessionDuration Int             // in seconds
-  timestamp       DateTime        @default(now())
-  
-  @@index([timestamp])
-  @@index([serverId, timestamp])
-  @@index([channelId, timestamp])
-  @@index([userId, timestamp])
-}
-
-model ServerAnalytics {
-  id              String          @id @default(cuid())
-  serverId        String
-  memberCount     Int
-  onlineCount     Int
-  messageCount    Int
-  voiceMinutes    Int
-  timestamp       DateTime        @default(now())
-  
-  server          Server          @relation(fields: [serverId], references: [id], onDelete: Cascade)
-  
-  @@index([timestamp])
-  @@index([serverId, timestamp])
-}
-// Additional optimized indexes for performance (to be created via raw SQL)
-// These indexes are created separately for better performance and flexibility
-
-// Full-text search index for messages
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_message_search 
-// ON "Message" USING GIN (to_tsvector('english', content));
-
-// Composite indexes for complex queries
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_user_activity_composite
-// ON "UserActivity" ("userId", "type", "createdAt");
-
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_voice_state_composite
-// ON "VoiceState" ("channelId", "connectedAt") WHERE "channelId" IS NOT NULL;
-
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_message_analytics_hour
-// ON "MessageAnalytics" (date_trunc('hour', timestamp), "serverId");
-
-// Partial indexes for better performance
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_messages_with_attachments
-// ON "Message" ("channelId", "createdAt") WHERE attachments IS NOT NULL;
-
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_active_voice_states
-// ON "VoiceState" ("serverId", "channelId", "connectedAt") WHERE "channelId" IS NOT NULL;
-
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_friendship_active
-// ON "Friendship" ("initiatorId", "receiverId") WHERE status = 'ACCEPTED';
-
-// CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_server_member_active
-// ON "ServerMember" ("serverId", "joinedAt") WHERE pending = false;
-
-// ============================================
-// ENHANCED FILE UPLOAD SYSTEM
-// ============================================
-
-model UploadedFile {
-  id              String            @id @default(cuid())
-  userId          String
-  originalName    String
-  filename        String            @unique
-  mimeType        String
-  size            Int
-  hash            String            @unique
-  bucket          String
-  url             String
-  cdnUrl          String?
-  thumbnailUrl    String?
-  previewUrl      String?
-  
-  // File metadata
-  width           Int?              // For images/videos
-  height          Int?              // For images/videos
-  duration        Float?            // For audio/video files
-  bitrate         Int?              // For audio/video files
-  framerate       Float?            // For video files
-  channels        Int?              // For audio files
-  sampleRate      Int?              // For audio files
-  
-  // Upload metadata
-  uploadType      String            @default("single") // single, chunked, paste, drag
-  channelId       String?           // Context for chat uploads
-  messageId       String?           // Attached message
-  
-  // Processing status
-  processed       Boolean           @default(false)
-  scanPassed      Boolean           @default(false)
-  scanResult      Json?             // Virus scan results
-  
-  // Validation and security
-  validated       Boolean           @default(false)
-  validationErrors String[]         @default([])
-  securityFlags   Int              @default(0)
-  
-  // Timestamps
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  expiresAt       DateTime?         // For temporary uploads
-  lastAccessedAt  DateTime?
-  
-  // Relations
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  channel         Channel?          @relation(fields: [channelId], references: [id], onDelete: SetNull)
-  message         Message?          @relation(fields: [messageId], references: [id], onDelete: SetNull)
-  variants        FileVariant[]
-  transcodingJobs TranscodingJob[]
-  accessLogs      FileAccessLog[]
-  permissions     FilePermission?
-  analytics       FileAnalytics?
-  
-  @@index([userId])
-  @@index([bucket])
-  @@index([hash])
-  @@index([mimeType])
-  @@index([channelId])
-  @@index([messageId])
-  @@index([createdAt])
-  @@index([expiresAt])
-}
-
-model FileVariant {
-  id              String            @id @default(cuid())
-  fileId          String
-  type            String            // thumbnail, preview, optimized, transcoded
-  format          String
-  filename        String
-  url             String
-  bucket          String
-  size            Int
-  
-  // Variant-specific metadata
-  width           Int?
-  height          Int?
-  quality         Int?
-  resolution      String?           // 480p, 720p, 1080p
-  bitrate         String?
-  duration        Float?
-  
-  createdAt       DateTime          @default(now())
-  
-  file            UploadedFile      @relation(fields: [fileId], references: [id], onDelete: Cascade)
-  
-  @@index([fileId])
-  @@index([type])
-}
-
-model ChunkedUploadSession {
-  id              String            @id @default(cuid())
-  userId          String
-  filename        String
-  mimeType        String
-  totalSize       Int
-  chunkSize       Int
-  totalChunks     Int
-  uploadedChunks  Int               @default(0)
-  
-  // Session metadata
-  tempPath        String?
-  metadata        Json?
-  
-  // Status
-  status          String            @default("active") // active, completed, cancelled, expired
-  completed       Boolean           @default(false)
-  
-  // Timestamps
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  lastActivity    DateTime          @default(now())
-  expiresAt       DateTime
-  
-  // Relations
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  chunks          UploadChunk[]
-  
-  @@index([userId])
-  @@index([status])
-  @@index([expiresAt])
-  @@index([lastActivity])
-}
-
-model UploadChunk {
-  id              String              @id @default(cuid())
-  sessionId       String
-  chunkIndex      Int
-  size            Int
-  hash            String?
-  uploaded        Boolean             @default(false)
-  uploadedAt      DateTime?
-  
-  session         ChunkedUploadSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
-  
-  @@unique([sessionId, chunkIndex])
-  @@index([sessionId])
-}
-
-model TranscodingJob {
-  id              String            @id @default(cuid())
-  fileId          String
-  userId          String
-  jobType         String            // video, audio
-  
-  // Job configuration
-  inputBucket     String
-  inputFilename   String
-  outputFormats   Json              // Array of output format configs
-  priority        Int               @default(2) // 1=low, 2=normal, 3=high
-  
-  // Status
-  status          String            @default("queued") // queued, processing, completed, failed, cancelled
-  progress        Float             @default(0)
-  startedAt       DateTime?
-  completedAt     DateTime?
-  error           String?
-  
-  // Output metadata
-  outputs         Json?             // Generated output files
-  thumbnails      Json?             // Generated thumbnails (video)
-  preview         Json?             // Preview file (video)
-  waveform        Json?             // Waveform data (audio)
-  
-  // Processing metadata
-  metadata        Json?             // Original file metadata
-  processingLogs  String?
-  
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  
-  // Relations
-  file            UploadedFile      @relation(fields: [fileId], references: [id], onDelete: Cascade)
-  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  @@index([fileId])
-  @@index([userId])
-  @@index([status])
-  @@index([priority])
-  @@index([createdAt])
-}
-
-model FileAccessLog {
-  id              String            @id @default(cuid())
-  fileId          String
-  userId          String?
-  
-  // Access details
-  accessType      String            // view, download, stream
-  ipAddress       String?
-  userAgent       String?
-  referrer        String?
-  
-  // Geographic data
-  country         String?
-  region          String?
-  city            String?
-  
-  // Performance data
-  responseTime    Int?              // Response time in ms
-  bytesServed     Int?              // Bytes transferred
-  
-  accessedAt      DateTime          @default(now())
-  
-  // Relations
-  file            UploadedFile      @relation(fields: [fileId], references: [id], onDelete: Cascade)
-  user            User?             @relation(fields: [userId], references: [id], onDelete: SetNull)
-  
-  @@index([fileId])
-  @@index([userId])
-  @@index([accessedAt])
-  @@index([ipAddress])
-}
-
-model FilePermission {
-  id              String            @id @default(cuid())
-  fileId          String
-  
-  // Permission types
-  isPublic        Boolean           @default(false)
-  allowHotlinking Boolean           @default(false)
-  requireAuth     Boolean           @default(true)
-  
-  // Access control
-  allowedUsers    String[]          @default([]) // User IDs
-  allowedRoles    String[]          @default([]) // Role IDs
-  deniedUsers     String[]          @default([]) // Blocked user IDs
-  
-  // Download restrictions
-  maxDownloads    Int?              // Max download count
-  downloadCount   Int               @default(0)
-  maxDownloadsPerUser Int?          // Per-user download limit
-  
-  // Time-based restrictions
-  availableFrom   DateTime?         // Available from date
-  availableUntil  DateTime?         // Available until date
-  
-  // Geographic restrictions
-  allowedCountries String[]         @default([])
-  deniedCountries String[]          @default([])
-  
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  
-  // Relations
-  file            UploadedFile      @relation(fields: [fileId], references: [id], onDelete: Cascade)
-  
-  @@unique([fileId])
-  @@index([isPublic])
-}
-
-model FileAnalytics {
-  id              String            @id @default(cuid())
-  fileId          String
-  
-  // View statistics
-  viewCount       Int               @default(0)
-  uniqueViews     Int               @default(0)
-  downloadCount   Int               @default(0)
-  streamCount     Int               @default(0) // For video/audio
-  
-  // Engagement metrics
-  avgViewDuration Float?            // Average view duration for videos
-  bounceRate      Float?            // Bounce rate percentage
-  shareCount      Int               @default(0)
-  
-  // Performance metrics
-  avgLoadTime     Float?            // Average load time in seconds
-  bandwidthUsed   BigInt            @default(0) // Total bandwidth in bytes
-  
-  // Geographic data
-  topCountries    Json?             // Top countries by views
-  topCities       Json?             // Top cities by views
-  
-  // Time-based data
-  hourlyStats     Json?             // Views by hour of day
-  dailyStats      Json?             // Views by day
-  monthlyStats    Json?             // Views by month
-  
-  // Device/platform data
-  deviceTypes     Json?             // Mobile, desktop, tablet stats
-  browsers        Json?             // Browser usage stats
-  operatingSystems Json?            // OS usage stats
-  
-  // Last updated
-  lastCalculated  DateTime          @default(now())
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  
-  // Relations
-  file            UploadedFile      @relation(fields: [fileId], references: [id], onDelete: Cascade)
-  
-  @@unique([fileId])
-  @@index([viewCount])
-  @@index([downloadCount])
-}
-
-// ============================================
-// ADD RELATIONS TO EXISTING MODELS
-// ============================================
-
-// Add to User model (these would be added to the existing User model)
-// uploadedFiles      UploadedFile[]
-// uploadSessions     ChunkedUploadSession[]
-// transcodingJobs    TranscodingJob[]
-// fileAccesses       FileAccessLog[]
-
-// Add to Channel model (these would be added to the existing Channel model)
-// uploadedFiles      UploadedFile[]
-
-// Add to Message model (these would be added to the existing Message model)
-// uploadedFiles      UploadedFile[]

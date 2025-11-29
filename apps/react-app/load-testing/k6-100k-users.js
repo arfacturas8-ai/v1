@@ -1,0 +1,362 @@
+/**
+ * K6 Load Test for 100K Concurrent Users
+ * Tests CRYB Platform scalability
+ */
+
+import http from 'k6/http';
+import { check, sleep, group } from 'k6';
+import { Rate, Trend, Counter } from 'k6/metrics';
+import { randomIntBetween, randomItem } from 'https://jslib.k6.io/k6-utils/1.2.0/index.js';
+
+// Custom metrics
+const errorRate = new Rate('errors');
+const apiResponseTime = new Trend('api_response_time');
+const wsConnectionTime = new Trend('ws_connection_time');
+const requestCount = new Counter('total_requests');
+
+// Configuration
+const BASE_URL = __ENV.BASE_URL || 'https://platform.cryb.ai';
+const API_URL = __ENV.API_URL || 'https://api.cryb.ai/api/v1';
+
+// Load test stages - Ramp up to 100K users
+export const options = {
+  scenarios: {
+    // Scenario 1: Gradual ramp-up to 100K users over 30 minutes
+    stress_test: {
+      executor: 'ramping-vus',
+      startVUs: 0,
+      stages: [
+        { duration: '5m', target: 1000 },    // Ramp to 1K
+        { duration: '5m', target: 10000 },   // Ramp to 10K
+        { duration: '10m', target: 50000 },  // Ramp to 50K
+        { duration: '10m', target: 100000 }, // Ramp to 100K
+        { duration: '10m', target: 100000 }, // Stay at 100K
+        { duration: '5m', target: 0 },       // Ramp down
+      ],
+      gracefulRampDown: '1m',
+    },
+
+    // Scenario 2: Spike test - sudden traffic spike
+    spike_test: {
+      executor: 'ramping-vus',
+      startTime: '50m',
+      startVUs: 0,
+      stages: [
+        { duration: '30s', target: 20000 },  // Sudden spike
+        { duration: '2m', target: 20000 },   // Hold spike
+        { duration: '30s', target: 0 },      // Drop
+      ],
+    },
+  },
+
+  thresholds: {
+    // 95% of requests should be below 2000ms
+    http_req_duration: ['p(95)<2000'],
+
+    // Error rate should be below 1%
+    errors: ['rate<0.01'],
+
+    // 99% of requests should succeed
+    http_req_failed: ['rate<0.01'],
+
+    // Average response time below 500ms
+    api_response_time: ['avg<500'],
+  },
+
+  // Tags for better organization
+  tags: {
+    test_type: '100k_concurrent_users',
+    environment: 'production',
+  },
+};
+
+// Test data
+const userActions = [
+  'browse_feed',
+  'view_post',
+  'create_post',
+  'send_message',
+  'join_community',
+  'search',
+  'view_profile',
+  'notifications',
+];
+
+const communities = [
+  'technology',
+  'gaming',
+  'music',
+  'art',
+  'sports',
+  'crypto',
+];
+
+// Helper: Generate random user
+function generateUser() {
+  return {
+    username: `testuser_${randomIntBetween(1, 1000000)}`,
+    email: `test${randomIntBetween(1, 1000000)}@loadtest.com`,
+    password: 'TestPassword123!',
+  };
+}
+
+// Helper: Login and get auth token
+function login() {
+  const user = generateUser();
+
+  const loginRes = http.post(`${API_URL}/auth/login`, JSON.stringify({
+    email: user.email,
+    password: user.password,
+  }), {
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  check(loginRes, {
+    'login status is 200 or 404': (r) => r.status === 200 || r.status === 404,
+  }) || errorRate.add(1);
+
+  if (loginRes.status === 200) {
+    const body = JSON.parse(loginRes.body);
+    return body.token;
+  }
+
+  return null;
+}
+
+// Main test scenario
+export default function () {
+  const action = randomItem(userActions);
+
+  group('User Journey', function () {
+    // Simulate different user actions
+    switch (action) {
+      case 'browse_feed':
+        browseFeed();
+        break;
+      case 'view_post':
+        viewPost();
+        break;
+      case 'create_post':
+        createPost();
+        break;
+      case 'send_message':
+        sendMessage();
+        break;
+      case 'join_community':
+        joinCommunity();
+        break;
+      case 'search':
+        performSearch();
+        break;
+      case 'view_profile':
+        viewProfile();
+        break;
+      case 'notifications':
+        checkNotifications();
+        break;
+    }
+  });
+
+  // Random sleep to simulate user think time
+  sleep(randomIntBetween(1, 5));
+}
+
+// Test scenarios
+function browseFeed() {
+  group('Browse Feed', function () {
+    const res = http.get(`${API_URL}/posts?page=1&limit=20`);
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'feed loaded': (r) => r.status === 200,
+      'has posts': (r) => JSON.parse(r.body).posts?.length > 0,
+    }) || errorRate.add(1);
+  });
+}
+
+function viewPost() {
+  group('View Post', function () {
+    const postId = randomIntBetween(1, 10000);
+    const res = http.get(`${API_URL}/posts/${postId}`);
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'post loaded': (r) => r.status === 200 || r.status === 404,
+    }) || errorRate.add(1);
+  });
+}
+
+function createPost() {
+  group('Create Post', function () {
+    const token = login();
+    if (!token) return;
+
+    const postData = {
+      title: `Load Test Post ${randomIntBetween(1, 100000)}`,
+      content: 'This is a load test post generated by k6',
+      communityId: randomIntBetween(1, 100),
+    };
+
+    const res = http.post(`${API_URL}/posts`, JSON.stringify(postData), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'post created': (r) => r.status === 201 || r.status === 401,
+    }) || errorRate.add(1);
+  });
+}
+
+function sendMessage() {
+  group('Send Message', function () {
+    const token = login();
+    if (!token) return;
+
+    const messageData = {
+      channelId: randomIntBetween(1, 1000),
+      content: `Test message ${Date.now()}`,
+    };
+
+    const res = http.post(`${API_URL}/messages`, JSON.stringify(messageData), {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'message sent': (r) => r.status === 201 || r.status === 401,
+    }) || errorRate.add(1);
+  });
+}
+
+function joinCommunity() {
+  group('Join Community', function () {
+    const token = login();
+    if (!token) return;
+
+    const community = randomItem(communities);
+    const res = http.post(`${API_URL}/communities/${community}/join`, null, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'community joined': (r) => r.status === 200 || r.status === 401 || r.status === 409,
+    }) || errorRate.add(1);
+  });
+}
+
+function performSearch() {
+  group('Search', function () {
+    const query = randomItem(['test', 'post', 'user', 'community', 'crypto']);
+    const res = http.get(`${API_URL}/search?q=${query}`);
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'search completed': (r) => r.status === 200,
+    }) || errorRate.add(1);
+  });
+}
+
+function viewProfile() {
+  group('View Profile', function () {
+    const userId = randomIntBetween(1, 10000);
+    const res = http.get(`${API_URL}/users/${userId}`);
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'profile loaded': (r) => r.status === 200 || r.status === 404,
+    }) || errorRate.add(1);
+  });
+}
+
+function checkNotifications() {
+  group('Check Notifications', function () {
+    const token = login();
+    if (!token) return;
+
+    const res = http.get(`${API_URL}/notifications`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    requestCount.add(1);
+    apiResponseTime.add(res.timings.duration);
+
+    check(res, {
+      'notifications loaded': (r) => r.status === 200 || r.status === 401,
+    }) || errorRate.add(1);
+  });
+}
+
+// Setup function - runs once per VU
+export function setup() {
+  console.log('🚀 Starting load test for 100K concurrent users');
+  console.log(`Target: ${BASE_URL}`);
+  console.log(`API: ${API_URL}`);
+
+  // Health check
+  const healthRes = http.get(`${API_URL}/health`);
+  if (healthRes.status !== 200) {
+    throw new Error(`Health check failed: ${healthRes.status}`);
+  }
+
+  console.log('✅ Health check passed, starting test...');
+}
+
+// Teardown function
+export function teardown(data) {
+  console.log('📊 Load test completed');
+  console.log(`Total requests: ${requestCount.value}`);
+  console.log(`Error rate: ${(errorRate.rate * 100).toFixed(2)}%`);
+}
+
+// Handle summary
+export function handleSummary(data) {
+  return {
+    'load-test-results.json': JSON.stringify(data),
+    stdout: textSummary(data, { indent: ' ', enableColors: true }),
+  };
+}
+
+// Text summary helper
+function textSummary(data, options = {}) {
+  const indent = options.indent || '';
+  const enableColors = options.enableColors !== false;
+
+  let summary = '\n';
+  summary += `${indent}✅ Test completed\n`;
+  summary += `${indent}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+  summary += `${indent}Total VUs: ${data.metrics.vus?.values?.max || 'N/A'}\n`;
+  summary += `${indent}Total Requests: ${data.metrics.http_reqs?.values?.count || 'N/A'}\n`;
+  summary += `${indent}Failed Requests: ${data.metrics.http_req_failed?.values?.passes || 0}\n`;
+  summary += `${indent}Average Response Time: ${(data.metrics.http_req_duration?.values?.avg || 0).toFixed(2)}ms\n`;
+  summary += `${indent}95th Percentile: ${(data.metrics.http_req_duration?.values?.['p(95)'] || 0).toFixed(2)}ms\n`;
+  summary += `${indent}99th Percentile: ${(data.metrics.http_req_duration?.values?.['p(99)'] || 0).toFixed(2)}ms\n`;
+  summary += `${indent}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
+
+  return summary;
+}

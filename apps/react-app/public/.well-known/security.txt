@@ -1,0 +1,20 @@
+# CRYB Platform - Security Policy
+# If you discover a security vulnerability, please report it responsibly
+
+Contact: mailto:security@cryb.ai
+Contact: https://github.com/cryb-platform/issues
+Expires: 2026-10-16T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://platform.cryb.ai/.well-known/security.txt
+
+# Security Best Practices
+# 1. Do not test in production without permission
+# 2. Report vulnerabilities via encrypted email if possible
+# 3. Allow us reasonable time to patch before public disclosure
+# 4. We appreciate responsible disclosure
+
+# Acknowledgments
+# Thank you to security researchers who help keep CRYB secure
+
+# Bug Bounty
+# We offer rewards for qualifying vulnerabilities. Contact us for details.

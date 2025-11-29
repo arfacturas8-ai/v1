@@ -69,6 +69,37 @@ export class PrometheusMetricsService {
   private notificationsSent: Counter<string>;
   private notificationsFailed: Counter<string>;
   
+  // User Behavior Analytics
+  private activeUsers: Gauge<string>;
+  private userSessions: Counter<string>;
+  private userSessionDuration: Histogram<string>;
+  private pageViews: Counter<string>;
+  private featureUsage: Counter<string>;
+  private userRetention: Gauge<string>;
+  private userEngagement: Histogram<string>;
+  
+  // Business Analytics
+  private postsCreated: Counter<string>;
+  private commentsCreated: Counter<string>;
+  private reactionsCreated: Counter<string>;
+  private serverMemberships: Counter<string>;
+  private communityMemberships: Counter<string>;
+  private messageVolume: Histogram<string>;
+  private apiCalls: Counter<string>;
+  private realtimeConnections: Gauge<string>;
+  
+  // Content Analytics
+  private contentViews: Counter<string>;
+  private contentShares: Counter<string>;
+  private contentModerations: Counter<string>;
+  private nftTransactions: Counter<string>;
+  private cryptoTips: Counter<string>;
+  
+  // Performance Analytics
+  private loadTimes: Histogram<string>;
+  private errorRates: Gauge<string>;
+  private systemHealth: Gauge<string>;
+  
   constructor() {
     this.register = new Registry();
     this.setupMetrics();
@@ -368,6 +399,183 @@ export class PrometheusMetricsService {
       labelNames: ['type', 'channel', 'reason'],
       registers: [this.register]
     });
+    
+    // ==============================================
+    // USER BEHAVIOR ANALYTICS
+    // ==============================================
+    this.activeUsers = new Gauge({
+      name: 'cryb_active_users_total',
+      help: 'Number of currently active users',
+      labelNames: ['time_period'],
+      registers: [this.register]
+    });
+    
+    this.userSessions = new Counter({
+      name: 'cryb_user_sessions_total',
+      help: 'Total number of user sessions',
+      labelNames: ['source', 'device_type'],
+      registers: [this.register]
+    });
+    
+    this.userSessionDuration = new Histogram({
+      name: 'cryb_user_session_duration_seconds',
+      help: 'Duration of user sessions in seconds',
+      labelNames: ['source', 'device_type'],
+      buckets: [60, 300, 600, 1800, 3600, 7200, 14400, 28800],
+      registers: [this.register]
+    });
+    
+    this.pageViews = new Counter({
+      name: 'cryb_page_views_total',
+      help: 'Total number of page views',
+      labelNames: ['page', 'source'],
+      registers: [this.register]
+    });
+    
+    this.featureUsage = new Counter({
+      name: 'cryb_feature_usage_total',
+      help: 'Total feature usage count',
+      labelNames: ['feature', 'user_type'],
+      registers: [this.register]
+    });
+    
+    this.userRetention = new Gauge({
+      name: 'cryb_user_retention_rate',
+      help: 'User retention rate percentage',
+      labelNames: ['period', 'cohort'],
+      registers: [this.register]
+    });
+    
+    this.userEngagement = new Histogram({
+      name: 'cryb_user_engagement_score',
+      help: 'User engagement score',
+      labelNames: ['user_type'],
+      buckets: [0, 10, 25, 50, 75, 90, 100],
+      registers: [this.register]
+    });
+    
+    // ==============================================
+    // BUSINESS ANALYTICS
+    // ==============================================
+    this.postsCreated = new Counter({
+      name: 'cryb_posts_created_total',
+      help: 'Total number of posts created',
+      labelNames: ['community', 'type'],
+      registers: [this.register]
+    });
+    
+    this.commentsCreated = new Counter({
+      name: 'cryb_comments_created_total',
+      help: 'Total number of comments created',
+      labelNames: ['community', 'type'],
+      registers: [this.register]
+    });
+    
+    this.reactionsCreated = new Counter({
+      name: 'cryb_reactions_created_total',
+      help: 'Total number of reactions created',
+      labelNames: ['type', 'content_type'],
+      registers: [this.register]
+    });
+    
+    this.serverMemberships = new Counter({
+      name: 'cryb_server_memberships_total',
+      help: 'Total number of server memberships',
+      labelNames: ['action'],
+      registers: [this.register]
+    });
+    
+    this.communityMemberships = new Counter({
+      name: 'cryb_community_memberships_total',
+      help: 'Total number of community memberships',
+      labelNames: ['action'],
+      registers: [this.register]
+    });
+    
+    this.messageVolume = new Histogram({
+      name: 'cryb_message_volume_per_hour',
+      help: 'Number of messages per hour',
+      labelNames: ['channel_type'],
+      buckets: [1, 10, 25, 50, 100, 250, 500, 1000, 2500, 5000],
+      registers: [this.register]
+    });
+    
+    this.apiCalls = new Counter({
+      name: 'cryb_api_calls_total',
+      help: 'Total number of API calls',
+      labelNames: ['endpoint', 'version'],
+      registers: [this.register]
+    });
+    
+    this.realtimeConnections = new Gauge({
+      name: 'cryb_realtime_connections_total',
+      help: 'Number of real-time connections',
+      labelNames: ['type'],
+      registers: [this.register]
+    });
+    
+    // ==============================================
+    // CONTENT ANALYTICS
+    // ==============================================
+    this.contentViews = new Counter({
+      name: 'cryb_content_views_total',
+      help: 'Total number of content views',
+      labelNames: ['content_type', 'source'],
+      registers: [this.register]
+    });
+    
+    this.contentShares = new Counter({
+      name: 'cryb_content_shares_total',
+      help: 'Total number of content shares',
+      labelNames: ['content_type', 'platform'],
+      registers: [this.register]
+    });
+    
+    this.contentModerations = new Counter({
+      name: 'cryb_content_moderations_total',
+      help: 'Total number of content moderations',
+      labelNames: ['action', 'content_type', 'reason'],
+      registers: [this.register]
+    });
+    
+    this.nftTransactions = new Counter({
+      name: 'cryb_nft_transactions_total',
+      help: 'Total number of NFT transactions',
+      labelNames: ['type', 'collection'],
+      registers: [this.register]
+    });
+    
+    this.cryptoTips = new Counter({
+      name: 'cryb_crypto_tips_total',
+      help: 'Total number of crypto tips',
+      labelNames: ['currency', 'amount_range'],
+      registers: [this.register]
+    });
+    
+    // ==============================================
+    // PERFORMANCE ANALYTICS
+    // ==============================================
+    this.loadTimes = new Histogram({
+      name: 'cryb_load_times_seconds',
+      help: 'Page and component load times in seconds',
+      labelNames: ['component', 'source'],
+      buckets: [0.1, 0.25, 0.5, 1, 2, 5, 10, 30],
+      registers: [this.register]
+    });
+    
+    this.errorRates = new Gauge({
+      name: 'cryb_error_rate_percentage',
+      help: 'Error rate percentage',
+      labelNames: ['service', 'endpoint'],
+      registers: [this.register]
+    });
+    
+    this.systemHealth = new Gauge({
+      name: 'cryb_system_health_score',
+      help: 'Overall system health score',
+      labelNames: ['component'],
+      registers: [this.register]
+    });
   }
   
   private setupDefaultMetrics(): void {
@@ -564,6 +772,114 @@ export class PrometheusMetricsService {
   
   trackNotificationFailed(type: string, channel: string = 'push', reason: string): void {
     this.notificationsFailed.inc({ type, channel, reason });
+  }
+  
+  // ==============================================
+  // USER BEHAVIOR ANALYTICS TRACKING METHODS
+  // ==============================================
+  
+  setActiveUsers(count: number, timePeriod: string = '1h'): void {
+    this.activeUsers.set({ time_period: timePeriod }, count);
+  }
+  
+  trackUserSession(source: string = 'web', deviceType: string = 'desktop'): void {
+    this.userSessions.inc({ source, device_type: deviceType });
+  }
+  
+  trackUserSessionEnd(duration: number, source: string = 'web', deviceType: string = 'desktop'): void {
+    this.userSessionDuration.observe({ source, device_type: deviceType }, duration);
+  }
+  
+  trackPageView(page: string, source: string = 'web'): void {
+    this.pageViews.inc({ page, source });
+  }
+  
+  trackFeatureUsage(feature: string, userType: string = 'regular'): void {
+    this.featureUsage.inc({ feature, user_type: userType });
+  }
+  
+  setUserRetention(rate: number, period: string = '30d', cohort: string = 'new'): void {
+    this.userRetention.set({ period, cohort }, rate);
+  }
+  
+  trackUserEngagement(score: number, userType: string = 'regular'): void {
+    this.userEngagement.observe({ user_type: userType }, score);
+  }
+  
+  // ==============================================
+  // BUSINESS ANALYTICS TRACKING METHODS
+  // ==============================================
+  
+  trackPostCreated(community: string = 'unknown', type: string = 'text'): void {
+    this.postsCreated.inc({ community, type });
+  }
+  
+  trackCommentCreated(community: string = 'unknown', type: string = 'text'): void {
+    this.commentsCreated.inc({ community, type });
+  }
+  
+  trackReactionCreated(type: string = 'like', contentType: string = 'post'): void {
+    this.reactionsCreated.inc({ type, content_type: contentType });
+  }
+  
+  trackServerMembership(action: string = 'join'): void {
+    this.serverMemberships.inc({ action });
+  }
+  
+  trackCommunityMembership(action: string = 'join'): void {
+    this.communityMemberships.inc({ action });
+  }
+  
+  trackMessageVolume(count: number, channelType: string = 'text'): void {
+    this.messageVolume.observe({ channel_type: channelType }, count);
+  }
+  
+  trackApiCall(endpoint: string, version: string = 'v1'): void {
+    this.apiCalls.inc({ endpoint, version });
+  }
+  
+  setRealtimeConnections(count: number, type: string = 'websocket'): void {
+    this.realtimeConnections.set({ type }, count);
+  }
+  
+  // ==============================================
+  // CONTENT ANALYTICS TRACKING METHODS
+  // ==============================================
+  
+  trackContentView(contentType: string, source: string = 'web'): void {
+    this.contentViews.inc({ content_type: contentType, source });
+  }
+  
+  trackContentShare(contentType: string, platform: string): void {
+    this.contentShares.inc({ content_type: contentType, platform });
+  }
+  
+  trackContentModeration(action: string, contentType: string, reason: string): void {
+    this.contentModerations.inc({ action, content_type: contentType, reason });
+  }
+  
+  trackNftTransaction(type: string, collection: string = 'unknown'): void {
+    this.nftTransactions.inc({ type, collection });
+  }
+  
+  trackCryptoTip(currency: string, amountRange: string): void {
+    this.cryptoTips.inc({ currency, amount_range: amountRange });
+  }
+  
+  // ==============================================
+  // PERFORMANCE ANALYTICS TRACKING METHODS
+  // ==============================================
+  
+  trackLoadTime(duration: number, component: string, source: string = 'web'): void {
+    this.loadTimes.observe({ component, source }, duration);
+  }
+  
+  setErrorRate(rate: number, service: string, endpoint: string = 'all'): void {
+    this.errorRates.set({ service, endpoint }, rate);
+  }
+  
+  setSystemHealth(score: number, component: string): void {
+    this.systemHealth.set({ component }, score);
   }
   
   // ==============================================

@@ -1,0 +1,26 @@
+# CRYB Platform - The humans behind the code
+
+/* TEAM */
+Project: CRYB Platform
+Site: https://platform.cryb.ai
+Twitter: @crybplatform
+Location: Distributed Team
+
+/* THANKS */
+To all contributors, testers, and early adopters
+To the Web3 community for inspiration
+To open source maintainers
+
+/* SITE */
+Last update: 2025/10/16
+Standards: HTML5, CSS3, ES2024
+Components: React 19, Vite, TailwindCSS
+Doctype: HTML5
+
+/* TECHNOLOGY */
+Backend: Node.js, Fastify, PostgreSQL, Redis
+Frontend: React 19, Vite 5, TailwindCSS, Radix UI
+Real-time: Socket.io, LiveKit
+Web3: ethers.js, WalletConnect
+Infrastructure: Docker, PM2, Nginx, AWS Lightsail
+Monitoring: Prometheus, Grafana, Loki

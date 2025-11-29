@@ -1,0 +1,496 @@
+import React, { useState, useEffect, useCallback, useMemo, memo } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import socketService from '../services/socket'
+import apiService from '../services/api'
+import {
+  Bell,
+  BellOff,
+  Check,
+  CheckCheck,
+  Trash2,
+  Filter,
+  Settings,
+  MessageSquare,
+  Heart,
+  UserPlus,
+  AtSign,
+  Award,
+  Zap,
+  AlertCircle,
+  ArrowLeft,
+  Loader
+} from 'lucide-react'
+import { formatDistanceToNow } from 'date-fns'
+import { SkeletonCard, SkeletonList } from '../components/ui/SkeletonLoader'
+import { EmptyNotifications } from '../components/ui/EmptyState'
+import usePullToRefresh from '../hooks/usePullToRefresh.jsx'
+import { useLoadingAnnouncement, useErrorAnnouncement } from '../utils/accessibility'
+
+/**
+ * NotificationsPage - Comprehensive notification center
+ * Features:
+ * - All notification types (messages, mentions, reactions, follows, awards)
+ * - Filtering by type and status
+ * - Mark as read/unread
+ * - Bulk actions (mark all read, delete)
+ * - Real-time updates via WebSocket
+ * - Mobile-responsive design
+ */
+
+const NOTIFICATION_TYPES = {
+  MESSAGE: 'message',
+  MENTION: 'mention',
+  REACTION: 'reaction',
+  FOLLOW: 'follow',
+  AWARD: 'award',
+  SYSTEM: 'system',
+  REPLY: 'reply'
+}
+
+const getNotificationIcon = (type) => {
+  switch (type) {
+    case NOTIFICATION_TYPES.MESSAGE:
+      return <MessageSquare className="w-5 h-5 text-[#58a6ff]" />
+    case NOTIFICATION_TYPES.MENTION:
+      return <AtSign className="w-5 h-5 text-purple-500" />
+    case NOTIFICATION_TYPES.REACTION:
+      return <Heart className="w-5 h-5 text-red-500" />
+    case NOTIFICATION_TYPES.FOLLOW:
+      return <UserPlus className="w-5 h-5 text-green-500" />
+    case NOTIFICATION_TYPES.AWARD:
+      return <Award className="w-5 h-5 text-yellow-500" />
+    case NOTIFICATION_TYPES.REPLY:
+      return <MessageSquare className="w-5 h-5 text-cyan-500" />
+    default:
+      return <Bell className="w-5 h-5 text-[#8b949e]" />
+  }
+}
+
+function NotificationsPage() {
+  const navigate = useNavigate()
+  const { user, isAuthenticated } = useAuth()
+
+  // State
+  const [notifications, setNotifications] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [filter, setFilter] = useState('all') // all, unread, mentions, reactions
+  const [selectedNotifications, setSelectedNotifications] = useState(new Set())
+
+  // Memoize unread count
+  const unreadCount = useMemo(() =>
+    notifications.filter(n => !n.isRead).length,
+    [notifications]
+  )
+  // Accessibility: Announce loading and error states to screen readers
+  useLoadingAnnouncement(loading, 'Loading notifications')
+  useErrorAnnouncement(error)
+
+  // Fetch notifications function
+  const fetchNotifications = useCallback(async () => {
+    if (!isAuthenticated) {
+      setLoading(false)
+      return
+    }
+
+    setLoading(true)
+    setError(null)
+
+    try {
+      const response = await apiService.get('/notifications')
+
+      if (response.success && response.data) {
+        setNotifications(response.data.notifications || [])
+      } else {
+        setNotifications([])
+      }
+    } catch (err) {
+      console.error('Failed to load notifications:', err)
+      setError('Failed to load notifications. Please try again later.')
+      setNotifications([])
+    } finally {
+      setLoading(false)
+    }
+  }, [isAuthenticated])
+
+  // Refresh handler for pull-to-refresh
+  const handleRefresh = useCallback(async () => {
+    await fetchNotifications()
+  }, [fetchNotifications])
+
+  // Pull-to-refresh hook
+  const { containerRef, indicator } = usePullToRefresh(handleRefresh)
+
+  // Fetch notifications from API
+  useEffect(() => {
+    fetchNotifications()
+  }, [fetchNotifications])
+
+  // Socket events for real-time updates
+  useEffect(() => {
+    socketService.on('notification_received', (data) => {
+      setNotifications(prev => [data.notification, ...prev])
+    })
+
+    return () => {
+      socketService.off('notification_received')
+    }
+  }, [])
+
+  // Event handlers
+  const handleMarkAsRead = useCallback(async (notificationId) => {
+    // Optimistic update
+    setNotifications(prev => prev.map(n =>
+      n.id === notificationId ? { ...n, isRead: true } : n
+    ))
+
+    try {
+      await apiService.put(`/notifications/${notificationId}/read`)
+      socketService.emit('notification_read', { notificationId })
+    } catch (err) {
+      console.error('Failed to mark notification as read:', err)
+      // Revert on error
+      setNotifications(prev => prev.map(n =>
+        n.id === notificationId ? { ...n, isRead: false } : n
+      ))
+    }
+  }, [])
+
+  const handleMarkAllAsRead = useCallback(async () => {
+    // Optimistic update
+    const previousNotifications = notifications
+    setNotifications(prev => prev.map(n => ({ ...n, isRead: true })))
+
+    try {
+      await apiService.put('/notifications/read-all')
+      socketService.emit('notification_mark_all_read')
+    } catch (err) {
+      console.error('Failed to mark all as read:', err)
+      // Revert on error
+      setNotifications(previousNotifications)
+    }
+  }, [notifications])
+
+  const handleDelete = useCallback(async (notificationId) => {
+    // Optimistic update
+    const previousNotifications = notifications
+    setNotifications(prev => prev.filter(n => n.id !== notificationId))
+
+    try {
+      await apiService.delete(`/notifications/${notificationId}`)
+      socketService.emit('notification_delete', { notificationId })
+    } catch (err) {
+      console.error('Failed to delete notification:', err)
+      // Revert on error
+      setNotifications(previousNotifications)
+    }
+  }, [notifications])
+
+  const handleDeleteAll = useCallback(async () => {
+    const previousNotifications = notifications
+    setNotifications([])
+
+    try {
+      await apiService.delete('/notifications/all')
+      socketService.emit('notification_delete_all')
+    } catch (err) {
+      console.error('Failed to delete all notifications:', err)
+      setNotifications(previousNotifications)
+    }
+  }, [notifications])
+
+  const handleNotificationClick = useCallback((notification) => {
+    if (!notification.isRead) {
+      handleMarkAsRead(notification.id)
+    }
+    if (notification.actionUrl) {
+      navigate(notification.actionUrl)
+    }
+  }, [handleMarkAsRead, navigate])
+
+  const handleToggleSelect = useCallback((notificationId) => {
+    setSelectedNotifications(prev => {
+      const newSet = new Set(prev)
+      if (newSet.has(notificationId)) {
+        newSet.delete(notificationId)
+      } else {
+        newSet.add(notificationId)
+      }
+      return newSet
+    })
+  }, [])
+
+  const handleBulkMarkRead = useCallback(async () => {
+    const previousNotifications = notifications
+    const selectedIds = Array.from(selectedNotifications)
+
+    // Optimistic update
+    setNotifications(prev => prev.map(n =>
+      selectedNotifications.has(n.id) ? { ...n, isRead: true } : n
+    ))
+    setSelectedNotifications(new Set())
+
+    try {
+      await apiService.put('/notifications/bulk-read', { notificationIds: selectedIds })
+    } catch (err) {
+      console.error('Failed to mark notifications as read:', err)
+      setNotifications(previousNotifications)
+      setSelectedNotifications(new Set(selectedIds))
+    }
+  }, [selectedNotifications, notifications])
+
+  const handleBulkDelete = useCallback(async () => {
+    const previousNotifications = notifications
+    const selectedIds = Array.from(selectedNotifications)
+
+    // Optimistic update
+    setNotifications(prev => prev.filter(n => !selectedNotifications.has(n.id)))
+    setSelectedNotifications(new Set())
+
+    try {
+      await apiService.delete('/notifications/bulk', { data: { notificationIds: selectedIds } })
+    } catch (err) {
+      console.error('Failed to delete notifications:', err)
+      setNotifications(previousNotifications)
+      setSelectedNotifications(new Set(selectedIds))
+    }
+  }, [selectedNotifications, notifications])
+
+  // Memoize filtered notifications
+  const filteredNotifications = useMemo(() =>
+    notifications.filter(n => {
+      if (filter === 'all') return true
+      if (filter === 'unread') return !n.isRead
+      if (filter === 'mentions') return n.type === NOTIFICATION_TYPES.MENTION
+      if (filter === 'reactions') return n.type === NOTIFICATION_TYPES.REACTION
+      return true
+    }),
+    [notifications, filter]
+  )
+
+  // Memoize filter options
+  const filterOptions = useMemo(() => ['all', 'unread', 'mentions', 'reactions'], [])
+  return (
+    <div className="min-h-screen bg-[#0d1117]" role="main">
+      {/* Header */}
+      <div className="bg-[#161b22]/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-10">
+        <div className="max-w-4xl mx-auto px-4 py-4">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => navigate(-1)}
+                className="md:hidden p-2 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-5 h-5 text-[#8b949e]" aria-hidden="true" />
+              </button>
+              <Bell className="w-6 h-6 text-[#58a6ff]" aria-hidden="true" />
+              <h1 className="text-2xl font-bold text-white">Notifications</h1>
+              {unreadCount > 0 && (
+                <span className="px-2 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs rounded-full" aria-label={`${unreadCount} unread notifications`}>
+                  {unreadCount}
+                </span>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleMarkAllAsRead}
+                disabled={unreadCount === 0}
+                className="px-3 py-2 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-sm text-white flex items-center gap-2 touch-target"
+                aria-label="Mark all notifications as read"
+              >
+                <CheckCheck className="w-4 h-4" aria-hidden="true" />
+                <span className="hidden md:inline">Mark all read</span>
+              </button>
+              <button className="p-2 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target" aria-label="Notification settings">
+                <Settings className="w-5 h-5 text-[#8b949e]" aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+
+          {/* Filters */}
+          <div className="flex gap-2 overflow-x-auto pb-2" role="group" aria-label="Notification filters">
+            {filterOptions.map((filterType) => (
+              <button
+                key={filterType}
+                onClick={() => setFilter(filterType)}
+                className={`
+                  px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors touch-target
+                  ${filter === filterType
+                    ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
+                    : 'bg-[#161b22]/60 backdrop-blur-xl text-[#8b949e] hover:bg-[#161b22]/60 backdrop-blur-xl'
+                  }
+                `}
+                aria-pressed={filter === filterType}
+                aria-label={`Filter by ${filterType} notifications`}
+              >
+                {filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {/* Bulk Actions */}
+          {selectedNotifications.size > 0 && (
+            <div className="mt-3 p-3 bg-[#161b22]/60 backdrop-blur-xl rounded-lg flex items-center justify-between">
+              <span className="text-sm text-[#c9d1d9]">
+                {selectedNotifications.size} selected
+              </span>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleBulkMarkRead}
+                  className="px-3 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded text-sm text-white flex items-center gap-1 touch-target"
+                  aria-label="Mark selected notifications as read"
+                >
+                  <Check className="w-4 h-4" aria-hidden="true" />
+                  Mark read
+                </button>
+                <button
+                  onClick={handleBulkDelete}
+                  className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm text-white flex items-center gap-1 touch-target"
+                  aria-label="Delete selected notifications"
+                >
+                  <Trash2 className="w-4 h-4" aria-hidden="true" />
+                  Delete
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Notifications List */}
+      <div className="max-w-4xl mx-auto px-4 py-6" ref={containerRef}>
+        {indicator}
+        {/* Loading State */}
+        {loading ? (
+          <SkeletonList count={5} />
+        ) : error ? (
+          /* Error State */
+          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="alert" aria-live="assertive">
+            <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" aria-hidden="true" />
+            <h3 className="text-xl font-semibold text-white mb-2">Failed to Load Notifications</h3>
+            <p className="text-[#8b949e] mb-6">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-white font-medium touch-target"
+              aria-label="Try again to load notifications"
+            >
+              Try Again
+            </button>
+          </div>
+        ) : !isAuthenticated ? (
+          /* Not Authenticated */
+          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="status">
+            <Bell className="w-12 h-12 text-[#8b949e] mx-auto mb-4" aria-hidden="true" />
+            <h3 className="text-xl font-semibold text-white mb-2">Sign In Required</h3>
+            <p className="text-[#8b949e] mb-6">Please sign in to view your notifications</p>
+            <button
+              onClick={() => navigate('/login')}
+              className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-white font-medium touch-target"
+              aria-label="Sign in to view notifications"
+            >
+              Sign In
+            </button>
+          </div>
+        ) : filteredNotifications.length > 0 ? (
+          <div className="space-y-2">
+            {filteredNotifications.map((notification) => (
+              <div
+                key={notification.id}
+                className={`
+                  bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 transition-all hover:bg-[#161b22]/80
+                  ${!notification.isRead ? 'border-l-4 border-l-[#58a6ff]' : ''}
+                  ${selectedNotifications.has(notification.id) ? 'bg-[#21262d]/80' : ''}
+                `}
+              >
+                <div className="flex items-start gap-3">
+                  {/* Checkbox */}
+                  <input
+                    type="checkbox"
+                    checked={selectedNotifications.has(notification.id)}
+                    onChange={() => handleToggleSelect(notification.id)}
+                    className="mt-1 accent-blue-600"
+                    aria-label={`Select notification: ${notification.title}`}
+                  />
+
+                  {/* Avatar */}
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-xl flex-shrink-0" aria-hidden="true">
+                    {notification.avatar}
+                  </div>
+
+                  {/* Content */}
+                  <div
+                    className="flex-1 cursor-pointer"
+                    onClick={() => handleNotificationClick(notification)}
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-1">
+                      <div className="flex items-center gap-2">
+                        {getNotificationIcon(notification.type)}
+                        <span className={`font-medium ${!notification.isRead ? 'text-white' : 'text-[#c9d1d9]'}`}>
+                          {notification.title}
+                        </span>
+                      </div>
+                      <span className="text-xs text-[#8b949e] whitespace-nowrap">
+                        {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
+                      </span>
+                    </div>
+                    <p className="text-sm text-[#c9d1d9]">{notification.content}</p>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-1">
+                    {!notification.isRead && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleMarkAsRead(notification.id)
+                        }}
+                        className="p-1 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target"
+                        aria-label="Mark as read"
+                        title="Mark as read"
+                      >
+                        <Check className="w-4 h-4 text-[#58a6ff]" aria-hidden="true" />
+                      </button>
+                    )}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleDelete(notification.id)
+                      }}
+                      className="p-1 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target"
+                      aria-label="Delete notification"
+                      title="Delete"
+                    >
+                      <Trash2 className="w-4 h-4 text-red-500" aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <EmptyNotifications />
+        )}
+      </div>
+
+      {/* Delete All (if notifications exist) */}
+      {notifications.length > 0 && (
+        <div className="max-w-4xl mx-auto px-4 pb-6">
+          <button
+            onClick={handleDeleteAll}
+            className="w-full px-4 py-3 bg-[#161b22]/60 backdrop-blur-xl border border-red-500/20 hover:border-red-500/40 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-red-500 flex items-center justify-center gap-2 transition-colors touch-target"
+            aria-label="Delete all notifications"
+          >
+            <Trash2 className="w-4 h-4" aria-hidden="true" />
+            Delete all notifications
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+
+export default NOTIFICATION_TYPES

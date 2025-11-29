@@ -1,7 +1,7 @@
 {
   "datasource": {
     "provider": "postgresql",
-    "url": "postgresql://dbmasteruser:OwCVEGP3w4%28%24gij%3DVmBD6R54Nj3%5E%238rB@ls-5c069fe376b304c5cf07654fbb327aa9ce9115ef.cona660s8zf0.us-east-1.rds.amazonaws.com:5432/cryb-ai",
+    "url": "postgresql://cryb_user:cryb_password@localhost:5433/cryb",
     "connection_limit": 20,
     "pool_timeout": 10,
     "connect_timeout": 60

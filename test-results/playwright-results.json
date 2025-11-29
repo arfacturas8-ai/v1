@@ -1,0 +1,140 @@
+{
+  "config": {
+    "configFile": "/home/ubuntu/cryb-platform/playwright.config.global.ts",
+    "rootDir": "/home/ubuntu/cryb-platform/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": "/home/ubuntu/cryb-platform/tests/e2e/global-setup.ts",
+    "globalTeardown": "/home/ubuntu/cryb-platform/tests/e2e/global-teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "test-results/playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/playwright-results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "test-results/playwright-junit.xml"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/ubuntu/cryb-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/ubuntu/cryb-platform/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/ubuntu/cryb-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/ubuntu/cryb-platform/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/ubuntu/cryb-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/home/ubuntu/cryb-platform/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/ubuntu/cryb-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/home/ubuntu/cryb-platform/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/ubuntu/cryb-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/home/ubuntu/cryb-platform/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "TimeoutError: page.waitForResponse: Timeout 30000ms exceeded while waiting for event \"response\"",
+      "stack": "TimeoutError: page.waitForResponse: Timeout 30000ms exceeded while waiting for event \"response\"\n    at globalSetup (/home/ubuntu/cryb-platform/tests/e2e/global-setup.ts:17:16)",
+      "location": {
+        "file": "/home/ubuntu/cryb-platform/tests/e2e/global-setup.ts",
+        "column": 16,
+        "line": 17
+      },
+      "snippet": "\u001b[90m   at \u001b[39mglobal-setup.ts:17\n\n  15 |     // Check if API server is running\n  16 |     await page.goto(`${baseURL?.replace(':3001', ':3000')}/health`);\n> 17 |     await page.waitForResponse(response => response.status() === 200, { timeout: 30000 });\n     |                ^\n  18 |     \n  19 |     // Check if web server is running\n  20 |     await page.goto(`${baseURL}/`);"
+    }
+  ],
+  "stats": {
+    "startTime": "2025-09-23T00:21:28.217Z",
+    "duration": 35839.715,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

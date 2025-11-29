@@ -1,0 +1,40 @@
+{
+  "name": "cryb-socketio-exporter",
+  "version": "1.0.0",
+  "description": "Prometheus exporter for Socket.io metrics in Cryb Platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "lint": "eslint src/",
+    "health-check": "curl -f http://localhost:${PORT:-9466}/health"
+  },
+  "keywords": [
+    "prometheus",
+    "socketio",
+    "websocket",
+    "realtime",
+    "exporter",
+    "monitoring",
+    "cryb"
+  ],
+  "author": "Cryb Platform Engineering",
+  "license": "MIT",
+  "dependencies": {
+    "prom-client": "^15.0.0",
+    "ioredis": "^5.3.2",
+    "express": "^4.18.2",
+    "winston": "^3.10.0",
+    "axios": "^1.5.0",
+    "socket.io-client": "^4.7.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "eslint": "^8.50.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

@@ -1,0 +1,520 @@
+# ====================================================
+# CRYB Platform - Search & Analytics Infrastructure
+# Production-ready search, analytics, and ML services
+# ====================================================
+
+version: '3.9'
+
+services:
+  # ==============================================
+  # ELASTICSEARCH CLUSTER
+  # ==============================================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: cryb-elasticsearch
+    restart: unless-stopped
+    environment:
+      - node.name=cryb-search-node-1
+      - cluster.name=cryb-search-cluster
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.ml.enabled=true
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+      - ./config/elasticsearch/elasticsearch-production-cluster.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./config/elasticsearch/index-templates.json:/usr/share/elasticsearch/config/index-templates.json
+    networks:
+      - cryb-analytics
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=10s || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+        reservations:
+          cpus: '2.0'
+          memory: 2G
+
+  # ==============================================
+  # KIBANA DASHBOARD
+  # ==============================================
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: cryb-kibana
+    restart: unless-stopped
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: ""
+      ELASTICSEARCH_PASSWORD: ""
+      SERVER_NAME: cryb-kibana
+      SERVER_HOST: "0.0.0.0"
+      XPACK_SECURITY_ENABLED: "false"
+      XPACK_MONITORING_ENABLED: "true"
+    ports:
+      - "5601:5601"
+    volumes:
+      - kibana_data:/usr/share/kibana/data
+      - ./config/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./config/kibana/dashboards:/usr/share/kibana/dashboards
+    networks:
+      - cryb-analytics
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5601/api/status || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==============================================
+  # TIMESCALEDB FOR ANALYTICS
+  # ==============================================
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-timescaledb
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${TIMESCALE_USER:-cryb_analytics}
+      POSTGRES_PASSWORD: ${TIMESCALE_PASSWORD:-analytics_secure_password_2024}
+      POSTGRES_DB: ${TIMESCALE_DB:-cryb_analytics}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5433:5432"
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+      - ./database/timescaledb-analytics-setup.sql:/docker-entrypoint-initdb.d/01-analytics-setup.sql
+      - timescaledb_backups:/backups
+    networks:
+      - cryb-analytics
+    command: >
+      postgres
+      -c max_connections=200
+      -c shared_buffers=512MB
+      -c effective_cache_size=2GB
+      -c maintenance_work_mem=128MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=32MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=8MB
+      -c min_wal_size=2GB
+      -c max_wal_size=8GB
+      -c max_worker_processes=16
+      -c max_parallel_workers_per_gather=8
+      -c max_parallel_workers=16
+      -c max_parallel_maintenance_workers=8
+      -c timescaledb.max_background_workers=16
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TIMESCALE_USER:-cryb_analytics} -d ${TIMESCALE_DB:-cryb_analytics}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  # ==============================================
+  # KAFKA FOR DATA STREAMING
+  # ==============================================
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: cryb-zookeeper
+    restart: unless-stopped
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_SYNC_LIMIT: 2
+    ports:
+      - "2181:2181"
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
+      - zookeeper_logs:/var/lib/zookeeper/log
+    networks:
+      - cryb-analytics
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: cryb-kafka
+    restart: unless-stopped
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_NUM_PARTITIONS: 8
+      KAFKA_DEFAULT_REPLICATION_FACTOR: 1
+      KAFKA_LOG_RETENTION_HOURS: 168
+      KAFKA_LOG_SEGMENT_BYTES: 1073741824
+      KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 300000
+      KAFKA_LOG_CLEANUP_POLICY: delete
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - cryb-analytics
+    depends_on:
+      - zookeeper
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-broker-api-versions --bootstrap-server localhost:9092"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==============================================
+  # SEARCH & ANALYTICS SERVICE
+  # ==============================================
+  search-analytics:
+    build:
+      context: ./services/search-analytics
+      dockerfile: Dockerfile
+    container_name: cryb-search-analytics
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      
+      # Database connections
+      DATABASE_URL: postgresql://${POSTGRES_USER:-cryb_user}:${POSTGRES_PASSWORD:-WTuCF1GNjmkuZQwWE_qnZJ9GqbDHhAnQ}@postgres:5432/${POSTGRES_DB:-cryb}
+      TIMESCALE_URL: postgresql://${TIMESCALE_USER:-cryb_analytics}:${TIMESCALE_PASSWORD:-analytics_secure_password_2024}@timescaledb:5432/${TIMESCALE_DB:-cryb_analytics}
+      
+      # Search infrastructure
+      ELASTICSEARCH_NODES: http://elasticsearch:9200
+      ELASTICSEARCH_USERNAME: ""
+      ELASTICSEARCH_PASSWORD: ""
+      
+      # Message queue
+      KAFKA_BROKERS: kafka:9092
+      KAFKA_CLIENT_ID: cryb-search-analytics
+      KAFKA_GROUP_ID: search-analytics-group
+      
+      # Redis for caching
+      REDIS_URL: redis://:${REDIS_PASSWORD:-PbS4lakpqV28U1aUX2PsE1o81d41Afb1}@redis:6379/1
+      
+      # Security
+      JWT_SECRET: ${JWT_SECRET}
+      API_KEY: ${SEARCH_ANALYTICS_API_KEY:-search_analytics_secure_key_2024}
+      
+      # Machine Learning
+      ML_MODEL_PATH: /app/models
+      TENSORFLOW_WORKERS: 2
+      
+      # Feature flags
+      ENABLE_ML_RECOMMENDATIONS: true
+      ENABLE_REAL_TIME_INDEXING: true
+      ENABLE_ANALYTICS_STREAMING: true
+      ENABLE_BUSINESS_INTELLIGENCE: true
+      
+      # Performance settings
+      INDEXING_BATCH_SIZE: 100
+      ANALYTICS_BATCH_SIZE: 1000
+      CACHE_TTL: 300
+      MAX_SEARCH_RESULTS: 1000
+      
+    ports:
+      - "3003:3003"
+    volumes:
+      - search_analytics_logs:/app/logs
+      - ml_models:/app/models
+      - analytics_cache:/app/cache
+    networks:
+      - cryb-analytics
+      - cryb-network
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+      timescaledb:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==============================================
+  # ML MODEL SERVING
+  # ==============================================
+  ml-models:
+    image: tensorflow/serving:2.13.0
+    container_name: cryb-ml-models
+    restart: unless-stopped
+    environment:
+      MODEL_NAME: cryb_recommendations
+      MODEL_BASE_PATH: /models
+    ports:
+      - "8501:8501" # REST API
+      - "8500:8500" # gRPC API
+    volumes:
+      - ml_models:/models
+    networks:
+      - cryb-analytics
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # ==============================================
+  # KAFKA CONNECT FOR ETL
+  # ==============================================
+  kafka-connect:
+    image: confluentinc/cp-kafka-connect:7.5.0
+    container_name: cryb-kafka-connect
+    restart: unless-stopped
+    environment:
+      CONNECT_BOOTSTRAP_SERVERS: kafka:9092
+      CONNECT_REST_ADVERTISED_HOST_NAME: kafka-connect
+      CONNECT_REST_PORT: 8083
+      CONNECT_GROUP_ID: cryb-connect-group
+      CONNECT_CONFIG_STORAGE_TOPIC: cryb-connect-configs
+      CONNECT_OFFSET_STORAGE_TOPIC: cryb-connect-offsets
+      CONNECT_STATUS_STORAGE_TOPIC: cryb-connect-status
+      CONNECT_CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_STATUS_STORAGE_REPLICATION_FACTOR: 1
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+    ports:
+      - "8083:8083"
+    volumes:
+      - kafka_connect_data:/data
+    networks:
+      - cryb-analytics
+    depends_on:
+      - kafka
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # ==============================================
+  # SCHEMA REGISTRY
+  # ==============================================
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.5.0
+    container_name: cryb-schema-registry
+    restart: unless-stopped
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: kafka:9092
+      SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+    ports:
+      - "8081:8081"
+    networks:
+      - cryb-analytics
+    depends_on:
+      - kafka
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.1'
+          memory: 128M
+
+  # ==============================================
+  # ANALYTICS DATA PROCESSORS
+  # ==============================================
+  analytics-processor:
+    build:
+      context: ./services/search-analytics
+      dockerfile: Dockerfile.processor
+    container_name: cryb-analytics-processor
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      KAFKA_BROKERS: kafka:9092
+      TIMESCALE_URL: postgresql://${TIMESCALE_USER:-cryb_analytics}:${TIMESCALE_PASSWORD:-analytics_secure_password_2024}@timescaledb:5432/${TIMESCALE_DB:-cryb_analytics}
+      ELASTICSEARCH_NODES: http://elasticsearch:9200
+      REDIS_URL: redis://:${REDIS_PASSWORD:-PbS4lakpqV28U1aUX2PsE1o81d41Afb1}@redis:6379/2
+      PROCESSOR_TYPE: analytics
+      BATCH_SIZE: 1000
+      PROCESSING_INTERVAL: 10000
+    volumes:
+      - analytics_processor_logs:/app/logs
+    networks:
+      - cryb-analytics
+    depends_on:
+      - kafka
+      - timescaledb
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  search-indexer:
+    build:
+      context: ./services/search-analytics
+      dockerfile: Dockerfile.indexer
+    container_name: cryb-search-indexer
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      KAFKA_BROKERS: kafka:9092
+      ELASTICSEARCH_NODES: http://elasticsearch:9200
+      REDIS_URL: redis://:${REDIS_PASSWORD:-PbS4lakpqV28U1aUX2PsE1o81d41Afb1}@redis:6379/3
+      INDEXER_TYPE: search
+      BATCH_SIZE: 100
+      PROCESSING_INTERVAL: 5000
+    volumes:
+      - search_indexer_logs:/app/logs
+    networks:
+      - cryb-analytics
+    depends_on:
+      - kafka
+      - elasticsearch
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+# ==============================================
+# NETWORKS
+# ==============================================
+networks:
+  cryb-analytics:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
+          gateway: 172.31.0.1
+  cryb-network:
+    external: true
+
+# ==============================================
+# VOLUMES
+# ==============================================
+volumes:
+  # Elasticsearch
+  elasticsearch_data:
+    driver: local
+  
+  # Kibana
+  kibana_data:
+    driver: local
+  
+  # TimescaleDB
+  timescaledb_data:
+    driver: local
+  timescaledb_backups:
+    driver: local
+  
+  # Kafka ecosystem
+  kafka_data:
+    driver: local
+  zookeeper_data:
+    driver: local
+  zookeeper_logs:
+    driver: local
+  kafka_connect_data:
+    driver: local
+  
+  # Search & Analytics service
+  search_analytics_logs:
+    driver: local
+  ml_models:
+    driver: local
+  analytics_cache:
+    driver: local
+  
+  # Processors
+  analytics_processor_logs:
+    driver: local
+  search_indexer_logs:
+    driver: local

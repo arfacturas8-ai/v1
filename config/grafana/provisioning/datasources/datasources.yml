@@ -1,139 +1,31 @@
-# ==============================================
-# CRYB PLATFORM - GRAFANA DATA SOURCES
-# ==============================================
-# Auto-provisioned data sources for monitoring
-# ==============================================
-
 apiVersion: 1
 
 datasources:
-  # ==============================================
-  # PROMETHEUS - METRICS DATA SOURCE
-  # ==============================================
   - name: Prometheus
     type: prometheus
     access: proxy
     url: http://prometheus:9090
     isDefault: true
-    editable: false
+    editable: true
     jsonData:
+      timeInterval: 15s
       httpMethod: POST
       prometheusType: Prometheus
-      prometheusVersion: 2.45.0
-      cacheLevel: 'High'
-      disableRecordingRules: false
-      incrementalQueryOverlapWindow: 10m
-      queryTimeout: 60s
-      timeInterval: 15s
-    secureJsonData: {}
-
-  # ==============================================
-  # LOKI - LOGS DATA SOURCE
-  # ==============================================
+      prometheusVersion: 2.48.0
+    
   - name: Loki
     type: loki
     access: proxy
     url: http://loki:3100
-    editable: false
+    editable: true
     jsonData:
+      timeInterval: 15s
       maxLines: 1000
-      timeout: 60
-      derivedFields:
-        - datasourceUid: Jaeger
-          matcherRegex: "trace_id=(\\w+)"
-          name: TraceID
-          url: "$${__value.raw}"
-        - datasourceUid: Jaeger  
-          matcherRegex: "traceID=(\\w+)"
-          name: TraceID
-          url: "$${__value.raw}"
-
-  # ==============================================
-  # JAEGER - DISTRIBUTED TRACING
-  # ==============================================
-  - name: Jaeger
-    type: jaeger
+      
+  - name: AlertManager
+    type: alertmanager
     access: proxy
-    url: http://jaeger:16686
-    editable: false
+    url: http://alertmanager:9093
+    editable: true
     jsonData:
-      tracesToMetrics:
-        datasourceUid: Prometheus
-        tags: [{ key: 'service.name', value: 'service' }]
-        queries:
-          - name: 'Sample query'
-            query: 'sum(rate(tempo_request_duration_seconds_count[5m])) by (service)'
-      nodeGraph:
-        enabled: true
-      search:
-        hide: false
-      traceQuery:
-        timeShiftEnabled: true
-        spanStartTimeShift: '1h'
-        spanEndTimeShift: '-1h'
-
-  # ==============================================
-  # POSTGRES - DATABASE METRICS
-  # ==============================================
-  - name: PostgreSQL
-    type: postgres
-    access: proxy
-    url: cryb-postgres-optimized:5432
-    database: cryb
-    user: cryb_user
-    editable: false
-    jsonData:
-      sslmode: disable
-      maxOpenConns: 100
-      maxIdleConns: 100
-      maxIdleConnsAuto: true
-      connMaxLifetime: 14400
-      postgresVersion: 1500
-      timescaledb: true
-    secureJsonData:
-      password: cryb_password
-
-  # ==============================================
-  # REDIS - CACHE METRICS
-  # ==============================================
-  - name: Redis
-    type: redis-datasource
-    access: proxy
-    url: redis://cryb-redis:6379
-    editable: false
-    jsonData:
-      client: standalone
-      poolSize: 5
-      timeout: 10
-      pingInterval: 0
-      pipelineWindow: 0
-    secureJsonData:
-      password: cryb_redis_password
-
-  # ==============================================
-  # ELASTICSEARCH - SEARCH METRICS
-  # ==============================================
-  - name: Elasticsearch
-    type: elasticsearch
-    access: proxy
-    url: http://elasticsearch:9200
-    database: "[cryb-logs-]YYYY.MM.DD"
-    editable: false
-    jsonData:
-      interval: Daily
-      timeField: "@timestamp"
-      esVersion: "8.11.0"
-      maxConcurrentShardRequests: 5
-      logMessageField: message
-      logLevelField: level
-      includeFrozen: false
-      xpack: false
-
-  # ==============================================
-  # TESTDATA - FOR DEMO DASHBOARDS
-  # ==============================================
-  - name: TestData
-    type: testdata
-    access: proxy
-    editable: false
-    isDefault: false
+      implementation: prometheus

@@ -1,0 +1,596 @@
+# ==============================================
+# CRYB PLATFORM - PROMETHEUS MONITORING STACK
+# ==============================================
+# Enterprise-grade monitoring with Prometheus,
+# Grafana, and AlertManager
+# ==============================================
+
+---
+# Prometheus Operator
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-operator
+  namespace: cryb-monitoring
+  labels:
+    app: prometheus-operator
+    tier: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus-operator
+  template:
+    metadata:
+      labels:
+        app: prometheus-operator
+        tier: monitoring
+    spec:
+      serviceAccountName: prometheus-operator
+      tolerations:
+        - key: cryb.io/monitoring-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      nodeSelector:
+        role: monitoring
+      containers:
+        - name: prometheus-operator
+          image: quay.io/prometheus-operator/prometheus-operator:v0.68.0
+          args:
+            - --kubelet-service=kube-system/kubelet
+            - --logtostderr=true
+            - --config-reloader-image=quay.io/prometheus-operator/prometheus-config-reloader:v0.68.0
+            - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.68.0
+            - --alertmanager-instance-selector=alertmanager=main
+            - --prometheus-instance-selector=prometheus=main
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "100m"
+            limits:
+              memory: "500Mi"
+              cpu: "500m"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+
+---
+# Prometheus Instance
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: cryb-prometheus
+  namespace: cryb-monitoring
+  labels:
+    prometheus: main
+    app: prometheus
+spec:
+  replicas: 2
+  retention: 30d
+  retentionSize: "100GB"
+  
+  # High Availability Configuration
+  enableAdminAPI: true
+  enableFeatures:
+    - "memory-snapshot-on-shutdown"
+    - "expand-external-labels"
+    - "remote-write-receiver"
+  
+  # Storage Configuration
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: gp3-encrypted
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 200Gi
+  
+  # Resource Configuration
+  resources:
+    requests:
+      memory: "4Gi"
+      cpu: "2000m"
+    limits:
+      memory: "8Gi"
+      cpu: "4000m"
+  
+  # Service Account
+  serviceAccountName: prometheus
+  
+  # Node Selection
+  tolerations:
+    - key: cryb.io/monitoring-node
+      operator: Equal
+      value: "true"
+      effect: NoSchedule
+  nodeSelector:
+    role: monitoring
+  
+  # Alerting
+  alerting:
+    alertmanagers:
+      - namespace: cryb-monitoring
+        name: cryb-alertmanager
+        port: web
+  
+  # Rules and Service Discovery
+  ruleSelector:
+    matchLabels:
+      prometheus: cryb-prometheus
+      role: alert-rules
+  
+  serviceMonitorSelector:
+    matchLabels:
+      prometheus: cryb-prometheus
+  
+  podMonitorSelector:
+    matchLabels:
+      prometheus: cryb-prometheus
+  
+  # Security Context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+  
+  # Configuration
+  configMaps:
+    - prometheus-config
+  
+  # External Configuration
+  externalLabels:
+    cluster: cryb-production-primary
+    region: us-east-1
+    environment: production
+  
+  # Remote Write (for long-term storage)
+  remoteWrite:
+    - url: "https://prometheus-remote-write.cryb.ai/api/v1/write"
+      headers:
+        X-Scope-OrgID: "cryb-production"
+      writeRelabelConfigs:
+        - sourceLabels: [__name__]
+          regex: 'prometheus_.*|go_.*'
+          action: drop
+  
+  # Query Configuration
+  query:
+    maxConcurrency: 20
+    maxSamples: 50000000
+    timeout: 2m
+
+---
+# AlertManager Configuration
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  name: cryb-alertmanager
+  namespace: cryb-monitoring
+  labels:
+    alertmanager: main
+    app: alertmanager
+spec:
+  replicas: 3
+  retention: "120h"
+  
+  # Storage
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: gp3-encrypted
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 50Gi
+  
+  # Resources
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu: "500m"
+    limits:
+      memory: "2Gi"
+      cpu: "1000m"
+  
+  # Service Account
+  serviceAccountName: alertmanager
+  
+  # Node Selection
+  tolerations:
+    - key: cryb.io/monitoring-node
+      operator: Equal
+      value: "true"
+      effect: NoSchedule
+  nodeSelector:
+    role: monitoring
+  
+  # Security Context
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+    fsGroup: 65534
+  
+  # Configuration
+  configSecret: alertmanager-config
+
+---
+# Grafana Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: cryb-monitoring
+  labels:
+    app: grafana
+    tier: monitoring
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+        tier: monitoring
+    spec:
+      serviceAccountName: grafana
+      tolerations:
+        - key: cryb.io/monitoring-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      nodeSelector:
+        role: monitoring
+      
+      initContainers:
+        - name: grafana-init
+          image: busybox:1.35
+          command: ['sh', '-c', 'mkdir -p /var/lib/grafana && chown -R 472:472 /var/lib/grafana']
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+          securityContext:
+            runAsUser: 0
+      
+      containers:
+        - name: grafana
+          image: grafana/grafana:10.2.0
+          ports:
+            - name: web
+              containerPort: 3000
+          
+          env:
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: grafana-credentials
+                  key: admin-password
+            - name: GF_SECURITY_ADMIN_USER
+              value: "admin"
+            - name: GF_SERVER_ROOT_URL
+              value: "https://monitoring.cryb.ai"
+            - name: GF_SECURITY_COOKIE_SECURE
+              value: "true"
+            - name: GF_SECURITY_COOKIE_SAMESITE
+              value: "strict"
+            - name: GF_ANALYTICS_REPORTING_ENABLED
+              value: "false"
+            - name: GF_ANALYTICS_CHECK_FOR_UPDATES
+              value: "false"
+            - name: GF_USERS_ALLOW_SIGN_UP
+              value: "false"
+            - name: GF_USERS_AUTO_ASSIGN_ORG_ROLE
+              value: "Viewer"
+            - name: GF_AUTH_OAUTH_AUTO_LOGIN
+              value: "true"
+            - name: GF_INSTALL_PLUGINS
+              value: "grafana-piechart-panel,grafana-worldmap-panel,redis-datasource,prometheus-alertmanager-datasource"
+          
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 472
+            runAsGroup: 472
+          
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: web
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: web
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana
+            - name: grafana-config
+              mountPath: /etc/grafana/grafana.ini
+              subPath: grafana.ini
+            - name: grafana-dashboards-config
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: grafana-datasources-config
+              mountPath: /etc/grafana/provisioning/datasources
+            - name: grafana-dashboards
+              mountPath: /var/lib/grafana/dashboards
+      
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-storage
+        - name: grafana-config
+          configMap:
+            name: grafana-config
+        - name: grafana-dashboards-config
+          configMap:
+            name: grafana-dashboards-config
+        - name: grafana-datasources-config
+          configMap:
+            name: grafana-datasources-config
+        - name: grafana-dashboards
+          configMap:
+            name: grafana-dashboards
+
+---
+# Node Exporter DaemonSet
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+  namespace: cryb-monitoring
+  labels:
+    app: node-exporter
+    tier: monitoring
+spec:
+  selector:
+    matchLabels:
+      app: node-exporter
+  template:
+    metadata:
+      labels:
+        app: node-exporter
+        tier: monitoring
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9100"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: node-exporter
+      hostNetwork: true
+      hostPID: true
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+      
+      containers:
+        - name: node-exporter
+          image: prom/node-exporter:v1.6.1
+          args:
+            - --path.procfs=/host/proc
+            - --path.sysfs=/host/sys
+            - --path.rootfs=/host/root
+            - --collector.filesystem.mount-points-exclude=^/(dev|proc|sys|var/lib/docker/.+|var/lib/kubelet/.+)($|/)
+            - --collector.filesystem.fs-types-exclude=^(autofs|binfmt_misc|bpf|cgroup2?|configfs|debugfs|devpts|devtmpfs|fusectl|hugetlbfs|iso9660|mqueue|nsfs|overlay|proc|procfs|pstore|rpc_pipefs|securityfs|selinuxfs|squashfs|sysfs|tracefs)$
+            - --collector.netclass.ignored-devices=^(veth.*|cali.*|[a-z0-9]+@if\d+)$
+            - --collector.netdev.device-exclude=^(veth.*|cali.*|[a-z0-9]+@if\d+)$
+            - --collector.systemd
+            - --collector.processes
+          
+          ports:
+            - name: metrics
+              containerPort: 9100
+              hostPort: 9100
+          
+          resources:
+            requests:
+              memory: "200Mi"
+              cpu: "100m"
+            limits:
+              memory: "400Mi"
+              cpu: "500m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+          
+          volumeMounts:
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: sys
+              mountPath: /host/sys
+              readOnly: true
+            - name: root
+              mountPath: /host/root
+              mountPropagation: HostToContainer
+              readOnly: true
+      
+      volumes:
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: sys
+          hostPath:
+            path: /sys
+        - name: root
+          hostPath:
+            path: /
+
+---
+# Service Accounts
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus-operator
+  namespace: cryb-monitoring
+  labels:
+    app: prometheus-operator
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: cryb-monitoring
+  labels:
+    app: prometheus
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: alertmanager
+  namespace: cryb-monitoring
+  labels:
+    app: alertmanager
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: grafana
+  namespace: cryb-monitoring
+  labels:
+    app: grafana
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: node-exporter
+  namespace: cryb-monitoring
+  labels:
+    app: node-exporter
+
+---
+# Services
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: cryb-monitoring
+  labels:
+    app: prometheus
+spec:
+  type: ClusterIP
+  ports:
+    - name: web
+      port: 9090
+      targetPort: web
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: prometheus
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: alertmanager
+  namespace: cryb-monitoring
+  labels:
+    app: alertmanager
+spec:
+  type: ClusterIP
+  ports:
+    - name: web
+      port: 9093
+      targetPort: web
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: alertmanager
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana
+  namespace: cryb-monitoring
+  labels:
+    app: grafana
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3000"
+spec:
+  type: ClusterIP
+  ports:
+    - name: web
+      port: 3000
+      targetPort: web
+      protocol: TCP
+  selector:
+    app: grafana
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-exporter
+  namespace: cryb-monitoring
+  labels:
+    app: node-exporter
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9100"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: metrics
+      port: 9100
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: node-exporter
+
+---
+# Persistent Volume Claims
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: grafana-storage
+  namespace: cryb-monitoring
+  labels:
+    app: grafana
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: gp3-encrypted
+  resources:
+    requests:
+      storage: 100Gi

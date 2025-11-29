@@ -1,105 +1,85 @@
-import { FastifyPluginAsync } from "fastify";
-import { z } from "zod";
-import { prisma } from "@cryb/database";
-import { authMiddleware } from "../middleware/auth";
+import { FastifyInstance } from 'fastify';
+import { authMiddleware } from '../middleware/auth';
+import { notificationService } from '../services/notification.service';
+import { z } from 'zod';
 
-const notificationRoutes: FastifyPluginAsync = async (fastify) => {
-  fastify.addHook("preHandler", authMiddleware);
-
+export default async function notificationRoutes(fastify: FastifyInstance) {
   // Get user notifications
-  fastify.get("/", async (request: any, reply) => {
-    try {
-      const { page = 1, limit = 20, unreadOnly = false } = z.object({
-        page: z.coerce.number().min(1).default(1),
-        limit: z.coerce.number().min(1).max(100).default(20),
-        unreadOnly: z.coerce.boolean().default(false),
-      }).parse(request.query);
-
-      const where = {
-        userId: request.userId,
-        ...(unreadOnly && { isRead: false }),
-      };
-
-      const [notifications, total] = await Promise.all([
-        prisma.notification.findMany({
-          where,
-          orderBy: { createdAt: "desc" },
-          skip: (page - 1) * limit,
-          take: limit,
-        }),
-        prisma.notification.count({ where }),
-      ]);
-
-      return reply.send({
-        success: true,
-        data: {
-          items: notifications,
-          total,
-          page,
-          pageSize: limit,
-          hasMore: page * limit < total,
-        },
-      });
-    } catch (error) {
-      fastify.log.error(error);
-      return reply.code(500).send({
-        success: false,
-        error: "Failed to get notifications",
-      });
-    }
+  fastify.get('/notifications', {
+    preHandler: [authMiddleware]
+  }, async (request, reply) => {
+    const page = Number(request.query.page) || 1;
+    const limit = Number(request.query.limit) || 20;
+    const userId = (request as any).user.id;
+    
+    const result = await notificationService.getNotifications(userId, page, limit);
+    
+    return reply.send(result);
   });
 
   // Mark notification as read
-  fastify.patch("/:id/read", async (request: any, reply) => {
-    try {
-      const { id } = z.object({
-        id: z.string(),
-      }).parse(request.params);
-
-      await prisma.notification.update({
-        where: {
-          id,
-          userId: request.userId,
-        },
-        data: { isRead: true },
-      });
-
-      return reply.send({
-        success: true,
-        message: "Notification marked as read",
-      });
-    } catch (error) {
-      fastify.log.error(error);
-      return reply.code(500).send({
-        success: false,
-        error: "Failed to update notification",
-      });
+  fastify.post('/notifications/:notificationId/read', {
+    preHandler: [authMiddleware]
+  }, async (request, reply) => {
+    const { notificationId } = request.params as any;
+    const userId = (request as any).user.id;
+    
+    const success = await notificationService.markAsRead(notificationId, userId);
+    
+    if (!success) {
+      return reply.status(404).send({ error: 'Notification not found' });
     }
+    
+    return reply.send({ success: true });
   });
 
   // Mark all notifications as read
-  fastify.post("/read-all", async (request: any, reply) => {
-    try {
-      await prisma.notification.updateMany({
-        where: {
-          userId: request.userId,
-          isRead: false,
-        },
-        data: { isRead: true },
-      });
-
-      return reply.send({
-        success: true,
-        message: "All notifications marked as read",
-      });
-    } catch (error) {
-      fastify.log.error(error);
-      return reply.code(500).send({
-        success: false,
-        error: "Failed to update notifications",
-      });
-    }
+  fastify.post('/notifications/read-all', {
+    preHandler: [authMiddleware]
+  }, async (request, reply) => {
+    const userId = (request as any).user.id;
+    
+    await notificationService.markAllAsRead(userId);
+    
+    return reply.send({ success: true });
   });
-};
 
-export default notificationRoutes;
+  // Delete notification
+  fastify.delete('/notifications/:notificationId', {
+    preHandler: [authMiddleware]
+  }, async (request, reply) => {
+    const { notificationId } = request.params as any;
+    const userId = (request as any).user.id;
+    
+    const success = await notificationService.deleteNotification(notificationId, userId);
+    
+    if (!success) {
+      return reply.status(404).send({ error: 'Notification not found' });
+    }
+    
+    return reply.send({ success: true });
+  });
+
+  // Get unread count
+  fastify.get('/notifications/unread-count', {
+    preHandler: [authMiddleware]
+  }, async (request, reply) => {
+    const userId = (request as any).user.id;
+    
+    const count = await notificationService.getUnreadCount(userId);
+    
+    return reply.send({ count });
+  });
+
+  // Update notification preferences
+  fastify.patch('/users/me/notification-settings', {
+    preHandler: [authMiddleware]
+  }, async (request, reply) => {
+    const userId = (request as any).user.id;
+    const preferences = request.body;
+    
+    await notificationService.updateUserPreferences(userId, preferences);
+    
+    return reply.send({ success: true });
+  });
+}

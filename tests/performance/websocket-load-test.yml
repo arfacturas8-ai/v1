@@ -1,0 +1,225 @@
+# WebSocket and real-time features load testing
+config:
+  target: 'ws://localhost:3000'
+  phases:
+    # Gradual connection buildup
+    - duration: 60
+      arrivalRate: 2
+      name: "Connection ramp-up"
+    # Sustained connections
+    - duration: 240
+      arrivalRate: 10
+      name: "Sustained connections"
+    # High connection load
+    - duration: 120
+      arrivalRate: 25
+      name: "High connection load"
+    # Connection spike
+    - duration: 30
+      arrivalRate: 50
+      name: "Connection spike"
+  
+  variables:
+    testUsers:
+      - username: "testuser1"
+        token: "test-token-1"
+      - username: "testuser2"
+        token: "test-token-2"
+      - username: "admin"
+        token: "admin-token"
+    
+    channels:
+      - "general"
+      - "technology"
+      - "gaming"
+      - "help"
+    
+    messageTypes:
+      - "text"
+      - "emoji"
+      - "system"
+
+  processor: "./websocket-processor.js"
+  
+  plugins:
+    expect: {}
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+
+scenarios:
+  # Basic WebSocket connection and messaging
+  - name: "WebSocket Connection and Messaging"
+    weight: 60
+    engine: ws
+    flow:
+      # Connect to WebSocket
+      - connect:
+          url: "/socket.io/?EIO=4&transport=websocket"
+          name: "WebSocket Connection"
+          headers:
+            Authorization: "Bearer {{ $randomItem(testUsers).token }}"
+          
+      # Join a channel
+      - send:
+          payload:
+            event: "join_channel"
+            data:
+              channel: "{{ $randomItem(channels) }}"
+          name: "Join Channel"
+      
+      # Send messages periodically
+      - loop:
+          count: "{{ $randomInt(5, 15) }}"
+          over:
+            - think: "{{ $randomInt(2, 8) }}"
+            - send:
+                payload:
+                  event: "send_message"
+                  data:
+                    content: "Load test message {{ $timestamp() }}"
+                    type: "{{ $randomItem(messageTypes) }}"
+                name: "Send Message"
+            
+            # React to messages occasionally
+            - think: "{{ $randomInt(1, 3) }}"
+            - send:
+                payload:
+                  event: "react_to_message"
+                  data:
+                    messageId: "{{ $randomString() }}"
+                    emoji: "{{ $randomItem(['👍', '❤️', '😂', '😮']) }}"
+                name: "React to Message"
+      
+      # Leave channel
+      - send:
+          payload:
+            event: "leave_channel"
+            data:
+              channel: "{{ $randomItem(channels) }}"
+          name: "Leave Channel"
+
+  # Voice channel simulation
+  - name: "Voice Channel Simulation"
+    weight: 20
+    engine: ws
+    flow:
+      - connect:
+          url: "/socket.io/?EIO=4&transport=websocket"
+          headers:
+            Authorization: "Bearer {{ $randomItem(testUsers).token }}"
+      
+      # Join voice channel
+      - send:
+          payload:
+            event: "join_voice_channel"
+            data:
+              channel: "voice-{{ $randomItem(channels) }}"
+          name: "Join Voice Channel"
+      
+      # Simulate voice activity
+      - loop:
+          count: "{{ $randomInt(3, 8) }}"
+          over:
+            - think: "{{ $randomInt(5, 15) }}"
+            - send:
+                payload:
+                  event: "voice_activity"
+                  data:
+                    speaking: true
+                name: "Voice Activity Start"
+            
+            - think: "{{ $randomInt(2, 6) }}"
+            - send:
+                payload:
+                  event: "voice_activity"
+                  data:
+                    speaking: false
+                name: "Voice Activity Stop"
+      
+      # Leave voice channel
+      - send:
+          payload:
+            event: "leave_voice_channel"
+          name: "Leave Voice Channel"
+
+  # Presence and status updates
+  - name: "Presence and Status Updates"
+    weight: 15
+    engine: ws
+    flow:
+      - connect:
+          url: "/socket.io/?EIO=4&transport=websocket"
+          headers:
+            Authorization: "Bearer {{ $randomItem(testUsers).token }}"
+      
+      # Update presence status
+      - send:
+          payload:
+            event: "update_presence"
+            data:
+              status: "{{ $randomItem(['online', 'away', 'busy', 'invisible']) }}"
+              customMessage: "Load testing in progress"
+          name: "Update Presence"
+      
+      # Send typing indicators
+      - loop:
+          count: "{{ $randomInt(3, 7) }}"
+          over:
+            - send:
+                payload:
+                  event: "start_typing"
+                  data:
+                    channel: "{{ $randomItem(channels) }}"
+                name: "Start Typing"
+            
+            - think: "{{ $randomInt(1, 4) }}"
+            - send:
+                payload:
+                  event: "stop_typing"
+                  data:
+                    channel: "{{ $randomItem(channels) }}"
+                name: "Stop Typing"
+            
+            - think: "{{ $randomInt(2, 8) }}"
+      
+      # Heartbeat simulation
+      - loop:
+          count: 5
+          over:
+            - think: 30
+            - send:
+                payload:
+                  event: "ping"
+                name: "Heartbeat Ping"
+
+  # Direct messaging simulation
+  - name: "Direct Messaging"
+    weight: 5
+    engine: ws
+    flow:
+      - connect:
+          url: "/socket.io/?EIO=4&transport=websocket"
+          headers:
+            Authorization: "Bearer {{ $randomItem(testUsers).token }}"
+      
+      # Send direct messages
+      - loop:
+          count: "{{ $randomInt(2, 6) }}"
+          over:
+            - send:
+                payload:
+                  event: "send_direct_message"
+                  data:
+                    recipientId: "{{ $randomItem(testUsers).username }}"
+                    content: "Direct message {{ $timestamp() }}"
+                name: "Send Direct Message"
+            
+            - think: "{{ $randomInt(3, 10) }}"
+            
+            # Mark messages as read
+            - send:
+                payload:
+                  event: "mark_message_read"
+                  data:
+                    messageId: "{{ $randomString() }}"
+                name: "Mark Message Read"

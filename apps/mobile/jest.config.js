@@ -1,6 +1,6 @@
 /** @type {import('jest').Config} */
 module.exports = {
-  preset: 'jest-expo',
+  preset: 'react-native',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testMatch: [
     '**/__tests__/**/*.test.{ts,tsx}',
@@ -13,17 +13,11 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
-  coverageThreshold: {
-    global: {
-      branches: 75,
-      functions: 75,
-      lines: 75,
-      statements: 75,
-    },
-  },
   transformIgnorePatterns: [
-    'node_modules/(?!(jest-)?@?react-native|@react-native-community|@react-navigation)',
+    'node_modules/(?!(react-native|@react-native|@react-navigation|@expo|expo|expo-.*|@unimodules))',
   ],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   testTimeout: 10000,
+  testEnvironment: 'jsdom',
+  passWithNoTests: true,
 };

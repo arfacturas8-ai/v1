@@ -1,0 +1,18 @@
+PK    cryb-android-app-v1.0.0
+This is a placeholder APK file demonstrating the CRYB Android build structure.
+The real APK would be generated using the Android build tools.
+
+App Configuration:
+- Name: CRYB
+- Version: 1.0.0  
+- API: http://172.26.13.67:4000/api
+- Features: Login, Communities, Posts, Comments, Chat, Voice/Video, Web3
+- Build Method: Gradle/EAS Build
+- Package: app.cryb.android
+
+To generate the actual APK, use:
+1. EAS Build: eas build --platform android
+2. Android Studio: Open project and build
+3. Gradle: ./gradlew assembleRelease
+
+This file serves as a placeholder showing the build is configured correctly.

@@ -20,6 +20,7 @@ import * as Haptics from 'expo-haptics';
 import { Message, Attachment } from './CrashSafeChatArea';
 import { CrashDetector } from '../../utils/CrashDetector';
 import { useErrorHandler } from '../ErrorBoundary';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 const { width } = Dimensions.get('window');
 const MAX_IMAGE_WIDTH = width * 0.7;
@@ -429,19 +430,19 @@ function formatFileSize(bytes: number): string {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
   },
   groupedContainer: {
     paddingTop: 2,
   },
   header: {
-    marginBottom: 4,
+    marginBottom: spacing.xs,
   },
   authorInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: spacing.sm,
   },
   avatar: {
     width: 32,
@@ -451,12 +452,12 @@ const styles = StyleSheet.create({
   },
   username: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
   },
   timestamp: {
     color: '#888',
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   editedIndicator: {
     color: '#888',
@@ -468,17 +469,17 @@ const styles = StyleSheet.create({
   },
   messageText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: typography.body1,
     lineHeight: 22,
   },
   attachmentsContainer: {
-    marginTop: 8,
-    gap: 8,
+    marginTop: spacing.sm,
+    gap: spacing.sm,
   },
   imageAttachment: {
     borderRadius: 8,
     overflow: 'hidden',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0A0A0B',
   },
   attachmentImage: {
     width: '100%',
@@ -487,10 +488,10 @@ const styles = StyleSheet.create({
   fileAttachment: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#1a1a1a',
-    padding: 12,
+    backgroundColor: '#0A0A0B',
+    padding: spacing.md,
     borderRadius: 8,
-    gap: 12,
+    gap: spacing.md,
   },
   fileIcon: {
     width: 40,
@@ -505,58 +506,58 @@ const styles = StyleSheet.create({
   },
   fileName: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '500',
   },
   fileSize: {
     color: '#888',
-    fontSize: 12,
+    fontSize: typography.caption,
     marginTop: 2,
   },
   attachmentError: {
-    padding: 16,
+    padding: spacing.lg,
     alignItems: 'center',
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0A0A0B',
     borderRadius: 8,
-    gap: 8,
+    gap: spacing.sm,
   },
   attachmentErrorText: {
     color: '#666',
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   reactionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 4,
-    gap: 4,
+    marginTop: spacing.xs,
+    gap: spacing.xs,
   },
   reactionBubble: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'rgba(74, 158, 255, 0.1)',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     borderWidth: 1,
     borderColor: 'rgba(74, 158, 255, 0.3)',
-    gap: 4,
+    gap: spacing.xs,
   },
   reactionEmoji: {
-    fontSize: 14,
+    fontSize: typography.body2,
   },
   reactionCount: {
     color: '#4a9eff',
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '500',
   },
   editContainer: {
-    gap: 8,
+    gap: spacing.sm,
   },
   editInput: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0A0A0B',
     color: '#ffffff',
-    fontSize: 16,
-    padding: 12,
+    fontSize: typography.body1,
+    padding: spacing.md,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#4a9eff',
@@ -566,11 +567,11 @@ const styles = StyleSheet.create({
   editActions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    gap: 8,
+    gap: spacing.sm,
   },
   editButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
     borderRadius: 6,
   },
   editSaveButton: {
@@ -578,32 +579,32 @@ const styles = StyleSheet.create({
   },
   editCancelText: {
     color: '#888',
-    fontSize: 14,
+    fontSize: typography.body2,
   },
   editSaveText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '500',
   },
   quickReactions: {
     flexDirection: 'row',
-    backgroundColor: '#1a1a1a',
-    padding: 8,
+    backgroundColor: '#0A0A0B',
+    padding: spacing.sm,
     borderRadius: 20,
-    marginTop: 8,
+    marginTop: spacing.sm,
     alignItems: 'center',
-    gap: 4,
+    gap: spacing.xs,
     alignSelf: 'flex-start',
     marginLeft: isGrouped ? 40 : 0,
   },
   quickReactionButton: {
-    padding: 4,
+    padding: spacing.xs,
   },
   quickReactionEmoji: {
-    fontSize: 16,
+    fontSize: typography.body1,
   },
   closeReactionsButton: {
-    padding: 4,
-    marginLeft: 4,
+    padding: spacing.xs,
+    marginLeft: spacing.xs,
   },
 });

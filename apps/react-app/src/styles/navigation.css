@@ -1,0 +1,380 @@
+/* Navigation System CSS - CRYB Platform */
+
+/* ========================================
+   Accessibility Utilities
+   ======================================== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.sr-only:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: inherit;
+  margin: inherit;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* ========================================
+   Scrollbar Styling
+   ======================================== */
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: var(--bg-tertiary);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: var(--border-secondary);
+  border-radius: 2px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: var(--border-primary);
+}
+
+/* ========================================
+   Navigation Animations
+   ======================================== */
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutLeft {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ========================================
+   Mobile Navigation Enhancements
+   ======================================== */
+
+.mobile-nav-item {
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent-cyan);
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav-item.active::before {
+  transform: scaleX(1);
+}
+
+/* ========================================
+   Sidebar Responsive Behavior
+   ======================================== */
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 30;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar {
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* ========================================
+   FAB (Floating Action Button) Styles
+   ======================================== */
+
+.fab-container {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+@media (max-width: 1023px) {
+  .fab-container {
+    bottom: 5rem; /* Account for mobile bottom nav */
+  }
+}
+
+.fab-action-item {
+  animation: fadeInUp 0.3s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+.fab-action-item:nth-child(1) { animation-delay: 0.1s; }
+.fab-action-item:nth-child(2) { animation-delay: 0.15s; }
+.fab-action-item:nth-child(3) { animation-delay: 0.2s; }
+.fab-action-item:nth-child(4) { animation-delay: 0.25s; }
+
+/* ========================================
+   Header Responsive Adjustments
+   ======================================== */
+
+.header-blur {
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.header-search-mobile {
+  transform: translateY(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.header-search-mobile.visible {
+  transform: translateY(0);
+}
+
+/* ========================================
+   Community Navigation Styles
+   ======================================== */
+
+.community-nav-tabs {
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.community-nav-tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.community-nav-tab {
+  position: relative;
+  white-space: nowrap;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.community-nav-tab::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.community-nav-tab.active::after {
+  transform: scaleX(1);
+}
+
+/* ========================================
+   Focus Management
+   ======================================== */
+
+.focus-visible {
+  outline: 2px solid var(--primary-trust);
+  outline-offset: 2px;
+}
+
+/* Remove default focus styles for mouse users */
+.js-focus-visible :focus:not(.focus-visible) {
+  outline: none;
+}
+
+/* ========================================
+   Responsive Design Breakpoints
+   ======================================== */
+
+/* Mobile First Approach */
+@media (min-width: 640px) {
+  .fab-container {
+    bottom: 1.5rem;
+    right: 1.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .layout-main {
+    padding-top: 1rem; /* Adjust for mobile search bar */
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout-main {
+    padding-top: 0;
+    margin-left: 0; /* Adjust when sidebar is open */
+    transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .layout-main.sidebar-open {
+    margin-left: 320px; /* Sidebar width */
+  }
+  
+  .fab-container {
+    bottom: 2rem;
+    right: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .fab-container {
+    right: 3rem;
+  }
+}
+
+/* ========================================
+   High Contrast Mode Support
+   ======================================== */
+
+@media (prefers-contrast: high) {
+  .nav-item:focus,
+  .nav-item:hover {
+    background: var(--bg-active);
+    outline: 2px solid var(--text-primary);
+  }
+  
+  .fab-main {
+    outline: 2px solid var(--text-primary);
+  }
+}
+
+/* ========================================
+   Reduced Motion Support
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .sidebar {
+    transition: none;
+  }
+  
+  .fab-action-item {
+    animation: none;
+  }
+}
+
+/* ========================================
+   Dark Theme Navigation Adjustments
+   ======================================== */
+
+[data-theme="dark"] {
+  .header-blur {
+    background: rgba(10, 10, 11, 0.8);
+  }
+  
+  .sidebar-overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+  .sidebar,
+  .mobile-menu,
+  .fab-container,
+  .header,
+  .bottom-nav {
+    display: none !important;
+  }
+  
+  .layout-main {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+}

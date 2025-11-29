@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    
+    <!-- Mobile Optimized Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    
+    <!-- Progressive Web App -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="background-color" content="#0A0A0B" />
+    
+    <!-- Mobile Safari -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="CRYB" />
+    
+    <!-- Touch Icons -->
+    <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/icons/icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/icons/icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/icons/icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/icons/icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/icons/icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/icons/icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/icons/icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/icon-180x180.png" />
+    
+    <!-- Standard Icons -->
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/icons/icon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192x192.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    
+    <!-- Windows -->
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    <meta name="msapplication-navbutton-color" content="#3b82f6" />
+    
+    <!-- Performance Hints -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- SEO Meta Tags -->
+    <title>The Cryb</title>
+    <meta name="description" content="The next-generation community platform where conversations come alive. Join communities, chat in real-time, and connect with like-minded people." />
+    <meta name="keywords" content="community, chat, social, platform, discussions, web3, crypto" />
+    <meta name="author" content="CRYB Platform" />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="CRYB Platform - Next-Generation Community Platform" />
+    <meta property="og:description" content="The next-generation community platform where conversations come alive." />
+    <meta property="og:image" content="/icons/og-image.svg" />
+    <meta property="og:url" content="https://platform.cryb.ai" />
+    <meta property="og:site_name" content="CRYB Platform" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@cryb" />
+    <meta name="twitter:title" content="CRYB Platform" />
+    <meta name="twitter:description" content="The next-generation community platform where conversations come alive." />
+    <meta name="twitter:image" content="/icons/twitter-card.svg" />
+    
+    <!-- Fonts - Optimized Loading -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" as="style" />
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" as="style" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+    <!-- Google Analytics - Loaded dynamically via analytics.js -->
+    <script>
+      // Initialize dataLayer for GA
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Note: GA will be initialized in src/lib/analytics.js after env vars are loaded
+      // This ensures proper environment variable substitution
+    </script>
+
+    <!-- Import CSS first -->
+    <link rel="stylesheet" href="/src/styles/radix-theme.css" />
+    <link rel="stylesheet" href="/src/index.css" />
+    
+    <!-- Prevent FOUC -->
+    <style>
+      /* Critical CSS for initial render using your color palette */
+      .loading-screen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--gray-1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+      }
+      
+      .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid var(--gray-4);
+        border-top: 4px solid var(--blue-9);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      body {
+        background-color: var(--gray-1);
+        color: var(--gray-12);
+      }
+      
+      /* Mobile-first viewport units fix */
+      :root {
+        --vh: 1vh;
+      }
+      
+      @supports (height: 100dvh) {
+        :root {
+          --vh: 1dvh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+      <div class="loading-spinner"></div>
+    </div>
+    
+    <div id="root"></div>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      // Register service worker for PWA functionality
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(registration) {
+              console.log('SW registered: ', registration);
+            })
+            .catch(function(registrationError) {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+      
+      // Fix viewport height on mobile browsers
+      function setVH() {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      }
+      
+      setVH();
+      window.addEventListener('resize', setVH);
+      window.addEventListener('orientationchange', () => {
+        setTimeout(setVH, 100);
+      });
+      
+      // Wait for React to mount before removing loading screen
+      const checkReactMount = () => {
+        const root = document.getElementById('root');
+        const loading = document.getElementById('loading');
+
+        if (root && root.children.length > 0) {
+          console.log('[CRYB] React mounted, removing loading screen');
+          if (loading) {
+            loading.style.opacity = '0';
+            setTimeout(() => loading.remove(), 300);
+          }
+        } else {
+          // Check again after 50ms
+          setTimeout(checkReactMount, 50);
+        }
+      };
+
+      // Start checking after a short delay
+      setTimeout(checkReactMount, 100);
+
+      // Safety timeout: force remove after 5 seconds if React hasn't mounted
+      setTimeout(() => {
+        const loading = document.getElementById('loading');
+        if (loading && loading.parentElement) {
+          console.warn('[CRYB] Timeout reached, forcing loading screen removal');
+          loading.style.opacity = '0';
+          setTimeout(() => loading.remove(), 300);
+        }
+      }, 5000);
+      
+      // Disable zoom on input focus (iOS Safari)
+      document.addEventListener('touchstart', function() {}, true);
+    </script>
+    
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

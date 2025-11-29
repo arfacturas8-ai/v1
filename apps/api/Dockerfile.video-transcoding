@@ -1,0 +1,111 @@
+# Production Dockerfile for Video Transcoding Service
+FROM node:18-alpine AS base
+
+# Install FFmpeg and system dependencies
+RUN apk add --no-cache \
+    ffmpeg \
+    curl \
+    bash \
+    tini \
+    dumb-init \
+    python3 \
+    make \
+    g++ \
+    pkgconfig \
+    mesa-dev \
+    libva-dev \
+    intel-media-driver
+
+# Create app directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Install dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy source code
+COPY src/ ./src/
+
+# Build the application
+RUN npm run build
+
+# Create production stage
+FROM node:18-alpine AS production
+
+# Install FFmpeg and production dependencies
+RUN apk add --no-cache \
+    ffmpeg \
+    curl \
+    bash \
+    tini \
+    dumb-init \
+    mesa-dev \
+    libva-dev \
+    intel-media-driver
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S cryb -u 1001
+
+# Create app directory and temp directories
+WORKDIR /app
+RUN mkdir -p /tmp/transcoding && \
+    chown -R cryb:nodejs /tmp/transcoding
+
+# Copy built application
+COPY --from=base --chown=cryb:nodejs /app/node_modules ./node_modules
+COPY --from=base --chown=cryb:nodejs /app/dist ./dist
+COPY --from=base --chown=cryb:nodejs /app/package*.json ./
+
+# Health check script
+COPY --chown=cryb:nodejs <<EOF /app/healthcheck.js
+const http = require('http');
+
+const options = {
+  host: 'localhost',
+  port: process.env.PORT || 3002,
+  path: '/health',
+  timeout: 10000,
+};
+
+const request = http.request(options, (res) => {
+  if (res.statusCode === 200) {
+    process.exit(0);
+  } else {
+    process.exit(1);
+  }
+});
+
+request.on('error', () => {
+  process.exit(1);
+});
+
+request.on('timeout', () => {
+  request.destroy();
+  process.exit(1);
+});
+
+request.end();
+EOF
+
+# Set permissions
+RUN chmod +x /app/healthcheck.js
+
+# Switch to non-root user
+USER cryb
+
+# Expose port
+EXPOSE 3002
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=3 \
+    CMD node /app/healthcheck.js
+
+# Use tini as init system
+ENTRYPOINT ["/sbin/tini", "--"]
+
+# Start the service
+CMD ["node", "dist/services/production-video-transcoding.js"]

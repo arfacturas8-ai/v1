@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Offline - CRYB Platform</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+        'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .icon {
+      font-size: 5rem;
+      margin-bottom: 2rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 1.25rem;
+      margin-bottom: 2rem;
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    .actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .status {
+      margin-top: 2rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .status.online {
+      background: rgba(16, 185, 129, 0.2);
+      border: 2px solid rgba(16, 185, 129, 0.5);
+    }
+
+    .status.offline {
+      background: rgba(239, 68, 68, 0.2);
+      border: 2px solid rgba(239, 68, 68, 0.5);
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .icon {
+        font-size: 4rem;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📱</div>
+    <h1>You're Offline</h1>
+    <p>It looks like you've lost your internet connection. Don't worry, you can still view cached content while offline.</p>
+
+    <div class="actions">
+      <button onclick="retry()">🔄 Retry Connection</button>
+      <button onclick="goHome()">🏠 Go to Home</button>
+    </div>
+
+    <div id="status" class="status offline">
+      <strong>Status:</strong> Offline
+    </div>
+  </div>
+
+  <script>
+    // Check connection status
+    function updateStatus() {
+      const status = document.getElementById('status');
+      if (navigator.onLine) {
+        status.className = 'status online';
+        status.innerHTML = '<strong>Status:</strong> Online ✓';
+      } else {
+        status.className = 'status offline';
+        status.innerHTML = '<strong>Status:</strong> Offline ✗';
+      }
+    }
+
+    // Retry connection
+    function retry() {
+      if (navigator.onLine) {
+        window.location.reload();
+      } else {
+        alert('Still offline. Please check your connection.');
+      }
+    }
+
+    // Go to home
+    function goHome() {
+      window.location.href = '/';
+    }
+
+    // Listen for online/offline events
+    window.addEventListener('online', () => {
+      updateStatus();
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    });
+
+    window.addEventListener('offline', updateStatus);
+
+    // Initial status check
+    updateStatus();
+
+    // Periodic connection check
+    setInterval(() => {
+      updateStatus();
+    }, 5000);
+  </script>
+</body>
+</html>

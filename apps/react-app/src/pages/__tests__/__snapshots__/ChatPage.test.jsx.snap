@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`ChatPage Snapshot Tests matches snapshot for loaded state 1`] = `
+<div
+  aria-label="Chat page"
+  role="main"
+  style="padding: 20px; max-width: 1200px; margin: 0px auto;"
+>
+  <h1>
+    ChatPage
+  </h1>
+  <p>
+    Content under construction...
+  </p>
+</div>
+`;
+
+exports[`ChatPage Snapshot Tests matches snapshot for loading state 1`] = `
+<div
+  aria-busy="true"
+  aria-label="Chat loading"
+  aria-live="polite"
+  class="h-screen flex items-center justify-center bg-rgb(var(--color-neutral-50))"
+  role="main"
+>
+  <div
+    class="text-center"
+  >
+    <div
+      aria-hidden="true"
+      class="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"
+      role="status"
+    />
+    <p
+      aria-live="polite"
+      class="text-rgb(var(--color-neutral-600))"
+    >
+      Loading chat...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`ChatPage Snapshot Tests matches snapshot with empty data 1`] = `
+<div
+  aria-label="Chat page"
+  role="main"
+  style="padding: 20px; max-width: 1200px; margin: 0px auto;"
+>
+  <h1>
+    ChatPage
+  </h1>
+  <p>
+    Content under construction...
+  </p>
+</div>
+`;

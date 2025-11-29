@@ -1,0 +1,109 @@
+# Multi-stage build for CRYB Queue Worker
+FROM node:20-alpine AS base
+
+# Install system dependencies
+RUN apk add --no-cache \
+    ffmpeg \
+    imagemagick \
+    python3 \
+    make \
+    g++ \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    musl-dev \
+    giflib-dev \
+    pixman-dev \
+    pangomm-dev \
+    libjpeg-turbo-dev \
+    freetype-dev
+
+# Set working directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY pnpm-lock.yaml ./
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Dependencies stage
+FROM base AS dependencies
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile --prod
+
+# Development dependencies stage
+FROM base AS dev-dependencies
+
+# Install all dependencies including dev
+RUN pnpm install --frozen-lockfile
+
+# Build stage
+FROM dev-dependencies AS build
+
+# Copy source code
+COPY . .
+
+# Build the application
+RUN pnpm build
+
+# Production stage
+FROM base AS production
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S queueworker -u 1001
+
+# Copy built application
+COPY --from=build --chown=queueworker:nodejs /app/dist ./dist
+COPY --from=dependencies --chown=queueworker:nodejs /app/node_modules ./node_modules
+COPY --from=build --chown=queueworker:nodejs /app/package.json ./package.json
+
+# Create necessary directories
+RUN mkdir -p /tmp/media-processing /tmp/media-output /app/logs
+RUN chown -R queueworker:nodejs /tmp/media-processing /tmp/media-output /app/logs
+
+# Switch to non-root user
+USER queueworker
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD node dist/queues/health-check.js || exit 1
+
+# Environment variables
+ENV NODE_ENV=production
+ENV MEDIA_TEMP_DIR=/tmp/media-processing
+ENV MEDIA_OUTPUT_DIR=/tmp/media-output
+
+# Expose metrics port
+EXPOSE 9464
+
+# Start the queue worker
+CMD ["node", "dist/queues/worker.js"]
+
+# Worker-specific stage for different queue types
+FROM production AS email-worker
+ENV WORKER_TYPE=email
+CMD ["node", "dist/queues/workers/email-worker.js"]
+
+FROM production AS media-worker
+ENV WORKER_TYPE=media
+ENV WORKER_CONCURRENCY=2
+CMD ["node", "dist/queues/workers/media-worker.js"]
+
+FROM production AS moderation-worker
+ENV WORKER_TYPE=moderation
+ENV WORKER_CONCURRENCY=5
+CMD ["node", "dist/queues/workers/moderation-worker.js"]
+
+FROM production AS analytics-worker
+ENV WORKER_TYPE=analytics
+ENV WORKER_CONCURRENCY=10
+CMD ["node", "dist/queues/workers/analytics-worker.js"]
+
+FROM production AS push-worker
+ENV WORKER_TYPE=push-notifications
+ENV WORKER_CONCURRENCY=8
+CMD ["node", "dist/queues/workers/push-worker.js"]

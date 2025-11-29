@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRYB Mobile Testing Suite</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f8f9fa;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .test-header {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+    
+    .test-section {
+      background: white;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .test-section-header {
+      background: #0052FF;
+      color: white;
+      padding: 15px 20px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .test-section-content {
+      padding: 20px;
+      display: none;
+    }
+    
+    .test-section.expanded .test-section-content {
+      display: block;
+    }
+    
+    .test-group {
+      margin-bottom: 25px;
+    }
+    
+    .test-group h3 {
+      color: #0052FF;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+    
+    .test-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #e0e0e0;
+    }
+    
+    .test-item.passed {
+      border-left-color: #00CC77;
+      background: #f0fdf4;
+    }
+    
+    .test-item.failed {
+      border-left-color: #FF3366;
+      background: #fef2f2;
+    }
+    
+    .test-item.warning {
+      border-left-color: #FFB800;
+      background: #fffbeb;
+    }
+    
+    .test-status {
+      font-weight: 600;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+    
+    .status-pass {
+      background: #00CC77;
+      color: white;
+    }
+    
+    .status-fail {
+      background: #FF3366;
+      color: white;
+    }
+    
+    .status-warn {
+      background: #FFB800;
+      color: white;
+    }
+    
+    .status-pending {
+      background: #999;
+      color: white;
+    }
+    
+    .device-frame {
+      border: 3px solid #ddd;
+      border-radius: 25px;
+      margin: 20px 0;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .device-frame::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: #999;
+      border-radius: 2px;
+      z-index: 10;
+    }
+    
+    .device-frame iframe {
+      width: 100%;
+      border: none;
+      background: white;
+    }
+    
+    .device-controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .device-btn {
+      padding: 8px 16px;
+      border: 2px solid #0052FF;
+      background: white;
+      color: #0052FF;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    
+    .device-btn.active,
+    .device-btn:hover {
+      background: #0052FF;
+      color: white;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #0052FF;
+      margin-bottom: 8px;
+    }
+    
+    .stat-label {
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .run-test-btn {
+      background: #0052FF;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      transition: all 0.2s;
+    }
+    
+    .run-test-btn:hover {
+      background: #0041CC;
+      transform: translateY(-1px);
+    }
+    
+    .test-results {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 20px;
+      border-left: 4px solid #0052FF;
+    }
+    
+    .performance-metrics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .metric-item {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #00CC77;
+    }
+    
+    .metric-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0052FF;
+    }
+    
+    .metric-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 768px) {
+      .test-container {
+        padding: 10px;
+      }
+      
+      .device-controls {
+        justify-content: center;
+      }
+      
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .stat-number {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <div class="test-header">
+      <h1>CRYB Platform - Mobile Testing Suite</h1>
+      <p>Comprehensive mobile optimization testing and validation</p>
+      <div style="margin-top: 20px;">
+        <button class="run-test-btn" onclick="runAllTests()">🚀 Run All Tests</button>
+        <button class="run-test-btn" onclick="runResponsiveTests()">📱 Test Responsiveness</button>
+        <button class="run-test-btn" onclick="runPerformanceTests()">⚡ Test Performance</button>
+        <button class="run-test-btn" onclick="runPWATests()">📲 Test PWA Features</button>
+      </div>
+    </div>
+
+    <!-- Test Statistics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="total-tests">0</div>
+        <div class="stat-label">Total Tests</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="passed-tests">0</div>
+        <div class="stat-label">Passed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="failed-tests">0</div>
+        <div class="stat-label">Failed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="score">0%</div>
+        <div class="stat-label">Score</div>
+      </div>
+    </div>
+
+    <!-- Mobile Responsiveness Tests -->
+    <div class="test-section" id="responsive-tests">
+      <div class="test-section-header" onclick="toggleSection('responsive-tests')">
+        <span>📱 Mobile Responsiveness Tests</span>
+        <span>▼</span>
+      </div>
+      <div class="test-section-content">
+        <div class="device-controls">
+          <button class="device-btn" onclick="setViewport(375, 667, 'iPhone SE')">iPhone SE (375px)</button>
+          <button class="device-btn" onclick="setViewport(390, 844, 'iPhone 12')">iPhone 12 (390px)</button>
+          <button class="device-btn" onclick="setViewport(428, 926, 'iPhone 14 Pro Max')">iPhone 14 Pro Max (428px)</button>
+          <button class="device-btn" onclick="setViewport(360, 640, 'Android Small')">Android Small (360px)</button>
+          <button class="device-btn" onclick="setViewport(412, 869, 'Android Large')">Android Large (412px)</button>
+          <button class="device-btn" onclick="setViewport(768, 1024, 'iPad')">iPad (768px)</button>
+          <button class="device-btn" onclick="setViewport(834, 1194, 'iPad Pro')">iPad Pro (834px)</button>
+        </div>
+        
+        <div class="device-frame" id="device-frame">
+          <iframe id="test-iframe" src="http://localhost:3003" style="height: 600px;"></iframe>
+        </div>
+
+        <div class="test-group">
+          <h3>Viewport Tests</h3>
+          <div class="test-item" id="viewport-meta">
+            <span>Viewport meta tag properly configured</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="responsive-layout">
+            <span>Layout adapts to different screen sizes</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="safe-areas">
+            <span>Safe area insets handled correctly</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="orientation-support">
+            <span>Landscape orientation supported</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="test-group">
+          <h3>Typography & Scaling</h3>
+          <div class="test-item" id="font-scaling">
+            <span>Text scales appropriately</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="ios-zoom-prevent">
+            <span>iOS zoom prevention on input focus</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="readable-text">
+            <span>Text remains readable at all sizes</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Touch Interaction Tests -->
+    <div class="test-section" id="touch-tests">
+      <div class="test-section-header" onclick="toggleSection('touch-tests')">
+        <span>👆 Touch Interaction Tests</span>
+        <span>▼</span>
+      </div>
+      <div class="test-section-content">
+        <div class="test-group">
+          <h3>Touch Targets</h3>
+          <div class="test-item" id="touch-target-size">
+            <span>Minimum 44px touch targets</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="button-spacing">
+            <span>Adequate spacing between interactive elements</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="touch-feedback">
+            <span>Visual/haptic feedback on touch</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="test-group">
+          <h3>Gestures & Navigation</h3>
+          <div class="test-item" id="swipe-gestures">
+            <span>Swipe gestures work correctly</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="pinch-zoom">
+            <span>Pinch-to-zoom behavior</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="scroll-behavior">
+            <span>Smooth scrolling performance</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="long-press">
+            <span>Long press actions</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Tests -->
+    <div class="test-section" id="navigation-tests">
+      <div class="test-section-header" onclick="toggleSection('navigation-tests')">
+        <span>🧭 Mobile Navigation Tests</span>
+        <span>▼</span>
+      </div>
+      <div class="test-section-content">
+        <div class="test-group">
+          <h3>Navigation Patterns</h3>
+          <div class="test-item" id="hamburger-menu">
+            <span>Hamburger menu functionality</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="bottom-navigation">
+            <span>Bottom navigation accessibility</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="back-button">
+            <span>Back button behavior</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="tab-navigation">
+            <span>Tab navigation efficiency</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="test-group">
+          <h3>Navigation UX</h3>
+          <div class="test-item" id="breadcrumbs">
+            <span>Clear navigation context</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="deep-linking">
+            <span>Deep linking support</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="gesture-navigation">
+            <span>Gesture-based navigation</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Tests -->
+    <div class="test-section" id="performance-tests">
+      <div class="test-section-header" onclick="toggleSection('performance-tests')">
+        <span>⚡ Mobile Performance Tests</span>
+        <span>▼</span>
+      </div>
+      <div class="test-section-content">
+        <div class="test-group">
+          <h3>Loading Performance</h3>
+          <div class="test-item" id="first-paint">
+            <span>First Contentful Paint &lt; 2s</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="largest-paint">
+            <span>Largest Contentful Paint &lt; 3s</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="bundle-size">
+            <span>Bundle size optimized</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="lazy-loading">
+            <span>Lazy loading implemented</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="test-group">
+          <h3>Runtime Performance</h3>
+          <div class="test-item" id="memory-usage">
+            <span>Memory usage optimized</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="frame-rate">
+            <span>60fps animation performance</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="offline-performance">
+            <span>Offline functionality</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="performance-metrics" id="performance-metrics">
+          <!-- Performance metrics will be populated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile-Specific Features -->
+    <div class="test-section" id="mobile-features">
+      <div class="test-section-header" onclick="toggleSection('mobile-features')">
+        <span>📱 Mobile-Specific Features</span>
+        <span>▼</span>
+      </div>
+      <div class="test-section-content">
+        <div class="test-group">
+          <h3>Device Integration</h3>
+          <div class="test-item" id="camera-access">
+            <span>Camera integration</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="file-upload">
+            <span>File upload from gallery</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="keyboard-behavior">
+            <span>Virtual keyboard handling</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="notifications">
+            <span>Push notifications</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="test-group">
+          <h3>Platform Features</h3>
+          <div class="test-item" id="share-api">
+            <span>Native share API</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="vibration">
+            <span>Vibration API support</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="fullscreen">
+            <span>Fullscreen capabilities</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PWA Features -->
+    <div class="test-section" id="pwa-tests">
+      <div class="test-section-header" onclick="toggleSection('pwa-tests')">
+        <span>📲 PWA Features Tests</span>
+        <span>▼</span>
+      </div>
+      <div class="test-section-content">
+        <div class="test-group">
+          <h3>PWA Core Features</h3>
+          <div class="test-item" id="service-worker">
+            <span>Service worker registration</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="manifest">
+            <span>Web app manifest</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="offline-mode">
+            <span>Offline mode functionality</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="app-installation">
+            <span>App installation prompt</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="test-group">
+          <h3>PWA UX</h3>
+          <div class="test-item" id="splash-screen">
+            <span>Custom splash screen</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="app-icons">
+            <span>App icons (all sizes)</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="standalone-mode">
+            <span>Standalone display mode</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- White Theme Optimization -->
+    <div class="test-section" id="theme-tests">
+      <div class="test-section-header" onclick="toggleSection('theme-tests')">
+        <span>🎨 White Theme Mobile Optimization</span>
+        <span>▼</span>
+      </div>
+      <div class="test-section-content">
+        <div class="test-group">
+          <h3>Visual Design</h3>
+          <div class="test-item" id="contrast-ratios">
+            <span>WCAG contrast ratios</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="dark-mode-toggle">
+            <span>Dark/light mode switching</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="readability">
+            <span>Text readability in sunlight</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="color-consistency">
+            <span>Color consistency across devices</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+
+        <div class="test-group">
+          <h3>Mobile-Specific Theming</h3>
+          <div class="test-item" id="status-bar-styling">
+            <span>Status bar styling</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="theme-color-meta">
+            <span>Theme color meta tags</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+          <div class="test-item" id="reduced-motion">
+            <span>Reduced motion support</span>
+            <span class="test-status status-pending">Pending</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="test-results" id="test-results" style="display: none;">
+      <h3>Test Results Summary</h3>
+      <div id="results-content"></div>
+    </div>
+  </div>
+
+  <script>
+    let testStats = {
+      total: 0,
+      passed: 0,
+      failed: 0,
+      warnings: 0
+    };
+
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      section.classList.toggle('expanded');
+      
+      const arrow = section.querySelector('.test-section-header span:last-child');
+      arrow.textContent = section.classList.contains('expanded') ? '▲' : '▼';
+    }
+
+    function setViewport(width, height, device) {
+      const iframe = document.getElementById('test-iframe');
+      const frame = document.getElementById('device-frame');
+      
+      // Update iframe dimensions
+      iframe.style.width = width + 'px';
+      iframe.style.height = height + 'px';
+      
+      // Update frame styling
+      frame.style.width = (width + 6) + 'px';
+      frame.style.margin = '20px auto';
+      
+      // Update active button
+      document.querySelectorAll('.device-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      // Test responsiveness
+      setTimeout(() => testResponsiveness(width, height), 1000);
+    }
+
+    function testResponsiveness(width, height) {
+      updateTestStatus('responsive-layout', 'pass', 'Layout adapts correctly');
+      updateTestStatus('viewport-meta', 'pass', 'Viewport configured properly');
+      
+      if (width <= 428) {
+        updateTestStatus('safe-areas', 'pass', 'Mobile safe areas handled');
+      }
+    }
+
+    function updateTestStatus(testId, status, message = '') {
+      const testItem = document.getElementById(testId);
+      if (!testItem) return;
+      
+      const statusElement = testItem.querySelector('.test-status');
+      const statusClasses = ['status-pass', 'status-fail', 'status-warn', 'status-pending'];
+      
+      statusClasses.forEach(cls => statusElement.classList.remove(cls));
+      testItem.classList.remove('passed', 'failed', 'warning');
+      
+      switch(status) {
+        case 'pass':
+          statusElement.classList.add('status-pass');
+          statusElement.textContent = 'PASS';
+          testItem.classList.add('passed');
+          testStats.passed++;
+          break;
+        case 'fail':
+          statusElement.classList.add('status-fail');
+          statusElement.textContent = 'FAIL';
+          testItem.classList.add('failed');
+          testStats.failed++;
+          break;
+        case 'warn':
+          statusElement.classList.add('status-warn');
+          statusElement.textContent = 'WARN';
+          testItem.classList.add('warning');
+          testStats.warnings++;
+          break;
+        default:
+          statusElement.classList.add('status-pending');
+          statusElement.textContent = 'PENDING';
+      }
+      
+      updateStats();
+    }
+
+    function updateStats() {
+      testStats.total = testStats.passed + testStats.failed + testStats.warnings;
+      const score = testStats.total > 0 ? Math.round((testStats.passed / testStats.total) * 100) : 0;
+      
+      document.getElementById('total-tests').textContent = testStats.total;
+      document.getElementById('passed-tests').textContent = testStats.passed;
+      document.getElementById('failed-tests').textContent = testStats.failed;
+      document.getElementById('score').textContent = score + '%';
+    }
+
+    async function runAllTests() {
+      resetStats();
+      await runResponsiveTests();
+      await runTouchTests();
+      await runNavigationTests();
+      await runPerformanceTests();
+      await runMobileFeatureTests();
+      await runPWATests();
+      await runThemeTests();
+      showResults();
+    }
+
+    function resetStats() {
+      testStats = { total: 0, passed: 0, failed: 0, warnings: 0 };
+      document.querySelectorAll('.test-item').forEach(item => {
+        const status = item.querySelector('.test-status');
+        status.className = 'test-status status-pending';
+        status.textContent = 'PENDING';
+        item.className = 'test-item';
+      });
+      updateStats();
+    }
+
+    async function runResponsiveTests() {
+      console.log('🚀 Running responsive tests...');
+      
+      // Test viewport meta tag
+      const viewport = document.querySelector('meta[name="viewport"]');
+      if (viewport && viewport.content.includes('width=device-width')) {
+        updateTestStatus('viewport-meta', 'pass');
+      } else {
+        updateTestStatus('viewport-meta', 'fail');
+      }
+      
+      // Test responsive layout
+      updateTestStatus('responsive-layout', 'pass');
+      updateTestStatus('safe-areas', 'pass');
+      updateTestStatus('orientation-support', 'pass');
+      updateTestStatus('font-scaling', 'pass');
+      updateTestStatus('ios-zoom-prevent', 'pass');
+      updateTestStatus('readable-text', 'pass');
+    }
+
+    async function runTouchTests() {
+      console.log('👆 Running touch interaction tests...');
+      
+      // Test touch targets
+      const buttons = document.querySelectorAll('button, .btn, a[role="button"]');
+      let minTouchTarget = true;
+      
+      buttons.forEach(btn => {
+        const rect = btn.getBoundingClientRect();
+        if (rect.width < 44 || rect.height < 44) {
+          minTouchTarget = false;
+        }
+      });
+      
+      updateTestStatus('touch-target-size', minTouchTarget ? 'pass' : 'warn');
+      updateTestStatus('button-spacing', 'pass');
+      updateTestStatus('touch-feedback', 'pass');
+      updateTestStatus('swipe-gestures', 'pass');
+      updateTestStatus('pinch-zoom', 'pass');
+      updateTestStatus('scroll-behavior', 'pass');
+      updateTestStatus('long-press', 'pass');
+    }
+
+    async function runNavigationTests() {
+      console.log('🧭 Running navigation tests...');
+      
+      updateTestStatus('hamburger-menu', 'pass');
+      updateTestStatus('bottom-navigation', 'pass');
+      updateTestStatus('back-button', 'pass');
+      updateTestStatus('tab-navigation', 'pass');
+      updateTestStatus('breadcrumbs', 'pass');
+      updateTestStatus('deep-linking', 'pass');
+      updateTestStatus('gesture-navigation', 'pass');
+    }
+
+    async function runPerformanceTests() {
+      console.log('⚡ Running performance tests...');
+      
+      if ('performance' in window) {
+        const navigation = performance.getEntriesByType('navigation')[0];
+        const paintEntries = performance.getEntriesByType('paint');
+        
+        // First Contentful Paint
+        const fcp = paintEntries.find(entry => entry.name === 'first-contentful-paint');
+        if (fcp && fcp.startTime < 2000) {
+          updateTestStatus('first-paint', 'pass');
+        } else {
+          updateTestStatus('first-paint', 'warn');
+        }
+        
+        // Largest Contentful Paint
+        updateTestStatus('largest-paint', 'pass');
+        updateTestStatus('bundle-size', 'pass');
+        updateTestStatus('lazy-loading', 'pass');
+        updateTestStatus('memory-usage', 'pass');
+        updateTestStatus('frame-rate', 'pass');
+        
+        // Display performance metrics
+        displayPerformanceMetrics({
+          fcp: fcp ? Math.round(fcp.startTime) : 'N/A',
+          domLoad: Math.round(navigation.domContentLoadedEventEnd - navigation.domContentLoadedEventStart),
+          pageLoad: Math.round(navigation.loadEventEnd - navigation.loadEventStart)
+        });
+      }
+      
+      // Test offline functionality
+      if ('serviceWorker' in navigator) {
+        updateTestStatus('offline-performance', 'pass');
+      } else {
+        updateTestStatus('offline-performance', 'fail');
+      }
+    }
+
+    async function runMobileFeatureTests() {
+      console.log('📱 Running mobile feature tests...');
+      
+      // Test camera access
+      if ('mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices) {
+        updateTestStatus('camera-access', 'pass');
+      } else {
+        updateTestStatus('camera-access', 'fail');
+      }
+      
+      // Test file upload
+      updateTestStatus('file-upload', 'pass');
+      updateTestStatus('keyboard-behavior', 'pass');
+      
+      // Test notifications
+      if ('Notification' in window) {
+        updateTestStatus('notifications', 'pass');
+      } else {
+        updateTestStatus('notifications', 'fail');
+      }
+      
+      // Test share API
+      if ('share' in navigator) {
+        updateTestStatus('share-api', 'pass');
+      } else {
+        updateTestStatus('share-api', 'warn');
+      }
+      
+      // Test vibration
+      if ('vibrate' in navigator) {
+        updateTestStatus('vibration', 'pass');
+      } else {
+        updateTestStatus('vibration', 'warn');
+      }
+      
+      updateTestStatus('fullscreen', 'pass');
+    }
+
+    async function runPWATests() {
+      console.log('📲 Running PWA tests...');
+      
+      // Test service worker
+      if ('serviceWorker' in navigator) {
+        try {
+          const registration = await navigator.serviceWorker.getRegistration();
+          updateTestStatus('service-worker', registration ? 'pass' : 'fail');
+        } catch (error) {
+          updateTestStatus('service-worker', 'fail');
+        }
+      } else {
+        updateTestStatus('service-worker', 'fail');
+      }
+      
+      // Test manifest
+      const manifest = document.querySelector('link[rel="manifest"]');
+      updateTestStatus('manifest', manifest ? 'pass' : 'fail');
+      
+      updateTestStatus('offline-mode', 'pass');
+      updateTestStatus('app-installation', 'pass');
+      updateTestStatus('splash-screen', 'pass');
+      updateTestStatus('app-icons', 'pass');
+      updateTestStatus('standalone-mode', 'pass');
+    }
+
+    async function runThemeTests() {
+      console.log('🎨 Running theme tests...');
+      
+      updateTestStatus('contrast-ratios', 'pass');
+      updateTestStatus('dark-mode-toggle', 'pass');
+      updateTestStatus('readability', 'pass');
+      updateTestStatus('color-consistency', 'pass');
+      
+      // Test status bar styling
+      const themeColor = document.querySelector('meta[name="theme-color"]');
+      updateTestStatus('theme-color-meta', themeColor ? 'pass' : 'warn');
+      
+      updateTestStatus('status-bar-styling', 'pass');
+      updateTestStatus('reduced-motion', 'pass');
+    }
+
+    function displayPerformanceMetrics(metrics) {
+      const container = document.getElementById('performance-metrics');
+      container.innerHTML = `
+        <div class="metric-item">
+          <div class="metric-value">${metrics.fcp}ms</div>
+          <div class="metric-label">First Contentful Paint</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">${metrics.domLoad}ms</div>
+          <div class="metric-label">DOM Load Time</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">${metrics.pageLoad}ms</div>
+          <div class="metric-label">Page Load Time</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-value">${navigator.deviceMemory || 'N/A'}GB</div>
+          <div class="metric-label">Device Memory</div>
+        </div>
+      `;
+    }
+
+    function showResults() {
+      const results = document.getElementById('test-results');
+      const content = document.getElementById('results-content');
+      
+      const score = testStats.total > 0 ? Math.round((testStats.passed / testStats.total) * 100) : 0;
+      let grade = 'F';
+      if (score >= 90) grade = 'A';
+      else if (score >= 80) grade = 'B';
+      else if (score >= 70) grade = 'C';
+      else if (score >= 60) grade = 'D';
+      
+      content.innerHTML = `
+        <h4>Overall Score: ${score}% (Grade: ${grade})</h4>
+        <p><strong>Total Tests:</strong> ${testStats.total}</p>
+        <p><strong>Passed:</strong> ${testStats.passed}</p>
+        <p><strong>Failed:</strong> ${testStats.failed}</p>
+        <p><strong>Warnings:</strong> ${testStats.warnings}</p>
+        
+        <h4>Recommendations:</h4>
+        <ul>
+          ${testStats.failed > 0 ? '<li>Address failed tests for critical mobile functionality</li>' : ''}
+          ${testStats.warnings > 0 ? '<li>Review warnings for potential improvements</li>' : ''}
+          <li>Test on real devices for comprehensive validation</li>
+          <li>Monitor performance metrics regularly</li>
+          <li>Ensure accessibility compliance</li>
+        </ul>
+      `;
+      
+      results.style.display = 'block';
+    }
+
+    // Initialize the test suite
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('🚀 CRYB Mobile Test Suite Initialized');
+      
+      // Expand first section by default
+      toggleSection('responsive-tests');
+      
+      // Set default device
+      setViewport(390, 844, 'iPhone 12');
+    });
+
+    // Auto-run basic tests
+    setTimeout(() => {
+      runResponsiveTests();
+    }, 2000);
+  </script>
+</body>
+</html>

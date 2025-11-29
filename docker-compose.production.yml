@@ -20,18 +20,18 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
-      PORT: 3001
+      PORT: 3002
       HOST: 0.0.0.0
       LOG_LEVEL: info
       
       # Database
-      DATABASE_URL: postgresql://${POSTGRES_USER:-cryb_user}:${POSTGRES_PASSWORD:-cryb_password}@postgres:5432/${POSTGRES_DB:-cryb}?connection_limit=50&pool_timeout=30
+      DATABASE_URL: postgresql://${POSTGRES_USER:-cryb_user}:${POSTGRES_PASSWORD:-WTuCF1GNjmkuZQwWE_qnZJ9GqbDHhAnQ}@postgres:5432/${POSTGRES_DB:-cryb}?connection_limit=50&pool_timeout=30
       
       # Redis
-      REDIS_URL: redis://:${REDIS_PASSWORD:-cryb_redis_password}@redis:6379/0
+      REDIS_URL: redis://:${REDIS_PASSWORD:-PbS4lakpqV28U1aUX2PsE1o81d41Afb1}@redis:6379/0
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: ${REDIS_PASSWORD:-cryb_redis_password}
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-PbS4lakpqV28U1aUX2PsE1o81d41Afb1}
       
       # Security
       JWT_SECRET: ${JWT_SECRET}
@@ -44,11 +44,11 @@ services:
       ELASTICSEARCH_URL: http://elasticsearch:9200
       MINIO_ENDPOINT: minio
       MINIO_PORT: 9000
-      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-cryb_minio_admin}
-      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-cryb_minio_password}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-DbC+/hsObUvKN/avIjTZZzS3ZKsPYLke}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-ebsniR5w0rTUCKpnsSAJLQLWMAIOITzZ0fEVI2Up6Pc=}
       LIVEKIT_URL: ws://livekit:7880
-      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-devkey}
-      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:-secret}
+      LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:-8553f08c7b27872128d4d0c339717a26}
+      LIVEKIT_API_SECRET: ${LIVEKIT_API_SECRET:-ouKFLoPj9VoD66ZSB9scTewTkSNEFScLCjGwh6weoW8=}
       
       # Rate Limiting & Security
       RATE_LIMIT_MAX_REQUESTS: 200
@@ -84,7 +84,7 @@ services:
       SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
       
     ports:
-      - "${API_PORT:-3001}:3001"
+      - "${API_PORT:-3002}:3002"
     volumes:
       - api_logs:/app/logs
       - api_uploads:/app/uploads
@@ -129,7 +129,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-cryb_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cryb_password}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-WTuCF1GNjmkuZQwWE_qnZJ9GqbDHhAnQ}
       POSTGRES_DB: ${POSTGRES_DB:-cryb}
       POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
       PGDATA: /var/lib/postgresql/data/pgdata
@@ -189,7 +189,7 @@ services:
     command: >
       redis-server
       --appendonly yes
-      --requirepass ${REDIS_PASSWORD:-cryb_redis_password}
+      --requirepass ${REDIS_PASSWORD:-PbS4lakpqV28U1aUX2PsE1o81d41Afb1}
       --maxmemory 1gb
       --maxmemory-policy allkeys-lru
       --tcp-keepalive 300
@@ -275,8 +275,8 @@ services:
     restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-cryb_minio_admin}
-      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-cryb_minio_password}
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-DbC+/hsObUvKN/avIjTZZzS3ZKsPYLke}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-ebsniR5w0rTUCKpnsSAJLQLWMAIOITzZ0fEVI2Up6Pc=}
       MINIO_DEFAULT_BUCKETS: cryb-media,cryb-uploads,cryb-avatars,cryb-attachments,cryb-thumbnails,cryb-backups
     ports:
       - "${MINIO_PORT:-9000}:9000"
@@ -310,7 +310,7 @@ services:
     restart: unless-stopped
     command: --config /etc/livekit.yaml
     environment:
-      LIVEKIT_KEYS: ${LIVEKIT_API_KEY:-devkey}:${LIVEKIT_API_SECRET:-secret}
+      LIVEKIT_KEYS: ${LIVEKIT_API_KEY:-8553f08c7b27872128d4d0c339717a26}:${LIVEKIT_API_SECRET:-ouKFLoPj9VoD66ZSB9scTewTkSNEFScLCjGwh6weoW8=}
     ports:
       - "${LIVEKIT_PORT:-7880}:7880"
       - "${LIVEKIT_RTC_PORT_RANGE:-50000-50100}:50000-50100/udp"
@@ -365,11 +365,11 @@ services:
     restart: unless-stopped
     environment:
       GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
-      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin123}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-3Qb00FzRN3zAgmujJmtZtAYZcP6lqMDY}
       GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource,redis-datasource
       GF_SERVER_ROOT_URL: ${GRAFANA_ROOT_URL:-http://localhost:3002}
     ports:
-      - "${GRAFANA_PORT:-3002}:3000"
+      - "${GRAFANA_PORT:-3100}:3000"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./config/grafana/provisioning:/etc/grafana/provisioning
@@ -424,7 +424,7 @@ services:
     environment:
       POSTGRES_HOST: postgres
       POSTGRES_USER: ${POSTGRES_USER:-cryb_user}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-cryb_password}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-WTuCF1GNjmkuZQwWE_qnZJ9GqbDHhAnQ}
       POSTGRES_DB: ${POSTGRES_DB:-cryb}
       BACKUP_SCHEDULE: "0 2 * * *"  # Daily at 2 AM
       BACKUP_RETENTION_DAYS: 30

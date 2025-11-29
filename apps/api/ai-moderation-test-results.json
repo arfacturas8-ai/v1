@@ -1,0 +1,472 @@
+{
+  "timestamp": "2025-09-12T15:26:08.059Z",
+  "summary": {
+    "accuracy": 68.75,
+    "passedTests": 11,
+    "totalTests": 16,
+    "falsePositiveRate": 0,
+    "falseNegativeRate": 18.75,
+    "avgProcessingTime": 2,
+    "appStoreReady": false
+  },
+  "results": {
+    "totalTests": 16,
+    "passedTests": 11,
+    "failedTests": 5,
+    "falsePositives": 0,
+    "falseNegatives": 3,
+    "testResults": [
+      {
+        "category": "Normal conversation",
+        "content": "Hello everyone! Hope you're having a great day. Let's discuss the new project updates.",
+        "expected": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": []
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 21
+      },
+      {
+        "category": "Legitimate link sharing",
+        "content": "Check out this cool GitHub repo: https://github.com/microsoft/typescript",
+        "expected": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0.3,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.3,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 2
+      },
+      {
+        "category": "Gratitude expression",
+        "content": "Thanks for the help! Really appreciate the detailed explanation.",
+        "expected": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": []
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 1
+      },
+      {
+        "category": "Hate speech and threats",
+        "content": "I hate everyone in this stupid server, you're all idiots and should die",
+        "expected": {
+          "toxic": true,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": true,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0.8999999999999999,
+          "details": {
+            "toxicityScore": 0.8999999999999999,
+            "spamScore": 0.3,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "Toxic pattern: die",
+              "Toxic pattern: hate",
+              "Toxic pattern: stupid",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 1
+      },
+      {
+        "category": "Self-harm encouragement",
+        "content": "Kill yourself, nobody wants you here",
+        "expected": {
+          "toxic": true,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0.3,
+          "details": {
+            "toxicityScore": 0.3,
+            "spamScore": 0.3,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "Toxic pattern: Kill",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 0.6666666666666666,
+        "passed": false,
+        "processingTime": 1
+      },
+      {
+        "category": "Harassment with profanity",
+        "content": "You're such a f***ing loser, get out of here",
+        "expected": {
+          "toxic": true,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0.3,
+          "details": {
+            "toxicityScore": 0.3,
+            "spamScore": 0.3,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "Toxic pattern: loser",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 0.6666666666666666,
+        "passed": false,
+        "processingTime": 0
+      },
+      {
+        "category": "Money scam spam",
+        "content": "🚀🚀🚀 FREE MONEY GIVEAWAY!!! Click here NOW to claim your $10,000 prize!!! Limited time offer!!! 💰",
+        "expected": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": false,
+          "confidence": 1,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 1,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "Spam pattern detected",
+              "Spam pattern detected",
+              "Spam pattern detected",
+              "Spam pattern detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 2
+      },
+      {
+        "category": "Crypto scam",
+        "content": "CRYPTO AIRDROP!!! Double your Bitcoin instantly! Send 1 BTC get 2 BTC back guaranteed! bit.ly/scamli",
+        "expected": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": false,
+          "confidence": 0.55,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.55,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "Spam pattern detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 0
+      },
+      {
+        "category": "Pharmaceutical spam",
+        "content": "BUY VIAGRA ONLINE CHEAP CHEAP CHEAP!!! NO PRESCRIPTION NEEDED!!! CLICK HERE NOW!!!",
+        "expected": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": true
+        },
+        "actual": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": false,
+          "confidence": 0.55,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.55,
+            "nsfwScore": 0.4,
+            "sentimentScore": 0,
+            "flags": [
+              "Spam pattern detected",
+              "NSFW content detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 0.6666666666666666,
+        "passed": false,
+        "processingTime": 0
+      },
+      {
+        "category": "Adult content link",
+        "content": "Check out these nude photos of celebrities at adultsite.xxx/gallery",
+        "expected": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": true
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": true,
+          "confidence": 1,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.3,
+            "nsfwScore": 1,
+            "sentimentScore": 0,
+            "flags": [
+              "NSFW content detected",
+              "NSFW content detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 0
+      },
+      {
+        "category": "Adult dating spam",
+        "content": "Hot sexy girls want to chat with you! Click here for adult dating!",
+        "expected": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": true
+        },
+        "actual": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": true,
+          "confidence": 1,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.55,
+            "nsfwScore": 1,
+            "sentimentScore": 0,
+            "flags": [
+              "Spam pattern detected",
+              "NSFW content detected",
+              "NSFW content detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 0
+      },
+      {
+        "category": "Suggestive content",
+        "content": "Looking for some fun tonight? Meet singles in your area for adult activities.",
+        "expected": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": true
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": true,
+          "confidence": 0.8,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.3,
+            "nsfwScore": 0.8,
+            "sentimentScore": 0,
+            "flags": [
+              "NSFW content detected",
+              "NSFW content detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 1
+      },
+      {
+        "category": "Gaming context violence",
+        "content": "This game is so frustrating, I want to kill the boss character",
+        "expected": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0.3,
+          "details": {
+            "toxicityScore": 0.3,
+            "spamScore": 0.3,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "Toxic pattern: kill",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 0
+      },
+      {
+        "category": "Investment solicitation",
+        "content": "Join our investment group for amazing returns! Message me for details.",
+        "expected": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0.3,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.3,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 0.6666666666666666,
+        "passed": false,
+        "processingTime": 1
+      },
+      {
+        "category": "Content discussion",
+        "content": "That movie was really intense with all the violence and adult themes",
+        "expected": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": false,
+          "nsfw": false,
+          "confidence": 0.4,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.3,
+            "nsfwScore": 0.4,
+            "sentimentScore": 0,
+            "flags": [
+              "NSFW content detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 1,
+        "passed": true,
+        "processingTime": 1
+      },
+      {
+        "category": "Toxic but educational",
+        "content": "You idiots keep falling for these crypto scams! FREE BITCOIN = SCAM!",
+        "expected": {
+          "toxic": true,
+          "spam": false,
+          "nsfw": false
+        },
+        "actual": {
+          "toxic": false,
+          "spam": true,
+          "nsfw": false,
+          "confidence": 0.8,
+          "details": {
+            "toxicityScore": 0,
+            "spamScore": 0.8,
+            "nsfwScore": 0,
+            "sentimentScore": 0,
+            "flags": [
+              "Spam pattern detected",
+              "Spam pattern detected",
+              "ML classified as spam"
+            ]
+          }
+        },
+        "accuracy": 0.3333333333333333,
+        "passed": false,
+        "processingTime": 1
+      }
+    ]
+  }
+}

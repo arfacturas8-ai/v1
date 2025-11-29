@@ -1,0 +1,92 @@
+{
+  "app_store_connect": {
+    "app_name": "CRYB",
+    "bundle_id": "ai.cryb.app",
+    "sku": "cryb-ios-app",
+    "primary_language": "en-US",
+    "version": "1.0.0",
+    "build": "202510022147",
+    "categories": {
+      "primary": "Social Networking",
+      "secondary": "Entertainment"
+    },
+    "age_rating": "12+",
+    "description": {
+      "short": "The ultimate hybrid platform combining Discord's real-time chat with Reddit's community discussions, enhanced with Web3 features.",
+      "full": "CRYB is the next-generation social platform that brings together the best of Discord and Reddit in one revolutionary app.\n\n🎮 DISCORD-STYLE FEATURES\n• Real-time messaging and voice chat\n• Create and join servers\n• Voice and video calls with screen sharing\n• Rich presence and activity status\n• Slash commands and bots\n\n📱 REDDIT-STYLE FEATURES\n• Community-driven discussions\n• Upvote/downvote system\n• Nested comment threads\n• Awards and karma system\n• Hot, New, and Top sorting\n\n✨ CRYB INNOVATIONS\n• Web3 wallet integration\n• NFT profile badges\n• Crypto tipping system\n• Token-gated exclusive channels\n• AI-powered content suggestions\n• Vibe check community metrics\n• Cross-platform synchronization\n\n🔐 PRIVACY & SECURITY\n• End-to-end encryption for DMs\n• Biometric authentication\n• Secure Web3 wallet connection\n• Community moderation tools\n• Content filtering and safety features\n\n🚀 WHY CRYB?\n• No more switching between apps\n• Unified community experience\n• Future-proof Web3 features\n• Clean, intuitive interface\n• Fast and responsive\n• Available on all platforms\n\nJoin the revolution in online communities. Download CRYB today!"
+    },
+    "keywords": "discord,reddit,chat,community,social,messaging,voice chat,video call,web3,crypto,nft,forums,discussion,gaming,communication",
+    "support_url": "https://cryb.ai/support",
+    "marketing_url": "https://cryb.ai",
+    "privacy_policy_url": "https://cryb.ai/privacy",
+    "screenshot_requirements": {
+      "iphone_6_5": {
+        "required": 3,
+        "maximum": 10,
+        "dimensions": "1284x2778 or 2778x1284"
+      },
+      "iphone_5_5": {
+        "required": 3,
+        "maximum": 10,
+        "dimensions": "1242x2208 or 2208x1242"
+      },
+      "ipad_12_9": {
+        "required": 3,
+        "maximum": 10,
+        "dimensions": "2048x2732 or 2732x2048"
+      }
+    },
+    "review_information": {
+      "first_name": "CRYB",
+      "last_name": "Team",
+      "phone_number": "+1-555-CRYB-APP",
+      "email": "review@cryb.ai",
+      "demo_user": {
+        "username": "demo@cryb.ai",
+        "password": "DemoUser2024!"
+      },
+      "notes": "Please test the core features: registration, joining communities, messaging, and voice chat. Demo credentials provided for easy testing."
+    }
+  },
+  "technical_requirements": {
+    "minimum_ios_version": "14.0",
+    "supported_devices": ["iPhone", "iPad", "iPod Touch"],
+    "capabilities": [
+      "Game Center",
+      "In-App Purchase",
+      "Push Notifications",
+      "Background App Refresh",
+      "Camera",
+      "Microphone",
+      "Location Services"
+    ],
+    "frameworks": [
+      "AVFoundation",
+      "CallKit",
+      "UserNotifications",
+      "LocalAuthentication",
+      "CoreLocation",
+      "Photos",
+      "Contacts"
+    ]
+  },
+  "monetization": {
+    "pricing_model": "Free with In-App Purchases",
+    "in_app_purchases": [
+      {
+        "product_id": "cryb_premium_monthly",
+        "type": "Auto-Renewable Subscription",
+        "name": "CRYB Premium Monthly",
+        "price": ".99",
+        "description": "Unlock all premium features including unlimited servers, HD video calls, and exclusive badges."
+      },
+      {
+        "product_id": "cryb_premium_yearly",
+        "type": "Auto-Renewable Subscription", 
+        "name": "CRYB Premium Yearly",
+        "price": "9.99",
+        "description": "Save 17% with annual billing. All premium features included."
+      }
+    ]
+  }
+}

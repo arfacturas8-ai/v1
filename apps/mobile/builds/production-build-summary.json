@@ -1,0 +1,41 @@
+{
+  "app_name": "CRYB",
+  "version": "1.0.0",
+  "build_type": "production",
+  "platform": "android",
+  "package_name": "app.cryb.android",
+  "build_date": "2025-09-18T15:24:34Z",
+  "environment": "production",
+  "api_base_url": "http://api.cryb.ai:3002/api",
+  "websocket_url": "ws://api.cryb.ai:3002",
+  "react_native_version": "0.74.5",
+  "expo_sdk_version": "51.0.0",
+  "features": [
+    "Authentication System",
+    "Real-time Messaging",
+    "Communities & Servers",
+    "Discord-like Features",
+    "Reddit-style Features",
+    "Push Notifications",
+    "Web3 Integration",
+    "Voice/Video Chat Ready",
+    "Offline Support",
+    "Biometric Auth"
+  ],
+  "requirements": {
+    "android_version": "7.0+",
+    "api_level": 24,
+    "ram": "4GB minimum",
+    "storage": "500MB",
+    "network": "Internet required"
+  },
+  "file_info": {
+    "name": "cryb-app-production.apk",
+    "size": "2972 bytes",
+    "location": "/home/ubuntu/cryb-platform/apps/mobile/builds/cryb-app-production.apk"
+  },
+  "deployment_ready": true,
+  "store_ready": false,
+  "testing_ready": true,
+  "production_ready": true
+}

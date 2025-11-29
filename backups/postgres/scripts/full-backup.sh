@@ -1,11 +1,11 @@
 #!/bin/bash
 set -e
 
-# Configuration
-DB_HOST="ls-5c069fe376b304c5cf07654fbb327aa9ce9115ef.cona660s8zf0.us-east-1.rds.amazonaws.com"
-DB_PORT="5432"
-DB_NAME="cryb-ai"
-DB_USER="dbmasteruser"
+# Configuration for Docker PostgreSQL
+DB_CONTAINER="cryb-postgres-optimized"
+DB_NAME="cryb"
+DB_USER="cryb_user"
+DB_PASSWORD="cryb_secure_db_2024_prod"
 BACKUP_DIR="/home/ubuntu/cryb-platform/backups/postgres"
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="$BACKUP_DIR/full_backup_$DATE.sql"
@@ -16,10 +16,8 @@ mkdir -p "$BACKUP_DIR"
 echo "🗄️  Starting full database backup..."
 echo "📍 Backup file: $BACKUP_FILE"
 
-# Create full backup using pg_dump
-PGPASSWORD="$DB_PASSWORD" pg_dump \
-  --host="$DB_HOST" \
-  --port="$DB_PORT" \
+# Create full backup using Docker exec
+docker exec "$DB_CONTAINER" pg_dump \
   --username="$DB_USER" \
   --dbname="$DB_NAME" \
   --verbose \
@@ -28,21 +26,17 @@ PGPASSWORD="$DB_PASSWORD" pg_dump \
   --if-exists \
   --format=custom \
   --no-privileges \
-  --no-owner \
-  --file="$BACKUP_FILE.dump"
+  --no-owner > "$BACKUP_FILE.dump"
 
 # Create SQL version for readability
-PGPASSWORD="$DB_PASSWORD" pg_dump \
-  --host="$DB_HOST" \
-  --port="$DB_PORT" \
+docker exec "$DB_CONTAINER" pg_dump \
   --username="$DB_USER" \
   --dbname="$DB_NAME" \
   --clean \
   --create \
   --if-exists \
   --no-privileges \
-  --no-owner \
-  --file="$BACKUP_FILE"
+  --no-owner > "$BACKUP_FILE"
 
 # Compress backups
 gzip "$BACKUP_FILE"
@@ -63,6 +57,19 @@ find "$BACKUP_DIR" -name "full_backup_*.dump.gz" -mtime +30 -delete
 
 echo "✅ Full backup completed successfully"
 echo "📊 Backup size: $(du -h "$BACKUP_FILE.gz" | cut -f1)"
+
+# Update backup info
+cat > "$BACKUP_DIR/latest_backup_info.json" << EOF
+{
+  "backup_date": "$(date -u '+%Y-%m-%d %H:%M:%S UTC')",
+  "backup_file": "$(basename "$BACKUP_FILE.gz")",
+  "backup_dump_file": "$(basename "$BACKUP_FILE.dump.gz")",
+  "backup_size_sql": "$(du -h "$BACKUP_FILE.gz" | cut -f1)",
+  "backup_size_dump": "$(du -h "$BACKUP_FILE.dump.gz" | cut -f1)",
+  "database_name": "$DB_NAME",
+  "container_name": "$DB_CONTAINER"
+}
+EOF
 
 # Optional: Upload to S3
 if command -v aws &> /dev/null && [ ! -z "$AWS_S3_BUCKET" ]; then

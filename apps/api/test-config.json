@@ -1,0 +1,12 @@
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ0ZXN0LXVzZXItaWQtMTIzNDUiLCJ1c2VybmFtZSI6InJlYWx0aW1ldGVzdCIsImVtYWlsIjoicmVhbHRpbWVAdGVzdC5jb20iLCJpc1ZlcmlmaWVkIjp0cnVlLCJzZXNzaW9uSWQiOiJ0ZXN0LXNlc3Npb24tMTc1ODc0MDM1MTcyNSIsImlhdCI6MTc1ODc0MDM1MSwiZXhwIjoxNzU4ODI2NzUxLCJhdWQiOiJjcnliLXVzZXJzIiwiaXNzIjoiY3J5Yi1wbGF0Zm9ybSJ9.2WC84fudMmPYyRCPnKsEFVO9ubmD8TPzH_eZCTOjHhA",
+  "user": {
+    "id": "test-user-id-12345",
+    "username": "realtimetest",
+    "email": "realtime@test.com"
+  },
+  "testChannels": {
+    "text": "test-channel-1758740351740",
+    "voice": "test-voice-1758740351740"
+  }
+}

@@ -57,7 +57,19 @@
       <key>localhost</key>
       <dict>
         <key>NSExceptionAllowsInsecureHTTPLoads</key>
-        <false/>
+        <true/>
+      </dict>
+      <key>10.0.2.2</key>
+      <dict>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+      </dict>
+      <key>api.cryb.ai</key>
+      <dict>
+        <key>NSExceptionAllowsInsecureHTTPLoads</key>
+        <true/>
+        <key>NSExceptionMinimumTLSVersion</key>
+        <string>1.0</string>
       </dict>
     </dict>
     <key>NSFaceIDUsageDescription</key>

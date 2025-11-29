@@ -1,0 +1,183 @@
+{
+  "timestamp": "2025-09-24T05:03:02.407Z",
+  "summary": {
+    "total": 11,
+    "passed": 11,
+    "failed": 0,
+    "successRate": "100.0"
+  },
+  "tests": [
+    {
+      "name": "API Health Check",
+      "status": "PASSED",
+      "duration": 338,
+      "result": {
+        "status": "healthy",
+        "checks": {
+          "api": "healthy",
+          "database": "healthy",
+          "redis": "healthy",
+          "elasticsearch": "healthy",
+          "minio": "healthy",
+          "realtime": "healthy"
+        }
+      },
+      "critical": true
+    },
+    {
+      "name": "Web Interface Availability",
+      "status": "PASSED",
+      "duration": 12,
+      "result": {
+        "statusCode": 200,
+        "hasTitle": true,
+        "hasManifest": false,
+        "hasPWA": false
+      },
+      "critical": true
+    },
+    {
+      "name": "React App Availability",
+      "status": "PASSED",
+      "duration": 12,
+      "result": {
+        "status": "ok",
+        "service": "CRYB React Platform",
+        "statusCode": 200
+      },
+      "critical": false
+    },
+    {
+      "name": "API Documentation",
+      "status": "PASSED",
+      "duration": 8,
+      "result": {
+        "statusCode": 200,
+        "hasSwaggerUI": true,
+        "contentLength": 964
+      },
+      "critical": false
+    },
+    {
+      "name": "User Registration",
+      "status": "PASSED",
+      "duration": 2120,
+      "result": {
+        "userId": "cmfxipvgs0000l5vt9oib6vef",
+        "username": "testqa1758690169143",
+        "hasAccessToken": true,
+        "hasRefreshToken": true
+      },
+      "critical": true
+    },
+    {
+      "name": "User Login",
+      "status": "PASSED",
+      "duration": 2080,
+      "result": {
+        "loginSuccessful": true,
+        "hasNewToken": true,
+        "username": "testqa1758690169143"
+      },
+      "critical": true
+    },
+    {
+      "name": "Protected Endpoint Access",
+      "status": "PASSED",
+      "duration": 2062,
+      "result": {
+        "userDataRetrieved": true,
+        "username": "testqa1758690169143",
+        "email": "qa-test-1758690169143@example.com"
+      },
+      "critical": true
+    },
+    {
+      "name": "Basic Features",
+      "status": "PASSED",
+      "duration": 1590,
+      "result": {
+        "Health Check": {
+          "statusCode": 200,
+          "accessible": true
+        },
+        "API Documentation": {
+          "statusCode": 200,
+          "accessible": true
+        },
+        "Metrics": {
+          "statusCode": 200,
+          "accessible": true
+        }
+      },
+      "critical": false
+    },
+    {
+      "name": "Database Operations",
+      "status": "PASSED",
+      "duration": 22,
+      "result": {
+        "databaseConnected": true,
+        "userDataFetched": true
+      },
+      "critical": true
+    },
+    {
+      "name": "Response Times",
+      "status": "PASSED",
+      "duration": 641,
+      "result": {
+        "API Health": {
+          "responseTime": 32,
+          "status": "OK"
+        },
+        "Web Interface": {
+          "responseTime": 4,
+          "status": "OK"
+        },
+        "React App": {
+          "responseTime": 3,
+          "status": "OK"
+        }
+      },
+      "critical": false
+    },
+    {
+      "name": "Error Handling",
+      "status": "PASSED",
+      "duration": 6037,
+      "result": {
+        "Invalid Registration Data": {
+          "handled": true,
+          "actualStatus": 400,
+          "expectedStatus": [
+            400,
+            422
+          ]
+        },
+        "Invalid Login": {
+          "handled": false,
+          "actualStatus": 429,
+          "expectedStatus": [
+            401,
+            400
+          ]
+        },
+        "Protected Route Without Token": {
+          "handled": true,
+          "actualStatus": 401,
+          "expectedStatus": [
+            401,
+            403
+          ]
+        }
+      },
+      "critical": false
+    }
+  ],
+  "platform": {
+    "api": "http://localhost:3002",
+    "web": "http://localhost:3001",
+    "react": "http://localhost:3000"
+  }
+}

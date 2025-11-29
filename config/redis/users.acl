@@ -1,7 +1,7 @@
 # Redis ACL Users Configuration for Queue System
 
-# Default user (disabled for security)
-user default off
+# Default user with new password
+user default on >cryb_secure_redis_2024_prod ~* &* +@all
 
 # Admin user with full access
 user cryb-admin on >cryb_admin_password ~* &* +@all

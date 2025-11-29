@@ -5,6 +5,9 @@ import { CrashSafeEventHandlers } from './crash-safe-handlers';
 import { CrashSafeRedisPubSub } from './crash-safe-redis-pubsub';
 import { DiscordRealtimeHandler } from './discord-realtime';
 import { RealtimeMessagingSystem } from './realtime-messaging';
+import { ProductionRealtimeSystem, createProductionRealtimeSystem } from './production-realtime';
+import { SimpleRealtimeSystem, createSimpleRealtimeSystem } from './simple-realtime';
+import { EnhancedRealtimeSystem, createEnhancedRealtimeSystem } from './enhanced-realtime-system';
 import { AuthService } from '../services/auth';
 import { FixedSocketAuth, createFixedSocketAuth } from './fixed-socket-auth';
 
@@ -63,6 +66,9 @@ export class CrashSafeSocketIntegration {
   private eventHandlers: CrashSafeEventHandlers | null = null;
   private pubSubService: CrashSafeRedisPubSub | null = null;
   private messagingSystem: RealtimeMessagingSystem | null = null;
+  private productionRealtimeSystem: ProductionRealtimeSystem | null = null;
+  private simpleRealtimeSystem: SimpleRealtimeSystem | null = null;
+  private enhancedRealtimeSystem: EnhancedRealtimeSystem | null = null;
   private fixedSocketAuth: FixedSocketAuth | null = null;
   
   private startTime = new Date();
@@ -88,9 +94,12 @@ export class CrashSafeSocketIntegration {
     try {
       this.fastify.log.info('🔄 Initializing CRASH-SAFE Socket System...');
       
-      // Initialize in order with dependency management
+      // Initialize Production Real-time System (Primary)
+      await this.initializeProductionRealtimeSystem();
+      
+      // Initialize fallback systems
       await this.initializePubSubService();
-      await this.initializeSocketService();
+      // NOTE: Socket service will be initialized in onListen hook to avoid conflicts
       await this.initializeFixedSocketAuth(); // NEW: Fixed authentication system
       await this.initializeEventHandlers();
       await this.initializeMessagingSystem(); // NEW: Comprehensive messaging system
@@ -117,19 +126,84 @@ export class CrashSafeSocketIntegration {
   }
 
   /**
+   * Initialize Production Real-time System (Primary)
+   */
+  private async initializeProductionRealtimeSystem(): Promise<void> {
+    try {
+      this.fastify.log.info('🚀 Initializing Production Real-time System...');
+      
+      // Register a hook to initialize Socket.io after server starts listening
+      this.fastify.addHook('onListen', async () => {
+        try {
+          this.fastify.log.info('🔌 Server is listening, initializing Socket.io...');
+          
+          // Try enhanced system first (highest priority)
+          try {
+            this.enhancedRealtimeSystem = await createEnhancedRealtimeSystem(this.fastify);
+            this.serviceHealth.socket = true;
+            this.fastify.log.info('🚀 Enhanced Real-time System initialized successfully!');
+          } catch (enhancedError) {
+            this.fastify.log.warn('⚠️  Enhanced Real-time System failed, trying production system...', enhancedError.message);
+            
+            // Fallback to production system
+            try {
+              this.productionRealtimeSystem = await createProductionRealtimeSystem(this.fastify);
+              this.serviceHealth.socket = true;
+              this.fastify.log.info('✅ Production Real-time System initialized successfully');
+            } catch (prodError) {
+              this.fastify.log.warn('⚠️  Production Real-time System failed, trying simple system...', prodError.message);
+              
+              // Fallback to simple system
+              try {
+                this.simpleRealtimeSystem = await createSimpleRealtimeSystem(this.fastify);
+                this.serviceHealth.socket = true;
+                this.fastify.log.info('✅ Simple Real-time System initialized successfully');
+              } catch (simpleError) {
+                this.fastify.log.warn('⚠️  Simple Real-time System failed, trying crash-safe socket service...', simpleError.message);
+                
+                // Final fallback to crash-safe socket service
+                this.socketService = new CrashSafeSocketService(this.fastify);
+                this.serviceHealth.socket = true;
+                this.fastify.log.info('✅ Crash-safe Socket Service initialized as final fallback');
+              }
+            }
+          }
+          
+        } catch (error) {
+          this.fastify.log.error('❌ All Real-time System initialization failed:', error);
+          this.serviceHealth.socket = false;
+        }
+      });
+      
+      this.fastify.log.info('🚀 Production Real-time System will initialize when server starts listening...');
+      
+    } catch (error) {
+      this.fastify.log.error('❌ Production Real-time System initialization failed:', error);
+      this.serviceHealth.socket = false;
+      // Continue with fallback systems
+    }
+  }
+
+  /**
    * Initialize Redis Pub/Sub service
    */
   private async initializePubSubService(): Promise<void> {
     try {
       this.pubSubService = new CrashSafeRedisPubSub(this.fastify);
       
-      // Wait a moment for connection to establish
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Don't wait for connection - let it establish asynchronously
+      // Check health after a brief moment
+      setTimeout(() => {
+        try {
+          const health = this.pubSubService!.getHealthStatus();
+          this.serviceHealth.redis = health.connectionState === 'connected';
+        } catch (error) {
+          this.serviceHealth.redis = false;
+        }
+      }, 1000);
       
-      const health = this.pubSubService.getHealthStatus();
-      this.serviceHealth.redis = health.connectionState === 'connected';
-      
-      this.fastify.log.info('✅ Redis Pub/Sub service initialized');
+      this.serviceHealth.redis = true; // Assume healthy initially
+      this.fastify.log.info('✅ Redis Pub/Sub service initialized (non-blocking)');
       
     } catch (error) {
       this.fastify.log.error('❌ Redis Pub/Sub service initialization failed:', error);
@@ -145,16 +219,14 @@ export class CrashSafeSocketIntegration {
     try {
       this.socketService = new CrashSafeSocketService(this.fastify);
       
-      // Wait for initialization to complete
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      // Initialize socket service without waiting - non-blocking
       this.serviceHealth.socket = true;
-      this.fastify.log.info('✅ Socket service initialized');
+      this.fastify.log.info('✅ Socket service initialized (non-blocking)');
       
     } catch (error) {
-      this.fastify.log.error('💥 CRITICAL: Socket service initialization failed:', error);
+      this.fastify.log.error('❌ Socket service initialization failed:', error);
       this.serviceHealth.socket = false;
-      throw error; // Socket service is critical - cannot continue without it
+      // Don't throw error - continue with degraded functionality
     }
   }
 
@@ -457,6 +529,18 @@ export class CrashSafeSocketIntegration {
       // Shutdown services in reverse order
       const shutdownPromises: Promise<void>[] = [];
       
+      if (this.enhancedRealtimeSystem) {
+        shutdownPromises.push(this.enhancedRealtimeSystem.close());
+      }
+      
+      if (this.productionRealtimeSystem) {
+        shutdownPromises.push(this.productionRealtimeSystem.close());
+      }
+      
+      if (this.simpleRealtimeSystem) {
+        shutdownPromises.push(this.simpleRealtimeSystem.close());
+      }
+      
       if (this.socketService) {
         shutdownPromises.push(this.socketService.close());
       }
@@ -479,7 +563,8 @@ export class CrashSafeSocketIntegration {
    * Get comprehensive system metrics
    */
   getSystemMetrics(): CrashSafeSystemMetrics {
-    const socketMetrics = this.socketService?.getMetrics() || {
+    // Prefer enhanced system metrics if available
+    let socketMetrics = {
       totalConnections: 0,
       activeConnections: 0,
       failedConnections: 0,
@@ -490,6 +575,36 @@ export class CrashSafeSocketIntegration {
       circuitBreakerTrips: 0,
       memoryLeaksFixed: 0
     };
+    
+    if (this.enhancedRealtimeSystem) {
+      const enhancedMetrics = this.enhancedRealtimeSystem.getMetrics();
+      socketMetrics = {
+        totalConnections: enhancedMetrics.totalConnections,
+        activeConnections: enhancedMetrics.connections,
+        failedConnections: 0,
+        messagesSent: enhancedMetrics.messagesSent,
+        messagesRejected: 0,
+        eventsProcessed: enhancedMetrics.typingEvents + enhancedMetrics.presenceUpdates,
+        eventsRejected: enhancedMetrics.errorsHandled,
+        circuitBreakerTrips: enhancedMetrics.circuitBreakerTrips,
+        memoryLeaksFixed: 0
+      };
+    } else if (this.productionRealtimeSystem) {
+      const prodMetrics = this.productionRealtimeSystem.getMetrics();
+      socketMetrics = {
+        totalConnections: prodMetrics.totalConnections,
+        activeConnections: prodMetrics.connections,
+        failedConnections: prodMetrics.authFailures,
+        messagesSent: prodMetrics.messagesSent,
+        messagesRejected: prodMetrics.rateLimitHits,
+        eventsProcessed: prodMetrics.eventsProcessed,
+        eventsRejected: prodMetrics.errors,
+        circuitBreakerTrips: 0,
+        memoryLeaksFixed: 0
+      };
+    } else if (this.socketService) {
+      socketMetrics = this.socketService.getMetrics();
+    }
 
     const redisMetrics = this.pubSubService?.getMetrics() || {
       messagesPublished: 0,
@@ -516,6 +631,19 @@ export class CrashSafeSocketIntegration {
    * Get the Socket.IO server instance
    */
   get io() {
+    // Prefer enhanced system if available
+    if (this.enhancedRealtimeSystem) {
+      return this.enhancedRealtimeSystem.getIO();
+    }
+    // Fallback to production system
+    if (this.productionRealtimeSystem) {
+      return this.productionRealtimeSystem.getIO();
+    }
+    // Fallback to simple system
+    if (this.simpleRealtimeSystem) {
+      return this.simpleRealtimeSystem.getIO();
+    }
+    // Final fallback to legacy system
     return this.socketService?.io;
   }
 

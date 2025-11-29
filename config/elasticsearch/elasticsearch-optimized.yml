@@ -1,0 +1,210 @@
+# Elasticsearch Optimized Configuration for CRYB Platform
+# This configuration is optimized for search performance, memory usage, and reliability
+
+cluster.name: cryb-search-cluster
+node.name: cryb-node-1
+
+# Node roles (adjust based on cluster setup)
+node.roles: [ master, data, ingest, ml ]
+
+# Network configuration
+network.host: 0.0.0.0
+http.port: 9200
+transport.port: 9300
+
+# Discovery and cluster formation
+discovery.type: single-node
+cluster.initial_master_nodes: [ "cryb-node-1" ]
+
+# ================================= MEMORY OPTIMIZATION =================================
+
+# JVM Heap Settings (set to 50% of available RAM, max 31GB)
+# These should be set via ES_JAVA_OPTS environment variable:
+# ES_JAVA_OPTS="-Xms2g -Xmx2g"
+
+# Circuit breakers to prevent OOM errors
+indices.breaker.total.limit: 70%
+indices.breaker.fielddata.limit: 40%
+indices.breaker.request.limit: 30%
+indices.breaker.in_flight_requests.limit: 100%
+
+# Query cache settings
+indices.queries.cache.size: 15%
+indices.queries.cache.count: 1000
+
+# Field data cache settings (for aggregations)
+indices.fielddata.cache.size: 25%
+
+# Request cache settings
+indices.requests.cache.size: 2%
+indices.requests.cache.expire: 1h
+
+# ================================= PERFORMANCE OPTIMIZATION =================================
+
+# Thread pool settings
+thread_pool.write.size: 8
+thread_pool.write.queue_size: 1000
+thread_pool.search.size: 13
+thread_pool.search.queue_size: 1000
+thread_pool.search_throttled.size: 1
+thread_pool.search_throttled.queue_size: 100
+
+# Bulk operations
+bulk.store_stats.frequency: 30s
+
+# Search settings
+search.max_buckets: 65536
+search.max_open_scroll_context: 500
+search.default_search_timeout: 30s
+search.default_allow_partial_search_results: true
+
+# ================================= INDEX OPTIMIZATION =================================
+
+# Default index settings
+index.number_of_shards: 2
+index.number_of_replicas: 1
+index.refresh_interval: 5s
+index.max_result_window: 50000
+
+# Indexing performance
+index.translog.flush_threshold_size: 512mb
+index.translog.sync_interval: 5s
+index.translog.durability: async
+
+# Merge policy for better performance
+index.merge.policy.max_merged_segment: 5gb
+index.merge.policy.segments_per_tier: 10
+index.merge.policy.max_merge_at_once: 10
+
+# Memory optimization for indexes
+index.store.stats.frequency: 30s
+index.store.preload: ["nvd", "dvd", "tim"]
+
+# ================================= MONITORING =================================
+
+# Cluster monitoring
+cluster.routing.allocation.disk.threshold_enabled: true
+cluster.routing.allocation.disk.watermark.low: 85%
+cluster.routing.allocation.disk.watermark.high: 90%
+cluster.routing.allocation.disk.watermark.flood_stage: 95%
+
+# Slow log settings
+index.search.slowlog.threshold.query.warn: 2s
+index.search.slowlog.threshold.query.info: 1s
+index.search.slowlog.threshold.query.debug: 500ms
+index.search.slowlog.threshold.fetch.warn: 1s
+index.search.slowlog.threshold.fetch.info: 500ms
+index.search.slowlog.threshold.fetch.debug: 200ms
+
+index.indexing.slowlog.threshold.index.warn: 2s
+index.indexing.slowlog.threshold.index.info: 1s
+index.indexing.slowlog.threshold.index.debug: 500ms
+
+# ================================= SECURITY =================================
+
+# Disable security for development (enable in production)
+xpack.security.enabled: false
+xpack.security.enrollment.enabled: false
+
+# Disable ML if not needed to save memory
+xpack.ml.enabled: false
+
+# ================================= LOGGING =================================
+
+logger.level: INFO
+logger.org.elasticsearch.transport: WARN
+logger.org.elasticsearch.discovery: WARN
+
+# ================================= SNAPSHOTS =================================
+
+# Repository settings for backups
+path.repo: ["/usr/share/elasticsearch/backups"]
+
+# ================================= CUSTOM SETTINGS =================================
+
+# Custom analyzer settings
+index.analysis.analyzer.default.type: custom
+index.analysis.analyzer.default.tokenizer: standard
+index.analysis.analyzer.default.filter: ["lowercase", "asciifolding", "stop"]
+
+# Search settings for better relevance
+index.similarity.default.type: BM25
+index.similarity.default.b: 0.75
+index.similarity.default.k1: 1.2
+
+# ================================= GARBAGE COLLECTION =================================
+
+# GC settings (set via jvm.options file)
+# -XX:+UseG1GC
+# -XX:MaxGCPauseMillis=200
+# -XX:+DisableExplicitGC
+# -XX:G1HeapRegionSize=32m
+# -XX:+UseStringDeduplication
+
+# ================================= DISK OPTIMIZATION =================================
+
+# Store settings
+index.store.type: hybridfs
+index.store.allow_mmap: true
+
+# Compound file format for better disk usage
+index.compound_format: true
+
+# ================================= REAL-TIME SETTINGS =================================
+
+# Real-time get settings
+index.get.realtime: true
+
+# Warmer settings for better search performance
+index.warmer.enabled: true
+
+# ================================= FIELD DATA =================================
+
+# Field data circuit breaker
+indices.fielddata.cache.size: 25%
+indices.fielddata.cache.expire: 6h
+
+# ================================= RECOVERY =================================
+
+# Recovery settings
+cluster.routing.allocation.node_concurrent_recoveries: 2
+cluster.routing.allocation.node_initial_primaries_recoveries: 4
+indices.recovery.max_bytes_per_sec: 40mb
+indices.recovery.concurrent_streams: 2
+
+# ================================= ALLOCATION =================================
+
+# Allocation settings
+cluster.routing.allocation.allow_rebalance: indices_primaries_active
+cluster.routing.allocation.cluster_concurrent_rebalance: 2
+cluster.routing.allocation.node_concurrent_outgoing_recoveries: 2
+cluster.routing.allocation.node_concurrent_incoming_recoveries: 2
+
+# ================================= CUSTOM CRYB SETTINGS =================================
+
+# Custom settings for CRYB platform
+indices.id_field_data.enabled: false
+action.destructive_requires_name: true
+cluster.routing.rebalance.enable: all
+cluster.routing.allocation.enable: all
+
+# Search request optimization
+action.search.shard_count.limit: 10000
+indices.query.bool.max_clause_count: 4096
+
+# Bulk request optimization
+http.max_content_length: 200mb
+http.max_chunk_size: 8kb
+http.max_header_size: 16kb
+
+# ================================= DEVELOPMENT SETTINGS =================================
+
+# Development-specific settings (remove in production)
+bootstrap.memory_lock: false
+action.auto_create_index: true
+
+# Enable CORS for development
+http.cors.enabled: true
+http.cors.allow-origin: "*"
+http.cors.allow-methods: OPTIONS, HEAD, GET, POST, PUT, DELETE
+http.cors.allow-headers: "X-Requested-With,Content-Type,Content-Length,Authorization"

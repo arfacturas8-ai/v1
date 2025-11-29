@@ -1,0 +1,125 @@
+{
+  "timestamp": "2025-09-23T00:20:35.998Z",
+  "tests": {
+    "api_process_status": {
+      "status": "PASS",
+      "message": "API process is running",
+      "data": {
+        "pid": 1103025,
+        "uptime": 1758560093599
+      },
+      "timestamp": "2025-09-23T00:20:36.705Z"
+    },
+    "socket_process_status": {
+      "status": "PASS",
+      "message": "Socket process is running",
+      "data": {
+        "pid": 1182238,
+        "uptime": 1758586748139
+      },
+      "timestamp": "2025-09-23T00:20:36.705Z"
+    },
+    "web_process_status": {
+      "status": "PASS",
+      "message": "Web process is running",
+      "data": {
+        "pid": 1119886,
+        "uptime": 1758565990724
+      },
+      "timestamp": "2025-09-23T00:20:36.705Z"
+    },
+    "redis_ping": {
+      "status": "PASS",
+      "message": "Redis server responding to ping",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.727Z"
+    },
+    "redis_info": {
+      "status": "PASS",
+      "message": "Redis server info accessible",
+      "data": {
+        "version": "7.4.5"
+      },
+      "timestamp": "2025-09-23T00:20:36.744Z"
+    },
+    "redis_operations": {
+      "status": "FAIL",
+      "message": "Redis operations failed. Got: test-value",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.790Z"
+    },
+    "health_endpoint": {
+      "status": "FAIL",
+      "message": "Endpoint error: connect ECONNREFUSED 127.0.0.1:4000",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.848Z"
+    },
+    "auth_status_endpoint": {
+      "status": "FAIL",
+      "message": "Endpoint error: connect ECONNREFUSED 127.0.0.1:4000",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.860Z"
+    },
+    "discord_realtime_features": {
+      "status": "PASS",
+      "message": "Discord realtime features implemented",
+      "data": {
+        "implementedFeatures": [
+          "handleConnectionEvents",
+          "handleMessageEvents",
+          "handlePresenceEvents",
+          "handleVoiceEvents",
+          "broadcastToServer"
+        ],
+        "totalFeatures": 5,
+        "percentage": 100
+      },
+      "timestamp": "2025-09-23T00:20:36.867Z"
+    },
+    "socket_implementation": {
+      "status": "PASS",
+      "message": "All Socket.io files present and implemented",
+      "data": {
+        "score": "3/3"
+      },
+      "timestamp": "2025-09-23T00:20:36.867Z"
+    },
+    "presence_keys": {
+      "status": "INFO",
+      "message": "No active presence entries found (users may be offline)",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.902Z"
+    },
+    "rate_limiting_active": {
+      "status": "INFO",
+      "message": "No active rate limits (expected if no recent activity)",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.927Z"
+    },
+    "rate_limiting_implementation": {
+      "status": "PASS",
+      "message": "Rate limiting properly implemented in code",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.928Z"
+    },
+    "database_connectivity": {
+      "status": "FAIL",
+      "message": "Cannot connect to API to test database",
+      "data": null,
+      "timestamp": "2025-09-23T00:20:36.933Z"
+    }
+  },
+  "summary": {
+    "total": 14,
+    "passed": 8,
+    "failed": 6,
+    "errors": [
+      "redis_operations: Redis operations failed. Got: test-value",
+      "health_endpoint: Endpoint error: connect ECONNREFUSED 127.0.0.1:4000",
+      "auth_status_endpoint: Endpoint error: connect ECONNREFUSED 127.0.0.1:4000",
+      "presence_keys: No active presence entries found (users may be offline)",
+      "rate_limiting_active: No active rate limits (expected if no recent activity)",
+      "database_connectivity: Cannot connect to API to test database"
+    ]
+  }
+}

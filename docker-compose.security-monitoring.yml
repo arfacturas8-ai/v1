@@ -1,0 +1,438 @@
+# ==============================================
+# CRYB PLATFORM - SECURITY MONITORING STACK
+# ==============================================
+# Enhanced security monitoring with Wazuh, Fail2ban, and OSSEC
+# Includes: Intrusion detection, threat hunting, compliance monitoring
+# ==============================================
+
+services:
+  # ==============================================
+  # WAZUH MANAGER - CENTRALIZED SECURITY MONITORING
+  # ==============================================
+  wazuh-manager:
+    image: wazuh/wazuh-manager:4.7.0
+    container_name: cryb-wazuh-manager
+    restart: unless-stopped
+    hostname: wazuh-manager
+    environment:
+      - WAZUH_MANAGER_HOST=wazuh-manager
+      - WAZUH_CLUSTER_NAME=cryb-cluster
+      - WAZUH_CLUSTER_NODE_NAME=master
+      - WAZUH_CLUSTER_NODE_TYPE=master
+      - WAZUH_CLUSTER_KEY=cryb_wazuh_cluster_key_2024
+      - WAZUH_CLUSTER_DISABLED=yes
+      - INDEXER_URL=https://wazuh-indexer:9200
+      - INDEXER_USERNAME=admin
+      - INDEXER_PASSWORD=SecurePass123!
+      - FILEBEAT_SSL_VERIFICATION_MODE=full
+      - SSL_CERTIFICATE_AUTHORITIES=/etc/ssl/root-ca.pem
+      - SSL_CERTIFICATE=/etc/ssl/filebeat.pem
+      - SSL_KEY=/etc/ssl/filebeat.key
+      - API_USERNAME=wazuh-wui
+      - API_PASSWORD=MyS3cr37P450r.*-
+    ports:
+      - "1514:1514"     # Agent connection service
+      - "1515:1515"     # Agent enrollment service  
+      - "514:514/udp"   # Syslog service
+      - "55000:55000"   # Wazuh API
+    volumes:
+      - wazuh_manager_config:/var/ossec/etc
+      - wazuh_manager_logs:/var/ossec/logs
+      - wazuh_manager_queue:/var/ossec/queue
+      - wazuh_manager_var_multigroups:/var/ossec/var/multigroups
+      - wazuh_manager_integrations:/var/ossec/integrations
+      - wazuh_manager_active_response:/var/ossec/active-response/bin
+      - wazuh_manager_agentless:/var/ossec/agentless
+      - wazuh_manager_wodles:/var/ossec/wodles
+      - filebeat_etc:/etc/filebeat
+      - filebeat_var:/var/lib/filebeat
+      - ./config/wazuh/cryb-wazuh-config.conf:/var/ossec/etc/ossec.conf:ro
+      - ./config/wazuh/cryb-security-rules.xml:/var/ossec/etc/rules/local_rules.xml:ro
+      - /var/log:/host/var/log:ro
+      - /var/lib/docker/containers:/host/var/lib/docker/containers:ro
+      - /etc:/host/etc:ro
+    networks:
+      - security-network
+      - cryb-network
+    depends_on:
+      - wazuh-indexer
+    labels:
+      - "logging=promtail"
+
+  # ==============================================
+  # WAZUH INDEXER - ELASTICSEARCH FOR SECURITY DATA
+  # ==============================================
+  wazuh-indexer:
+    image: wazuh/wazuh-indexer:4.7.0
+    container_name: cryb-wazuh-indexer
+    restart: unless-stopped
+    hostname: wazuh-indexer
+    environment:
+      - "OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g"
+      - "bootstrap.memory_lock=true"
+      - "discovery.type=single-node"
+      - "network.host=0.0.0.0"
+      - "plugins.security.ssl.transport.pemcert_filepath=esnode.pem"
+      - "plugins.security.ssl.transport.pemkey_filepath=esnode-key.pem"
+      - "plugins.security.ssl.transport.pemtrustedcas_filepath=root-ca.pem"
+      - "plugins.security.ssl.transport.enforce_hostname_verification=false"
+      - "plugins.security.ssl.http.enabled=true"
+      - "plugins.security.ssl.http.pemcert_filepath=esnode.pem"
+      - "plugins.security.ssl.http.pemkey_filepath=esnode-key.pem"
+      - "plugins.security.ssl.http.pemtrustedcas_filepath=root-ca.pem"
+      - "plugins.security.allow_unsafe_democertificates=true"
+      - "plugins.security.allow_default_init_securityindex=true"
+      - "plugins.security.authcz.admin_dn=CN=admin,OU=Wazuh,O=Wazuh,L=California,C=US"
+      - "plugins.security.audit.type=internal_opensearch"
+      - "plugins.security.enable_snapshot_restore_privilege=true"
+      - "plugins.security.check_snapshot_restore_write_privileges=true"
+      - "plugins.security.restapi.roles_enabled=[\"all_access\",\"security_rest_api_access\"]"
+      - "plugins.security.system_indices.enabled=true"
+      - "plugins.security.system_indices.indices=[\".opendistro-alerting-config\",\".opendistro-alerting-alert*\",\".opendistro-anomaly-results*\",\".opendistro-anomaly-detector*\",\".opendistro-anomaly-checkpoints\",\".opendistro-anomaly-detection-state\",\".opendistro-reports-*\",\".opendistro-notifications-*\",\".opendistro-notebooks\",\".opensearch-observability\",\".opendistro-asynchronous-search-response*\",\".replication-metadata-store\"]"
+      - "node.max_local_storage_nodes=3"
+      - "compatibility.override_main_response_version=true"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "9200:9200"
+    volumes:
+      - wazuh_indexer_data:/var/lib/wazuh-indexer
+      - ./config/wazuh/wazuh_indexer_ssl_certs/root-ca-manager.pem:/usr/share/wazuh-indexer/certs/root-ca.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/wazuh.manager.pem:/usr/share/wazuh-indexer/certs/wazuh-manager.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/wazuh.manager-key.pem:/usr/share/wazuh-indexer/certs/wazuh-manager-key.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/wazuh.indexer.pem:/usr/share/wazuh-indexer/certs/esnode.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/wazuh.indexer-key.pem:/usr/share/wazuh-indexer/certs/esnode-key.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/admin.pem:/usr/share/wazuh-indexer/certs/admin.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/admin-key.pem:/usr/share/wazuh-indexer/certs/admin-key.pem:ro
+    networks:
+      - security-network
+
+  # ==============================================
+  # WAZUH DASHBOARD - SECURITY OPERATIONS CENTER
+  # ==============================================
+  wazuh-dashboard:
+    image: wazuh/wazuh-dashboard:4.7.0
+    container_name: cryb-wazuh-dashboard
+    restart: unless-stopped
+    hostname: wazuh-dashboard
+    environment:
+      - INDEXER_USERNAME=admin
+      - INDEXER_PASSWORD=SecurePass123!
+      - WAZUH_API_URL=https://wazuh-manager
+      - DASHBOARD_USERNAME=kibanaserver
+      - DASHBOARD_PASSWORD=kibanaserver
+      - API_USERNAME=wazuh-wui
+      - API_PASSWORD=MyS3cr37P450r.*-
+    ports:
+      - "5601:5601"  # Wazuh Dashboard
+    volumes:
+      - ./config/wazuh/wazuh_indexer_ssl_certs/wazuh.dashboard.pem:/usr/share/wazuh-dashboard/certs/wazuh-dashboard.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/wazuh.dashboard-key.pem:/usr/share/wazuh-dashboard/certs/wazuh-dashboard-key.pem:ro
+      - ./config/wazuh/wazuh_indexer_ssl_certs/root-ca.pem:/usr/share/wazuh-dashboard/certs/root-ca.pem:ro
+    networks:
+      - security-network
+    depends_on:
+      - wazuh-indexer
+    labels:
+      - "logging=promtail"
+
+  # ==============================================
+  # FAIL2BAN - INTRUSION PREVENTION
+  # ==============================================
+  fail2ban:
+    image: crazymax/fail2ban:latest
+    container_name: cryb-fail2ban
+    restart: unless-stopped
+    network_mode: "host"
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      - TZ=UTC
+      - F2B_LOG_LEVEL=INFO
+      - F2B_LOG_TARGET=/var/log/fail2ban/fail2ban.log
+      - F2B_DB_PURGE_AGE=1d
+      - SSMTP_HOST=smtp.gmail.com
+      - SSMTP_PORT=587
+      - SSMTP_USER=alerts@cryb.ai
+      - SSMTP_PASSWORD=smtp_password
+      - SSMTP_TLS=YES
+    volumes:
+      - fail2ban_data:/data
+      - /var/log:/var/log:ro
+      - /var/log/auth.log:/var/log/auth.log:ro
+      - /var/log/nginx:/var/log/nginx:ro
+      - ./config/fail2ban:/etc/fail2ban/filter.d:ro
+      - ./logs:/var/log/cryb:ro
+    labels:
+      - "logging=promtail"
+
+  # ==============================================
+  # OSQUERY - ENDPOINT VISIBILITY
+  # ==============================================
+  osquery:
+    image: osquery/osquery:latest
+    container_name: cryb-osquery
+    restart: unless-stopped
+    privileged: true
+    pid: host
+    network_mode: host
+    environment:
+      - OSQUERY_ENROLL_SECRET=cryb_osquery_secret_2024
+    volumes:
+      - /etc:/host/etc:ro
+      - /var:/host/var:ro
+      - /dev:/host/dev:ro
+      - /sys:/host/sys:ro
+      - /proc:/host/proc:ro
+      - /usr:/host/usr:ro
+      - /lib:/host/lib:ro
+      - ./config/osquery/osquery.conf:/etc/osquery/osquery.conf:ro
+      - osquery_logs:/var/log/osquery
+    command: >
+      osqueryd
+      --flagfile=/etc/osquery/osquery.flags
+      --config_path=/etc/osquery/osquery.conf
+      --logger_path=/var/log/osquery
+      --pidfile=/var/osquery/osquery.pid
+      --database_path=/var/osquery/osquery.db
+    labels:
+      - "logging=promtail"
+
+  # ==============================================
+  # SURICATA - NETWORK INTRUSION DETECTION
+  # ==============================================
+  suricata:
+    image: jasonish/suricata:latest
+    container_name: cryb-suricata
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - SYS_NICE
+    environment:
+      - SURICATA_OPTIONS=-i any --set sensor-name=cryb-platform
+    volumes:
+      - suricata_logs:/var/log/suricata
+      - suricata_lib:/var/lib/suricata
+      - ./config/suricata/suricata.yaml:/etc/suricata/suricata.yaml:ro
+      - ./config/suricata/rules:/var/lib/suricata/rules:ro
+    command: >
+      suricata
+      -c /etc/suricata/suricata.yaml
+      -i any
+      --set sensor-name=cryb-platform
+      --set outputs.1.eve-log.filename=/var/log/suricata/eve.json
+    labels:
+      - "logging=promtail"
+
+  # ==============================================
+  # CLAMAV - MALWARE SCANNING
+  # ==============================================
+  clamav:
+    image: clamav/clamav:latest
+    container_name: cryb-clamav
+    restart: unless-stopped
+    environment:
+      - CLAMAV_NO_FRESHCLAMD=true
+      - CLAMAV_NO_CLAMD=false
+    volumes:
+      - clamav_data:/var/lib/clamav
+      - /home/ubuntu/cryb-platform/uploads:/scan:ro
+      - ./config/clamav/clamd.conf:/etc/clamav/clamd.conf:ro
+    ports:
+      - "3310:3310"
+    networks:
+      - security-network
+      - cryb-network
+    labels:
+      - "logging=promtail"
+
+  # ==============================================
+  # SECURITY METRICS EXPORTER
+  # ==============================================
+  security-exporter:
+    build:
+      context: .
+      dockerfile: ./services/security-exporter/Dockerfile
+    container_name: cryb-security-exporter
+    restart: unless-stopped
+    environment:
+      - WAZUH_API_URL=https://wazuh-manager:55000
+      - WAZUH_API_USER=wazuh-wui
+      - WAZUH_API_PASSWORD=MyS3cr37P450r.*-
+      - FAIL2BAN_LOG_PATH=/var/log/fail2ban/fail2ban.log
+      - SURICATA_LOG_PATH=/var/log/suricata/eve.json
+      - CLAMAV_LOG_PATH=/var/log/clamav/clamav.log
+    ports:
+      - "9200:9200"  # Metrics endpoint
+    volumes:
+      - fail2ban_data:/var/log/fail2ban:ro
+      - suricata_logs:/var/log/suricata:ro
+      - clamav_data:/var/log/clamav:ro
+    networks:
+      - security-network
+      - monitoring-network
+    depends_on:
+      - wazuh-manager
+      - fail2ban
+      - suricata
+      - clamav
+    labels:
+      - "logging=promtail"
+
+  # ==============================================
+  # SECURITY AUTOMATION ENGINE
+  # ==============================================
+  security-automation:
+    build:
+      context: .
+      dockerfile: ./services/security-automation/Dockerfile
+    container_name: cryb-security-automation
+    restart: unless-stopped
+    environment:
+      - WAZUH_API_URL=https://wazuh-manager:55000
+      - WAZUH_API_USER=wazuh-wui
+      - WAZUH_API_PASSWORD=MyS3cr37P450r.*-
+      - SLACK_WEBHOOK_URL=${SLACK_SECURITY_WEBHOOK}
+      - EMAIL_SMTP_HOST=smtp.gmail.com
+      - EMAIL_SMTP_PORT=587
+      - EMAIL_USERNAME=security@cryb.ai
+      - EMAIL_PASSWORD=${SECURITY_EMAIL_PASSWORD}
+      - THREAT_INTELLIGENCE_API_KEY=${VIRUSTOTAL_API_KEY}
+    volumes:
+      - ./config/security-automation:/app/config:ro
+      - security_automation_data:/app/data
+    networks:
+      - security-network
+      - cryb-network
+    depends_on:
+      - wazuh-manager
+    labels:
+      - "logging=promtail"
+
+# ==============================================
+# NETWORKS
+# ==============================================
+networks:
+  security-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/16
+  cryb-network:
+    external: true
+  monitoring-network:
+    external: true
+
+# ==============================================
+# VOLUMES
+# ==============================================
+volumes:
+  wazuh_manager_config:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/config
+  wazuh_manager_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/logs
+  wazuh_manager_queue:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/queue
+  wazuh_manager_var_multigroups:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/var/multigroups
+  wazuh_manager_integrations:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/integrations
+  wazuh_manager_active_response:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/active-response
+  wazuh_manager_agentless:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/agentless
+  wazuh_manager_wodles:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/manager/wodles
+  wazuh_indexer_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/indexer/data
+  filebeat_etc:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/filebeat/etc
+  filebeat_var:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/wazuh/filebeat/var
+  fail2ban_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/fail2ban
+  osquery_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/osquery/logs
+  suricata_logs:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/suricata/logs
+  suricata_lib:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/suricata/lib
+  clamav_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/clamav
+  security_automation_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/security-automation

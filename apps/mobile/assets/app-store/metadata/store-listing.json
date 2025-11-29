@@ -1,0 +1,106 @@
+{
+  "app": {
+    "name": "CRYB",
+    "tagline": "Discord + Reddit, Reimagined",
+    "bundle_id": "ai.cryb.app",
+    "version": "1.0.0",
+    "build": "1"
+  },
+  "store_listing": {
+    "short_description": "The ultimate hybrid platform combining Discord's real-time chat with Reddit's community discussions, enhanced with Web3 features.",
+    "full_description": "CRYB is the next-generation social platform that brings together the best of Discord and Reddit in one revolutionary app.\n\n🎮 DISCORD-STYLE FEATURES\n• Real-time messaging and voice chat\n• Create and join servers\n• Voice and video calls with screen sharing\n• Rich presence and activity status\n• Slash commands and bots\n\n📱 REDDIT-STYLE FEATURES\n• Community-driven discussions\n• Upvote/downvote system\n• Nested comment threads\n• Awards and karma system\n• Hot, New, and Top sorting\n\n✨ CRYB INNOVATIONS\n• Web3 wallet integration\n• NFT profile badges\n• Crypto tipping system\n• Token-gated exclusive channels\n• AI-powered content suggestions\n• Vibe check community metrics\n• Cross-platform synchronization\n\n🔐 PRIVACY & SECURITY\n• End-to-end encryption for DMs\n• Biometric authentication\n• Secure Web3 wallet connection\n• Community moderation tools\n• Content filtering and safety features\n\n🚀 WHY CRYB?\n• No more switching between apps\n• Unified community experience\n• Future-proof Web3 features\n• Clean, intuitive interface\n• Fast and responsive\n• Available on all platforms\n\nJoin the revolution in online communities. Download CRYB today!",
+    "keywords": [
+      "discord",
+      "reddit",
+      "chat",
+      "community",
+      "social",
+      "messaging",
+      "voice chat",
+      "video call",
+      "web3",
+      "crypto",
+      "nft",
+      "forums",
+      "discussion",
+      "gaming",
+      "communication"
+    ],
+    "category_primary": "Social Networking",
+    "category_secondary": "Entertainment",
+    "content_rating": "12+",
+    "privacy_policy_url": "https://cryb.ai/privacy",
+    "terms_of_service_url": "https://cryb.ai/terms",
+    "support_url": "https://cryb.ai/support",
+    "marketing_url": "https://cryb.ai"
+  },
+  "app_store": {
+    "promotional_text": "🚀 Launch Week Special: Join now and get exclusive early adopter NFT badge!",
+    "whats_new": "Version 1.0.0 - Initial Release\n• Discord + Reddit hybrid interface\n• Real-time messaging and voice chat\n• Community discussions with voting\n• Web3 wallet integration\n• NFT badges and crypto tipping\n• Cross-platform sync",
+    "subtitle": "Chat, Share, Earn - All in One"
+  },
+  "google_play": {
+    "feature_graphic_text": "Where Discord Meets Reddit",
+    "promo_video_url": "https://youtube.com/watch?v=demo",
+    "developer_email": "support@cryb.ai",
+    "developer_website": "https://cryb.ai",
+    "developer_address": "CRYB Technologies, San Francisco, CA"
+  },
+  "screenshots": {
+    "titles": [
+      "Welcome to CRYB",
+      "Discord-Style Servers",
+      "Reddit-Style Communities", 
+      "Real-Time Messaging",
+      "Voice & Video Calls",
+      "Web3 Integration"
+    ],
+    "captions": [
+      "The future of online communities",
+      "Create and join servers instantly",
+      "Engage in community discussions",
+      "Chat in real-time with friends",
+      "Crystal clear voice and video",
+      "Connect your wallet, earn rewards"
+    ]
+  },
+  "localization": {
+    "supported_languages": ["en", "es", "fr", "de", "ja", "ko", "zh"],
+    "default_language": "en"
+  },
+  "monetization": {
+    "pricing_model": "Free with Premium Options",
+    "in_app_purchases": [
+      {
+        "id": "cryb_premium_monthly",
+        "name": "CRYB Premium",
+        "price": "$9.99/month",
+        "description": "Unlock all premium features"
+      },
+      {
+        "id": "cryb_premium_yearly",
+        "name": "CRYB Premium Annual",
+        "price": "$99.99/year",
+        "description": "Save 17% with annual billing"
+      }
+    ]
+  },
+  "requirements": {
+    "ios": {
+      "minimum_version": "14.0",
+      "supported_devices": ["iPhone", "iPad", "iPod Touch"],
+      "required_capabilities": ["microphone", "camera", "push-notifications"]
+    },
+    "android": {
+      "minimum_sdk": 21,
+      "target_sdk": 34,
+      "permissions": [
+        "INTERNET",
+        "CAMERA",
+        "RECORD_AUDIO",
+        "VIBRATE",
+        "RECEIVE_BOOT_COMPLETED"
+      ]
+    }
+  }
+}

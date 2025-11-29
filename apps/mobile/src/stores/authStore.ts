@@ -9,16 +9,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { CrashDetector } from '../utils/CrashDetector';
-import { ApiService } from '../services/ApiService';
+import apiService from '../services/RealApiService';
 
 export interface User {
   id: string;
   username: string;
   email: string;
-  avatar?: string;
+  avatarUrl?: string;
   isVerified: boolean;
   createdAt: string;
-  settings: {
+  role: 'user' | 'admin' | 'moderator';
+  settings?: {
     biometricEnabled: boolean;
     pushNotifications: boolean;
     theme: 'light' | 'dark' | 'auto';
@@ -56,7 +57,7 @@ export interface AuthState {
 const MAX_AUTH_ATTEMPTS = 3;
 const LOCKOUT_DURATION = 5 * 60 * 1000; // 5 minutes
 const TOKEN_REFRESH_THRESHOLD = 5 * 60 * 1000; // 5 minutes before expiry
-const API_BASE_URL = 'http://localhost:3002';
+const API_BASE_URL = __DEV__ ? 'http://localhost:3002' : 'https://api.cryb.ai';
 
 class AuthService {
   private static instance: AuthService;
@@ -192,20 +193,17 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
 
         try {
-          // Initialize API service
-          await ApiService.initialize();
-
           // Check biometric availability
           const biometricAvailable = await authService.checkBiometricAvailability();
           
-          if (ApiService.isAuthenticated()) {
+          if (apiService.isAuthenticated()) {
             // Validate current authentication
-            const userResponse = await ApiService.getCurrentUser();
+            const userResponse = await apiService.getCurrentUser();
             
-            if (userResponse.success && userResponse.data) {
+            if (userResponse) {
               set({ 
-                user: userResponse.data,
-                token: ApiService.getAccessToken(),
+                user: userResponse,
+                token: apiService.getToken(),
                 biometricAvailable,
                 isInitialized: true,
                 isLoading: false,
@@ -255,12 +253,12 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
 
         try {
-          const response = await ApiService.login(email, password);
+          const response = await apiService.login(email, password);
 
-          if (response.success && response.data) {
+          if (response && response.user) {
             set({
-              user: response.data.user,
-              token: ApiService.getAccessToken(),
+              user: response.user,
+              token: apiService.getToken(),
               lastAuthTime: Date.now(),
               isLoading: false,
               error: null,
@@ -270,7 +268,7 @@ export const useAuthStore = create<AuthState>()(
 
             return true;
           } else {
-            throw new Error(response.error || 'Login failed');
+            throw new Error('Login failed');
           }
         } catch (error) {
           console.error('[AuthStore] Login error:', error);
@@ -372,12 +370,12 @@ export const useAuthStore = create<AuthState>()(
         set({ isLoading: true, error: null });
 
         try {
-          const response = await ApiService.register(data);
+          const response = await apiService.register(data.email, data.password, data.username);
 
-          if (response.success && response.data) {
+          if (response && response.user) {
             set({
-              user: response.data.user,
-              token: ApiService.getAccessToken(),
+              user: response.user,
+              token: apiService.getToken(),
               lastAuthTime: Date.now(),
               isLoading: false,
               error: null,
@@ -385,7 +383,7 @@ export const useAuthStore = create<AuthState>()(
 
             return true;
           } else {
-            throw new Error(response.error || 'Registration failed');
+            throw new Error('Registration failed');
           }
         } catch (error) {
           console.error('[AuthStore] Register error:', error);
@@ -416,17 +414,11 @@ export const useAuthStore = create<AuthState>()(
         }
 
         try {
-          const response = await authService.makeAuthRequest('/api/auth/me', {
-            headers: {
-              Authorization: `Bearer ${state.token}`,
-            },
-          });
+          const userResponse = await apiService.getCurrentUser();
 
-          const data = await response.json();
-
-          if (data.user) {
+          if (userResponse) {
             set({
-              user: data.user,
+              user: userResponse,
               lastAuthTime: Date.now(),
               error: null,
             });
@@ -437,25 +429,17 @@ export const useAuthStore = create<AuthState>()(
         } catch (error) {
           console.error('[AuthStore] Refresh error:', error);
 
-          // Try refresh token
-          if (state.refreshToken) {
+          // Try refresh token automatically handled by RealApiService
+          if (apiService.isAuthenticated()) {
             try {
-              const refreshResponse = await authService.makeAuthRequest('/api/auth/refresh', {
-                method: 'POST',
-                body: JSON.stringify({ refreshToken: state.refreshToken }),
-              });
-
-              const refreshData = await refreshResponse.json();
-
-              if (refreshData.token) {
-                await authService.secureStore('auth_token', refreshData.token);
-                
+              const userResponse = await apiService.getCurrentUser();
+              if (userResponse) {
                 set({
-                  token: refreshData.token,
+                  user: userResponse,
+                  token: apiService.getToken(),
                   lastAuthTime: Date.now(),
                   error: null,
                 });
-
                 return true;
               }
             } catch (refreshError) {
@@ -474,7 +458,7 @@ export const useAuthStore = create<AuthState>()(
 
         try {
           // Notify server
-          await ApiService.logout();
+          await apiService.logout();
 
           set({
             user: null,
@@ -591,7 +575,7 @@ export const useAuthStore = create<AuthState>()(
 
       isAuthenticated: () => {
         const state = get();
-        return state.user !== null && state.token !== null && ApiService.isAuthenticated();
+        return state.user !== null && state.token !== null && apiService.isAuthenticated();
       },
     }),
     {

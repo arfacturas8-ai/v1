@@ -274,27 +274,211 @@ export class EmailService {
 </body>
 </html>
     `.trim());
+
+    // Notification digest template
+    this.templates.set('notification-digest', `
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your CRYB Notifications</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
+        <h1 style="color: white; margin: 0; font-size: 24px;">{{notificationCount}} New Notifications</h1>
+    </div>
+    
+    <div style="background: white; padding: 40px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+        <p>Hi {{username}},</p>
+        
+        <p>You have {{notificationCount}} new notifications on CRYB:</p>
+        
+        <div style="margin: 20px 0;">
+            {{#notifications}}
+            <div style="border-left: 4px solid #667eea; padding: 15px; margin: 10px 0; background: #f8f9fa;">
+                <h4 style="margin: 0 0 5px 0; color: #333;">{{title}}</h4>
+                <p style="margin: 0; color: #666; font-size: 14px;">{{content}}</p>
+                <small style="color: #999;">{{timeAgo}}</small>
+            </div>
+            {{/notifications}}
+        </div>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="{{notificationsUrl}}" 
+               style="background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
+                View All Notifications
+            </a>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+        <p>&copy; {{year}} CRYB. All rights reserved.</p>
+        <p><a href="{{unsubscribeUrl}}" style="color: #999;">Unsubscribe from notification emails</a></p>
+    </div>
+</body>
+</html>
+    `.trim());
   }
 
   /**
-   * Send verification email
+   * Send verification email (via queue system)
    */
   async sendVerificationEmail(
     email: string, 
     username: string, 
     verificationToken: string
   ): Promise<EmailSendResult> {
-    const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/verify-email?token=${verificationToken}`;
+    try {
+      // Use queue system for better reliability and scalability
+      const { EmailQueueIntegration } = await import('./queue-integration');
+      await EmailQueueIntegration.sendVerificationEmail(email, username, verificationToken);
+      
+      return {
+        success: true,
+        messageId: `queued-${Date.now()}`
+      };
+    } catch (error) {
+      // Fallback to direct sending if queue system is unavailable
+      const verificationUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/verify-email?token=${verificationToken}`;
+      
+      return await this.sendEmail(
+        email,
+        'Verify Your Email - CRYB',
+        'verification',
+        {
+          username,
+          verificationUrl,
+          verificationToken,
+          expirationHours: 24,
+          year: new Date().getFullYear()
+        },
+        'high'
+      );
+    }
+  }
+
+  /**
+   * Send password reset email (via queue system)
+   */
+  async sendPasswordResetEmail(
+    email: string, 
+    username: string, 
+    resetToken: string
+  ): Promise<EmailSendResult> {
+    try {
+      // Use queue system for better reliability and scalability
+      const { EmailQueueIntegration } = await import('./queue-integration');
+      await EmailQueueIntegration.sendPasswordResetEmail(email, username, resetToken);
+      
+      return {
+        success: true,
+        messageId: `queued-${Date.now()}`
+      };
+    } catch (error) {
+      // Fallback to direct sending if queue system is unavailable
+      const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
+      
+      return await this.sendEmail(
+        email,
+        'Reset Your Password - CRYB',
+        'password-reset',
+        {
+          username,
+          resetUrl,
+          resetToken,
+          expirationHours: 1,
+          year: new Date().getFullYear()
+        },
+        'urgent'
+      );
+    }
+  }
+
+  /**
+   * Send welcome email (via queue system)
+   */
+  async sendWelcomeEmail(email: string, username: string): Promise<EmailSendResult> {
+    try {
+      // Use queue system for better reliability and scalability
+      const { EmailQueueIntegration } = await import('./queue-integration');
+      await EmailQueueIntegration.sendWelcomeEmail(email, username);
+      
+      return {
+        success: true,
+        messageId: `queued-${Date.now()}`
+      };
+    } catch (error) {
+      // Fallback to direct sending if queue system is unavailable
+      const appUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+      
+      return await this.sendEmail(
+        email,
+        'Welcome to CRYB!',
+        'welcome',
+        {
+          username,
+          appUrl,
+          year: new Date().getFullYear()
+        },
+        'normal'
+      );
+    }
+  }
+
+  /**
+   * Send notification digest email
+   */
+  async sendNotificationDigest(
+    email: string, 
+    username: string, 
+    notifications: Array<{title: string, content: string, timeAgo: string}>
+  ): Promise<EmailSendResult> {
+    if (notifications.length === 0) {
+      return { success: true, messageId: 'no-notifications' };
+    }
+
+    const appUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const unsubscribeUrl = `${appUrl}/settings/notifications`;
     
     return await this.sendEmail(
       email,
-      'Verify Your Email - CRYB',
-      'verification',
+      `${notifications.length} New Notifications - CRYB`,
+      'notification-digest',
       {
         username,
-        verificationUrl,
-        verificationToken,
-        expirationHours: 24,
+        notificationCount: notifications.length,
+        notifications,
+        notificationsUrl: `${appUrl}/notifications`,
+        unsubscribeUrl,
+        year: new Date().getFullYear()
+      },
+      'normal'
+    );
+  }
+
+  /**
+   * Send instant notification email
+   */
+  async sendInstantNotification(
+    email: string,
+    username: string,
+    title: string,
+    content: string,
+    actionUrl?: string
+  ): Promise<EmailSendResult> {
+    const appUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    
+    return await this.sendEmail(
+      email,
+      `${title} - CRYB`,
+      'notification-digest',
+      {
+        username,
+        notificationCount: 1,
+        notifications: [{ title, content, timeAgo: 'just now' }],
+        notificationsUrl: actionUrl || `${appUrl}/notifications`,
+        unsubscribeUrl: `${appUrl}/settings/notifications`,
         year: new Date().getFullYear()
       },
       'high'
@@ -302,46 +486,32 @@ export class EmailService {
   }
 
   /**
-   * Send password reset email
+   * Send community invitation email
    */
-  async sendPasswordResetEmail(
-    email: string, 
-    username: string, 
-    resetToken: string
+  async sendCommunityInvitation(
+    email: string,
+    username: string,
+    communityName: string,
+    inviterName: string,
+    inviteUrl: string
   ): Promise<EmailSendResult> {
-    const resetUrl = `${process.env.FRONTEND_URL || 'http://localhost:3000'}/reset-password?token=${resetToken}`;
-    
     return await this.sendEmail(
       email,
-      'Reset Your Password - CRYB',
-      'password-reset',
+      `You've been invited to join ${communityName} on CRYB`,
+      'notification-digest',
       {
         username,
-        resetUrl,
-        resetToken,
-        expirationHours: 1,
+        notificationCount: 1,
+        notifications: [{
+          title: `Invitation to ${communityName}`,
+          content: `${inviterName} has invited you to join the ${communityName} community`,
+          timeAgo: 'just now'
+        }],
+        notificationsUrl: inviteUrl,
+        unsubscribeUrl: `${process.env.FRONTEND_URL}/settings/notifications`,
         year: new Date().getFullYear()
       },
-      'urgent'
-    );
-  }
-
-  /**
-   * Send welcome email
-   */
-  async sendWelcomeEmail(email: string, username: string): Promise<EmailSendResult> {
-    const appUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
-    
-    return await this.sendEmail(
-      email,
-      'Welcome to CRYB!',
-      'welcome',
-      {
-        username,
-        appUrl,
-        year: new Date().getFullYear()
-      },
-      'normal'
+      'high'
     );
   }
 
@@ -557,51 +727,180 @@ export class EmailService {
   }
 
   /**
-   * SMTP provider (placeholder)
+   * SMTP provider implementation
    */
   private async sendWithSMTP(emailItem: EmailQueueItem, htmlContent: string): Promise<EmailSendResult> {
-    // Placeholder for SMTP implementation
-    console.warn('SMTP provider not implemented');
-    return {
-      success: false,
-      error: 'SMTP provider not implemented'
-    };
+    try {
+      const nodemailer = await import('nodemailer');
+      
+      if (!this.config.smtp) {
+        throw new Error('SMTP configuration not provided');
+      }
+
+      const transporter = nodemailer.createTransporter({
+        host: this.config.smtp.host,
+        port: this.config.smtp.port,
+        secure: this.config.smtp.secure,
+        auth: {
+          user: this.config.smtp.auth.user,
+          pass: this.config.smtp.auth.pass,
+        },
+      });
+
+      const mailOptions = {
+        from: this.config.defaults.from,
+        to: emailItem.to,
+        subject: emailItem.subject,
+        html: htmlContent,
+        replyTo: this.config.defaults.replyTo,
+      };
+
+      const result = await transporter.sendMail(mailOptions);
+      
+      return {
+        success: true,
+        messageId: result.messageId
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'SMTP sending failed'
+      };
+    }
   }
 
   /**
-   * SendGrid provider (placeholder)
+   * SendGrid provider implementation
    */
   private async sendWithSendGrid(emailItem: EmailQueueItem, htmlContent: string): Promise<EmailSendResult> {
-    // Placeholder for SendGrid implementation
-    console.warn('SendGrid provider not implemented');
-    return {
-      success: false,
-      error: 'SendGrid provider not implemented'
-    };
+    try {
+      const sgMail = await import('@sendgrid/mail');
+      
+      if (!this.config.sendgrid?.apiKey) {
+        throw new Error('SendGrid API key not provided');
+      }
+
+      sgMail.default.setApiKey(this.config.sendgrid.apiKey);
+
+      const msg = {
+        to: emailItem.to,
+        from: this.config.defaults.from,
+        subject: emailItem.subject,
+        html: htmlContent,
+        replyTo: this.config.defaults.replyTo,
+      };
+
+      const response = await sgMail.default.send(msg);
+      
+      return {
+        success: true,
+        messageId: response[0]?.headers?.['x-message-id'] || emailItem.id
+      };
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error?.response?.body?.errors?.[0]?.message || error.message || 'SendGrid sending failed'
+      };
+    }
   }
 
   /**
-   * Mailgun provider (placeholder)
+   * Mailgun provider implementation
    */
   private async sendWithMailgun(emailItem: EmailQueueItem, htmlContent: string): Promise<EmailSendResult> {
-    // Placeholder for Mailgun implementation
-    console.warn('Mailgun provider not implemented');
-    return {
-      success: false,
-      error: 'Mailgun provider not implemented'
-    };
+    try {
+      if (!this.config.mailgun?.apiKey || !this.config.mailgun?.domain) {
+        throw new Error('Mailgun API key and domain are required');
+      }
+
+      const formData = new FormData();
+      formData.append('from', this.config.defaults.from);
+      formData.append('to', emailItem.to);
+      formData.append('subject', emailItem.subject);
+      formData.append('html', htmlContent);
+      if (this.config.defaults.replyTo) {
+        formData.append('h:Reply-To', this.config.defaults.replyTo);
+      }
+
+      const response = await fetch(
+        `https://api.mailgun.net/v3/${this.config.mailgun.domain}/messages`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Basic ${Buffer.from(`api:${this.config.mailgun.apiKey}`).toString('base64')}`,
+          },
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Mailgun API error');
+      }
+
+      const result = await response.json();
+      
+      return {
+        success: true,
+        messageId: result.id
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Mailgun sending failed'
+      };
+    }
   }
 
   /**
-   * AWS SES provider (placeholder)
+   * AWS SES provider implementation
    */
   private async sendWithSES(emailItem: EmailQueueItem, htmlContent: string): Promise<EmailSendResult> {
-    // Placeholder for AWS SES implementation
-    console.warn('AWS SES provider not implemented');
-    return {
-      success: false,
-      error: 'AWS SES provider not implemented'
-    };
+    try {
+      if (!this.config.ses?.region || !this.config.ses?.accessKeyId || !this.config.ses?.secretAccessKey) {
+        throw new Error('AWS SES configuration (region, accessKeyId, secretAccessKey) is required');
+      }
+
+      const AWS = await import('aws-sdk');
+      
+      const ses = new AWS.SES({
+        region: this.config.ses.region,
+        accessKeyId: this.config.ses.accessKeyId,
+        secretAccessKey: this.config.ses.secretAccessKey,
+      });
+
+      const params = {
+        Source: this.config.defaults.from,
+        Destination: {
+          ToAddresses: [emailItem.to],
+        },
+        Message: {
+          Subject: {
+            Data: emailItem.subject,
+            Charset: 'UTF-8',
+          },
+          Body: {
+            Html: {
+              Data: htmlContent,
+              Charset: 'UTF-8',
+            },
+          },
+        },
+        ReplyToAddresses: this.config.defaults.replyTo ? [this.config.defaults.replyTo] : [],
+      };
+
+      const result = await ses.sendEmail(params).promise();
+      
+      return {
+        success: true,
+        messageId: result.MessageId
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'AWS SES sending failed'
+      };
+    }
   }
 
   /**

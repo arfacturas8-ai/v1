@@ -1,0 +1,21 @@
+# EAS Build ignore file
+# Ignore data directories that cause permission issues
+data/
+backups/
+logs/
+node_modules/
+.git/
+*.log
+.env*
+dist/
+build/
+coverage/
+.next/
+.expo/
+.turbo/
+postgres-data/
+redis-data/
+elasticsearch-data/
+minio-data/
+grafana-data/
+prometheus-data/

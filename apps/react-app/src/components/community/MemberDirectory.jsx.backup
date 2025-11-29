@@ -1,0 +1,643 @@
+import React, { useState, useEffect } from 'react'
+import {
+  Users, Search, Filter, Crown, Star, Shield,
+  UserPlus, Ban, MoreVertical, User, Calendar,
+  Mail, MessageCircle, Settings, Copy, Check
+} from 'lucide-react'
+import communityService, { COMMUNITY_ROLES } from '../../services/communityService'
+import socketService from '../../services/socket'
+import { useConfirmationDialog } from '../ui/modal'
+
+
+const styles = {
+  card: {
+    background: 'rgba(22, 27, 34, 0.6)',
+    backdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '12px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+    padding: '16px'
+  },
+  button: {
+    background: 'linear-gradient(to right, #2081E2, #8247E5)',
+    border: 'none',
+    borderRadius: '12px',
+    color: '#ffffff',
+    padding: '12px 24px',
+    cursor: 'pointer',
+    fontWeight: '600',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+  },
+  container: {
+    background: '#0d1117',
+    padding: '16px'
+  },
+  title: {
+    color: '#ffffff',
+    fontSize: '20px',
+    fontWeight: '600',
+    margin: '0 0 16px 0'
+  },
+  text: {
+    color: '#c9d1d9',
+    fontSize: '14px',
+    margin: '0'
+  },
+  textTertiary: {
+    color: '#8b949e',
+    fontSize: '14px'
+  }
+}
+
+export default function MemberDirectory({
+  communityId,
+  currentUser,
+  canManageMembers = false,
+  canBanMembers = false
+}) {
+  const [members, setMembers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [roleFilter, setRoleFilter] = useState('all')
+  const [sortBy, setSortBy] = useState('joinDate') // joinDate, name, role, activity
+  const [pagination, setPagination] = useState({ page: 1, hasMore: true })
+  const [showInviteModal, setShowInviteModal] = useState(false)
+  const [selectedMember, setSelectedMember] = useState(null)
+  const [actionMenuOpen, setActionMenuOpen] = useState(null)
+
+  const { confirm, ConfirmationDialog } = useConfirmationDialog()
+
+  useEffect(() => {
+    loadMembers(true)
+    
+    // Set up real-time updates
+    socketService.on('member_joined', handleMemberJoined)
+    socketService.on('member_left', handleMemberLeft)
+    socketService.on('member_role_updated', handleMemberRoleUpdated)
+    socketService.on('member_banned', handleMemberBanned)
+    
+    return () => {
+      socketService.off('member_joined', handleMemberJoined)
+      socketService.off('member_left', handleMemberLeft)
+      socketService.off('member_role_updated', handleMemberRoleUpdated)
+      socketService.off('member_banned', handleMemberBanned)
+    }
+  }, [communityId])
+
+  useEffect(() => {
+    if (searchQuery || roleFilter !== 'all' || sortBy !== 'joinDate') {
+      loadMembers(true)
+    }
+  }, [searchQuery, roleFilter, sortBy])
+
+  const loadMembers = async (reset = false) => {
+    try {
+      setLoading(reset)
+      setError(null)
+      
+      const options = {
+        page: reset ? 1 : pagination.page,
+        limit: 50,
+        role: roleFilter !== 'all' ? roleFilter : undefined,
+        sort: sortBy,
+        search: searchQuery || undefined
+      }
+      
+      const result = await communityService.getCommunityMembers(communityId, options)
+      
+      if (result.success) {
+        if (reset) {
+          setMembers(result.members)
+          setPagination({ page: 1, hasMore: result.pagination?.hasMore ?? false })
+        } else {
+          setMembers(prev => [...prev, ...result.members])
+          setPagination(prev => ({ 
+            page: prev.page + 1, 
+            hasMore: result.pagination?.hasMore ?? false 
+          }))
+        }
+      } else {
+        setError(result.error)
+      }
+    } catch (error) {
+      console.error('Failed to load members:', error)
+      setError('Failed to load members')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Real-time event handlers
+  const handleMemberJoined = (data) => {
+    if (data.communityId === communityId) {
+      setMembers(prev => [data.member, ...prev])
+    }
+  }
+
+  const handleMemberLeft = (data) => {
+    if (data.communityId === communityId) {
+      setMembers(prev => prev.filter(m => m.id !== data.userId))
+    }
+  }
+
+  const handleMemberRoleUpdated = (data) => {
+    if (data.communityId === communityId) {
+      setMembers(prev => prev.map(member => 
+        member.id === data.userId 
+          ? { ...member, role: data.newRole }
+          : member
+      ))
+    }
+  }
+
+  const handleMemberBanned = (data) => {
+    if (data.communityId === communityId) {
+      setMembers(prev => prev.filter(m => m.id !== data.userId))
+    }
+  }
+
+  const handleRoleUpdate = async (userId, newRole) => {
+    try {
+      const result = await communityService.updateMemberRole(communityId, userId, newRole)
+      if (result.success) {
+        setMembers(prev => prev.map(member => 
+          member.id === userId ? { ...member, role: newRole } : member
+        ))
+        setActionMenuOpen(null)
+      } else {
+        setError(result.error)
+      }
+    } catch (error) {
+      console.error('Failed to update role:', error)
+      setError('Failed to update member role')
+    }
+  }
+
+  const handleBanMember = async (userId, reason = 'Banned by moderator') => {
+    const confirmed = await confirm({
+      type: 'error',
+      title: 'Ban Member',
+      description: 'Are you sure you want to ban this member? This action will remove them from the community.',
+      confirmText: 'Ban',
+      confirmVariant: 'destructive'
+    })
+
+    if (!confirmed) return
+
+    try {
+      const result = await communityService.banMember(communityId, userId, reason)
+      if (result.success) {
+        setMembers(prev => prev.filter(m => m.id !== userId))
+        setActionMenuOpen(null)
+      } else {
+        setError(result.error)
+      }
+    } catch (error) {
+      console.error('Failed to ban member:', error)
+      setError('Failed to ban member')
+    }
+  }
+
+  const handleRemoveMember = async (userId) => {
+    const confirmed = await confirm({
+      type: 'warning',
+      title: 'Remove Member',
+      description: 'Are you sure you want to remove this member from the community?',
+      confirmText: 'Remove',
+      confirmVariant: 'destructive'
+    })
+
+    if (!confirmed) return
+
+    try {
+      const result = await communityService.removeMember(communityId, userId)
+      if (result.success) {
+        setMembers(prev => prev.filter(m => m.id !== userId))
+        setActionMenuOpen(null)
+      } else {
+        setError(result.error)
+      }
+    } catch (error) {
+      console.error('Failed to remove member:', error)
+      setError('Failed to remove member')
+    }
+  }
+
+  const getRoleIcon = (role) => {
+    switch (role) {
+      case COMMUNITY_ROLES.OWNER:
+        return <Crown className="role-icon owner" size={16} />
+      case COMMUNITY_ROLES.ADMIN:
+        return <Star className="role-icon admin" size={16} />
+      case COMMUNITY_ROLES.MODERATOR:
+        return <Shield className="role-icon moderator" size={16} />
+      default:
+        return <User className="role-icon member" size={16} />
+    }
+  }
+
+  const getRoleColor = (role) => {
+    switch (role) {
+      case COMMUNITY_ROLES.OWNER: return '#f59e0b'
+      case COMMUNITY_ROLES.ADMIN: return '#8247E5'
+      case COMMUNITY_ROLES.MODERATOR: return '#06b6d4'
+      default: return '#6b7280'
+    }
+  }
+
+  const canManageMember = (member) => {
+    if (!canManageMembers) return false
+    if (member.id === currentUser.id) return false
+    
+    // Role hierarchy check
+    const roleHierarchy = {
+      [COMMUNITY_ROLES.OWNER]: 4,
+      [COMMUNITY_ROLES.ADMIN]: 3,
+      [COMMUNITY_ROLES.MODERATOR]: 2,
+      [COMMUNITY_ROLES.MEMBER]: 1
+    }
+    
+    const currentUserLevel = roleHierarchy[currentUser.role] || 0
+    const memberLevel = roleHierarchy[member.role] || 0
+    
+    return currentUserLevel > memberLevel
+  }
+
+  if (loading && members.length === 0) {
+    return (
+      <div className="member-directory">
+        <div className="loading-state">
+          <div className="spinner"></div>
+          <p>Loading members...</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="member-directory">
+      <div className="directory-header">
+        <div className="header-info">
+          <h2>
+            <Users size={24} />
+            Community Members
+          </h2>
+          <p>{members.length} members</p>
+        </div>
+        
+        {canManageMembers && (
+          <button 
+            className="invite-btn"
+            onClick={() => setShowInviteModal(true)}
+          >
+            <UserPlus size={18} />
+            Invite Members
+          </button>
+        )}
+      </div>
+
+      <div className="directory-controls">
+        <div className="search-bar">
+          <Search size={18} />
+          <input
+            type="text"
+            placeholder="Search members..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+
+        <div className="filters">
+          <select 
+            value={roleFilter}
+            onChange={(e) => setRoleFilter(e.target.value)}
+            className="role-filter"
+          >
+            <option value="all">All Roles</option>
+            <option value={COMMUNITY_ROLES.OWNER}>Owners</option>
+            <option value={COMMUNITY_ROLES.ADMIN}>Admins</option>
+            <option value={COMMUNITY_ROLES.MODERATOR}>Moderators</option>
+            <option value={COMMUNITY_ROLES.MEMBER}>Members</option>
+          </select>
+
+          <select 
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="sort-select"
+          >
+            <option value="joinDate">Join Date</option>
+            <option value="name">Name</option>
+            <option value="role">Role</option>
+            <option value="activity">Activity</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="members-grid">
+        {members.map(member => (
+          <div key={member.id} className="member-card">
+            <div className="member-avatar">
+              <img 
+                src={member.avatar || '/default-avatar.png'} 
+                alt={member.username}
+                onError={(e) => {
+                  e.target.src = '/default-avatar.png'
+                }}
+              />
+              <div 
+                className="role-badge" 
+                style={{ backgroundColor: getRoleColor(member.role) }}
+              >
+                {getRoleIcon(member.role)}
+              </div>
+            </div>
+
+            <div className="member-info">
+              <h3>{member.displayName || member.username}</h3>
+              <p className="username">@{member.username}</p>
+              <div className="member-meta">
+                <span className="role">{member.role}</span>
+                <span className="join-date">
+                  <Calendar size={12} />
+                  Joined {new Date(member.joinedAt).toLocaleDateString()}
+                </span>
+              </div>
+            </div>
+
+            <div className="member-stats">
+              <div className="stat">
+                <span className="stat-value">{member.postCount || 0}</span>
+                <span className="stat-label">Posts</span>
+              </div>
+              <div className="stat">
+                <span className="stat-value">{member.karma || 0}</span>
+                <span className="stat-label">Karma</span>
+              </div>
+            </div>
+
+            <div className="member-actions">
+              <button 
+                className="action-btn message"
+                title="Send Message"
+              >
+                <MessageCircle size={16} />
+              </button>
+              
+              {canManageMember(member) && (
+                <div className="dropdown">
+                  <button 
+                    className="action-btn more"
+                    onClick={() => setActionMenuOpen(
+                      actionMenuOpen === member.id ? null : member.id
+                    )}
+                  >
+                    <MoreVertical size={16} />
+                  </button>
+                  
+                  {actionMenuOpen === member.id && (
+                    <div className="dropdown-menu">
+                      <div className="menu-section">
+                        <span className="menu-label">Change Role</span>
+                        {Object.values(COMMUNITY_ROLES).map(role => (
+                          role !== member.role && (
+                            <button
+                              key={role}
+                              onClick={() => handleRoleUpdate(member.id, role)}
+                              className="menu-item"
+                            >
+                              {getRoleIcon(role)}
+                              {role.charAt(0).toUpperCase() + role.slice(1)}
+                            </button>
+                          )
+                        ))}
+                      </div>
+                      
+                      <div className="menu-divider"></div>
+                      
+                      <button
+                        onClick={() => handleRemoveMember(member.id)}
+                        className="menu-item danger"
+                      >
+                        <User size={16} />
+                        Remove from Community
+                      </button>
+                      
+                      {canBanMembers && (
+                        <button
+                          onClick={() => handleBanMember(member.id)}
+                          className="menu-item danger"
+                        >
+                          <Ban size={16} />
+                          Ban Member
+                        </button>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {pagination.hasMore && (
+        <div className="load-more-container">
+          <button 
+            className="load-more-btn"
+            onClick={() => loadMembers()}
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Load More Members'}
+          </button>
+        </div>
+      )}
+
+      {error && (
+        <div className="error-message">
+          <p>{error}</p>
+          <button onClick={() => loadMembers(true)}>Retry</button>
+        </div>
+      )}
+
+      {/* Invite Modal */}
+      {showInviteModal && (
+        <InviteMembersModal
+          communityId={communityId}
+          onClose={() => setShowInviteModal(false)}
+          onInviteSent={() => {
+            setShowInviteModal(false)
+            // Optionally refresh members list
+          }}
+        />
+      )}
+
+      {ConfirmationDialog}
+    </div>
+  )
+}
+
+// Invite Members Modal Component
+function InviteMembersModal({ communityId, onClose, onInviteSent }) {
+  const [inviteMethod, setInviteMethod] = useState('email') // email, link, username
+  const [emails, setEmails] = useState('')
+  const [usernames, setUsernames] = useState('')
+  const [inviteLink, setInviteLink] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [copied, setCopied] = useState(false)
+
+  useEffect(() => {
+    // Generate invite link
+    const link = `${window.location.origin}/communities/${communityId}/join?invite=${Date.now()}`
+    setInviteLink(link)
+  }, [communityId])
+
+  const handleSendInvites = async () => {
+    setLoading(true)
+    
+    try {
+      let inviteData = {}
+      
+      if (inviteMethod === 'email') {
+        const emailList = emails.split(',').map(email => email.trim()).filter(Boolean)
+        if (emailList.length === 0) {
+          alert('Please enter at least one email address')
+          return
+        }
+        inviteData = { emails: emailList }
+      } else if (inviteMethod === 'username') {
+        const usernameList = usernames.split(',').map(username => username.trim()).filter(Boolean)
+        if (usernameList.length === 0) {
+          alert('Please enter at least one username')
+          return
+        }
+        inviteData = { usernames: usernameList }
+      }
+      
+      const result = await communityService.inviteMembers(communityId, inviteData)
+      
+      if (result.success) {
+        onInviteSent()
+      } else {
+        alert(result.error || 'Failed to send invitations')
+      }
+    } catch (error) {
+      console.error('Failed to send invites:', error)
+      alert('Failed to send invitations')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const copyInviteLink = async () => {
+    try {
+      await navigator.clipboard.writeText(inviteLink)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (error) {
+      console.error('Failed to copy link:', error)
+    }
+  }
+
+  return (
+    <div className="modal-overlay">
+      <div className="invite-modal">
+        <div className="modal-header">
+          <h3>Invite Members</h3>
+          <button className="close-btn" onClick={onClose}>×</button>
+        </div>
+
+        <div className="modal-body">
+          <div className="invite-methods">
+            <button
+              className={`method-btn ${inviteMethod === 'link' ? 'active' : ''}`}
+              onClick={() => setInviteMethod('link')}
+            >
+              Share Link
+            </button>
+            <button
+              className={`method-btn ${inviteMethod === 'email' ? 'active' : ''}`}
+              onClick={() => setInviteMethod('email')}
+            >
+              Email Invites
+            </button>
+            <button
+              className={`method-btn ${inviteMethod === 'username' ? 'active' : ''}`}
+              onClick={() => setInviteMethod('username')}
+            >
+              By Username
+            </button>
+          </div>
+
+          {inviteMethod === 'link' && (
+            <div className="invite-link-section">
+              <p>Share this link to invite people to your community:</p>
+              <div className="link-input-container">
+                <input
+                  type="text"
+                  value={inviteLink}
+                  readOnly
+                  className="link-input"
+                />
+                <button 
+                  className="copy-btn"
+                  onClick={copyInviteLink}
+                >
+                  {copied ? <Check size={16} /> : <Copy size={16} />}
+                  {copied ? 'Copied!' : 'Copy'}
+                </button>
+              </div>
+            </div>
+          )}
+
+          {inviteMethod === 'email' && (
+            <div className="email-invite-section">
+              <label htmlFor="emails">Email Addresses</label>
+              <textarea
+                id="emails"
+                value={emails}
+                onChange={(e) => setEmails(e.target.value)}
+                placeholder="Enter email addresses separated by commas"
+                rows={4}
+              />
+              <p className="help-text">
+                Enter multiple email addresses separated by commas
+              </p>
+            </div>
+          )}
+
+          {inviteMethod === 'username' && (
+            <div className="username-invite-section">
+              <label htmlFor="usernames">Usernames</label>
+              <textarea
+                id="usernames"
+                value={usernames}
+                onChange={(e) => setUsernames(e.target.value)}
+                placeholder="Enter usernames separated by commas"
+                rows={4}
+              />
+              <p className="help-text">
+                Enter multiple usernames separated by commas (without @)
+              </p>
+            </div>
+          )}
+        </div>
+
+        <div className="modal-footer">
+          <button className="cancel-btn" onClick={onClose}>
+            Cancel
+          </button>
+          {inviteMethod !== 'link' && (
+            <button 
+              className="send-btn" 
+              onClick={handleSendInvites}
+              disabled={loading}
+            >
+              {loading ? 'Sending...' : 'Send Invites'}
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}

@@ -1,0 +1,332 @@
+{
+  "timestamp": "2025-09-22T19:43:21.978Z",
+  "target": "http://localhost:3002",
+  "summary": {
+    "passed": 17,
+    "failed": 2,
+    "warnings": 0,
+    "tests": [
+      {
+        "name": "Server Response and Basic Security",
+        "status": "PASSED",
+        "message": "Basic security headers present",
+        "severity": "high",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.758Z"
+      },
+      {
+        "name": "Server Information Disclosure",
+        "status": "PASSED",
+        "message": "Server information properly hidden",
+        "severity": "medium",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.799Z"
+      },
+      {
+        "name": "Registration Endpoint Security",
+        "status": "PASSED",
+        "message": "Registration properly validates input",
+        "severity": "high",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.804Z"
+      },
+      {
+        "name": "Login Brute Force Protection",
+        "status": "FAILED",
+        "message": "No rate limiting detected on login endpoint",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.859Z"
+      },
+      {
+        "name": "Unauthorized Access Protection",
+        "status": "PASSED",
+        "message": "Protected endpoints properly secured",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.866Z"
+      },
+      {
+        "name": "HTTP Method Security",
+        "status": "PASSED",
+        "message": "Dangerous HTTP methods properly disabled",
+        "severity": "medium",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.869Z"
+      },
+      {
+        "name": "SQL Injection Test: ' OR '1'='1...",
+        "status": "PASSED",
+        "message": "SQL injection payload properly handled",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.899Z"
+      },
+      {
+        "name": "SQL Injection Test: '; DROP TABLE users;...",
+        "status": "PASSED",
+        "message": "SQL injection payload properly handled",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.906Z"
+      },
+      {
+        "name": "SQL Injection Test: ' UNION SELECT * FRO...",
+        "status": "PASSED",
+        "message": "SQL injection payload properly handled",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.913Z"
+      },
+      {
+        "name": "XSS Protection Test: <script>alert(\"XSS\")</script>...",
+        "status": "PASSED",
+        "message": "XSS payload properly handled",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.920Z"
+      },
+      {
+        "name": "XSS Protection Test: \"><script>alert(\"XSS\")</script...",
+        "status": "PASSED",
+        "message": "XSS payload properly handled",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.928Z"
+      },
+      {
+        "name": "XSS Protection Test: <img src=x onerror=alert(\"XSS\"...",
+        "status": "PASSED",
+        "message": "XSS payload properly handled",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.938Z"
+      },
+      {
+        "name": "Directory Traversal Test: ../../../etc/passwd",
+        "status": "PASSED",
+        "message": "Directory traversal properly blocked",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.943Z"
+      },
+      {
+        "name": "Directory Traversal Test: ..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
+        "status": "PASSED",
+        "message": "Directory traversal properly blocked",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.948Z"
+      },
+      {
+        "name": "Directory Traversal Test: ....//....//....//etc/passwd",
+        "status": "PASSED",
+        "message": "Directory traversal properly blocked",
+        "severity": "critical",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.949Z"
+      },
+      {
+        "name": "Hardcoded Secrets Detection",
+        "status": "FAILED",
+        "message": "Potential hardcoded secrets in env-validation.ts",
+        "severity": "critical",
+        "details": {
+          "file": "/home/ubuntu/cryb-platform/apps/api/src/config/env-validation.ts",
+          "matches": [
+            "secret:');\n        console.error("
+          ]
+        },
+        "timestamp": "2025-09-22T19:43:21.951Z"
+      },
+      {
+        "name": "Environment Variable Security",
+        "status": "PASSED",
+        "message": "Environment configuration secure",
+        "severity": "medium",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.952Z"
+      },
+      {
+        "name": "Debug Mode Detection",
+        "status": "PASSED",
+        "message": "No debug endpoints exposed",
+        "severity": "high",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.968Z"
+      },
+      {
+        "name": "CORS Configuration Security",
+        "status": "PASSED",
+        "message": "CORS configuration appears secure",
+        "severity": "medium",
+        "details": null,
+        "timestamp": "2025-09-22T19:43:21.977Z"
+      }
+    ]
+  },
+  "securityScore": 80,
+  "riskLevel": "CRITICAL",
+  "tests": [
+    {
+      "name": "Server Response and Basic Security",
+      "status": "PASSED",
+      "message": "Basic security headers present",
+      "severity": "high",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.758Z"
+    },
+    {
+      "name": "Server Information Disclosure",
+      "status": "PASSED",
+      "message": "Server information properly hidden",
+      "severity": "medium",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.799Z"
+    },
+    {
+      "name": "Registration Endpoint Security",
+      "status": "PASSED",
+      "message": "Registration properly validates input",
+      "severity": "high",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.804Z"
+    },
+    {
+      "name": "Login Brute Force Protection",
+      "status": "FAILED",
+      "message": "No rate limiting detected on login endpoint",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.859Z"
+    },
+    {
+      "name": "Unauthorized Access Protection",
+      "status": "PASSED",
+      "message": "Protected endpoints properly secured",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.866Z"
+    },
+    {
+      "name": "HTTP Method Security",
+      "status": "PASSED",
+      "message": "Dangerous HTTP methods properly disabled",
+      "severity": "medium",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.869Z"
+    },
+    {
+      "name": "SQL Injection Test: ' OR '1'='1...",
+      "status": "PASSED",
+      "message": "SQL injection payload properly handled",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.899Z"
+    },
+    {
+      "name": "SQL Injection Test: '; DROP TABLE users;...",
+      "status": "PASSED",
+      "message": "SQL injection payload properly handled",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.906Z"
+    },
+    {
+      "name": "SQL Injection Test: ' UNION SELECT * FRO...",
+      "status": "PASSED",
+      "message": "SQL injection payload properly handled",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.913Z"
+    },
+    {
+      "name": "XSS Protection Test: <script>alert(\"XSS\")</script>...",
+      "status": "PASSED",
+      "message": "XSS payload properly handled",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.920Z"
+    },
+    {
+      "name": "XSS Protection Test: \"><script>alert(\"XSS\")</script...",
+      "status": "PASSED",
+      "message": "XSS payload properly handled",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.928Z"
+    },
+    {
+      "name": "XSS Protection Test: <img src=x onerror=alert(\"XSS\"...",
+      "status": "PASSED",
+      "message": "XSS payload properly handled",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.938Z"
+    },
+    {
+      "name": "Directory Traversal Test: ../../../etc/passwd",
+      "status": "PASSED",
+      "message": "Directory traversal properly blocked",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.943Z"
+    },
+    {
+      "name": "Directory Traversal Test: ..\\..\\..\\windows\\system32\\drivers\\etc\\hosts",
+      "status": "PASSED",
+      "message": "Directory traversal properly blocked",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.948Z"
+    },
+    {
+      "name": "Directory Traversal Test: ....//....//....//etc/passwd",
+      "status": "PASSED",
+      "message": "Directory traversal properly blocked",
+      "severity": "critical",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.949Z"
+    },
+    {
+      "name": "Hardcoded Secrets Detection",
+      "status": "FAILED",
+      "message": "Potential hardcoded secrets in env-validation.ts",
+      "severity": "critical",
+      "details": {
+        "file": "/home/ubuntu/cryb-platform/apps/api/src/config/env-validation.ts",
+        "matches": [
+          "secret:');\n        console.error("
+        ]
+      },
+      "timestamp": "2025-09-22T19:43:21.951Z"
+    },
+    {
+      "name": "Environment Variable Security",
+      "status": "PASSED",
+      "message": "Environment configuration secure",
+      "severity": "medium",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.952Z"
+    },
+    {
+      "name": "Debug Mode Detection",
+      "status": "PASSED",
+      "message": "No debug endpoints exposed",
+      "severity": "high",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.968Z"
+    },
+    {
+      "name": "CORS Configuration Security",
+      "status": "PASSED",
+      "message": "CORS configuration appears secure",
+      "severity": "medium",
+      "details": null,
+      "timestamp": "2025-09-22T19:43:21.977Z"
+    }
+  ],
+  "recommendations": [
+    "Move all secrets to environment variables and use proper secret management"
+  ]
+}

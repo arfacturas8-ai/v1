@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-10-01T21:40:22.561Z",
+  "healthScore": 62,
+  "working": [
+    "Health endpoint working: partial",
+    "api service: healthy",
+    "database service: healthy",
+    "redis service: healthy",
+    "elasticsearch service: healthy",
+    "realtime service: healthy",
+    "Metrics endpoint working",
+    "API documentation working",
+    "Endpoint accessible: /api/v1/status",
+    "Auth validation schema working",
+    "Socket.IO server working",
+    "Realtime endpoint exists: /api/v1/messages",
+    "Realtime endpoint exists: /api/v1/channels",
+    "Realtime endpoint exists: /api/v1/servers",
+    "Media endpoint exists: /api/v1/uploads",
+    "WebSocket connection working"
+  ],
+  "gaps": [
+    "minio service: disabled",
+    "Endpoint not found: /api/v1",
+    "Endpoint not found: /api/v1/health",
+    "Auth endpoint missing: /api/v1/auth/register",
+    "Auth endpoint missing: /api/v1/auth/login",
+    "Auth endpoint missing: /api/v1/auth/logout",
+    "Auth endpoint missing: /api/v1/auth/refresh",
+    "Media endpoint missing: /cdn",
+    "Media endpoint missing: /api/v1/uploads/health",
+    "Search endpoint not working"
+  ],
+  "summary": {
+    "totalChecks": 26,
+    "workingCount": 16,
+    "gapCount": 10,
+    "criticalGaps": 4,
+    "featureGaps": 6,
+    "configGaps": 1
+  }
+}

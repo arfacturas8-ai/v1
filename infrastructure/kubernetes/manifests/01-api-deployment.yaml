@@ -1,0 +1,387 @@
+# ==============================================
+# CRYB PLATFORM - API DEPLOYMENT
+# ==============================================
+# Production-grade API deployment with HPA
+# ==============================================
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cryb-api
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+    tier: application
+    version: v1
+    component: backend
+spec:
+  replicas: 6
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: cryb-api
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: cryb-api
+        version: v1
+        tier: application
+        component: backend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "3002"
+        prometheus.io/path: "/metrics"
+        sidecar.istio.io/inject: "true"
+    spec:
+      serviceAccountName: cryb-api-sa
+      automountServiceAccountToken: true
+      
+      # Security Context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000
+        seccompProfile:
+          type: RuntimeDefault
+      
+      # Tolerations for dedicated nodes
+      tolerations:
+        - key: cryb.io/api-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      
+      # Node Selection
+      nodeSelector:
+        role: api
+        nodegroup: cryb-api-nodes
+      
+      # Pod Anti-Affinity for High Availability
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - cryb-api
+                topologyKey: kubernetes.io/hostname
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: role
+                  operator: In
+                  values:
+                    - api
+      
+      # Init Containers
+      initContainers:
+        - name: wait-for-db
+          image: busybox:1.35
+          command: ['sh', '-c']
+          args:
+            - |
+              until nc -z cryb-postgres-primary.cryb-database.svc.cluster.local 5432; do
+                echo "Waiting for database..."
+                sleep 2
+              done
+              echo "Database is ready!"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+        
+        - name: wait-for-redis
+          image: busybox:1.35
+          command: ['sh', '-c']
+          args:
+            - |
+              until nc -z cryb-redis-primary.cryb-database.svc.cluster.local 6379; do
+                echo "Waiting for Redis..."
+                sleep 2
+              done
+              echo "Redis is ready!"
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+      
+      containers:
+        - name: cryb-api
+          image: cryb-api:latest
+          imagePullPolicy: Always
+          
+          ports:
+            - name: http
+              containerPort: 3002
+              protocol: TCP
+            - name: metrics
+              containerPort: 9090
+              protocol: TCP
+          
+          # Environment Variables
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3002"
+            - name: HOST
+              value: "0.0.0.0"
+            - name: LOG_LEVEL
+              value: "info"
+            - name: ENABLE_METRICS
+              value: "true"
+            - name: ENABLE_TRACING
+              value: "true"
+            - name: TRACE_SAMPLE_RATE
+              value: "0.1"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          
+          # Environment from ConfigMap
+          envFrom:
+            - configMapRef:
+                name: cryb-api-config
+            - secretRef:
+                name: cryb-api-secrets
+          
+          # Resource Limits and Requests
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+              ephemeral-storage: "1Gi"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+              ephemeral-storage: "5Gi"
+          
+          # Security Context
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          
+          # Health Checks
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          
+          startupProbe:
+            httpGet:
+              path: /health
+              port: http
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 30
+          
+          # Volume Mounts
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+            - name: cache
+              mountPath: /app/cache
+            - name: logs
+              mountPath: /app/logs
+            - name: uploads
+              mountPath: /app/uploads
+      
+      volumes:
+        - name: tmp
+          emptyDir:
+            sizeLimit: 1Gi
+        - name: cache
+          emptyDir:
+            sizeLimit: 2Gi
+        - name: logs
+          emptyDir:
+            sizeLimit: 5Gi
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: cryb-api-uploads
+
+---
+# Service Account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cryb-api-sa
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/CrybApiServiceRole
+
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cryb-api
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+    service: cryb-api
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "3002"
+    prometheus.io/path: "/metrics"
+spec:
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
+    - name: metrics
+      port: 9090
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: cryb-api
+    version: v1
+
+---
+# Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: cryb-api-hpa
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: cryb-api
+  minReplicas: 6
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+    - type: Pods
+      pods:
+        metric:
+          name: active_connections
+        target:
+          type: AverageValue
+          averageValue: "1000"
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+        - type: Percent
+          value: 10
+          periodSeconds: 60
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+        - type: Percent
+          value: 50
+          periodSeconds: 60
+        - type: Pods
+          value: 5
+          periodSeconds: 60
+      selectPolicy: Max
+
+---
+# Pod Disruption Budget
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: cryb-api-pdb
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+spec:
+  minAvailable: 50%
+  selector:
+    matchLabels:
+      app: cryb-api
+      version: v1
+
+---
+# Persistent Volume Claim for uploads
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cryb-api-uploads
+  namespace: cryb-api
+  labels:
+    app: cryb-api
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 100Gi

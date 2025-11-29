@@ -1,0 +1,1161 @@
+{
+  "timestamp": "2025-09-22T18:27:12.350Z",
+  "platform": "CRYB Real-time Platform",
+  "version": "1.0.0",
+  "testSuite": "Comprehensive Real-time Audit",
+  "overallStatus": "NEEDS_IMPROVEMENT",
+  "summary": {
+    "totalTests": 21,
+    "passed": 9,
+    "failed": 7,
+    "warnings": 5,
+    "critical": 0
+  },
+  "categories": {
+    "connectivity": {
+      "status": "PASS",
+      "tests": [
+        {
+          "name": "API Health Check",
+          "status": "PASS",
+          "message": "API server is responsive",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:12.404Z"
+        },
+        {
+          "name": "WebSocket Connection",
+          "status": "PASS",
+          "message": "WebSocket connection established successfully",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:12.462Z"
+        },
+        {
+          "name": "Socket Authentication",
+          "status": "PASS",
+          "message": "Socket authenticated successfully",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:12.462Z"
+        }
+      ]
+    },
+    "authentication": {
+      "status": "FAIL",
+      "tests": [
+        {
+          "name": "Valid Token Auth",
+          "status": "PASS",
+          "message": "Valid token accepted",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:12.513Z"
+        },
+        {
+          "name": "Invalid Token Rejection",
+          "status": "FAIL",
+          "message": "Invalid token was accepted",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:12.534Z"
+        },
+        {
+          "name": "No Token Rejection",
+          "status": "FAIL",
+          "message": "Connection allowed without token",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:12.543Z"
+        }
+      ]
+    },
+    "messaging": {
+      "status": "FAIL",
+      "tests": [
+        {
+          "name": "Direct Message Delivery",
+          "status": "FAIL",
+          "message": "Message not received",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:15.653Z"
+        },
+        {
+          "name": "Channel Message Broadcasting",
+          "status": "FAIL",
+          "message": "Channel message not received",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:18.156Z"
+        },
+        {
+          "name": "Typing Indicator Start",
+          "status": "FAIL",
+          "message": "Typing indicator not received",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:21.770Z"
+        },
+        {
+          "name": "Typing Indicator Stop",
+          "status": "FAIL",
+          "message": "Typing stopped indicator not received",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:21.770Z"
+        }
+      ]
+    },
+    "presence": {
+      "status": "FAIL",
+      "tests": [
+        {
+          "name": "Presence Update",
+          "status": "FAIL",
+          "message": "Presence update not received",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:25.890Z"
+        },
+        {
+          "name": "Offline Detection",
+          "status": "WARNING",
+          "message": "Offline detection not received (may take longer)",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:25.890Z"
+        }
+      ]
+    },
+    "voice": {
+      "status": "FAIL",
+      "tests": [
+        {
+          "name": "Voice Channel Join",
+          "status": "WARNING",
+          "message": "Voice join not confirmed (may be due to LiveKit configuration)",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:29.946Z"
+        },
+        {
+          "name": "Voice Channel Leave",
+          "status": "WARNING",
+          "message": "Voice leave not confirmed",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:29.946Z"
+        }
+      ]
+    },
+    "notifications": {
+      "status": "FAIL",
+      "tests": [
+        {
+          "name": "Real-time Notification",
+          "status": "WARNING",
+          "message": "Test notification not received",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:32.001Z"
+        }
+      ]
+    },
+    "channels": {
+      "status": "SKIPPED",
+      "tests": []
+    },
+    "scaling": {
+      "status": "PASS",
+      "tests": [
+        {
+          "name": "Redis Integration",
+          "status": "PASS",
+          "message": "Redis-based features operational",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:40.182Z"
+        }
+      ]
+    },
+    "persistence": {
+      "status": "SKIPPED",
+      "tests": []
+    },
+    "resilience": {
+      "status": "PASS",
+      "tests": [
+        {
+          "name": "Manual Reconnection",
+          "status": "PASS",
+          "message": "Manual reconnection successful",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:38.122Z"
+        }
+      ]
+    },
+    "security": {
+      "status": "FAIL",
+      "tests": [
+        {
+          "name": "Rate Limiting",
+          "status": "WARNING",
+          "message": "Rate limiting not detected (may be configured differently)",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:35.057Z"
+        }
+      ]
+    },
+    "performance": {
+      "status": "PASS",
+      "tests": [
+        {
+          "name": "Concurrent Connections",
+          "status": "PASS",
+          "message": "Handled 10 concurrent connections",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:45.302Z"
+        },
+        {
+          "name": "Memory Usage",
+          "status": "PASS",
+          "message": "Memory increase: 1MB",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:45.303Z"
+        },
+        {
+          "name": "Response Time",
+          "status": "PASS",
+          "message": "Total test time: 5118ms",
+          "data": null,
+          "timestamp": "2025-09-22T18:27:45.303Z"
+        }
+      ]
+    }
+  },
+  "detailedResults": [
+    {
+      "timestamp": "2025-09-22T18:27:12.352Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Starting connectivity tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.404Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "API Health Check: API server is responsive",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.404Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: testuser_ea61a5f1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.445Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Test user created successfully: cmfvgkm9a000r4h23464npivu",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.462Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 16ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.462Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "WebSocket Connection: WebSocket connection established successfully",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.462Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket Authentication: Socket authenticated successfully",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.463Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.464Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Starting authentication tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.464Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: testuser_b70a4fa8",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.502Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Test user created successfully: cmfvgkmax000s4h23s02e6215",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.513Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 10ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.513Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Valid Token Auth: Valid token accepted",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.514Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.533Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 18ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.533Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.534Z",
+      "level": "error",
+      "category": "authentication",
+      "message": "Invalid Token Rejection: Invalid token was accepted",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.543Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 9ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.543Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.543Z",
+      "level": "error",
+      "category": "authentication",
+      "message": "No Token Rejection: Connection allowed without token",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.543Z",
+      "level": "info",
+      "category": "messaging",
+      "message": "Starting messaging tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.544Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: msg_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.587Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggsy000044h23stwf26l9",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.587Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: msg_user2",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.632Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggsz000054h234nv38lst",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.641Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 9ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:12.649Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 8ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:15.653Z",
+      "level": "error",
+      "category": "messaging",
+      "message": "Direct Message Delivery: Message not received",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.156Z",
+      "level": "error",
+      "category": "messaging",
+      "message": "Channel Message Broadcasting: Channel message not received",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.157Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.158Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.158Z",
+      "level": "info",
+      "category": "messaging",
+      "message": "Starting typing indicators tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.158Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: typing_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.206Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt0400064h23wzeenx5t",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.206Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: typing_user2",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.248Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt1300074h23lvnxmopu",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.257Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 9ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:18.265Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 8ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.770Z",
+      "level": "error",
+      "category": "messaging",
+      "message": "Typing Indicator Start: Typing indicator not received",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.770Z",
+      "level": "error",
+      "category": "messaging",
+      "message": "Typing Indicator Stop: Typing stopped indicator not received",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.771Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.772Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.772Z",
+      "level": "info",
+      "category": "presence",
+      "message": "Starting presence tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.772Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: presence_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.822Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt2500084h239v9rbilf",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.822Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: presence_user2",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.866Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt3400094h236z0sxyeb",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.876Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 10ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:21.886Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 9ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:23.888Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:25.890Z",
+      "level": "error",
+      "category": "presence",
+      "message": "Presence Update: Presence update not received",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:25.890Z",
+      "level": "warn",
+      "category": "presence",
+      "message": "Offline Detection: Offline detection not received (may take longer)",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:25.891Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:25.891Z",
+      "level": "info",
+      "category": "voice",
+      "message": "Starting voice channel tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:25.891Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: voice_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:25.933Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt4a000a4h23wmxeg9hj",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:25.940Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 7ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:29.946Z",
+      "level": "warn",
+      "category": "voice",
+      "message": "Voice Channel Join: Voice join not confirmed (may be due to LiveKit configuration)",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:29.946Z",
+      "level": "warn",
+      "category": "voice",
+      "message": "Voice Channel Leave: Voice leave not confirmed",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:29.946Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:29.947Z",
+      "level": "info",
+      "category": "notifications",
+      "message": "Starting notifications tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:29.947Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: notif_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:29.990Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt59000b4h23fyiloa0q",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:30.000Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 10ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:32.001Z",
+      "level": "warn",
+      "category": "notifications",
+      "message": "Real-time Notification: Test notification not received",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:32.003Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:32.003Z",
+      "level": "info",
+      "category": "security",
+      "message": "Starting rate limiting tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:32.003Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: rate_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:32.048Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt6c000c4h23j9tdafap",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:32.054Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 6ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:35.057Z",
+      "level": "warn",
+      "category": "security",
+      "message": "Rate Limiting: Rate limiting not detected (may be configured differently)",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:35.058Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:35.058Z",
+      "level": "info",
+      "category": "resilience",
+      "message": "Starting reconnection tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:35.058Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: reconnect_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:35.104Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt7c000d4h23n4w7mp99",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:35.112Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 7ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:36.112Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:37.121Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 8ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:38.122Z",
+      "level": "info",
+      "category": "resilience",
+      "message": "Manual Reconnection: Manual reconnection successful",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:38.123Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:38.123Z",
+      "level": "info",
+      "category": "scaling",
+      "message": "Starting Redis pub/sub tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:38.123Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: redis_user1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:38.174Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt8h000e4h239q17gyq2",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:38.180Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 6ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.182Z",
+      "level": "info",
+      "category": "scaling",
+      "message": "Redis Integration: Redis-based features operational",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.183Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.184Z",
+      "level": "info",
+      "category": "performance",
+      "message": "Starting performance tests...",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.184Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_0",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.230Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvggt9i000f4h230r8ooi6x",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.238Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 8ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.238Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_1",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.293Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikqn000i4h23wbt9mwcu",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.304Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 11ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.304Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_2",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.388Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikrt000j4h23azqgfaym",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.399Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 11ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.400Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_3",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.450Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikt5000k4h23kabphaof",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.459Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 9ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.459Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_4",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.506Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikua000l4h23i2oofj7d",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.515Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 8ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.516Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_5",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.561Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikve000m4h23r21m0rj9",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.568Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 7ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.568Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_6",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.611Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikwk000n4h238bmpm19u",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.618Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 7ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.619Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_7",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.670Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikxs000o4h236c00xmce",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.678Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 8ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.678Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_8",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.718Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgikyv000p4h23l7u0fskn",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.726Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 8ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.726Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Creating test user: perf_user_9",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.771Z",
+      "level": "info",
+      "category": "authentication",
+      "message": "Using existing test user: cmfvgil01000q4h2389eemne5",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:40.780Z",
+      "level": "info",
+      "category": "connectivity",
+      "message": "Socket connected in 9ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.302Z",
+      "level": "info",
+      "category": "performance",
+      "message": "Concurrent Connections: Handled 10 concurrent connections",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.303Z",
+      "level": "info",
+      "category": "performance",
+      "message": "Memory Usage: Memory increase: 1MB",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.303Z",
+      "level": "info",
+      "category": "performance",
+      "message": "Response Time: Total test time: 5118ms",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.303Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.304Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.305Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.305Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.305Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.306Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.306Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.306Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.307Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    },
+    {
+      "timestamp": "2025-09-22T18:27:45.307Z",
+      "level": "warn",
+      "category": "connectivity",
+      "message": "Socket disconnected: io client disconnect",
+      "data": null
+    }
+  ],
+  "performance": {
+    "connectionTime": 9,
+    "messageLatency": [],
+    "memoryUsage": [
+      {
+        "start": {
+          "rss": 70422528,
+          "heapTotal": 14409728,
+          "heapUsed": 12055104,
+          "external": 3471287,
+          "arrayBuffers": 89631
+        },
+        "end": {
+          "rss": 72650752,
+          "heapTotal": 18079744,
+          "heapUsed": 13250640,
+          "external": 3489799,
+          "arrayBuffers": 108103
+        },
+        "increase": 1195536
+      }
+    ],
+    "cpuUsage": [],
+    "errors": []
+  },
+  "recommendations": [
+    "Multiple test failures detected - review real-time implementation"
+  ]
+}

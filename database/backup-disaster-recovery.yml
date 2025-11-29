@@ -1,0 +1,733 @@
+# CRYB Platform Comprehensive Backup and Disaster Recovery System
+# Enterprise-grade backup and recovery for Reddit/Discord scale resilience
+# Author: Database Infrastructure Team
+# Version: 1.0
+
+version: '3.9'
+
+services:
+  # ==========================================
+  # PRIMARY BACKUP COORDINATOR
+  # ==========================================
+  backup-coordinator:
+    image: postgres:15-alpine
+    container_name: cryb-backup-coordinator
+    hostname: backup-coordinator
+    restart: unless-stopped
+    
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET}
+      BACKUP_ENCRYPTION_KEY: ${BACKUP_ENCRYPTION_KEY}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL}
+      
+    volumes:
+      - backup_scripts:/scripts
+      - backup_logs:/var/log/backups
+      - backup_temp:/tmp/backups
+      - ./scripts/backup:/scripts/backup:ro
+      - ./scripts/recovery:/scripts/recovery:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      
+    networks:
+      - cryb-backup-network
+      
+    command: >
+      sh -c "
+        apk add --no-cache aws-cli curl jq docker-cli
+        
+        # Create backup directories
+        mkdir -p /var/log/backups /tmp/backups
+        
+        # Set up cron jobs for automated backups
+        echo '# CRYB Platform Backup Schedule
+        # Full database backup daily at 2 AM
+        0 2 * * * /scripts/backup/full-backup.sh >> /var/log/backups/full-backup.log 2>&1
+        
+        # Incremental backup every 4 hours
+        0 */4 * * * /scripts/backup/incremental-backup.sh >> /var/log/backups/incremental-backup.log 2>&1
+        
+        # WAL archiving continuous
+        * * * * * /scripts/backup/wal-archive.sh >> /var/log/backups/wal-archive.log 2>&1
+        
+        # Redis backup every 6 hours
+        0 */6 * * * /scripts/backup/redis-backup.sh >> /var/log/backups/redis-backup.log 2>&1
+        
+        # Backup validation daily at 6 AM
+        0 6 * * * /scripts/backup/validate-backups.sh >> /var/log/backups/validation.log 2>&1
+        
+        # Cleanup old backups weekly
+        0 3 * * 0 /scripts/backup/cleanup-backups.sh >> /var/log/backups/cleanup.log 2>&1
+        
+        # Disaster recovery test monthly
+        0 4 1 * * /scripts/recovery/test-recovery.sh >> /var/log/backups/dr-test.log 2>&1' > /etc/crontabs/root
+        
+        # Start cron daemon
+        crond -f -l 2
+      "
+      
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+          
+    healthcheck:
+      test: ["CMD", "pgrep", "crond"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ==========================================
+  # WAL-G CONTINUOUS ARCHIVING
+  # ==========================================
+  wal-g-primary:
+    image: wal-g/wal-g:latest-pg15
+    container_name: cryb-wal-g-primary
+    hostname: wal-g-primary
+    restart: unless-stopped
+    
+    environment:
+      # WAL-G Configuration
+      WALG_S3_PREFIX: "s3://${BACKUP_S3_BUCKET}/wal-archive/primary"
+      WALG_COMPRESSION_METHOD: brotli
+      WALG_DELTA_MAX_STEPS: 7
+      WALG_UPLOAD_CONCURRENCY: 4
+      WALG_DOWNLOAD_CONCURRENCY: 4
+      WALG_UPLOAD_DISK_CONCURRENCY: 2
+      WALG_DELTA_ORIGIN: LATEST
+      WALG_TAR_SIZE_THRESHOLD: 1073741823  # 1GB
+      
+      # AWS Configuration
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      
+      # PostgreSQL Connection
+      PGHOST: postgres-primary
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: ${POSTGRES_PASSWORD}
+      PGDATABASE: cryb
+      
+      # Backup Retention
+      WALG_PREVENT_WAL_OVERWRITE: "true"
+      WALG_LOG_LEVEL: INFO
+      
+    volumes:
+      - postgres_wal_archive:/var/lib/postgresql/wal_archive:ro
+      - wal_g_logs:/var/log/wal-g
+      - ./scripts/wal-g:/scripts:ro
+      
+    networks:
+      - cryb-backup-network
+      
+    command: >
+      sh -c "
+        # Create log directory
+        mkdir -p /var/log/wal-g
+        
+        # Continuous WAL archiving loop
+        while true; do
+          echo '[$(date)] Starting WAL archive check...'
+          
+          # Archive any pending WAL files
+          wal-g wal-push /var/lib/postgresql/wal_archive/* 2>&1 | tee -a /var/log/wal-g/archive.log
+          
+          # Create base backup if needed (every 6 hours)
+          if [ $(( $(date +%s) % 21600 )) -eq 0 ]; then
+            echo '[$(date)] Creating base backup...'
+            wal-g backup-push /var/lib/postgresql/data 2>&1 | tee -a /var/log/wal-g/backup.log
+            
+            # Cleanup old backups (keep last 7 base backups)
+            wal-g delete retain 7 2>&1 | tee -a /var/log/wal-g/cleanup.log
+          fi
+          
+          sleep 60  # Check every minute
+        done
+      "
+      
+    depends_on:
+      - postgres-primary
+      
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  # ==========================================
+  # BARMAN BACKUP MANAGER
+  # ==========================================
+  barman-backup:
+    image: postgres:15-alpine
+    container_name: cryb-barman-backup
+    hostname: barman-backup
+    restart: unless-stopped
+    
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BARMAN_S3_BUCKET: ${BACKUP_S3_BUCKET}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      
+    volumes:
+      - barman_data:/var/lib/barman
+      - barman_logs:/var/log/barman
+      - ./config/barman:/etc/barman:ro
+      - ./scripts/barman:/scripts:ro
+      
+    networks:
+      - cryb-backup-network
+      
+    command: >
+      sh -c "
+        # Install Barman and dependencies
+        apk add --no-cache python3 py3-pip aws-cli rsync
+        pip3 install barman[cloud] psycopg2-binary
+        
+        # Create barman user and directories
+        adduser -D -s /bin/bash barman
+        mkdir -p /var/lib/barman /var/log/barman /etc/barman
+        chown -R barman:barman /var/lib/barman /var/log/barman
+        
+        # Copy configuration
+        cp /etc/barman/barman.conf /etc/barman/barman.conf.local
+        
+        # Initialize Barman
+        su - barman -c 'barman check cryb-primary'
+        
+        # Start Barman cron-like scheduler
+        while true; do
+          # Full backup daily
+          if [ $(date +%H%M) = '0200' ]; then
+            su - barman -c 'barman backup cryb-primary'
+          fi
+          
+          # WAL archiving check every 5 minutes
+          if [ $(( $(date +%s) % 300 )) -eq 0 ]; then
+            su - barman -c 'barman cron'
+          fi
+          
+          sleep 60
+        done
+      "
+      
+    depends_on:
+      - postgres-primary
+      
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+
+  # ==========================================
+  # REDIS BACKUP SERVICE
+  # ==========================================
+  redis-backup-service:
+    image: redis:7-alpine
+    container_name: cryb-redis-backup-service
+    hostname: redis-backup-service
+    restart: unless-stopped
+    
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      
+    volumes:
+      - redis_backup_data:/backup
+      - redis_backup_logs:/var/log/redis-backup
+      - ./scripts/redis-backup:/scripts:ro
+      
+    networks:
+      - cryb-backup-network
+      
+    command: >
+      sh -c "
+        # Install AWS CLI
+        apk add --no-cache aws-cli curl jq
+        
+        # Create directories
+        mkdir -p /backup /var/log/redis-backup
+        
+        # Backup function
+        backup_redis_cluster() {
+          timestamp=$(date +%Y%m%d_%H%M%S)
+          backup_dir=/backup/redis_cluster_$timestamp
+          mkdir -p $backup_dir
+          
+          echo '[$(date)] Starting Redis cluster backup...'
+          
+          # Backup each Redis node
+          for i in 1 2 3 4 5 6; do
+            node_host=redis-node-$i
+            node_port=6379
+            
+            echo 'Backing up Redis node $i...'
+            
+            # Create RDB backup
+            redis-cli -h $node_host -p $node_port -a $REDIS_PASSWORD --rdb $backup_dir/redis_node_${i}.rdb
+            
+            # Get cluster configuration
+            redis-cli -h $node_host -p $node_port -a $REDIS_PASSWORD cluster nodes > $backup_dir/cluster_nodes_${i}.txt
+            
+            # Get memory stats
+            redis-cli -h $node_host -p $node_port -a $REDIS_PASSWORD info memory > $backup_dir/memory_info_${i}.txt
+          done
+          
+          # Create cluster topology backup
+          redis-cli -h redis-node-1 -p 6379 -a $REDIS_PASSWORD cluster slots > $backup_dir/cluster_slots.txt
+          
+          # Compress backup
+          tar -czf $backup_dir.tar.gz -C /backup redis_cluster_$timestamp/
+          
+          # Upload to S3
+          aws s3 cp $backup_dir.tar.gz s3://$BACKUP_S3_BUCKET/redis-backups/
+          
+          # Cleanup local files older than 7 days
+          find /backup -name 'redis_cluster_*.tar.gz' -mtime +7 -delete
+          find /backup -type d -name 'redis_cluster_*' -mtime +1 -exec rm -rf {} +
+          
+          echo '[$(date)] Redis cluster backup completed'
+        }
+        
+        # Main backup loop
+        while true; do
+          # Backup every 6 hours
+          current_hour=$(date +%H)
+          if [ $((current_hour % 6)) -eq 0 ] && [ $(date +%M) -eq 0 ]; then
+            backup_redis_cluster 2>&1 | tee -a /var/log/redis-backup/backup.log
+          fi
+          
+          sleep 60
+        done
+      "
+      
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.25'
+
+  # ==========================================
+  # ELASTICSEARCH BACKUP SERVICE
+  # ==========================================
+  elasticsearch-backup:
+    image: elasticsearch:8.11.0
+    container_name: cryb-elasticsearch-backup
+    hostname: elasticsearch-backup
+    restart: unless-stopped
+    
+    environment:
+      ES_JAVA_OPTS: "-Xms256m -Xmx256m"
+      BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      
+    volumes:
+      - elasticsearch_backup_data:/backup
+      - elasticsearch_backup_logs:/var/log/es-backup
+      
+    networks:
+      - cryb-backup-network
+      
+    command: >
+      sh -c "
+        # Install AWS CLI
+        yum update -y && yum install -y awscli
+        
+        # Create directories
+        mkdir -p /backup /var/log/es-backup
+        
+        # Elasticsearch backup function
+        backup_elasticsearch() {
+          timestamp=$(date +%Y%m%d_%H%M%S)
+          snapshot_name=cryb_snapshot_$timestamp
+          
+          echo '[$(date)] Starting Elasticsearch backup...'
+          
+          # Create snapshot repository if not exists
+          curl -X PUT 'elasticsearch:9200/_snapshot/s3_repository' -H 'Content-Type: application/json' -d '{
+            \"type\": \"s3\",
+            \"settings\": {
+              \"bucket\": \"'$BACKUP_S3_BUCKET'\",
+              \"base_path\": \"elasticsearch-snapshots\",
+              \"region\": \"'$AWS_REGION'\"
+            }
+          }'
+          
+          # Create snapshot
+          curl -X PUT 'elasticsearch:9200/_snapshot/s3_repository/'$snapshot_name -H 'Content-Type: application/json' -d '{
+            \"indices\": \"*\",
+            \"ignore_unavailable\": true,
+            \"include_global_state\": false,
+            \"metadata\": {
+              \"taken_by\": \"cryb-backup-system\",
+              \"taken_because\": \"scheduled backup\"
+            }
+          }'
+          
+          # Wait for snapshot completion
+          while true; do
+            status=$(curl -s 'elasticsearch:9200/_snapshot/s3_repository/'$snapshot_name | jq -r '.snapshots[0].state')
+            if [ \"$status\" = \"SUCCESS\" ]; then
+              echo 'Snapshot completed successfully'
+              break
+            elif [ \"$status\" = \"FAILED\" ]; then
+              echo 'Snapshot failed'
+              break
+            fi
+            sleep 30
+          done
+          
+          # Cleanup old snapshots (keep last 30)
+          curl -X DELETE 'elasticsearch:9200/_snapshot/s3_repository/*' -H 'Content-Type: application/json' -d '{
+            \"max_age\": \"30d\"
+          }'
+          
+          echo '[$(date)] Elasticsearch backup completed'
+        }
+        
+        # Main backup loop
+        while true; do
+          # Backup daily at 3 AM
+          if [ $(date +%H%M) = '0300' ]; then
+            backup_elasticsearch 2>&1 | tee -a /var/log/es-backup/backup.log
+          fi
+          
+          sleep 60
+        done
+      "
+      
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.25'
+
+  # ==========================================
+  # DISASTER RECOVERY TESTING
+  # ==========================================
+  disaster-recovery-tester:
+    image: postgres:15-alpine
+    container_name: cryb-dr-tester
+    hostname: dr-tester
+    restart: unless-stopped
+    
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      DR_TEST_SCHEDULE: ${DR_TEST_SCHEDULE:-"0 4 1 * *"}  # Monthly
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+      
+    volumes:
+      - dr_test_data:/test-data
+      - dr_test_logs:/var/log/dr-test
+      - ./scripts/disaster-recovery:/scripts:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      
+    networks:
+      - cryb-backup-network
+      
+    command: >
+      sh -c "
+        # Install dependencies
+        apk add --no-cache aws-cli curl jq docker-cli
+        
+        # Create directories
+        mkdir -p /test-data /var/log/dr-test
+        
+        # DR test function
+        run_disaster_recovery_test() {
+          echo '[$(date)] Starting disaster recovery test...'
+          
+          test_id=$(date +%Y%m%d_%H%M%S)
+          test_dir=/test-data/dr_test_$test_id
+          mkdir -p $test_dir
+          
+          # Test PostgreSQL recovery
+          echo 'Testing PostgreSQL point-in-time recovery...'
+          /scripts/test-postgres-recovery.sh $test_dir 2>&1 | tee $test_dir/postgres_test.log
+          
+          # Test Redis recovery
+          echo 'Testing Redis cluster recovery...'
+          /scripts/test-redis-recovery.sh $test_dir 2>&1 | tee $test_dir/redis_test.log
+          
+          # Test Elasticsearch recovery
+          echo 'Testing Elasticsearch recovery...'
+          /scripts/test-elasticsearch-recovery.sh $test_dir 2>&1 | tee $test_dir/elasticsearch_test.log
+          
+          # Generate test report
+          /scripts/generate-dr-report.sh $test_dir 2>&1 | tee $test_dir/report.log
+          
+          # Send notification
+          if [ -n \"$SLACK_WEBHOOK_URL\" ]; then
+            curl -X POST -H 'Content-type: application/json' --data '{
+              \"text\": \"🔧 Disaster Recovery Test Completed: '$test_id'\",
+              \"attachments\": [{
+                \"color\": \"good\",
+                \"fields\": [{
+                  \"title\": \"Test Results\",
+                  \"value\": \"Check logs in /var/log/dr-test/dr_test_'$test_id'\",
+                  \"short\": false
+                }]
+              }]
+            }' $SLACK_WEBHOOK_URL
+          fi
+          
+          echo '[$(date)] Disaster recovery test completed: $test_id'
+        }
+        
+        # Schedule DR tests
+        echo '$DR_TEST_SCHEDULE run_disaster_recovery_test' > /etc/crontabs/root
+        
+        # Main loop
+        while true; do
+          # Check if manual test is requested
+          if [ -f /test-data/manual_test_request ]; then
+            echo 'Manual DR test requested'
+            run_disaster_recovery_test 2>&1 | tee -a /var/log/dr-test/manual_test.log
+            rm -f /test-data/manual_test_request
+          fi
+          
+          sleep 300  # Check every 5 minutes
+        done
+      "
+      
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+
+  # ==========================================
+  # BACKUP MONITORING AND ALERTING
+  # ==========================================
+  backup-monitor:
+    image: alpine:latest
+    container_name: cryb-backup-monitor
+    hostname: backup-monitor
+    restart: unless-stopped
+    
+    environment:
+      BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION}
+      SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+      DISCORD_WEBHOOK_URL: ${DISCORD_WEBHOOK_URL}
+      PAGERDUTY_INTEGRATION_KEY: ${PAGERDUTY_INTEGRATION_KEY}
+      
+    volumes:
+      - backup_monitor_logs:/var/log/backup-monitor
+      - ./scripts/monitoring:/scripts:ro
+      
+    networks:
+      - cryb-backup-network
+      
+    command: >
+      sh -c "
+        # Install dependencies
+        apk add --no-cache aws-cli curl jq
+        
+        # Create directories
+        mkdir -p /var/log/backup-monitor
+        
+        # Monitoring function
+        monitor_backups() {
+          echo '[$(date)] Starting backup monitoring check...'
+          
+          # Check PostgreSQL backups
+          postgres_backup_age=$(aws s3 ls s3://$BACKUP_S3_BUCKET/postgres-backups/ --recursive | tail -1 | awk '{print $1\" \"$2}')
+          postgres_age_hours=$(( ($(date +%s) - $(date -d \"$postgres_backup_age\" +%s)) / 3600 ))
+          
+          if [ $postgres_age_hours -gt 26 ]; then
+            alert_message=\"🚨 CRITICAL: PostgreSQL backup is $postgres_age_hours hours old\"
+            send_alert \"$alert_message\" \"critical\"
+          elif [ $postgres_age_hours -gt 25 ]; then
+            alert_message=\"⚠️ WARNING: PostgreSQL backup is $postgres_age_hours hours old\"
+            send_alert \"$alert_message\" \"warning\"
+          fi
+          
+          # Check Redis backups
+          redis_backup_age=$(aws s3 ls s3://$BACKUP_S3_BUCKET/redis-backups/ --recursive | tail -1 | awk '{print $1\" \"$2}')
+          redis_age_hours=$(( ($(date +%s) - $(date -d \"$redis_backup_age\" +%s)) / 3600 ))
+          
+          if [ $redis_age_hours -gt 8 ]; then
+            alert_message=\"🚨 CRITICAL: Redis backup is $redis_age_hours hours old\"
+            send_alert \"$alert_message\" \"critical\"
+          fi
+          
+          # Check WAL archiving
+          wal_files=$(aws s3 ls s3://$BACKUP_S3_BUCKET/wal-archive/ --recursive | wc -l)
+          if [ $wal_files -lt 10 ]; then
+            alert_message=\"🚨 CRITICAL: WAL archive has only $wal_files files\"
+            send_alert \"$alert_message\" \"critical\"
+          fi
+          
+          # Check backup sizes
+          backup_size=$(aws s3 ls s3://$BACKUP_S3_BUCKET/ --recursive --summarize | grep \"Total Size\" | awk '{print $3}')
+          echo \"Total backup size: $backup_size bytes\"
+          
+          echo '[$(date)] Backup monitoring check completed'
+        }
+        
+        # Alert function
+        send_alert() {
+          message=\"$1\"
+          severity=\"$2\"
+          timestamp=$(date -Iseconds)
+          
+          # Send to Slack
+          if [ -n \"$SLACK_WEBHOOK_URL\" ]; then
+            color=\"danger\"
+            if [ \"$severity\" = \"warning\" ]; then
+              color=\"warning\"
+            fi
+            
+            curl -X POST -H 'Content-type: application/json' --data '{
+              \"text\": \"'$message'\",
+              \"attachments\": [{
+                \"color\": \"'$color'\",
+                \"fields\": [{
+                  \"title\": \"Timestamp\",
+                  \"value\": \"'$timestamp'\",
+                  \"short\": true
+                }, {
+                  \"title\": \"Severity\",
+                  \"value\": \"'$severity'\",
+                  \"short\": true
+                }]
+              }]
+            }' $SLACK_WEBHOOK_URL
+          fi
+          
+          # Send to Discord
+          if [ -n \"$DISCORD_WEBHOOK_URL\" ]; then
+            curl -X POST -H 'Content-Type: application/json' --data '{
+              \"embeds\": [{
+                \"title\": \"CRYB Backup Alert\",
+                \"description\": \"'$message'\",
+                \"color\": 16711680,
+                \"timestamp\": \"'$timestamp'\",
+                \"fields\": [{
+                  \"name\": \"Severity\",
+                  \"value\": \"'$severity'\",
+                  \"inline\": true
+                }]
+              }]
+            }' $DISCORD_WEBHOOK_URL
+          fi
+          
+          # Send to PagerDuty for critical alerts
+          if [ \"$severity\" = \"critical\" ] && [ -n \"$PAGERDUTY_INTEGRATION_KEY\" ]; then
+            curl -X POST -H 'Content-Type: application/json' --data '{
+              \"routing_key\": \"'$PAGERDUTY_INTEGRATION_KEY'\",
+              \"event_action\": \"trigger\",
+              \"payload\": {
+                \"summary\": \"CRYB Backup System Alert\",
+                \"source\": \"backup-monitor\",
+                \"severity\": \"critical\",
+                \"custom_details\": {
+                  \"message\": \"'$message'\",
+                  \"timestamp\": \"'$timestamp'\"
+                }
+              }
+            }' https://events.pagerduty.com/v2/enqueue
+          fi
+        }
+        
+        # Main monitoring loop
+        while true; do
+          monitor_backups 2>&1 | tee -a /var/log/backup-monitor/monitor.log
+          sleep 3600  # Check every hour
+        done
+      "
+      
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+
+# ==========================================
+# NETWORKS AND VOLUMES
+# ==========================================
+networks:
+  cryb-backup-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/24
+
+volumes:
+  # Backup coordinator
+  backup_scripts:
+    driver: local
+  backup_logs:
+    driver: local
+  backup_temp:
+    driver: local
+    
+  # WAL-G
+  postgres_wal_archive:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/postgres/wal_archive
+  wal_g_logs:
+    driver: local
+    
+  # Barman
+  barman_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/backups/barman
+  barman_logs:
+    driver: local
+    
+  # Redis backup
+  redis_backup_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/backups/redis
+  redis_backup_logs:
+    driver: local
+    
+  # Elasticsearch backup
+  elasticsearch_backup_data:
+    driver: local
+  elasticsearch_backup_logs:
+    driver: local
+    
+  # Disaster recovery testing
+  dr_test_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/disaster-recovery/test-data
+  dr_test_logs:
+    driver: local
+    
+  # Backup monitoring
+  backup_monitor_logs:
+    driver: local

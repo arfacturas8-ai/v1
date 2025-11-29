@@ -18,6 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useTheme } from '../contexts/ThemeContext';
 import { MainStackParamList } from '../navigation/MainNavigator';
+import { deviceInfo, spacing, typography, scale } from '../utils/responsive';
 
 type CreateServerScreenNavigationProp = NativeStackNavigationProp<MainStackParamList, 'CreateServer'>;
 
@@ -412,39 +413,39 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 40,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.xxxl,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: spacing.xxxl,
   },
   title: {
-    fontSize: 24,
+    fontSize: typography.h4,
     fontWeight: 'bold',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: typography.body1,
     textAlign: 'center',
   },
   form: {
-    marginBottom: 32,
+    marginBottom: spacing.xxxl,
   },
   imageSection: {
-    marginBottom: 24,
+    marginBottom: spacing.xxl,
     alignItems: 'center',
   },
   label: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   imagePickerButton: {
     width: 100,
     height: 100,
-    borderRadius: 12,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -454,12 +455,12 @@ const styles = StyleSheet.create({
   serverIcon: {
     width: 96,
     height: 96,
-    borderRadius: 12,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
   },
   bannerPickerButton: {
     width: '100%',
     height: 120,
-    borderRadius: 12,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -469,7 +470,7 @@ const styles = StyleSheet.create({
   serverBanner: {
     width: '100%',
     height: 116,
-    borderRadius: 12,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
   },
   imagePlaceholder: {
     alignItems: 'center',
@@ -478,75 +479,75 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imagePlaceholderText: {
-    fontSize: 14,
-    marginTop: 8,
+    fontSize: typography.body2,
+    marginTop: spacing.sm,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: spacing.xl,
   },
   textInput: {
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.lg,
     paddingVertical: 14,
-    borderRadius: 12,
-    fontSize: 16,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    fontSize: typography.body1,
     borderWidth: 1,
   },
   textAreaInput: {
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.lg,
     paddingVertical: 14,
-    borderRadius: 12,
-    fontSize: 16,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    fontSize: typography.body1,
     borderWidth: 1,
     minHeight: 100,
     textAlignVertical: 'top',
   },
   errorText: {
-    fontSize: 12,
-    marginTop: 4,
+    fontSize: typography.caption,
+    marginTop: spacing.xs,
   },
   characterCount: {
-    fontSize: 12,
+    fontSize: typography.caption,
     textAlign: 'right',
-    marginTop: 4,
+    marginTop: spacing.xs,
   },
   categoryButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.lg,
     paddingVertical: 14,
-    borderRadius: 12,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     borderWidth: 1,
   },
   categoryButtonText: {
-    fontSize: 16,
+    fontSize: typography.body1,
   },
   categoryPicker: {
-    marginTop: 8,
-    borderRadius: 12,
+    marginTop: spacing.sm,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     maxHeight: 200,
     overflow: 'hidden',
   },
   categoryOption: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
   },
   categoryOptionText: {
-    fontSize: 16,
+    fontSize: typography.body1,
   },
   toggleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 20,
+    marginBottom: spacing.xl,
   },
   toggleInfo: {
     flex: 1,
-    marginRight: 16,
+    marginRight: spacing.lg,
   },
   toggleDescription: {
-    fontSize: 14,
-    marginTop: 4,
+    fontSize: typography.body2,
+    marginTop: spacing.xs,
   },
   toggleButton: {
     width: 50,
@@ -563,13 +564,13 @@ const styles = StyleSheet.create({
   },
   createButton: {
     paddingVertical: 18,
-    borderRadius: 12,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     alignItems: 'center',
     justifyContent: 'center',
   },
   createButtonText: {
     color: '#ffffff',
-    fontSize: 18,
+    fontSize: typography.h6,
     fontWeight: '600',
   },
 });

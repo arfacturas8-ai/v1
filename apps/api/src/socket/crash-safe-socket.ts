@@ -123,16 +123,13 @@ export class CrashSafeSocketService {
 
   constructor(fastify: FastifyInstance) {
     this.fastify = fastify;
-    // Initialize AuthService with dedicated Redis connection (not the shared Fastify one)
-    const redisUrl = process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0';
-    const authRedis = new Redis(redisUrl);
-    this.authService = new AuthService(authRedis);
     this.initializeWithCrashProtection();
   }
 
   private async initializeWithCrashProtection() {
     try {
       await this.setupRedisWithRetry();
+      await this.setupAuthService();
       await this.setupSocketServer();
       await this.setupCircuitBreakers();
       this.setupEventHandlers();
@@ -149,10 +146,35 @@ export class CrashSafeSocketService {
   }
 
   /**
+   * Setup AuthService with dedicated Redis connection
+   */
+  private async setupAuthService() {
+    try {
+      // Create a separate Redis connection for AuthService to avoid conflicts with pub/sub
+      const redisUrl = process.env.REDIS_URL || 'redis://localhost:6380/0';
+      const authRedis = new Redis(redisUrl, {
+        retryDelayOnFailover: 100,
+        maxRetriesPerRequest: 3,
+        lazyConnect: true
+      });
+
+      // Test the connection
+      await authRedis.ping();
+      
+      this.authService = new AuthService(authRedis);
+      this.fastify.log.info('✅ AuthService initialized with dedicated Redis connection');
+      
+    } catch (error) {
+      this.fastify.log.error('❌ Failed to setup AuthService:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Redis Connection with Exponential Backoff Retry
    */
   private async setupRedisWithRetry() {
-    const redisUrl = process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0';
+    const redisUrl = process.env.REDIS_URL || 'redis://localhost:6380/0';
     const config = DEFAULT_CONNECTION_CONFIG;
     
     // Setup Redis clients with retry logic

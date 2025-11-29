@@ -13,7 +13,10 @@ import { useRoute, RouteProp, useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../contexts/ThemeContext';
+import apiService from '../services/RealApiService';
+import { useSocketStore } from '../stores/socketStore';
 import { MainStackParamList } from '../navigation/MainNavigator';
+import { deviceInfo, spacing, typography, scale } from '../utils/responsive';
 
 type ServerRouteProp = RouteProp<MainStackParamList, 'Server'>;
 type ServerNavigationProp = NativeStackNavigationProp<MainStackParamList, 'Server'>;
@@ -48,48 +51,7 @@ interface ServerInfo {
   userRole: 'admin' | 'moderator' | 'member' | null;
 }
 
-const mockChannels: Channel[] = [
-  { id: '1', name: 'general', type: 'text', unreadCount: 5 },
-  { id: '2', name: 'announcements', type: 'announcement', unreadCount: 1 },
-  { id: '3', name: 'random', type: 'text' },
-  { id: '4', name: 'gaming-discussion', type: 'text', unreadCount: 12 },
-  { id: '5', name: 'General Voice', type: 'voice' },
-  { id: '6', name: 'Gaming Session', type: 'voice' },
-  { id: '7', name: 'admin-only', type: 'text', isLocked: true },
-];
-
-const mockMembers: Member[] = [
-  {
-    id: '1',
-    username: 'ServerOwner',
-    isOnline: true,
-    role: 'admin',
-    avatarUrl: 'https://via.placeholder.com/40',
-    status: 'Managing the server',
-  },
-  {
-    id: '2',
-    username: 'Moderator1',
-    isOnline: true,
-    role: 'moderator',
-    avatarUrl: 'https://via.placeholder.com/40',
-  },
-  {
-    id: '3',
-    username: 'ActiveUser',
-    isOnline: true,
-    role: 'member',
-    avatarUrl: 'https://via.placeholder.com/40',
-    status: 'Playing games',
-  },
-  {
-    id: '4',
-    username: 'OfflineUser',
-    isOnline: false,
-    role: 'member',
-    avatarUrl: 'https://via.placeholder.com/40',
-  },
-];
+// Mock data removed - data will be loaded from API
 
 export function ServerScreen() {
   const route = useRoute<ServerRouteProp>();
@@ -110,21 +72,50 @@ export function ServerScreen() {
     userRole: 'member',
   });
 
-  const [channels, setChannels] = useState<Channel[]>(mockChannels);
-  const [members, setMembers] = useState<Member[]>(mockMembers);
+  const [channels, setChannels] = useState<Channel[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  // Load server data on mount
+  React.useEffect(() => {
+    loadServerData();
+  }, [serverId]);
+
+  const loadServerData = async () => {
+    try {
+      setIsLoading(true);
+      
+      // Load server info
+      const serverResponse = await apiService.getServer(serverId);
+      if (serverResponse.success && serverResponse.data) {
+        setServerInfo(serverResponse.data);
+      }
+      
+      // Load channels
+      const channelsResponse = await apiService.getChannels(serverId);
+      if (channelsResponse.success && channelsResponse.data) {
+        setChannels(channelsResponse.data);
+      }
+      
+    } catch (error) {
+      console.error('Error loading server data:', error);
+      Alert.alert('Error', 'Failed to load server data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     try {
-      // TODO: Fetch fresh server data from API
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await loadServerData();
     } catch (error) {
       console.error('Error refreshing server:', error);
     } finally {
       setRefreshing(false);
     }
-  }, []);
+  }, [serverId]);
 
   const handleChannelPress = useCallback((channel: Channel) => {
     if (channel.isLocked && serverInfo.userRole === 'member') {
@@ -419,21 +410,21 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: spacing.xl,
   },
   serverBanner: {
     width: '100%',
     height: 150,
   },
   serverInfoContainer: {
-    padding: 20,
-    marginBottom: 20,
+    padding: spacing.xl,
+    marginBottom: spacing.xl,
   },
   serverHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 16,
+    marginBottom: spacing.lg,
   },
   serverBasicInfo: {
     flexDirection: 'row',
@@ -442,27 +433,27 @@ const styles = StyleSheet.create({
   serverIcon: {
     width: 60,
     height: 60,
-    borderRadius: 12,
-    marginRight: 16,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    marginRight: spacing.lg,
   },
   serverTitleContainer: {
     flex: 1,
   },
   serverName: {
-    fontSize: 20,
+    fontSize: typography.h5,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginBottom: spacing.xs,
   },
   serverDescription: {
-    fontSize: 14,
+    fontSize: typography.body2,
     lineHeight: 20,
   },
   optionsButton: {
-    padding: 8,
+    padding: spacing.sm,
   },
   serverStats: {
     flexDirection: 'row',
-    gap: 24,
+    gap: spacing.xxl,
   },
   statItem: {
     flexDirection: 'row',
@@ -470,16 +461,16 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   statText: {
-    fontSize: 14,
+    fontSize: typography.body2,
   },
   section: {
-    marginHorizontal: 20,
-    marginBottom: 24,
+    marginHorizontal: spacing.xl,
+    marginBottom: spacing.xxl,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: 'bold',
-    marginBottom: 12,
+    marginBottom: spacing.md,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
@@ -487,42 +478,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginBottom: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    marginBottom: spacing.sm,
     borderRadius: 8,
   },
   channelInfo: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-    gap: 12,
+    gap: spacing.md,
   },
   channelName: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '500',
   },
   unreadBadge: {
     minWidth: 20,
     height: 20,
-    borderRadius: 10,
+    borderRadius: deviceInfo.isTablet ? 12 : 10,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 6,
-    marginRight: 8,
+    marginRight: spacing.sm,
   },
   unreadText: {
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: 'bold',
   },
   memberItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    marginBottom: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    marginBottom: spacing.sm,
     borderRadius: 8,
   },
   memberInfo: {
@@ -532,7 +523,7 @@ const styles = StyleSheet.create({
   },
   memberAvatarContainer: {
     position: 'relative',
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   memberAvatar: {
     width: 36,
@@ -548,7 +539,7 @@ const styles = StyleSheet.create({
   },
   memberAvatarText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: 'bold',
   },
   memberOnlineIndicator: {
@@ -565,16 +556,16 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   memberName: {
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
     marginBottom: 2,
   },
   memberStatus: {
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   roleBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
     borderRadius: 4,
   },
   roleText: {

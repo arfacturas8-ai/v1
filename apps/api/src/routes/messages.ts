@@ -3,10 +3,226 @@ import { prisma } from '@cryb/database';
 import { validate, validationSchemas, commonSchemas } from '../middleware/validation';
 import { throwBadRequest, throwUnauthorized, throwForbidden, throwNotFound } from '../middleware/errorHandler';
 import { authMiddleware } from '../middleware/auth';
+import { sendSuccess, sendPaginated, ErrorResponses, sendCreated } from '../utils/responses';
+import { paginationQuerySchema, createPaginatedResult } from '../utils/pagination';
 import { z } from 'zod';
 
 export default async function messageRoutes(fastify: FastifyInstance) {
   
+  /**
+   * @swagger
+   * /messages:
+   *   get:
+   *     tags: [messages]
+   *     summary: List messages in a channel
+   *     description: Get all messages for a specific channel
+   *     security:
+   *       - Bearer: []
+   */
+  fastify.get('/', {
+    preHandler: [authMiddleware],
+    schema: {
+      tags: ['messages'],
+      summary: 'List messages in a channel',
+      security: [{ Bearer: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          channelId: { type: 'string', description: 'Channel ID to list messages for' },
+          page: { type: 'number', minimum: 1, default: 1 },
+          limit: { type: 'number', minimum: 1, maximum: 100, default: 50 },
+          before: { type: 'string', description: 'Get messages before this message ID' },
+          after: { type: 'string', description: 'Get messages after this message ID' }
+        },
+        required: ['channelId']
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean' },
+            data: {
+              type: 'object',
+              properties: {
+                messages: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      id: { type: 'string' },
+                      content: { type: 'string' },
+                      channelId: { type: 'string' },
+                      userId: { type: 'string' },
+                      createdAt: { type: 'string' }
+                    }
+                  }
+                },
+                pagination: {
+                  type: 'object',
+                  properties: {
+                    total: { type: 'number' },
+                    page: { type: 'number' },
+                    pageSize: { type: 'number' },
+                    hasMore: { type: 'boolean' }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    try {
+      const { channelId, page = 1, limit = 50, before, after } = request.query as any;
+
+      if (!channelId) {
+        return reply.code(400).send({
+          success: false,
+          error: "channelId query parameter is required"
+        });
+      }
+
+      // Check channel access
+      const channel = await prisma.channel.findUnique({
+        where: { id: channelId },
+        select: {
+          id: true,
+          serverId: true,
+          type: true,
+          isPrivate: true
+        }
+      });
+
+      if (!channel) {
+        return reply.code(404).send({
+          success: false,
+          error: "Channel not found"
+        });
+      }
+
+      // Check server membership for server channels
+      if (channel.serverId) {
+        const serverMember = await prisma.serverMember.findUnique({
+          where: {
+            serverId_userId: {
+              serverId: channel.serverId,
+              userId: request.userId!
+            }
+          }
+        });
+
+        if (!serverMember) {
+          return reply.code(403).send({
+            success: false,
+            error: "Not a member of this server"
+          });
+        }
+      }
+
+      // Build where clause for pagination
+      let whereClause: any = { channelId };
+      let orderBy: any = { createdAt: 'desc' };
+
+      if (before) {
+        const beforeMessage = await prisma.message.findUnique({
+          where: { id: before },
+          select: { createdAt: true }
+        });
+        if (beforeMessage) {
+          whereClause.createdAt = { lt: beforeMessage.createdAt };
+        }
+      } else if (after) {
+        const afterMessage = await prisma.message.findUnique({
+          where: { id: after },
+          select: { createdAt: true }
+        });
+        if (afterMessage) {
+          whereClause.createdAt = { gt: afterMessage.createdAt };
+          orderBy = { createdAt: 'asc' };
+        }
+      }
+
+      const [messages, total] = await Promise.all([
+        prisma.message.findMany({
+          where: whereClause,
+          include: {
+            user: {
+              select: {
+                id: true,
+                username: true,
+                displayName: true,
+                avatar: true,
+                isVerified: true,
+                isBot: true
+              }
+            },
+            replyTo: {
+              select: {
+                id: true,
+                content: true,
+                user: {
+                  select: {
+                    id: true,
+                    username: true,
+                    displayName: true
+                  }
+                }
+              }
+            },
+            attachments: true,
+            embeds: true,
+            reactions: {
+              include: {
+                user: {
+                  select: {
+                    id: true,
+                    username: true
+                  }
+                }
+              }
+            },
+            _count: {
+              select: {
+                reactions: true,
+                replies: true
+              }
+            }
+          },
+          orderBy,
+          skip: (page - 1) * limit,
+          take: limit
+        }),
+        prisma.message.count({ where: { channelId } })
+      ]);
+
+      // Reverse messages if ordered by asc (for after pagination)
+      if (after && orderBy.createdAt === 'asc') {
+        messages.reverse();
+      }
+
+      return reply.send({
+        success: true,
+        data: {
+          messages,
+          pagination: {
+            total,
+            page,
+            pageSize: limit,
+            hasMore: page * limit < total
+          }
+        }
+      });
+
+    } catch (error) {
+      fastify.log.error({ error, userId: request.userId }, 'Failed to list messages');
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to retrieve messages"
+      });
+    }
+  });
+
   /**
    * @swagger
    * /messages:

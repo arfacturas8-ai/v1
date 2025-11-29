@@ -1,0 +1,424 @@
+# ==============================================
+# CRYB Platform Security Scanning
+# ==============================================
+# Comprehensive security scanning workflow
+# Runs on schedule and on security-related changes
+# ==============================================
+
+name: 'Security Scan'
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Daily at 2 AM UTC
+  push:
+    paths:
+      - 'config/security-automation/**'
+      - 'config/wazuh/**'
+      - 'config/fail2ban/**'
+      - 'services/security-*/**'
+      - '.github/workflows/security-scan.yml'
+  workflow_dispatch:
+    inputs:
+      scan_type:
+        description: 'Type of security scan'
+        required: true
+        default: 'full'
+        type: choice
+        options:
+          - full
+          - vulnerability
+          - secrets
+          - dependency
+          - container
+
+env:
+  PRODUCTION_URL: 'https://cryb.ai'
+  STAGING_URL: 'https://staging.cryb.ai'
+
+jobs:
+  # ==============================================
+  # VULNERABILITY SCANNING
+  # ==============================================
+  vulnerability-scan:
+    name: 'Vulnerability Scan'
+    runs-on: ubuntu-latest
+    if: inputs.scan_type == 'full' || inputs.scan_type == 'vulnerability' || github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Generate vulnerability report
+        run: |
+          docker run --rm -v "$(pwd):/workspace" \
+            aquasec/trivy:latest fs /workspace \
+            --format json --output /workspace/vulnerability-report.json
+
+      - name: Upload vulnerability report
+        uses: actions/upload-artifact@v4
+        with:
+          name: vulnerability-report
+          path: vulnerability-report.json
+
+  # ==============================================
+  # SECRETS SCANNING
+  # ==============================================
+  secrets-scan:
+    name: 'Secrets Scan'
+    runs-on: ubuntu-latest
+    if: inputs.scan_type == 'full' || inputs.scan_type == 'secrets' || github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog OSS
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+
+      - name: GitLeaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
+
+  # ==============================================
+  # DEPENDENCY SCANNING
+  # ==============================================
+  dependency-scan:
+    name: 'Dependency Scan'
+    runs-on: ubuntu-latest
+    if: inputs.scan_type == 'full' || inputs.scan_type == 'dependency' || github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'CRYB Platform'
+          path: '.'
+          format: 'ALL'
+          out: 'dependency-check'
+          args: >
+            --enableRetired
+            --enableExperimental
+            --nvdApiKey ${{ secrets.NVD_API_KEY }}
+
+      - name: Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --all-projects --severity-threshold=high
+
+      - name: Upload dependency check results
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-results
+          path: dependency-check/
+
+  # ==============================================
+  # CONTAINER SCANNING
+  # ==============================================
+  container-scan:
+    name: 'Container Scan'
+    runs-on: ubuntu-latest
+    if: inputs.scan_type == 'full' || inputs.scan_type == 'container' || github.event_name == 'schedule'
+    
+    strategy:
+      matrix:
+        image: [api, web, admin, security-exporter, security-automation]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t cryb-${{ matrix.image }}:scan \
+            -f ${{ matrix.image == 'api' && 'apps/api/Dockerfile' || 
+                    matrix.image == 'web' && 'apps/react-app/Dockerfile' ||
+                    matrix.image == 'admin' && 'apps/admin/Dockerfile' ||
+                    format('services/{0}/Dockerfile', matrix.image) }} .
+
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'cryb-${{ matrix.image }}:scan'
+          format: 'sarif'
+          output: '${{ matrix.image }}-container-scan.sarif'
+
+      - name: Upload container scan results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: '${{ matrix.image }}-container-scan.sarif'
+
+  # ==============================================
+  # WEB APPLICATION SCANNING
+  # ==============================================
+  web-app-scan:
+    name: 'Web Application Scan'
+    runs-on: ubuntu-latest
+    if: inputs.scan_type == 'full' || github.event_name == 'schedule'
+    
+    steps:
+      - name: OWASP ZAP Full Scan
+        uses: zaproxy/action-full-scan@v0.8.0
+        with:
+          target: ${{ env.STAGING_URL }}
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a -j -I'
+
+      - name: Nuclei vulnerability scan
+        uses: projectdiscovery/nuclei-action@main
+        with:
+          target: ${{ env.STAGING_URL }}
+          github-report: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  # ==============================================
+  # INFRASTRUCTURE SCANNING
+  # ==============================================
+  infrastructure-scan:
+    name: 'Infrastructure Scan'
+    runs-on: ubuntu-latest
+    if: inputs.scan_type == 'full' || github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Terraform security scan
+        uses: aquasecurity/tfsec-action@v1.0.3
+        with:
+          working_directory: 'infrastructure/terraform'
+
+      - name: Checkov security scan
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: .
+          framework: terraform,dockerfile,kubernetes
+
+      - name: Docker Compose security scan
+        run: |
+          docker run --rm -v "$(pwd):/workspace" \
+            bridgecrew/checkov:latest \
+            -f /workspace/docker-compose*.yml \
+            --framework docker-compose
+
+  # ==============================================
+  # SECURITY COMPLIANCE CHECK
+  # ==============================================
+  compliance-check:
+    name: 'Compliance Check'
+    runs-on: ubuntu-latest
+    if: inputs.scan_type == 'full' || github.event_name == 'schedule'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: CIS Kubernetes Benchmark
+        run: |
+          # Run CIS benchmarks against deployed infrastructure
+          echo "Running CIS compliance checks..."
+
+      - name: OWASP Top 10 Check
+        run: |
+          # Check for OWASP Top 10 compliance
+          echo "Running OWASP Top 10 compliance checks..."
+
+      - name: SOC 2 Compliance Check
+        run: |
+          # Check SOC 2 Type II compliance requirements
+          echo "Running SOC 2 compliance checks..."
+
+  # ==============================================
+  # SECURITY REPORTING
+  # ==============================================
+  security-reporting:
+    name: 'Security Reporting'
+    runs-on: ubuntu-latest
+    needs: [vulnerability-scan, secrets-scan, dependency-scan, container-scan, web-app-scan, infrastructure-scan, compliance-check]
+    if: always() && (inputs.scan_type == 'full' || github.event_name == 'schedule')
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate security report
+        run: |
+          cat > security-report.md << 'EOF'
+          # CRYB Platform Security Scan Report
+          
+          **Scan Date:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")
+          **Scan Type:** ${{ inputs.scan_type || 'scheduled' }}
+          **Repository:** ${{ github.repository }}
+          **Commit:** ${{ github.sha }}
+          
+          ## Scan Results Summary
+          
+          | Scan Type | Status | Critical | High | Medium | Low |
+          |-----------|--------|----------|------|--------|-----|
+          | Vulnerability | ${{ needs.vulnerability-scan.result }} | - | - | - | - |
+          | Secrets | ${{ needs.secrets-scan.result }} | - | - | - | - |
+          | Dependencies | ${{ needs.dependency-scan.result }} | - | - | - | - |
+          | Containers | ${{ needs.container-scan.result }} | - | - | - | - |
+          | Web Application | ${{ needs.web-app-scan.result }} | - | - | - | - |
+          | Infrastructure | ${{ needs.infrastructure-scan.result }} | - | - | - | - |
+          | Compliance | ${{ needs.compliance-check.result }} | - | - | - | - |
+          
+          ## Recommendations
+          
+          - Review and remediate all critical and high-severity findings
+          - Update dependencies with known vulnerabilities
+          - Implement additional security controls as needed
+          - Schedule regular security scans
+          
+          ## Next Steps
+          
+          1. Address critical vulnerabilities immediately
+          2. Create tickets for high-severity issues
+          3. Update security policies if needed
+          4. Review and update incident response procedures
+          
+          EOF
+
+      - name: Upload security report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-report
+          path: security-report.md
+
+      - name: Notify security team
+        if: contains(needs.*.result, 'failure')
+        uses: 8398a7/action-slack@v3
+        with:
+          status: custom
+          webhook_url: ${{ secrets.SECURITY_SLACK_WEBHOOK }}
+          custom_payload: |
+            {
+              "text": "🚨 Security Scan Alert",
+              "attachments": [
+                {
+                  "color": "danger",
+                  "fields": [
+                    {
+                      "title": "Repository",
+                      "value": "${{ github.repository }}",
+                      "short": true
+                    },
+                    {
+                      "title": "Scan Date",
+                      "value": "$(date -u +"%Y-%m-%d %H:%M:%S UTC")",
+                      "short": true
+                    },
+                    {
+                      "title": "Status",
+                      "value": "Security vulnerabilities detected",
+                      "short": false
+                    },
+                    {
+                      "title": "Action Required",
+                      "value": "Review security scan results and remediate findings",
+                      "short": false
+                    }
+                  ]
+                }
+              ]
+            }
+
+  # ==============================================
+  # AUTO-REMEDIATION
+  # ==============================================
+  auto-remediation:
+    name: 'Auto Remediation'
+    runs-on: ubuntu-latest
+    needs: [dependency-scan]
+    if: github.event_name == 'schedule' && needs.dependency-scan.result == 'success'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.AUTO_REMEDIATION_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Update dependencies
+        run: |
+          pnpm update --latest --interactive=false
+          pnpm audit fix
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.AUTO_REMEDIATION_TOKEN }}
+          commit-message: 'fix(deps): auto-update dependencies with security fixes'
+          title: '🔒 Auto-remediation: Security dependency updates'
+          body: |
+            ## Automated Security Dependency Updates
+            
+            This PR contains automated security updates for dependencies.
+            
+            ### Changes
+            - Updated dependencies with known security vulnerabilities
+            - Applied automatic security fixes
+            
+            ### Testing
+            - [ ] All tests pass
+            - [ ] Security scan shows improvement
+            - [ ] No breaking changes detected
+            
+            ### Review
+            Please review the changes and ensure no breaking changes were introduced.
+            
+            ---
+            *This PR was automatically created by the security scanning workflow.*
+          branch: security/auto-remediation
+          delete-branch: true

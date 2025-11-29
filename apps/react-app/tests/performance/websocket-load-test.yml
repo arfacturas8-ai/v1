@@ -1,0 +1,182 @@
+# WebSocket-specific Load Testing Configuration
+# Focused on real-time messaging and voice/video features
+
+config:
+  target: 'wss://platform.cryb.ai'
+  phases:
+    # Connection establishment
+    - duration: 60
+      arrivalRate: 10
+      name: "WebSocket Connection Ramp"
+    
+    # Sustained connections with messaging
+    - duration: 300
+      arrivalRate: 50
+      name: "Sustained WebSocket Load"
+    
+    # Peak concurrent connections
+    - duration: 180
+      arrivalRate: 100
+      name: "Peak WebSocket Load"
+    
+    # Connection stability test
+    - duration: 600
+      arrivalRate: 200
+      name: "Connection Stability Test"
+
+  defaults:
+    headers:
+      Origin: "https://platform.cryb.ai"
+      User-Agent: "Artillery WebSocket Load Test"
+
+  # WebSocket specific settings
+  ws:
+    # Keep connections alive for longer periods
+    timeout: 60000
+    # Enable compression
+    compression: true
+
+before:
+  flow:
+    - log: "Starting WebSocket Load Test"
+
+scenarios:
+  # Basic messaging load
+  - name: "Real-time Messaging Load"
+    weight: 40
+    engine: ws
+    flow:
+      # Connect to Socket.IO
+      - connect:
+          url: "/socket.io/?EIO=4&transport=websocket"
+      
+      # Wait for connection acknowledgment
+      - think: 1
+      
+      # Authenticate
+      - send:
+          payload: '40{"token":"test-auth-token"}'
+      
+      # Wait for auth response
+      - think: 1
+      
+      # Join a test channel
+      - send:
+          payload: '42["join-channel","test-channel-1"]'
+      
+      # Send periodic messages
+      - loop:
+          - send:
+              payload: '42["send-message",{"content":"Load test message {{ $uuid }}","channelId":"test-channel-1","timestamp":{{ $timestamp }}}]'
+          - think: 5
+        count: 20
+      
+      # Listen for responses (implicit)
+      - think: 10
+
+  # Voice channel simulation
+  - name: "Voice Channel Load"
+    weight: 30
+    engine: ws
+    flow:
+      - connect:
+          url: "/socket.io/?EIO=4&transport=websocket"
+      
+      - think: 1
+      
+      # Authenticate
+      - send:
+          payload: '40{"token":"test-auth-token"}'
+      
+      - think: 1
+      
+      # Join voice channel
+      - send:
+          payload: '42["join-voice-channel",{"channelId":"voice-test-1","userId":"{{ $uuid }}"}]'
+      
+      # Simulate voice activity
+      - loop:
+          # Send voice presence updates
+          - send:
+              payload: '42["voice-activity",{"speaking":true,"channelId":"voice-test-1"}]'
+          - think: 2
+          - send:
+              payload: '42["voice-activity",{"speaking":false,"channelId":"voice-test-1"}]'
+          - think: 3
+        count: 10
+
+  # Video call signaling
+  - name: "Video Call Signaling"
+    weight: 20
+    engine: ws
+    flow:
+      - connect:
+          url: "/socket.io/?EIO=4&transport=websocket"
+      
+      - think: 1
+      
+      # Authenticate
+      - send:
+          payload: '40{"token":"test-auth-token"}'
+      
+      - think: 1
+      
+      # Initiate video call
+      - send:
+          payload: '42["video-offer",{"to":"target-user","offer":{"sdp":"mock-sdp-offer","type":"offer"}}]'
+      
+      - think: 2
+      
+      # Exchange ICE candidates
+      - loop:
+          - send:
+              payload: '42["ice-candidate",{"to":"target-user","candidate":{"candidate":"candidate:1 1 UDP 2130706431 192.168.1.1 54400 typ host","sdpMLineIndex":0}}]'
+          - think: 1
+        count: 5
+      
+      # Maintain call
+      - think: 30
+
+  # Connection stress test
+  - name: "Connection Stress Test"
+    weight: 10
+    engine: ws
+    flow:
+      # Rapid connect/disconnect cycles
+      - loop:
+          - connect:
+              url: "/socket.io/?EIO=4&transport=websocket"
+          - think: 1
+          - send:
+              payload: '40{"token":"test-auth-token"}'
+          - think: 2
+          # Disconnect will happen automatically when flow ends
+        count: 5
+
+# Test data for WebSocket tests
+payload:
+  - path: './test-data/websocket-users.csv'
+    fields:
+      - userId
+      - token
+      - channelId
+
+# Environment-specific configurations
+environments:
+  production:
+    target: 'wss://platform.cryb.ai'
+    phases:
+      - duration: 600
+        arrivalRate: 200
+
+  staging:
+    target: 'wss://staging.platform.cryb.ai'
+    phases:
+      - duration: 300
+        arrivalRate: 100
+
+  local:
+    target: 'ws://localhost:3001'
+    phases:
+      - duration: 120
+        arrivalRate: 20

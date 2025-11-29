@@ -1,0 +1,317 @@
+# ==============================================
+# CRYB PLATFORM - PRIMARY EKS CLUSTER
+# ==============================================
+# Production-grade EKS cluster configuration
+# Supports millions of concurrent users
+# ==============================================
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: cryb-production-primary
+  region: us-east-1
+  version: "1.28"
+  tags:
+    Environment: production
+    Project: cryb-platform
+    ManagedBy: eksctl
+    CostCenter: infrastructure
+    BackupRequired: "true"
+
+# ==============================================
+# VPC CONFIGURATION
+# ==============================================
+vpc:
+  id: vpc-0123456789abcdef0  # Replace with actual VPC ID
+  cidr: 10.0.0.0/16
+  nat:
+    gateway: HighlyAvailable
+  clusterEndpoints:
+    publicAccess: true
+    privateAccess: true
+    publicAccessCIDRs: 
+      - 0.0.0.0/0  # Restrict in production
+  
+  subnets:
+    public:
+      us-east-1a:
+        id: subnet-public-1a
+        cidr: 10.0.1.0/24
+      us-east-1b:
+        id: subnet-public-1b  
+        cidr: 10.0.2.0/24
+      us-east-1c:
+        id: subnet-public-1c
+        cidr: 10.0.3.0/24
+    private:
+      us-east-1a:
+        id: subnet-private-1a
+        cidr: 10.0.10.0/24
+      us-east-1b:
+        id: subnet-private-1b
+        cidr: 10.0.20.0/24
+      us-east-1c:
+        id: subnet-private-1c
+        cidr: 10.0.30.0/24
+
+# ==============================================
+# IAM CONFIGURATION  
+# ==============================================
+iam:
+  withOIDC: true
+  serviceAccounts:
+    - metadata:
+        name: aws-load-balancer-controller
+        namespace: kube-system
+      wellKnownPolicies:
+        awsLoadBalancerController: true
+    - metadata:
+        name: ebs-csi-controller-sa
+        namespace: kube-system
+      wellKnownPolicies:
+        ebsCSIController: true
+    - metadata:
+        name: cluster-autoscaler
+        namespace: kube-system
+      wellKnownPolicies:
+        autoScaler: true
+    - metadata:
+        name: external-dns
+        namespace: kube-system
+      wellKnownPolicies:
+        externalDNS: true
+
+# ==============================================
+# NODE GROUPS
+# ==============================================
+managedNodeGroups:
+  # High-Performance Application Nodes
+  - name: cryb-api-nodes
+    instanceType: c6i.2xlarge
+    minSize: 3
+    maxSize: 50
+    desiredCapacity: 6
+    availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
+    
+    volumeSize: 100
+    volumeType: gp3
+    volumeEncrypted: true
+    
+    ssh:
+      enableSsm: true
+    
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+    
+    labels:
+      role: api
+      tier: application
+      nodegroup: cryb-api-nodes
+    
+    taints:
+      - key: cryb.io/api-node
+        value: "true"
+        effect: NoSchedule
+    
+    tags:
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/cryb-production-primary: "owned"
+      NodeGroup: api
+      
+    updateConfig:
+      maxUnavailablePercentage: 25
+
+  # Database and Cache Optimized Nodes
+  - name: cryb-database-nodes
+    instanceType: r6i.xlarge
+    minSize: 2
+    maxSize: 10
+    desiredCapacity: 3
+    availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
+    
+    volumeSize: 200
+    volumeType: gp3
+    volumeEncrypted: true
+    
+    ssh:
+      enableSsm: true
+    
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+    
+    labels:
+      role: database
+      tier: data
+      nodegroup: cryb-database-nodes
+    
+    taints:
+      - key: cryb.io/database-node
+        value: "true"
+        effect: NoSchedule
+    
+    tags:
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/cryb-production-primary: "owned"
+      NodeGroup: database
+
+  # Real-time Communication Nodes (Voice/Video)
+  - name: cryb-realtime-nodes
+    instanceType: c6i.4xlarge
+    minSize: 2
+    maxSize: 20
+    desiredCapacity: 4
+    availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
+    
+    volumeSize: 100
+    volumeType: gp3
+    volumeEncrypted: true
+    
+    ssh:
+      enableSsm: true
+    
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+    
+    labels:
+      role: realtime
+      tier: communication
+      nodegroup: cryb-realtime-nodes
+    
+    taints:
+      - key: cryb.io/realtime-node
+        value: "true"
+        effect: NoSchedule
+    
+    tags:
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/cryb-production-primary: "owned"
+      NodeGroup: realtime
+
+  # Monitoring and Logging Nodes
+  - name: cryb-monitoring-nodes
+    instanceType: m6i.2xlarge
+    minSize: 2
+    maxSize: 6
+    desiredCapacity: 3
+    availabilityZones: ["us-east-1a", "us-east-1b", "us-east-1c"]
+    
+    volumeSize: 500
+    volumeType: gp3
+    volumeEncrypted: true
+    
+    ssh:
+      enableSsm: true
+    
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+    
+    labels:
+      role: monitoring
+      tier: observability
+      nodegroup: cryb-monitoring-nodes
+    
+    taints:
+      - key: cryb.io/monitoring-node
+        value: "true"
+        effect: NoSchedule
+    
+    tags:
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/cryb-production-primary: "owned"
+      NodeGroup: monitoring
+
+# ==============================================
+# FARGATE PROFILES
+# ==============================================
+fargateProfiles:
+  - name: cryb-serverless-profile
+    selectors:
+      - namespace: kube-system
+        labels:
+          k8s-app: kube-dns
+      - namespace: default
+        labels:
+          fargate: enabled
+    
+    subnets:
+      - subnet-private-1a
+      - subnet-private-1b
+      - subnet-private-1c
+    
+    tags:
+      Environment: production
+      Tier: serverless
+
+# ==============================================
+# ADD-ONS
+# ==============================================
+addons:
+  - name: vpc-cni
+    version: latest
+    configurationValues: |-
+      {
+        "env": {
+          "ENABLE_POD_ENI": "true",
+          "ENABLE_PREFIX_DELEGATION": "true",
+          "POD_SECURITY_GROUP_ENFORCING_MODE": "standard"
+        }
+      }
+  
+  - name: coredns
+    version: latest
+    configurationValues: |-
+      {
+        "replicaCount": 3,
+        "resources": {
+          "limits": {
+            "memory": "256Mi"
+          },
+          "requests": {
+            "cpu": "100m",
+            "memory": "128Mi"
+          }
+        }
+      }
+  
+  - name: kube-proxy
+    version: latest
+  
+  - name: aws-ebs-csi-driver
+    version: latest
+    serviceAccountRoleARN: arn:aws:iam::ACCOUNT_ID:role/AmazonEKS_EBS_CSI_DriverRole
+  
+  - name: aws-efs-csi-driver
+    version: latest
+
+# ==============================================
+# CLOUDWATCH LOGGING
+# ==============================================
+cloudWatch:
+  clusterLogging:
+    enable: true
+    types: ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+    logRetentionInDays: 30
+
+# ==============================================
+# SECRETS ENCRYPTION
+# ==============================================
+secretsEncryption:
+  keyARN: arn:aws:kms:us-east-1:ACCOUNT_ID:key/KEY_ID

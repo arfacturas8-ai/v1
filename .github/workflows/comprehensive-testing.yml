@@ -414,6 +414,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Run comprehensive security tests
+        run: |
+          echo "Running comprehensive security test suite..."
+          
+          # Run OWASP security tests
+          node tests/security/owasp-security-tests.js
+          
+          # Run penetration tests
+          node tests/security/penetration-tests.js
+          
+          echo "✅ Comprehensive security validation passed"
+        env:
+          DATABASE_URL: postgresql://cryb:cryb_password@localhost:5432/cryb_test
+          REDIS_URL: redis://localhost:6379
+          JWT_SECRET: test-secret
+          NODE_ENV: test
+
       - name: Validate App Store compliance checklist
         run: |
           echo "Checking App Store compliance..."

@@ -8,7 +8,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: cryb_user
-      POSTGRES_PASSWORD: cryb_password
+      POSTGRES_PASSWORD: cryb_secure_db_2024_prod
       POSTGRES_DB: cryb
       POSTGRES_INITDB_ARGS: "-E UTF8"
     ports:
@@ -16,6 +16,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/postgres/postgresql.conf:/etc/postgresql/postgresql.conf
+      - ./packages/database/database-optimization.sql:/docker-entrypoint-initdb.d/02-optimization.sql
     networks:
       - cryb-network
     healthcheck:
@@ -23,6 +25,58 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  # PgBouncer for connection pooling
+  pgbouncer:
+    image: pgbouncer/pgbouncer:latest
+    container_name: cryb-pgbouncer
+    restart: unless-stopped
+    environment:
+      DATABASES_HOST: postgres
+      DATABASES_PORT: 5432
+      DATABASES_USER: cryb_user
+      DATABASES_PASSWORD: cryb_secure_db_2024_prod
+      DATABASES_DBNAME: cryb
+      POOL_MODE: transaction
+      LISTEN_PORT: 6432
+      MAX_CLIENT_CONN: 1000
+      DEFAULT_POOL_SIZE: 25
+      MIN_POOL_SIZE: 5
+      RESERVE_POOL_SIZE: 5
+      MAX_DB_CONNECTIONS: 30
+      SERVER_RESET_QUERY: DISCARD ALL
+      SERVER_CHECK_DELAY: 30
+    ports:
+      - "6432:6432"
+    volumes:
+      - ./config/pgbouncer/pgbouncer.ini:/etc/pgbouncer/pgbouncer.ini
+      - ./config/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "psql", "-h", "localhost", "-p", "6432", "-U", "cryb_user", "-d", "cryb", "-c", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
 
   # Redis for caching, Socket.io, and BullMQ
   redis:
@@ -39,7 +93,7 @@ services:
     networks:
       - cryb-network
     healthcheck:
-      test: ["CMD", "redis-cli", "-a", "cryb_redis_password", "ping"]
+      test: ["CMD", "redis-cli", "-a", "cryb_secure_redis_2024_prod", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -103,8 +157,8 @@ services:
     restart: unless-stopped
     command: server /data --console-address ":9001"
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin123
+      MINIO_ROOT_USER: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_ROOT_PASSWORD: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
       MINIO_DEFAULT_BUCKETS: cryb-media,cryb-uploads,cryb-backups
     ports:
       - "9000:9000"
@@ -127,7 +181,7 @@ services:
     hostname: cryb-rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: cryb
-      RABBITMQ_DEFAULT_PASS: cryb_password
+      RABBITMQ_DEFAULT_PASS: cryb_secure_rabbitmq_2024_prod
       RABBITMQ_DEFAULT_VHOST: cryb-prod
       RABBITMQ_CONFIG_FILE: /etc/rabbitmq/rabbitmq
       RABBITMQ_MNESIA_BASE: /var/lib/rabbitmq/mnesia
@@ -191,7 +245,7 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin123
       GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
     ports:
-      - "3002:3000"
+      - "3100:3000"
     volumes:
       - grafana_data:/var/lib/grafana
       - ./config/grafana/datasources:/etc/grafana/provisioning/datasources
@@ -230,7 +284,7 @@ services:
     container_name: cryb-redis-commander
     restart: unless-stopped
     environment:
-      REDIS_HOSTS: local:redis:6379:0:cryb_redis_password
+      REDIS_HOSTS: local:redis:6379:0:cryb_secure_redis_2024_prod
     ports:
       - "8081:8081"
     depends_on:
@@ -316,13 +370,13 @@ services:
       LOG_LEVEL: info
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: cryb_redis_password
-      RABBITMQ_URL: amqp://cryb:cryb_password@rabbitmq:5672/cryb-prod
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      RABBITMQ_URL: amqp://cryb:cryb_secure_rabbitmq_2024_prod@rabbitmq:5672/cryb-prod
       SENDGRID_API_KEY: ${SENDGRID_API_KEY}
       FROM_EMAIL: noreply@cryb.ai
       VAPID_PUBLIC_KEY: ${VAPID_PUBLIC_KEY}
       VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY}
-      DATABASE_URL: postgresql://cryb_user:cryb_password@postgres:5432/cryb
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@postgres:5432/cryb
       AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
       AWS_REGION: ${AWS_REGION}
@@ -361,7 +415,7 @@ services:
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      REDIS_PASSWORD: cryb_redis_password
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
       BASIC_AUTH_USER: admin
       BASIC_AUTH_PASS: ${QUEUE_DASHBOARD_PASSWORD:-admin123}
     ports:

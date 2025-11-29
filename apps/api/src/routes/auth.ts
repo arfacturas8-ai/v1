@@ -1,15 +1,17 @@
 import { FastifyInstance } from 'fastify';
 import { prisma, executeWithDatabaseRetry } from '@cryb/database';
-import { hashPassword, verifyPassword, validatePasswordStrength } from '@cryb/auth';
+import { generateAccessToken, verifyToken } from '@cryb/auth';
+import { hashPassword, verifyPassword, validatePasswordStrength } from '../utils/password';
 import { EnhancedAuthService } from '../services/enhanced-auth';
+import { createAuthRateLimitService, authRateLimitMiddleware } from '../middleware/auth-rate-limiting';
 import Redis from 'ioredis';
-// Web3 functions temporarily implemented as stubs
+// Web3 functions - Coming Soon!
 const generateNonce = () => Math.random().toString(36).substring(2, 15);
 const generateSiweMessage = async (walletAddress: string, chainId: number, domain: string, uri: string, nonce: string) => 
-  `Sign in with Ethereum message for ${walletAddress}`;
+  `Sign in with Ethereum - Coming Soon! Wallet: ${walletAddress}`;
 const verifySiweMessage = async (message: string, signature: string) => ({ 
   success: false, 
-  error: 'Web3 functionality temporarily disabled' 
+  error: 'Web3 authentication coming soon! This feature will enable secure wallet-based login.' 
 });
 import { randomUUID } from 'crypto';
 import { validate, validationSchemas } from '../middleware/validation';
@@ -21,27 +23,58 @@ const nonceStore = new Map<string, { nonce: string; expiresAt: number }>();
 
 export default async function authRoutes(fastify: FastifyInstance) {
   // Create dedicated Redis client for auth service to avoid subscriber mode issues
-  const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0');
+  const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6380/0');
   
   // Initialize Enhanced Auth Service with dedicated client
   const authService = new EnhancedAuthService(authRedisClient);
   
-  // Rate limiting for auth endpoints
-  const authRateLimit = {
-    max: 5, // 5 attempts
-    timeWindow: '15 minutes',
-    keyGenerator: (req: any) => {
-      const ip = req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || req.ip;
-      const identifier = req.body?.email || req.body?.username || req.body?.walletAddress || ip;
-      return `auth:${identifier}`;
-    }
-  };
+  // Initialize Critical Auth Rate Limiting Service
+  const authRateLimitService = createAuthRateLimitService(authRedisClient);
   
   // Helper function to get client info
   const getClientInfo = (request: any) => ({
     ip: request.headers['x-forwarded-for'] || request.headers['x-real-ip'] || request.ip,
     userAgent: request.headers['user-agent'] || 'unknown'
   });
+  
+  // Helper function to set secure httpOnly cookies
+  const setAuthCookies = (reply: any, tokens: any) => {
+    const isProduction = process.env.NODE_ENV === 'production';
+    
+    // Set access token as httpOnly cookie
+    reply.setCookie('accessToken', tokens.accessToken, {
+      httpOnly: true,
+      secure: isProduction, // HTTPS only in production
+      sameSite: 'strict',
+      maxAge: 15 * 60 * 1000, // 15 minutes
+      path: '/'
+    });
+    
+    // Set refresh token as httpOnly cookie
+    reply.setCookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      secure: isProduction, // HTTPS only in production
+      sameSite: 'strict',
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+      path: '/api/v1/auth/refresh' // Restrict to refresh endpoint
+    });
+    
+    // Set CSRF token as regular cookie (accessible to JS for headers)
+    reply.setCookie('csrfToken', tokens.csrfToken || randomUUID(), {
+      httpOnly: false,
+      secure: isProduction,
+      sameSite: 'strict',
+      maxAge: 15 * 60 * 1000,
+      path: '/'
+    });
+  };
+  
+  // Helper function to clear auth cookies
+  const clearAuthCookies = (reply: any) => {
+    reply.clearCookie('accessToken', { path: '/' });
+    reply.clearCookie('refreshToken', { path: '/api/v1/auth/refresh' });
+    reply.clearCookie('csrfToken', { path: '/' });
+  };
   
   /**
    * @swagger
@@ -52,7 +85,10 @@ export default async function authRoutes(fastify: FastifyInstance) {
    *     description: Create a new user account with email/password or Web3 wallet
    */
   fastify.post('/register', {
-    preHandler: validate(validationSchemas.auth.register),
+    preHandler: [
+      authRateLimitMiddleware(authRateLimitService, 'register'),
+      validate(validationSchemas.auth.register)
+    ],
     schema: {
       tags: ['auth'],
       summary: 'Register new user account',
@@ -68,7 +104,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
           signature: { type: 'string' },
           message: { type: 'string' }
         },
-        required: ['username', 'displayName']
+        required: ['username']
       },
       response: {
         201: {
@@ -107,21 +143,24 @@ export default async function authRoutes(fastify: FastifyInstance) {
     const clientInfo = getClientInfo(request);
     
     try {
-      const { 
-        username, 
-        displayName, 
-        email, 
-        password, 
+      const {
+        username,
+        displayName: providedDisplayName,
+        email,
+        password,
         confirmPassword,
-        walletAddress, 
-        signature, 
-        message 
+        walletAddress,
+        signature,
+        message
       } = request.body as any;
 
       // Input validation
-      if (!username || !displayName) {
-        throw new AppError('Username and display name are required', 400, 'MISSING_REQUIRED_FIELDS');
+      if (!username) {
+        throw new AppError('Username is required', 400, 'MISSING_REQUIRED_FIELDS');
       }
+
+      // Use provided displayName or fallback to username
+      const displayName = providedDisplayName || username;
       
       // Username validation
       if (!/^[a-zA-Z0-9_]{3,32}$/.test(username)) {
@@ -208,9 +247,14 @@ export default async function authRoutes(fastify: FastifyInstance) {
       }
 
       // Validate and hash password if provided
-      let hashedPassword;
+      let hashedPassword: string | null = null;
       if (hasPassword) {
         try {
+          // Check password confirmation only if confirmPassword is provided
+          if (confirmPassword && password !== confirmPassword) {
+            throw new AppError('Passwords do not match', 400, 'PASSWORD_MISMATCH');
+          }
+          
           const passwordValidation = validatePasswordStrength(password);
           if (!passwordValidation.isValid) {
             throw new AppError(
@@ -293,14 +337,64 @@ export default async function authRoutes(fastify: FastifyInstance) {
       if (email && !isWalletVerified) {
         try {
           emailVerificationToken = await authService.generateEmailVerificationToken(user.id, email);
-          // TODO: Send verification email
+          // Send verification email
+          const { emailService } = require('../services/email.service');
+          await emailService.sendVerificationEmail(email, username, emailVerificationToken);
         } catch (emailError) {
-          console.warn('Email verification token generation failed:', emailError);
+          console.warn('Email verification process failed:', emailError);
           // Don't fail registration for email verification failure
         }
       }
 
-      reply.code(201).send({
+      // Record successful registration to reset rate limits
+      if ((request as any).authRateLimit && (request as any).authEndpoint && (request as any).authIdentifier) {
+        try {
+          await (request as any).authRateLimit.recordSuccess(
+            (request as any).authEndpoint,
+            (request as any).authIdentifier,
+            request
+          );
+        } catch (rateLimitError) {
+          console.warn('Failed to record registration success for rate limiting:', rateLimitError);
+        }
+      }
+
+      // Send welcome email (only if user has an email address)
+      if (email || user.email) {
+        try {
+          const { queueManager } = await import('../services/queue-manager');
+          await queueManager.addEmailJob({
+            type: 'welcome',
+            to: email || user.email || '',
+            subject: 'Welcome to CRYB Platform!',
+            template: 'welcome',
+            data: {
+              username: user.displayName || user.username,
+              displayName: user.displayName,
+              platformUrl: process.env.PLATFORM_URL || process.env.NEXT_PUBLIC_APP_URL || 'https://cryb.ai',
+            },
+            priority: 'high'
+          });
+          console.log('Welcome email queued successfully for user:', user.username);
+        } catch (emailQueueError) {
+          console.warn('Failed to queue welcome email:', emailQueueError);
+          // Don't fail registration if email queueing fails
+        }
+      }
+
+      // Set httpOnly cookies
+      setAuthCookies(reply, tokens);
+      
+      // Debug logging
+      console.log('DEBUG: About to send registration response with tokens:', {
+        hasToken: !!tokens.accessToken,
+        hasRefresh: !!tokens.refreshToken,
+        tokenLength: tokens.accessToken?.length,
+        actualToken: tokens.accessToken?.substring(0, 20) + '...',
+        fullTokens: tokens
+      });
+      
+      const responsePayload = {
         success: true,
         message: 'Registration successful',
         data: {
@@ -308,18 +402,23 @@ export default async function authRoutes(fastify: FastifyInstance) {
             ...user,
             needsEmailVerification: !!email && !isWalletVerified
           },
+          // Match the schema definition for tokens
           tokens: {
             accessToken: tokens.accessToken,
             refreshToken: tokens.refreshToken,
-            expiresAt: tokens.expiresAt.toISOString(),
-            refreshExpiresAt: tokens.refreshExpiresAt?.toISOString()
+            expiresAt: tokens.expiresAt.toISOString()
           },
           security: {
             csrfToken,
-            emailVerificationRequired: !!email && !isWalletVerified
+            emailVerificationRequired: !!email && !isWalletVerified,
+            expiresAt: tokens.expiresAt.toISOString()
           }
         }
-      });
+      };
+      
+      console.log('DEBUG: Response payload being sent:', JSON.stringify(responsePayload.data, null, 2));
+      
+      reply.code(201).send(responsePayload);
     } catch (error) {
       // Comprehensive error handling
       if (error instanceof AppError) {
@@ -345,7 +444,10 @@ export default async function authRoutes(fastify: FastifyInstance) {
    *     description: Authenticate user with email/password or Web3 wallet
    */
   fastify.post('/login', {
-    preHandler: validate(validationSchemas.auth.login),
+    preHandler: [
+      authRateLimitMiddleware(authRateLimitService, 'login'),
+      validate(validationSchemas.auth.login)
+    ],
     schema: {
       tags: ['auth'],
       summary: 'Login user',
@@ -398,15 +500,16 @@ export default async function authRoutes(fastify: FastifyInstance) {
     try {
       const { 
         username, 
-        email, 
+        email,
+        identifier, 
         password, 
         walletAddress, 
         signature, 
         message 
       } = request.body as any;
       
-      // Input validation
-      const hasPassword = !!(username || email) && password;
+      // Input validation - identifier can be used instead of username/email
+      const hasPassword = !!(username || email || identifier) && password;
       const hasWallet = walletAddress && signature && message;
       
       if (!hasPassword && !hasWallet) {
@@ -445,11 +548,11 @@ export default async function authRoutes(fastify: FastifyInstance) {
       }
       // Email/password authentication
       else if (hasPassword) {
-        const identifier = username || email;
+        const loginIdentifier = identifier || username || email;
         
         try {
           authResult = await authService.authenticateWithPassword(
-            identifier,
+            loginIdentifier,
             password,
             clientInfo
           );
@@ -481,17 +584,62 @@ export default async function authRoutes(fastify: FastifyInstance) {
         }
       }
 
-      // Generate secure tokens
+      // Check if 2FA is enabled for the user
+      const twoFactorService = await import('../services/two-factor-auth').then(m => m.createTwoFactorAuthService(authRedisClient));
+      const twoFactorStatus = await twoFactorService.getTwoFactorStatus(user.id);
+      
       let tokens;
-      try {
-        tokens = await authService.generateTokens(user.id, {
-          deviceInfo: `Login from ${clientInfo.userAgent}`,
-          ipAddress: clientInfo.ip,
-          userAgent: clientInfo.userAgent
-        });
-      } catch (tokenError) {
-        console.error('Token generation error during login:', tokenError);
-        throw new AppError('Session creation failed', 500, 'TOKEN_GENERATION_ERROR');
+      let requires2FA = false;
+      
+      if (twoFactorStatus.enabled) {
+        // If 2FA is enabled, generate a temporary token that requires 2FA verification
+        requires2FA = true;
+        
+        // Generate a temporary pre-auth token (shorter expiry, limited permissions)
+        const tempTokenPayload = {
+          userId: user.id,
+          sessionId: randomUUID(),
+          temp: true,
+          requires2FA: true,
+          exp: Math.floor((Date.now() + 5 * 60 * 1000) / 1000), // 5 minutes
+          iat: Math.floor(Date.now() / 1000),
+          jti: randomUUID()
+        };
+        
+        try {
+          const tempToken = generateAccessToken(tempTokenPayload);
+          
+          // Store temporary session in Redis
+          const tempSessionKey = `temp_session:${tempTokenPayload.sessionId}`;
+          await authRedisClient.setex(tempSessionKey, 300, JSON.stringify({
+            userId: user.id,
+            createdAt: new Date().toISOString(),
+            clientInfo,
+            requires2FA: true
+          }));
+          
+          tokens = {
+            accessToken: tempToken,
+            refreshToken: '',
+            expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+            temporary: true
+          };
+        } catch (tempTokenError) {
+          console.error('Temporary token generation error:', tempTokenError);
+          throw new AppError('Session creation failed', 500, 'TEMP_TOKEN_GENERATION_ERROR');
+        }
+      } else {
+        // Generate normal tokens if 2FA is not enabled
+        try {
+          tokens = await authService.generateTokens(user.id, {
+            deviceInfo: `Login from ${clientInfo.userAgent}`,
+            ipAddress: clientInfo.ip,
+            userAgent: clientInfo.userAgent
+          });
+        } catch (tokenError) {
+          console.error('Token generation error during login:', tokenError);
+          throw new AppError('Session creation failed', 500, 'TOKEN_GENERATION_ERROR');
+        }
       }
       
       // Generate CSRF token
@@ -510,9 +658,27 @@ export default async function authRoutes(fastify: FastifyInstance) {
         console.warn('Failed to get security stats:', statsError);
       }
 
+      // Record successful authentication to reset rate limits
+      if ((request as any).authRateLimit && (request as any).authEndpoint && (request as any).authIdentifier) {
+        try {
+          await (request as any).authRateLimit.recordSuccess(
+            (request as any).authEndpoint,
+            (request as any).authIdentifier,
+            request
+          );
+        } catch (rateLimitError) {
+          console.warn('Failed to record auth success for rate limiting:', rateLimitError);
+        }
+      }
+
+      // Set httpOnly cookies if not 2FA
+      if (!requires2FA && tokens) {
+        setAuthCookies(reply, tokens);
+      }
+      
       reply.send({
         success: true,
-        message: 'Login successful',
+        message: requires2FA ? 'Please provide your 2FA code to complete login' : 'Login successful',
         data: {
           user: {
             id: user.id,
@@ -522,16 +688,25 @@ export default async function authRoutes(fastify: FastifyInstance) {
             walletAddress: user.walletAddress,
             isVerified: user.isVerified
           },
-          tokens: {
-            accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken,
-            expiresAt: tokens.expiresAt.toISOString(),
-            refreshExpiresAt: tokens.refreshExpiresAt?.toISOString()
-          },
+          // Match the schema definition for tokens
+          ...(!requires2FA && tokens && {
+            tokens: {
+              accessToken: tokens.accessToken,
+              refreshToken: tokens.refreshToken,
+              expiresAt: tokens.expiresAt.toISOString()
+            }
+          }),
+          // Only send temporary token for 2FA
+          ...(requires2FA && {
+            tempToken: tokens.accessToken,
+            expires: tokens.expiresAt.toISOString()
+          }),
           security: {
             csrfToken,
             securityScore: securityStats?.securityScore || 0,
-            needsEmailVerification: user.email && !user.isVerified
+            needsEmailVerification: user.email && !user.isVerified,
+            requires2FA,
+            backupCodesAvailable: twoFactorStatus.hasBackupCodes
           }
         }
       });
@@ -546,6 +721,178 @@ export default async function authRoutes(fastify: FastifyInstance) {
         'Login failed due to internal error',
         500,
         'LOGIN_ERROR',
+        { timestamp: new Date().toISOString() }
+      );
+    }
+  });
+
+  /**
+   * @swagger
+   * /auth/verify-2fa:
+   *   post:
+   *     tags: [auth]
+   *     summary: Complete 2FA login verification
+   */
+  fastify.post('/verify-2fa', {
+    schema: {
+      tags: ['auth'],
+      summary: 'Complete 2FA login verification',
+      body: {
+        type: 'object',
+        properties: {
+          code: { type: 'string', minLength: 6 }
+        },
+        required: ['code']
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean' },
+            data: {
+              type: 'object',
+              properties: {
+                user: {
+                  type: 'object',
+                  properties: {
+                    id: { type: 'string' },
+                    username: { type: 'string' },
+                    displayName: { type: 'string' },
+                    email: { type: 'string' },
+                    walletAddress: { type: 'string' },
+                    isVerified: { type: 'boolean' }
+                  }
+                },
+                tokens: {
+                  type: 'object',
+                  properties: {
+                    accessToken: { type: 'string' },
+                    refreshToken: { type: 'string' },
+                    expiresAt: { type: 'string' }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const clientInfo = getClientInfo(request);
+    
+    try {
+      const { code } = request.body as { code: string };
+      const authHeader = request.headers.authorization;
+      
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        throw new AppError('Temporary authentication token required', 401, 'TEMP_TOKEN_REQUIRED');
+      }
+      
+      const tempToken = authHeader.replace('Bearer ', '');
+      
+      // Verify temporary token
+      let tempPayload;
+      try {
+        tempPayload = verifyToken(tempToken);
+      } catch (tokenError) {
+        throw new AppError('Invalid or expired temporary token', 401, 'INVALID_TEMP_TOKEN');
+      }
+      
+      const payload = tempPayload as any;
+      if (!payload.temp || !payload.requires2FA) {
+        throw new AppError('Invalid temporary token format', 401, 'INVALID_TEMP_TOKEN');
+      }
+      
+      // Verify 2FA code
+      const twoFactorService = await import('../services/two-factor-auth').then(m => m.createTwoFactorAuthService(authRedisClient));
+      const verificationResult = await twoFactorService.verifyTwoFactor(
+        tempPayload.userId,
+        code,
+        clientInfo.ip
+      );
+      
+      if (!verificationResult.success) {
+        throw new AppError(verificationResult.error || 'Invalid 2FA code', 400, '2FA_VERIFICATION_FAILED');
+      }
+      
+      // Get user data
+      const user = await executeWithDatabaseRetry(async () => {
+        return await prisma.user.findUnique({
+          where: { id: tempPayload.userId },
+          select: {
+            id: true,
+            username: true,
+            displayName: true,
+            email: true,
+            walletAddress: true,
+            isVerified: true
+          }
+        });
+      });
+      
+      if (!user) {
+        throw new AppError('User not found', 404, 'USER_NOT_FOUND');
+      }
+      
+      // Clean up temporary session
+      try {
+        await authRedisClient.del(`temp_session:${tempPayload.sessionId}`);
+      } catch (error) {
+        console.warn('Failed to clean up temporary session:', error);
+      }
+      
+      // Generate full authentication tokens
+      const tokens = await authService.generateTokens(user.id, {
+        deviceInfo: `2FA Login from ${clientInfo.userAgent}`,
+        ipAddress: clientInfo.ip,
+        userAgent: clientInfo.userAgent
+      });
+      
+      // Generate CSRF token
+      let csrfToken;
+      try {
+        csrfToken = await authService.generateCSRFToken(user.id);
+      } catch (csrfError) {
+        console.warn('CSRF token generation failed during 2FA login:', csrfError);
+      }
+      
+      let message = '2FA verification successful, login complete';
+      if (verificationResult.isBackupCode) {
+        message += `. You used a backup code. Remaining codes: ${verificationResult.remainingBackupCodes || 0}`;
+        
+        if ((verificationResult.remainingBackupCodes || 0) <= 2) {
+          message += '. Consider regenerating backup codes.';
+        }
+      }
+      
+      reply.send({
+        success: true,
+        message,
+        data: {
+          user,
+          tokens: {
+            accessToken: tokens.accessToken,
+            refreshToken: tokens.refreshToken,
+            expiresAt: tokens.expiresAt.toISOString(),
+            refreshExpiresAt: tokens.refreshExpiresAt?.toISOString()
+          },
+          security: {
+            csrfToken,
+            usedBackupCode: verificationResult.isBackupCode || false,
+            remainingBackupCodes: verificationResult.remainingBackupCodes
+          }
+        }
+      });
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
+      
+      console.error('2FA verification error:', error);
+      throw new AppError(
+        '2FA verification failed due to internal error',
+        500,
+        '2FA_VERIFICATION_ERROR',
         { timestamp: new Date().toISOString() }
       );
     }
@@ -696,16 +1043,17 @@ export default async function authRoutes(fastify: FastifyInstance) {
         throw new AppError('Failed to retrieve user information', 500, 'USER_LOOKUP_ERROR');
       }
 
+      // Set new httpOnly cookies
+      setAuthCookies(reply, tokens);
+      
       reply.send({
         success: true,
         message: 'Tokens refreshed successfully',
         data: {
           user,
-          tokens: {
-            accessToken: tokens.accessToken,
-            refreshToken: tokens.refreshToken,
-            expiresAt: tokens.expiresAt.toISOString(),
-            refreshExpiresAt: tokens.refreshExpiresAt?.toISOString()
+          // Don't send tokens in response body for security
+          security: {
+            expiresAt: tokens.expiresAt.toISOString()
           }
         }
       });
@@ -759,6 +1107,9 @@ export default async function authRoutes(fastify: FastifyInstance) {
         // The token should still be blacklisted
       }
 
+      // Clear httpOnly cookies
+      clearAuthCookies(reply);
+      
       reply.send({
         success: true,
         message: 'Successfully logged out'
@@ -1248,6 +1599,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
    *     summary: Request password reset
    */
   fastify.post('/forgot-password', {
+    preHandler: authRateLimitMiddleware(authRateLimitService, 'forgotPassword'),
     schema: {
       tags: ['auth'],
       summary: 'Request password reset',
@@ -1284,6 +1636,14 @@ export default async function authRoutes(fastify: FastifyInstance) {
       }
 
       // Generate password reset token
+      if (!user.email) {
+        reply.send({
+          success: true,
+          message: 'If an account with this email exists, you will receive password reset instructions.'
+        });
+        return;
+      }
+      
       const { token, expiresAt } = await authService.generatePasswordResetToken(user.id, user.email);
 
       // Send password reset email
@@ -1330,6 +1690,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
    *     summary: Reset password with token
    */
   fastify.post('/reset-password', {
+    preHandler: authRateLimitMiddleware(authRateLimitService, 'resetPassword'),
     schema: {
       tags: ['auth'],
       summary: 'Reset password with token',
@@ -1421,6 +1782,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
    *     summary: Verify email with token
    */
   fastify.post('/verify-email', {
+    preHandler: authRateLimitMiddleware(authRateLimitService, 'verifyEmail'),
     schema: {
       tags: ['auth'],
       summary: 'Verify email with token',
@@ -1451,7 +1813,6 @@ export default async function authRoutes(fastify: FastifyInstance) {
         where: { id: tokenResult.userId },
         data: { 
           isVerified: true,
-          emailVerifiedAt: new Date(),
           updatedAt: new Date()
         },
         select: {
@@ -1501,20 +1862,21 @@ export default async function authRoutes(fastify: FastifyInstance) {
     }
   }, async (request, reply) => {
     try {
-      if (!request.user || !request.user.email) {
+      const user = request.user as any; // Type assertion to access user properties
+      if (!user || !user.email) {
         throw new AppError('User email not found', 400, 'NO_USER_EMAIL');
       }
 
-      if (request.user.isVerified) {
+      if (user.isVerified) {
         throw new AppError('Email is already verified', 400, 'ALREADY_VERIFIED');
       }
 
       // Generate new verification token
-      const token = await authService.generateEmailVerificationToken(request.user.id, request.user.email);
+      const token = await authService.generateEmailVerificationToken(user.id, user.email);
 
       // Send verification email
       try {
-        const emailResult = await authService.sendEmailVerification(request.user.email, token);
+        const emailResult = await authService.sendEmailVerification(user.email, token);
         if (!emailResult.success) {
           throw new Error('Email service unavailable');
         }

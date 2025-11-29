@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRYB Chat UI - Comprehensive Test Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .test-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100vh;
+            gap: 0;
+        }
+
+        .test-panel {
+            padding: 24px;
+            overflow-y: auto;
+            background: rgba(21, 21, 23, 0.9);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-panel {
+            position: relative;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #0052FF;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0052FF, #00D4FF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        .test-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0052FF, #0041CC);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 82, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 82, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #E5E7EB;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .test-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .status-card {
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .status-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .status-label {
+            font-size: 12px;
+            color: #9CA3AF;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .passed { color: #10B981; }
+        .failed { color: #EF4444; }
+        .warning { color: #F59E0B; }
+        .info { color: #0052FF; }
+
+        .test-results {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .test-results h3 {
+            color: #E5E7EB;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+
+        .test-log {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            margin: 4px 0;
+            padding: 2px 0;
+        }
+
+        .log-entry.test { color: #60A5FA; }
+        .log-entry.success { color: #34D399; }
+        .log-entry.error { color: #F87171; }
+        .log-entry.warning { color: #FBBF24; }
+        .log-entry.info { color: #A78BFA; }
+
+        .chat-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #000;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #9CA3AF;
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-top: 2px solid #0052FF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .recommendations {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid #F59E0B;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 20px;
+        }
+
+        .recommendations h4 {
+            color: #F59E0B;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .recommendations ul {
+            list-style: none;
+        }
+
+        .recommendations li {
+            color: #FCD34D;
+            margin: 8px 0;
+            padding-left: 16px;
+            position: relative;
+            font-size: 13px;
+        }
+
+        .recommendations li::before {
+            content: "💡";
+            position: absolute;
+            left: 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0052FF, #00D4FF);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        @media (max-width: 768px) {
+            .test-dashboard {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 1fr;
+            }
+            
+            .test-panel {
+                max-height: 50vh;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        .scrollbar-thin::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 3px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="test-dashboard">
+        <!-- Test Control Panel -->
+        <div class="test-panel scrollbar-thin">
+            <div class="header">
+                <h1>🧪 Chat UI Test Suite</h1>
+                <p>Comprehensive testing of CRYB platform chat components</p>
+            </div>
+
+            <div class="test-controls">
+                <button class="btn btn-primary" onclick="runTests()">
+                    🚀 Run All Tests
+                </button>
+                <button class="btn btn-secondary" onclick="runSpecificTest('message')">
+                    💬 Test Messages
+                </button>
+                <button class="btn btn-secondary" onclick="runSpecificTest('input')">
+                    ⌨️ Test Input
+                </button>
+                <button class="btn btn-secondary" onclick="runSpecificTest('realtime')">
+                    ⚡ Test Real-time
+                </button>
+                <button class="btn btn-secondary" onclick="clearResults()">
+                    🗑️ Clear Results
+                </button>
+            </div>
+
+            <div class="test-status">
+                <div class="status-card">
+                    <div class="status-value passed" id="passed-count">0</div>
+                    <div class="status-label">Passed</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-value failed" id="failed-count">0</div>
+                    <div class="status-label">Failed</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-value info" id="total-count">0</div>
+                    <div class="status-label">Total</div>
+                </div>
+                <div class="status-card">
+                    <div class="status-value warning" id="success-rate">0%</div>
+                    <div class="status-label">Success Rate</div>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+
+            <div class="test-results">
+                <h3>📋 Test Results</h3>
+                <div class="test-log scrollbar-thin" id="test-log">
+                    <div class="log-entry info">Click "Run All Tests" to start testing the chat interface...</div>
+                </div>
+            </div>
+
+            <div id="recommendations" class="recommendations" style="display: none;">
+                <h4>💡 Recommendations</h4>
+                <ul id="recommendations-list"></ul>
+            </div>
+        </div>
+
+        <!-- Chat Interface -->
+        <div class="chat-panel">
+            <iframe 
+                id="chat-iframe" 
+                class="chat-iframe" 
+                src="http://localhost:3008"
+                title="CRYB Chat Interface"
+                onload="onChatLoaded()">
+            </iframe>
+            <div id="chat-loading" class="loading">
+                <div class="spinner"></div>
+                <span>Loading chat interface...</span>
+            </div>
+        </div>
+    </div>
+
+    <script src="chat-ui-comprehensive-test.js"></script>
+    <script>
+        let currentTester = null;
+        let testInProgress = false;
+
+        function onChatLoaded() {
+            document.getElementById('chat-loading').style.display = 'none';
+            addLogEntry('✅ Chat interface loaded successfully', 'success');
+        }
+
+        function addLogEntry(message, type = 'info') {
+            const logContainer = document.getElementById('test-log');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function updateStatus(passed, failed, total) {
+            document.getElementById('passed-count').textContent = passed;
+            document.getElementById('failed-count').textContent = failed;
+            document.getElementById('total-count').textContent = total;
+            
+            const successRate = total > 0 ? ((passed / total) * 100).toFixed(1) : 0;
+            document.getElementById('success-rate').textContent = `${successRate}%`;
+            
+            const progress = total > 0 ? (passed + failed) / total * 100 : 0;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+        }
+
+        function clearResults() {
+            document.getElementById('test-log').innerHTML = '<div class="log-entry info">Results cleared. Ready for new tests...</div>';
+            updateStatus(0, 0, 0);
+            document.getElementById('recommendations').style.display = 'none';
+        }
+
+        async function runTests() {
+            if (testInProgress) {
+                addLogEntry('⚠️ Test already in progress', 'warning');
+                return;
+            }
+
+            testInProgress = true;
+            clearResults();
+            addLogEntry('🚀 Starting comprehensive chat UI test suite...', 'info');
+
+            try {
+                // Get the chat iframe and its content
+                const iframe = document.getElementById('chat-iframe');
+                if (!iframe.contentWindow) {
+                    throw new Error('Cannot access chat interface');
+                }
+
+                // Create tester in iframe context
+                const iframeWindow = iframe.contentWindow;
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+
+                // Inject our test script into the iframe
+                const script = iframeDocument.createElement('script');
+                script.src = '../chat-ui-comprehensive-test.js';
+                iframeDocument.head.appendChild(script);
+
+                // Wait for script to load and run tests
+                await new Promise((resolve) => {
+                    script.onload = resolve;
+                });
+
+                // Run tests in iframe context
+                setTimeout(async () => {
+                    try {
+                        const TesterClass = iframeWindow.ChatUITester;
+                        if (!TesterClass) {
+                            throw new Error('Test suite not available in iframe');
+                        }
+
+                        const tester = new TesterClass();
+                        
+                        // Override tester.log to pipe results to parent window
+                        const originalLog = tester.log.bind(tester);
+                        tester.log = (message, type = 'info') => {
+                            originalLog(message, type);
+                            window.parent.postMessage({
+                                type: 'test-log',
+                                message,
+                                logType: type
+                            }, '*');
+                        };
+
+                        // Run tests
+                        const results = await tester.runAllTests();
+                        
+                        // Send final results
+                        window.parent.postMessage({
+                            type: 'test-complete',
+                            results
+                        }, '*');
+
+                    } catch (error) {
+                        window.parent.postMessage({
+                            type: 'test-error',
+                            error: error.message
+                        }, '*');
+                    }
+                }, 1000);
+
+            } catch (error) {
+                addLogEntry(`❌ Test setup failed: ${error.message}`, 'error');
+            } finally {
+                testInProgress = false;
+            }
+        }
+
+        // Listen for messages from iframe
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'test-log') {
+                addLogEntry(event.data.message, event.data.logType);
+                
+                // Update counts (basic parsing)
+                if (event.data.message.includes('✅ PASSED:')) {
+                    const current = parseInt(document.getElementById('passed-count').textContent);
+                    const failed = parseInt(document.getElementById('failed-count').textContent);
+                    updateStatus(current + 1, failed, current + failed + 1);
+                } else if (event.data.message.includes('❌ FAILED:')) {
+                    const passed = parseInt(document.getElementById('passed-count').textContent);
+                    const current = parseInt(document.getElementById('failed-count').textContent);
+                    updateStatus(passed, current + 1, passed + current + 1);
+                }
+            } else if (event.data.type === 'test-complete') {
+                const results = event.data.results;
+                
+                addLogEntry('🎉 Test suite completed!', 'success');
+                addLogEntry(`📊 Final Results: ${results.summary.passed}/${results.summary.totalTests} tests passed (${results.summary.successRate}%)`, 'info');
+                
+                updateStatus(results.summary.passed, results.summary.failed, results.summary.totalTests);
+                
+                // Show recommendations
+                if (results.recommendations && results.recommendations.length > 0) {
+                    const recContainer = document.getElementById('recommendations');
+                    const recList = document.getElementById('recommendations-list');
+                    recList.innerHTML = '';
+                    
+                    results.recommendations.forEach(rec => {
+                        const li = document.createElement('li');
+                        li.textContent = rec;
+                        recList.appendChild(li);
+                    });
+                    
+                    recContainer.style.display = 'block';
+                }
+                
+                testInProgress = false;
+            } else if (event.data.type === 'test-error') {
+                addLogEntry(`❌ Test error: ${event.data.error}`, 'error');
+                testInProgress = false;
+            }
+        });
+
+        function runSpecificTest(testType) {
+            addLogEntry(`🔍 Running specific test: ${testType}`, 'info');
+            // Implement specific test running logic here
+        }
+
+        // Auto-refresh iframe periodically to keep connection alive
+        setInterval(() => {
+            const iframe = document.getElementById('chat-iframe');
+            if (iframe && !testInProgress) {
+                // Only refresh if no test is running
+                // iframe.src = iframe.src; // Uncomment to enable auto-refresh
+            }
+        }, 30000); // Every 30 seconds
+
+        // Initialize
+        addLogEntry('🎯 Chat UI Test Suite initialized', 'info');
+        addLogEntry('💡 Load the chat interface and click "Run All Tests" to begin', 'info');
+    </script>
+</body>
+</html>

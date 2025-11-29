@@ -1,0 +1,146 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CommunityRulesPage Snapshots matches snapshot for initial render 1`] = `
+<div
+  aria-label="Community rules page"
+  class="min-h-screen bg-[#0A0A0B] p-6"
+  role="main"
+>
+  <div
+    class="max-w-6xl mx-auto"
+  >
+    <div
+      animate="[object Object]"
+      class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+      initial="[object Object]"
+    >
+      <h1
+        class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+      >
+        CommunityRulesPage
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-400"
+      >
+        This is the CommunityRulesPage page. Content will be implemented here.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CommunityRulesPage Snapshots matches snapshot for loading state 1`] = `
+<div
+  aria-label="Community rules page"
+  class="min-h-screen bg-[#0A0A0B] p-6"
+  role="main"
+>
+  <div
+    class="max-w-6xl mx-auto"
+  >
+    <div
+      animate="[object Object]"
+      class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+      initial="[object Object]"
+    >
+      <h1
+        class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+      >
+        CommunityRulesPage
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-400"
+      >
+        This is the CommunityRulesPage page. Content will be implemented here.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CommunityRulesPage Snapshots matches snapshot for unauthenticated user 1`] = `
+<div
+  aria-label="Community rules page"
+  class="min-h-screen bg-[#0A0A0B] p-6"
+  role="main"
+>
+  <div
+    class="max-w-6xl mx-auto"
+  >
+    <div
+      animate="[object Object]"
+      class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+      initial="[object Object]"
+    >
+      <h1
+        class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+      >
+        CommunityRulesPage
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-400"
+      >
+        This is the CommunityRulesPage page. Content will be implemented here.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CommunityRulesPage Snapshots matches snapshot in edit mode 1`] = `
+<div
+  aria-label="Community rules page"
+  class="min-h-screen bg-[#0A0A0B] p-6"
+  role="main"
+>
+  <div
+    class="max-w-6xl mx-auto"
+  >
+    <div
+      animate="[object Object]"
+      class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+      initial="[object Object]"
+    >
+      <h1
+        class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+      >
+        CommunityRulesPage
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-400"
+      >
+        This is the CommunityRulesPage page. Content will be implemented here.
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`CommunityRulesPage Snapshots matches snapshot with empty rules 1`] = `
+<div
+  aria-label="Community rules page"
+  class="min-h-screen bg-[#0A0A0B] p-6"
+  role="main"
+>
+  <div
+    class="max-w-6xl mx-auto"
+  >
+    <div
+      animate="[object Object]"
+      class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+      initial="[object Object]"
+    >
+      <h1
+        class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+      >
+        CommunityRulesPage
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-400"
+      >
+        This is the CommunityRulesPage page. Content will be implemented here.
+      </p>
+    </div>
+  </div>
+</div>
+`;

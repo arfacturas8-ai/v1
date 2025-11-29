@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRYB Debug</title>
+  <style>
+    body { 
+      margin: 0; 
+      padding: 20px; 
+      background: #0A0A0B; 
+      color: #FFFFFF; 
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+    }
+    .debug-console {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 10px 0;
+      max-height: 400px;
+      overflow-y: auto;
+      border: 1px solid #333;
+    }
+    .log { color: #ccc; }
+    .error { color: #ff4444; }
+    .warn { color: #ffaa00; }
+    .info { color: #44aaff; }
+    #root {
+      border: 2px solid #0052FF;
+      min-height: 100px;
+      margin: 20px 0;
+      padding: 20px;
+      background: #151517;
+    }
+  </style>
+</head>
+<body>
+  <h1 style="color: #0052FF;">CRYB Debug Console</h1>
+  
+  <div id="debug-console" class="debug-console">
+    <div>Console output will appear here...</div>
+  </div>
+  
+  <h2 style="color: #00D4FF;">React Root Container:</h2>
+  <div id="root">React content should appear here if working...</div>
+  
+  <div id="status" style="margin: 20px 0; padding: 10px; background: #333; border-radius: 4px;">
+    Status: Initializing...
+  </div>
+
+  <script>
+    const debugConsole = document.getElementById('debug-console');
+    const statusDiv = document.getElementById('status');
+    const originalConsole = { ...console };
+    
+    function addToDebugConsole(message, type = 'log') {
+      const div = document.createElement('div');
+      div.className = type;
+      div.textContent = new Date().toLocaleTimeString() + ' [' + type.toUpperCase() + '] ' + message;
+      debugConsole.appendChild(div);
+      debugConsole.scrollTop = debugConsole.scrollHeight;
+    }
+    
+    // Override console methods
+    console.log = (...args) => {
+      originalConsole.log(...args);
+      addToDebugConsole(args.join(' '), 'log');
+    };
+    
+    console.error = (...args) => {
+      originalConsole.error(...args);
+      addToDebugConsole(args.join(' '), 'error');
+    };
+    
+    console.warn = (...args) => {
+      originalConsole.warn(...args);
+      addToDebugConsole(args.join(' '), 'warn');
+    };
+    
+    console.info = (...args) => {
+      originalConsole.info(...args);
+      addToDebugConsole(args.join(' '), 'info');
+    };
+    
+    // Monitor for errors
+    window.addEventListener('error', (e) => {
+      console.error('JavaScript Error:', e.message, 'at', e.filename + ':' + e.lineno);
+      statusDiv.textContent = 'Status: ERROR - ' + e.message;
+      statusDiv.style.background = '#660000';
+    });
+    
+    window.addEventListener('unhandledrejection', (e) => {
+      console.error('Unhandled Promise Rejection:', e.reason);
+      statusDiv.textContent = 'Status: PROMISE ERROR - ' + e.reason;
+      statusDiv.style.background = '#660000';
+    });
+    
+    console.log('Debug console initialized');
+    statusDiv.textContent = 'Status: Loading React app...';
+    statusDiv.style.background = '#003366';
+    
+    // Check root content every second
+    setInterval(() => {
+      const root = document.getElementById('root');
+      const hasContent = root && root.innerHTML.trim().length > 0;
+      
+      if (hasContent && !root.innerHTML.includes('React content should appear')) {
+        statusDiv.textContent = 'Status: SUCCESS - React rendered!';
+        statusDiv.style.background = '#006600';
+        console.log('React content detected in root:', root.innerHTML.substring(0, 100) + '...');
+      }
+    }, 1000);
+  </script>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

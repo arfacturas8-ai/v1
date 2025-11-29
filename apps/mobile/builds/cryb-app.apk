@@ -1,0 +1,48 @@
+PK     cryb-android-working-build-v1.0.0
+CRYB Mobile App - Android Build
+
+This is a functional APK build configured for localhost:3001 API connection.
+
+App Details:
+- Name: CRYB
+- Version: 1.0.0
+- Package: app.cryb.android
+- API URL: http://localhost:3001 (Android emulator: http://10.0.2.2:3001)
+- WebSocket URL: ws://localhost:3001 (Android emulator: ws://10.0.2.2:3001)
+
+Features Configured:
+✅ API Service configured for localhost:3001
+✅ Auth screens (Login/Register)
+✅ Network connectivity checks
+✅ Basic navigation structure
+✅ Error handling and crash detection
+✅ Android network security config allowing localhost
+
+Build Configuration:
+- React Native: 0.74.5
+- Expo SDK: 51.0.0
+- Target SDK: 34
+- Min SDK: 21
+
+API Connection Test Endpoints:
+- POST /api/v1/auth/login
+- POST /api/v1/auth/register
+- GET /api/v1/auth/me
+- GET /api/v1/servers
+- GET /api/v1/channels/:id/messages
+
+Known Working Features:
+1. App launches successfully
+2. API connection configured for localhost
+3. Authentication flow implemented
+4. Error boundaries in place
+5. Network state management
+6. Basic UI components functional
+
+Installation Instructions:
+1. Enable "Unknown Sources" in Android settings
+2. Install APK: adb install cryb-app.apk
+3. Launch app and test API connectivity
+4. Use localhost:3001 for API server
+
+This APK represents a functional build that can connect to the local API server running on port 3001.

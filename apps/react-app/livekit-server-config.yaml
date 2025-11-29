@@ -1,0 +1,248 @@
+# Production LiveKit Server Configuration for CRYB Platform
+# This configuration supports 1000+ participant voice channels with high quality
+
+port: 7880
+bind_addresses:
+  - ""
+
+rtc:
+  # TCP fallback for restrictive networks
+  tcp_port: 7881
+  # Port range for WebRTC traffic
+  port_range_start: 50000
+  port_range_end: 60000
+  # Use external IP for production
+  use_external_ip: true
+  # STUN servers for NAT traversal
+  stun_servers:
+    - stun:stun.l.google.com:19302
+    - stun:stun1.l.google.com:19302
+  # TURN servers for restrictive networks
+  turn_servers:
+    - host: turn.cryb.ai
+      port: 3478
+      username: cryb_turn_user
+      credential: ${TURN_SECRET}
+      protocol: udp
+    - host: turn.cryb.ai
+      port: 3478
+      username: cryb_turn_user
+      credential: ${TURN_SECRET}
+      protocol: tcp
+
+# Redis for scalability and room persistence
+redis:
+  address: ${REDIS_URL}
+  password: ${REDIS_PASSWORD}
+  db: 0
+
+# Kubernetes service discovery for auto-scaling
+node_selector:
+  kind: kubernetes
+  # Automatically discover other LiveKit nodes
+  config_path: /etc/kubernetes/config
+
+# Room configuration for large voice channels
+room:
+  # Enable empty room timeout
+  empty_timeout: 300s
+  # Departure cleanup timeout
+  departure_cleanup: 60s
+  # Maximum participants per room (can be higher for voice-only)
+  max_participants: 2000
+  # Audio-only rooms for better performance
+  audio_only: false
+  # Enable simulcast for adaptive quality
+  enable_simulcast: true
+
+# Audio configuration optimized for voice
+audio:
+  # Opus codec settings for voice
+  opus:
+    # Optimize for voice (lower bitrate, better quality)
+    max_bitrate: 128000
+    min_bitrate: 16000
+    # Voice-optimized complexity
+    complexity: 5
+    # DTX for bandwidth efficiency
+    dtx: true
+    # FEC for packet loss resilience
+    fec: true
+  
+  # Echo cancellation and noise suppression
+  processing:
+    echo_cancellation: true
+    noise_suppression: true
+    auto_gain_control: true
+    # Voice activity detection
+    vad: true
+    vad_threshold: 0.5
+
+# Video configuration for calls
+video:
+  # H.264 for compatibility, VP9 for efficiency
+  codecs:
+    - h264
+    - vp9
+    - vp8
+  
+  # Simulcast layers for adaptive streaming
+  simulcast:
+    # High quality layer
+    - width: 1920
+      height: 1080
+      bitrate: 3000000
+      fps: 30
+    # Medium quality layer  
+    - width: 1280
+      height: 720
+      bitrate: 1500000
+      fps: 30
+    # Low quality layer
+    - width: 640
+      height: 360
+      bitrate: 500000
+      fps: 15
+
+# Screen sharing optimization
+screen_share:
+  # Higher bitrate for screen content
+  max_bitrate: 6000000
+  # Lower framerate for efficiency
+  fps: 15
+  # H.264 for screen content
+  codec: h264
+
+# Webhook configuration for server-side events
+webhook:
+  api_key: ${LIVEKIT_API_KEY}
+  secret: ${LIVEKIT_API_SECRET}
+  urls:
+    - ${WEBHOOK_URL}/livekit/webhook
+
+# Logging configuration
+logging:
+  level: info
+  # Structured logging for production monitoring
+  json: true
+  # Log sampling to reduce overhead
+  sample_rate: 0.1
+
+# Development settings (remove in production)
+development:
+  # Disable in production
+  disable_strict_config: false
+
+# Security settings
+security:
+  # Enable frame encryption
+  enable_frame_encryption: true
+  # JWT token validation
+  validate_token: true
+  # CORS settings
+  cors:
+    allow_origins:
+      - "https://cryb.ai"
+      - "https://app.cryb.ai"
+      - "https://staging.cryb.ai"
+    allow_headers:
+      - "Authorization"
+      - "Content-Type"
+      - "X-Requested-With"
+
+# Recording configuration
+recording:
+  # S3-compatible storage for recordings
+  storage:
+    type: s3
+    access_key: ${S3_ACCESS_KEY}
+    secret: ${S3_SECRET_KEY}
+    region: ${S3_REGION}
+    bucket: ${S3_BUCKET}
+    endpoint: ${S3_ENDPOINT}
+  
+  # Recording templates
+  templates:
+    # Voice-only recording
+    voice:
+      width: 1
+      height: 1
+      audio_only: true
+      file_format: mp3
+    
+    # Video call recording
+    video:
+      width: 1920
+      height: 1080
+      audio_bitrate: 128000
+      video_bitrate: 3000000
+      file_format: mp4
+
+# Analytics and monitoring
+analytics:
+  # Export metrics to Prometheus
+  prometheus:
+    enabled: true
+    port: 9090
+  
+  # Room and participant analytics
+  events:
+    # Track connection quality
+    connection_quality: true
+    # Track audio/video metrics
+    media_metrics: true
+    # Track participant events
+    participant_events: true
+
+# Load balancing and auto-scaling
+load_balancer:
+  # Consistent hashing for room assignment
+  strategy: consistent_hash
+  # Health check configuration
+  health_check:
+    enabled: true
+    path: /health
+    interval: 30s
+    timeout: 10s
+  
+  # Auto-scaling thresholds
+  scaling:
+    # CPU threshold for scaling up
+    cpu_threshold: 70
+    # Memory threshold for scaling up
+    memory_threshold: 80
+    # Room load threshold
+    room_threshold: 100
+    # Participant threshold per node
+    participant_threshold: 1500
+
+# Rate limiting
+rate_limit:
+  # Connection attempts per IP
+  connections_per_ip: 20
+  # API calls per second
+  api_calls_per_second: 100
+  # Burst allowance
+  burst: 50
+
+# Bandwidth management
+bandwidth:
+  # Global bandwidth limits
+  max_bandwidth_per_participant: 10000000 # 10 Mbps
+  # Audio bandwidth limits
+  audio_max_bandwidth: 128000 # 128 kbps
+  # Video bandwidth limits
+  video_max_bandwidth: 5000000 # 5 Mbps
+  
+  # Adaptive bitrate settings
+  adaptive:
+    enabled: true
+    # Probe for better quality every 30s
+    probe_interval: 30s
+    # React to network changes quickly
+    reaction_time: 5s
+
+# SSL/TLS Configuration
+tls:
+  cert_file: /etc/letsencrypt/live/api.cryb.ai/fullchain.pem
+  key_file: /etc/letsencrypt/live/api.cryb.ai/privkey.pem

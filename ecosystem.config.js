@@ -1,86 +1,53 @@
-// ===================================================
-// CRYB PLATFORM - PM2 ECOSYSTEM CONFIGURATION
-// ===================================================
-// Production-ready PM2 configuration for 24/7 operation
-// Includes API, Web, Workers, and Monitoring services
-// ===================================================
-
-const productionEnv = {
-  NODE_ENV: 'production',
-  DATABASE_URL: 'postgresql://cryb_user:cryb_password@localhost:5433/cryb?schema=public',
-  REDIS_URL: 'redis://localhost:6379',
-  JWT_SECRET: 'cryb_production_jwt_secret_key_for_secure_authentication_minimum_64_characters_required_for_production_security_2024',
-  NEXTAUTH_URL: 'https://platform.cryb.ai',
-  NEXTAUTH_SECRET: 'cryb_production_nextauth_secret_key_for_secure_authentication_minimum_32_characters_required_for_production_2024'
-};
-
 module.exports = {
   apps: [
-    // ===================================================
-    // API SERVER (Backend)
-    // ===================================================
+    {
+      name: 'cryb-workers',
+      script: 'npx',
+      args: 'tsx watch src/start-workers.ts',
+      cwd: '/home/ubuntu/cryb-platform/apps/api',
+      env_file: '/home/ubuntu/cryb-platform/apps/api/.env.production',
+      env: {
+        NODE_ENV: 'production',
+        REDIS_HOST: 'localhost',
+        REDIS_PORT: '6380',
+        REDIS_PASSWORD: '',
+        DATABASE_URL: 'postgresql://cryb_user:cryb_password@localhost:5433/cryb?schema=public'
+      }
+    },
     {
       name: 'cryb-api',
-      script: 'npm',
-      args: 'run dev',
+      script: 'npx',
+      args: 'tsx watch src/index.ts',
       cwd: '/home/ubuntu/cryb-platform/apps/api',
-      instances: 1,
-      exec_mode: 'fork',
-      autorestart: true,
-      watch: false,
-      max_memory_restart: '2G',
-      
-      // Environment variables
+      env_file: '/home/ubuntu/cryb-platform/apps/api/.env.production',
       env: {
-        ...productionEnv,
-        PORT: 3001
-      },
-      
-      // Logging configuration
-      error_file: '/home/ubuntu/cryb-platform/logs/api-error.log',
-      out_file: '/home/ubuntu/cryb-platform/logs/api-out.log',
-      log_file: '/home/ubuntu/cryb-platform/logs/api-combined.log',
-      time: true,
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      merge_logs: true,
-      
-      // Restart strategy
-      min_uptime: '10s',
-      max_restarts: 10
+        NODE_ENV: 'production',
+        PORT: 3002,
+        HOST: '0.0.0.0',
+        ALLOWED_ORIGINS: 'https://platform.cryb.ai,https://api.cryb.ai,https://cryb.ai,https://www.cryb.ai,http://54.236.166.224',
+        JWT_SECRET: 'cryb_production_jwt_secret_key_minimum_64_characters_change_this_immediately_2024',
+        DATABASE_URL: 'postgresql://cryb_user:cryb_password@localhost:5433/cryb?schema=public',
+        REDIS_HOST: 'localhost',
+        REDIS_PORT: '6380',
+        REDIS_PASSWORD: '',
+        MINIO_ENDPOINT: 'localhost',
+        MINIO_PORT: '9500',
+        MINIO_ACCESS_KEY: 'minioadmin',
+        MINIO_SECRET_KEY: 'minioadmin123',
+        MINIO_USE_SSL: 'false',
+        MINIO_BUCKET_NAME: 'cryb-uploads'
+      }
     },
-    
-    // ===================================================
-    // WEB SERVER (Frontend)
-    // ===================================================
     {
-      name: 'cryb-web',
-      script: 'npm',
-      args: 'run dev',
-      cwd: '/home/ubuntu/cryb-platform/apps/web',
-      instances: 1,
-      exec_mode: 'fork',
-      autorestart: true,
-      watch: false,
-      max_memory_restart: '1500M',
-      
-      // Environment variables
+      name: 'cryb-frontend',
+      script: 'serve-production.js',
+      cwd: '/home/ubuntu/cryb-platform/apps/react-app',
+      env_file: '/home/ubuntu/cryb-platform/apps/react-app/.env.production',
       env: {
-        ...productionEnv,
-        PORT: 3000,
-        NEXT_PUBLIC_API_URL: 'http://localhost:3001'
-      },
-      
-      // Logging configuration
-      error_file: '/home/ubuntu/cryb-platform/logs/web-error.log',
-      out_file: '/home/ubuntu/cryb-platform/logs/web-out.log',
-      log_file: '/home/ubuntu/cryb-platform/logs/web-combined.log',
-      time: true,
-      log_date_format: 'YYYY-MM-DD HH:mm:ss Z',
-      merge_logs: true,
-      
-      // Restart strategy
-      min_uptime: '10s',
-      max_restarts: 10
+        NODE_ENV: 'production',
+        PORT: 3008,
+        HOST: '0.0.0.0'
+      }
     }
   ]
 };

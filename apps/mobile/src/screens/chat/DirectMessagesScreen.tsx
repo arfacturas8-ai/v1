@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { MainStackParamList } from '../../navigation/MainNavigator';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 type DirectMessagesScreenNavigationProp = NativeStackNavigationProp<MainStackParamList, 'MainTabs'>;
 
@@ -254,48 +255,48 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.lg,
   },
   searchContainer: {
-    marginBottom: 16,
+    marginBottom: spacing.lg,
   },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    gap: 12,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    gap: spacing.md,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: typography.body1,
   },
   groupChatButton: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    gap: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    gap: spacing.sm,
   },
   groupChatButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: spacing.xl,
   },
   sectionHeader: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
   },
   sectionTitle: {
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
     textTransform: 'uppercase',
     letterSpacing: 0.5,
@@ -304,11 +305,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    marginHorizontal: 20,
-    marginBottom: 8,
-    borderRadius: 12,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    marginHorizontal: spacing.xl,
+    marginBottom: spacing.sm,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
   },
   userInfo: {
     flexDirection: 'row',
@@ -317,7 +318,7 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: 'relative',
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   avatar: {
     width: 44,
@@ -333,7 +334,7 @@ const styles = StyleSheet.create({
   },
   avatarText: {
     color: '#ffffff',
-    fontSize: 18,
+    fontSize: typography.h6,
     fontWeight: 'bold',
   },
   onlineIndicator: {
@@ -350,12 +351,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   username: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
     marginBottom: 2,
   },
   status: {
-    fontSize: 13,
+    fontSize: typography.body2,
   },
   messageButton: {
     width: 36,
@@ -368,11 +369,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 60,
-    paddingHorizontal: 40,
+    paddingHorizontal: spacing.xxxl,
   },
   noResultsText: {
-    fontSize: 16,
+    fontSize: typography.body1,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: spacing.lg,
   },
 });

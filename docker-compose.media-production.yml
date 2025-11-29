@@ -1,0 +1,1125 @@
+version: '3.9'
+
+# Production-grade Docker Compose configuration for CRYB Media Platform
+# Includes horizontal scaling, load balancing, and comprehensive monitoring
+
+services:
+  # ============================================================================
+  # CORE DATABASE & CACHE SERVICES
+  # ============================================================================
+  
+  # PostgreSQL Primary with TimescaleDB
+  postgres-primary:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres-primary
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: cryb_user
+      POSTGRES_PASSWORD: cryb_secure_db_2024_prod
+      POSTGRES_DB: cryb
+      POSTGRES_INITDB_ARGS: "-E UTF8"
+      POSTGRES_REPLICATION_MODE: master
+      POSTGRES_REPLICATION_USER: replicator
+      POSTGRES_REPLICATION_PASSWORD: replicator_secure_2024
+      POSTGRES_MAX_CONNECTIONS: 200
+      POSTGRES_SHARED_BUFFERS: 256MB
+      POSTGRES_EFFECTIVE_CACHE_SIZE: 1GB
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_primary_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./config/postgres/postgresql-primary.conf:/etc/postgresql/postgresql.conf
+      - ./packages/database/database-optimization.sql:/docker-entrypoint-initdb.d/02-optimization.sql
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryb_user -d cryb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+          cpus: '4.0'
+        reservations:
+          memory: 4G
+          cpus: '2.0'
+
+  # PostgreSQL Read Replica
+  postgres-replica:
+    image: timescale/timescaledb:latest-pg15
+    container_name: cryb-postgres-replica
+    restart: unless-stopped
+    environment:
+      POSTGRES_MASTER_SERVICE: postgres-primary
+      POSTGRES_REPLICATION_MODE: slave
+      POSTGRES_REPLICATION_USER: replicator
+      POSTGRES_REPLICATION_PASSWORD: replicator_secure_2024
+      POSTGRES_MASTER_PORT_NUMBER: 5432
+      PGUSER: cryb_user
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cryb_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  # PgBouncer for connection pooling
+  pgbouncer:
+    image: pgbouncer/pgbouncer:latest
+    container_name: cryb-pgbouncer
+    restart: unless-stopped
+    environment:
+      DATABASES_HOST: postgres-primary
+      DATABASES_PORT: 5432
+      DATABASES_USER: cryb_user
+      DATABASES_PASSWORD: cryb_secure_db_2024_prod
+      DATABASES_DBNAME: cryb
+      POOL_MODE: transaction
+      LISTEN_PORT: 6432
+      MAX_CLIENT_CONN: 2000
+      DEFAULT_POOL_SIZE: 50
+      MIN_POOL_SIZE: 10
+      RESERVE_POOL_SIZE: 10
+      MAX_DB_CONNECTIONS: 100
+      SERVER_RESET_QUERY: DISCARD ALL
+      SERVER_CHECK_DELAY: 30
+    ports:
+      - "6432:6432"
+    volumes:
+      - ./config/pgbouncer/pgbouncer-prod.ini:/etc/pgbouncer/pgbouncer.ini
+      - ./config/pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "psql", "-h", "localhost", "-p", "6432", "-U", "cryb_user", "-d", "cryb", "-c", "SELECT 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 256M
+          cpus: '0.5'
+
+  # Redis Cluster for high availability
+  redis-master:
+    image: redis:7-alpine
+    container_name: cryb-redis-master
+    restart: unless-stopped
+    command: redis-server /etc/redis/redis-master.conf
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_master_data:/data
+      - ./config/redis/redis-master.conf:/etc/redis/redis-master.conf
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "cryb_secure_redis_2024_prod", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  redis-replica-1:
+    image: redis:7-alpine
+    container_name: cryb-redis-replica-1
+    restart: unless-stopped
+    command: redis-server /etc/redis/redis-replica.conf
+    ports:
+      - "6381:6379"
+    volumes:
+      - redis_replica_1_data:/data
+      - ./config/redis/redis-replica.conf:/etc/redis/redis-replica.conf
+    depends_on:
+      - redis-master
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "cryb_secure_redis_2024_prod", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  redis-sentinel:
+    image: redis:7-alpine
+    container_name: cryb-redis-sentinel
+    restart: unless-stopped
+    command: redis-sentinel /etc/redis/sentinel.conf
+    ports:
+      - "26379:26379"
+    volumes:
+      - ./config/redis/sentinel.conf:/etc/redis/sentinel.conf
+    depends_on:
+      - redis-master
+      - redis-replica-1
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  # ============================================================================
+  # MINIO STORAGE CLUSTER
+  # ============================================================================
+  
+  # MinIO Distributed Setup for production
+  minio-1:
+    image: minio/minio:latest
+    container_name: cryb-minio-1
+    restart: unless-stopped
+    command: server http://minio-{1...4}/data{1...2} --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_ROOT_PASSWORD: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      MINIO_DISTRIBUTED_MODE_ENABLED: 'yes'
+      MINIO_PROMETHEUS_AUTH_TYPE: public
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_1_data1:/data1
+      - minio_1_data2:/data2
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  minio-2:
+    image: minio/minio:latest
+    container_name: cryb-minio-2
+    restart: unless-stopped
+    command: server http://minio-{1...4}/data{1...2} --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_ROOT_PASSWORD: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      MINIO_DISTRIBUTED_MODE_ENABLED: 'yes'
+      MINIO_PROMETHEUS_AUTH_TYPE: public
+    ports:
+      - "9002:9000"
+    volumes:
+      - minio_2_data1:/data1
+      - minio_2_data2:/data2
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  minio-3:
+    image: minio/minio:latest
+    container_name: cryb-minio-3
+    restart: unless-stopped
+    command: server http://minio-{1...4}/data{1...2} --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_ROOT_PASSWORD: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      MINIO_DISTRIBUTED_MODE_ENABLED: 'yes'
+      MINIO_PROMETHEUS_AUTH_TYPE: public
+    ports:
+      - "9003:9000"
+    volumes:
+      - minio_3_data1:/data1
+      - minio_3_data2:/data2
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  minio-4:
+    image: minio/minio:latest
+    container_name: cryb-minio-4
+    restart: unless-stopped
+    command: server http://minio-{1...4}/data{1...2} --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_ROOT_PASSWORD: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      MINIO_DISTRIBUTED_MODE_ENABLED: 'yes'
+      MINIO_PROMETHEUS_AUTH_TYPE: public
+    ports:
+      - "9004:9000"
+    volumes:
+      - minio_4_data1:/data1
+      - minio_4_data2:/data2
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  # ============================================================================
+  # MEDIA PROCESSING SERVICES
+  # ============================================================================
+  
+  # Media Storage Service - Horizontally scalable
+  media-storage:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.media-storage
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      MINIO_ENDPOINT: minio-1:9000
+      MINIO_ACCESS_KEY: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_SECRET_KEY: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      SERVICE_NAME: media-storage
+      CLUSTER_SIZE: 3
+      MAX_FILE_SIZE: 5368709120  # 5GB
+      ENCRYPTION_KEY: ${MEDIA_ENCRYPTION_KEY}
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+      minio-1:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Video Transcoding Service - GPU-enabled workers
+  video-transcoding:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.video-transcoding
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      MINIO_ENDPOINT: minio-1:9000
+      MINIO_ACCESS_KEY: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_SECRET_KEY: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      SERVICE_NAME: video-transcoding
+      FFMPEG_THREADS: 4
+      ENABLE_HARDWARE_ACCEL: 'true'
+      MAX_CONCURRENT_JOBS: 2
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    volumes:
+      - /tmp/transcoding:/tmp/transcoding
+      - /dev/dri:/dev/dri  # GPU access for hardware acceleration
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+      minio-1:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 8G
+          cpus: '4.0'
+        reservations:
+          memory: 4G
+          cpus: '2.0'
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Image Optimization Service - High throughput
+  image-optimizer:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.image-optimizer
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      MINIO_ENDPOINT: minio-1:9000
+      MINIO_ACCESS_KEY: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_SECRET_KEY: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      SERVICE_NAME: image-optimizer
+      MAX_CONCURRENT_OPERATIONS: 10
+      ENABLE_AI_OPTIMIZATION: 'true'
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+      minio-1:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 4
+      resources:
+        limits:
+          memory: 3G
+          cpus: '2.0'
+        reservations:
+          memory: 1.5G
+          cpus: '1.0'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Advanced Upload Service - Handles resumable uploads
+  upload-service:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.upload-service
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      MINIO_ENDPOINT: minio-1:9000
+      MINIO_ACCESS_KEY: cryb_minio_admin_0b0a26665fd652ae
+      MINIO_SECRET_KEY: zrpl/e4ntsS41Epn8h9RzTUjRjJOVAstd6dWFelecFk=
+      SERVICE_NAME: upload-service
+      MAX_CHUNK_SIZE: 52428800  # 50MB
+      ENABLE_VIRUS_SCANNING: 'true'
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+      minio-1:
+        condition: service_healthy
+      security-scanner:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Security Scanner Service
+  security-scanner:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.security-scanner
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      SERVICE_NAME: security-scanner
+      CLAMAV_HOST: clamav
+      CLAMAV_PORT: 3310
+      VIRUSTOTAL_API_KEY: ${VIRUSTOTAL_API_KEY}
+      ENABLE_ML_SCANNING: 'true'
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+      clamav:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3005/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # CDN Manager Service
+  cdn-manager:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.cdn-manager
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      SERVICE_NAME: cdn-manager
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+      CLOUDFLARE_ZONE_ID: ${CLOUDFLARE_ZONE_ID}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3006/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Media Analytics Service
+  media-analytics:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.media-analytics
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      SERVICE_NAME: media-analytics
+      ENABLE_PREDICTIVE_ANALYTICS: 'true'
+      ELASTICSEARCH_HOST: elasticsearch:9200
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3007/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Responsive Media Delivery Service
+  responsive-delivery:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.responsive-delivery
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      SERVICE_NAME: responsive-delivery
+      ENABLE_BANDWIDTH_ADAPTATION: 'true'
+      ENABLE_DEVICE_DETECTION: 'true'
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3008/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ============================================================================
+  # SECURITY & SCANNING SERVICES
+  # ============================================================================
+  
+  # ClamAV Anti-virus Scanner
+  clamav:
+    image: clamav/clamav:latest
+    container_name: cryb-clamav
+    restart: unless-stopped
+    environment:
+      CLAMAV_NO_FRESHCLAMD: 'false'
+      CLAMAV_NO_CLAMD: 'false'
+      CLAMAV_NO_MILTERD: 'true'
+    ports:
+      - "3310:3310"
+    volumes:
+      - clamav_data:/var/lib/clamav
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "clamdscan", "--ping"]
+      interval: 60s
+      timeout: 30s
+      retries: 3
+      start_period: 300s  # ClamAV takes time to start
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  # ============================================================================
+  # LOAD BALANCER & REVERSE PROXY
+  # ============================================================================
+  
+  # HAProxy for load balancing media services
+  haproxy:
+    image: haproxy:2.8-alpine
+    container_name: cryb-haproxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8404:8404"  # HAProxy stats
+    volumes:
+      - ./config/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+      - ./config/ssl:/etc/ssl/certs
+    depends_on:
+      - media-storage
+      - video-transcoding
+      - image-optimizer
+      - upload-service
+      - cdn-manager
+      - media-analytics
+      - responsive-delivery
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+
+  # ============================================================================
+  # MONITORING & OBSERVABILITY
+  # ============================================================================
+  
+  # Elasticsearch for logs and analytics
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: cryb-elasticsearch
+    restart: unless-stopped
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - cluster.routing.allocation.disk.threshold_enabled=false
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: cryb-prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./config/prometheus/prometheus-prod.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: cryb-grafana
+    restart: unless-stopped
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin123}
+      GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel
+      GF_FEATURE_TOGGLES_ENABLE: publicDashboards
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./config/grafana/provisioning:/etc/grafana/provisioning
+      - ./config/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+      - elasticsearch
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: cryb-jaeger
+    restart: unless-stopped
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+      SPAN_STORAGE_TYPE: elasticsearch
+      ES_SERVER_URLS: http://elasticsearch:9200
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '0.5'
+        reservations:
+          memory: 512M
+          cpus: '0.25'
+
+  # Vector for log aggregation
+  vector:
+    image: timberio/vector:latest-alpine
+    container_name: cryb-vector
+    restart: unless-stopped
+    volumes:
+      - ./config/vector/vector.toml:/etc/vector/vector.toml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+    depends_on:
+      - elasticsearch
+    networks:
+      - cryb-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+
+  # ============================================================================
+  # QUEUE WORKERS & BACKGROUND PROCESSING
+  # ============================================================================
+  
+  # RabbitMQ for message queuing
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: cryb-rabbitmq
+    restart: unless-stopped
+    hostname: cryb-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: cryb
+      RABBITMQ_DEFAULT_PASS: cryb_secure_rabbitmq_2024_prod
+      RABBITMQ_DEFAULT_VHOST: cryb-prod
+      RABBITMQ_VM_MEMORY_HIGH_WATERMARK: 0.6
+      RABBITMQ_DISK_FREE_LIMIT: 10GB
+      RABBITMQ_CLUSTERING_ENABLED: 'true'
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "25672:25672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./config/rabbitmq/rabbitmq-prod.conf:/etc/rabbitmq/rabbitmq.conf
+      - ./config/rabbitmq/definitions-prod.json:/etc/rabbitmq/definitions.json
+    networks:
+      - cryb-network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+
+  # Media Processing Workers
+  media-workers:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile.media-workers
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+      REDIS_HOST: redis-master
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: cryb_secure_redis_2024_prod
+      DATABASE_URL: postgresql://cryb_user:cryb_secure_db_2024_prod@pgbouncer:6432/cryb
+      RABBITMQ_URL: amqp://cryb:cryb_secure_rabbitmq_2024_prod@rabbitmq:5672/cryb-prod
+      WORKER_CONCURRENCY: 10
+      MAX_MEMORY_USAGE: 1.5G
+      JAEGER_ENDPOINT: http://jaeger:14268/api/traces
+    depends_on:
+      redis-master:
+        condition: service_healthy
+      postgres-primary:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - cryb-network
+    deploy:
+      replicas: 4
+      resources:
+        limits:
+          memory: 2G
+          cpus: '1.0'
+        reservations:
+          memory: 1G
+          cpus: '0.5'
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  cryb-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+
+volumes:
+  # Database volumes
+  postgres_primary_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/postgres-primary
+  postgres_replica_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/postgres-replica
+  
+  # Redis volumes
+  redis_master_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/redis-master
+  redis_replica_1_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/redis-replica-1
+  
+  # MinIO distributed volumes
+  minio_1_data1:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-1-data1
+  minio_1_data2:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-1-data2
+  minio_2_data1:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-2-data1
+  minio_2_data2:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-2-data2
+  minio_3_data1:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-3-data1
+  minio_3_data2:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-3-data2
+  minio_4_data1:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-4-data1
+  minio_4_data2:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/data/minio-4-data2
+  
+  # Other service volumes
+  elasticsearch_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  clamav_data:
+    driver: local

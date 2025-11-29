@@ -1,0 +1,1660 @@
+{
+  "timestamp": "2025-09-26T19:00:25.254Z",
+  "summary": {
+    "totalComponents": 177,
+    "accessibleComponents": 47,
+    "accessibilityScore": 27,
+    "overallScore": 95
+  },
+  "details": {
+    "landing": {
+      "componentExists": true,
+      "cssExists": true,
+      "hasNavigation": true,
+      "hasHeroSection": true,
+      "hasFeatures": true,
+      "hasCTA": true,
+      "responsive": true,
+      "whiteTheme": true
+    },
+    "authentication": {
+      "loginFormExists": true,
+      "authServiceExists": true,
+      "authContextExists": true,
+      "hasValidation": true,
+      "hasErrorHandling": true,
+      "hasTokenManagement": true,
+      "secureImplementation": true
+    },
+    "mainApp": {
+      "mainAppExists": true,
+      "hasSidebars": true,
+      "hasChat": true,
+      "hasChannels": true,
+      "hasMembers": true,
+      "hasPostSystem": true,
+      "hasVoiceVideo": true,
+      "hasNotifications": true
+    },
+    "components": {
+      "components": {
+        "AIModerationPanel.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "APITestComponent.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "AdminDashboard.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "AdvancedSearch.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "AnalyticsDashboard.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "LoginForm.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "BlockMuteSystem.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "BookmarksPanel.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CallControls.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CallQualityIndicator.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CallStatesManager.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CallTimer.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CallUIDemo.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ChatIntegration.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ComingSoonBadge.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ThreadedComments.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CreateCommunity.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "DirectMessages.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "EmailNotificationsSettings.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "EmojiPicker.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "ErrorBoundary.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": true,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "FileUploadSystem.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "FileUpload.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "Footer.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "FriendsSystem.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Header.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "HeaderBroken.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "HeaderOld.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "IntegratedChatDemo.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "KarmaSystem.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "LandingPage.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "MessageActions.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "MessageReactions.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "MessageSearch.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "MessageThread.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "MobileHeader.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "Modern3DBackground.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "NotificationCenter.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ParticipantsList.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "PostSystem.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "UserProfile.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ReportingSystem.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "RichTextEditor.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "ScreenShareIndicator.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "SearchBar.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Settings.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "TabletOptimizedLayout.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "TwoFactorAuth.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ErrorMessage.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "LoadingSpinner.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "Toast.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "UserCard.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "UsersList.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "VoiceChannel.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "AuthModal.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "PasswordResetForm.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "SignupForm.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "SocialLogin.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "Web3Login.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "MessageBubble.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "MessageList.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "MessageSearchModal.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "RichTextToolbar.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "UserProfileModal.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "AwardModal.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "Awards.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Comment.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CommentActions.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CommunityBrowser.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CommunityCard.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CommunityFeed.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CreatePostFab.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "FeedFilters.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "HomeFeed.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "MediaPreview.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "MobilePostCard.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "Post.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "PostActions.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "PostList.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "PullToRefresh.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ShareModal.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "SortControls.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "VoteControls.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "index.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CryptoCountdown.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "EmailSignup.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "NFTPreview.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "WalletConnectionPreview.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "Web3Education.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Web3FeaturePreview.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Web3Roadmap.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "EnhancedVirtualList.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "LazyImage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "SkeletonLoader.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "TabletLayout.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "VirtualList.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CreatePost.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ActivityFeed.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Breadcrumb.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Button.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ButtonGroup.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Card.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "FeatureCard.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "FocusManager.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "GestureHandler.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "IconButton.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "Input.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "LiveTicker.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ModernButton.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ModernCard.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ModernInput.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Skeleton.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "StatsCard.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Textarea.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "useToast.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ComingSoonWrapper.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CryptoTippingButton.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "EnhancedWalletConnectButton.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "GasEstimator.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "NFTProfileBadge.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "NetworkSwitcher.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "TokenBalanceDisplay.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "TransactionConfirmation.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "TransactionHistory.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "WalletConnectButton.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "Web3ErrorHandler.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": true,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "Web3Integration.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": true,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "Web3Skeletons.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        }
+      },
+      "pages": {
+        "ActivityFeedPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ChatPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": true
+        },
+        "CommunitiesPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CommunityPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ContactPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "CreateCommunityPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CreatePostPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "CryptoPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "GuidelinesPage.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "HelpPage.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "HomePage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "LandingPage-simple.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "LandingPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "LandingPageSimple.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "PrivacyPage.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "ProfilePage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ReportsPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "SearchPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "SettingsPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "TermsPage.jsx": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "TokenEconomicsPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "UsersPage.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        }
+      },
+      "contexts": {
+        "AuthContext-simple.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "AuthContext.js": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "AuthContext.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": true,
+          "responsive": false
+        },
+        "ToastContext.jsx": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": true,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        }
+      },
+      "hooks": {
+        "useChannels.js": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "useMessages.js": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "usePresence.js": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "useServers.js": {
+          "hasHooks": true,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        }
+      },
+      "services": {
+        "ChatSystem.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": true
+        },
+        "CommunityDataService.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "UserSystem.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": false,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "api.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "apiClient.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "auth.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "authService.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "channelService.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "communityService.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "directMessages.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "fileUploadService.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "notifications.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": true,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "posts.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "search.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "serverService.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "socket.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "webrtc.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "websocketClient.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        },
+        "websocketService.js": {
+          "hasHooks": false,
+          "hasErrorBoundary": false,
+          "hasAccessibility": false,
+          "hasLoadingStates": false,
+          "hasErrorHandling": true,
+          "themeCompliant": false,
+          "responsive": false
+        }
+      }
+    },
+    "theme": {
+      "whiteThemeConsistent": true,
+      "cssVariablesUsed": false,
+      "responsiveDesign": true,
+      "modernStyling": true
+    },
+    "performance": {},
+    "accessibility": {
+      "ariaLabels": 47,
+      "keyboardNavigation": 0,
+      "altTexts": 0,
+      "semanticHTML": 0,
+      "colorContrast": true
+    }
+  },
+  "recommendations": []
+}

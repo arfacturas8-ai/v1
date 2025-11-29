@@ -21,7 +21,7 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: development
-      PORT: 3001
+      PORT: 3002
       HOST: 0.0.0.0
       LOG_LEVEL: debug
       
@@ -71,7 +71,7 @@ services:
       MAX_FILES_PER_REQUEST: 10
       
     ports:
-      - "3001:3001"
+      - "3002:3002"
       - "9229:9229"  # Node.js debugging port
     volumes:
       - ./apps/api/src:/app/src:cached
@@ -362,7 +362,7 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin123
       GF_INSTALL_PLUGINS: grafana-clock-panel,grafana-simple-json-datasource
     ports:
-      - "3002:3000"
+      - "3100:3000"
     volumes:
       - grafana_dev_data:/var/lib/grafana
       - ./config/grafana/provisioning:/etc/grafana/provisioning

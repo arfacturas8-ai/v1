@@ -66,7 +66,7 @@ export class RedisPubSub {
     this.serverId = process.env.SERVER_ID || `server-${randomUUID()}`;
 
     // Create Redis clients
-    const redisUrl = process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0';
+    const redisUrl = process.env.REDIS_URL || 'redis://localhost:6380/0';
     this.pubClient = new Redis(redisUrl);
     this.subClient = new Redis(redisUrl);
 

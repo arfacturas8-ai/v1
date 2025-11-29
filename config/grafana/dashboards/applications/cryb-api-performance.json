@@ -1,0 +1,598 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "CRYB API Performance Dashboard",
+    "tags": ["cryb", "api", "performance"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "API Overview",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{job=\"cryb-api\"}[5m]))",
+            "refId": "A",
+            "legendFormat": "Requests/sec"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "displayMode": "list",
+              "orientation": "horizontal"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 100
+                },
+                {
+                  "color": "red",
+                  "value": 1000
+                }
+              ]
+            },
+            "unit": "reqps"
+          },
+          "overrides": []
+        },
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "textMode": "auto",
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Error Rate",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{job=\"cryb-api\",code=~\"5..\"}[5m])) / sum(rate(http_requests_total{job=\"cryb-api\"}[5m])) * 100",
+            "refId": "A",
+            "legendFormat": "Error Rate %"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 1
+                },
+                {
+                  "color": "red",
+                  "value": 5
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "textMode": "auto",
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "API Response Time",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.50, sum(rate(http_request_duration_seconds_bucket{job=\"cryb-api\"}[5m])) by (le))",
+            "refId": "A",
+            "legendFormat": "p50"
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"cryb-api\"}[5m])) by (le))",
+            "refId": "B",
+            "legendFormat": "p95"
+          },
+          {
+            "expr": "histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{job=\"cryb-api\"}[5m])) by (le))",
+            "refId": "C",
+            "legendFormat": "p99"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "Request Rate by Endpoint",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{job=\"cryb-api\"}[5m])) by (route)",
+            "refId": "A",
+            "legendFormat": "{{route}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "reqps"
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "id": 5,
+        "title": "Error Rate by Status Code",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{job=\"cryb-api\",code!~\"2..\"}[5m])) by (code)",
+            "refId": "A",
+            "legendFormat": "{{code}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "reqps"
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        }
+      },
+      {
+        "id": 6,
+        "title": "Database Query Performance",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(cryb_db_query_duration_seconds_bucket[5m])) by (le))",
+            "refId": "A",
+            "legendFormat": "p95 Query Time"
+          },
+          {
+            "expr": "rate(cryb_db_slow_queries_total[5m])",
+            "refId": "B",
+            "legendFormat": "Slow Queries/sec"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Slow Queries/sec"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "reqps"
+                }
+              ]
+            }
+          ]
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 24
+        }
+      },
+      {
+        "id": 7,
+        "title": "Socket.IO Real-time Metrics",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "socketio_connected_clients",
+            "refId": "A",
+            "legendFormat": "Connected Clients"
+          },
+          {
+            "expr": "rate(socketio_messages_total[5m])",
+            "refId": "B",
+            "legendFormat": "Messages/sec"
+          },
+          {
+            "expr": "socketio_message_queue_size",
+            "refId": "C",
+            "legendFormat": "Queue Size"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Messages/sec"
+              },
+              "properties": [
+                {
+                  "id": "unit",
+                  "value": "reqps"
+                }
+              ]
+            }
+          ]
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 24
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "CRYB API Performance Dashboard",
+    "uid": "cryb-api-performance",
+    "version": 1,
+    "weekStart": ""
+  }
+}

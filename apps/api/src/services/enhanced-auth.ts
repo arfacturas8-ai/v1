@@ -3,12 +3,14 @@ import { prisma } from '@cryb/database';
 import { generateAccessToken, generateRefreshToken, verifyToken, hashPassword, verifyPassword } from '@cryb/auth';
 import { randomUUID, createHash, timingSafeEqual } from 'crypto';
 import Redis from 'ioredis';
+import { EmailService } from './email.service';
 
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
   expiresAt: Date;
   refreshExpiresAt?: Date;
+  sessionId: string;
 }
 
 export interface OAuthProvider {
@@ -37,6 +39,7 @@ export interface SessionInfo {
   deviceInfo?: string;
   ipAddress?: string;
   userAgent?: string;
+  previousSessionId?: string;
 }
 
 /**
@@ -58,6 +61,7 @@ export interface SessionInfo {
  */
 export class EnhancedAuthService {
   private redis: Redis;
+  private emailService: EmailService;
   private blacklistPrefix = 'blacklist:token:';
   private sessionPrefix = 'session:';
   private bruteForcePrefix = 'bruteforce:';
@@ -79,6 +83,7 @@ export class EnhancedAuthService {
 
   constructor(redis: Redis, options: { oauthProviders?: OAuthProvider[] } = {}) {
     this.redis = redis;
+    this.emailService = new EmailService();
     this.initializeOAuthClients(options.oauthProviders || []);
     this.setupHealthChecks();
   }
@@ -195,7 +200,8 @@ export class EnhancedAuthService {
         accessToken,
         refreshToken,
         expiresAt: accessTokenExpiry,
-        refreshExpiresAt: refreshTokenExpiry
+        refreshExpiresAt: refreshTokenExpiry,
+        sessionId
       };
     } catch (error) {
       console.error('Token generation failed:', error);
@@ -213,7 +219,7 @@ export class EnhancedAuthService {
         throw new Error('Invalid refresh token provided');
       }
       
-      // Verify refresh token with enhanced error handling - CRITICAL FIX: specify isRefresh option
+      // Verify refresh token with enhanced error handling
       let payload: any;
       try {
         payload = verifyToken(refreshToken, { isRefresh: true });
@@ -269,17 +275,51 @@ export class EnhancedAuthService {
         // Continue with refresh as fallback when Redis is down
       }
 
-      // Generate new tokens with rotation
+      // Implement refresh token rotation with security hardening
       const newTokens = await this.generateTokens(session.userId, {
         ...sessionInfo,
-        deviceInfo: sessionInfo.deviceInfo || session.user?.username || 'unknown'
+        deviceInfo: sessionInfo.deviceInfo || session.user?.username || 'unknown',
+        previousSessionId: session.id // Track session rotation
       });
 
-      // Blacklist old refresh token (with fallback)
+      // Security hardening: detect concurrent refresh attempts
+      const concurrentRefreshKey = `concurrent_refresh:${session.userId}:${payload.sessionId}`;
+      try {
+        const concurrentAttempts = await this.redis.incr(concurrentRefreshKey);
+        await this.redis.expire(concurrentRefreshKey, 60); // 1 minute window
+        
+        if (concurrentAttempts > 3) {
+          console.warn(`Suspicious concurrent refresh attempts detected for user ${session.userId}`);
+          
+          // Invalidate all sessions for security
+          await this.logoutAllDevices(session.userId);
+          
+          throw new Error('Suspicious refresh activity detected. All sessions have been invalidated for security.');
+        }
+      } catch (redisError) {
+        console.warn('Failed to check concurrent refresh attempts:', redisError);
+      }
+
+      // Blacklist old refresh token immediately (rotation)
       try {
         await this.blacklistToken(refreshToken);
+        await this.blacklistToken(session.token); // Also blacklist the associated access token
       } catch (error) {
-        console.warn('Failed to blacklist old refresh token:', error);
+        console.warn('Failed to blacklist old tokens:', error);
+      }
+
+      // Track token rotation in Redis for audit
+      try {
+        const rotationKey = `token_rotation:${session.userId}:${Date.now()}`;
+        await this.redis.setex(rotationKey, 24 * 60 * 60, JSON.stringify({
+          userId: session.userId,
+          oldSessionId: session.id,
+          newSessionId: newTokens.sessionId,
+          rotatedAt: new Date().toISOString(),
+          clientInfo: sessionInfo
+        }));
+      } catch (error) {
+        console.warn('Failed to track token rotation:', error);
       }
 
       // Delete old session with retry
@@ -338,7 +378,7 @@ export class EnhancedAuthService {
       // Check if token is blacklisted with fallback
       let isBlacklisted = false;
       try {
-        isBlacklisted = await this.redis.exists(`${this.blacklistPrefix}${token}`);
+        isBlacklisted = (await this.redis.exists(`${this.blacklistPrefix}${token}`)) > 0;
       } catch (error) {
         console.warn('Redis blacklist check failed during validation:', error);
       }
@@ -376,7 +416,7 @@ export class EnhancedAuthService {
       let sessionExists = false;
       
       try {
-        sessionExists = await this.redis.exists(sessionKey);
+        sessionExists = (await this.redis.exists(sessionKey)) > 0;
       } catch (error) {
         console.warn('Redis session check failed, falling back to database:', error);
         // Fallback to database check
@@ -1036,17 +1076,35 @@ export class EnhancedAuthService {
     message: string
   ): Promise<boolean> {
     try {
-      const { verifySiweMessage } = await import('@cryb/web3');
-      const result = await verifySiweMessage(message, signature);
+      const ethers = require('ethers');
       
-      if (!result.success) {
-        console.warn('SIWE verification failed:', result.error);
+      // Recover the address from the signature
+      const recoveredAddress = ethers.utils.verifyMessage(message, signature);
+      
+      // Verify the recovered address matches the claimed wallet address
+      if (recoveredAddress.toLowerCase() !== walletAddress.toLowerCase()) {
+        console.warn('Wallet address mismatch in SIWE verification');
         return false;
       }
-
-      // Verify the address matches
-      if (result.data?.address?.toLowerCase() !== walletAddress.toLowerCase()) {
-        console.warn('Wallet address mismatch in SIWE verification');
+      
+      // Parse and validate the SIWE message
+      const siwePattern = /^(.+) wants you to sign in with your Ethereum account:\n(.+)\n\nNonce: (.+)\nIssued At: (.+)$/;
+      const match = message.match(siwePattern);
+      
+      if (!match) {
+        console.warn('Invalid SIWE message format');
+        return false;
+      }
+      
+      const [, domain, address, nonce, issuedAt] = match;
+      
+      // Verify the message hasn't expired (5 minutes validity)
+      const issuedTime = new Date(issuedAt).getTime();
+      const currentTime = Date.now();
+      const fiveMinutes = 5 * 60 * 1000;
+      
+      if (currentTime - issuedTime > fiveMinutes) {
+        console.warn('SIWE message expired');
         return false;
       }
 
@@ -1237,31 +1295,36 @@ export class EnhancedAuthService {
   }
   
   /**
-   * Send password reset email with retry logic (placeholder)
+   * Send password reset email with retry logic
    */
   async sendPasswordResetEmail(email: string, token: string, retryCount: number = 0): Promise<{ success: boolean; retryAfter?: number }> {
     try {
-      // TODO: Implement actual email sending logic
-      // This is a placeholder that would integrate with an email service
-      
-      console.log(`🔐 Password reset email would be sent to: ${email} with token: ${token.substring(0, 8)}...`);
-      
-      // Simulate email service delay
-      await new Promise(resolve => setTimeout(resolve, 100));
-      
-      // Simulate occasional failures for retry testing
-      if (Math.random() < 0.1 && retryCount < this.MAX_EMAIL_RETRIES) {
-        throw new Error('Simulated email service failure');
+      // Get user to retrieve username for email template
+      const user = await prisma.user.findUnique({
+        where: { email },
+        select: { username: true }
+      });
+
+      if (!user) {
+        console.error('User not found for password reset email');
+        return { success: false };
       }
-      
-      return { success: true };
+
+      // Send email using EmailService
+      const success = await this.emailService.sendPasswordResetEmail(email, user.username, token);
+
+      if (!success && retryCount < this.MAX_EMAIL_RETRIES) {
+        throw new Error('Email service failed to send password reset email');
+      }
+
+      return { success };
     } catch (error) {
       console.error('Password reset email sending failed:', error);
-      
+
       if (retryCount < this.MAX_EMAIL_RETRIES) {
         const retryAfter = Math.pow(2, retryCount) * 1000; // Exponential backoff
         console.log(`Retrying password reset email in ${retryAfter}ms (attempt ${retryCount + 1}/${this.MAX_EMAIL_RETRIES})`);
-        
+
         return new Promise(resolve => {
           setTimeout(async () => {
             const result = await this.sendPasswordResetEmail(email, token, retryCount + 1);
@@ -1269,7 +1332,7 @@ export class EnhancedAuthService {
           }, retryAfter);
         });
       }
-      
+
       return { success: false, retryAfter: 60000 }; // Retry after 1 minute
     }
   }
@@ -1460,7 +1523,7 @@ export class EnhancedAuthService {
         throw new Error(`Discord user fetch failed: ${response.statusText}`);
       }
       
-      const user = await response.json();
+      const user: any = await response.json();
       
       // Transform Discord user data to match our format
       return {
@@ -1530,11 +1593,11 @@ export class EnhancedAuthService {
         throw new Error(`GitHub user fetch failed: ${userResponse.statusText}`);
       }
       
-      const user = await userResponse.json();
-      let emails = [];
+      const user: any = await userResponse.json();
+      let emails: any[] = [];
       
       if (emailResponse.ok) {
-        emails = await emailResponse.json();
+        emails = await emailResponse.json() as any[];
       }
       
       // Find primary email

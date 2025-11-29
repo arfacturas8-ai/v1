@@ -1,0 +1,416 @@
+/* Radix UI Theme with Custom Color System */
+
+/* Light Theme Colors */
+:root, .light, .light-theme {
+  /* Blue Scale */
+  --blue-1: #fcfdff;
+  --blue-2: #f5faff;
+  --blue-3: #eaf3ff;
+  --blue-4: #dbebff;
+  --blue-5: #c9e1ff;
+  --blue-6: #b4d4ff;
+  --blue-7: #9bc2ff;
+  --blue-8: #7ba9f2;
+  --blue-9: #4e7abf;
+  --blue-10: #416cb0;
+  --blue-11: #3f6aae;
+  --blue-12: #0d2f64;
+
+  --blue-a1: #0055ff03;
+  --blue-a2: #0080ff0a;
+  --blue-a3: #006eff15;
+  --blue-a4: #0072ff24;
+  --blue-a5: #0072ff36;
+  --blue-a6: #016dff4b;
+  --blue-a7: #0064ff64;
+  --blue-a8: #0059e684;
+  --blue-a9: #0040a3b1;
+  --blue-a10: #003a95be;
+  --blue-a11: #003994c0;
+  --blue-a12: #00245cf2;
+
+  --blue-contrast: #fff;
+  --blue-surface: #f3f9ffcc;
+  --blue-indicator: #4e7abf;
+  --blue-track: #4e7abf;
+
+  /* Gray Scale */
+  --gray-1: #f9fdff;
+  --gray-2: #f3faff;
+  --gray-3: #e5f1ff;
+  --gray-4: #d9eaff;
+  --gray-5: #cee2ff;
+  --gray-6: #c3dbff;
+  --gray-7: #b4d0fe;
+  --gray-8: #97bdfa;
+  --gray-9: #6a8fc9;
+  --gray-10: #6284bb;
+  --gray-11: #496592;
+  --gray-12: #0b1f40;
+
+  --gray-a1: #00aaff06;
+  --gray-a2: #0095ff0c;
+  --gray-a3: #0076ff1a;
+  --gray-a4: #0073ff26;
+  --gray-a5: #0069ff31;
+  --gray-a6: #0066ff3c;
+  --gray-a7: #0160fc4b;
+  --gray-a8: #005ef368;
+  --gray-a9: #0040a395;
+  --gray-a10: #0038919d;
+  --gray-a11: #002766b6;
+  --gray-a12: #001537f4;
+
+  --gray-contrast: #FFFFFF;
+  --gray-surface: #ffffffcc;
+  --gray-indicator: #6a8fc9;
+  --gray-track: #6a8fc9;
+
+  /* Background with Gradient */
+  --color-background: #0A0A0B;
+  --gradient-background: linear-gradient(180deg, #0A0A0B 0%, #141416 50%, #1A1A1D 100%);
+  --gradient-primary: linear-gradient(135deg, #0052FF 0%, #00D4FF 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(0, 82, 255, 0.05) 0%, rgba(0, 212, 255, 0.05) 100%);
+
+  /* Tailwind HSL Mappings - Light Mode */
+  --background: 0 0% 4%;
+  --foreground: 222 47% 11%;
+  --card: 0 0% 8%;
+  --card-foreground: 222 47% 11%;
+  --popover: 0 0% 8%;
+  --popover-foreground: 222 47% 11%;
+  --primary: 221 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 210 40% 96%;
+  --secondary-foreground: 222 47% 11%;
+  --muted: 210 40% 96%;
+  --muted-foreground: 215 16% 47%;
+  --accent: 190 100% 50%;
+  --accent-foreground: 222 47% 11%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 214 32% 91%;
+  --input: 214 32% 91%;
+  --ring: 221 100% 50%;
+  --radius: 0.5rem;
+
+  /* CRYB Custom Colors - Light */
+  --cryb-primary: 221 100% 50%;
+  --cryb-primary-foreground: 0 0% 100%;
+  --cryb-secondary: 190 100% 50%;
+  --cryb-secondary-foreground: 222 47% 11%;
+  --cryb-accent: 190 100% 50%;
+  --cryb-accent-foreground: 222 47% 11%;
+}
+
+/* P3 Color Gamut Support for Light Theme */
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --blue-1: oklch(99.4% 0.0022 259.2);
+      --blue-2: oklch(98.2% 0.0095 259.2);
+      --blue-3: oklch(96% 0.0199 259.2);
+      --blue-4: oklch(93.6% 0.0387 259.2);
+      --blue-5: oklch(90.4% 0.0578 259.2);
+      --blue-6: oklch(86.3% 0.0784 259.2);
+      --blue-7: oklch(80.8% 0.0972 259.2);
+      --blue-8: oklch(73.2% 0.1176 259.2);
+      --blue-9: oklch(57.8% 0.1176 259.2);
+      --blue-10: oklch(53.4% 0.1176 259.2);
+      --blue-11: oklch(52.5% 0.1176 259.2);
+      --blue-12: oklch(31.6% 0.1016 259.2);
+
+      --blue-a1: color(display-p3 0.0235 0.349 1 / 0.012);
+      --blue-a2: color(display-p3 0.0235 0.4588 0.8941 / 0.036);
+      --blue-a3: color(display-p3 0.0078 0.3725 0.949 / 0.075);
+      --blue-a4: color(display-p3 0.0078 0.3686 0.9412 / 0.13);
+      --blue-a5: color(display-p3 0.0078 0.3725 0.9412 / 0.193);
+      --blue-a6: color(display-p3 0.0039 0.3647 0.9451 / 0.271);
+      --blue-a7: color(display-p3 0.0039 0.3294 0.949 / 0.361);
+      --blue-a8: color(display-p3 0.0039 0.2902 0.8471 / 0.479);
+      --blue-a9: color(display-p3 0 0.2 0.5882 / 0.655);
+      --blue-a10: color(display-p3 0 0.1804 0.5333 / 0.706);
+      --blue-a11: color(display-p3 0 0.1765 0.5294 / 0.714);
+      --blue-a12: color(display-p3 0 0.098 0.3137 / 0.91);
+
+      --blue-contrast: #fff;
+      --blue-surface: color(display-p3 0.9569 0.9725 1 / 0.8);
+      --blue-indicator: oklch(57.8% 0.1176 259.2);
+      --blue-track: oklch(57.8% 0.1176 259.2);
+
+      --gray-1: oklch(99.2% 0.009 259.7);
+      --gray-2: oklch(98.3% 0.0163 259.7);
+      --gray-3: oklch(95.6% 0.0295 259.7);
+      --gray-4: oklch(93.2% 0.0388 259.7);
+      --gray-5: oklch(90.9% 0.0501 259.7);
+      --gray-6: oklch(88.6% 0.0576 259.7);
+      --gray-7: oklch(85.4% 0.071 259.7);
+      --gray-8: oklch(79.4% 0.0961 259.7);
+      --gray-9: oklch(64.6% 0.0968 259.7);
+      --gray-10: oklch(61.1% 0.092 259.7);
+      --gray-11: oklch(50.5% 0.0796 259.7);
+      --gray-12: oklch(24.5% 0.0666 259.7);
+
+      --gray-a1: color(display-p3 0.0196 0.6078 1 / 0.02);
+      --gray-a2: color(display-p3 0.0196 0.5569 0.9137 / 0.044);
+      --gray-a3: color(display-p3 0.0118 0.4235 0.9608 / 0.095);
+      --gray-a4: color(display-p3 0.0078 0.3765 0.9451 / 0.138);
+      --gray-a5: color(display-p3 0.0039 0.3373 0.9373 / 0.177);
+      --gray-a6: color(display-p3 0.0039 0.3294 0.949 / 0.216);
+      --gray-a7: color(display-p3 0.0039 0.3176 0.9294 / 0.275);
+      --gray-a8: color(display-p3 0.0039 0.3059 0.898 / 0.377);
+      --gray-a9: color(display-p3 0 0.2 0.5843 / 0.553);
+      --gray-a10: color(display-p3 0 0.1725 0.5216 / 0.589);
+      --gray-a11: color(display-p3 0 0.1216 0.3569 / 0.691);
+      --gray-a12: color(display-p3 0 0.0627 0.1922 / 0.938);
+
+      --gray-contrast: #FFFFFF;
+      --gray-surface: color(display-p3 1 1 1 / 80%);
+      --gray-indicator: oklch(64.6% 0.0968 259.7);
+      --gray-track: oklch(64.6% 0.0968 259.7);
+    }
+  }
+}
+
+/* Dark Theme Colors */
+.dark, .dark-theme {
+  /* Violet Scale for Dark Mode */
+  --violet-1: #000;
+  --violet-2: #120f1c;
+  --violet-3: #251d3a;
+  --violet-4: #322550;
+  --violet-5: #3d2f5d;
+  --violet-6: #483a6b;
+  --violet-7: #594880;
+  --violet-8: #6f5ba0;
+  --violet-9: #8467c5;
+  --violet-10: #7560a6;
+  --violet-11: #bea8f9;
+  --violet-12: #e3ddf9;
+
+  --violet-a1: #00000000;
+  --violet-a2: #a489ff1c;
+  --violet-a3: #a380ff3a;
+  --violet-a4: #a076ff50;
+  --violet-a5: #a881ff5d;
+  --violet-a6: #ac8bff6b;
+  --violet-a7: #b290ff80;
+  --violet-a8: #b191ffa0;
+  --violet-a9: #ab85ffc5;
+  --violet-a10: #b494ffa6;
+  --violet-a11: #c3acfff9;
+  --violet-a12: #e8e2fff9;
+
+  --violet-contrast: #fff;
+  --violet-surface: #241e3880;
+  --violet-indicator: #8467c5;
+  --violet-track: #8467c5;
+
+  /* Gray Scale for Dark Mode */
+  --gray-1: #000;
+  --gray-2: #131313;
+  --gray-3: #1f1f1f;
+  --gray-4: #282828;
+  --gray-5: #303030;
+  --gray-6: #3a3a3a;
+  --gray-7: #484848;
+  --gray-8: #616161;
+  --gray-9: #6f6f6f;
+  --gray-10: #7c7c7c;
+  --gray-11: #b4b4b4;
+  --gray-12: #eee;
+
+  --gray-a1: #00000000;
+  --gray-a2: #ffffff13;
+  --gray-a3: #ffffff1f;
+  --gray-a4: #ffffff28;
+  --gray-a5: #ffffff30;
+  --gray-a6: #ffffff3a;
+  --gray-a7: #ffffff48;
+  --gray-a8: #ffffff61;
+  --gray-a9: #ffffff6f;
+  --gray-a10: #ffffff7c;
+  --gray-a11: #ffffffb4;
+  --gray-a12: #ffffffee;
+
+  --gray-contrast: #FFFFFF;
+  --gray-surface: rgba(0, 0, 0, 0.05);
+  --gray-indicator: #6f6f6f;
+  --gray-track: #6f6f6f;
+
+  /* Background with Gradient */
+  --color-background: #000;
+  --gradient-background: linear-gradient(180deg, #000000 0%, #0a0314 50%, #0f0520 100%);
+  --gradient-primary: linear-gradient(135deg, #8467c5 0%, #ab85ff 100%);
+  --gradient-surface: linear-gradient(135deg, rgba(132, 103, 197, 0.1) 0%, rgba(171, 133, 255, 0.1) 100%);
+
+  /* Tailwind HSL Mappings - Dark Mode */
+  --background: 0 0% 0%;
+  --foreground: 270 17% 93%;
+  --card: 0 0% 0%;
+  --card-foreground: 270 17% 93%;
+  --popover: 0 0% 0%;
+  --popover-foreground: 270 17% 93%;
+  --primary: 270 31% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 270 31% 15%;
+  --secondary-foreground: 270 17% 93%;
+  --muted: 0 0% 15%;
+  --muted-foreground: 0 0% 71%;
+  --accent: 270 51% 74%;
+  --accent-foreground: 270 31% 15%;
+  --destructive: 0 62% 30%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 270 31% 20%;
+  --input: 270 31% 20%;
+  --ring: 270 31% 60%;
+
+  /* CRYB Custom Colors - Dark */
+  --cryb-primary: 270 31% 60%;
+  --cryb-primary-foreground: 0 0% 100%;
+  --cryb-secondary: 270 51% 74%;
+  --cryb-secondary-foreground: 270 31% 15%;
+  --cryb-accent: 270 51% 74%;
+  --cryb-accent-foreground: 270 31% 15%;
+}
+
+/* P3 Color Gamut Support for Dark Theme */
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    .dark, .dark-theme {
+      --violet-1: oklch(0% 0.0208 296);
+      --violet-2: oklch(18% 0.0261 296);
+      --violet-3: oklch(25.4% 0.0541 296);
+      --violet-4: oklch(30.3% 0.0751 296);
+      --violet-5: oklch(34.3% 0.0803 296);
+      --violet-6: oklch(38.7% 0.0835 296);
+      --violet-7: oklch(44.4% 0.0913 296);
+      --violet-8: oklch(52.1% 0.1084 296);
+      --violet-9: oklch(58.4% 0.1415 296);
+      --violet-10: oklch(54.1% 0.1084 296);
+      --violet-11: oklch(78% 0.1164 296);
+      --violet-12: oklch(91.1% 0.0379 296);
+
+      --violet-a1: color(display-p3 0 0 0 / 0);
+      --violet-a2: color(display-p3 0.6314 0.5569 1 / 0.106);
+      --violet-a3: color(display-p3 0.6431 0.5176 1 / 0.22);
+      --violet-a4: color(display-p3 0.6235 0.4941 1 / 0.302);
+      --violet-a5: color(display-p3 0.6588 0.5333 1 / 0.353);
+      --violet-a6: color(display-p3 0.6745 0.5686 1 / 0.408);
+      --violet-a7: color(display-p3 0.6941 0.5882 1 / 0.487);
+      --violet-a8: color(display-p3 0.6941 0.5922 1 / 0.612);
+      --violet-a9: color(display-p3 0.6627 0.5451 1 / 0.75);
+      --violet-a10: color(display-p3 0.7098 0.6039 1 / 0.632);
+      --violet-a11: color(display-p3 0.7647 0.6941 1 / 0.953);
+      --violet-a12: color(display-p3 0.9137 0.8941 1 / 0.969);
+
+      --violet-contrast: #fff;
+      --violet-surface: color(display-p3 0.1412 0.1176 0.2118 / 0.5);
+      --violet-indicator: oklch(58.4% 0.1415 296);
+      --violet-track: oklch(58.4% 0.1415 296);
+
+      --gray-1: oklch(0% 0 none);
+      --gray-2: oklch(18.5% 0 none);
+      --gray-3: oklch(24% 0 none);
+      --gray-4: oklch(27.7% 0 none);
+      --gray-5: oklch(31% 0 none);
+      --gray-6: oklch(34.8% 0 none);
+      --gray-7: oklch(40% 0 none);
+      --gray-8: oklch(49.1% 0 none);
+      --gray-9: oklch(54% 0 none);
+      --gray-10: oklch(58.6% 0 none);
+      --gray-11: oklch(77% 0 none);
+      --gray-12: oklch(94.9% 0 none);
+
+      --gray-a1: color(display-p3 0 0 0 / 0);
+      --gray-a2: color(display-p3 1 1 1 / 0.0745);
+      --gray-a3: color(display-p3 1 1 1 / 0.1216);
+      --gray-a4: color(display-p3 1 1 1 / 0.1569);
+      --gray-a5: color(display-p3 1 1 1 / 0.1882);
+      --gray-a6: color(display-p3 1 1 1 / 0.2275);
+      --gray-a7: color(display-p3 1 1 1 / 0.2824);
+      --gray-a8: color(display-p3 1 1 1 / 0.3804);
+      --gray-a9: color(display-p3 1 1 1 / 0.4353);
+      --gray-a10: color(display-p3 1 1 1 / 0.4863);
+      --gray-a11: color(display-p3 1 1 1 / 0.7059);
+      --gray-a12: color(display-p3 1 1 1 / 0.9333);
+
+      --gray-contrast: #FFFFFF;
+      --gray-surface: color(display-p3 0 0 0 / 5%);
+      --gray-indicator: oklch(54% 0 none);
+      --gray-track: oklch(54% 0 none);
+    }
+  }
+}
+
+/* Font Families */
+:root {
+  --font-heading: "Adobe Text Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Untitled Sans", -apple-system, "system-ui", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Base Typography */
+body {
+  font-family: var(--font-body);
+  font-weight: 400;
+  color: var(--gray-12);
+  background-color: var(--color-background);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 400;
+}
+
+/* Radix Themes Integration */
+:root, .light, .light-theme, .radix-themes {
+  --color-background: #0A0A0B;
+}
+
+.dark, .dark-theme, :is(.dark, .dark-theme) :where(.radix-themes:not(.light, .light-theme)) {
+  --color-background: #000;
+}
+
+/* Component Overrides for Radix */
+.radix-themes {
+  --accent-1: var(--blue-1);
+  --accent-2: var(--blue-2);
+  --accent-3: var(--blue-3);
+  --accent-4: var(--blue-4);
+  --accent-5: var(--blue-5);
+  --accent-6: var(--blue-6);
+  --accent-7: var(--blue-7);
+  --accent-8: var(--blue-8);
+  --accent-9: var(--blue-9);
+  --accent-10: var(--blue-10);
+  --accent-11: var(--blue-11);
+  --accent-12: var(--blue-12);
+  
+  --gray-1: var(--gray-1);
+  --gray-2: var(--gray-2);
+  --gray-3: var(--gray-3);
+  --gray-4: var(--gray-4);
+  --gray-5: var(--gray-5);
+  --gray-6: var(--gray-6);
+  --gray-7: var(--gray-7);
+  --gray-8: var(--gray-8);
+  --gray-9: var(--gray-9);
+  --gray-10: var(--gray-10);
+  --gray-11: var(--gray-11);
+  --gray-12: var(--gray-12);
+}
+
+.dark .radix-themes {
+  --accent-1: var(--violet-1);
+  --accent-2: var(--violet-2);
+  --accent-3: var(--violet-3);
+  --accent-4: var(--violet-4);
+  --accent-5: var(--violet-5);
+  --accent-6: var(--violet-6);
+  --accent-7: var(--violet-7);
+  --accent-8: var(--violet-8);
+  --accent-9: var(--violet-9);
+  --accent-10: var(--violet-10);
+  --accent-11: var(--violet-11);
+  --accent-12: var(--violet-12);
+}

@@ -1,0 +1,508 @@
+config:
+  target: "{{ $processEnvironment.API_URL || 'http://localhost:3000' }}"
+  phases:
+    # Smoke test - verify basic functionality
+    - duration: 30
+      arrivalRate: 1
+      name: "Smoke test"
+    
+    # Gradual ramp up to find breaking point
+    - duration: 300
+      arrivalRate: 1
+      rampTo: 100
+      name: "Gradual ramp up"
+    
+    # Sustained high load
+    - duration: 600
+      arrivalRate: 100
+      name: "Sustained load"
+    
+    # Spike test - sudden traffic increase
+    - duration: 60
+      arrivalRate: 500
+      name: "Spike test"
+    
+    # Recovery test - back to normal load
+    - duration: 180
+      arrivalRate: 50
+      name: "Recovery test"
+
+  # Performance thresholds for production readiness
+  ensure:
+    # Response time SLAs
+    - http.response_time.p50: 500   # 50% under 500ms
+    - http.response_time.p95: 1500  # 95% under 1.5s
+    - http.response_time.p99: 3000  # 99% under 3s
+    - http.response_time.max: 10000 # No request over 10s
+    
+    # Success rate requirements
+    - http.codes.200: 97            # 97% success rate minimum
+    - http.codes.4xx: 2             # Less than 2% client errors
+    - http.codes.5xx: 0.5           # Less than 0.5% server errors
+    
+    # WebSocket performance
+    - ws.session_length.min: 10000  # Sessions last at least 10s
+    - ws.messages.rate: 50          # At least 50 messages/second
+    
+    # Resource utilization (if monitoring is available)
+    - cpu.utilization.max: 80      # CPU under 80%
+    - memory.utilization.max: 85   # Memory under 85%
+
+  variables:
+    # Test data pools
+    userPool:
+      - "alice_perf"
+      - "bob_perf"
+      - "charlie_perf"
+      - "diana_perf"
+      - "eve_perf"
+    
+    postCategories:
+      - "technology"
+      - "gaming" 
+      - "music"
+      - "art"
+      - "science"
+      - "sports"
+    
+    messageTemplates:
+      - "Performance test message #{}"
+      - "Load testing in progress #{}"
+      - "Stress test message #{}"
+      - "Benchmark test content #{}"
+
+  processor: "./performance-test-helpers.js"
+  
+  # Plugins for comprehensive monitoring
+  plugins:
+    expect: {}
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+    hls:
+      file: "./test-results/performance-report.html"
+    # apdex:
+    #   threshold: 500  # 500ms threshold for satisfied requests
+    #   tolerated: 2000 # 2s threshold for tolerated requests
+
+scenarios:
+  # Core authentication and user management
+  - name: "Authentication Performance"
+    weight: 15
+    flow:
+      # User registration stress test
+      - post:
+          url: "/api/auth/register"
+          beforeRequest: "generateUserData"
+          json:
+            username: "{{ uniqueUsername }}"
+            email: "{{ uniqueEmail }}"
+            password: "{{ strongPassword }}"
+            displayName: "{{ displayName }}"
+          capture:
+            - json: "$.user.id"
+              as: "userId"
+            - json: "$.token"
+              as: "authToken"
+          expect:
+            - statusCode: [201, 409] # 409 for existing users
+            - hasProperty: "user"
+      
+      # Login performance test
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ uniqueEmail }}"
+            password: "{{ strongPassword }}"
+          capture:
+            - json: "$.token"
+              as: "loginToken"
+          expect:
+            - statusCode: 200
+            - hasProperty: "token"
+      
+      # Token validation performance
+      - get:
+          url: "/api/auth/me"
+          headers:
+            Authorization: "Bearer {{ loginToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "user"
+      
+      # Password reset flow
+      - post:
+          url: "/api/auth/forgot-password"
+          json:
+            email: "{{ uniqueEmail }}"
+          expect:
+            - statusCode: [200, 429] # 429 for rate limiting
+
+  # Reddit-style content creation and interaction
+  - name: "Content Management Performance"
+    weight: 25
+    flow:
+      - function: "authenticateTestUser"
+      
+      # Community operations
+      - get:
+          url: "/api/communities"
+          qs:
+            limit: 50
+            sort: "popular"
+          expect:
+            - statusCode: 200
+            - hasProperty: "communities"
+      
+      # Post creation stress test
+      - post:
+          url: "/api/posts"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generatePostData"
+          json:
+            title: "{{ postTitle }}"
+            content: "{{ postContent }}"
+            type: "{{ postType }}"
+            communityId: "{{ randomCommunityId }}"
+            tags: "{{ postTags }}"
+          capture:
+            - json: "$.post.id"
+              as: "newPostId"
+          expect:
+            - statusCode: 201
+            - hasProperty: "post"
+      
+      # Post retrieval and pagination
+      - get:
+          url: "/api/posts"
+          qs:
+            limit: 25
+            offset: "{{ randomOffset }}"
+            sort: "{{ randomSort }}"
+            community: "{{ randomCommunityId }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "posts"
+      
+      # Voting performance
+      - post:
+          url: "/api/posts/{{ newPostId }}/vote"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            voteType: "{{ randomVoteType }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "post"
+      
+      # Comment creation and nesting
+      - post:
+          url: "/api/posts/{{ newPostId }}/comments"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generateCommentData"
+          json:
+            content: "{{ commentContent }}"
+            parentId: "{{ parentCommentId }}"
+          capture:
+            - json: "$.comment.id"
+              as: "newCommentId"
+          expect:
+            - statusCode: 201
+            - hasProperty: "comment"
+      
+      # Comment voting
+      - post:
+          url: "/api/comments/{{ newCommentId }}/vote"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            voteType: "upvote"
+          expect:
+            - statusCode: 200
+
+  # Discord-style real-time messaging performance
+  - name: "Real-time Messaging Performance"
+    weight: 20
+    engine: ws
+    flow:
+      - function: "authenticateTestUser"
+      
+      # WebSocket connection performance
+      - connect:
+          url: "ws://{{ $target.replace('http', 'ws') }}/socket.io/"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+        
+      # Server and channel joining
+      - send:
+          channel: "control"
+          payload:
+            event: "join-server"
+            data:
+              serverId: "{{ randomServerId }}"
+      
+      - send:
+          channel: "control"
+          payload:
+            event: "join-channel"
+            data:
+              channelId: "{{ randomChannelId }}"
+      
+      # High-frequency message sending
+      - loop:
+          count: 20
+          over:
+            - send:
+                channel: "messages"
+                payload:
+                  event: "send-message"
+                  data:
+                    channelId: "{{ randomChannelId }}"
+                    content: "{{ $pick(messageTemplates) }} {{ $loopCount }}"
+                    type: "text"
+            - think: 1
+      
+      # Message reactions stress test
+      - loop:
+          count: 5
+          over:
+            - send:
+                channel: "reactions"
+                payload:
+                  event: "add-reaction"
+                  data:
+                    messageId: "{{ lastMessageId }}"
+                    emoji: "{{ randomEmoji }}"
+            - think: 0.5
+      
+      # Voice channel simulation
+      - send:
+          channel: "voice"
+          payload:
+            event: "join-voice-channel"
+            data:
+              channelId: "{{ voiceChannelId }}"
+      
+      - think: 10 # Simulate voice session duration
+      
+      - send:
+          channel: "voice"
+          payload:
+            event: "leave-voice-channel"
+            data:
+              channelId: "{{ voiceChannelId }}"
+
+  # Search and discovery performance
+  - name: "Search Performance"
+    weight: 15
+    flow:
+      - function: "authenticateTestUser"
+      
+      # Global search performance
+      - get:
+          url: "/api/search"
+          qs:
+            q: "{{ randomSearchTerm }}"
+            type: "all"
+            limit: 20
+            offset: 0
+          expect:
+            - statusCode: 200
+            - hasProperty: "results"
+      
+      # Post-specific search
+      - get:
+          url: "/api/search/posts"
+          qs:
+            q: "{{ randomSearchTerm }}"
+            limit: 15
+            sort: "relevance"
+            timeframe: "week"
+          expect:
+            - statusCode: 200
+      
+      # User search
+      - get:
+          url: "/api/search/users"
+          qs:
+            q: "{{ userSearchTerm }}"
+            limit: 10
+          expect:
+            - statusCode: 200
+      
+      # Community search with filters
+      - get:
+          url: "/api/search/communities"
+          qs:
+            q: "{{ communitySearchTerm }}"
+            category: "{{ randomCategory }}"
+            isPublic: true
+            limit: 10
+          expect:
+            - statusCode: 200
+      
+      # Advanced search with multiple filters
+      - get:
+          url: "/api/search/advanced"
+          qs:
+            q: "{{ complexSearchQuery }}"
+            author: "{{ searchAuthor }}"
+            community: "{{ searchCommunity }}"
+            dateFrom: "{{ searchDateFrom }}"
+            dateTo: "{{ searchDateTo }}"
+            minScore: 10
+            hasMedia: true
+          expect:
+            - statusCode: 200
+
+  # File upload and media handling performance
+  - name: "Media Upload Performance"
+    weight: 10
+    flow:
+      - function: "authenticateTestUser"
+      
+      # Avatar upload test
+      - post:
+          url: "/api/upload/avatar"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generateImageFile"
+          formData:
+            avatar: "{{ imageFile }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "user.avatar"
+      
+      # Multiple file uploads
+      - post:
+          url: "/api/upload/files"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generateMultipleFiles"
+          formData:
+            files: "{{ fileArray }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "files"
+      
+      # Large file upload test
+      - post:
+          url: "/api/upload/video"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          beforeRequest: "generateVideoFile"
+          formData:
+            video: "{{ videoFile }}"
+          expect:
+            - statusCode: [200, 413] # 413 for file too large
+
+  # Analytics and reporting performance
+  - name: "Analytics Performance"
+    weight: 10
+    flow:
+      - function: "authenticateTestUser"
+      
+      # User analytics dashboard
+      - get:
+          url: "/api/analytics/user"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            timeframe: "month"
+            metrics: "posts,comments,karma,views"
+          expect:
+            - statusCode: 200
+            - hasProperty: "analytics"
+      
+      # Community analytics (admin only)
+      - get:
+          url: "/api/analytics/community/{{ communityId }}"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            timeframe: "week"
+            breakdown: "daily"
+          expect:
+            - statusCode: [200, 403] # 403 if not admin
+      
+      # Platform-wide metrics
+      - get:
+          url: "/api/analytics/platform"
+          qs:
+            public: true
+            metrics: "users,posts,comments,communities"
+          expect:
+            - statusCode: 200
+
+  # Edge cases and stress testing
+  - name: "Edge Case Testing"
+    weight: 5
+    flow:
+      - function: "authenticateTestUser"
+      
+      # Malformed request handling
+      - post:
+          url: "/api/posts"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            title: "{{ malformedTitle }}"
+            content: "{{ oversizedContent }}"
+            type: "invalid_type"
+          expect:
+            - statusCode: [400, 422]
+      
+      # Rate limiting test
+      - loop:
+          count: 50
+          over:
+            - get:
+                url: "/api/posts"
+                qs:
+                  limit: 1
+                expect:
+                  - statusCode: [200, 429]
+            - think: 0.01 # Very fast requests
+      
+      # Concurrent operations test
+      - parallel:
+          - post:
+              url: "/api/posts/{{ testPostId }}/vote"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+              json:
+                voteType: "upvote"
+          - post:
+              url: "/api/posts/{{ testPostId }}/comments"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+              json:
+                content: "Concurrent comment"
+          - get:
+              url: "/api/posts/{{ testPostId }}"
+
+# Custom metrics for detailed analysis
+metrics:
+  - name: "auth_response_time"
+    expression: "http.response_time"
+    condition: "url.includes('/auth/')"
+  
+  - name: "post_creation_time"
+    expression: "http.response_time"
+    condition: "url == '/api/posts' && method == 'POST'"
+  
+  - name: "search_response_time"
+    expression: "http.response_time"
+    condition: "url.includes('/search')"
+  
+  - name: "upload_response_time"
+    expression: "http.response_time"
+    condition: "url.includes('/upload')"
+  
+  - name: "websocket_message_rate"
+    expression: "ws.messages.sent / ws.session_length * 1000"
+  
+  - name: "error_rate_by_endpoint"
+    expression: "http.codes[code] / http.request_rate * 100"
+    condition: "code >= 400"

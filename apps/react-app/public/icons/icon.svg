@@ -1,0 +1,17 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="120" fill="white"/>
+  <rect x="20" y="20" width="472" height="472" rx="100" fill="url(#gradient)"/>
+  <g transform="translate(256, 256)">
+    <!-- Modern Code Icon -->
+    <rect x="-80" y="-60" width="160" height="120" rx="12" fill="white" fill-opacity="0.1"/>
+    <path d="M-40 -20L-20 0L-40 20" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path d="M40 -20L20 0L40 20" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <line x1="-10" y1="-30" x2="10" y2="30" stroke="white" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <defs>
+    <linearGradient id="gradient" x1="0" y1="0" x2="512" y2="512">
+      <stop stop-color="#4e7abf"/>
+      <stop offset="1" stop-color="#3f6aae"/>
+    </linearGradient>
+  </defs>
+</svg>

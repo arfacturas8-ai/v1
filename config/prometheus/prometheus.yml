@@ -21,7 +21,7 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets:
-          - alertmanager:9093
+          - cryb-alertmanager:9093
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
@@ -61,8 +61,7 @@ scrape_configs:
   - job_name: 'cryb-api'
     static_configs:
       - targets: 
-        - 'cryb-api-1:9464'
-        - 'cryb-api-2:9465'
+        - '172.26.13.67:3002'
     scrape_interval: 10s
     scrape_timeout: 5s
     metrics_path: /metrics
@@ -82,23 +81,23 @@ scrape_configs:
         action: drop
 
   # ==============================================
-  # CRYB WEB APPLICATION METRICS
+  # CRYB WEB APPLICATION METRICS (disabled until running)
   # ==============================================
-  - job_name: 'cryb-web'
-    static_configs:
-      - targets: 
-        - 'cryb-web-1:9466'
-        - 'cryb-web-2:9467'
-    scrape_interval: 15s
-    scrape_timeout: 5s
-    metrics_path: /metrics
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: instance
-        regex: '([^:]+)(:[0-9]+)?'
-        replacement: '${1}'
-      - target_label: service
-        replacement: 'cryb-web'
+  # - job_name: 'cryb-web'
+  #   static_configs:
+  #     - targets: 
+  #       - 'cryb-web-1:9466'
+  #       - 'cryb-web-2:9467'
+  #   scrape_interval: 15s
+  #   scrape_timeout: 5s
+  #   metrics_path: /metrics
+  #   relabel_configs:
+  #     - source_labels: [__address__]
+  #       target_label: instance
+  #       regex: '([^:]+)(:[0-9]+)?'
+  #       replacement: '${1}'
+  #     - target_label: service
+  #       replacement: 'cryb-web'
 
   # ==============================================
   # POSTGRESQL METRICS (via postgres_exporter)
@@ -277,7 +276,7 @@ scrape_configs:
   - job_name: 'alertmanager'
     static_configs:
       - targets: 
-        - 'alertmanager:9093'
+        - 'cryb-alertmanager:9093'
     scrape_interval: 15s
     scrape_timeout: 5s
     relabel_configs:
@@ -294,7 +293,7 @@ scrape_configs:
   - job_name: 'grafana'
     static_configs:
       - targets: 
-        - 'grafana:3000'
+        - 'cryb-grafana:3000'
     scrape_interval: 30s
     scrape_timeout: 10s
     metrics_path: /metrics
@@ -305,6 +304,60 @@ scrape_configs:
         replacement: '${1}'
       - target_label: service
         replacement: 'grafana'
+
+  # ==============================================
+  # ERROR TRACKING SERVICE METRICS
+  # ==============================================
+  - job_name: 'error-tracking'
+    static_configs:
+      - targets: 
+        - 'cryb-error-tracking:9467'
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'error-tracking'
+
+  # ==============================================
+  # WEBSOCKET MONITORING METRICS
+  # ==============================================
+  - job_name: 'websocket-monitoring'
+    static_configs:
+      - targets: 
+        - 'cryb-websocket-monitoring:9468'
+    scrape_interval: 10s
+    scrape_timeout: 5s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'websocket-monitoring'
+
+  # ==============================================
+  # DATABASE PERFORMANCE METRICS
+  # ==============================================
+  - job_name: 'database-performance'
+    static_configs:
+      - targets: 
+        - 'cryb-database-performance:9469'
+    scrape_interval: 30s
+    scrape_timeout: 15s
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: instance
+        regex: '([^:]+)(:[0-9]+)?'
+        replacement: '${1}'
+      - target_label: service
+        replacement: 'database-performance'
 
 # ==============================================
 # REMOTE WRITE CONFIGURATION (for long-term storage)

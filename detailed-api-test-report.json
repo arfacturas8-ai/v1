@@ -1,0 +1,601 @@
+{
+  "timestamp": "2025-09-30T15:41:46.497Z",
+  "authFlow": {
+    "registration": {
+      "success": true,
+      "status": 201,
+      "data": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "cmg6q6oqc00035p65wkpyl0pm",
+            "username": "testuser_1759246906499",
+            "displayName": "Test User 1759246906499",
+            "email": "test_1759246906499@example.com",
+            "walletAddress": "",
+            "isVerified": false
+          }
+        }
+      },
+      "responseTime": 75,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "5",
+        "x-ratelimit-remaining": "2",
+        "x-ratelimit-reset": "1759248000",
+        "content-type": "application/json; charset=utf-8",
+        "set-cookie": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWc2cTZvcWMwMDAzNXA2NXdrcHlsMHBtIiwic2Vzc2lvbklkIjoiZWRlZTBhNGYtNzc4Yy00ZjY4LWFiMDEtNmU0ZDQ4OTQ3ODMxIiwiZW1haWwiOiJ0ZXN0XzE3NTkyNDY5MDY0OTlAZXhhbXBsZS5jb20iLCJ3YWxsZXRBZGRyZXNzIjpudWxsLCJpc1ZlcmlmaWVkIjpmYWxzZSwianRpIjoiNjdkYTAyZTUtZTllYS00MWNmLWI5ZGYtNjgyZjM1MmM2N2NhIiwiaWF0IjoxNzU5MjQ2OTA2LCJleHAiOjE3NTkyNDc4MDYsImF1ZCI6ImNyeWItdXNlcnMiLCJpc3MiOiJjcnliLXBsYXRmb3JtIn0.PWI2uD8hUEhkCQzH5QXqBHCEXpMaTqaxXktRfdQL5g8; Max-Age=900000; Path=/; HttpOnly; SameSite=Strict, refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWc2cTZvcWMwMDAzNXA2NXdrcHlsMHBtIiwic2Vzc2lvbklkIjoiZWRlZTBhNGYtNzc4Yy00ZjY4LWFiMDEtNmU0ZDQ4OTQ3ODMxIiwidHlwZSI6InJlZnJlc2giLCJqdGkiOiIzODZlMWVkMC1kZGI3LTQ3YmYtODdlZS04ODYwNDZhODc1MTEiLCJpYXQiOjE3NTkyNDY5MDYsImV4cCI6MTc2MTgzODkwNiwiYXVkIjoiY3J5Yi11c2VycyIsImlzcyI6ImNyeWItcGxhdGZvcm0ifQ.7LXoOp6BgcA7SimNQRDAvI7yRogL7peY_Hu7fecosZw; Max-Age=2592000000; Path=/api/v1/auth/refresh; HttpOnly; SameSite=Strict, csrfToken=08dcf179-0b9b-4ea8-9a78-8645a2d72bcb; Max-Age=900000; Path=/; SameSite=Strict",
+        "content-length": "222",
+        "date": "Tue, 30 Sep 2025 15:41:46 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    }
+  },
+  "endpointTests": {
+    "Health Check": {
+      "success": true,
+      "status": 200,
+      "data": {
+        "status": "partial",
+        "timestamp": "2025-09-30T15:41:46.581Z",
+        "checks": {
+          "api": "healthy",
+          "database": "healthy",
+          "redis": "healthy",
+          "elasticsearch": "healthy",
+          "minio": "disabled",
+          "realtime": "degraded"
+        }
+      },
+      "responseTime": 8,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "95",
+        "x-ratelimit-reset": "18",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "192",
+        "date": "Tue, 30 Sep 2025 15:41:46 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "API Documentation": {
+      "success": true,
+      "status": 200,
+      "data": "<!-- HTML for static distribution bundle build -->\n      <!DOCTYPE html>\n      <html lang=\"en\">\n      <head>\n      <meta charset=\"UTF-8\">\n      <title>Swagger UI</title>\n      <link rel=\"stylesheet\" type=\"text/css\" href=\"/documentation/static/swagger-ui.css\" />\n      <link rel=\"stylesheet\" type=\"text/css\" href=\"/documentation/static/index.css\" />\n      \n      \n      <link rel=\"icon\" type=\"image/png\" href=\"/documentation/static/favicon-32x32.png\" sizes=\"32x32\" />\n      <link rel=\"icon\" type=\"image/png\" href=\"/documentation/static/favicon-16x16.png\" sizes=\"16x16\" />\n      \n      </head>\n\n      <body>\n      <div id=\"swagger-ui\"></div>\n      <script src=\"/documentation/static/swagger-ui-bundle.js\" charset=\"UTF-8\"> </script>\n      <script src=\"/documentation/static/swagger-ui-standalone-preset.js\" charset=\"UTF-8\"> </script>\n      <script src=\"/documentation/static/swagger-initializer.js\" charset=\"UTF-8\"> </script>\n      \n      </body>\n      </html>\n      ",
+      "responseTime": 2,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "964",
+        "date": "Tue, 30 Sep 2025 15:41:46 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "API Metrics": {
+      "success": true,
+      "status": 200,
+      "data": "# HELP http_requests_total Total number of HTTP requests\n# TYPE http_requests_total counter\nhttp_requests_total{method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\n\n# HELP http_request_duration_seconds Duration of HTTP requests in seconds\n# TYPE http_request_duration_seconds histogram\nhttp_request_duration_seconds_bucket{le=\"0.005\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3138\nhttp_request_duration_seconds_bucket{le=\"0.01\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3415\nhttp_request_duration_seconds_bucket{le=\"0.025\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3459\nhttp_request_duration_seconds_bucket{le=\"0.05\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"0.1\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"0.25\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"0.5\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"1\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"2.5\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"5\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"10\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_bucket{le=\"+Inf\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\nhttp_request_duration_seconds_sum{method=\"GET\",route=\"/metrics\",status_code=\"200\"} 13.980660551975271\nhttp_request_duration_seconds_count{method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3465\n\n# HELP http_request_size_bytes Size of HTTP requests in bytes\n# TYPE http_request_size_bytes histogram\n\n# HELP http_response_size_bytes Size of HTTP responses in bytes\n# TYPE http_response_size_bytes histogram\n\n# HELP cryb_user_registrations_total Total number of user registrations\n# TYPE cryb_user_registrations_total counter\n\n# HELP cryb_messages_total Total number of messages sent\n# TYPE cryb_messages_total counter\n\n# HELP cryb_messages_failed_total Total number of failed messages\n# TYPE cryb_messages_failed_total counter\n\n# HELP cryb_voice_calls_total Total number of voice calls started\n# TYPE cryb_voice_calls_total counter\n\n# HELP cryb_voice_call_duration_seconds Duration of voice calls in seconds\n# TYPE cryb_voice_call_duration_seconds histogram\n\n# HELP cryb_voice_calls_active Number of active voice calls\n# TYPE cryb_voice_calls_active gauge\n\n# HELP cryb_voice_calls_poor_quality_total Total number of poor quality voice calls\n# TYPE cryb_voice_calls_poor_quality_total counter\n\n# HELP socketio_connected_clients Number of connected Socket.IO clients\n# TYPE socketio_connected_clients gauge\nsocketio_connected_clients 0\n\n# HELP socketio_connection_attempts_total Total number of Socket.IO connection attempts\n# TYPE socketio_connection_attempts_total counter\nsocketio_connection_attempts_total 0\n\n# HELP socketio_connection_errors_total Total number of Socket.IO connection errors\n# TYPE socketio_connection_errors_total counter\n\n# HELP socketio_messages_total Total number of Socket.IO messages\n# TYPE socketio_messages_total counter\n\n# HELP socketio_message_duration_seconds Duration of Socket.IO message processing in seconds\n# TYPE socketio_message_duration_seconds histogram\n\n# HELP socketio_message_queue_size Number of messages in Socket.IO queue\n# TYPE socketio_message_queue_size gauge\nsocketio_message_queue_size 0\n\n# HELP cryb_auth_attempts_total Total number of authentication attempts\n# TYPE cryb_auth_attempts_total counter\n\n# HELP cryb_auth_failures_total Total number of authentication failures\n# TYPE cryb_auth_failures_total counter\n\n# HELP cryb_db_connections_active Number of active database connections\n# TYPE cryb_db_connections_active gauge\ncryb_db_connections_active 0\n\n# HELP cryb_db_queries_total Total number of database queries\n# TYPE cryb_db_queries_total counter\n\n# HELP cryb_db_query_duration_seconds Duration of database queries in seconds\n# TYPE cryb_db_query_duration_seconds histogram\n\n# HELP cryb_db_slow_queries_total Total number of slow database queries\n# TYPE cryb_db_slow_queries_total counter\n\n# HELP cryb_db_errors_total Total number of database errors\n# TYPE cryb_db_errors_total counter\n\n# HELP cryb_errors_total Total number of application errors\n# TYPE cryb_errors_total counter\n\n# HELP cryb_crashes_total Total number of application crashes\n# TYPE cryb_crashes_total counter\n\n# HELP cryb_uploads_total Total number of file uploads\n# TYPE cryb_uploads_total counter\n\n# HELP cryb_upload_size_bytes Size of uploaded files in bytes\n# TYPE cryb_upload_size_bytes histogram\n\n# HELP cryb_upload_errors_total Total number of upload errors\n# TYPE cryb_upload_errors_total counter\n\n# HELP cryb_cache_hits_total Total number of cache hits\n# TYPE cryb_cache_hits_total counter\n\n# HELP cryb_cache_misses_total Total number of cache misses\n# TYPE cryb_cache_misses_total counter\n\n# HELP cryb_cache_size_bytes Current cache size in bytes\n# TYPE cryb_cache_size_bytes gauge\n\n# HELP cryb_search_queries_total Total number of search queries\n# TYPE cryb_search_queries_total counter\n\n# HELP cryb_search_duration_seconds Duration of search queries in seconds\n# TYPE cryb_search_duration_seconds histogram\n\n# HELP cryb_search_errors_total Total number of search errors\n# TYPE cryb_search_errors_total counter\n\n# HELP cryb_notifications_sent_total Total number of notifications sent\n# TYPE cryb_notifications_sent_total counter\n\n# HELP cryb_notifications_failed_total Total number of failed notifications\n# TYPE cryb_notifications_failed_total counter\n\n# HELP cryb_nodejs_process_cpu_user_seconds_total Total user CPU time spent in seconds.\n# TYPE cryb_nodejs_process_cpu_user_seconds_total counter\ncryb_nodejs_process_cpu_user_seconds_total 357.3861779999994\n\n# HELP cryb_nodejs_process_cpu_system_seconds_total Total system CPU time spent in seconds.\n# TYPE cryb_nodejs_process_cpu_system_seconds_total counter\ncryb_nodejs_process_cpu_system_seconds_total 107.64148299999991\n\n# HELP cryb_nodejs_process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE cryb_nodejs_process_cpu_seconds_total counter\ncryb_nodejs_process_cpu_seconds_total 465.02766100000036\n\n# HELP cryb_nodejs_process_start_time_seconds Start time of the process since unix epoch in seconds.\n# TYPE cryb_nodejs_process_start_time_seconds gauge\ncryb_nodejs_process_start_time_seconds 1759212254\n\n# HELP cryb_nodejs_process_resident_memory_bytes Resident memory size in bytes.\n# TYPE cryb_nodejs_process_resident_memory_bytes gauge\ncryb_nodejs_process_resident_memory_bytes 471785472\n\n# HELP cryb_nodejs_process_virtual_memory_bytes Virtual memory size in bytes.\n# TYPE cryb_nodejs_process_virtual_memory_bytes gauge\ncryb_nodejs_process_virtual_memory_bytes 101238153216\n\n# HELP cryb_nodejs_process_heap_bytes Process heap size in bytes.\n# TYPE cryb_nodejs_process_heap_bytes gauge\ncryb_nodejs_process_heap_bytes 506138624\n\n# HELP cryb_nodejs_process_open_fds Number of open file descriptors.\n# TYPE cryb_nodejs_process_open_fds gauge\ncryb_nodejs_process_open_fds 98\n\n# HELP cryb_nodejs_process_max_fds Maximum number of open file descriptors.\n# TYPE cryb_nodejs_process_max_fds gauge\ncryb_nodejs_process_max_fds 1048576\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_seconds Lag of event loop in seconds.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_seconds 0.00245561\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_min_seconds The minimum recorded event loop delay.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_min_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_min_seconds 0.004093952\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_max_seconds The maximum recorded event loop delay.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_max_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_max_seconds 0.015630335\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_mean_seconds The mean of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_mean_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_mean_seconds 0.005317394037082818\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_stddev_seconds The standard deviation of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_stddev_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_stddev_seconds 0.0005763092058615111\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_p50_seconds The 50th percentile of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_p50_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_p50_seconds 0.005119999\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_p90_seconds The 90th percentile of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_p90_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_p90_seconds 0.006201343\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_p99_seconds The 99th percentile of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_p99_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_p99_seconds 0.006545407\n\n# HELP cryb_nodejs_nodejs_active_resources Number of active resources that are currently keeping the event loop alive, grouped by async resource type.\n# TYPE cryb_nodejs_nodejs_active_resources gauge\ncryb_nodejs_nodejs_active_resources{type=\"TCPSocketWrap\"} 22\ncryb_nodejs_nodejs_active_resources{type=\"TCPServerWrap\"} 1\ncryb_nodejs_nodejs_active_resources{type=\"Timeout\"} 44\ncryb_nodejs_nodejs_active_resources{type=\"Immediate\"} 2\n\n# HELP cryb_nodejs_nodejs_active_resources_total Total number of active resources.\n# TYPE cryb_nodejs_nodejs_active_resources_total gauge\ncryb_nodejs_nodejs_active_resources_total 69\n\n# HELP cryb_nodejs_nodejs_active_handles Number of active libuv handles grouped by handle type. Every handle type is C++ class name.\n# TYPE cryb_nodejs_nodejs_active_handles gauge\ncryb_nodejs_nodejs_active_handles{type=\"Socket\"} 22\ncryb_nodejs_nodejs_active_handles{type=\"Server\"} 1\n\n# HELP cryb_nodejs_nodejs_active_handles_total Total number of active handles.\n# TYPE cryb_nodejs_nodejs_active_handles_total gauge\ncryb_nodejs_nodejs_active_handles_total 23\n\n# HELP cryb_nodejs_nodejs_active_requests Number of active libuv requests grouped by request type. Every request type is C++ class name.\n# TYPE cryb_nodejs_nodejs_active_requests gauge\n\n# HELP cryb_nodejs_nodejs_active_requests_total Total number of active requests.\n# TYPE cryb_nodejs_nodejs_active_requests_total gauge\ncryb_nodejs_nodejs_active_requests_total 0\n\n# HELP cryb_nodejs_nodejs_heap_size_total_bytes Process heap size from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_size_total_bytes gauge\ncryb_nodejs_nodejs_heap_size_total_bytes 186650624\n\n# HELP cryb_nodejs_nodejs_heap_size_used_bytes Process heap size used from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_size_used_bytes gauge\ncryb_nodejs_nodejs_heap_size_used_bytes 178598920\n\n# HELP cryb_nodejs_nodejs_external_memory_bytes Node.js external memory size in bytes.\n# TYPE cryb_nodejs_nodejs_external_memory_bytes gauge\ncryb_nodejs_nodejs_external_memory_bytes 31127188\n\n# HELP cryb_nodejs_nodejs_heap_space_size_total_bytes Process heap space size total from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_space_size_total_bytes gauge\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"read_only\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"new\"} 1048576\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"old\"} 130859008\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"code\"} 7077888\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"shared\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"trusted\"} 3710976\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"new_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"large_object\"} 43798528\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"code_large_object\"} 155648\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"shared_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"trusted_large_object\"} 0\n\n# HELP cryb_nodejs_nodejs_heap_space_size_used_bytes Process heap space size used from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_space_size_used_bytes gauge\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"read_only\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"new\"} 474624\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"old\"} 125391200\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"code\"} 5956352\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"shared\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"trusted\"} 3401904\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"new_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"large_object\"} 43240048\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"code_large_object\"} 138432\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"shared_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"trusted_large_object\"} 0\n\n# HELP cryb_nodejs_nodejs_heap_space_size_available_bytes Process heap space size available from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_space_size_available_bytes gauge\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"read_only\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"new\"} 556288\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"old\"} 2898584\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"code\"} 678304\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"shared\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"trusted\"} 240704\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"new_large_object\"} 1048576\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"code_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"shared_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"trusted_large_object\"} 0\n\n# HELP cryb_nodejs_nodejs_version_info Node.js version info.\n# TYPE cryb_nodejs_nodejs_version_info gauge\ncryb_nodejs_nodejs_version_info{version=\"v22.18.0\",major=\"22\",minor=\"18\",patch=\"0\"} 1\n\n# HELP cryb_nodejs_nodejs_gc_duration_seconds Garbage collection duration by kind, one of major, minor, incremental or weakcb.\n# TYPE cryb_nodejs_nodejs_gc_duration_seconds histogram\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"minor\"} 2596\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"minor\"} 3498\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"minor\"} 3506\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"minor\"} 3506\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"minor\"} 3506\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"minor\"} 3506\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"minor\"} 3506\ncryb_nodejs_nodejs_gc_duration_seconds_sum{kind=\"minor\"} 3.6439773992300033\ncryb_nodejs_nodejs_gc_duration_seconds_count{kind=\"minor\"} 3506\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"major\"} 0\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"major\"} 0\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_sum{kind=\"major\"} 0.5272435508966445\ncryb_nodejs_nodejs_gc_duration_seconds_count{kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"incremental\"} 14\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_sum{kind=\"incremental\"} 0.037058788299560545\ncryb_nodejs_nodejs_gc_duration_seconds_count{kind=\"incremental\"} 25\n",
+      "responseTime": 9,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin, accept-encoding",
+        "access-control-allow-credentials": "true",
+        "content-type": "text/plain",
+        "date": "Tue, 30 Sep 2025 15:41:46 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72",
+        "transfer-encoding": "chunked"
+      }
+    },
+    "List Communities": {
+      "success": true,
+      "status": 200,
+      "data": {
+        "success": true,
+        "data": {
+          "items": [
+            {
+              "id": "cmfxis2f90001l5vto4z4k1qs",
+              "name": "testcommunity",
+              "description": "A test community",
+              "banner": null,
+              "createdAt": "2025-09-24T05:04:31.558Z",
+              "displayName": "Test Community",
+              "icon": null,
+              "isNsfw": false,
+              "isPublic": true,
+              "memberCount": 1,
+              "rules": null,
+              "updatedAt": "2025-09-24T05:04:31.558Z",
+              "_count": {
+                "members": 1,
+                "posts": 0
+              }
+            },
+            {
+              "id": "cmfxix0qc0006l5vtvm007yqj",
+              "name": "testcommunity2",
+              "description": "A test community for CRUD testing",
+              "banner": null,
+              "createdAt": "2025-09-24T05:08:22.644Z",
+              "displayName": "Test Community 2",
+              "icon": null,
+              "isNsfw": false,
+              "isPublic": true,
+              "memberCount": 1,
+              "rules": null,
+              "updatedAt": "2025-09-24T05:08:22.644Z",
+              "_count": {
+                "members": 1,
+                "posts": 1
+              }
+            }
+          ],
+          "total": 2,
+          "page": 1,
+          "pageSize": 20,
+          "hasMore": false
+        }
+      },
+      "responseTime": 12,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "94",
+        "x-ratelimit-reset": "18",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "742",
+        "date": "Tue, 30 Sep 2025 15:41:46 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "List Posts": {
+      "success": true,
+      "status": 200,
+      "data": {
+        "success": true,
+        "data": {
+          "items": [
+            {
+              "id": "cmfxix0rp000cl5vtoi7v9e7z",
+              "title": "Test Post",
+              "content": "This is a test post content",
+              "commentCount": 2,
+              "communityId": "cmfxix0qc0006l5vtvm007yqj",
+              "createdAt": "2025-09-24T05:08:22.693Z",
+              "editedAt": null,
+              "flair": null,
+              "isLocked": false,
+              "isPinned": false,
+              "isRemoved": false,
+              "nsfw": false,
+              "score": 0,
+              "thumbnail": null,
+              "updatedAt": "2025-09-28T21:28:40.855Z",
+              "url": null,
+              "userId": "cmfxiipvt0000bfh9npu2hfbw",
+              "viewCount": 1,
+              "user": {
+                "id": "cmfxiipvt0000bfh9npu2hfbw",
+                "username": "testuser",
+                "displayName": "Test User",
+                "avatar": null
+              },
+              "community": {
+                "id": "cmfxix0qc0006l5vtvm007yqj",
+                "name": "testcommunity2",
+                "displayName": "Test Community 2",
+                "icon": null
+              },
+              "_count": {
+                "comments": 2,
+                "votes": 0,
+                "awards": 0
+              }
+            }
+          ],
+          "total": 1,
+          "page": 1,
+          "pageSize": 25,
+          "hasMore": false
+        }
+      },
+      "responseTime": 8,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "93",
+        "x-ratelimit-reset": "18",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "764",
+        "date": "Tue, 30 Sep 2025 15:41:46 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "Global Search": {
+      "success": true,
+      "status": 200,
+      "data": {
+        "success": true,
+        "data": {
+          "users": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "posts": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "messages": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "servers": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "communities": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "suggestions": []
+        },
+        "query": "test",
+        "searchMeta": {
+          "searchId": "search_1759246906617_un05q4jsn",
+          "searchEngine": "elasticsearch",
+          "searchTime": "9ms",
+          "totalSources": 6,
+          "fuzzyEnabled": false,
+          "sortBy": "relevance",
+          "suggestions": []
+        }
+      },
+      "responseTime": 13,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "92",
+        "x-ratelimit-reset": "18",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "463",
+        "date": "Tue, 30 Sep 2025 15:41:46 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "Get Upload URL": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/uploads/url not found"
+      },
+      "responseTime": 0
+    },
+    "Voice Test Connection": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/voice-test/connection not found"
+      },
+      "responseTime": 0
+    },
+    "Voice Test Token": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/voice-test/token not found"
+      },
+      "responseTime": 0
+    },
+    "Socket Test": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/socket-test not found"
+      },
+      "responseTime": 0
+    },
+    "Socket Connection Info": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/socket-test/connection not found"
+      },
+      "responseTime": 0
+    },
+    "List Bots": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/bots not found"
+      },
+      "responseTime": 0
+    },
+    "Get Bot Commands": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/bots/commands not found"
+      },
+      "responseTime": 0
+    },
+    "Web3 Status": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/web3/status not found"
+      },
+      "responseTime": 0
+    },
+    "Moderation Queue": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/moderation/queue not found"
+      },
+      "responseTime": 0
+    },
+    "User Reports": {
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/moderation/reports not found"
+      },
+      "responseTime": 0
+    }
+  },
+  "workingEndpoints": [
+    {
+      "name": "Health Check",
+      "method": "GET",
+      "endpoint": "/health",
+      "status": 200
+    },
+    {
+      "name": "API Documentation",
+      "method": "GET",
+      "endpoint": "/documentation",
+      "status": 200
+    },
+    {
+      "name": "API Metrics",
+      "method": "GET",
+      "endpoint": "/metrics",
+      "status": 200
+    },
+    {
+      "name": "List Communities",
+      "method": "GET",
+      "endpoint": "/api/v1/communities",
+      "status": 200
+    },
+    {
+      "name": "List Posts",
+      "method": "GET",
+      "endpoint": "/api/v1/posts",
+      "status": 200
+    },
+    {
+      "name": "Global Search",
+      "method": "GET",
+      "endpoint": "/api/v1/search?q=test",
+      "status": 200
+    }
+  ],
+  "failedEndpoints": [
+    {
+      "name": "Get Upload URL",
+      "method": "POST",
+      "endpoint": "/api/v1/uploads/url",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "Voice Test Connection",
+      "method": "GET",
+      "endpoint": "/api/voice-test/connection",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "Voice Test Token",
+      "method": "POST",
+      "endpoint": "/api/voice-test/token",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "Socket Test",
+      "method": "GET",
+      "endpoint": "/api/v1/socket-test",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "Socket Connection Info",
+      "method": "GET",
+      "endpoint": "/api/v1/socket-test/connection",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "List Bots",
+      "method": "GET",
+      "endpoint": "/api/v1/bots",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "Get Bot Commands",
+      "method": "GET",
+      "endpoint": "/api/v1/bots/commands",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "Web3 Status",
+      "method": "GET",
+      "endpoint": "/api/v1/web3/status",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "Moderation Queue",
+      "method": "GET",
+      "endpoint": "/api/v1/moderation/queue",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    },
+    {
+      "name": "User Reports",
+      "method": "GET",
+      "endpoint": "/api/v1/moderation/reports",
+      "status": 404,
+      "error": "Request failed with status code 404"
+    }
+  ],
+  "summary": {
+    "totalEndpointsTested": 16,
+    "workingEndpoints": 6,
+    "failedEndpoints": 10,
+    "successRate": "37.50%",
+    "authenticationWorking": false,
+    "testUserId": "cmg6q6oqc00035p65wkpyl0pm",
+    "keyFindings": {
+      "authenticationFlow": "Failed",
+      "publicEndpointsWorking": 6,
+      "protectedEndpointsWorking": 0
+    }
+  }
+}

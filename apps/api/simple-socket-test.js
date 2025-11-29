@@ -1,90 +1,118 @@
 const { io } = require('socket.io-client');
+const jwt = require('jsonwebtoken');
 
-// Test token - replace with real token from API
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWZjeWJmejQwMDAwYXYyam93Mmc5Ynd3Iiwic2Vzc2lvbklkIjoiNzAzZDBiOGYtMTM1MC00YjJjLWI4MzgtMWMzYjRiZGU1ZWIxIiwiZW1haWwiOiJ0ZXN0MTc1NzQ0NjU3NEBleGFtcGxlLmNvbSIsIndhbGxldEFkZHJlc3MiOm51bGwsImlzVmVyaWZpZWQiOmZhbHNlLCJqdGkiOiJiZjVhMGMzNS0yMjczLTRjMmItOTVkNS03NmRmOTY5MTc3YTUiLCJpYXQiOjE3NTc0NDY1ODAsImV4cCI6MTc1NzQ0NzQ4MCwiYXVkIjoiY3J5Yi11c2VycyIsImlzcyI6ImNyeWItcGxhdGZvcm0ifQ.62VRT2Ax5FIFpxRrnGtL4vf-9qAFyo95piuaA3FAUys';
+const JWT_SECRET = 'cryb_development_jwt_secret_key_2023_very_secure_and_long_key_for_development_only_never_use_in_production';
+const API_BASE = 'http://localhost:3002';
 
-console.log('🔄 Testing Socket.IO with valid JWT token...\n');
+console.log('🚀 Simple Socket.io Test');
 
-// Test 1: No auth (should fail)
-console.log('1️⃣ Testing without auth...');
-const socket1 = io('http://localhost:3002', {
-  timeout: 3000,
-  transports: ['websocket', 'polling']
-});
+// Create token payload
+const tokenPayload = {
+  userId: 'test-user-socket-123',
+  sessionId: 'test-session-socket-456',
+  email: 'sockettest@example.com',
+  username: 'sockettestuser',
+  displayName: 'Socket Test User',
+  isVerified: true,
+  jti: 'test-socket-jti-789',
+  iat: Math.floor(Date.now() / 1000),
+  exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60),
+  aud: 'cryb-users',
+  iss: 'cryb-platform'
+};
 
-socket1.on('connect_error', (err) => {
-  console.log('✅ Expected: Connection failed without token:', err.message);
-  socket1.close();
-  testWithToken();
-});
+const testToken = jwt.sign(tokenPayload, JWT_SECRET);
+console.log('✅ Test token created for user:', tokenPayload.displayName);
 
-function testWithToken() {
-  console.log('\n2️⃣ Testing with valid JWT token...');
+async function testSocket() {
+  console.log('\n🔌 Connecting to Socket.io server...');
   
-  // Test 2: With auth token via auth object
-  const socket2 = io('http://localhost:3002', {
-    auth: {
-      token: TOKEN
-    },
-    timeout: 5000,
-    transports: ['websocket', 'polling']
-  });
-
-  socket2.on('connect', () => {
-    console.log('🎉 SUCCESS! Connected with JWT token');
-    
-    // Test real-time features
-    socket2.emit('ping', (response) => {
-      console.log('🏓 Ping response:', response);
+  return new Promise((resolve) => {
+    const socket = io(API_BASE, {
+      auth: { token: testToken },
+      timeout: 10000,
+      transports: ['websocket', 'polling'],
+      forceNew: true
     });
-    
-    setTimeout(() => {
-      socket2.close();
-      testWithHeaderAuth();
-    }, 2000);
-  });
 
-  socket2.on('connect_error', (err) => {
-    console.log('❌ Failed with auth object:', err.message);
-    testWithHeaderAuth();
+    let connected = false;
+    let readyReceived = false;
+
+    const timeout = setTimeout(() => {
+      console.log('⏰ Connection timeout');
+      socket.disconnect();
+      resolve({ 
+        connected: false, 
+        authenticated: false, 
+        readyReceived: false, 
+        reason: 'timeout'
+      });
+    }, 10000);
+
+    socket.on('connect', () => {
+      connected = true;
+      console.log('✅ Socket connected:', socket.id);
+    });
+
+    socket.on('connect_error', (error) => {
+      clearTimeout(timeout);
+      console.log('❌ Connection error:', error.message);
+      socket.disconnect();
+      resolve({ 
+        connected: false, 
+        authenticated: false, 
+        readyReceived: false, 
+        reason: error.message
+      });
+    });
+
+    socket.on('ready', (data) => {
+      readyReceived = true;
+      console.log('🎉 Ready event received!');
+      console.log('   User:', data.user?.displayName);
+      
+      clearTimeout(timeout);
+      socket.disconnect();
+      
+      resolve({ 
+        connected: true, 
+        authenticated: true, 
+        readyReceived: true, 
+        reason: 'success'
+      });
+    });
+
+    socket.on('unauthorized', (error) => {
+      clearTimeout(timeout);
+      console.log('🚫 Unauthorized:', error);
+      socket.disconnect();
+      resolve({ 
+        connected: connected, 
+        authenticated: false, 
+        readyReceived: false, 
+        reason: 'unauthorized'
+      });
+    });
   });
 }
 
-function testWithHeaderAuth() {
-  console.log('\n3️⃣ Testing with Authorization header...');
-  
-  // Test 3: With auth token via Authorization header
-  const socket3 = io('http://localhost:3002', {
-    extraHeaders: {
-      'Authorization': `Bearer ${TOKEN}`
-    },
-    timeout: 5000,
-    transports: ['websocket', 'polling']
-  });
-
-  socket3.on('connect', () => {
-    console.log('🎉 SUCCESS! Connected with Authorization header');
+async function main() {
+  try {
+    const result = await testSocket();
     
-    socket3.emit('ping', (response) => {
-      console.log('🏓 Ping response:', response);
-    });
+    console.log('\n📊 RESULTS:');
+    console.log('Connected:', result.connected ? '✅' : '❌');
+    console.log('Authenticated:', result.authenticated ? '✅' : '❌'); 
+    console.log('Ready Event:', result.readyReceived ? '✅' : '❌');
+    console.log('Reason:', result.reason);
     
-    setTimeout(() => {
-      socket3.close();
-      console.log('\n✅ Socket.IO authentication tests completed!');
-      process.exit(0);
-    }, 2000);
-  });
-
-  socket3.on('connect_error', (err) => {
-    console.log('❌ Failed with Authorization header:', err.message);
-    console.log('\n❌ All authentication methods failed!');
-    process.exit(1);
-  });
+    if (result.connected && result.authenticated && result.readyReceived) {
+      console.log('\n🎉 SUCCESS: Socket.io is fully functional!');
+    }
+    
+  } catch (error) {
+    console.error('💥 Test failed:', error.message);
+  }
 }
 
-// Timeout
-setTimeout(() => {
-  console.log('⏰ Tests timed out');
-  process.exit(1);
-}, 15000);
+main().catch(console.error);

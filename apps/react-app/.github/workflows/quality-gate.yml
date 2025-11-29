@@ -1,0 +1,516 @@
+# Quality Gate Pipeline
+# Comprehensive CI/CD pipeline with automated quality gates
+
+name: Quality Gate Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Run nightly comprehensive tests
+    - cron: '0 2 * * *'
+
+env:
+  NODE_VERSION: '18'
+  SONAR_PROJECT_KEY: 'cryb-platform'
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+jobs:
+  # Code Quality Gate
+  code-quality:
+    name: Code Quality Analysis
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Shallow clones should be disabled for better analysis
+        
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Lint code
+      run: |
+        npm run lint
+        npm run lint:security
+        
+    - name: Type checking
+      run: npm run type-check
+      
+    - name: Format checking
+      run: npm run format:check
+      
+    - name: Security audit
+      run: |
+        npm audit --audit-level moderate
+        npm run audit:security
+        
+    - name: SonarCloud analysis
+      uses: SonarSource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # Unit & Integration Tests
+  unit-integration-tests:
+    name: Unit & Integration Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    strategy:
+      matrix:
+        node-version: [16, 18, 20]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Run unit tests
+      run: npm run test:unit -- --coverage --watchAll=false
+      
+    - name: Run integration tests
+      run: npm run test:integration -- --coverage --watchAll=false
+      
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: true
+        
+    - name: Coverage threshold check
+      run: npm run coverage:threshold
+      
+    - name: Store test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results-${{ matrix.node-version }}
+        path: |
+          test-results/
+          coverage/
+
+  # E2E Testing
+  e2e-tests:
+    name: End-to-End Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+        
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps ${{ matrix.browser }}
+      
+    - name: Start application
+      run: |
+        npm run build
+        npm run serve &
+        sleep 30
+        
+    - name: Run E2E tests
+      run: npm run test:e2e -- --project=${{ matrix.browser }}
+      env:
+        BASE_URL: http://localhost:3007
+        
+    - name: Upload E2E results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: e2e-results-${{ matrix.browser }}
+        path: |
+          test-results/
+          playwright-report/
+
+  # Visual Regression Testing
+  visual-regression:
+    name: Visual Regression Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Install Playwright
+      run: npx playwright install --with-deps chromium
+      
+    - name: Start application
+      run: |
+        npm run build
+        npm run serve &
+        sleep 30
+        
+    - name: Run visual regression tests
+      run: npm run test:e2e:visual
+      env:
+        BASE_URL: http://localhost:3007
+        
+    - name: Upload visual diff artifacts
+      uses: actions/upload-artifact@v3
+      if: failure()
+      with:
+        name: visual-diff-screenshots
+        path: test-results/
+
+  # Performance Testing
+  performance-tests:
+    name: Performance Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Start application
+      run: |
+        npm run build
+        npm run serve &
+        sleep 30
+        
+    - name: Run load tests
+      run: npm run test:load
+      
+    - name: Run Lighthouse audit
+      run: npm run audit:performance
+      
+    - name: Performance budget check
+      run: |
+        node tests/utils/performance-budget-check.js
+        
+    - name: Upload performance results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: performance-results
+        path: |
+          test-results/lighthouse-report.html
+          test-results/load-test-results.json
+
+  # Security Testing
+  security-tests:
+    name: Security Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Start application
+      run: |
+        npm run build
+        npm run serve &
+        sleep 30
+        
+    - name: Run security tests
+      run: npm run test:security
+      env:
+        BASE_URL: http://localhost:3007
+        
+    - name: OWASP ZAP security scan
+      uses: zaproxy/action-baseline@v0.10.0
+      with:
+        target: 'http://localhost:3007'
+        rules_file_name: '.zap/rules.tsv'
+        
+    - name: Upload security results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: security-results
+        path: |
+          test-results/security-report.json
+          report_html.html
+
+  # Accessibility Testing
+  accessibility-tests:
+    name: Accessibility Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Start application
+      run: |
+        npm run build
+        npm run serve &
+        sleep 30
+        
+    - name: Run accessibility tests
+      run: npm run test:accessibility
+      env:
+        BASE_URL: http://localhost:3007
+        
+    - name: Upload accessibility results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: accessibility-results
+        path: test-results/accessibility-audit.html
+
+  # Mobile Testing
+  mobile-tests:
+    name: Mobile App Tests
+    runs-on: macos-latest
+    timeout-minutes: 45
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Setup iOS Simulator
+      run: |
+        xcrun simctl list
+        xcrun simctl create iPhone14Pro com.apple.CoreSimulator.SimDeviceType.iPhone-14-Pro com.apple.CoreSimulator.SimRuntime.iOS-16-4
+        
+    - name: Build mobile app
+      run: |
+        cd ../mobile
+        npm ci
+        npm run build:ios
+        
+    - name: Run Detox tests
+      run: npm run test:mobile
+      
+    - name: Upload mobile test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: mobile-test-results
+        path: test-results/mobile/
+
+  # Quality Gate Decision
+  quality-gate:
+    name: Quality Gate Decision
+    runs-on: ubuntu-latest
+    needs: [code-quality, unit-integration-tests, e2e-tests, visual-regression, performance-tests, security-tests, accessibility-tests]
+    if: always()
+    timeout-minutes: 10
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci --prefer-offline --no-audit
+      
+    - name: Download all artifacts
+      uses: actions/download-artifact@v3
+      with:
+        path: artifacts/
+        
+    - name: Run quality gate analysis
+      run: node tests/quality/quality-gate.js
+      env:
+        CODE_QUALITY_STATUS: ${{ needs.code-quality.result }}
+        UNIT_TESTS_STATUS: ${{ needs.unit-integration-tests.result }}
+        E2E_TESTS_STATUS: ${{ needs.e2e-tests.result }}
+        VISUAL_REGRESSION_STATUS: ${{ needs.visual-regression.result }}
+        PERFORMANCE_TESTS_STATUS: ${{ needs.performance-tests.result }}
+        SECURITY_TESTS_STATUS: ${{ needs.security-tests.result }}
+        ACCESSIBILITY_TESTS_STATUS: ${{ needs.accessibility-tests.result }}
+        
+    - name: Generate quality report
+      run: npm run report:generate
+      
+    - name: Upload quality report
+      uses: actions/upload-artifact@v3
+      with:
+        name: quality-gate-report
+        path: test-results/quality-gate-report.html
+        
+    - name: Comment PR with results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const path = './test-results/quality-summary.json';
+          
+          if (fs.existsSync(path)) {
+            const summary = JSON.parse(fs.readFileSync(path, 'utf8'));
+            
+            const comment = `
+            ## 🛡️ Quality Gate Report
+            
+            | Metric | Status | Score |
+            |--------|--------|-------|
+            | Code Quality | ${summary.codeQuality.passed ? '✅' : '❌'} | ${summary.codeQuality.score}/100 |
+            | Test Coverage | ${summary.coverage.passed ? '✅' : '❌'} | ${summary.coverage.percentage}% |
+            | Security | ${summary.security.passed ? '✅' : '❌'} | ${summary.security.issues} issues |
+            | Performance | ${summary.performance.passed ? '✅' : '❌'} | ${summary.performance.score}/100 |
+            | Accessibility | ${summary.accessibility.passed ? '✅' : '❌'} | ${summary.accessibility.score}/100 |
+            
+            **Overall Status:** ${summary.overall.passed ? '✅ PASSED' : '❌ FAILED'}
+            
+            [View detailed report](${summary.reportUrl})
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+          }
+          
+    - name: Fail if quality gate doesn't pass
+      run: |
+        if [[ -f "test-results/quality-gate-failed.flag" ]]; then
+          echo "❌ Quality gate failed!"
+          exit 1
+        else
+          echo "✅ Quality gate passed!"
+        fi
+
+  # Deployment (only after quality gate passes)
+  deploy:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [quality-gate]
+    if: github.ref == 'refs/heads/develop' && success()
+    timeout-minutes: 15
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to staging
+      run: |
+        echo "🚀 Deploying to staging environment..."
+        # Add your deployment commands here
+        
+    - name: Run smoke tests on staging
+      run: npm run test:smoke
+      env:
+        BASE_URL: https://staging.platform.cryb.ai
+        
+  # Production deployment (only from main branch)
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [quality-gate]
+    if: github.ref == 'refs/heads/main' && success()
+    timeout-minutes: 20
+    environment: production
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Deploy to production
+      run: |
+        echo "🚀 Deploying to production environment..."
+        # Add your production deployment commands here
+        
+    - name: Run smoke tests on production
+      run: npm run test:smoke
+      env:
+        BASE_URL: https://platform.cryb.ai
+
+  # Notification
+  notify:
+    name: Notify Team
+    runs-on: ubuntu-latest
+    needs: [quality-gate, deploy, deploy-production]
+    if: always()
+    
+    steps:
+    - name: Notify Slack
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        channel: '#dev-alerts'
+        webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

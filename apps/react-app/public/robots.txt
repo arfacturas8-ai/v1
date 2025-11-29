@@ -1,0 +1,33 @@
+# CRYB Platform - Robots.txt
+# https://platform.cryb.ai/robots.txt
+
+User-agent: *
+Allow: /
+Allow: /communities
+Allow: /help
+Allow: /privacy
+Allow: /terms
+Allow: /guidelines
+Allow: /contact
+Allow: /tokenomics
+
+# Disallow private/authenticated pages
+Disallow: /settings
+Disallow: /profile/
+Disallow: /admin/
+Disallow: /reports/
+Disallow: /chat
+Disallow: /api/
+
+# Disallow search results (avoid duplicate content)
+Disallow: /search?
+
+# Disallow email verification/password reset links
+Disallow: /verify-email
+Disallow: /reset-password
+
+# Crawl delay for polite bots
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://platform.cryb.ai/sitemap.xml

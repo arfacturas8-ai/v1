@@ -1,0 +1,120 @@
+# Production Dockerfile for Media Workers
+FROM node:18-alpine AS base
+
+# Install system dependencies for all media processing
+RUN apk add --no-cache \
+    ffmpeg \
+    vips-dev \
+    curl \
+    bash \
+    tini \
+    dumb-init \
+    python3 \
+    make \
+    g++ \
+    pkgconfig \
+    mesa-dev \
+    libva-dev \
+    intel-media-driver \
+    libc6-compat \
+    file \
+    yara \
+    yara-dev
+
+# Create app directory
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY tsconfig.json ./
+
+# Install dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy source code
+COPY src/ ./src/
+
+# Build the application
+RUN npm run build
+
+# Create production stage
+FROM node:18-alpine AS production
+
+# Install all production dependencies for media processing
+RUN apk add --no-cache \
+    ffmpeg \
+    vips \
+    curl \
+    bash \
+    tini \
+    dumb-init \
+    mesa-dev \
+    libva-dev \
+    intel-media-driver \
+    libc6-compat \
+    file \
+    yara
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S cryb -u 1001
+
+# Create app directory and working directories
+WORKDIR /app
+RUN mkdir -p /tmp/worker-processing && \
+    chown -R cryb:nodejs /tmp/worker-processing
+
+# Copy built application
+COPY --from=base --chown=cryb:nodejs /app/node_modules ./node_modules
+COPY --from=base --chown=cryb:nodejs /app/dist ./dist
+COPY --from=base --chown=cryb:nodejs /app/package*.json ./
+
+# Health check script for workers
+COPY --chown=cryb:nodejs <<EOF /app/healthcheck.js
+const http = require('http');
+
+const options = {
+  host: 'localhost',
+  port: process.env.HEALTH_PORT || 3001,
+  path: '/health',
+  timeout: 10000,
+};
+
+const request = http.request(options, (res) => {
+  if (res.statusCode === 200) {
+    process.exit(0);
+  } else {
+    process.exit(1);
+  }
+});
+
+request.on('error', () => {
+  process.exit(1);
+});
+
+request.on('timeout', () => {
+  request.destroy();
+  process.exit(1);
+});
+
+request.end();
+EOF
+
+# Set permissions
+RUN chmod +x /app/healthcheck.js
+
+# Switch to non-root user
+USER cryb
+
+# Expose health check port
+EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=15s --start-period=60s --retries=3 \
+    CMD node /app/healthcheck.js
+
+# Use tini as init system
+ENTRYPOINT ["/sbin/tini", "--"]
+
+# Start the workers
+CMD ["node", "dist/workers/media-workers.js"]

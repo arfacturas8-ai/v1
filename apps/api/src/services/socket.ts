@@ -556,46 +556,316 @@ export class EnhancedSocketService {
   }
 
   private handleDirectMessageEvents(socket: EnhancedSocket) {
-    socket.on('create-dm', async (data: { userId: string }) => {
+    // Join conversation room
+    socket.on('dm:join', async (data: { conversationId: string }) => {
       try {
-        // Check if users can DM each other (mutual servers, etc.)
-        const canDM = await this.validateDirectMessagePermission(socket.userId!, data.userId);
-        if (!canDM) {
-          return socket.emit('error', { code: 'FORBIDDEN', message: 'Cannot send direct message to this user' });
+        // Verify user is participant in conversation
+        const participant = await prisma.conversationParticipant.findUnique({
+          where: {
+            conversationId_userId: {
+              conversationId: data.conversationId,
+              userId: socket.userId!
+            }
+          }
+        });
+
+        if (!participant) {
+          return socket.emit('error', { code: 'FORBIDDEN', message: 'Not a participant in this conversation' });
         }
 
-        const dmChannelId = this.generateDMChannelId(socket.userId!, data.userId);
-        await socket.join(`dm-${dmChannelId}`);
+        await socket.join(`conversation-${data.conversationId}`);
+        socket.emit('dm:joined', { conversationId: data.conversationId });
         
-        socket.emit('dm-created', { channelId: dmChannelId, recipientId: data.userId });
+        // Notify other participants
+        socket.to(`conversation-${data.conversationId}`).emit('dm:user-joined', {
+          userId: socket.userId,
+          username: socket.username,
+          conversationId: data.conversationId
+        });
+
+        console.log(`User ${socket.username} joined conversation ${data.conversationId}`);
       } catch (error) {
-        console.error('Error creating DM:', error);
-        socket.emit('error', { code: 'SERVER_ERROR', message: 'Failed to create direct message' });
+        console.error('Error joining DM conversation:', error);
+        socket.emit('error', { code: 'SERVER_ERROR', message: 'Failed to join conversation' });
       }
     });
 
-    socket.on('send-dm', async (data: { recipientId: string; content: string }) => {
+    socket.on('dm:leave', (data: { conversationId: string }) => {
+      socket.leave(`conversation-${data.conversationId}`);
+      socket.to(`conversation-${data.conversationId}`).emit('dm:user-left', {
+        userId: socket.userId,
+        conversationId: data.conversationId
+      });
+    });
+
+    // Enhanced typing indicators for DMs
+    socket.on('dm:typing', (data: { conversationId: string }) => {
+      const key = `${socket.userId}-dm-${data.conversationId}`;
+      
+      if (this.typingTimeouts.has(key)) {
+        clearTimeout(this.typingTimeouts.get(key)!);
+      }
+
+      socket.to(`conversation-${data.conversationId}`).emit('dm:typing', {
+        userId: socket.userId,
+        username: socket.username,
+        displayName: socket.userDisplayName,
+        conversationId: data.conversationId
+      });
+
+      const timeout = setTimeout(() => {
+        socket.to(`conversation-${data.conversationId}`).emit('dm:stop-typing', {
+          userId: socket.userId,
+          conversationId: data.conversationId
+        });
+        this.typingTimeouts.delete(key);
+      }, 10000);
+
+      this.typingTimeouts.set(key, timeout);
+    });
+
+    socket.on('dm:stop-typing', (data: { conversationId: string }) => {
+      const key = `${socket.userId}-dm-${data.conversationId}`;
+      
+      if (this.typingTimeouts.has(key)) {
+        clearTimeout(this.typingTimeouts.get(key)!);
+        this.typingTimeouts.delete(key);
+      }
+
+      socket.to(`conversation-${data.conversationId}`).emit('dm:stop-typing', {
+        userId: socket.userId,
+        conversationId: data.conversationId
+      });
+    });
+
+    // Send DM message
+    socket.on('dm:send', async (data: { 
+      conversationId: string; 
+      content: string; 
+      replyToId?: string;
+      attachments?: any[] 
+    }) => {
       try {
-        const dmChannelId = this.generateDMChannelId(socket.userId!, data.recipientId);
-        
-        // Create DM record (you'd need a DM table)
-        const dm = {
-          id: `dm-${Date.now()}`,
-          channelId: dmChannelId,
-          senderId: socket.userId!,
-          recipientId: data.recipientId,
-          content: data.content,
-          timestamp: new Date()
-        };
+        // Verify participant
+        const participant = await prisma.conversationParticipant.findUnique({
+          where: {
+            conversationId_userId: {
+              conversationId: data.conversationId,
+              userId: socket.userId!
+            }
+          }
+        });
 
-        // Send to recipient if online
-        this.io.to(`user-${data.recipientId}`).emit('new-dm', dm);
-        this.io.to(`dm-${dmChannelId}`).emit('new-dm', dm);
+        if (!participant) {
+          return socket.emit('error', { code: 'FORBIDDEN', message: 'Not a participant in this conversation' });
+        }
 
-        socket.emit('dm-sent', dm);
+        // Rate limiting for DMs
+        const canSend = await this.checkDMRateLimit(socket.userId!, data.conversationId);
+        if (!canSend) {
+          return socket.emit('error', { code: 'RATE_LIMITED', message: 'Sending messages too quickly' });
+        }
+
+        // Create DM message
+        const dmMessage = await prisma.directMessage.create({
+          data: {
+            conversationId: data.conversationId,
+            authorId: socket.userId!,
+            content: data.content,
+            replyToId: data.replyToId
+          },
+          include: {
+            author: {
+              select: {
+                id: true,
+                username: true,
+                displayName: true,
+                avatar: true,
+                isVerified: true
+              }
+            },
+            replyTo: {
+              select: {
+                id: true,
+                content: true,
+                author: {
+                  select: {
+                    id: true,
+                    username: true,
+                    displayName: true
+                  }
+                }
+              }
+            },
+            attachments: true
+          }
+        });
+
+        // Update conversation's last message
+        await prisma.conversation.update({
+          where: { id: data.conversationId },
+          data: {
+            lastMessageId: dmMessage.id,
+            lastMessageAt: new Date()
+          }
+        });
+
+        // Update sender's read timestamp
+        await prisma.conversationParticipant.update({
+          where: {
+            conversationId_userId: {
+              conversationId: data.conversationId,
+              userId: socket.userId!
+            }
+          },
+          data: { lastReadAt: new Date() }
+        });
+
+        // Broadcast to conversation
+        this.io.to(`conversation-${data.conversationId}`).emit('dm:message', dmMessage);
+
+        // Send push notifications to other participants
+        const otherParticipants = await prisma.conversationParticipant.findMany({
+          where: { 
+            conversationId: data.conversationId,
+            userId: { not: socket.userId! }
+          },
+          select: { userId: true }
+        });
+
+        for (const participant of otherParticipants) {
+          this.io.to(`user-${participant.userId}`).emit('dm:notification', {
+            conversationId: data.conversationId,
+            message: dmMessage,
+            unreadCount: await this.getDMUnreadCount(participant.userId, data.conversationId)
+          });
+        }
+
+        console.log(`DM sent in conversation ${data.conversationId} by ${socket.username}`);
       } catch (error) {
         console.error('Error sending DM:', error);
         socket.emit('error', { code: 'SERVER_ERROR', message: 'Failed to send direct message' });
+      }
+    });
+
+    // Mark DM as read
+    socket.on('dm:mark-read', async (data: { conversationId: string, messageId?: string }) => {
+      try {
+        await prisma.conversationParticipant.update({
+          where: {
+            conversationId_userId: {
+              conversationId: data.conversationId,
+              userId: socket.userId!
+            }
+          },
+          data: { lastReadAt: new Date() }
+        });
+
+        socket.to(`conversation-${data.conversationId}`).emit('dm:read', {
+          userId: socket.userId,
+          conversationId: data.conversationId,
+          messageId: data.messageId,
+          readAt: new Date().toISOString()
+        });
+      } catch (error) {
+        console.error('Error marking DM as read:', error);
+        socket.emit('error', { code: 'SERVER_ERROR', message: 'Failed to mark message as read' });
+      }
+    });
+
+    // Create new conversation
+    socket.on('dm:create', async (data: { userIds: string[]; name?: string; type?: 'DM' | 'GROUP_DM' }) => {
+      try {
+        const { userIds, name, type } = data;
+
+        if (userIds.includes(socket.userId!)) {
+          return socket.emit('error', { code: 'BAD_REQUEST', message: 'Cannot include yourself in participants' });
+        }
+
+        const conversationType = type || (userIds.length > 1 ? 'GROUP_DM' : 'DM');
+
+        // For 1-on-1 DMs, check if conversation already exists
+        if (conversationType === 'DM' && userIds.length === 1) {
+          const existingConversation = await prisma.conversation.findFirst({
+            where: {
+              type: 'DM',
+              participants: {
+                every: { userId: { in: [socket.userId!, userIds[0]] } }
+              }
+            }
+          });
+
+          if (existingConversation) {
+            socket.emit('dm:conversation-exists', { conversationId: existingConversation.id });
+            return;
+          }
+        }
+
+        // Validate users exist
+        const targetUsers = await prisma.user.findMany({
+          where: { 
+            id: { in: userIds },
+            bannedAt: null 
+          }
+        });
+
+        if (targetUsers.length !== userIds.length) {
+          return socket.emit('error', { code: 'BAD_REQUEST', message: 'Some users not found' });
+        }
+
+        // Create conversation
+        const conversation = await prisma.$transaction(async (tx) => {
+          const newConversation = await tx.conversation.create({
+            data: {
+              type: conversationType,
+              name: conversationType === 'GROUP_DM' ? name : null,
+              ownerId: conversationType === 'GROUP_DM' ? socket.userId! : null
+            }
+          });
+
+          // Add participants
+          const allParticipants = [socket.userId!, ...userIds];
+          await tx.conversationParticipant.createMany({
+            data: allParticipants.map(userId => ({
+              conversationId: newConversation.id,
+              userId,
+              joinedAt: new Date(),
+              lastReadAt: new Date()
+            }))
+          });
+
+          return await tx.conversation.findUnique({
+            where: { id: newConversation.id },
+            include: {
+              participants: {
+                include: {
+                  user: {
+                    select: {
+                      id: true,
+                      username: true,
+                      displayName: true,
+                      avatar: true
+                    }
+                  }
+                }
+              }
+            }
+          });
+        });
+
+        // Emit to all participants
+        const allParticipants = [socket.userId!, ...userIds];
+        for (const participantId of allParticipants) {
+          this.io.to(`user-${participantId}`).emit('dm:conversation-created', {
+            conversation,
+            createdBy: socket.userId
+          });
+        }
+
+        socket.emit('dm:created', { conversation });
+      } catch (error) {
+        console.error('Error creating DM conversation:', error);
+        socket.emit('error', { code: 'SERVER_ERROR', message: 'Failed to create conversation' });
       }
     });
   }
@@ -962,5 +1232,70 @@ export class EnhancedSocketService {
   private async validateDirectMessagePermission(senderId: string, recipientId: string): Promise<boolean> {
     // Check if users can DM each other
     return true; // Placeholder
+  }
+
+  private async checkDMRateLimit(userId: string, conversationId: string): Promise<boolean> {
+    const key = `rate_limit:dm:${userId}:${conversationId}`;
+    const current = await this.redis.get(key);
+    const limit = 30; // 30 DMs per minute
+    
+    if (!current) {
+      await this.redis.setex(key, 60, '1');
+      return true;
+    }
+    
+    const count = parseInt(current);
+    if (count >= limit) {
+      return false;
+    }
+    
+    await this.redis.incr(key);
+    return true;
+  }
+
+  private async getDMUnreadCount(userId: string, conversationId: string): Promise<number> {
+    const participant = await prisma.conversationParticipant.findUnique({
+      where: {
+        conversationId_userId: {
+          conversationId,
+          userId
+        }
+      }
+    });
+
+    if (!participant) return 0;
+
+    return await prisma.directMessage.count({
+      where: {
+        conversationId,
+        authorId: { not: userId },
+        createdAt: {
+          gt: participant.lastReadAt || new Date(0)
+        }
+      }
+    });
+  }
+
+  // Public methods for external use
+  public emitNotification(userId: string, notification: any) {
+    this.io.to(`user-${userId}`).emit('notification', notification);
+  }
+
+  public emitToConversation(conversationId: string, event: string, data: any) {
+    this.io.to(`conversation-${conversationId}`).emit(event, data);
+  }
+
+  public emitToAdmins(event: string, data: any) {
+    // Emit to users with admin permissions who are monitoring
+    this.io.emit('admin:' + event, data);
+  }
+
+  public getConnectedUserCount(): number {
+    return Array.from(this.presenceCache.keys()).length;
+  }
+
+  public isUserOnline(userId: string): boolean {
+    const presence = this.presenceCache.get(userId);
+    return presence?.status !== 'invisible' && presence !== undefined;
   }
 }

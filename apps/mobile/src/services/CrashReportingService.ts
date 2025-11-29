@@ -549,40 +549,41 @@ class CrashReportingService {
     return this.config;
   }
 
-  isInitialized(): boolean {
+  getIsInitialized(): boolean {
     return this.isInitialized;
   }
 
   // Cleanup
-  close(): Promise<boolean> {
+  async close(): Promise<boolean> {
     try {
       this.isInitialized = false;
-      return Sentry.close();
+      await Sentry.close();
+      return true;
     } catch (error) {
       console.error('[CrashReporting] Close error:', error);
-      return Promise.resolve(false);
+      return false;
     }
   }
 }
 
 // Singleton export
-export const CrashReportingService = CrashReportingService.getInstance();
+export const crashReportingService = CrashReportingService.getInstance();
 
 // Convenience functions
 export const initializeCrashReporting = (config: CrashReportConfig) => 
-  CrashReportingService.initialize(config);
+  crashReportingService.initialize(config);
 
 export const captureException = (error: Error, extra?: any) => 
-  CrashReportingService.captureException(error, extra);
+  crashReportingService.captureException(error, extra);
 
 export const captureMessage = (message: string, level?: Sentry.SeverityLevel, extra?: any) => 
-  CrashReportingService.captureMessage(message, level, extra);
+  crashReportingService.captureMessage(message, level, extra);
 
 export const addBreadcrumb = (breadcrumb: Parameters<typeof CrashReportingService.addBreadcrumb>[0]) => 
-  CrashReportingService.addBreadcrumb(breadcrumb);
+  crashReportingService.addBreadcrumb(breadcrumb);
 
 export const setUser = (user: UserContext) => 
-  CrashReportingService.setUser(user);
+  crashReportingService.setUser(user);
 
 export const clearUser = () => 
   CrashReportingService.clearUser();

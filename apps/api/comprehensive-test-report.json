@@ -1,258 +1,148 @@
 {
   "summary": {
-    "total": 20,
-    "passed": 14,
-    "failed": 6,
-    "passRate": "70.0%",
-    "timestamp": "2025-09-10T00:38:10.687Z"
+    "total": 10,
+    "passed": 2,
+    "failed": 8,
+    "passRate": "20.0%",
+    "timestamp": "2025-09-19T00:51:15.186Z"
   },
   "tests": [
     {
       "name": "Health Check",
-      "passed": false,
-      "result": {
-        "status": "degraded",
-        "timestamp": "2025-09-10T00:37:48.125Z",
-        "checks": {
-          "api": "healthy",
-          "database": "healthy",
-          "redis": "healthy",
-          "elasticsearch": "disabled",
-          "minio": "healthy",
-          "realtime": "healthy"
-        }
-      },
+      "passed": true,
+      "result": "Server healthy",
       "details": null,
-      "timestamp": "2025-09-10T00:37:48.137Z"
+      "timestamp": "2025-09-19T00:51:15.152Z"
     },
     {
       "name": "API Documentation",
-      "passed": true,
-      "result": "Documentation accessible",
+      "passed": false,
+      "result": {
+        "error": "Not Found",
+        "path": "/documentation"
+      },
       "details": null,
-      "timestamp": "2025-09-10T00:37:48.281Z"
+      "timestamp": "2025-09-19T00:51:15.159Z"
     },
     {
       "name": "Metrics Endpoint",
       "passed": true,
       "result": "Metrics accessible",
       "details": null,
-      "timestamp": "2025-09-10T00:37:48.288Z"
+      "timestamp": "2025-09-19T00:51:15.165Z"
     },
     {
       "name": "User Registration",
-      "passed": true,
-      "result": "User created successfully",
+      "passed": false,
+      "result": {
+        "error": "Not Found",
+        "path": "/api/v1/auth/register"
+      },
       "details": null,
-      "timestamp": "2025-09-10T00:37:54.360Z"
+      "timestamp": "2025-09-19T00:51:15.172Z"
     },
     {
       "name": "User Login",
-      "passed": true,
-      "result": "Login successful",
+      "passed": false,
+      "result": {
+        "error": "Not Found",
+        "path": "/api/v1/auth/login"
+      },
       "details": null,
-      "timestamp": "2025-09-10T00:37:59.163Z"
-    },
-    {
-      "name": "Token Validation",
-      "passed": true,
-      "result": "Token validates successfully",
-      "details": null,
-      "timestamp": "2025-09-10T00:37:59.813Z"
+      "timestamp": "2025-09-19T00:51:15.180Z"
     },
     {
       "name": "Invalid Login Protection",
-      "passed": true,
+      "passed": false,
       "result": "Correctly rejected invalid credentials",
       "details": null,
-      "timestamp": "2025-09-10T00:37:59.967Z"
+      "timestamp": "2025-09-19T00:51:15.184Z"
     },
     {
-      "name": "Server Creation",
-      "passed": true,
-      "result": "Server created successfully",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:00.527Z"
-    },
-    {
-      "name": "Channel Creation",
-      "passed": true,
-      "result": "Channel created successfully",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:00.779Z"
-    },
-    {
-      "name": "Message Sending",
-      "passed": true,
-      "result": "Message sent successfully",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:01.652Z"
-    },
-    {
-      "name": "Server Listing",
+      "name": "Discord Features",
       "passed": false,
-      "result": {
-        "success": false,
-        "error": "Route not found",
-        "message": "Route GET /api/v1/servers not found"
-      },
+      "result": "Skipped - no authentication token",
       "details": null,
-      "timestamp": "2025-09-10T00:38:01.717Z"
+      "timestamp": "2025-09-19T00:51:15.184Z"
     },
     {
-      "name": "Community Creation",
+      "name": "Reddit Features",
       "passed": false,
-      "result": {
-        "success": false,
-        "error": "Invalid request data",
-        "timestamp": "2025-09-10T00:38:01.958Z",
-        "path": "/api/v1/communities",
-        "method": "POST",
-        "statusCode": 422,
-        "code": "VALIDATION_ERROR",
-        "details": {
-          "errors": {
-            "name": [
-              "String must contain at most 21 character(s)"
-            ]
-          }
-        }
-      },
+      "result": "Skipped - no authentication token",
       "details": null,
-      "timestamp": "2025-09-10T00:38:01.960Z"
+      "timestamp": "2025-09-19T00:51:15.185Z"
     },
     {
-      "name": "Community Listing",
-      "passed": true,
-      "result": "Found 0 communities",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:02.125Z"
-    },
-    {
-      "name": "Socket Connection",
+      "name": "Real-time Messaging",
       "passed": false,
-      "result": "Connection failed: Authentication failed",
+      "result": "Skipped - no authentication token",
       "details": null,
-      "timestamp": "2025-09-10T00:38:02.842Z"
+      "timestamp": "2025-09-19T00:51:15.185Z"
     },
     {
-      "name": "Socket Connection",
+      "name": "API Endpoints",
       "passed": false,
-      "result": "Connection timeout after 5 seconds",
+      "result": "Skipped - no authentication token",
       "details": null,
-      "timestamp": "2025-09-10T00:38:07.236Z"
-    },
-    {
-      "name": "Search Functionality",
-      "passed": true,
-      "result": "Search working",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:09.319Z"
-    },
-    {
-      "name": "User Profile",
-      "passed": true,
-      "result": "User profile accessible",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:10.141Z"
-    },
-    {
-      "name": "Upload Endpoint",
-      "passed": false,
-      "result": {
-        "success": false,
-        "error": "Route not found",
-        "message": "Route POST /api/v1/uploads not found"
-      },
-      "details": null,
-      "timestamp": "2025-09-10T00:38:10.215Z"
-    },
-    {
-      "name": "Analytics Endpoint",
-      "passed": true,
-      "result": "Analytics not implemented",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:10.360Z"
-    },
-    {
-      "name": "Notifications Endpoint",
-      "passed": true,
-      "result": "Notifications working",
-      "details": null,
-      "timestamp": "2025-09-10T00:38:10.687Z"
+      "timestamp": "2025-09-19T00:51:15.185Z"
     }
   ],
   "failures": [
     {
-      "name": "Health Check",
+      "name": "API Documentation",
       "result": {
-        "status": "degraded",
-        "timestamp": "2025-09-10T00:37:48.125Z",
-        "checks": {
-          "api": "healthy",
-          "database": "healthy",
-          "redis": "healthy",
-          "elasticsearch": "disabled",
-          "minio": "healthy",
-          "realtime": "healthy"
-        }
+        "error": "Not Found",
+        "path": "/documentation"
       },
       "details": null
     },
     {
-      "name": "Server Listing",
+      "name": "User Registration",
       "result": {
-        "success": false,
-        "error": "Route not found",
-        "message": "Route GET /api/v1/servers not found"
+        "error": "Not Found",
+        "path": "/api/v1/auth/register"
       },
       "details": null
     },
     {
-      "name": "Community Creation",
+      "name": "User Login",
       "result": {
-        "success": false,
-        "error": "Invalid request data",
-        "timestamp": "2025-09-10T00:38:01.958Z",
-        "path": "/api/v1/communities",
-        "method": "POST",
-        "statusCode": 422,
-        "code": "VALIDATION_ERROR",
-        "details": {
-          "errors": {
-            "name": [
-              "String must contain at most 21 character(s)"
-            ]
-          }
-        }
+        "error": "Not Found",
+        "path": "/api/v1/auth/login"
       },
       "details": null
     },
     {
-      "name": "Socket Connection",
-      "result": "Connection failed: Authentication failed",
+      "name": "Invalid Login Protection",
+      "result": "Correctly rejected invalid credentials",
       "details": null
     },
     {
-      "name": "Socket Connection",
-      "result": "Connection timeout after 5 seconds",
+      "name": "Discord Features",
+      "result": "Skipped - no authentication token",
       "details": null
     },
     {
-      "name": "Upload Endpoint",
-      "result": {
-        "success": false,
-        "error": "Route not found",
-        "message": "Route POST /api/v1/uploads not found"
-      },
+      "name": "Reddit Features",
+      "result": "Skipped - no authentication token",
+      "details": null
+    },
+    {
+      "name": "Real-time Messaging",
+      "result": "Skipped - no authentication token",
+      "details": null
+    },
+    {
+      "name": "API Endpoints",
+      "result": "Skipped - no authentication token",
       "details": null
     }
   ],
   "functionalityStatus": {
-    "authentication": "Fully Working",
-    "discord": "Fully Working",
-    "reddit": "Not Working",
-    "realtime": "Not Working",
+    "authentication": "Not Working",
+    "discord": "Not Tested",
+    "reddit": "Not Tested",
+    "realtime": "Not Tested",
     "api": "Partially Working (1/2)"
   }
 }

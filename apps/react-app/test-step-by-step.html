@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Step by Step Test</title>
+  <style>
+    body { margin: 0; padding: 20px; background: #0A0A0B; color: #FFFFFF; font-family: system-ui; }
+    .step { margin: 10px 0; padding: 10px; background: #1a1a1a; border-radius: 4px; }
+    .success { background: #004400; }
+    .error { background: #440000; }
+  </style>
+</head>
+<body>
+  <h1>React Loading Test</h1>
+  <div id="steps"></div>
+  <div id="react-root" style="border: 2px solid #0052FF; padding: 20px; margin: 20px 0;">
+    React content will appear here...
+  </div>
+
+  <script>
+    const steps = document.getElementById('steps');
+    
+    function addStep(message, success = true) {
+      const div = document.createElement('div');
+      div.className = `step ${success ? 'success' : 'error'}`;
+      div.textContent = `${success ? '✅' : '❌'} ${message}`;
+      steps.appendChild(div);
+      console.log(message);
+    }
+    
+    addStep('HTML loaded');
+    
+    // Test 1: Can we load React?
+    addStep('Testing React import...');
+  </script>
+  
+  <script type="module">
+    try {
+      addStep('Module script loading...');
+      
+      // Test React import
+      const React = await import('/node_modules/.vite/deps/react.js?v=05313866');
+      addStep('React imported successfully');
+      console.log('React:', React);
+      
+      // Test ReactDOM import
+      const ReactDOM = await import('/node_modules/.vite/deps/react-dom_client.js?v=05313866');
+      addStep('ReactDOM imported successfully');
+      console.log('ReactDOM:', ReactDOM);
+      
+      // Test simple element creation
+      const element = React.createElement('div', { style: { color: '#00FF00' } }, 'React is working!');
+      addStep('React element created');
+      
+      // Test root creation
+      const root = ReactDOM.createRoot(document.getElementById('react-root'));
+      addStep('React root created');
+      
+      // Test rendering
+      root.render(element);
+      addStep('React render called');
+      
+      // Verify rendering after a delay
+      setTimeout(() => {
+        const rootElement = document.getElementById('react-root');
+        if (rootElement.innerHTML.includes('React is working!')) {
+          addStep('React rendered successfully!', true);
+        } else {
+          addStep('React render failed - no content found', false);
+          console.log('Root content:', rootElement.innerHTML);
+        }
+      }, 100);
+      
+    } catch (error) {
+      addStep(`Error: ${error.message}`, false);
+      console.error(error);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "dashboard": {
+    "title": "CRYB Platform Overview",
+    "panels": [
+      {
+        "title": "API Response Time",
+        "gridPos": { "x": 0, "y": 0, "w": 12, "h": 8 },
+        "type": "graph",
+        "targets": [{
+          "expr": "rate(http_request_duration_ms_sum[5m]) / rate(http_request_duration_ms_count[5m])",
+          "legendFormat": "{{method}} {{route}}"
+        }]
+      },
+      {
+        "title": "Active Users",
+        "gridPos": { "x": 12, "y": 0, "w": 12, "h": 8 },
+        "type": "stat",
+        "targets": [{
+          "expr": "cryb_active_users_total"
+        }]
+      },
+      {
+        "title": "Database Connections",
+        "gridPos": { "x": 0, "y": 8, "w": 12, "h": 8 },
+        "type": "graph",
+        "targets": [{
+          "expr": "cryb_database_connections_active"
+        }]
+      },
+      {
+        "title": "Redis Memory Usage",
+        "gridPos": { "x": 12, "y": 8, "w": 12, "h": 8 },
+        "type": "gauge",
+        "targets": [{
+          "expr": "redis_memory_used_bytes / redis_memory_max_bytes * 100"
+        }]
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "refresh": "10s",
+    "schemaVersion": 16,
+    "version": 0
+  },
+  "folderId": 0,
+  "overwrite": true
+}

@@ -41,14 +41,8 @@ def create_main_icon():
                   center[0] + inner_radius, center[1] + inner_radius]
     draw.ellipse(inner_bbox, fill=hex_to_rgb(COLORS['secondary']))
     
-    # Use default font for better compatibility
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf", 140)
-    except:
-        try:
-            font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 140)
-        except:
-            font = ImageFont.load_default()
+    # Use default font for better compatibility - increase size multiplier
+    font = ImageFont.load_default()
     
     # Draw CRYB text
     text = "CRYB"
@@ -82,13 +76,7 @@ def create_adaptive_icon():
     draw.ellipse(inner_bbox, fill=hex_to_rgb(COLORS['secondary']))
     
     # Add text
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf", 120)
-    except:
-        try:
-            font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 120)
-        except:
-            font = ImageFont.load_default()
+    font = ImageFont.load_default()
     
     text = "CRYB"
     bbox = draw.textbbox((0, 0), text, font=font)
@@ -121,12 +109,8 @@ def create_splash_screen():
     draw.ellipse(inner_bbox, fill=hex_to_rgb(COLORS['secondary']))
     
     # Main CRYB text
-    try:
-        main_font = ImageFont.truetype("/usr/share/fonts/truetype/arial.ttf", 100)
-        sub_font = ImageFont.truetype("/usr/share/fonts/truetype/arial.ttf", 28)
-    except:
-        main_font = ImageFont.load_default()
-        sub_font = ImageFont.load_default()
+    main_font = ImageFont.load_default()
+    sub_font = ImageFont.load_default()
     
     # Draw main text
     text = "CRYB"
@@ -163,10 +147,7 @@ def create_favicon():
     draw.ellipse(circle_bbox, fill=hex_to_rgb(COLORS['primary']))
     
     # Draw C letter
-    try:
-        font = ImageFont.truetype("/usr/share/fonts/truetype/arial.ttf", 20)
-    except:
-        font = ImageFont.load_default()
+    font = ImageFont.load_default()
     
     text = "C"
     bbox = draw.textbbox((0, 0), text, font=font)

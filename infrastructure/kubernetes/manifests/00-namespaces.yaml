@@ -1,0 +1,106 @@
+# ==============================================
+# CRYB PLATFORM - KUBERNETES NAMESPACES
+# ==============================================
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cryb-api
+  labels:
+    name: cryb-api
+    tier: application
+    istio-injection: enabled
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+  annotations:
+    scheduler.alpha.kubernetes.io/node-selector: "role=api"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cryb-database
+  labels:
+    name: cryb-database
+    tier: data
+    istio-injection: enabled
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+  annotations:
+    scheduler.alpha.kubernetes.io/node-selector: "role=database"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cryb-realtime
+  labels:
+    name: cryb-realtime
+    tier: communication
+    istio-injection: enabled
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/warn: privileged
+  annotations:
+    scheduler.alpha.kubernetes.io/node-selector: "role=realtime"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cryb-monitoring
+  labels:
+    name: cryb-monitoring
+    tier: observability
+    istio-injection: disabled
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/warn: privileged
+  annotations:
+    scheduler.alpha.kubernetes.io/node-selector: "role=monitoring"
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cryb-security
+  labels:
+    name: cryb-security
+    tier: security
+    istio-injection: enabled
+    pod-security.kubernetes.io/enforce: privileged
+    pod-security.kubernetes.io/audit: privileged
+    pod-security.kubernetes.io/warn: privileged
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+  labels:
+    name: istio-system
+    tier: networking
+    istio-injection: disabled
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager
+  labels:
+    name: cert-manager
+    tier: security
+    istio-injection: disabled
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress-nginx
+  labels:
+    name: ingress-nginx
+    tier: networking
+    istio-injection: disabled

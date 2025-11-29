@@ -59,7 +59,7 @@ export class DiscordRealtimeHandler {
     
     // Create a separate Redis connection for general operations (not pub/sub)
     // This prevents "subscriber mode" errors when doing rate limiting, etc.
-    const redisUrl = process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0';
+    const redisUrl = process.env.REDIS_URL || 'redis://localhost:6380/0';
     this.generalRedis = new Redis(redisUrl);
     
     this.setupMiddleware();
@@ -124,6 +124,18 @@ export class DiscordRealtimeHandler {
         });
         
         if (!token) {
+          // In development mode, allow anonymous connections for testing
+          if (process.env.NODE_ENV === 'development') {
+            console.log('⚠️  Development mode: Allowing anonymous Socket.IO connection');
+            (socket as any).userId = 'anonymous-' + Math.random().toString(36).substring(7);
+            (socket as any).user = {
+              id: (socket as any).userId,
+              username: 'Anonymous',
+              displayName: 'Anonymous User'
+            };
+            return next();
+          }
+          
           console.warn('❌ No authentication token provided', {
             auth: socket.handshake.auth,
             headers: {
@@ -150,27 +162,24 @@ export class DiscordRealtimeHandler {
 
         console.log('🔒 Starting Discord token validation...');
 
-        // Use comprehensive token validation with session and blacklist checks
-        const validation = await this.authService.validateAccessToken(token);
-        
-        if (!validation) {
-          console.error('❌ Auth service validation returned null');
-          return next(new Error('Authentication service unavailable'));
+        // Simple JWT validation without Redis dependency (temporary fix)
+        let payload: any;
+        try {
+          // Import the JWT verification directly
+          const { verifyToken } = require('@cryb/auth');
+          payload = verifyToken(token);
+          
+          if (!payload || !payload.userId) {
+            console.error('❌ Token payload missing userId');
+            return next(new Error('Invalid token payload'));
+          }
+          
+          console.log('✅ JWT validation successful', { userId: payload.userId });
+          
+        } catch (error) {
+          console.warn('❌ JWT validation failed:', error.message);
+          return next(new Error(`Authentication failed: ${error.message}`));
         }
-
-        if (!validation.valid) {
-          const reason = validation.reason || 'Token validation failed';
-          console.warn('❌ Token validation failed:', { reason, token: token.substring(0, 20) + '...' });
-          return next(new Error(`Authentication failed: ${reason}`));
-        }
-
-        const payload = validation.payload;
-        if (!payload || !payload.userId) {
-          console.error('❌ Token payload missing userId');
-          return next(new Error('Invalid token payload'));
-        }
-
-        console.log('✅ Discord token validation successful', { userId: payload.userId });
 
         const user = await prisma.user.findUnique({
           where: { id: payload.userId },

@@ -1,0 +1,205 @@
+<!-- CRYB Platform Security Rules -->
+<group name="cryb,authentication,">
+  <rule id="100001" level="5">
+    <decoded_as>json</decoded_as>
+    <field name="event">authentication_failed</field>
+    <description>CRYB: Authentication failure detected</description>
+    <group>authentication_failed</group>
+  </rule>
+
+  <rule id="100002" level="8">
+    <if_sid>100001</if_sid>
+    <field name="attempts">^[5-9]$|^[1-9][0-9]+$</field>
+    <description>CRYB: Multiple authentication failures ($(attempts) attempts)</description>
+    <group>authentication_failures</group>
+  </rule>
+
+  <rule id="100003" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="event">brute_force_attack</field>
+    <description>CRYB: Brute force attack detected from IP $(srcip)</description>
+    <group>attack,brute_force</group>
+  </rule>
+
+  <rule id="100004" level="12">
+    <decoded_as>json</decoded_as>
+    <field name="event">account_lockout</field>
+    <description>CRYB: Account lockout triggered for user $(user) from IP $(srcip)</description>
+    <group>authentication_failures,account_lockout</group>
+  </rule>
+
+  <rule id="100005" level="7">
+    <decoded_as>json</decoded_as>
+    <field name="event">invalid_jwt</field>
+    <description>CRYB: Invalid JWT token presented from IP $(srcip)</description>
+    <group>authentication_failed,jwt</group>
+  </rule>
+
+  <rule id="100006" level="9">
+    <if_sid>100005</if_sid>
+    <field name="count">^[1-9][0-9]+$</field>
+    <description>CRYB: Multiple invalid JWT attempts ($(count) attempts) from IP $(srcip)</description>
+    <group>authentication_failures,jwt</group>
+  </rule>
+</group>
+
+<group name="cryb,web3,">
+  <rule id="100010" level="6">
+    <decoded_as>json</decoded_as>
+    <field name="event">web3_auth_failed</field>
+    <description>CRYB: Web3 authentication failure from IP $(srcip)</description>
+    <group>web3,authentication_failed</group>
+  </rule>
+
+  <rule id="100011" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="event">invalid_signature</field>
+    <description>CRYB: Invalid Web3 signature detected from IP $(srcip)</description>
+    <group>web3,signature_verification</group>
+  </rule>
+
+  <rule id="100012" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="event">nonce_attack</field>
+    <description>CRYB: Nonce replay attack detected from IP $(srcip)</description>
+    <group>web3,attack,replay</group>
+  </rule>
+</group>
+
+<group name="cryb,api,">
+  <rule id="100020" level="5">
+    <decoded_as>json</decoded_as>
+    <field name="event">rate_limit_exceeded</field>
+    <description>CRYB: Rate limit exceeded for IP $(srcip)</description>
+    <group>api,rate_limiting</group>
+  </rule>
+
+  <rule id="100021" level="8">
+    <if_sid>100020</if_sid>
+    <field name="severity">high</field>
+    <description>CRYB: High severity rate limiting violation from IP $(srcip)</description>
+    <group>api,rate_limiting,violation</group>
+  </rule>
+
+  <rule id="100022" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="event">api_abuse</field>
+    <description>CRYB: API abuse detected from IP $(srcip) - $(reason)</description>
+    <group>api,abuse</group>
+  </rule>
+
+  <rule id="100023" level="7">
+    <decoded_as>json</decoded_as>
+    <field name="event">sql_injection_attempt</field>
+    <description>CRYB: SQL injection attempt detected from IP $(srcip)</description>
+    <group>attack,sql_injection</group>
+  </rule>
+
+  <rule id="100024" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="event">xss_attempt</field>
+    <description>CRYB: XSS attempt detected from IP $(srcip)</description>
+    <group>attack,xss</group>
+  </rule>
+</group>
+
+<group name="cryb,socket,">
+  <rule id="100030" level="6">
+    <decoded_as>json</decoded_as>
+    <field name="event">socket_auth_failed</field>
+    <description>CRYB: Socket.IO authentication failure from IP $(srcip)</description>
+    <group>socket,authentication_failed</group>
+  </rule>
+
+  <rule id="100031" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="event">socket_flooding</field>
+    <description>CRYB: Socket flooding detected from IP $(srcip)</description>
+    <group>socket,flooding,abuse</group>
+  </rule>
+
+  <rule id="100032" level="9">
+    <decoded_as>json</decoded_as>
+    <field name="event">websocket_abuse</field>
+    <description>CRYB: WebSocket abuse detected from IP $(srcip) - $(details)</description>
+    <group>socket,abuse</group>
+  </rule>
+</group>
+
+<group name="cryb,upload,">
+  <rule id="100040" level="7">
+    <decoded_as>json</decoded_as>
+    <field name="event">malicious_file_upload</field>
+    <description>CRYB: Malicious file upload attempt from IP $(srcip) - $(filename)</description>
+    <group>upload,malicious_file</group>
+  </rule>
+
+  <rule id="100041" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="event">upload_abuse</field>
+    <description>CRYB: File upload abuse detected from IP $(srcip)</description>
+    <group>upload,abuse</group>
+  </rule>
+
+  <rule id="100042" level="6">
+    <decoded_as>json</decoded_as>
+    <field name="event">invalid_file_type</field>
+    <description>CRYB: Invalid file type upload attempt from IP $(srcip) - $(file_type)</description>
+    <group>upload,invalid_type</group>
+  </rule>
+</group>
+
+<group name="cryb,system,">
+  <rule id="100050" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="event">system_compromise</field>
+    <description>CRYB: System compromise indicators detected - $(details)</description>
+    <group>system,compromise</group>
+  </rule>
+
+  <rule id="100051" level="12">
+    <decoded_as>json</decoded_as>
+    <field name="event">privilege_escalation</field>
+    <description>CRYB: Privilege escalation attempt detected - $(details)</description>
+    <group>system,privilege_escalation</group>
+  </rule>
+
+  <rule id="100052" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="event">suspicious_process</field>
+    <description>CRYB: Suspicious process activity detected - $(process)</description>
+    <group>system,suspicious_activity</group>
+  </rule>
+</group>
+
+<group name="cryb,ddos,">
+  <rule id="100060" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="event">ddos_attack</field>
+    <description>CRYB: DDoS attack detected from IP $(srcip) - $(attack_type)</description>
+    <group>attack,ddos</group>
+  </rule>
+
+  <rule id="100061" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="event">traffic_anomaly</field>
+    <description>CRYB: Abnormal traffic pattern detected from IP $(srcip)</description>
+    <group>traffic,anomaly</group>
+  </rule>
+</group>
+
+<group name="cryb,file_integrity,">
+  <rule id="100070" level="8">
+    <decoded_as>json</decoded_as>
+    <field name="event">config_change</field>
+    <description>CRYB: Critical configuration file modified - $(file)</description>
+    <group>file_integrity,config_change</group>
+  </rule>
+
+  <rule id="100071" level="10">
+    <decoded_as>json</decoded_as>
+    <field name="event">unauthorized_file_change</field>
+    <description>CRYB: Unauthorized file modification detected - $(file)</description>
+    <group>file_integrity,unauthorized_change</group>
+  </rule>
+</group>

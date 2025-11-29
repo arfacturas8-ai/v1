@@ -1,0 +1,432 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "CRYB Logs Dashboard",
+    "tags": ["cryb", "logs", "loki"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Log Volume by Service",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate({job=~\".*\"}[5m])) by (service)",
+            "refId": "A",
+            "legendFormat": "{{service}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "logs/sec"
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Error Logs Rate",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate({level=\"error\"}[5m])) by (service)",
+            "refId": "A",
+            "legendFormat": "{{service}} errors"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "errors/sec"
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Recent Error Logs",
+        "type": "logs",
+        "targets": [
+          {
+            "expr": "{level=\"error\"} |= \"\"",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "showLabels": true,
+          "showCommonLabels": false,
+          "wrapLogMessage": true,
+          "prettifyLogMessage": false,
+          "enableLogDetails": true,
+          "dedupStrategy": "none",
+          "sortOrder": "Descending"
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "API Request Logs",
+        "type": "logs",
+        "targets": [
+          {
+            "expr": "{service=\"api\"} |= \"\"",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "showLabels": true,
+          "showCommonLabels": false,
+          "wrapLogMessage": true,
+          "prettifyLogMessage": false,
+          "enableLogDetails": true,
+          "dedupStrategy": "none",
+          "sortOrder": "Descending"
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 0,
+          "y": 20
+        }
+      },
+      {
+        "id": 5,
+        "title": "Database Logs",
+        "type": "logs",
+        "targets": [
+          {
+            "expr": "{service=\"postgresql\"} |= \"\"",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "showTime": true,
+          "showLabels": true,
+          "showCommonLabels": false,
+          "wrapLogMessage": true,
+          "prettifyLogMessage": false,
+          "enableLogDetails": true,
+          "dedupStrategy": "none",
+          "sortOrder": "Descending"
+        },
+        "gridPos": {
+          "h": 12,
+          "w": 12,
+          "x": 12,
+          "y": 20
+        }
+      },
+      {
+        "id": 6,
+        "title": "HTTP Status Code Distribution",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "sum by (status) (count_over_time({service=\"nginx\"}[1h]))",
+            "refId": "A",
+            "legendFormat": "{{status}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            },
+            "mappings": [],
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "pieType": "pie",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "visible",
+            "placement": "bottom"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 0,
+          "y": 32
+        }
+      },
+      {
+        "id": 7,
+        "title": "Log Levels Distribution",
+        "type": "piechart",
+        "targets": [
+          {
+            "expr": "sum by (level) (count_over_time({job=~\".*\"}[1h]))",
+            "refId": "A",
+            "legendFormat": "{{level}}"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              }
+            },
+            "mappings": [],
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "pieType": "pie",
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          },
+          "legend": {
+            "displayMode": "visible",
+            "placement": "bottom"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 8,
+          "y": 32
+        }
+      },
+      {
+        "id": 8,
+        "title": "Top Error Messages",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "topk(10, sum by (message) (count_over_time({level=\"error\"}[1h])))",
+            "refId": "A",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "transformations": [
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "Value": "Count",
+                "message": "Error Message"
+              }
+            }
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "options": {
+          "showHeader": true
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 8,
+          "x": 16,
+          "y": 32
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "CRYB Logs Dashboard",
+    "uid": "cryb-logs-dashboard",
+    "version": 1,
+    "weekStart": ""
+  }
+}

@@ -45,7 +45,7 @@ export class FixedSocketAuth {
   }
 
   private setupRedisConnections() {
-    const redisUrl = process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0';
+    const redisUrl = process.env.REDIS_URL || 'redis://localhost:6380/0';
     
     // Separate connections for different purposes
     this.pubClient = new Redis(redisUrl, {
@@ -179,6 +179,24 @@ export class FixedSocketAuth {
         const authResult = await this.authenticateSocket(socket);
         
         if (!authResult.success) {
+          // In development, allow unauthenticated connections for testing
+          if (process.env.NODE_ENV === 'development' || process.env.ALLOW_ANONYMOUS_SOCKET === 'true') {
+            this.fastify.log.warn('⚠️ Allowing unauthenticated socket connection in development mode:', {
+              socketId: socket.id,
+              error: authResult.error,
+              ip: socket.handshake.address
+            });
+            
+            // Set up anonymous user
+            socket.userId = `anonymous_${Date.now()}`;
+            socket.username = 'Anonymous';
+            socket.displayName = 'Anonymous User';
+            socket.isAuthenticated = false;
+            socket.connectedAt = new Date();
+            
+            return next();
+          }
+          
           this.fastify.log.warn('❌ Socket authentication failed:', {
             socketId: socket.id,
             error: authResult.error,

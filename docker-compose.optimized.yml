@@ -99,7 +99,7 @@ services:
     networks:
       - cryb-network
     healthcheck:
-      test: ["CMD-SHELL", "psql -h localhost -p 5432 -U cryb_user -d cryb -c 'SELECT 1;' || exit 1"]
+      test: ["CMD-SHELL", "nc -z localhost 6432 || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 5

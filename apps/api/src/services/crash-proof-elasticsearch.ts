@@ -573,6 +573,25 @@ export class CrashProofElasticsearchService extends EventEmitter {
     }, `search-${index}`);
   }
 
+  async deleteDocument(index: string, id: string): Promise<void> {
+    return this.executeWithRetry(async () => {
+      try {
+        await this.client.delete({
+          index,
+          id
+        });
+        
+        logger.info(`Document deleted from ${index}`, { id });
+      } catch (error: any) {
+        if (error.statusCode === 404) {
+          logger.debug(`Document not found for deletion`, { index, id });
+          return;
+        }
+        throw error;
+      }
+    }, `delete-${index}-${id}`);
+  }
+
   async searchSuggestions(query: string, limit: number = 10): Promise<string[]> {
     return this.executeWithRetry(async () => {
       const result = await this.client.search({

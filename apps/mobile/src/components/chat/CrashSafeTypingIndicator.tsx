@@ -6,6 +6,7 @@
 import React, { useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { useErrorHandler } from '../ErrorBoundary';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 interface CrashSafeTypingIndicatorProps {
   users: string[];
@@ -151,16 +152,16 @@ const TypingDots: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
   },
   content: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: spacing.md,
     backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
     borderRadius: 20,
     alignSelf: 'flex-start',
   },
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#cccccc',
-    fontSize: 13,
+    fontSize: typography.body2,
     fontStyle: 'italic',
   },
 });

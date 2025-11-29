@@ -141,7 +141,7 @@ export class RealtimeCommunicationService {
   }
 
   private setupRedisConnections() {
-    const redisUrl = process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0';
+    const redisUrl = process.env.REDIS_URL || 'redis://localhost:6380/0';
     
     this.redis = new Redis(redisUrl);
     this.pubClient = new Redis(redisUrl);

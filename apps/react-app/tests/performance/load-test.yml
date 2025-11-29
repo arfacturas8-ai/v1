@@ -1,0 +1,316 @@
+# Artillery Load Testing Configuration
+# Comprehensive performance testing for CRYB platform
+
+config:
+  target: 'https://platform.cryb.ai'
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm-up"
+    
+    # Gradual ramp-up
+    - duration: 120
+      arrivalRate: 5
+      rampTo: 50
+      name: "Ramp-up"
+    
+    # Sustained load
+    - duration: 300
+      arrivalRate: 50
+      name: "Sustained load"
+    
+    # Peak load
+    - duration: 180
+      arrivalRate: 100
+      name: "Peak load"
+    
+    # Stress test
+    - duration: 120
+      arrivalRate: 150
+      name: "Stress test"
+    
+    # Cool down
+    - duration: 60
+      arrivalRate: 150
+      rampTo: 10
+      name: "Cool down"
+
+  defaults:
+    headers:
+      User-Agent: "Artillery Load Test"
+      Accept: "application/json"
+      Content-Type: "application/json"
+  
+  # Performance thresholds
+  ensure:
+    # 95% of requests should complete within 2 seconds
+    p95: 2000
+    # 99% of requests should complete within 5 seconds
+    p99: 5000
+    # Error rate should be less than 1%
+    maxErrorRate: 1
+    # Average response time should be under 500ms
+    median: 500
+
+  # Request timeout
+  timeout: 30
+
+  # Rate limiting
+  pool: 10
+
+  # TLS settings
+  tls:
+    rejectUnauthorized: false
+
+  # Payload settings
+  payload:
+    path: './test-data/users.csv'
+    fields:
+      - email
+      - password
+      - username
+
+before:
+  flow:
+    - log: "Starting CRYB Platform Load Test"
+
+after:
+  flow:
+    - log: "Load test completed"
+
+scenarios:
+  # Homepage and static content
+  - name: "Homepage Load"
+    weight: 20
+    flow:
+      - get:
+          url: "/"
+          capture:
+            - header: "set-cookie"
+              as: "sessionCookie"
+      - think: 2
+      - get:
+          url: "/favicon.ico"
+      - get:
+          url: "/manifest.json"
+
+  # User authentication flow
+  - name: "Authentication Flow"
+    weight: 30
+    flow:
+      # Visit login page
+      - get:
+          url: "/auth/login"
+          capture:
+            - header: "set-cookie"
+              as: "sessionCookie"
+      
+      - think: 3
+      
+      # Attempt login
+      - post:
+          url: "/api/auth/login"
+          headers:
+            Cookie: "{{ sessionCookie }}"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+            - json: "$.user.id"
+              as: "userId"
+      
+      - think: 2
+      
+      # Access protected dashboard
+      - get:
+          url: "/dashboard"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+            Cookie: "{{ sessionCookie }}"
+
+  # Messaging and real-time features
+  - name: "Messaging Flow"
+    weight: 25
+    flow:
+      # Login first
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+            - json: "$.user.id"
+              as: "userId"
+      
+      # Get channels list
+      - get:
+          url: "/api/channels"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          capture:
+            - json: "$.channels[0].id"
+              as: "channelId"
+      
+      - think: 1
+      
+      # Get messages from channel
+      - get:
+          url: "/api/channels/{{ channelId }}/messages"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+      
+      - think: 2
+      
+      # Send a message
+      - post:
+          url: "/api/channels/{{ channelId }}/messages"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            content: "Load test message from {{ username }}"
+            type: "text"
+      
+      - think: 3
+      
+      # Get updated messages
+      - get:
+          url: "/api/channels/{{ channelId }}/messages"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+
+  # API endpoints stress test
+  - name: "API Stress Test"
+    weight: 15
+    flow:
+      # Login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Rapid API calls
+      - loop:
+          - get:
+              url: "/api/user/profile"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+          - get:
+              url: "/api/channels"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+          - get:
+              url: "/api/notifications"
+              headers:
+                Authorization: "Bearer {{ authToken }}"
+          - think: 0.5
+        count: 5
+
+  # File upload stress test
+  - name: "File Upload Test"
+    weight: 10
+    flow:
+      # Login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Upload file (multipart form data)
+      - post:
+          url: "/api/upload"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          formData:
+            file: "@./test-data/sample-image.jpg"
+            type: "image"
+          capture:
+            - json: "$.fileId"
+              as: "fileId"
+      
+      - think: 2
+      
+      # Verify upload
+      - get:
+          url: "/api/files/{{ fileId }}"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+
+  # WebSocket connections
+  - name: "WebSocket Load"
+    weight: 20
+    engine: ws
+    flow:
+      # Connect to WebSocket
+      - connect:
+          url: "wss://platform.cryb.ai/socket.io/?EIO=4&transport=websocket"
+          headers:
+            Origin: "https://platform.cryb.ai"
+      
+      # Authenticate
+      - send:
+          payload: '40{"token":"{{ authToken }}"}'
+      
+      # Join a channel
+      - send:
+          payload: '42["join-channel","{{ channelId }}"]'
+      
+      # Send messages periodically
+      - loop:
+          - send:
+              payload: '42["send-message",{"content":"WebSocket load test","channelId":"{{ channelId }}"}]'
+          - think: 5
+        count: 10
+
+# Additional configurations for different test scenarios
+environments:
+  # Production load test
+  production:
+    target: 'https://platform.cryb.ai'
+    phases:
+      - duration: 300
+        arrivalRate: 100
+    ensure:
+      p95: 1500
+      maxErrorRate: 0.5
+
+  # Staging environment test
+  staging:
+    target: 'https://staging.platform.cryb.ai'
+    phases:
+      - duration: 180
+        arrivalRate: 50
+    ensure:
+      p95: 3000
+      maxErrorRate: 2
+
+  # Development environment test
+  development:
+    target: 'http://localhost:3000'
+    phases:
+      - duration: 60
+        arrivalRate: 10
+    ensure:
+      p95: 5000
+      maxErrorRate: 5
+
+# Custom metrics
+metrics:
+  - name: "authentication_success_rate"
+    unit: "percent"
+  - name: "message_delivery_time"
+    unit: "milliseconds"
+  - name: "file_upload_success_rate"
+    unit: "percent"

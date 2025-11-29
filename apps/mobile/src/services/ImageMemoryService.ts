@@ -63,7 +63,7 @@ export interface MemoryStats {
 class ImageMemoryService {
   private static instance: ImageMemoryService;
   private isInitialized = false;
-  private config: ImageCacheConfig;
+  private config!: ImageCacheConfig;
   private memoryCache = new Map<string, ImageCacheEntry>();
   private diskCache = new Map<string, ImageCacheEntry>();
   private loadingImages = new Set<string>();
@@ -678,7 +678,7 @@ class ImageMemoryService {
     this.config = { ...this.config, ...config };
   }
 
-  isInitialized(): boolean {
+  getIsInitialized(): boolean {
     return this.isInitialized;
   }
 
@@ -703,4 +703,4 @@ class ImageMemoryService {
   }
 }
 
-export const ImageMemoryService = ImageMemoryService.getInstance();
+export const imageMemoryService = ImageMemoryService.getInstance();

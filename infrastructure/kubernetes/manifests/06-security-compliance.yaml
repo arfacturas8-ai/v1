@@ -1,0 +1,955 @@
+# ==============================================
+# CRYB PLATFORM - SECURITY & COMPLIANCE
+# ==============================================
+# Enterprise security with HashiCorp Vault,
+# certificate management, and compliance auditing
+# ==============================================
+
+---
+# HashiCorp Vault Deployment
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vault
+  namespace: cryb-security
+  labels:
+    app: vault
+    tier: security
+spec:
+  serviceName: vault
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vault
+  template:
+    metadata:
+      labels:
+        app: vault
+        tier: security
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8200"
+        prometheus.io/path: "/v1/sys/metrics"
+    spec:
+      serviceAccountName: vault
+      
+      # Security Context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 100
+        runAsGroup: 1000
+        fsGroup: 1000
+      
+      # Affinity for High Availability
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - vault
+              topologyKey: kubernetes.io/hostname
+      
+      initContainers:
+        - name: vault-init
+          image: busybox:1.35
+          command: ['sh', '-c', 'chown -R 100:1000 /vault/data && chmod -R 0755 /vault/data']
+          volumeMounts:
+            - name: vault-data
+              mountPath: /vault/data
+          securityContext:
+            runAsUser: 0
+      
+      containers:
+        - name: vault
+          image: hashicorp/vault:1.15.0
+          ports:
+            - name: api
+              containerPort: 8200
+              protocol: TCP
+            - name: cluster-port
+              containerPort: 8201
+              protocol: TCP
+          
+          env:
+            - name: VAULT_ADDR
+              value: "https://127.0.0.1:8200"
+            - name: VAULT_API_ADDR
+              value: "https://$(POD_IP):8200"
+            - name: VAULT_CLUSTER_ADDR
+              value: "https://$(POD_IP):8201"
+            - name: POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: VAULT_K8S_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: VAULT_K8S_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: VAULT_RAFT_NODE_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          
+          args: ["vault", "server", "-config=/vault/config/vault.hcl"]
+          
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "2Gi"
+              cpu: "2000m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - IPC_LOCK
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 100
+          
+          livenessProbe:
+            httpGet:
+              path: /v1/sys/health?standbyok=true
+              port: api
+              scheme: HTTPS
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          readinessProbe:
+            httpGet:
+              path: /v1/sys/health?standbyok=true&sealedcode=204&uninitcode=204
+              port: api
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          volumeMounts:
+            - name: vault-config
+              mountPath: /vault/config
+              readOnly: true
+            - name: vault-data
+              mountPath: /vault/data
+            - name: vault-tls
+              mountPath: /vault/tls
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+      
+      volumes:
+        - name: vault-config
+          configMap:
+            name: vault-config
+        - name: vault-tls
+          secret:
+            secretName: vault-tls
+        - name: tmp
+          emptyDir: {}
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: vault-data
+        labels:
+          app: vault
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "gp3-encrypted"
+        resources:
+          requests:
+            storage: 50Gi
+
+---
+# Vault Agent Injector
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault-agent-injector
+  namespace: cryb-security
+  labels:
+    app: vault-agent-injector
+    tier: security
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vault-agent-injector
+  template:
+    metadata:
+      labels:
+        app: vault-agent-injector
+        tier: security
+    spec:
+      serviceAccountName: vault-agent-injector
+      
+      containers:
+        - name: sidecar-injector
+          image: hashicorp/vault-k8s:1.3.0
+          env:
+            - name: AGENT_INJECT_LISTEN
+              value: ":8080"
+            - name: AGENT_INJECT_LOG_LEVEL
+              value: "info"
+            - name: AGENT_INJECT_VAULT_ADDR
+              value: "https://vault.cryb-security.svc.cluster.local:8200"
+            - name: AGENT_INJECT_VAULT_AUTH_PATH
+              value: "auth/kubernetes"
+            - name: AGENT_INJECT_VAULT_IMAGE
+              value: "hashicorp/vault:1.15.0"
+            - name: AGENT_INJECT_TLS_AUTO
+              value: "vault.cryb-security.svc"
+            - name: AGENT_INJECT_TLS_AUTO_HOSTS
+              value: "vault-agent-injector,vault-agent-injector.cryb-security,vault-agent-injector.cryb-security.svc"
+          
+          args:
+            - agent-inject
+            - 2>&1
+          
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+          
+          livenessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          
+          readinessProbe:
+            httpGet:
+              path: /health/ready
+              port: 8080
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# External Secrets Operator
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: external-secrets-controller
+  namespace: cryb-security
+  labels:
+    app: external-secrets-controller
+    tier: security
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: external-secrets-controller
+  template:
+    metadata:
+      labels:
+        app: external-secrets-controller
+        tier: security
+    spec:
+      serviceAccountName: external-secrets-controller
+      
+      containers:
+        - name: controller
+          image: ghcr.io/external-secrets/external-secrets:v0.9.9
+          args:
+            - --secure-port=8443
+            - --audit-log-path=-
+            - --audit-log-maxage=0
+            - --audit-log-maxbackup=0
+            - --metrics-addr=:8080
+            - --concurrent-reconciles=10
+          
+          ports:
+            - name: webhook
+              containerPort: 8443
+              protocol: TCP
+            - name: metrics
+              containerPort: 8080
+              protocol: TCP
+          
+          env:
+            - name: GOMAXPROCS
+              value: "2"
+          
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+          
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8443
+              scheme: HTTPS
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8443
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# Cert-Manager Controller
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cert-manager-controller
+  namespace: cert-manager
+  labels:
+    app: cert-manager
+    tier: security
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cert-manager
+  template:
+    metadata:
+      labels:
+        app: cert-manager
+        tier: security
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9402"
+        prometheus.io/path: "/metrics"
+    spec:
+      serviceAccountName: cert-manager
+      
+      containers:
+        - name: cert-manager-controller
+          image: quay.io/jetstack/cert-manager-controller:v1.13.0
+          args:
+            - --v=2
+            - --cluster-resource-namespace=$(POD_NAMESPACE)
+            - --leader-election-namespace=kube-system
+            - --acme-http01-solver-image=quay.io/jetstack/cert-manager-acmesolver:v1.13.0
+            - --max-concurrent-challenges=60
+            - --enable-certificate-owner-ref=true
+            - --metrics-bind-address=0.0.0.0:9402
+          
+          ports:
+            - name: metrics
+              containerPort: 9402
+              protocol: TCP
+          
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+          
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: 6060
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 6060
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# Falco Security Runtime Scanner
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: falco
+  namespace: cryb-security
+  labels:
+    app: falco
+    tier: security
+spec:
+  selector:
+    matchLabels:
+      app: falco
+  template:
+    metadata:
+      labels:
+        app: falco
+        tier: security
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8765"
+    spec:
+      serviceAccountName: falco
+      hostNetwork: true
+      hostPID: true
+      priorityClassName: system-node-critical
+      tolerations:
+        - operator: Exists
+          effect: NoSchedule
+      
+      initContainers:
+        - name: falco-driver-loader
+          image: falcosecurity/falco-driver-loader:0.35.1
+          args:
+            - --compile
+            - --download
+          env:
+            - name: FALCO_VERSION
+              value: "0.35.1"
+          volumeMounts:
+            - name: boot
+              mountPath: /boot
+              readOnly: true
+            - name: lib-modules
+              mountPath: /lib/modules
+              readOnly: true
+            - name: usr-src
+              mountPath: /usr/src
+              readOnly: true
+            - name: falco-driver
+              mountPath: /root/.falco
+          securityContext:
+            privileged: true
+      
+      containers:
+        - name: falco
+          image: falcosecurity/falco-no-driver:0.35.1
+          args:
+            - /usr/bin/falco
+            - --cri=/run/containerd/containerd.sock
+            - --cri=/run/crio/crio.sock
+            - -K=/var/run/secrets/kubernetes.io/serviceaccount/token
+            - -k=https://kubernetes.default
+            - --k8s-node=$(FALCO_K8S_NODE_NAME)
+            - -pk
+          
+          env:
+            - name: FALCO_K8S_NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
+          
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          
+          securityContext:
+            privileged: true
+          
+          volumeMounts:
+            - name: dev-fs
+              mountPath: /host/dev
+              readOnly: true
+            - name: proc-fs
+              mountPath: /host/proc
+              readOnly: true
+            - name: boot-fs
+              mountPath: /host/boot
+              readOnly: true
+            - name: lib-modules
+              mountPath: /host/lib/modules
+              readOnly: true
+            - name: usr-fs
+              mountPath: /host/usr
+              readOnly: true
+            - name: etc-fs
+              mountPath: /host/etc
+              readOnly: true
+            - name: falco-driver
+              mountPath: /root/.falco
+            - name: falco-config
+              mountPath: /etc/falco
+            - name: containerd-socket
+              mountPath: /run/containerd/containerd.sock
+              readOnly: true
+            - name: crio-socket
+              mountPath: /run/crio/crio.sock
+              readOnly: true
+      
+      volumes:
+        - name: dev-fs
+          hostPath:
+            path: /dev
+        - name: proc-fs
+          hostPath:
+            path: /proc
+        - name: boot-fs
+          hostPath:
+            path: /boot
+        - name: boot
+          hostPath:
+            path: /boot
+        - name: lib-modules
+          hostPath:
+            path: /lib/modules
+        - name: usr-src
+          hostPath:
+            path: /usr/src
+        - name: usr-fs
+          hostPath:
+            path: /usr
+        - name: etc-fs
+          hostPath:
+            path: /etc
+        - name: falco-driver
+          emptyDir: {}
+        - name: falco-config
+          configMap:
+            name: falco-config
+        - name: containerd-socket
+          hostPath:
+            path: /run/containerd/containerd.sock
+            type: Socket
+        - name: crio-socket
+          hostPath:
+            path: /run/crio/crio.sock
+            type: Socket
+
+---
+# Open Policy Agent Gatekeeper
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatekeeper-controller
+  namespace: gatekeeper-system
+  labels:
+    app: gatekeeper
+    tier: security
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gatekeeper
+  template:
+    metadata:
+      labels:
+        app: gatekeeper
+        tier: security
+    spec:
+      serviceAccountName: gatekeeper-admin
+      
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - gatekeeper
+                topologyKey: kubernetes.io/hostname
+      
+      containers:
+        - name: manager
+          image: openpolicyagent/gatekeeper:v3.14.0
+          args:
+            - --port=8443
+            - --health-addr=:9090
+            - --prometheus-port=8888
+            - --logtostderr
+            - --log-denies=false
+            - --emit-admission-events=true
+            - --log-level=INFO
+            - --exempt-namespace=gatekeeper-system
+            - --operation=webhook
+            - --operation=mutation-webhook
+            - --disable-cert-rotation=false
+          
+          ports:
+            - name: webhook-server
+              containerPort: 8443
+              protocol: TCP
+            - name: metrics
+              containerPort: 8888
+              protocol: TCP
+            - name: healthz
+              containerPort: 9090
+              protocol: TCP
+          
+          env:
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532
+            runAsGroup: 65532
+          
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: healthz
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: healthz
+            initialDelaySeconds: 10
+            periodSeconds: 10
+
+---
+# Kube-bench Security Benchmark
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: kube-bench
+  namespace: cryb-security
+  labels:
+    app: kube-bench
+    tier: security
+spec:
+  schedule: "0 2 * * *"  # Daily at 2 AM
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          serviceAccountName: kube-bench
+          hostPID: true
+          restartPolicy: Never
+          
+          containers:
+            - name: kube-bench
+              image: aquasec/kube-bench:v0.6.15
+              command: ["kube-bench"]
+              args: ["--benchmark", "eks-1.2.0", "--json", "--outputfile", "/tmp/kube-bench-results.json"]
+              
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
+              
+              securityContext:
+                allowPrivilegeEscalation: false
+                capabilities:
+                  drop:
+                    - ALL
+                readOnlyRootFilesystem: true
+                runAsNonRoot: false
+                runAsUser: 0
+              
+              volumeMounts:
+                - name: var-lib-etcd
+                  mountPath: /var/lib/etcd
+                  readOnly: true
+                - name: var-lib-kubelet
+                  mountPath: /var/lib/kubelet
+                  readOnly: true
+                - name: var-lib-kube-scheduler
+                  mountPath: /var/lib/kube-scheduler
+                  readOnly: true
+                - name: var-lib-kube-controller-manager
+                  mountPath: /var/lib/kube-controller-manager
+                  readOnly: true
+                - name: etc-systemd
+                  mountPath: /etc/systemd
+                  readOnly: true
+                - name: lib-systemd
+                  mountPath: /lib/systemd/
+                  readOnly: true
+                - name: srv-kubernetes
+                  mountPath: /srv/kubernetes/
+                  readOnly: true
+                - name: etc-kubernetes
+                  mountPath: /etc/kubernetes
+                  readOnly: true
+                - name: usr-bin
+                  mountPath: /usr/local/mount-from-host/bin
+                  readOnly: true
+                - name: etc-cni-netd
+                  mountPath: /etc/cni/net.d/
+                  readOnly: true
+                - name: opt-cni-bin
+                  mountPath: /opt/cni/bin/
+                  readOnly: true
+                - name: tmp
+                  mountPath: /tmp
+          
+          volumes:
+            - name: var-lib-etcd
+              hostPath:
+                path: "/var/lib/etcd"
+            - name: var-lib-kubelet
+              hostPath:
+                path: "/var/lib/kubelet"
+            - name: var-lib-kube-scheduler
+              hostPath:
+                path: "/var/lib/kube-scheduler"
+            - name: var-lib-kube-controller-manager
+              hostPath:
+                path: "/var/lib/kube-controller-manager"
+            - name: etc-systemd
+              hostPath:
+                path: "/etc/systemd"
+            - name: lib-systemd
+              hostPath:
+                path: "/lib/systemd"
+            - name: srv-kubernetes
+              hostPath:
+                path: "/srv/kubernetes"
+            - name: etc-kubernetes
+              hostPath:
+                path: "/etc/kubernetes"
+            - name: usr-bin
+              hostPath:
+                path: "/usr/bin"
+            - name: etc-cni-netd
+              hostPath:
+                path: "/etc/cni/net.d/"
+            - name: opt-cni-bin
+              hostPath:
+                path: "/opt/cni/bin/"
+            - name: tmp
+              emptyDir: {}
+
+---
+# Service Accounts
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault
+  namespace: cryb-security
+  labels:
+    app: vault
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/CrybVaultServiceRole
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: vault-agent-injector
+  namespace: cryb-security
+  labels:
+    app: vault-agent-injector
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: external-secrets-controller
+  namespace: cryb-security
+  labels:
+    app: external-secrets-controller
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/CrybExternalSecretsServiceRole
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cert-manager
+  namespace: cert-manager
+  labels:
+    app: cert-manager
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/CrybCertManagerServiceRole
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: falco
+  namespace: cryb-security
+  labels:
+    app: falco
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gatekeeper-admin
+  namespace: gatekeeper-system
+  labels:
+    app: gatekeeper
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kube-bench
+  namespace: cryb-security
+  labels:
+    app: kube-bench
+
+---
+# Services
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault
+  namespace: cryb-security
+  labels:
+    app: vault
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8200"
+    prometheus.io/path: "/v1/sys/metrics"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: api
+      port: 8200
+      targetPort: api
+      protocol: TCP
+    - name: cluster-port
+      port: 8201
+      targetPort: cluster-port
+      protocol: TCP
+  selector:
+    app: vault
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vault-agent-injector
+  namespace: cryb-security
+  labels:
+    app: vault-agent-injector
+spec:
+  type: ClusterIP
+  ports:
+    - name: webhook
+      port: 443
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: vault-agent-injector
+
+---
+# Network Policies for Security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: vault-network-policy
+  namespace: cryb-security
+spec:
+  podSelector:
+    matchLabels:
+      app: vault
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              name: cryb-api
+        - namespaceSelector:
+            matchLabels:
+              name: cryb-security
+      ports:
+        - protocol: TCP
+          port: 8200
+    - from:
+        - podSelector:
+            matchLabels:
+              app: vault
+      ports:
+        - protocol: TCP
+          port: 8201
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: vault
+      ports:
+        - protocol: TCP
+          port: 8201
+    - to: []
+      ports:
+        - protocol: TCP
+          port: 53
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 443

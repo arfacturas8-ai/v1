@@ -4,6 +4,81 @@ import { prisma } from "@cryb/database";
 import { authMiddleware } from "../middleware/auth";
 
 const commentRoutes: FastifyPluginAsync = async (fastify) => {
+  
+  /**
+   * @swagger
+   * /comments:
+   *   get:
+   *     tags: [comments]
+   *     summary: List comments
+   *     description: Get all comments with optional filtering
+   *     parameters:
+   *       - name: postId
+   *         in: query
+   *         schema:
+   *           type: string
+   *         description: Filter comments by post ID
+   *       - name: limit
+   *         in: query
+   *         schema:
+   *           type: integer
+   *           default: 50
+   *         description: Number of comments to return
+   */
+  fastify.get('/', async (request, reply) => {
+    try {
+      const { postId, limit = 50 } = request.query as any;
+
+      let whereClause: any = {};
+      if (postId) {
+        whereClause.postId = postId;
+      }
+
+      const comments = await prisma.comment.findMany({
+        where: whereClause,
+        include: {
+          User: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatar: true,
+            },
+          },
+          Post: {
+            select: {
+              id: true,
+              title: true,
+              Community: {
+                select: {
+                  id: true,
+                  name: true,
+                  displayName: true,
+                },
+              },
+            },
+          },
+          _count: {
+            select: { other_Comment: true, Vote: true },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: parseInt(limit),
+      });
+
+      return reply.send({
+        success: true,
+        data: comments,
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to get comments",
+      });
+    }
+  });
+
   // Helper function to build comment trees recursively
   async function buildCommentTree(commentId: string, currentDepth: number = 0, maxDepth: number = 5): Promise<any[]> {
     if (currentDepth >= maxDepth) {
@@ -13,7 +88,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
     const replies = await prisma.comment.findMany({
       where: { parentId: commentId },
       include: {
-        user: {
+        User: {
           select: {
             id: true,
             username: true,
@@ -22,7 +97,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
           },
         },
         _count: {
-          select: { replies: true, votes: true },
+          select: { other_Comment: true, Vote: true },
         },
       },
       orderBy: { score: "desc" },
@@ -86,7 +161,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
           parentId: null // Only top-level comments
         },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -95,7 +170,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
             },
           },
           _count: {
-            select: { replies: true, votes: true },
+            select: { other_Comment: true, Vote: true },
           },
         },
         orderBy,
@@ -189,7 +264,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
           userId: request.userId,
         },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -283,19 +358,19 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
       const comment = await prisma.comment.findUnique({
         where: { id },
         include: {
-          post: {
+          Post: {
             select: { communityId: true },
           },
         },
       });
 
-      if (comment && comment.post) {
+      if (comment && comment.Post) {
         // Calculate comment karma for the user in this community
         const userComments = await prisma.comment.findMany({
           where: {
             userId: comment.userId,
-            post: {
-              communityId: comment.post.communityId,
+            Post: {
+              communityId: comment.Post.communityId,
             },
           },
         });
@@ -306,7 +381,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
         const userPosts = await prisma.post.findMany({
           where: {
             userId: comment.userId,
-            communityId: comment.post.communityId,
+            communityId: comment.Post.communityId,
           },
         });
 
@@ -317,7 +392,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
         await prisma.communityMember.upsert({
           where: {
             communityId_userId: {
-              communityId: comment.post.communityId,
+              communityId: comment.Post.communityId,
               userId: comment.userId,
             },
           },
@@ -325,7 +400,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
             karma: combinedKarma,
           },
           create: {
-            communityId: comment.post.communityId,
+            communityId: comment.Post.communityId,
             userId: comment.userId,
             karma: combinedKarma,
           },
@@ -386,7 +461,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
           editedAt: new Date(),
         },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -441,7 +516,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
 
       // Update post comment count
       await prisma.post.update({
-        where: { id: comment.postId },
+        where: { id: comment.PostId },
         data: {
           commentCount: {
             decrement: 1,
@@ -482,7 +557,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
             where: { id: commentId },
             select: {
               id: true,
-              _count: { select: { replies: true } },
+              _count: { select: { other_Comment: true } },
             },
           });
           return {
@@ -496,7 +571,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
         const comment = await prisma.comment.findUnique({
           where: { id: commentId },
           include: {
-            user: {
+            User: {
               select: {
                 id: true,
                 username: true,
@@ -505,7 +580,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
               },
             },
             _count: {
-              select: { replies: true, votes: true },
+              select: { other_Comment: true, Vote: true },
             },
           },
         });
@@ -531,7 +606,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
         const replies = await prisma.comment.findMany({
           where: { parentId: commentId },
           include: {
-            user: {
+            User: {
               select: {
                 id: true,
                 username: true,
@@ -540,7 +615,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
               },
             },
             _count: {
-              select: { replies: true, votes: true },
+              select: { other_Comment: true, Vote: true },
             },
           },
           orderBy: replyOrderBy,
@@ -651,7 +726,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
       const comment = await prisma.comment.findUnique({
         where: { id },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -659,11 +734,11 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
               avatar: true,
             },
           },
-          post: {
+          Post: {
             select: {
               id: true,
               title: true,
-              community: {
+              Community: {
                 select: {
                   id: true,
                   name: true,
@@ -672,9 +747,9 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
               },
             },
           },
-          parent: context > 0 ? {
+          Comment: context > 0 ? {
             include: {
-              user: {
+              User: {
                 select: {
                   id: true,
                   username: true,
@@ -685,7 +760,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
             },
           } : false,
           _count: {
-            select: { replies: true },
+            select: { other_Comment: true },
           },
         },
       });
@@ -705,7 +780,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
           const parent = await prisma.comment.findUnique({
             where: { id: currentParentId },
             include: {
-              user: {
+              User: {
                 select: {
                   id: true,
                   username: true,
@@ -773,7 +848,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
       const replies = await prisma.comment.findMany({
         where: { parentId: commentId },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -782,7 +857,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
             },
           },
           _count: {
-            select: { replies: true, votes: true },
+            select: { other_Comment: true, Vote: true },
           },
         },
         orderBy,
@@ -812,7 +887,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
       const comment = await prisma.comment.findUnique({
         where: { id: commentId },
         include: {
-          user: {
+          User: {
             select: {
               id: true,
               username: true,
@@ -821,7 +896,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
             },
           },
           _count: {
-            select: { replies: true },
+            select: { other_Comment: true },
           },
         },
       });

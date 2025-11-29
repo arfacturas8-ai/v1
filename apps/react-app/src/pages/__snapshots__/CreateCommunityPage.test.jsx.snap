@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CreateCommunityPage Snapshot Tests should match snapshot for initial render 1`] = `
+<div>
+  <div
+    aria-label="Create community page"
+    role="main"
+    style="padding: 20px; max-width: 800px; margin: 0px auto;"
+  >
+    <h1>
+      Create Community
+    </h1>
+    <p>
+      Community creation form coming soon...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CreateCommunityPage Snapshot Tests should match snapshot with admin user 1`] = `
+<div>
+  <div
+    aria-label="Create community page"
+    role="main"
+    style="padding: 20px; max-width: 800px; margin: 0px auto;"
+  >
+    <h1>
+      Create Community
+    </h1>
+    <p>
+      Community creation form coming soon...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CreateCommunityPage Snapshot Tests should match snapshot with authenticated user 1`] = `
+<div>
+  <div
+    aria-label="Create community page"
+    role="main"
+    style="padding: 20px; max-width: 800px; margin: 0px auto;"
+  >
+    <h1>
+      Create Community
+    </h1>
+    <p>
+      Community creation form coming soon...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CreateCommunityPage Snapshot Tests should match snapshot with unauthenticated user 1`] = `
+<div>
+  <div
+    aria-label="Create community page"
+    role="main"
+    style="padding: 20px; max-width: 800px; margin: 0px auto;"
+  >
+    <h1>
+      Create Community
+    </h1>
+    <p>
+      Community creation form coming soon...
+    </p>
+  </div>
+</div>
+`;

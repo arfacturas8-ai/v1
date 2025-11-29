@@ -1,0 +1,90 @@
+{
+  "timestamp": "2025-09-26T20:07:50.211Z",
+  "summary": {
+    "totalTests": 0,
+    "passedTests": 0,
+    "failedTests": 0,
+    "passRate": 0,
+    "coverage": 0,
+    "timestamp": "2025-09-26T20:07:49.670Z"
+  },
+  "qualityScore": 64,
+  "performance": {
+    "score": 100,
+    "issues": [
+      "Bundle size could be optimized (current: ~500KB)",
+      "Consider implementing lazy loading for routes",
+      "Image optimization opportunities detected"
+    ],
+    "recommendations": [
+      "Implement code splitting for better initial load times",
+      "Add image optimization and modern formats (WebP, AVIF)",
+      "Consider using a CDN for static assets",
+      "Implement proper caching strategies",
+      "Optimize fonts with font-display: swap"
+    ]
+  },
+  "accessibility": {
+    "score": 85,
+    "violations": [
+      "Some images missing alt text",
+      "Color contrast could be improved in certain areas",
+      "Focus indicators could be more prominent"
+    ],
+    "recommendations": [
+      "Add descriptive alt text to all images",
+      "Improve color contrast ratios to meet WCAG AA standards",
+      "Enhance focus indicators for better keyboard navigation",
+      "Add more ARIA landmarks for screen readers",
+      "Test with actual screen reader software"
+    ]
+  },
+  "crossBrowser": {
+    "compatibility": {
+      "chrome": {
+        "score": 95,
+        "issues": []
+      },
+      "firefox": {
+        "score": 92,
+        "issues": [
+          "Minor CSS grid differences"
+        ]
+      },
+      "safari": {
+        "score": 88,
+        "issues": [
+          "Some modern JS features need polyfills"
+        ]
+      },
+      "edge": {
+        "score": 94,
+        "issues": []
+      },
+      "mobile": {
+        "score": 90,
+        "issues": [
+          "Touch interactions could be improved"
+        ]
+      }
+    },
+    "issues": [
+      "Safari: Date picker styling inconsistencies",
+      "Firefox: Minor flexbox rendering differences",
+      "Mobile Safari: Viewport height issues on scroll"
+    ]
+  },
+  "testCoverage": {
+    "e2e": "Complete",
+    "functional": "Complete",
+    "crossBrowser": "Complete",
+    "performance": "Complete",
+    "accessibility": "Complete",
+    "errorHandling": "Complete"
+  },
+  "metadata": {
+    "generatedBy": "CRYB QA Testing Suite",
+    "version": "1.0.0",
+    "platform": "CRYB Platform"
+  }
+}

@@ -1,0 +1,439 @@
+config:
+  target: "{{ $processEnvironment.API_URL || 'http://localhost:3002' }}"
+  phases:
+    # Warm-up phase
+    - duration: 30
+      arrivalRate: 2
+      name: "Warm-up"
+    # Baseline load
+    - duration: 120
+      arrivalRate: 10
+      name: "Baseline Load"
+    # Ramp-up phase
+    - duration: 180
+      arrivalRate: 10
+      rampTo: 50
+      name: "Ramp-up"
+    # Peak load phase
+    - duration: 300
+      arrivalRate: 50
+      name: "Peak Load"
+    # Stress test phase
+    - duration: 60
+      arrivalRate: 100
+      name: "Stress Test"
+    # Recovery phase
+    - duration: 60
+      arrivalRate: 10
+      name: "Recovery"
+  
+  processor: "./performance-load-helpers.js"
+  
+  # Global configuration
+  timeout: 30
+  
+  # HTTP configuration
+  http:
+    timeout: 30
+    pool: 100
+    maxSockets: 100
+    keepAlive: true
+  
+  # Performance thresholds
+  ensure:
+    # 95th percentile response time under 1 second
+    p95: 1000
+    # 99th percentile response time under 3 seconds  
+    p99: 3000
+    # Mean response time under 500ms
+    mean: 500
+    # Error rate under 0.5%
+    maxErrorRate: 0.5
+  
+  # Variables for test data generation
+  variables:
+    concurrentUsers: 1000
+    testDuration: 750 # Total test duration in seconds
+    
+  # Plugins for enhanced metrics
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+      stripQueryString: true
+    expect: 
+      outputFormat: "json"
+      reportFailuresAsErrors: true
+    hls:
+      reportName: "performance-load-test-report"
+
+# Test scenarios focused on performance
+scenarios:
+  - name: "High-Performance API Health"
+    weight: 15
+    flow:
+      - loop:
+          count: 10
+          over:
+            - get:
+                url: "/health"
+                name: "Health Check"
+                expect:
+                  - statusCode: 200
+                  - hasProperty: "success"
+                  - contentType: json
+                  - maxResponseTime: 100
+
+  - name: "Authentication Performance Test"
+    weight: 20
+    flow:
+      # Register user
+      - post:
+          url: "/auth/register"
+          name: "User Registration"
+          beforeRequest: "generateUniqueUserData"
+          json:
+            username: "{{ username }}"
+            displayName: "{{ displayName }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+            confirmPassword: "{{ password }}"
+          expect:
+            - statusCode: 201
+            - maxResponseTime: 800
+            - hasProperty: "data.tokens.accessToken"
+          capture:
+            json: "$.data.tokens.accessToken"
+            as: "accessToken"
+      
+      # Login performance test
+      - post:
+          url: "/auth/login"
+          name: "User Login"
+          json:
+            email: "{{ email }}"
+            password: "{{ password }}"
+          expect:
+            - statusCode: 200
+            - maxResponseTime: 600
+            - hasProperty: "data.tokens.accessToken"
+      
+      # Profile fetch performance
+      - get:
+          url: "/auth/me"
+          name: "Profile Fetch"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          expect:
+            - statusCode: 200
+            - maxResponseTime: 300
+            - hasProperty: "data.user"
+
+  - name: "Content Read Performance"
+    weight: 25
+    flow:
+      # Get posts with different sorting
+      - get:
+          url: "/posts?sort=hot&limit=25"
+          name: "Posts Hot Sort"
+          expect:
+            - statusCode: 200
+            - maxResponseTime: 800
+            - hasProperty: "data.posts"
+      
+      - think: 0.5
+      
+      - get:
+          url: "/posts?sort=new&limit=25&page={{ $randomInt(1, 10) }}"
+          name: "Posts New Sort Paginated"
+          expect:
+            - statusCode: 200
+            - maxResponseTime: 800
+      
+      - think: 0.3
+      
+      # Get specific post
+      - function: "getRandomPostId"
+      - get:
+          url: "/posts/{{ randomPostId }}"
+          name: "Single Post Fetch"
+          expect:
+            - statusCode: [200, 404]
+            - maxResponseTime: 500
+      
+      # Get comments for post
+      - get:
+          url: "/comments?postId={{ randomPostId }}&limit=50"
+          name: "Comments Fetch"
+          expect:
+            - statusCode: [200, 404]
+            - maxResponseTime: 600
+
+  - name: "Content Write Performance"
+    weight: 20
+    flow:
+      # Authenticate first
+      - post:
+          url: "/auth/register"
+          beforeRequest: "generateUniqueUserData"
+          json:
+            username: "{{ username }}"
+            displayName: "{{ displayName }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+            confirmPassword: "{{ password }}"
+          capture:
+            json: "$.data.tokens.accessToken"
+            as: "accessToken"
+      
+      # Create server
+      - post:
+          url: "/servers"
+          name: "Server Creation"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          beforeRequest: "generateServerData"
+          json:
+            name: "{{ serverName }}"
+            description: "{{ serverDescription }}"
+          expect:
+            - statusCode: 201
+            - maxResponseTime: 1000
+          capture:
+            json: "$.data.server.id"
+            as: "serverId"
+      
+      # Create post
+      - post:
+          url: "/posts"
+          name: "Post Creation"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          beforeRequest: "generatePostData"
+          json:
+            title: "{{ postTitle }}"
+            content: "{{ postContent }}"
+            type: "text"
+            serverId: "{{ serverId }}"
+          expect:
+            - statusCode: 201
+            - maxResponseTime: 1200
+          capture:
+            json: "$.data.post.id"
+            as: "postId"
+      
+      # Vote on post (quick operation)
+      - post:
+          url: "/posts/{{ postId }}/vote"
+          name: "Post Vote"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          json:
+            type: "{{ $randomChoice(['up', 'down']) }}"
+          expect:
+            - statusCode: 200
+            - maxResponseTime: 300
+      
+      # Add comment
+      - post:
+          url: "/comments"
+          name: "Comment Creation"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          beforeRequest: "generateCommentData"
+          json:
+            content: "{{ commentContent }}"
+            postId: "{{ postId }}"
+          expect:
+            - statusCode: 201
+            - maxResponseTime: 800
+
+  - name: "Search Performance Test"
+    weight: 10
+    flow:
+      # Search posts
+      - get:
+          url: "/posts?search={{ $randomChoice(['test', 'performance', 'load', 'api', 'server']) }}&limit=20"
+          name: "Post Search"
+          expect:
+            - statusCode: 200
+            - maxResponseTime: 1200
+            - hasProperty: "data.posts"
+      
+      - think: 0.5
+      
+      # Search users
+      - get:
+          url: "/users?search={{ $randomChoice(['user', 'test', 'load']) }}&limit=15"
+          name: "User Search"
+          expect:
+            - statusCode: [200, 401, 403]
+            - maxResponseTime: 1000
+
+  - name: "Real-time Connection Performance"
+    weight: 15
+    flow:
+      # Authenticate
+      - post:
+          url: "/auth/register"
+          beforeRequest: "generateUniqueUserData"
+          json:
+            username: "{{ username }}"
+            displayName: "{{ displayName }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+            confirmPassword: "{{ password }}"
+          capture:
+            json: "$.data.tokens.accessToken"
+            as: "accessToken"
+      
+      # Test WebSocket connection performance
+      - function: "testWebSocketConnection"
+      
+      # Simulate real-time messaging
+      - function: "performRealtimeMessaging"
+      
+      # Clean up connection
+      - function: "cleanupWebSocketConnection"
+
+  - name: "Database Stress Test"
+    weight: 8
+    flow:
+      # Multiple concurrent read operations
+      - loop:
+          count: 5
+          over:
+            - get:
+                url: "/posts?limit=50&page={{ $randomInt(1, 20) }}"
+                name: "Concurrent Posts Fetch"
+                expect:
+                  - statusCode: 200
+                  - maxResponseTime: 1500
+                  
+            - get:
+                url: "/health/detailed"
+                name: "Detailed Health Check"
+                expect:
+                  - statusCode: 200
+                  - maxResponseTime: 2000
+                  - hasProperty: "data.database"
+
+  - name: "File Upload Performance"
+    weight: 7
+    flow:
+      # Authenticate
+      - post:
+          url: "/auth/register"
+          beforeRequest: "generateUniqueUserData"
+          json:
+            username: "{{ username }}"
+            displayName: "{{ displayName }}"
+            email: "{{ email }}"
+            password: "{{ password }}"
+            confirmPassword: "{{ password }}"
+          capture:
+            json: "$.data.tokens.accessToken"
+            as: "accessToken"
+      
+      # Test small file upload
+      - post:
+          url: "/uploads/image"
+          name: "Small Image Upload"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          beforeRequest: "generateSmallImageFile"
+          formData:
+            file:
+              data: "{{ smallImageData }}"
+              filename: "{{ fileName }}"
+              contentType: "image/jpeg"
+          expect:
+            - statusCode: [200, 413]
+            - maxResponseTime: 3000
+      
+      - think: 1
+      
+      # Test medium file upload
+      - post:
+          url: "/uploads/image"
+          name: "Medium Image Upload"
+          headers:
+            Authorization: "Bearer {{ accessToken }}"
+          beforeRequest: "generateMediumImageFile"
+          formData:
+            file:
+              data: "{{ mediumImageData }}"
+              filename: "{{ fileName }}"
+              contentType: "image/jpeg"
+          expect:
+            - statusCode: [200, 413]
+            - maxResponseTime: 8000
+
+# Performance monitoring configuration
+monitoring:
+  # CPU and memory tracking
+  systemMetrics:
+    enabled: true
+    interval: 5000
+    
+  # Custom performance counters
+  customMetrics:
+    - name: "auth_operations_per_second"
+      description: "Authentication operations per second"
+    - name: "database_query_time"
+      description: "Average database query response time"
+    - name: "websocket_connections"
+      description: "Active WebSocket connections"
+    - name: "memory_usage_mb"
+      description: "Memory usage in megabytes"
+    - name: "cpu_usage_percent"
+      description: "CPU usage percentage"
+
+# Performance assertions
+assertions:
+  # Response time assertions
+  - name: "API response times within limits"
+    condition: "{{ stats.response_time.p95 }} < 1000"
+    
+  - name: "Authentication performance acceptable"
+    condition: "{{ stats.response_time.mean }} < 500"
+    
+  # Throughput assertions
+  - name: "Minimum requests per second achieved"
+    condition: "{{ stats.rps }} > 100"
+    
+  # Error rate assertions
+  - name: "Error rate within acceptable limits"
+    condition: "{{ stats.error_rate }} < 0.5"
+    
+  # Resource utilization assertions
+  - name: "Memory usage reasonable"
+    condition: "{{ customMetrics.memory_usage_mb }} < 2048"
+    
+  - name: "CPU usage sustainable"
+    condition: "{{ customMetrics.cpu_usage_percent }} < 80"
+
+# Reporting configuration
+reporting:
+  formats: ["json", "html", "csv"]
+  includeRawData: true
+  
+  sections:
+    - summary
+    - performance_metrics
+    - error_analysis
+    - resource_utilization
+    - recommendations
+  
+  thresholds:
+    response_time_warning: 800
+    response_time_critical: 2000
+    error_rate_warning: 0.1
+    error_rate_critical: 1.0
+    
+  alerts:
+    - condition: "error_rate > 1.0"
+      message: "CRITICAL: Error rate exceeded 1%"
+      severity: "critical"
+    - condition: "p95_response_time > 2000"
+      message: "WARNING: 95th percentile response time exceeded 2 seconds"
+      severity: "warning"

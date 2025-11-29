@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`DataPrivacyPage Snapshot Testing matches snapshot 1`] = `
+<div>
+  <div
+    aria-label="Data privacy page"
+    class="min-h-screen bg-[#0A0A0B] p-6"
+    role="main"
+  >
+    <div
+      class="max-w-6xl mx-auto"
+    >
+      <div
+        animate="[object Object]"
+        class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+        initial="[object Object]"
+      >
+        <h1
+          class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+        >
+          DataPrivacyPage
+        </h1>
+        <p
+          class="text-gray-600 dark:text-gray-400"
+        >
+          This is the DataPrivacyPage page. Content will be implemented here.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DataPrivacyPage Snapshot Testing matches snapshot in dark mode context 1`] = `
+<div>
+  <div
+    aria-label="Data privacy page"
+    class="min-h-screen bg-[#0A0A0B] p-6 dark"
+    role="main"
+  >
+    <div
+      class="max-w-6xl mx-auto"
+    >
+      <div
+        animate="[object Object]"
+        class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+        initial="[object Object]"
+      >
+        <h1
+          class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+        >
+          DataPrivacyPage
+        </h1>
+        <p
+          class="text-gray-600 dark:text-gray-400"
+        >
+          This is the DataPrivacyPage page. Content will be implemented here.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DataPrivacyPage Snapshot Testing matches snapshot on desktop viewport 1`] = `
+<div>
+  <div
+    aria-label="Data privacy page"
+    class="min-h-screen bg-[#0A0A0B] p-6"
+    role="main"
+  >
+    <div
+      class="max-w-6xl mx-auto"
+    >
+      <div
+        animate="[object Object]"
+        class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+        initial="[object Object]"
+      >
+        <h1
+          class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+        >
+          DataPrivacyPage
+        </h1>
+        <p
+          class="text-gray-600 dark:text-gray-400"
+        >
+          This is the DataPrivacyPage page. Content will be implemented here.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DataPrivacyPage Snapshot Testing matches snapshot on mobile viewport 1`] = `
+<div>
+  <div
+    aria-label="Data privacy page"
+    class="min-h-screen bg-[#0A0A0B] p-6"
+    role="main"
+  >
+    <div
+      class="max-w-6xl mx-auto"
+    >
+      <div
+        animate="[object Object]"
+        class="bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-xl"
+        initial="[object Object]"
+      >
+        <h1
+          class="text-3xl font-bold mb-6 text-gray-900 dark:text-white"
+        >
+          DataPrivacyPage
+        </h1>
+        <p
+          class="text-gray-600 dark:text-gray-400"
+        >
+          This is the DataPrivacyPage page. Content will be implemented here.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

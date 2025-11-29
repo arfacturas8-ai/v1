@@ -1,0 +1,9 @@
+{
+  "backup_date": "2025-09-21 20:28:21 UTC",
+  "backup_file": "full_backup_20250921_202820.sql.gz",
+  "backup_dump_file": "full_backup_20250921_202820.sql.dump.gz",
+  "backup_size_sql": "84K",
+  "backup_size_dump": "100K",
+  "database_name": "cryb",
+  "container_name": "cryb-postgres-optimized"
+}

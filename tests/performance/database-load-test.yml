@@ -1,0 +1,351 @@
+# Database-intensive load testing
+config:
+  target: 'http://localhost:3000'
+  phases:
+    # Database warm-up
+    - duration: 30
+      arrivalRate: 2
+      name: "Database warm-up"
+    # Read-heavy load
+    - duration: 120
+      arrivalRate: 15
+      name: "Read-heavy operations"
+    # Write-heavy load
+    - duration: 120
+      arrivalRate: 8
+      name: "Write-heavy operations"
+    # Mixed operations
+    - duration: 180
+      arrivalRate: 20
+      name: "Mixed read/write operations"
+    # Database stress test
+    - duration: 60
+      arrivalRate: 35
+      name: "Database stress test"
+  
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+  
+  variables:
+    testUsers:
+      - email: "testuser1@example.com"
+        password: "TestPassword123!"
+      - email: "testuser2@example.com"
+        password: "TestPassword123!"
+      - email: "admin@example.com"
+        password: "AdminPassword123!"
+    
+    searchTerms:
+      - "javascript"
+      - "react"
+      - "nodejs"
+      - "database"
+      - "performance"
+      - "testing"
+      - "programming"
+      - "technology"
+    
+    communityTypes:
+      - "technology"
+      - "gaming"
+      - "music"
+      - "sports"
+      - "science"
+      - "art"
+
+  plugins:
+    expect: {}
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+
+  ensure:
+    # Database performance thresholds
+    http.response_time:
+      p95: 3000  # 95% of DB operations within 3 seconds
+      p99: 8000  # 99% within 8 seconds
+    
+    http.request_rate: 25  # Should handle 25 database operations per second
+    
+    errors:
+      ratio: 0.02  # Less than 2% error rate for DB operations
+
+scenarios:
+  # Read-heavy operations
+  - name: "Database Read Operations"
+    weight: 40
+    flow:
+      # Authenticate
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Complex feed queries
+      - get:
+          url: "/api/posts"
+          name: "Complex Feed Query"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            page: "{{ $randomInt(1, 10) }}"
+            limit: 50
+            sort: "{{ $randomItem(['hot', 'new', 'top']) }}"
+            timeRange: "{{ $randomItem(['hour', 'day', 'week', 'month']) }}"
+            category: "{{ $randomItem(communityTypes) }}"
+          expect:
+            - statusCode: 200
+      
+      # Search with complex queries
+      - get:
+          url: "/api/search"
+          name: "Complex Search Query"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            q: "{{ $randomItem(searchTerms) }}"
+            type: "all"
+            sort: "relevance"
+            timeRange: "week"
+            includeComments: "true"
+          expect:
+            - statusCode: 200
+      
+      # User profile with relationships
+      - get:
+          url: "/api/users/me"
+          name: "User Profile with Relations"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            include: "posts,comments,communities,followers"
+          expect:
+            - statusCode: 200
+      
+      # Community details with statistics
+      - get:
+          url: "/api/communities"
+          name: "Communities with Stats"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            include: "stats,moderators,rules"
+            sort: "members"
+            limit: 20
+          expect:
+            - statusCode: 200
+      
+      # Analytics queries (admin only)
+      - get:
+          url: "/api/analytics/platform-stats"
+          name: "Platform Analytics"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            period: "{{ $randomItem(['day', 'week', 'month']) }}"
+            metrics: "users,posts,comments,votes"
+          expect:
+            - statusCode: [200, 403]
+
+  # Write-heavy operations
+  - name: "Database Write Operations"
+    weight: 30
+    flow:
+      # Authenticate
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+            - json: "$.user.id"
+              as: "userId"
+      
+      # Create posts with complex data
+      - post:
+          url: "/api/posts"
+          name: "Create Complex Post"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            title: "Load Test Post {{ $timestamp() }}"
+            content: "This is a comprehensive load test post with multiple paragraphs of content to test database write performance. {{ $randomString() }}"
+            communityId: "general"
+            tags: ["load-test", "performance", "database", "{{ $randomItem(searchTerms) }}"]
+            metadata:
+              source: "load-test"
+              timestamp: "{{ $timestamp() }}"
+          capture:
+            - json: "$.id"
+              as: "postId"
+          expect:
+            - statusCode: 201
+      
+      # Batch comment creation
+      - loop:
+          count: "{{ $randomInt(2, 5) }}"
+          over:
+            - post:
+                url: "/api/posts/{{ postId }}/comments"
+                name: "Create Comment"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  content: "Load test comment {{ $randomString() }}"
+                  parentId: null
+                expect:
+                  - statusCode: [201, 404]
+      
+      # Voting operations
+      - loop:
+          count: "{{ $randomInt(3, 8) }}"
+          over:
+            - post:
+                url: "/api/posts/{{ $randomString() }}/vote"
+                name: "Vote Operation"
+                headers:
+                  Authorization: "Bearer {{ authToken }}"
+                json:
+                  direction: "{{ $randomItem(['up', 'down']) }}"
+                expect:
+                  - statusCode: [200, 404, 409]
+      
+      # User activity tracking
+      - post:
+          url: "/api/users/activity"
+          name: "Track User Activity"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            action: "{{ $randomItem(['view_post', 'view_community', 'search', 'vote']) }}"
+            entityId: "{{ $randomString() }}"
+            timestamp: "{{ $timestamp() }}"
+            metadata:
+              source: "load-test"
+          expect:
+            - statusCode: [201, 404]
+
+  # Transaction-heavy operations
+  - name: "Database Transaction Operations"
+    weight: 20
+    flow:
+      # Authenticate
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Community join/leave (involves multiple table updates)
+      - post:
+          url: "/api/communities/general/join"
+          name: "Join Community (Transaction)"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: [200, 409]
+      
+      - post:
+          url: "/api/communities/general/leave"
+          name: "Leave Community (Transaction)"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: [200, 404]
+      
+      # Award/karma system updates
+      - post:
+          url: "/api/posts/{{ $randomString() }}/award"
+          name: "Give Award (Transaction)"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            awardType: "silver"
+            message: "Great post!"
+          expect:
+            - statusCode: [200, 404, 400]
+      
+      # Notification batch operations
+      - post:
+          url: "/api/notifications/mark-read-batch"
+          name: "Batch Mark Notifications"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            notificationIds: ["{{ $randomString() }}", "{{ $randomString() }}"]
+          expect:
+            - statusCode: [200, 404]
+
+  # Aggregation and reporting queries
+  - name: "Database Aggregation Operations"
+    weight: 10
+    flow:
+      # Authenticate
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # User statistics aggregation
+      - get:
+          url: "/api/users/me/stats"
+          name: "User Stats Aggregation"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            period: "{{ $randomItem(['week', 'month', 'year']) }}"
+            include: "posts,comments,votes,karma"
+          expect:
+            - statusCode: 200
+      
+      # Community trending analysis
+      - get:
+          url: "/api/communities/trending"
+          name: "Community Trending Analysis"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            period: "{{ $randomItem(['day', 'week', 'month']) }}"
+            metric: "{{ $randomItem(['growth', 'activity', 'engagement']) }}"
+            limit: 10
+          expect:
+            - statusCode: 200
+      
+      # Content performance metrics
+      - get:
+          url: "/api/analytics/content-performance"
+          name: "Content Performance Metrics"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            contentType: "{{ $randomItem(['posts', 'comments', 'all']) }}"
+            timeRange: "week"
+            groupBy: "{{ $randomItem(['day', 'hour', 'community']) }}"
+          expect:
+            - statusCode: [200, 403]
+      
+      # Leaderboards and rankings
+      - get:
+          url: "/api/leaderboards"
+          name: "User Leaderboards"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            type: "{{ $randomItem(['karma', 'posts', 'comments']) }}"
+            period: "{{ $randomItem(['week', 'month', 'all']) }}"
+            limit: 100
+          expect:
+            - statusCode: 200

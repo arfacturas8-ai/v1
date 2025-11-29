@@ -1,0 +1,41 @@
+{
+  "app_name": "CRYB",
+  "bundle_identifier": "ai.cryb.app",
+  "version": "1.0.0",
+  "build_number": "202510022147",
+  "team_id": "NEEDS_CONFIGURATION",
+  "provisioning_profile": "NEEDS_CONFIGURATION",
+  "deployment_target": "14.0",
+  "supported_devices": ["iPhone", "iPad"],
+  "required_capabilities": [
+    "microphone",
+    "camera",
+    "push-notifications",
+    "background-modes"
+  ],
+  "background_modes": [
+    "audio",
+    "voip", 
+    "background-processing",
+    "background-fetch",
+    "fetch"
+  ],
+  "permissions": {
+    "NSCameraUsageDescription": "CRYB needs access to your camera to take photos and videos for sharing in chats and voice calls.",
+    "NSMicrophoneUsageDescription": "CRYB needs access to your microphone for voice messages and voice/video calls.",
+    "NSPhotoLibraryUsageDescription": "CRYB needs access to your photo library to share images and videos in chats.",
+    "NSLocationWhenInUseUsageDescription": "CRYB can optionally use your location to find nearby friends and servers.",
+    "NSFaceIDUsageDescription": "CRYB uses Face ID and Touch ID for secure authentication and to protect your account.",
+    "NSContactsUsageDescription": "CRYB can optionally access your contacts to help you find friends who are already using the app."
+  },
+  "app_transport_security": {
+    "allows_arbitrary_loads": false,
+    "allows_local_networking": true,
+    "exception_domains": {
+      "api.cryb.ai": {
+        "allows_insecure_http_loads": false,
+        "minimum_tls_version": "1.2"
+      }
+    }
+  }
+}

@@ -4,6 +4,7 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 import { NetworkService } from './NetworkService';
 import { CrashDetector } from '../utils/CrashDetector';
 
@@ -11,7 +12,14 @@ import Constants from 'expo-constants';
 
 // API Configuration from environment
 const config = Constants.expoConfig?.extra || {};
-const API_BASE_URL = config.apiUrl || (__DEV__ ? 'http://localhost:3002' : 'http://api.cryb.ai');
+// Use api.cryb.ai for production builds, localhost for development
+const getApiUrl = () => {
+  if (__DEV__) {
+    return Platform.OS === 'android' ? 'http://10.0.2.2:3002' : 'http://localhost:3002';
+  }
+  return config.apiUrl || 'https://api.cryb.ai/api/v1';
+};
+const API_BASE_URL = getApiUrl();
 const API_TIMEOUT = config.apiTimeout || 10000; // 10 seconds  
 const MAX_RETRIES = config.maxRetryAttempts || 3;
 
@@ -38,6 +46,11 @@ export interface User {
   isVerified: boolean;
   createdAt: string;
   role: 'user' | 'admin' | 'moderator';
+  settings?: {
+    biometricEnabled: boolean;
+    pushNotifications: boolean;
+    theme: 'light' | 'dark' | 'auto';
+  };
 }
 
 export interface RegisterData {
@@ -136,6 +149,131 @@ export interface Permission {
   id: string;
   name: string;
   description: string;
+}
+
+export interface SearchResult {
+  type: 'post' | 'message' | 'user' | 'community' | 'server';
+  id: string;
+  title?: string;
+  content?: string;
+  username?: string;
+  displayName?: string;
+  name?: string;
+  description?: string;
+  avatar?: string;
+  icon?: string;
+  createdAt?: string;
+  score?: number;
+  highlights?: string[];
+  user?: {
+    id: string;
+    username: string;
+    displayName: string;
+    avatar?: string;
+  };
+  community?: {
+    id: string;
+    name: string;
+    displayName: string;
+    icon?: string;
+  };
+  channel?: {
+    id: string;
+    name: string;
+    serverId: string;
+  };
+}
+
+export interface ApiSearchResponse {
+  users?: {
+    items: Array<{
+      id: string;
+      username: string;
+      displayName: string;
+      avatar?: string;
+      isVerified: boolean;
+    }>;
+    total: number;
+    source: string;
+  };
+  servers?: {
+    items: Array<{
+      id: string;
+      name: string;
+      description?: string;
+      icon?: string;
+      member_count?: number;
+    }>;
+    total: number;
+    source: string;
+  };
+  communities?: {
+    items: Array<{
+      id: string;
+      name: string;
+      displayName: string;
+      description?: string;
+      icon?: string;
+      memberCount: number;
+    }>;
+    total: number;
+    source: string;
+  };
+  posts?: {
+    items: Array<{
+      id: string;
+      title: string;
+      content: string;
+      url?: string;
+      thumbnail?: string;
+      score: number;
+      viewCount: number;
+      commentCount: number;
+      createdAt: string;
+      editedAt?: string;
+      user: {
+        id: string;
+        username: string;
+        displayName: string;
+        avatar?: string;
+      };
+      community: {
+        id: string;
+        name: string;
+        displayName: string;
+      };
+    }>;
+    total: number;
+    source: string;
+  };
+  messages?: {
+    items: Array<{
+      id: string;
+      content: string;
+      createdAt: string;
+      editedTimestamp?: string;
+      user: {
+        id: string;
+        username: string;
+        displayName: string;
+        avatar?: string;
+      };
+      channel: {
+        id: string;
+        name: string;
+        serverId: string;
+      };
+    }>;
+    total: number;
+    source: string;
+  };
+}
+
+export interface SearchResponse {
+  results: SearchResult[];
+  totalCount: number;
+  hasMore: boolean;
+  query: string;
 }
 
 class ApiService {
@@ -411,6 +549,22 @@ class ApiService {
     return response;
   }
 
+  async forgotPassword(email: string): Promise<ApiResponse> {
+    return this.makeRequest('/api/v1/auth/forgot-password', {
+      method: 'POST',
+      body: JSON.stringify({ email }),
+      skipAuth: true,
+    });
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<ApiResponse> {
+    return this.makeRequest('/api/v1/auth/reset-password', {
+      method: 'POST',
+      body: JSON.stringify({ token, password: newPassword }),
+      skipAuth: true,
+    });
+  }
+
   async logout(): Promise<ApiResponse> {
     const response = await this.makeRequest('/api/v1/auth/logout', {
       method: 'POST',
@@ -626,6 +780,224 @@ class ApiService {
       body: JSON.stringify(settings),
     });
   }
+
+  // Search methods
+  async search(query: string, filters?: {
+    type?: 'post' | 'message' | 'user' | 'community' | 'server';
+    limit?: number;
+    offset?: number;
+  }): Promise<ApiResponse<SearchResponse>> {
+    const params = new URLSearchParams({
+      q: query,
+      ...(filters?.type && { type: filters.type }),
+      ...(filters?.limit && { limit: filters.limit.toString() }),
+      ...(filters?.offset && { offset: filters.offset.toString() }),
+    });
+
+    const response = await this.makeRequest<{ data: ApiSearchResponse; query: string }>(`/api/v1/search?${params}`);
+    
+    if (!response.success || !response.data) {
+      return response as ApiResponse<SearchResponse>;
+    }
+
+    // Transform the API response into our SearchResponse format
+    const apiData = response.data.data;
+    const results: SearchResult[] = [];
+    let totalCount = 0;
+
+    // Add users
+    if (apiData.users?.items) {
+      apiData.users.items.forEach(user => {
+        results.push({
+          type: 'user',
+          id: user.id,
+          username: user.username,
+          displayName: user.displayName,
+          avatar: user.avatar,
+          content: user.displayName, // For bio/description if available
+        });
+      });
+      totalCount += apiData.users.total;
+    }
+
+    // Add servers
+    if (apiData.servers?.items) {
+      apiData.servers.items.forEach(server => {
+        results.push({
+          type: 'server',
+          id: server.id,
+          name: server.name,
+          title: server.name,
+          description: server.description,
+          icon: server.icon,
+          content: server.description,
+        });
+      });
+      totalCount += apiData.servers.total;
+    }
+
+    // Add communities
+    if (apiData.communities?.items) {
+      apiData.communities.items.forEach(community => {
+        results.push({
+          type: 'community',
+          id: community.id,
+          name: community.name,
+          displayName: community.displayName,
+          title: community.displayName,
+          description: community.description,
+          icon: community.icon,
+          content: community.description,
+          community: {
+            id: community.id,
+            name: community.name,
+            displayName: community.displayName,
+            icon: community.icon,
+          },
+        });
+      });
+      totalCount += apiData.communities.total;
+    }
+
+    // Add posts
+    if (apiData.posts?.items) {
+      apiData.posts.items.forEach(post => {
+        results.push({
+          type: 'post',
+          id: post.id,
+          title: post.title,
+          content: post.content,
+          createdAt: post.createdAt,
+          score: post.score,
+          user: {
+            id: post.user.id,
+            username: post.user.username,
+            displayName: post.user.displayName,
+            avatar: post.user.avatar,
+          },
+          community: {
+            id: post.community.id,
+            name: post.community.name,
+            displayName: post.community.displayName,
+          },
+        });
+      });
+      totalCount += apiData.posts.total;
+    }
+
+    // Add messages
+    if (apiData.messages?.items) {
+      apiData.messages.items.forEach(message => {
+        results.push({
+          type: 'message',
+          id: message.id,
+          content: message.content,
+          createdAt: message.createdAt,
+          user: {
+            id: message.user.id,
+            username: message.user.username,
+            displayName: message.user.displayName,
+            avatar: message.user.avatar,
+          },
+          channel: {
+            id: message.channel.id,
+            name: message.channel.name,
+            serverId: message.channel.serverId,
+          },
+        });
+      });
+      totalCount += apiData.messages.total;
+    }
+
+    const transformedResponse: SearchResponse = {
+      results,
+      totalCount,
+      hasMore: false, // We'll implement pagination later
+      query: response.data.query,
+    };
+
+    return {
+      success: true,
+      data: transformedResponse,
+      message: response.message,
+    };
+  }
+
+  async searchPosts(query: string, limit = 20, offset = 0): Promise<ApiResponse<SearchResult[]>> {
+    return this.search(query, { type: 'post', limit, offset }).then(response => ({
+      ...response,
+      data: response.data?.results || [],
+    }));
+  }
+
+  async searchUsers(query: string, limit = 20, offset = 0): Promise<ApiResponse<SearchResult[]>> {
+    return this.search(query, { type: 'user', limit, offset }).then(response => ({
+      ...response,
+      data: response.data?.results || [],
+    }));
+  }
+
+  async searchCommunities(query: string, limit = 20, offset = 0): Promise<ApiResponse<SearchResult[]>> {
+    return this.search(query, { type: 'community', limit, offset }).then(response => ({
+      ...response,
+      data: response.data?.results || [],
+    }));
+  }
+
+  // Voice channel methods
+  voice = {
+    getChannel: async (channelId: string): Promise<any> => {
+      const response = await this.request('/voice/channel/' + channelId, {
+        method: 'GET',
+      });
+      return response.data;
+    },
+
+    getParticipants: async (channelId: string): Promise<any[]> => {
+      const response = await this.request('/voice/channel/' + channelId + '/participants', {
+        method: 'GET',
+      });
+      return response.data || [];
+    },
+
+    joinChannel: async (channelId: string, userData: { userId?: string; username?: string }): Promise<any> => {
+      const response = await this.request('/voice/join', {
+        method: 'POST',
+        body: JSON.stringify({
+          channelId,
+          ...userData,
+        }),
+      });
+      return response.data;
+    },
+
+    leaveChannel: async (channelId: string): Promise<any> => {
+      const response = await this.request('/voice/leave', {
+        method: 'POST',
+        body: JSON.stringify({ channelId }),
+      });
+      return response.data;
+    },
+
+    updateVoiceState: async (channelId: string, state: { isMuted?: boolean; isDeafened?: boolean }): Promise<any> => {
+      const response = await this.request('/voice/state', {
+        method: 'PUT',
+        body: JSON.stringify({
+          channelId,
+          ...state,
+        }),
+      });
+      return response.data;
+    },
+
+    getAccessToken: async (channelId: string): Promise<string> => {
+      const response = await this.request('/voice/token', {
+        method: 'POST',
+        body: JSON.stringify({ channelId }),
+      });
+      return response.data.token;
+    },
+  };
 }
 
-export const ApiService = ApiService.getInstance();
+export const apiService = ApiService.getInstance();

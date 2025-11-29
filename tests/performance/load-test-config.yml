@@ -1,0 +1,324 @@
+# Main load testing configuration for CRYB platform
+config:
+  target: 'http://localhost:3000'
+  phases:
+    # Warm-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm-up"
+    # Load testing phase
+    - duration: 300
+      arrivalRate: 20
+      name: "Load testing"
+    # Stress testing phase
+    - duration: 180
+      arrivalRate: 50
+      name: "Stress testing"
+    # Spike testing phase
+    - duration: 60
+      arrivalRate: 100
+      name: "Spike testing"
+    # Recovery phase
+    - duration: 120
+      arrivalRate: 10
+      name: "Recovery"
+  
+  defaults:
+    headers:
+      'Content-Type': 'application/json'
+      'User-Agent': 'Artillery Load Test'
+  
+  variables:
+    # Test user credentials
+    testUsers:
+      - email: "testuser1@example.com"
+        password: "TestPassword123!"
+        username: "testuser1"
+      - email: "testuser2@example.com"
+        password: "TestPassword123!"
+        username: "testuser2"
+      - email: "admin@example.com"
+        password: "AdminPassword123!"
+        username: "admin"
+    
+    # Sample content for testing
+    samplePosts:
+      - title: "Performance Test Post 1"
+        content: "This is a test post for load testing purposes."
+        communityId: "general"
+      - title: "Load Testing Discussion"
+        content: "Testing the platform's ability to handle multiple concurrent users."
+        communityId: "general"
+      - title: "Stress Test Content"
+        content: "Verifying system behavior under high load conditions."
+        communityId: "technology"
+    
+    sampleComments:
+      - "Great post! Thanks for sharing."
+      - "I agree with this perspective."
+      - "Interesting discussion topic."
+      - "Could you elaborate more on this?"
+      - "Thanks for the detailed explanation."
+
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+    
+    expect:
+      outputFormat: 'pretty'
+    
+  ensure:
+    # Performance thresholds
+    http.response_time:
+      p95: 2000  # 95% of requests should respond within 2 seconds
+      p99: 5000  # 99% of requests should respond within 5 seconds
+    
+    http.request_rate: 45  # Should handle at least 45 requests per second
+    
+    vusers.failed: 0  # No failed virtual users
+    
+    errors:
+      ratio: 0.05  # Error rate should be less than 5%
+
+scenarios:
+  # Authentication flow testing
+  - name: "User Authentication Flow"
+    weight: 20
+    flow:
+      - post:
+          url: "/api/auth/login"
+          name: "User Login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+            - json: "$.user.id"
+              as: "userId"
+          expect:
+            - statusCode: 200
+            - hasProperty: "token"
+      
+      - get:
+          url: "/api/users/me"
+          name: "Get User Profile"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "username"
+      
+      - post:
+          url: "/api/auth/logout"
+          name: "User Logout"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+
+  # Content browsing flow
+  - name: "Content Browsing Flow"
+    weight: 40
+    flow:
+      # Login first
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Browse feed
+      - get:
+          url: "/api/posts"
+          name: "Get Feed"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            page: "{{ $randomInt(1, 5) }}"
+            limit: 20
+            sort: "{{ $randomItem(['hot', 'new', 'top']) }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "posts"
+      
+      # Get random post
+      - get:
+          url: "/api/posts/{{ $randomString() }}"
+          name: "Get Single Post"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: [200, 404]  # 404 is acceptable for random IDs
+      
+      # Browse communities
+      - get:
+          url: "/api/communities"
+          name: "Get Communities"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            limit: 10
+          expect:
+            - statusCode: 200
+            - hasProperty: "communities"
+      
+      # Search content
+      - get:
+          url: "/api/search"
+          name: "Search Content"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            q: "{{ $randomItem(['test', 'discussion', 'help', 'technology']) }}"
+            type: "{{ $randomItem(['posts', 'communities', 'users', 'all']) }}"
+          expect:
+            - statusCode: 200
+
+  # Content creation flow
+  - name: "Content Creation Flow"
+    weight: 25
+    flow:
+      # Login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+            - json: "$.user.id"
+              as: "userId"
+      
+      # Create post
+      - post:
+          url: "/api/posts"
+          name: "Create Post"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            title: "{{ $randomItem(samplePosts).title }} {{ $timestamp() }}"
+            content: "{{ $randomItem(samplePosts).content }}"
+            communityId: "{{ $randomItem(samplePosts).communityId }}"
+            tags: ["test", "load-testing"]
+          capture:
+            - json: "$.id"
+              as: "postId"
+          expect:
+            - statusCode: 201
+            - hasProperty: "id"
+      
+      # Vote on posts (random existing posts)
+      - post:
+          url: "/api/posts/{{ postId }}/vote"
+          name: "Vote on Post"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            direction: "{{ $randomItem(['up', 'down']) }}"
+          expect:
+            - statusCode: [200, 404]
+      
+      # Add comment
+      - post:
+          url: "/api/posts/{{ postId }}/comments"
+          name: "Add Comment"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            content: "{{ $randomItem(sampleComments) }}"
+          expect:
+            - statusCode: [201, 404]
+
+  # Real-time features testing
+  - name: "Real-time Features Flow"
+    weight: 10
+    flow:
+      # Login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ $randomItem(testUsers).email }}"
+            password: "{{ $randomItem(testUsers).password }}"
+          capture:
+            - json: "$.token"
+              as: "authToken"
+      
+      # Get notifications
+      - get:
+          url: "/api/notifications"
+          name: "Get Notifications"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            - statusCode: 200
+            - hasProperty: "notifications"
+      
+      # Get messages
+      - get:
+          url: "/api/channels/general/messages"
+          name: "Get Channel Messages"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          qs:
+            limit: 50
+          expect:
+            - statusCode: 200
+            - hasProperty: "messages"
+      
+      # Send message
+      - post:
+          url: "/api/channels/general/messages"
+          name: "Send Message"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            content: "Load test message {{ $timestamp() }}"
+            type: "text"
+          expect:
+            - statusCode: 201
+
+  # Admin operations flow
+  - name: "Admin Operations Flow"
+    weight: 5
+    flow:
+      # Admin login
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "admin@example.com"
+            password: "AdminPassword123!"
+          capture:
+            - json: "$.token"
+              as: "adminToken"
+      
+      # Get platform stats
+      - get:
+          url: "/api/admin/stats"
+          name: "Get Platform Stats"
+          headers:
+            Authorization: "Bearer {{ adminToken }}"
+          expect:
+            - statusCode: [200, 403]  # 403 if admin features not implemented
+      
+      # Get user reports
+      - get:
+          url: "/api/admin/reports"
+          name: "Get User Reports"
+          headers:
+            Authorization: "Bearer {{ adminToken }}"
+          expect:
+            - statusCode: [200, 403]
+      
+      # Moderate content
+      - get:
+          url: "/api/admin/moderation/queue"
+          name: "Get Moderation Queue"
+          headers:
+            Authorization: "Bearer {{ adminToken }}"
+          expect:
+            - statusCode: [200, 403]

@@ -1,0 +1,130 @@
+{
+  "timestamp": "2025-09-24T05:05:03.117Z",
+  "platform": {
+    "api": "http://localhost:3002",
+    "web": "http://localhost:3001"
+  },
+  "configuration": {
+    "concurrentUsers": 10,
+    "testDuration": 30000,
+    "timeout": 5000
+  },
+  "tests": {
+    "basicResponseTimes": {
+      "results": {
+        "http://localhost:3002/health": {
+          "success": true,
+          "responseTime": 64.60909900000001,
+          "statusCode": 200,
+          "description": "Basic test"
+        },
+        "http://localhost:3001": {
+          "success": true,
+          "responseTime": 9.464900999999998,
+          "statusCode": 200,
+          "description": "Basic test"
+        },
+        "http://localhost:3002/documentation": {
+          "success": true,
+          "responseTime": 6.358116999999993,
+          "statusCode": 200,
+          "description": "Basic test"
+        }
+      },
+      "percentiles": {
+        "p50": 9,
+        "p75": 65,
+        "p90": 65,
+        "p95": 65,
+        "p99": 65,
+        "min": 6.358116999999993,
+        "max": 64.60909900000001
+      }
+    },
+    "loadTest": {
+      "duration": 10,
+      "concurrentUsers": 10,
+      "successfulWorkers": 10,
+      "failedWorkers": 0,
+      "totalRequests": 743,
+      "successfulRequests": 99,
+      "failedRequests": 644,
+      "averageResponseTime": 35,
+      "throughput": 74.30000000000001
+    },
+    "stressTest": [
+      {
+        "concurrentUsers": 1,
+        "totalRequests": 29,
+        "successfulRequests": 0,
+        "failedRequests": 29,
+        "averageResponseTime": 5,
+        "throughput": 9.666666666666668,
+        "errorRate": 100
+      },
+      {
+        "concurrentUsers": 3,
+        "totalRequests": 87,
+        "successfulRequests": 0,
+        "failedRequests": 87,
+        "averageResponseTime": 5,
+        "throughput": 29,
+        "errorRate": 100
+      },
+      {
+        "concurrentUsers": 5,
+        "totalRequests": 142,
+        "successfulRequests": 0,
+        "failedRequests": 142,
+        "averageResponseTime": 7,
+        "throughput": 47.33333333333333,
+        "errorRate": 100
+      },
+      {
+        "concurrentUsers": 7,
+        "totalRequests": 198,
+        "successfulRequests": 0,
+        "failedRequests": 198,
+        "averageResponseTime": 7,
+        "throughput": 66,
+        "errorRate": 100
+      },
+      {
+        "concurrentUsers": 9,
+        "totalRequests": 254,
+        "successfulRequests": 0,
+        "failedRequests": 254,
+        "averageResponseTime": 7,
+        "throughput": 84.66666666666667,
+        "errorRate": 100
+      }
+    ],
+    "resourceUsage": {
+      "duration": 1059,
+      "initialMemory": {
+        "rss": 115765248,
+        "heapTotal": 55828480,
+        "heapUsed": 14160968,
+        "external": 3401761,
+        "arrayBuffers": 114474
+      },
+      "finalMemory": {
+        "rss": 116097024,
+        "heapTotal": 56090624,
+        "heapUsed": 19895424,
+        "external": 3469941,
+        "arrayBuffers": 182614
+      },
+      "memoryIncrease": {
+        "rss": 331776,
+        "heapUsed": 5734456,
+        "heapTotal": 262144,
+        "external": 68180
+      }
+    },
+    "databasePerformance": {
+      "skipped": true,
+      "reason": "No access token provided"
+    }
+  }
+}

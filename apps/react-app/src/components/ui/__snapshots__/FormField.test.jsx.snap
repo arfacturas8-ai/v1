@@ -1,0 +1,331 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`FormField Snapshot Tests matches snapshot for default text input 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <input
+      aria-invalid="false"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary border-border focus:ring-primary/20 focus:border-primary"
+      id="test-field"
+      name="testField"
+      type="text"
+      value=""
+    />
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    />
+  </div>
+</div>
+`;
+
+exports[`FormField Snapshot Tests matches snapshot for password input 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <input
+      aria-invalid="false"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary pr-11 border-border focus:ring-primary/20 focus:border-primary"
+      id="test-field"
+      name="testField"
+      type="password"
+      value=""
+    />
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    >
+      <button
+        aria-label="Show password"
+        class="p-1 text-text-tertiary hover:text-text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded"
+        tabindex="-1"
+        type="button"
+      >
+        <div
+          data-testid="eye-icon"
+        >
+          Eye
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`FormField Snapshot Tests matches snapshot for select 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <select
+      aria-invalid="false"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary border-border focus:ring-primary/20 focus:border-primary"
+      id="test-field"
+      name="testField"
+    >
+      <option
+        value="1"
+      >
+        Option 1
+      </option>
+      <option
+        value="2"
+      >
+        Option 2
+      </option>
+    </select>
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    />
+  </div>
+</div>
+`;
+
+exports[`FormField Snapshot Tests matches snapshot for textarea 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <textarea
+      aria-invalid="false"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary border-border focus:ring-primary/20 focus:border-primary resize-none"
+      id="test-field"
+      name="testField"
+      rows="3"
+    />
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    />
+  </div>
+</div>
+`;
+
+exports[`FormField Snapshot Tests matches snapshot in disabled state 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <input
+      aria-invalid="false"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary border-border focus:ring-primary/20 focus:border-primary"
+      disabled=""
+      id="test-field"
+      name="testField"
+      type="text"
+      value="disabled"
+    />
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    />
+  </div>
+</div>
+`;
+
+exports[`FormField Snapshot Tests matches snapshot with all features 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary after:content-['*'] after:ml-1 after:text-error"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <div
+      class="absolute left-3 top-1/2 transform -translate-y-1/2 text-text-tertiary"
+    >
+      <div
+        data-testid="search-icon"
+      >
+        Search
+      </div>
+    </div>
+    <input
+      aria-describedby="test-field-help"
+      aria-invalid="false"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary pl-11 pr-11 border-border focus:ring-primary/20 focus:border-primary"
+      id="test-field"
+      maxlength="100"
+      name="testField"
+      required=""
+      type="password"
+      value="test"
+    />
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    >
+      <button
+        aria-label="Show password"
+        class="p-1 text-text-tertiary hover:text-text-primary transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20 rounded"
+        tabindex="-1"
+        type="button"
+      >
+        <div
+          data-testid="eye-icon"
+        >
+          Eye
+        </div>
+      </button>
+    </div>
+  </div>
+  <div
+    class="text-xs text-right text-text-tertiary"
+  >
+    4
+     / 
+    100
+  </div>
+  <div
+    class="flex items-start gap-2 text-sm text-text-tertiary"
+    id="test-field-help"
+  >
+    <div
+      data-testid="info-icon"
+    >
+      Info
+    </div>
+    <span>
+      Help text
+    </span>
+  </div>
+</div>
+`;
+
+exports[`FormField Snapshot Tests matches snapshot with error 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <input
+      aria-describedby="test-field-error"
+      aria-invalid="true"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary pr-11 border-error focus:ring-error/20 focus:border-error"
+      id="test-field"
+      name="testField"
+      type="text"
+      value=""
+    />
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    >
+      <div
+        data-testid="alert-icon"
+      >
+        AlertCircle
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex items-start gap-2 text-sm text-error"
+    id="test-field-error"
+    role="alert"
+  >
+    <div
+      data-testid="alert-icon"
+    >
+      AlertCircle
+    </div>
+    <span>
+      Error message
+    </span>
+  </div>
+</div>
+`;
+
+exports[`FormField Snapshot Tests matches snapshot with success 1`] = `
+<div
+  class="space-y-2"
+>
+  <label
+    class="block text-sm font-medium text-text-primary"
+    for="test-field"
+  >
+    Test Field
+  </label>
+  <div
+    class="relative"
+  >
+    <input
+      aria-invalid="false"
+      class="w-full px-4 py-2.5 rounded-lg border transition-all duration-200 bg-bg-secondary text-text-primary placeholder:text-text-tertiary focus:outline-none focus:ring-2 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:bg-bg-tertiary pr-11 border-success focus:ring-success/20 focus:border-success"
+      id="test-field"
+      name="testField"
+      type="text"
+      value=""
+    />
+    <div
+      class="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1"
+    >
+      <div
+        data-testid="check-icon"
+      >
+        Check
+      </div>
+    </div>
+  </div>
+  <div
+    class="flex items-start gap-2 text-sm text-success"
+  >
+    <div
+      data-testid="check-icon"
+    >
+      Check
+    </div>
+    <span>
+      Success message
+    </span>
+  </div>
+</div>
+`;

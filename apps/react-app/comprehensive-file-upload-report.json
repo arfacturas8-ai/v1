@@ -1,0 +1,229 @@
+{
+  "timestamp": "2025-10-01T21:30:40.117Z",
+  "summary": {
+    "total": 18,
+    "passed": 2,
+    "failed": 16,
+    "warnings": 0,
+    "successRate": 11
+  },
+  "categories": {
+    "avatar": {
+      "passed": 0,
+      "failed": 3,
+      "warnings": 0,
+      "total": 3
+    },
+    "media": {
+      "passed": 0,
+      "failed": 2,
+      "warnings": 0,
+      "total": 2
+    },
+    "chat": {
+      "passed": 0,
+      "failed": 2,
+      "warnings": 0,
+      "total": 2
+    },
+    "minio": {
+      "passed": 1,
+      "failed": 2,
+      "warnings": 0,
+      "total": 3
+    },
+    "security": {
+      "passed": 1,
+      "failed": 4,
+      "warnings": 0,
+      "total": 5
+    },
+    "error-handling": {
+      "passed": 0,
+      "failed": 2,
+      "warnings": 0,
+      "total": 2
+    },
+    "performance": {
+      "passed": 0,
+      "failed": 1,
+      "warnings": 0,
+      "total": 1
+    }
+  },
+  "vulnerabilities": [
+    {
+      "test": "Executable File Rejection",
+      "severity": "high",
+      "description": "SECURITY ISSUE: Executable file was accepted (status 401)"
+    },
+    {
+      "test": "PHP Script Rejection",
+      "severity": "critical",
+      "description": "CRITICAL: PHP backdoor was accepted (status 401)"
+    },
+    {
+      "test": "JavaScript File Rejection",
+      "severity": "medium",
+      "description": "JavaScript file was accepted (status 401)"
+    },
+    {
+      "test": "Malicious SVG Rejection",
+      "severity": "medium",
+      "description": "SVG with script was accepted (status 401)"
+    }
+  ],
+  "performance": [
+    {
+      "test": "Upload Response Time",
+      "duration": 16,
+      "success": false
+    }
+  ],
+  "details": [
+    {
+      "test": "Valid JPEG Avatar Upload",
+      "category": "avatar",
+      "success": false,
+      "message": "Failed with status 401: {\"success\":false,\"error\":\"Authorization header missing\",\"code\":\"AUTH_HEADER_MISSING\",\"details\":{\"requestId\":\"7e6b3a18-09a7-4214-885a-ff13e74c1ad9\",\"processingTime\":0},\"timestamp\":\"2025-10-01T21:30:39.850Z\",\"path\":\"/api/v1/uploads/avatar\",\"method\":\"POST\",\"statusCode\":401}",
+      "duration": 16,
+      "timestamp": "2025-10-01T21:30:39.854Z"
+    },
+    {
+      "test": "Valid PNG Avatar Upload",
+      "category": "avatar",
+      "success": false,
+      "message": "Failed with status 401",
+      "duration": 16,
+      "timestamp": "2025-10-01T21:30:39.870Z"
+    },
+    {
+      "test": "Large Avatar Processing",
+      "category": "avatar",
+      "success": false,
+      "message": "Large image upload failed: status 401",
+      "duration": 15,
+      "timestamp": "2025-10-01T21:30:39.885Z"
+    },
+    {
+      "test": "Post Image Upload",
+      "category": "media",
+      "success": false,
+      "message": "Post image upload failed: status 401",
+      "duration": 15,
+      "timestamp": "2025-10-01T21:30:39.900Z"
+    },
+    {
+      "test": "Video Upload",
+      "category": "media",
+      "success": false,
+      "message": "Video upload failed: status 401",
+      "duration": 15,
+      "timestamp": "2025-10-01T21:30:39.915Z"
+    },
+    {
+      "test": "Chat Audio Upload",
+      "category": "chat",
+      "success": false,
+      "message": "Chat audio upload failed: status 401",
+      "duration": 15,
+      "timestamp": "2025-10-01T21:30:39.930Z"
+    },
+    {
+      "test": "Document Attachment Upload",
+      "category": "chat",
+      "success": false,
+      "message": "Document upload failed: status 401",
+      "duration": 15,
+      "timestamp": "2025-10-01T21:30:39.945Z"
+    },
+    {
+      "test": "MinIO Health Check",
+      "category": "minio",
+      "success": true,
+      "message": "MinIO is healthy and accessible",
+      "duration": 13,
+      "timestamp": "2025-10-01T21:30:39.958Z"
+    },
+    {
+      "test": "Storage Statistics",
+      "category": "minio",
+      "success": false,
+      "message": "Stats failed: Authorization header missing",
+      "duration": 13,
+      "timestamp": "2025-10-01T21:30:39.971Z"
+    },
+    {
+      "test": "File Listing",
+      "category": "minio",
+      "success": false,
+      "message": "Listing failed: Authorization header missing",
+      "duration": 12,
+      "timestamp": "2025-10-01T21:30:39.984Z"
+    },
+    {
+      "test": "Executable File Rejection",
+      "category": "security",
+      "success": false,
+      "message": "SECURITY ISSUE: Executable file was accepted (status 401)",
+      "duration": 13,
+      "timestamp": "2025-10-01T21:30:39.998Z"
+    },
+    {
+      "test": "PHP Script Rejection",
+      "category": "security",
+      "success": false,
+      "message": "CRITICAL: PHP backdoor was accepted (status 401)",
+      "duration": 16,
+      "timestamp": "2025-10-01T21:30:40.014Z"
+    },
+    {
+      "test": "JavaScript File Rejection",
+      "category": "security",
+      "success": false,
+      "message": "JavaScript file was accepted (status 401)",
+      "duration": 16,
+      "timestamp": "2025-10-01T21:30:40.030Z"
+    },
+    {
+      "test": "Malicious SVG Rejection",
+      "category": "security",
+      "success": false,
+      "message": "SVG with script was accepted (status 401)",
+      "duration": 16,
+      "timestamp": "2025-10-01T21:30:40.046Z"
+    },
+    {
+      "test": "Oversized File Rejection",
+      "category": "error-handling",
+      "success": false,
+      "message": "Oversized file was accepted (status 401)",
+      "duration": 20,
+      "timestamp": "2025-10-01T21:30:40.066Z"
+    },
+    {
+      "test": "Corrupted File Handling",
+      "category": "error-handling",
+      "success": false,
+      "message": "Unexpected response for corrupted file (status 401)",
+      "duration": 18,
+      "timestamp": "2025-10-01T21:30:40.084Z"
+    },
+    {
+      "test": "Unauthorized Upload Rejection",
+      "category": "security",
+      "success": true,
+      "message": "Unauthorized upload properly rejected",
+      "duration": 14,
+      "timestamp": "2025-10-01T21:30:40.098Z"
+    },
+    {
+      "test": "Upload Response Time",
+      "category": "performance",
+      "success": false,
+      "message": "Upload failed or took too long (16ms)",
+      "duration": 16,
+      "timestamp": "2025-10-01T21:30:40.115Z"
+    }
+  ]
+}

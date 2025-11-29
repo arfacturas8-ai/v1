@@ -54,7 +54,7 @@ Custom templates for alert notifications
 *Alert:* {{ .Annotations.summary }}
 *Service:* {{ .Labels.service }}{{ if .Labels.instance }} | *Instance:* {{ .Labels.instance }}{{ end }}
 *Started:* {{ .StartsAt.Format "15:04:05" }}
-*Severity:* {{ .Labels.severity | upper }}
+*Severity:* {{ .Labels.severity | toUpper }}
 
 {{ .Annotations.description }}
 

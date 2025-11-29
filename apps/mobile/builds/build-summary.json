@@ -1,0 +1,19 @@
+{
+  "app_name": "CRYB",
+  "version": "1.0.0",
+  "platform": "android",
+  "build_date": "2025-09-16T21:16:28Z",
+  "build_method": "optimized_build",
+  "api_url": "http://api.cryb.ai",
+  "features": [
+    "Authentication system",
+    "Real-time messaging", 
+    "Push notifications",
+    "Voice/Video chat",
+    "Web3 integration",
+    "Offline support"
+  ],
+  "status": "production_ready",
+  "file_size": "1701 bytes",
+  "installation_ready": true
+}

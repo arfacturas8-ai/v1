@@ -730,7 +730,7 @@ export function createRedisCacheService(redisUrl: string): RedisCacheService {
  * Fastify plugin for Redis cache service
  */
 export async function redisCachePlugin(fastify: FastifyInstance) {
-  const redisUrl = process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0';
+  const redisUrl = process.env.REDIS_URL || 'redis://localhost:6380/0';
   const cacheService = createRedisCacheService(redisUrl);
   
   fastify.decorate('cache', cacheService);

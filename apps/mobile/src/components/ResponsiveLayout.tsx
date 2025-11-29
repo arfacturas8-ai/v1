@@ -137,10 +137,10 @@ export const ResponsiveTwoColumn: React.FC<ResponsiveTwoColumnProps> = ({
 
   return (
     <View style={[styles.twoColumn, style]} testID={testID}>
-      <View style={[styles.leftColumn, { width: leftWidth }]}>
+      <View style={[styles.leftColumn, { width: leftWidth as any }]}>
         {leftContent}
       </View>
-      <View style={[styles.rightColumn, { width: rightWidth }]}>
+      <View style={[styles.rightColumn, { width: rightWidth as any }]}>
         {rightContent}
       </View>
     </View>

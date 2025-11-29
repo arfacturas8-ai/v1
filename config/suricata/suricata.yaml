@@ -1,0 +1,396 @@
+# CRYB Platform Suricata Configuration
+# Network intrusion detection and prevention
+
+%YAML 1.1
+---
+
+# Global stats configuration
+stats:
+  enabled: yes
+  interval: 8
+
+# Output plugins
+outputs:
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: /var/log/suricata/eve.json
+      pcap-file: false
+      community-id: false
+      types:
+        - alert:
+            payload: yes
+            payload-buffer-size: 4kb
+            payload-printable: yes
+            packet: yes
+            http-body: yes
+            http-body-printable: yes
+            metadata: yes
+        - http:
+            extended: yes
+        - dns:
+            version: 2
+        - tls:
+            extended: yes
+        - files:
+            force-magic: no
+        - smtp:
+        - ssh
+        - stats:
+            totals: yes
+            threads: no
+            deltas: no
+        - flow
+        - netflow
+
+  - alert-debug:
+      enabled: no
+      filename: /var/log/suricata/alert-debug.log
+      append: yes
+
+  - alert-prelude:
+      enabled: no
+      profile: suricata
+      log-packet-content: no
+      log-packet-header: yes
+
+  - stats:
+      enabled: yes
+      filename: /var/log/suricata/stats.log
+      append: yes
+      totals: yes
+      threads: no
+
+  - syslog:
+      enabled: no
+      facility: local5
+      format: "[%i] <%d> -- "
+      level: Info
+
+# Logging configuration
+logging:
+  default-log-level: notice
+  default-log-format: "[%i] %t - (%f:%l) <%d> (%n) -- "
+  default-output-filter:
+
+  outputs:
+    - console:
+        enabled: yes
+    - file:
+        enabled: yes
+        level: info
+        filename: /var/log/suricata/suricata.log
+    - syslog:
+        enabled: no
+        facility: local5
+        format: "%l"
+
+# Application layer parsers
+app-layer:
+  protocols:
+    http:
+      enabled: yes
+      libhtp:
+        default-config:
+          personality: IDS
+          request-body-limit: 100kb
+          response-body-limit: 100kb
+          request-body-minimal-inspect-size: 32kb
+          request-body-inspect-window: 4kb
+          response-body-minimal-inspect-size: 40kb
+          response-body-inspect-window: 16kb
+          response-body-decompress-layer-limit: 2
+          http-body-inline: auto
+          swf-decompression:
+            enabled: yes
+            type: both
+            compress-depth: 100kb
+            decompress-depth: 100kb
+          double-decode-path: no
+          double-decode-query: no
+
+    tls:
+      enabled: yes
+      detection-ports:
+        dp: 443
+
+    ftp:
+      enabled: yes
+
+    smtp:
+      enabled: yes
+      inspection-limit:
+        raw: 0
+        mime:
+          header-value-depth: 2000
+          header-name-depth: 500
+          body-md5: no
+          body-sha1: no
+          body-sha256: no
+
+    imap:
+      enabled: detection-only
+
+    ssh:
+      enabled: yes
+
+    dns:
+      tcp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+      udp:
+        enabled: yes
+        detection-ports:
+          dp: 53
+
+# Pattern matcher
+pattern-matcher:
+  - b2gc:
+      search-algo: B2gSearchBmBc
+      hash-size: low
+      bf-size: medium
+  - b2gm:
+      search-algo: B2gSearchBmBc
+      hash-size: low
+      bf-size: medium
+  - b2g:
+      search-algo: B2gSearchBmBc
+      hash-size: low
+      bf-size: medium
+  - wumanber:
+      hash-size: low
+      bf-size: medium
+
+# Defragmentation settings
+defrag:
+  memcap: 32mb
+  hash-size: 65536
+  trackers: 65535
+  max-frags: 65535
+  prealloc: yes
+  timeout: 60
+
+# Flow settings
+flow:
+  memcap: 128mb
+  hash-size: 65536
+  prealloc: 10000
+  emergency-recovery: 30
+  prune-flows: 5
+
+# Flow timeouts
+flow-timeouts:
+  default:
+    new: 30
+    established: 300
+    closed: 0
+    bypassed: 100
+    emergency-new: 10
+    emergency-established: 100
+    emergency-closed: 0
+    emergency-bypassed: 50
+  tcp:
+    new: 60
+    established: 600
+    closed: 60
+    bypassed: 100
+    emergency-new: 5
+    emergency-established: 100
+    emergency-closed: 10
+    emergency-bypassed: 50
+  udp:
+    new: 30
+    established: 300
+    bypassed: 100
+    emergency-new: 10
+    emergency-established: 100
+    emergency-bypassed: 50
+  icmp:
+    new: 30
+    established: 300
+    bypassed: 100
+    emergency-new: 10
+    emergency-established: 100
+    emergency-bypassed: 50
+
+# Stream engine settings
+stream:
+  memcap: 64mb
+  checksum-validation: yes
+  inline: auto
+  reassembly:
+    memcap: 256mb
+    depth: 1mb
+    toserver-chunk-size: 2560
+    toclient-chunk-size: 2560
+    randomize-chunk-size: yes
+
+# Host table
+host:
+  hash-size: 4096
+  prealloc: 1000
+  memcap: 32mb
+
+# IP Reputation
+reputation-categories-file: /etc/suricata/reputation/categories.txt
+default-reputation-path: /etc/suricata/reputation/
+reputation-files:
+  - reputation.list
+
+# Rule files
+default-rule-path: /var/lib/suricata/rules
+
+rule-files:
+  - suricata.rules
+  - cryb-custom.rules
+
+# Classification file
+classification-file: /etc/suricata/classification.config
+
+# Reference config
+reference-config-file: /etc/suricata/reference.config
+
+# Threshold file
+threshold-file: /etc/suricata/threshold.config
+
+# Detection engine
+detect:
+  profile: medium
+  custom-values:
+    toclient-groups: 3
+    toserver-groups: 25
+  sgh-mpm-context: auto
+  inspection-recursion-limit: 3000
+  prefilter:
+    default: mpm
+  grouping:
+  quirks:
+
+# Mpm algo
+mpm-algo: auto
+
+# SPM algo
+spm-algo: auto
+
+# Threading
+threading:
+  set-cpu-affinity: no
+  cpu-affinity:
+    - management-cpu-set:
+        cpu: [ 0 ]
+    - receive-cpu-set:
+        cpu: [ 0 ]
+    - worker-cpu-set:
+        cpu: [ "all" ]
+        mode: "exclusive"
+        prio:
+          low: [ 0 ]
+          medium: [ "1-2" ]
+          high: [ 3 ]
+          default: "medium"
+
+# Luajit settings
+luajit:
+  states: 128
+
+# Profiling
+profiling:
+  rules:
+    enabled: yes
+    filename: rule_perf.log
+    append: yes
+    sort: avgticks
+    limit: 10
+    json: yes
+
+  keywords:
+    enabled: yes
+    filename: keyword_perf.log
+    append: yes
+
+  prefilter:
+    enabled: yes
+    filename: prefilter_perf.log
+    append: yes
+
+  rulegroups:
+    enabled: yes
+    filename: rule_group_perf.log
+    append: yes
+
+  packets:
+    enabled: yes
+    filename: packet_stats.log
+    append: yes
+    csv:
+      enabled: no
+      filename: packet_stats.csv
+
+  locks:
+    enabled: no
+    filename: lock_stats.log
+    append: yes
+
+  pcap-log:
+    enabled: no
+    filename: pcaplog_stats.log
+    append: yes
+
+# Packet capture settings
+pcap:
+  - interface: any
+  - cluster-id: 99
+  - cluster-type: cluster_flow
+  - checksum-checks: auto
+
+# AF_PACKET settings (if using af-packet)
+af-packet:
+  - interface: any
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+    use-mmap: yes
+    tpacket-v3: yes
+
+# Netmap settings (if using netmap)
+netmap:
+  - interface: any
+
+# PF_RING settings (if using pfring)
+pfring:
+  - interface: any
+    cluster-id: 99
+    cluster-type: cluster_flow
+
+# CUDA settings
+cuda:
+  mpm:
+    data-buffer-size-min-limit: 0
+    data-buffer-size-max-limit: 1500
+    cudabuffer-buffer-size: 500mb
+    gpu-transfer-size: 50mb
+    batching-timeout: 2000
+    device-id: 0
+    cuda-streams: 2
+
+# Legacy
+legacy:
+  uricontent: enabled
+
+# Engine analysis
+engine-analysis:
+  rules-fast-pattern: yes
+  rules: yes
+
+# Security rules update settings
+suricata-update:
+  data-directory: /var/lib/suricata/update
+  cache-directory: /var/cache/suricata-update
+  log-directory: /var/log/suricata
+
+# Custom application detection
+app-layer-protos: http, tls, smtp, imap, ssh, dns, ftp
+
+# Custom rules for CRYB platform
+include: /etc/suricata/cryb-rules.yaml

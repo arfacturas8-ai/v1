@@ -1,0 +1,207 @@
+{
+  "timestamp": "2025-09-30T15:47:11.112Z",
+  "userWorkflows": {
+    "registration": {
+      "success": true,
+      "status": 201,
+      "data": {
+        "success": true,
+        "data": {
+          "user": {
+            "id": "cmg6qdn7j00055p65cvyp3jqa",
+            "username": "testuser_1759247231114",
+            "displayName": "Test User 1759247231114",
+            "email": "test_1759247231114@example.com",
+            "walletAddress": "",
+            "isVerified": false
+          }
+        }
+      },
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "5",
+        "x-ratelimit-remaining": "0",
+        "x-ratelimit-reset": "1759248000",
+        "content-type": "application/json; charset=utf-8",
+        "set-cookie": "accessToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWc2cWRuN2owMDA1NXA2NWN2eXAzanFhIiwic2Vzc2lvbklkIjoiNmQxODZlNGYtOGViMy00NDIyLTg3ZTktYjliMDdmMzExYjllIiwiZW1haWwiOiJ0ZXN0XzE3NTkyNDcyMzExMTRAZXhhbXBsZS5jb20iLCJ3YWxsZXRBZGRyZXNzIjpudWxsLCJpc1ZlcmlmaWVkIjpmYWxzZSwianRpIjoiNzgyZTM1NDEtMTI5MC00MzY4LWE4NGItZjE4MTkxMDVmMjFhIiwiaWF0IjoxNzU5MjQ3MjMxLCJleHAiOjE3NTkyNDgxMzEsImF1ZCI6ImNyeWItdXNlcnMiLCJpc3MiOiJjcnliLXBsYXRmb3JtIn0.q7LIjhzfXj-S6Qyey9dU_Lkg0ARzPF2216_mcPUdpBA; Max-Age=900000; Path=/; HttpOnly; SameSite=Strict, refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjbWc2cWRuN2owMDA1NXA2NWN2eXAzanFhIiwic2Vzc2lvbklkIjoiNmQxODZlNGYtOGViMy00NDIyLTg3ZTktYjliMDdmMzExYjllIiwidHlwZSI6InJlZnJlc2giLCJqdGkiOiI1NDA5NmNiNC0xMmJlLTQzNjItYjZkZi01OTliNzY0YzExODgiLCJpYXQiOjE3NTkyNDcyMzEsImV4cCI6MTc2MTgzOTIzMSwiYXVkIjoiY3J5Yi11c2VycyIsImlzcyI6ImNyeWItcGxhdGZvcm0ifQ.dDttgPXLQXL9aGePgUQFebBhu9IMI4P79xWjZQIK-_o; Max-Age=2592000000; Path=/api/v1/auth/refresh; HttpOnly; SameSite=Strict, csrfToken=e69ba908-4a23-4b60-90b9-2038adc51a9c; Max-Age=900000; Path=/; SameSite=Strict",
+        "content-length": "222",
+        "date": "Tue, 30 Sep 2025 15:47:11 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "profileRetrieval": {
+      "success": true,
+      "status": 200,
+      "data": {
+        "success": true,
+        "data": {
+          "id": "cmg6qdn7j00055p65cvyp3jqa",
+          "username": "testuser_1759247231114",
+          "displayName": "Test User 1759247231114",
+          "email": "test_1759247231114@example.com",
+          "walletAddress": null,
+          "avatar": null,
+          "banner": null,
+          "bio": null,
+          "pronouns": null,
+          "isVerified": false,
+          "isBot": false,
+          "premiumType": "NONE",
+          "locale": "en-US",
+          "createdAt": "2025-09-30T15:47:11.167Z",
+          "updatedAt": "2025-09-30T15:47:11.167Z",
+          "presence": null,
+          "friendCount": 0
+        },
+        "timestamp": "2025-09-30T15:47:11.334Z"
+      },
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "99",
+        "x-ratelimit-reset": "60",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "471",
+        "date": "Tue, 30 Sep 2025 15:47:11 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "profileUpdate": {
+      "success": false,
+      "status": 500,
+      "error": "Request failed with status code 500",
+      "data": {
+        "success": false,
+        "error": "schemas.body.parse is not a function",
+        "code": "INTERNAL_SERVER_ERROR",
+        "details": {
+          "requestId": "e6c801ae-a3e8-4bc4-abf5-53aba2d2524e",
+          "processingTime": 0,
+          "stack": "TypeError: schemas.body.parse is not a function\n    at Object.<anonymous> (/home/ubuntu/cryb-platform/apps/api/src/middleware/validation.ts:18:37)\n    at hookIterator (/home/ubuntu/cryb-platform/node_modules/.pnpm/fastify@5.5.0/node_modules/fastify/lib/hooks.js:408:10)\n    at next (/home/ubuntu/cryb-platform/node_modules/.pnpm/fastify@5.5.0/node_modules/fastify/lib/hooks.js:242:18)\n    at handleResolve (/home/ubuntu/cryb-platform/node_modules/.pnpm/fastify@5.5.0/node_modules/fastify/lib/hooks.js:253:7)",
+          "errorName": "TypeError"
+        },
+        "timestamp": "2025-09-30T15:47:11.393Z",
+        "path": "/api/v1/users/me",
+        "method": "PATCH",
+        "statusCode": 500
+      }
+    }
+  },
+  "communityWorkflows": {
+    "creation": {
+      "success": false,
+      "status": 422,
+      "error": "Request failed with status code 422",
+      "data": {
+        "success": false,
+        "error": "Invalid request data",
+        "code": "VALIDATION_ERROR",
+        "details": {
+          "errors": {
+            "name": [
+              "String must contain at most 21 character(s)"
+            ]
+          },
+          "requestId": "106dfe45-44d3-4d9b-92a8-1414de4b0637",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:47:11.424Z",
+        "path": "/api/v1/communities",
+        "method": "POST",
+        "statusCode": 422
+      }
+    }
+  },
+  "postWorkflows": {},
+  "commentWorkflows": {},
+  "businessRules": {
+    "duplicateUsernameCheck": {
+      "success": false,
+      "status": 429,
+      "error": "Request failed with status code 429",
+      "data": {
+        "success": false,
+        "error": "Too many attempts. Please try again in 13 minutes.",
+        "code": "RATE_LIMIT_EXCEEDED",
+        "details": {
+          "retryAfter": 768,
+          "endpoint": "register",
+          "requestId": "6a46e011-07cc-4a8d-b34f-ed743ede0a0a",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:47:11.435Z",
+        "path": "/api/v1/auth/register",
+        "method": "POST",
+        "statusCode": 429
+      }
+    },
+    "authorizationCheck": {
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "1cf5f22f-67f1-4277-977a-ad3c65ea4ef0",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:47:11.440Z",
+        "path": "/api/v1/communities",
+        "method": "POST",
+        "statusCode": 401
+      }
+    }
+  },
+  "dataIntegrity": {},
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 2,
+    "failedTests": 4,
+    "successRate": "33.33%",
+    "testData": {
+      "usersCreated": 1,
+      "communitiesCreated": 0,
+      "postsCreated": 0,
+      "commentsCreated": 0
+    },
+    "featureStatus": {
+      "userManagement": true,
+      "communityManagement": false,
+      "postManagement": false,
+      "commentSystem": false,
+      "votingSystem": false,
+      "businessRulesEnforced": true,
+      "dataIntegrityMaintained": false
+    }
+  }
+}

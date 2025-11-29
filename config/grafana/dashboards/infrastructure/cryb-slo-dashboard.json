@@ -1,0 +1,557 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "CRYB SLO Dashboard",
+    "tags": ["cryb", "slo", "sli", "reliability"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "API Availability SLO",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "(1 - (sum(rate(http_requests_total{job=\"cryb-api\",code=~\"5..\"}[30d])) / sum(rate(http_requests_total{job=\"cryb-api\"}[30d])))) * 100",
+            "refId": "A",
+            "legendFormat": "30-day Availability"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 99.5
+                },
+                {
+                  "color": "green",
+                  "value": 99.9
+                }
+              ]
+            },
+            "unit": "percent",
+            "min": 99,
+            "max": 100
+          },
+          "overrides": []
+        },
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "textMode": "auto",
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "API Response Time SLO",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"cryb-api\"}[30d])) by (le))",
+            "refId": "A",
+            "legendFormat": "p95 Response Time"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 0.3
+                },
+                {
+                  "color": "red",
+                  "value": 0.5
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "textMode": "auto",
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 6,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Message Delivery SLO",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "((sum(rate(cryb_messages_total[30d])) - sum(rate(cryb_messages_failed_total[30d]))) / sum(rate(cryb_messages_total[30d]))) * 100",
+            "refId": "A",
+            "legendFormat": "Message Success Rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 99
+                },
+                {
+                  "color": "green",
+                  "value": 99.5
+                }
+              ]
+            },
+            "unit": "percent",
+            "min": 98,
+            "max": 100
+          },
+          "overrides": []
+        },
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "textMode": "auto",
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 4,
+        "title": "Voice Quality SLO",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "((sum(rate(cryb_voice_calls_total[30d])) - sum(rate(cryb_voice_calls_poor_quality_total[30d]))) / sum(rate(cryb_voice_calls_total[30d]))) * 100",
+            "refId": "A",
+            "legendFormat": "Good Quality Calls"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 90
+                },
+                {
+                  "color": "green",
+                  "value": 95
+                }
+              ]
+            },
+            "unit": "percent",
+            "min": 85,
+            "max": 100
+          },
+          "overrides": []
+        },
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": ""
+          },
+          "textMode": "auto",
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto"
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 6,
+          "x": 18,
+          "y": 0
+        }
+      },
+      {
+        "id": 5,
+        "title": "Error Budget Burn Rate - API Availability",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "sum(rate(http_requests_total{job=\"cryb-api\",code=~\"5..\"}[1h])) / sum(rate(http_requests_total{job=\"cryb-api\"}[1h])) * 100",
+            "refId": "A",
+            "legendFormat": "1h burn rate"
+          },
+          {
+            "expr": "sum(rate(http_requests_total{job=\"cryb-api\",code=~\"5..\"}[6h])) / sum(rate(http_requests_total{job=\"cryb-api\"}[6h])) * 100",
+            "refId": "B",
+            "legendFormat": "6h burn rate"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "line"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 0.1
+                },
+                {
+                  "color": "red",
+                  "value": 2
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 6,
+        "title": "SLO Compliance Status",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "(1 - (sum(rate(http_requests_total{job=\"cryb-api\",code=~\"5..\"}[30d])) / sum(rate(http_requests_total{job=\"cryb-api\"}[30d])))) * 100",
+            "refId": "A",
+            "legendFormat": "API Availability",
+            "format": "table",
+            "instant": true
+          },
+          {
+            "expr": "histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job=\"cryb-api\"}[30d])) by (le))",
+            "refId": "B",
+            "legendFormat": "API Response Time",
+            "format": "table",
+            "instant": true
+          },
+          {
+            "expr": "((sum(rate(cryb_messages_total[30d])) - sum(rate(cryb_messages_failed_total[30d]))) / sum(rate(cryb_messages_total[30d]))) * 100",
+            "refId": "C",
+            "legendFormat": "Message Delivery",
+            "format": "table",
+            "instant": true
+          }
+        ],
+        "transformations": [
+          {
+            "id": "merge",
+            "options": {}
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time": true,
+                "__name__": true,
+                "job": true,
+                "instance": true
+              },
+              "indexByName": {},
+              "renameByName": {
+                "Value #A": "Current Value",
+                "Value #B": "Current Value", 
+                "Value #C": "Current Value"
+              }
+            }
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "align": "auto",
+              "displayMode": "auto"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Current Value"
+              },
+              "properties": [
+                {
+                  "id": "custom.displayMode",
+                  "value": "color-background"
+                },
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "red",
+                        "value": null
+                      },
+                      {
+                        "color": "yellow",
+                        "value": 95
+                      },
+                      {
+                        "color": "green",
+                        "value": 99
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "options": {
+          "showHeader": true
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        }
+      },
+      {
+        "id": 7,
+        "title": "Monthly SLO Trend",
+        "type": "timeseries",
+        "targets": [
+          {
+            "expr": "(1 - (sum(rate(http_requests_total{job=\"cryb-api\",code=~\"5..\"}[1d])) / sum(rate(http_requests_total{job=\"cryb-api\"}[1d])))) * 100",
+            "refId": "A",
+            "legendFormat": "API Availability"
+          },
+          {
+            "expr": "((sum(rate(cryb_messages_total[1d])) - sum(rate(cryb_messages_failed_total[1d]))) / sum(rate(cryb_messages_total[1d]))) * 100",
+            "refId": "B",
+            "legendFormat": "Message Delivery"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 10,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "vis": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "line"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 99
+                }
+              ]
+            },
+            "unit": "percent",
+            "min": 98,
+            "max": 100
+          },
+          "overrides": []
+        },
+        "options": {
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom"
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "pluginVersion": "8.5.2",
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        }
+      }
+    ],
+    "time": {
+      "from": "now-30d",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "CRYB SLO Dashboard",
+    "uid": "cryb-slo-dashboard",
+    "version": 1,
+    "weekStart": ""
+  }
+}

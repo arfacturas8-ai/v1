@@ -14,7 +14,7 @@
 		96905EF65AED1B983A6B3ABC /* libPods-CRYB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58EEBF8E8E6FB1BC6CAF49B5 /* libPods-CRYB.a */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
-		7D099FE73746404EA78CF5CA /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B14535A35EB44CB8EFCE45F /* noop-file.swift */; };
+		D65241D859B74189AE7524E6 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 077B399E0AC84C9BB3CD5645 /* noop-file.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +31,8 @@
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-CRYB/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		6B14535A35EB44CB8EFCE45F /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "CRYB/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
-		40D66CA4A7A94D2C8376F249 /* CRYB-Bridging-Header.h */ = {isa = PBXFileReference; name = "CRYB-Bridging-Header.h"; path = "CRYB/CRYB-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
+		077B399E0AC84C9BB3CD5645 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "CRYB/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
+		759A0101AF2B4775BE9924B9 /* CRYB-Bridging-Header.h */ = {isa = PBXFileReference; name = "CRYB-Bridging-Header.h"; path = "CRYB/CRYB-Bridging-Header.h"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,8 +57,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				6B14535A35EB44CB8EFCE45F /* noop-file.swift */,
-				40D66CA4A7A94D2C8376F249 /* CRYB-Bridging-Header.h */,
+				077B399E0AC84C9BB3CD5645 /* noop-file.swift */,
+				759A0101AF2B4775BE9924B9 /* CRYB-Bridging-Header.h */,
 			);
 			name = CRYB;
 			sourceTree = "<group>";
@@ -198,7 +198,7 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				07E6C7A31A6E400C840F5758 /* CRYB-Bridging-Header.h in Resources */,
+				3477EDB894C8437F9DCE637E /* CRYB-Bridging-Header.h in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,7 +274,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
-				7D099FE73746404EA78CF5CA /* noop-file.swift in Sources */,
+				D65241D859B74189AE7524E6 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,0 +1,222 @@
+{
+  "summary": {
+    "totalTests": 18,
+    "passed": 6,
+    "failed": 3,
+    "vulnerabilities": 8,
+    "criticalVulnerabilities": 0,
+    "highVulnerabilities": 0,
+    "mediumVulnerabilities": 8
+  },
+  "testResults": [
+    {
+      "test": "HTTPS Redirection",
+      "status": "TESTING",
+      "message": "Checking if HTTP redirects to HTTPS",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:29.236Z"
+    },
+    {
+      "test": "HTTPS Redirection",
+      "status": "FAIL",
+      "message": "HTTPS is not accessible",
+      "severity": "medium",
+      "timestamp": "2025-09-19T22:51:39.293Z"
+    },
+    {
+      "test": "Security Headers",
+      "status": "TESTING",
+      "message": "Checking for security headers",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.293Z"
+    },
+    {
+      "test": "Security Headers",
+      "status": "FAIL",
+      "message": "Missing headers: x-frame-options, x-content-type-options, x-xss-protection, strict-transport-security, content-security-policy, referrer-policy",
+      "severity": "medium",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "test": "XSS Prevention",
+      "status": "TESTING",
+      "message": "Testing for XSS vulnerabilities",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "test": "XSS Prevention",
+      "status": "PASS",
+      "message": "No XSS vulnerabilities detected",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.878Z"
+    },
+    {
+      "test": "SQL Injection",
+      "status": "TESTING",
+      "message": "Testing for SQL injection vulnerabilities",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.879Z"
+    },
+    {
+      "test": "SQL Injection",
+      "status": "PASS",
+      "message": "No SQL injection vulnerabilities detected",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.906Z"
+    },
+    {
+      "test": "Authentication Bypass",
+      "status": "TESTING",
+      "message": "Testing for authentication bypass vulnerabilities",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.906Z"
+    },
+    {
+      "test": "Authentication Bypass",
+      "status": "PASS",
+      "message": "All protected endpoints require authentication",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.932Z"
+    },
+    {
+      "test": "CSRF Protection",
+      "status": "TESTING",
+      "message": "Testing for CSRF protection",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.932Z"
+    },
+    {
+      "test": "CSRF Protection",
+      "status": "PASS",
+      "message": "CSRF protection appears to be in place",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.942Z"
+    },
+    {
+      "test": "Directory Traversal",
+      "status": "TESTING",
+      "message": "Testing for directory traversal vulnerabilities",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:39.942Z"
+    },
+    {
+      "test": "Directory Traversal",
+      "status": "PASS",
+      "message": "No directory traversal vulnerabilities detected",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:41.701Z"
+    },
+    {
+      "test": "Rate Limiting",
+      "status": "TESTING",
+      "message": "Testing rate limiting implementation",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:41.701Z"
+    },
+    {
+      "test": "Rate Limiting",
+      "status": "FAIL",
+      "message": "No rate limiting detected after 20 requests",
+      "severity": "medium",
+      "timestamp": "2025-09-19T22:51:43.792Z"
+    },
+    {
+      "test": "Input Validation",
+      "status": "TESTING",
+      "message": "Testing input validation",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:43.792Z"
+    },
+    {
+      "test": "Input Validation",
+      "status": "PASS",
+      "message": "Input validation appears to be working",
+      "severity": "info",
+      "timestamp": "2025-09-19T22:51:43.808Z"
+    }
+  ],
+  "vulnerabilities": [
+    {
+      "type": "Transport Security",
+      "description": "HTTPS is not properly configured",
+      "severity": "medium",
+      "evidence": "HTTPS request returned status: 0",
+      "timestamp": "2025-09-19T22:51:39.293Z"
+    },
+    {
+      "type": "Missing Security Headers",
+      "description": "X-Frame-Options header missing",
+      "severity": "medium",
+      "evidence": "Header x-frame-options is not present in response",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "type": "Missing Security Headers",
+      "description": "X-Content-Type-Options header missing",
+      "severity": "medium",
+      "evidence": "Header x-content-type-options is not present in response",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "type": "Missing Security Headers",
+      "description": "X-XSS-Protection header missing",
+      "severity": "medium",
+      "evidence": "Header x-xss-protection is not present in response",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "type": "Missing Security Headers",
+      "description": "Strict-Transport-Security header missing",
+      "severity": "medium",
+      "evidence": "Header strict-transport-security is not present in response",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "type": "Missing Security Headers",
+      "description": "Content-Security-Policy header missing",
+      "severity": "medium",
+      "evidence": "Header content-security-policy is not present in response",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "type": "Missing Security Headers",
+      "description": "Referrer-Policy header missing",
+      "severity": "medium",
+      "evidence": "Header referrer-policy is not present in response",
+      "timestamp": "2025-09-19T22:51:39.828Z"
+    },
+    {
+      "type": "Missing Rate Limiting",
+      "description": "No rate limiting detected on authentication endpoint",
+      "severity": "medium",
+      "evidence": "20 requests made without rate limiting",
+      "timestamp": "2025-09-19T22:51:43.792Z"
+    }
+  ],
+  "recommendations": [
+    {
+      "category": "Security Headers",
+      "priority": "medium",
+      "description": "Implement comprehensive security headers",
+      "actions": [
+        "Add X-Frame-Options header",
+        "Implement Content-Security-Policy",
+        "Add X-Content-Type-Options: nosniff",
+        "Implement Strict-Transport-Security for HTTPS"
+      ]
+    },
+    {
+      "category": "Rate Limiting",
+      "priority": "medium",
+      "description": "Implement proper rate limiting",
+      "actions": [
+        "Add rate limiting to authentication endpoints",
+        "Implement progressive delays for failed attempts",
+        "Use distributed rate limiting for scalability",
+        "Monitor and alert on suspicious activity"
+      ]
+    }
+  ],
+  "timestamp": "2025-09-19T22:51:43.808Z"
+}

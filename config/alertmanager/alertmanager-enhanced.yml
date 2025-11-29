@@ -1,0 +1,560 @@
+# ==============================================
+# CRYB PLATFORM - ENHANCED ALERTMANAGER CONFIG
+# ==============================================
+# Production-ready alerting with multiple notification channels
+# Supports email, Slack, SMS, and webhook integrations
+# ==============================================
+
+global:
+  # SMTP server configuration for email alerts
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'alerts@cryb.ai'
+  smtp_auth_username: 'alerts@cryb.ai'
+  smtp_auth_password: '${SMTP_PASSWORD}'
+  smtp_auth_secret: '${SMTP_AUTH_SECRET}'
+  smtp_require_tls: true
+  
+  # Default template files
+  templates:
+    - '/etc/alertmanager/templates/*.tmpl'
+  
+  # API settings
+  http_config:
+    tls_config:
+      insecure_skip_verify: false
+  
+  # Resolve timeout
+  resolve_timeout: 5m
+
+# ==============================================
+# ROUTING CONFIGURATION
+# ==============================================
+route:
+  # Root route - catches all alerts
+  group_by: ['alertname', 'cluster', 'service']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 12h
+  receiver: 'default-receiver'
+  
+  routes:
+    # ==============================================
+    # CRITICAL ALERTS - IMMEDIATE NOTIFICATION
+    # ==============================================
+    - match:
+        severity: critical
+      receiver: 'critical-alerts'
+      group_wait: 10s
+      group_interval: 2m
+      repeat_interval: 5m
+      routes:
+        # Database critical issues
+        - match:
+            service: postgresql
+          receiver: 'database-critical'
+          group_wait: 5s
+          repeat_interval: 2m
+        
+        # API service down
+        - match:
+            alertname: APIServiceDown
+          receiver: 'api-down'
+          group_wait: 5s
+          repeat_interval: 1m
+        
+        # Security incidents
+        - match_re:
+            alertname: ^(BruteForceAttackDetected|SuspiciousIPActivity)$
+          receiver: 'security-critical'
+          group_wait: 5s
+          repeat_interval: 5m
+    
+    # ==============================================
+    # WARNING ALERTS - STANDARD NOTIFICATION
+    # ==============================================
+    - match:
+        severity: warning
+      receiver: 'warning-alerts'
+      group_wait: 30s
+      group_interval: 10m
+      repeat_interval: 4h
+      routes:
+        # Performance degradation
+        - match_re:
+            alertname: ^(HighAPIErrorRate|SlowAPIResponse|HighMemoryUsage|HighCPUUsage)$
+          receiver: 'performance-warnings'
+        
+        # Business KPI warnings
+        - match_re:
+            alertname: ^(LowUserRegistrationRate|HighMessageFailureRate|DecliningDailyActiveUsers)$
+          receiver: 'business-warnings'
+        
+        # Infrastructure warnings
+        - match_re:
+            service: ^(redis|elasticsearch|nginx)$
+          receiver: 'infrastructure-warnings'
+    
+    # ==============================================
+    # INFO ALERTS - LOW PRIORITY
+    # ==============================================
+    - match:
+        severity: info
+      receiver: 'info-alerts'
+      group_wait: 5m
+      group_interval: 30m
+      repeat_interval: 24h
+    
+    # ==============================================
+    # MAINTENANCE ALERTS - SUPPRESSED DURING MAINTENANCE
+    # ==============================================
+    - match:
+        alertname: MaintenanceMode
+      receiver: 'null'
+    
+    # ==============================================
+    # SLO VIOLATIONS - ESCALATION PATH
+    # ==============================================
+    - match_re:
+        alert_type: slo_violation
+      receiver: 'slo-violations'
+      group_wait: 15s
+      group_interval: 5m
+      repeat_interval: 30m
+      routes:
+        # Fast burn alerts - immediate escalation
+        - match:
+            window: fast
+          receiver: 'slo-fast-burn'
+          group_wait: 5s
+          repeat_interval: 5m
+        
+        # Slow burn alerts - standard escalation
+        - match:
+            window: slow
+          receiver: 'slo-slow-burn'
+          repeat_interval: 2h
+
+# ==============================================
+# INHIBITION RULES
+# ==============================================
+inhibit_rules:
+  # Inhibit warning alerts when critical alerts are firing
+  - source_matchers:
+      - severity="critical"
+    target_matchers:
+      - severity="warning"
+    equal: ['alertname', 'instance', 'service']
+  
+  # Inhibit individual service alerts when the entire cluster is down
+  - source_matchers:
+      - alertname="ClusterDown"
+    target_matchers:
+      - alertname!="ClusterDown"
+    equal: ['cluster']
+  
+  # Inhibit derivative alerts when root cause is identified
+  - source_matchers:
+      - alertname="DatabaseDown"
+    target_matchers:
+      - alertname=~"^(API.*|.*DatabaseConnection.*)"
+    equal: ['instance']
+  
+  # Inhibit during maintenance windows
+  - source_matchers:
+      - alertname="MaintenanceMode"
+    target_matchers:
+      - severity!="critical"
+
+# ==============================================
+# RECEIVERS CONFIGURATION
+# ==============================================
+receivers:
+  # ==============================================
+  # DEFAULT RECEIVER
+  # ==============================================
+  - name: 'default-receiver'
+    email_configs:
+      - to: 'devops@cryb.ai'
+        subject: '[Cryb Alert] {{ .GroupLabels.alertname }}'
+        body: |
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Severity: {{ .Labels.severity }}
+          Service: {{ .Labels.service }}
+          Time: {{ .StartsAt }}
+          {{ end }}
+        headers:
+          Subject: '[Cryb Alert] {{ .GroupLabels.alertname }}'
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#alerts'
+        title: 'Cryb Platform Alert'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Severity:* {{ .Labels.severity }}
+          *Service:* {{ .Labels.service }}
+          {{ end }}
+        color: 'warning'
+  
+  # ==============================================
+  # CRITICAL ALERTS
+  # ==============================================
+  - name: 'critical-alerts'
+    email_configs:
+      - to: 'critical@cryb.ai,devops@cryb.ai,engineering@cryb.ai'
+        subject: '[CRITICAL] Cryb Platform Issue - {{ .GroupLabels.alertname }}'
+        body: |
+          🚨 CRITICAL ALERT 🚨
+          
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Severity: {{ .Labels.severity }}
+          Service: {{ .Labels.service }}
+          Instance: {{ .Labels.instance }}
+          Runbook: {{ .Annotations.runbook_url }}
+          Dashboard: {{ .Annotations.dashboard }}
+          Time: {{ .StartsAt }}
+          
+          {{ end }}
+          
+          Please investigate immediately.
+        headers:
+          Priority: 'high'
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#critical-alerts'
+        title: '🚨 CRITICAL: Cryb Platform Issue'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Service:* {{ .Labels.service }}
+          *Runbook:* {{ .Annotations.runbook_url }}
+          {{ end }}
+        color: 'danger'
+        actions:
+          - type: button
+            text: 'View Dashboard'
+            url: '{{ (index .Alerts 0).Annotations.dashboard }}'
+          - type: button
+            text: 'View Runbook'
+            url: '{{ (index .Alerts 0).Annotations.runbook_url }}'
+    
+    # SMS notifications for critical alerts
+    webhook_configs:
+      - url: '${SMS_WEBHOOK_URL}'
+        send_resolved: true
+        http_config:
+          basic_auth:
+            username: '${SMS_USERNAME}'
+            password: '${SMS_PASSWORD}'
+        body: |
+          {
+            "alerts": [
+              {{ range $i, $alert := .Alerts }}
+              {{ if $i }},{{ end }}
+              {
+                "message": "CRITICAL: {{ $alert.Annotations.summary }}",
+                "phone_numbers": ["${ONCALL_PHONE_1}", "${ONCALL_PHONE_2}"],
+                "priority": "high"
+              }
+              {{ end }}
+            ]
+          }
+  
+  # ==============================================
+  # DATABASE CRITICAL
+  # ==============================================
+  - name: 'database-critical'
+    email_configs:
+      - to: 'database@cryb.ai,critical@cryb.ai'
+        subject: '[DATABASE CRITICAL] {{ .GroupLabels.alertname }}'
+        body: |
+          🗄️ DATABASE CRITICAL ALERT 🗄️
+          
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Database: {{ .Labels.instance }}
+          Time: {{ .StartsAt }}
+          {{ end }}
+          
+          Immediate database team attention required.
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#database-alerts'
+        title: '🗄️ DATABASE CRITICAL'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Database:* {{ .Labels.instance }}
+          *Description:* {{ .Annotations.description }}
+          {{ end }}
+        color: 'danger'
+  
+  # ==============================================
+  # API SERVICE DOWN
+  # ==============================================
+  - name: 'api-down'
+    email_configs:
+      - to: 'api@cryb.ai,critical@cryb.ai,ceo@cryb.ai'
+        subject: '[API DOWN] Cryb Platform API Service Unavailable'
+        body: |
+          🔴 API SERVICE DOWN 🔴
+          
+          The Cryb Platform API is currently unavailable.
+          
+          {{ range .Alerts }}
+          Instance: {{ .Labels.instance }}
+          Time: {{ .StartsAt }}
+          Duration: {{ .Annotations.duration }}
+          {{ end }}
+          
+          This is a customer-impacting outage.
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#api-alerts'
+        username: 'Cryb Alert Bot'
+        title: '🔴 API SERVICE DOWN'
+        text: |
+          The Cryb Platform API is currently unavailable.
+          {{ range .Alerts }}
+          *Instance:* {{ .Labels.instance }}
+          *Time:* {{ .StartsAt }}
+          {{ end }}
+          
+          @channel @here - Customer-impacting outage
+        color: 'danger'
+    
+    # PagerDuty integration for API down
+    pagerduty_configs:
+      - routing_key: '${PAGERDUTY_API_KEY}'
+        description: 'Cryb Platform API Service Down'
+        severity: 'critical'
+        client: 'Cryb Alertmanager'
+        client_url: 'https://monitoring.cryb.ai'
+        details:
+          summary: '{{ (index .Alerts 0).Annotations.summary }}'
+          timestamp: '{{ (index .Alerts 0).StartsAt }}'
+          service: '{{ (index .Alerts 0).Labels.service }}'
+  
+  # ==============================================
+  # SECURITY CRITICAL
+  # ==============================================
+  - name: 'security-critical'
+    email_configs:
+      - to: 'security@cryb.ai,critical@cryb.ai'
+        subject: '[SECURITY ALERT] {{ .GroupLabels.alertname }}'
+        body: |
+          🛡️ SECURITY ALERT 🛡️
+          
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Source IP: {{ .Labels.ip }}
+          Time: {{ .StartsAt }}
+          {{ end }}
+          
+          Immediate security investigation required.
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#security-alerts'
+        title: '🛡️ SECURITY ALERT'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Description:* {{ .Annotations.description }}
+          *Source IP:* {{ .Labels.ip }}
+          {{ end }}
+        color: 'danger'
+  
+  # ==============================================
+  # WARNING ALERTS
+  # ==============================================
+  - name: 'warning-alerts'
+    email_configs:
+      - to: 'devops@cryb.ai'
+        subject: '[WARNING] {{ .GroupLabels.alertname }}'
+        body: |
+          ⚠️ WARNING ALERT ⚠️
+          
+          {{ range .Alerts }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Service: {{ .Labels.service }}
+          Time: {{ .StartsAt }}
+          {{ end }}
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#warnings'
+        title: '⚠️ Warning Alert'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Service:* {{ .Labels.service }}
+          {{ end }}
+        color: 'warning'
+  
+  # ==============================================
+  # PERFORMANCE WARNINGS
+  # ==============================================
+  - name: 'performance-warnings'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#performance'
+        title: '📊 Performance Warning'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Service:* {{ .Labels.service }}
+          *Current Value:* {{ .Annotations.current_value }}
+          *Threshold:* {{ .Annotations.threshold }}
+          {{ end }}
+        color: 'warning'
+  
+  # ==============================================
+  # BUSINESS WARNINGS
+  # ==============================================
+  - name: 'business-warnings'
+    email_configs:
+      - to: 'product@cryb.ai,business@cryb.ai'
+        subject: '[BUSINESS METRIC] {{ .GroupLabels.alertname }}'
+        body: |
+          📈 BUSINESS METRIC ALERT 📈
+          
+          {{ range .Alerts }}
+          Metric: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Current Value: {{ .Annotations.current_value }}
+          Time: {{ .StartsAt }}
+          {{ end }}
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#business-metrics'
+        title: '📈 Business Metric Alert'
+        text: |
+          {{ range .Alerts }}
+          *Metric:* {{ .Annotations.summary }}
+          *Value:* {{ .Annotations.current_value }}
+          {{ end }}
+        color: 'warning'
+  
+  # ==============================================
+  # INFRASTRUCTURE WARNINGS
+  # ==============================================
+  - name: 'infrastructure-warnings'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#infrastructure'
+        title: '🏗️ Infrastructure Warning'
+        text: |
+          {{ range .Alerts }}
+          *Service:* {{ .Labels.service }}
+          *Alert:* {{ .Annotations.summary }}
+          *Instance:* {{ .Labels.instance }}
+          {{ end }}
+        color: 'warning'
+  
+  # ==============================================
+  # SLO VIOLATIONS
+  # ==============================================
+  - name: 'slo-violations'
+    email_configs:
+      - to: 'sre@cryb.ai,engineering@cryb.ai'
+        subject: '[SLO VIOLATION] {{ .GroupLabels.alertname }}'
+        body: |
+          📊 SLO VIOLATION 📊
+          
+          {{ range .Alerts }}
+          SLI: {{ .Labels.sli }}
+          Alert: {{ .Annotations.summary }}
+          Description: {{ .Annotations.description }}
+          Time: {{ .StartsAt }}
+          {{ end }}
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#slo-alerts'
+        title: '📊 SLO Violation'
+        text: |
+          {{ range .Alerts }}
+          *SLI:* {{ .Labels.sli }}
+          *Alert:* {{ .Annotations.summary }}
+          {{ end }}
+        color: 'danger'
+  
+  # ==============================================
+  # SLO FAST BURN
+  # ==============================================
+  - name: 'slo-fast-burn'
+    pagerduty_configs:
+      - routing_key: '${PAGERDUTY_SLO_KEY}'
+        description: 'SLO Fast Burn - {{ .GroupLabels.alertname }}'
+        severity: 'critical'
+        client: 'Cryb SLO Monitoring'
+    
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#slo-alerts'
+        title: '🔥 SLO FAST BURN'
+        text: |
+          {{ range .Alerts }}
+          *SLI:* {{ .Labels.sli }}
+          *Alert:* {{ .Annotations.summary }}
+          *Error Budget:* Burning rapidly
+          {{ end }}
+        color: 'danger'
+  
+  # ==============================================
+  # INFO ALERTS
+  # ==============================================
+  - name: 'info-alerts'
+    slack_configs:
+      - api_url: '${SLACK_WEBHOOK_URL}'
+        channel: '#monitoring-info'
+        title: 'ℹ️ Info Alert'
+        text: |
+          {{ range .Alerts }}
+          *Alert:* {{ .Annotations.summary }}
+          *Service:* {{ .Labels.service }}
+          {{ end }}
+        color: 'good'
+  
+  # ==============================================
+  # NULL RECEIVER (FOR SUPPRESSED ALERTS)
+  # ==============================================
+  - name: 'null'
+
+# ==============================================
+# TEMPLATES
+# ==============================================
+templates:
+  - '/etc/alertmanager/templates/cryb-alerts.tmpl'
+
+# ==============================================
+# GLOBAL SETTINGS
+# ==============================================
+global:
+  # Slack API URL can be set globally
+  slack_api_url: '${SLACK_WEBHOOK_URL}'
+  
+  # HTTP client settings
+  http_config:
+    tls_config:
+      insecure_skip_verify: false
+    follow_redirects: true
+  
+  # SMTP settings for email
+  smtp_hello: 'monitoring.cryb.ai'
+  smtp_require_tls: true

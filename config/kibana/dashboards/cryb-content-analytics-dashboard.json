@@ -1,0 +1,209 @@
+{
+  "version": "8.11.0",
+  "objects": [
+    {
+      "id": "cryb-content-analytics-dashboard",
+      "type": "dashboard",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "CRYB Platform - Content Analytics Dashboard",
+        "description": "Detailed analytics for posts, comments, and content performance",
+        "panelsJSON": "[{\"version\":\"8.11.0\",\"gridData\":{\"x\":0,\"y\":0,\"w\":24,\"h\":15,\"i\":\"1\"},\"panelIndex\":\"1\",\"embeddableConfig\":{},\"panelRefName\":\"panel_1\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":24,\"y\":0,\"w\":24,\"h\":15,\"i\":\"2\"},\"panelIndex\":\"2\",\"embeddableConfig\":{},\"panelRefName\":\"panel_2\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":0,\"y\":15,\"w\":48,\"h\":20,\"i\":\"3\"},\"panelIndex\":\"3\",\"embeddableConfig\":{},\"panelRefName\":\"panel_3\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":0,\"y\":35,\"w\":24,\"h\":20,\"i\":\"4\"},\"panelIndex\":\"4\",\"embeddableConfig\":{},\"panelRefName\":\"panel_4\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":24,\"y\":35,\"w\":24,\"h\":20,\"i\":\"5\"},\"panelIndex\":\"5\",\"embeddableConfig\":{},\"panelRefName\":\"panel_5\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":0,\"y\":55,\"w\":16,\"h\":15,\"i\":\"6\"},\"panelIndex\":\"6\",\"embeddableConfig\":{},\"panelRefName\":\"panel_6\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":16,\"y\":55,\"w\":16,\"h\":15,\"i\":\"7\"},\"panelIndex\":\"7\",\"embeddableConfig\":{},\"panelRefName\":\"panel_7\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":32,\"y\":55,\"w\":16,\"h\":15,\"i\":\"8\"},\"panelIndex\":\"8\",\"embeddableConfig\":{},\"panelRefName\":\"panel_8\"},{\"version\":\"8.11.0\",\"gridData\":{\"x\":0,\"y\":70,\"w\":48,\"h\":20,\"i\":\"9\"},\"panelIndex\":\"9\",\"embeddableConfig\":{},\"panelRefName\":\"panel_9\"}]",
+        "optionsJSON": "{\"useMargins\":true,\"syncColors\":false,\"hidePanelTitles\":false}",
+        "timeRestore": true,
+        "timeTo": "now",
+        "timeFrom": "now-7d",
+        "refreshInterval": {
+          "pause": false,
+          "value": 300000
+        },
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"query\":{\"query\":\"\",\"language\":\"kuery\"},\"filter\":[]}"
+        }
+      },
+      "references": [
+        {
+          "name": "panel_1",
+          "type": "visualization",
+          "id": "posts-per-hour-metric"
+        },
+        {
+          "name": "panel_2",
+          "type": "visualization",
+          "id": "avg-engagement-metric"
+        },
+        {
+          "name": "panel_3",
+          "type": "visualization",
+          "id": "content-performance-timeline"
+        },
+        {
+          "name": "panel_4",
+          "type": "visualization",
+          "id": "viral-content-heatmap"
+        },
+        {
+          "name": "panel_5",
+          "type": "visualization",
+          "id": "engagement-by-type-chart"
+        },
+        {
+          "name": "panel_6",
+          "type": "visualization",
+          "id": "upvote-rate-gauge"
+        },
+        {
+          "name": "panel_7",
+          "type": "visualization",
+          "id": "comment-rate-gauge"
+        },
+        {
+          "name": "panel_8",
+          "type": "visualization",
+          "id": "view-rate-gauge"
+        },
+        {
+          "name": "panel_9",
+          "type": "visualization",
+          "id": "trending-posts-table"
+        }
+      ]
+    },
+    {
+      "id": "posts-per-hour-metric",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Posts Per Hour",
+        "visState": "{\"title\":\"Posts Per Hour\",\"type\":\"metric\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"params\":{},\"schema\":\"metric\"},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"params\":{\"field\":\"timestamps.created_at\",\"interval\":\"1h\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}},\"schema\":\"group\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Average number of posts created per hour",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"term\":{\"status.published\":true}},{\"term\":{\"status.removed\":false}}]}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "avg-engagement-metric",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Average Engagement Rate",
+        "visState": "{\"title\":\"Average Engagement Rate\",\"type\":\"metric\",\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.engagement_rate\"},\"schema\":\"metric\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Average engagement rate across all content",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"term\":{\"status.published\":true}},{\"range\":{\"metrics.engagement_rate\":{\"gt\":0}}}]}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "content-performance-timeline",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Content Performance Over Time",
+        "visState": "{\"title\":\"Content Performance Over Time\",\"type\":\"line\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"truncate\":100},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"LeftAxis-1\",\"type\":\"value\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Count\"}}],\"seriesParams\":[{\"show\":\"true\",\"type\":\"line\",\"mode\":\"normal\",\"data\":{\"label\":\"Posts\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true},{\"show\":\"true\",\"type\":\"line\",\"mode\":\"normal\",\"data\":{\"label\":\"Avg Upvotes\",\"id\":\"3\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true},{\"show\":\"true\",\"type\":\"line\",\"mode\":\"normal\",\"data\":{\"label\":\"Avg Comments\",\"id\":\"4\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"count\",\"params\":{},\"schema\":\"metric\"},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"params\":{\"field\":\"timestamps.created_at\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}},\"schema\":\"segment\"},{\"id\":\"3\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.upvotes\"},\"schema\":\"metric\"},{\"id\":\"4\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.comments\"},\"schema\":\"metric\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Timeline showing content creation and engagement metrics",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"term\":{\"status.published\":true}}]}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "viral-content-heatmap",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Viral Content Heatmap",
+        "visState": "{\"title\":\"Viral Content Heatmap\",\"type\":\"heatmap\",\"params\":{\"addTooltip\":true,\"addLegend\":true,\"enableHover\":false,\"legendPosition\":\"right\",\"times\":[],\"colorsNumber\":4,\"colorSchema\":\"Yellow to Red\",\"setColorRange\":false,\"colorsRange\":[],\"invertColors\":false,\"percentageMode\":false,\"valueAxes\":[{\"show\":false,\"id\":\"ValueAxis-1\",\"type\":\"value\",\"scale\":{\"type\":\"linear\",\"defaultYExtents\":false},\"labels\":{\"show\":false,\"rotate\":0,\"color\":\"#555\"}}]},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.hot_score\"},\"schema\":\"metric\"},{\"id\":\"2\",\"enabled\":true,\"type\":\"date_histogram\",\"params\":{\"field\":\"timestamps.created_at\",\"interval\":\"auto\",\"customInterval\":\"2h\",\"min_doc_count\":1,\"extended_bounds\":{}},\"schema\":\"segment\"},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"community.name.raw\",\"size\":10,\"order\":\"desc\",\"orderBy\":\"1\"},\"schema\":\"group\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Heatmap showing viral content by community and time",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"range\":{\"metrics.hot_score\":{\"gt\":0}}}]}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "engagement-by-type-chart",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Engagement by Content Type",
+        "visState": "{\"title\":\"Engagement by Content Type\",\"type\":\"horizontal_bar\",\"params\":{\"grid\":{\"categoryLines\":false,\"style\":{\"color\":\"#eee\"}},\"categoryAxes\":[{\"id\":\"CategoryAxis-1\",\"type\":\"category\",\"position\":\"left\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":true,\"truncate\":100},\"title\":{}}],\"valueAxes\":[{\"id\":\"ValueAxis-1\",\"name\":\"BottomAxis-1\",\"type\":\"value\",\"position\":\"bottom\",\"show\":true,\"style\":{},\"scale\":{\"type\":\"linear\",\"mode\":\"normal\"},\"labels\":{\"show\":true,\"rotate\":0,\"filter\":false,\"truncate\":100},\"title\":{\"text\":\"Average Engagement\"}}],\"seriesParams\":[{\"show\":\"true\",\"type\":\"histogram\",\"mode\":\"stacked\",\"data\":{\"label\":\"Average Engagement\",\"id\":\"1\"},\"valueAxis\":\"ValueAxis-1\",\"drawLinesBetweenPoints\":true,\"showCircles\":true}],\"addTooltip\":true,\"addLegend\":true,\"legendPosition\":\"right\",\"times\":[],\"addTimeMarker\":false},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.engagement_rate\"},\"schema\":\"metric\"},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"content_type\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\"},\"schema\":\"segment\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Average engagement rate by content type",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"range\":{\"metrics.engagement_rate\":{\"gt\":0}}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "upvote-rate-gauge",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Average Upvotes",
+        "visState": "{\"title\":\"Average Upvotes\",\"type\":\"gauge\",\"params\":{\"addTooltip\":true,\"addLegend\":false,\"gauge\":{\"alignment\":\"automatic\",\"extendRange\":true,\"percentageMode\":false,\"gaugeType\":\"Arc\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"Labels\",\"colorsRange\":[{\"from\":0,\"to\":10},{\"from\":10,\"to\":50},{\"from\":50,\"to\":100}],\"invertColors\":true,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":true,\"labels\":false,\"color\":\"#333\"},\"type\":\"meter\",\"style\":{\"bgFill\":\"#eee\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.upvotes\"},\"schema\":\"metric\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Average number of upvotes per post",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"term\":{\"status.published\":true}}]}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "comment-rate-gauge",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Average Comments",
+        "visState": "{\"title\":\"Average Comments\",\"type\":\"gauge\",\"params\":{\"addTooltip\":true,\"addLegend\":false,\"gauge\":{\"alignment\":\"automatic\",\"extendRange\":true,\"percentageMode\":false,\"gaugeType\":\"Arc\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"Labels\",\"colorsRange\":[{\"from\":0,\"to\":5},{\"from\":5,\"to\":20},{\"from\":20,\"to\":50}],\"invertColors\":true,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":true,\"labels\":false,\"color\":\"#333\"},\"type\":\"meter\",\"style\":{\"bgFill\":\"#eee\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.comments\"},\"schema\":\"metric\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Average number of comments per post",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"term\":{\"status.published\":true}}]}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "view-rate-gauge",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Average Views",
+        "visState": "{\"title\":\"Average Views\",\"type\":\"gauge\",\"params\":{\"addTooltip\":true,\"addLegend\":false,\"gauge\":{\"alignment\":\"automatic\",\"extendRange\":true,\"percentageMode\":false,\"gaugeType\":\"Arc\",\"gaugeStyle\":\"Full\",\"backStyle\":\"Full\",\"orientation\":\"vertical\",\"colorSchema\":\"Green to Red\",\"gaugeColorMode\":\"Labels\",\"colorsRange\":[{\"from\":0,\"to\":100},{\"from\":100,\"to\":500},{\"from\":500,\"to\":1000}],\"invertColors\":true,\"labels\":{\"show\":true,\"color\":\"black\"},\"scale\":{\"show\":true,\"labels\":false,\"color\":\"#333\"},\"type\":\"meter\",\"style\":{\"bgFill\":\"#eee\",\"bgColor\":false,\"labelColor\":false,\"subText\":\"\",\"fontSize\":60}}},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"avg\",\"params\":{\"field\":\"metrics.views\"},\"schema\":\"metric\"}]}",
+        "uiStateJSON": "{}",
+        "description": "Average number of views per post",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"term\":{\"status.published\":true}}]}},\"filter\":[]}"
+        }
+      }
+    },
+    {
+      "id": "trending-posts-table",
+      "type": "visualization",
+      "updated_at": "2024-10-04T00:00:00.000Z",
+      "version": "WzEsMV0=",
+      "attributes": {
+        "title": "Trending Posts",
+        "visState": "{\"title\":\"Trending Posts\",\"type\":\"table\",\"params\":{\"perPage\":10,\"showPartialRows\":false,\"showMeticsAtAllLevels\":false,\"sort\":{\"columnIndex\":null,\"direction\":null},\"showTotal\":false,\"totalFunc\":\"sum\"},\"aggs\":[{\"id\":\"1\",\"enabled\":true,\"type\":\"max\",\"params\":{\"field\":\"metrics.hot_score\"},\"schema\":\"metric\"},{\"id\":\"2\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"title.raw\",\"size\":20,\"order\":\"desc\",\"orderBy\":\"1\"},\"schema\":\"bucket\"},{\"id\":\"3\",\"enabled\":true,\"type\":\"terms\",\"params\":{\"field\":\"community.name.raw\",\"size\":5,\"order\":\"desc\",\"orderBy\":\"1\"},\"schema\":\"bucket\"},{\"id\":\"4\",\"enabled\":true,\"type\":\"max\",\"params\":{\"field\":\"metrics.upvotes\"},\"schema\":\"metric\"},{\"id\":\"5\",\"enabled\":true,\"type\":\"max\",\"params\":{\"field\":\"metrics.comments\"},\"schema\":\"metric\"},{\"id\":\"6\",\"enabled\":true,\"type\":\"max\",\"params\":{\"field\":\"metrics.views\"},\"schema\":\"metric\"}]}",
+        "uiStateJSON": "{\"vis\":{\"params\":{\"sort\":{\"columnIndex\":0,\"direction\":\"desc\"}}}}",
+        "description": "Table of posts with highest hot scores (trending)",
+        "kibanaSavedObjectMeta": {
+          "searchSourceJSON": "{\"index\":\"cryb-posts-*\",\"query\":{\"bool\":{\"must\":[{\"term\":{\"status.published\":true}},{\"range\":{\"metrics.hot_score\":{\"gt\":0}}}]}},\"filter\":[]}"
+        }
+      }
+    }
+  ]
+}

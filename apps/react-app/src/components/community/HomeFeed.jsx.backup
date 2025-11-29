@@ -1,0 +1,271 @@
+import React, { useState, useEffect } from 'react'
+import CommunityFeed from './CommunityFeed'
+import { Home, TrendingUp, Clock, Star, Users, Plus } from 'lucide-react'
+const HomeFeed = ({ user }) => {
+  const [feedType, setFeedType] = useState('home') // home, popular, all
+  const [sortBy, setSortBy] = useState('hot') // hot, new, top, rising
+  const [timeFilter, setTimeFilter] = useState('day') // hour, day, week, month, year, all
+
+  const feedTypes = [
+    {
+      id: 'home',
+      name: 'Home',
+      icon: Home,
+      description: 'Posts from communities you\'ve joined'
+    },
+    {
+      id: 'popular',
+      name: 'Popular',
+      icon: TrendingUp,
+      description: 'Trending posts from all communities'
+    },
+    {
+      id: 'all',
+      name: 'All',
+      icon: Users,
+      description: 'All posts from every community'
+    }
+  ]
+
+  const sortTypes = [
+    { id: 'hot', name: 'Hot', icon: TrendingUp, description: 'Rising posts' },
+    { id: 'new', name: 'New', icon: Clock, description: 'Newest posts' },
+    { id: 'top', name: 'Top', icon: Star, description: 'Highest voted' },
+    { id: 'rising', name: 'Rising', icon: TrendingUp, description: 'Quickly gaining votes' }
+  ]
+
+  const timeFilters = [
+    { id: 'hour', name: 'Hour' },
+    { id: 'day', name: 'Today' },
+    { id: 'week', name: 'Week' },
+    { id: 'month', name: 'Month' },
+    { id: 'year', name: 'Year' },
+    { id: 'all', name: 'All Time' }
+  ]
+
+  return (
+    <div className="home-feed">
+      {/* Header */}
+      <div className="home-feed-header">
+        <div className="feed-navigation">
+          {feedTypes.map(type => {
+            const IconComponent = type.icon
+            return (
+              <button
+                key={type.id}
+                onClick={() => setFeedType(type.id)}
+                className={`feed-tab ${feedType === type.id ? 'active' : ''}`}
+                title={type.description}
+              >
+                <IconComponent size={18} />
+                <span>{type.name}</span>
+              </button>
+            )
+          })}
+        </div>
+
+        <div className="feed-controls">
+          {/* Sort Controls */}
+          <div className="sort-controls">
+            <label>Sort:</label>
+            <div className="sort-buttons">
+              {sortTypes.map(sort => {
+                const SortIcon = sort.icon
+                return (
+                  <button
+                    key={sort.id}
+                    onClick={() => setSortBy(sort.id)}
+                    className={`sort-btn ${sortBy === sort.id ? 'active' : ''}`}
+                    title={sort.description}
+                  >
+                    <SortIcon size={14} />
+                    <span>{sort.name}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Time Filter - only show for 'top' sort */}
+          {sortBy === 'top' && (
+            <div className="time-controls">
+              <label>Time:</label>
+              <select 
+                value={timeFilter}
+                onChange={(e) => setTimeFilter(e.target.value)}
+                className="time-select"
+              >
+                {timeFilters.map(filter => (
+                  <option key={filter.id} value={filter.id}>
+                    {filter.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Info Bar */}
+      {feedType === 'home' && (
+        <div className="feed-info">
+          <div className="info-content">
+            <Home size={16} />
+            <span>
+              {user?.joinedCommunities?.length > 0 
+                ? `Showing posts from your ${user.joinedCommunities.length} joined communities`
+                : 'Join communities to see posts in your home feed'
+              }
+            </span>
+          </div>
+          {(!user?.joinedCommunities?.length) && (
+            <button className="browse-communities-btn">
+              <Plus size={14} />
+              Browse Communities
+            </button>
+          )}
+        </div>
+      )}
+
+      {feedType === 'popular' && (
+        <div className="feed-info">
+          <div className="info-content">
+            <TrendingUp size={16} />
+            <span>Popular posts from communities with high engagement</span>
+          </div>
+        </div>
+      )}
+
+      {feedType === 'all' && (
+        <div className="feed-info">
+          <div className="info-content">
+            <Users size={16} />
+            <span>All posts from every community on CRYB</span>
+          </div>
+        </div>
+      )}
+
+      {/* Community Feed */}
+      <div className="feed-content">
+        <CommunityFeed
+          feedType={feedType}
+          initialSortBy={sortBy}
+          initialTimeFilter={timeFilter}
+          className="main-feed"
+        />
+      </div>
+
+      {/* Quick Actions Sidebar */}
+      <aside className="feed-sidebar">
+        <div className="sidebar-section">
+          <h3>Quick Actions</h3>
+          <div className="quick-actions">
+            <button className="action-btn primary">
+              <Plus size={16} />
+              Create Post
+            </button>
+            <button className="action-btn">
+              <Users size={16} />
+              Browse Communities
+            </button>
+          </div>
+        </div>
+
+        {user?.joinedCommunities?.length > 0 && (
+          <div className="sidebar-section">
+            <h3>Your Communities</h3>
+            <div className="community-shortcuts">
+              {user.joinedCommunities.slice(0, 5).map(community => (
+                <button
+                  key={community.id}
+                  className="community-shortcut"
+                  onClick={() => {/* Navigate to community */}}
+                >
+                  <div className="community-icon">
+                    {community.icon ? (
+                      <img src={community.icon} alt={community.name} />
+                    ) : (
+                      <div className="default-icon">
+                        {community.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="community-info">
+                    <span className="community-name">c/{community.name}</span>
+                    <span className="member-count">{community.members} members</span>
+                  </div>
+                </button>
+              ))}
+              {user.joinedCommunities.length > 5 && (
+                <button className="see-more-btn">
+                  View all {user.joinedCommunities.length} communities
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        <div className="sidebar-section">
+          <h3>Trending Topics</h3>
+          <div className="trending-topics">
+            {[
+              '#cryptocurrency',
+              '#webdevelopment', 
+              '#gaming',
+              '#digitalart',
+              '#music'
+            ].map(topic => (
+              <button key={topic} className="topic-tag">
+                {topic}
+              </button>
+            ))}
+          </div>
+        </div>
+      </aside>
+    </div>
+  )
+}
+
+
+
+const styles = {
+  card: {
+    background: 'rgba(22, 27, 34, 0.6)',
+    backdropFilter: 'blur(12px)',
+    border: '1px solid rgba(255, 255, 255, 0.1)',
+    borderRadius: '12px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+    padding: '16px'
+  },
+  button: {
+    background: 'linear-gradient(to right, #2081E2, #8247E5)',
+    border: 'none',
+    borderRadius: '12px',
+    color: '#ffffff',
+    padding: '12px 24px',
+    cursor: 'pointer',
+    fontWeight: '600',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+  },
+  container: {
+    background: '#0d1117',
+    padding: '16px'
+  },
+  title: {
+    color: '#ffffff',
+    fontSize: '20px',
+    fontWeight: '600',
+    margin: '0 0 16px 0'
+  },
+  text: {
+    color: '#c9d1d9',
+    fontSize: '14px',
+    margin: '0'
+  },
+  textTertiary: {
+    color: '#8b949e',
+    fontSize: '14px'
+  }
+}
+
+export default HomeFeed

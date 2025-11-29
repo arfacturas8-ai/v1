@@ -1,0 +1,145 @@
+# ==============================================
+# CRYB PLATFORM - SECONDARY EKS CLUSTER
+# ==============================================
+# Disaster Recovery and Load Distribution
+# ==============================================
+
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: cryb-production-secondary
+  region: us-west-2
+  version: "1.28"
+  tags:
+    Environment: production
+    Project: cryb-platform
+    ManagedBy: eksctl
+    CostCenter: infrastructure
+    Role: secondary
+    BackupRequired: "true"
+
+# ==============================================
+# VPC CONFIGURATION
+# ==============================================
+vpc:
+  cidr: 10.1.0.0/16
+  nat:
+    gateway: HighlyAvailable
+  clusterEndpoints:
+    publicAccess: true
+    privateAccess: true
+    publicAccessCIDRs: 
+      - 0.0.0.0/0  # Restrict in production
+
+# ==============================================
+# IAM CONFIGURATION  
+# ==============================================
+iam:
+  withOIDC: true
+  serviceAccounts:
+    - metadata:
+        name: aws-load-balancer-controller
+        namespace: kube-system
+      wellKnownPolicies:
+        awsLoadBalancerController: true
+    - metadata:
+        name: cluster-autoscaler
+        namespace: kube-system
+      wellKnownPolicies:
+        autoScaler: true
+    - metadata:
+        name: external-dns
+        namespace: kube-system
+      wellKnownPolicies:
+        externalDNS: true
+
+# ==============================================
+# NODE GROUPS
+# ==============================================
+managedNodeGroups:
+  # Application Nodes (Smaller for DR)
+  - name: cryb-api-nodes-west
+    instanceType: c6i.xlarge
+    minSize: 2
+    maxSize: 30
+    desiredCapacity: 3
+    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+    
+    volumeSize: 100
+    volumeType: gp3
+    volumeEncrypted: true
+    
+    ssh:
+      enableSsm: true
+    
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly
+        - arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy
+    
+    labels:
+      role: api
+      tier: application
+      region: us-west-2
+      nodegroup: cryb-api-nodes-west
+    
+    taints:
+      - key: cryb.io/api-node
+        value: "true"
+        effect: NoSchedule
+    
+    tags:
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/cryb-production-secondary: "owned"
+      NodeGroup: api
+
+  # Database Nodes
+  - name: cryb-database-nodes-west
+    instanceType: r6i.large
+    minSize: 1
+    maxSize: 6
+    desiredCapacity: 2
+    availabilityZones: ["us-west-2a", "us-west-2b", "us-west-2c"]
+    
+    volumeSize: 200
+    volumeType: gp3
+    volumeEncrypted: true
+    
+    ssh:
+      enableSsm: true
+    
+    labels:
+      role: database
+      tier: data
+      region: us-west-2
+      nodegroup: cryb-database-nodes-west
+    
+    taints:
+      - key: cryb.io/database-node
+        value: "true"
+        effect: NoSchedule
+
+# ==============================================
+# ADD-ONS
+# ==============================================
+addons:
+  - name: vpc-cni
+    version: latest
+  - name: coredns
+    version: latest
+  - name: kube-proxy
+    version: latest
+  - name: aws-ebs-csi-driver
+    version: latest
+
+# ==============================================
+# CLOUDWATCH LOGGING
+# ==============================================
+cloudWatch:
+  clusterLogging:
+    enable: true
+    types: ["api", "audit", "authenticator", "controllerManager", "scheduler"]
+    logRetentionInDays: 30

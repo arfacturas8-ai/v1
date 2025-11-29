@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRYB Platform - Next-Generation Community Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white border-b shadow-sm">
+        <div class="container mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-6">
+                <a href="/" class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full flex items-center justify-center">
+                        <span class="text-white font-bold">C</span>
+                    </div>
+                    <span class="font-bold text-xl">CRYB</span>
+                </a>
+                <nav class="hidden md:flex space-x-4">
+                    <a href="/" class="text-gray-700 hover:text-blue-500">Home</a>
+                    <a href="/communities" class="text-gray-700 hover:text-blue-500">Communities</a>
+                    <a href="/chat" class="text-gray-700 hover:text-blue-500">Discord</a>
+                </nav>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="px-4 py-2 text-sm border border-blue-500 text-blue-500 rounded hover:bg-blue-50">Log In</button>
+                <button class="px-4 py-2 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">Sign Up</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2">
+                <h1 class="text-2xl font-bold mb-6">Hot Posts</h1>
+                <div id="posts-container">
+                    <div class="animate-pulse">Loading posts...</div>
+                </div>
+            </div>
+            <div>
+                <div class="bg-white rounded-lg shadow p-6">
+                    <h3 class="font-semibold mb-4">Popular Communities</h3>
+                    <div id="communities-container" class="space-y-2">
+                        <div class="animate-pulse">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load posts
+        fetch('/api/v1/posts')
+            .then(res => res.json())
+            .then(data => {
+                const posts = data.data?.items || [];
+                const container = document.getElementById('posts-container');
+                
+                if (posts.length === 0) {
+                    container.innerHTML = '<div class="text-gray-500">No posts available</div>';
+                    return;
+                }
+                
+                container.innerHTML = posts.map(post => `
+                    <div class="bg-white rounded-lg shadow p-6 mb-4 hover:shadow-lg transition-shadow">
+                        <div class="flex gap-4">
+                            <div class="flex flex-col items-center">
+                                <button class="text-gray-400 hover:text-blue-500">▲</button>
+                                <span class="font-semibold">${post.score || 0}</span>
+                                <button class="text-gray-400 hover:text-blue-500">▼</button>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm text-gray-600 mb-1">
+                                    r/${post.community?.name || 'general'} • Posted by u/${post.author?.username || post.user?.username || 'user'}
+                                </div>
+                                <h2 class="text-xl font-semibold mb-2">${post.title}</h2>
+                                <p class="text-gray-700 mb-3">${post.content || ''}</p>
+                                <div class="flex gap-4 text-sm text-gray-600">
+                                    <button class="hover:text-blue-500">💬 ${post._count?.comments || 0} Comments</button>
+                                    <button class="hover:text-blue-500">🔗 Share</button>
+                                    <button class="hover:text-blue-500">🔖 Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            })
+            .catch(err => {
+                document.getElementById('posts-container').innerHTML = 
+                    '<div class="text-red-500">Error loading posts: ' + err.message + '</div>';
+            });
+
+        // Load communities
+        fetch('/api/v1/communities')
+            .then(res => res.json())
+            .then(data => {
+                const communities = data.data?.items || [];
+                const container = document.getElementById('communities-container');
+                
+                container.innerHTML = communities.slice(0, 5).map(comm => `
+                    <div class="flex justify-between">
+                        <a href="#" class="text-blue-500 hover:underline">r/${comm.name}</a>
+                        <span class="text-sm text-gray-500">${comm._count?.members || 0} members</span>
+                    </div>
+                `).join('');
+            })
+            .catch(err => {
+                document.getElementById('communities-container').innerHTML = 
+                    '<div class="text-red-500">Error: ' + err.message + '</div>';
+            });
+    </script>
+</body>
+</html>

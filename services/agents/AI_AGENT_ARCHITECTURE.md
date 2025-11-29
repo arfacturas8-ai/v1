@@ -1,9 +1,9 @@
 # CRYB Platform - AI Agent Architecture System
 
-## 🤖 Hierarchical Agent System (7 Main Agents + 21 Sub-Agents)
+##  Hierarchical Agent System (7 Main Agents + 21 Sub-Agents)
 
 ### Overview
-- **Master Orchestrator**: You (Main Claude instance)
+- **Master Orchestrator**: You (Main  instance)
 - **7 Main Agents**: Domain-specific managers
 - **21 Sub-Agents**: Specialized task executors (3 per main agent)
 
@@ -177,7 +177,7 @@
 
 ---
 
-## 🎯 Agent Communication Protocol
+##  Agent Communication Protocol
 
 ### Message Format
 ```json
@@ -210,7 +210,7 @@ Each agent has:
 
 ---
 
-## 📊 Agent Performance Metrics
+##  Agent Performance Metrics
 
 ### KPIs per Agent:
 - Task completion rate
@@ -247,7 +247,7 @@ Each agent has:
 
 ---
 
-## 🛡️ Agent Security
+##  Agent Security
 
 ### Access Control:
 - Role-based permissions
@@ -263,7 +263,7 @@ Each agent has:
 
 ---
 
-## 🚀 Implementation Priority
+##  Implementation Priority
 
 ### Phase 1 (Core Agents):
 1. Community Management Agent
@@ -280,7 +280,7 @@ Each agent has:
 
 ---
 
-## 💡 Agent Intelligence Features
+##  Agent Intelligence Features
 
 ### Machine Learning Capabilities:
 - Natural Language Processing
@@ -297,7 +297,7 @@ Each agent has:
 
 ---
 
-## 📝 Agent Configuration
+##  Agent Configuration
 
 ### Environment Variables:
 ```env
@@ -329,7 +329,7 @@ agents:
 
 ---
 
-## 🎮 Agent Control Commands
+##  Agent Control Commands
 
 ### CLI Interface:
 ```bash
@@ -354,7 +354,7 @@ cryb-agents scale --agent [agent-id] --replicas 3
 
 ---
 
-## 📈 Success Metrics
+##  Success Metrics
 
 ### Platform-wide:
 - 95% task automation rate

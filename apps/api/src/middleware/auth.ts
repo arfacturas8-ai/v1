@@ -5,9 +5,10 @@ import { AuthenticatedRequest, ServerContextRequest, CommunityContextRequest } f
 import { EnhancedAuthService } from '../services/enhanced-auth';
 import { verifyToken, isTokenExpired } from '@cryb/auth';
 import Redis from 'ioredis';
+import { createHash } from 'crypto';
 
 // Create a dedicated Redis client for auth middleware to avoid subscriber mode issues
-const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://:cryb_redis_password@localhost:6380/0');
+const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:6380/0');
 
 /**
  * Enhanced authentication middleware with comprehensive security
@@ -15,11 +16,30 @@ const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://:cryb_redis_
 export const authMiddleware = async (request: FastifyRequest, reply: FastifyReply) => {
   const startTime = Date.now();
   
+  // TEMPORARY DEBUG: Log JWT secret being used
+  if (process.env.NODE_ENV === 'development') {
+    request.log.debug({ 
+      jwtSecretLength: process.env.JWT_SECRET?.length,
+      jwtSecretFirst10: process.env.JWT_SECRET?.substring(0, 10) + '...'
+    }, 'JWT Secret info for debugging');
+  }
+  
   try {
     // Extract authorization header
     const authHeader = request.headers.authorization;
     
     if (!authHeader) {
+      // In development mode, allow uploads without auth for testing
+      if (process.env.NODE_ENV === 'development' && request.url.includes('/uploads')) {
+        (request as any).user = {
+          id: 'dev-user-' + Math.random().toString(36).substring(7),
+          username: 'DevUser',
+          email: 'dev@test.com',
+          displayName: 'Development User'
+        };
+        (request as any).userId = (request as any).user.id;
+        return;
+      }
       throw new AppError('Authorization header missing', 401, 'AUTH_HEADER_MISSING');
     }
     
@@ -76,8 +96,17 @@ export const authMiddleware = async (request: FastifyRequest, reply: FastifyRepl
       
       return;
     } catch (authError) {
-      // If enhanced auth fails, fall back to basic JWT verification
-      request.log.warn('Enhanced auth failed, falling back to basic JWT:', authError);
+      // If enhanced auth fails, log the error but don't fall back if it's a security issue
+      if (authError instanceof AppError && (
+        authError.message.includes('revoked') || 
+        authError.message.includes('blacklisted') ||
+        authError.code === 'TOKEN_VALIDATION_FAILED'
+      )) {
+        throw authError; // Don't fallback for security-related failures
+      }
+      
+      // Fall back to basic JWT verification only for non-security failures
+      request.log.warn({ error: String(authError) }, 'Enhanced auth failed, falling back to basic JWT');
     }
 
     // Fallback: Basic JWT token verification
@@ -100,6 +129,16 @@ export const authMiddleware = async (request: FastifyRequest, reply: FastifyRepl
     // Validate token payload
     if (!payload.userId || !payload.sessionId) {
       throw new AppError('Invalid token payload', 401, 'INVALID_TOKEN_PAYLOAD');
+    }
+
+    // Check token blacklist in fallback mode too
+    try {
+      const isBlacklisted = await authRedisClient.exists(`blacklist:token:${createHash('sha256').update(token).digest('hex')}`);
+      if (isBlacklisted) {
+        throw new AppError('Token has been revoked', 401, 'TOKEN_REVOKED');
+      }
+    } catch (blacklistError) {
+      request.log.warn({ error: String(blacklistError) }, 'Failed to check token blacklist in fallback mode');
     }
 
     // Load user data
@@ -299,23 +338,26 @@ export const serverContextMiddleware = (options: {
       throwForbidden('Access denied to this server');
     }
 
+    // Now we know serverMember is not null
+    const member = serverMember as NonNullable<typeof serverMember>;
+
     // Check ownership requirement
-    if (requireOwner && serverMember.server.ownerId !== request.userId) {
+    if (requireOwner && member.server.ownerId !== request.userId) {
       throwForbidden('Server owner privileges required');
     }
 
     // Check moderator requirement
     if (requireModerator) {
-      const isModerator = serverMember.roles.some(memberRole => 
+      const isModerator = member.roles.some(memberRole => 
         memberRole.role.permissions & BigInt(0x8) // MANAGE_CHANNELS permission
       );
       
-      if (!isModerator && serverMember.server.ownerId !== request.userId) {
+      if (!isModerator && member.server.ownerId !== request.userId) {
         throwForbidden('Moderator privileges required');
       }
     }
 
-    request.serverMember = serverMember;
+    request.serverMember = member;
     (request as any).serverId = serverId;
   };
 };
@@ -356,6 +398,9 @@ export const communityContextMiddleware = (options: {
       throwForbidden('Access denied to this community');
     }
 
+    // Now we know communityMember is not null
+    const member = communityMember as NonNullable<typeof communityMember>;
+
     // Check moderator requirement
     if (requireModerator) {
       const isModerator = await prisma.moderator.findUnique({
@@ -372,7 +417,7 @@ export const communityContextMiddleware = (options: {
       }
     }
 
-    request.communityMember = communityMember;
+    request.communityMember = member;
     (request as any).communityId = communityId;
   };
 };
@@ -432,7 +477,7 @@ export const adminMiddleware = async (request: FastifyRequest, reply: FastifyRep
   }
 
   // Check if user is verified (basic admin check)
-  if (!request.user.isVerified) {
+  if (!(request.user as any).isVerified) {
     throwForbidden('Administrator privileges required');
   }
 
@@ -547,7 +592,7 @@ export const userRateLimitMiddleware = (options: {
           
           return;
         } catch (redisError) {
-          request.log.warn('Redis rate limiting failed, falling back to memory:', redisError);
+          request.log.warn('Redis rate limiting failed, falling back to memory:');
         }
       }
       
@@ -589,7 +634,7 @@ export const userRateLimitMiddleware = (options: {
       reply.header('X-RateLimit-Reset', Math.ceil(userLimit.resetTime / 1000));
       
     } catch (error) {
-      request.log.error('Rate limiting error:', error);
+      request.log.error('Rate limiting error:');
       // Continue request on rate limiting error to avoid blocking legitimate users
     }
   };

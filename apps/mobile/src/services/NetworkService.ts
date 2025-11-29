@@ -641,4 +641,4 @@ class NetworkService {
   }
 }
 
-export const NetworkService = NetworkService.getInstance();
+export const networkService = NetworkService.getInstance();

@@ -1,29 +1,35 @@
 /**
  * LOGIN SCREEN
- * Crash-safe authentication with biometric support
+ * Enhanced authentication with biometric support and real API integration
  */
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import {
   View,
   Text,
-  TextInput,
-  TouchableOpacity,
   StyleSheet,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   Alert,
-  ActivityIndicator,
   Dimensions,
+  Animated,
+  ScrollView,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as Haptics from 'expo-haptics';
+import * as LocalAuthentication from 'expo-local-authentication';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../../navigation/AuthNavigator';
+import { useTheme } from '../../contexts/ThemeContext';
+import { Button, Input, Card } from '../../components/ui';
+import apiService from '../../services/RealApiService';
 import { useAuthStore } from '../../stores/authStore';
-import { CrashDetector } from '../../utils/CrashDetector';
-import { ErrorBoundary, useErrorHandler } from '../../components/ErrorBoundary';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 const { width, height } = Dimensions.get('window');
 
@@ -38,57 +44,93 @@ interface LoginFormErrors {
   general?: string;
 }
 
+type LoginScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Login'>;
+
 const LoginScreen: React.FC = () => {
+  const navigation = useNavigation<LoginScreenNavigationProp>();
+  const { colors, spacing, typography } = useTheme();
+  const { setUser, setToken } = useAuthStore();
+  
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
   });
   const [formErrors, setFormErrors] = useState<LoginFormErrors>({});
   const [showPassword, setShowPassword] = useState(false);
-  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
-
-  const {
-    login,
-    loginWithBiometric,
-    isLoading,
-    error,
-    clearError,
-    biometricAvailable,
-    lockoutTime,
-    authAttempts,
-    resetAuthAttempts,
-  } = useAuthStore();
-
-  const handleError = useErrorHandler();
-
-  // Handle lockout countdown
-  const [lockoutTimeRemaining, setLockoutTimeRemaining] = useState(0);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [authAttempts, setAuthAttempts] = useState(0);
+  const [biometricAvailable, setBiometricAvailable] = useState(false);
+  
+  // Animations
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(50)).current;
+  const logoScale = useRef(new Animated.Value(0.8)).current;
+  
   useEffect(() => {
-    if (lockoutTime) {
-      const updateCountdown = () => {
-        const remaining = Math.max(0, Math.ceil((lockoutTime - Date.now()) / 1000));
-        setLockoutTimeRemaining(remaining);
-        
-        if (remaining === 0) {
-          resetAuthAttempts();
-        }
-      };
-
-      updateCountdown();
-      const interval = setInterval(updateCountdown, 1000);
-      
-      return () => clearInterval(interval);
+    // Check biometric availability
+    checkBiometricAvailability();
+    
+    // Load saved email
+    loadSavedCredentials();
+    
+    // Animate in
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.spring(logoScale, {
+        toValue: 1,
+        tension: 100,
+        friction: 8,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+  
+  const checkBiometricAvailability = async () => {
+    try {
+      const compatible = await LocalAuthentication.hasHardwareAsync();
+      const enrolled = await LocalAuthentication.isEnrolledAsync();
+      setBiometricAvailable(compatible && enrolled);
+    } catch (error) {
+      console.log('Biometric check failed:', error);
     }
-  }, [lockoutTime, resetAuthAttempts]);
+  };
+  
+  const loadSavedCredentials = async () => {
+    try {
+      const savedEmail = await AsyncStorage.getItem('lastLoginEmail');
+      if (savedEmail) {
+        setFormData(prev => ({ ...prev, email: savedEmail }));
+      }
+    } catch (error) {
+      console.log('Failed to load saved credentials:', error);
+    }
+  };
 
-  // Clear errors when form changes
+  // Clear errors after some time
   useEffect(() => {
     if (error) {
-      const timer = setTimeout(clearError, 5000);
+      const timer = setTimeout(() => setError(null), 5000);
       return () => clearTimeout(timer);
     }
-  }, [error, clearError]);
+  }, [error]);
+  
+  // Reset attempts after successful form validation
+  useEffect(() => {
+    if (isFormValid && authAttempts > 0) {
+      const timer = setTimeout(() => setAuthAttempts(0), 30000);
+      return () => clearTimeout(timer);
+    }
+  }, [isFormValid, authAttempts]);
 
   const validateForm = useCallback((): boolean => {
     const errors: LoginFormErrors = {};
@@ -110,57 +152,54 @@ const LoginScreen: React.FC = () => {
   }, [formData]);
 
   const handleInputChange = useCallback((field: keyof LoginFormData, value: string) => {
-    try {
-      setFormData(prev => ({ ...prev, [field]: value }));
-      
-      // Clear field-specific error
-      if (formErrors[field]) {
-        setFormErrors(prev => ({ ...prev, [field]: undefined }));
-      }
-    } catch (error) {
-      handleError(error instanceof Error ? error : new Error(String(error)));
+    setFormData(prev => ({ ...prev, [field]: value }));
+    
+    // Clear field-specific error
+    if (formErrors[field]) {
+      setFormErrors(prev => ({ ...prev, [field]: undefined }));
     }
-  }, [formErrors, handleError]);
+    
+    // Clear general error
+    if (error) {
+      setError(null);
+    }
+  }, [formErrors, error]);
 
   const handleLogin = useCallback(async () => {
     try {
-      if (lockoutTimeRemaining > 0) {
-        Alert.alert(
-          'Account Locked',
-          `Too many failed attempts. Please wait ${lockoutTimeRemaining} seconds.`
-        );
-        return;
-      }
-
       if (!validateForm()) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         return;
       }
 
-      clearError();
+      setIsLoading(true);
+      setError(null);
       
-      const success = await login(formData.email.trim(), formData.password);
+      const result = await apiService.login(formData.email.trim(), formData.password);
       
-      if (success) {
+      if (result.success && result.user && result.token) {
+        // Save credentials for next time
+        await AsyncStorage.setItem('lastLoginEmail', formData.email.trim());
+        
+        // Update auth store
+        setUser(result.user);
+        setToken(result.token);
+        
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         // Navigation handled by RootNavigator
       } else {
+        setAuthAttempts(prev => prev + 1);
+        setError(result.message || 'Login failed. Please check your credentials.');
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
-        
-        if (authAttempts >= 2) {
-          Alert.alert(
-            'Login Failed',
-            'Multiple failed attempts detected. Please check your credentials carefully.',
-            [{ text: 'OK' }]
-          );
-        }
       }
     } catch (error) {
-      console.error('[LoginScreen] Login error:', error);
-      handleError(error instanceof Error ? error : new Error(String(error)));
+      console.error('Login error:', error);
+      setError('Network error. Please check your connection and try again.');
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    } finally {
+      setIsLoading(false);
     }
-  }, [formData, validateForm, login, clearError, authAttempts, lockoutTimeRemaining, handleError]);
+  }, [formData, validateForm, setUser, setToken]);
 
   const handleBiometricLogin = useCallback(async () => {
     try {
@@ -173,194 +212,231 @@ const LoginScreen: React.FC = () => {
         return;
       }
 
-      clearError();
+      const result = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Sign in to CRYB',
+        cancelLabel: 'Cancel',
+        disableDeviceFallback: false,
+      });
       
-      const success = await loginWithBiometric();
-      
-      if (success) {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-      } else {
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      if (result.success) {
+        // Try to get saved credentials
+        const savedCredentials = await AsyncStorage.getItem('savedCredentials');
+        if (savedCredentials) {
+          const { email, password } = JSON.parse(savedCredentials);
+          const loginResult = await apiService.login(email, password);
+          
+          if (loginResult.success && loginResult.user && loginResult.token) {
+            setUser(loginResult.user);
+            setToken(loginResult.token);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          }
+        } else {
+          Alert.alert(
+            'No Saved Credentials',
+            'Please log in with your password first to enable biometric login.',
+            [{ text: 'OK' }]
+          );
+        }
       }
     } catch (error) {
-      console.error('[LoginScreen] Biometric login error:', error);
-      handleError(error instanceof Error ? error : new Error(String(error)));
-      
+      console.error('Biometric login error:', error);
       Alert.alert(
         'Biometric Login Failed',
         'Please try again or use your password.',
         [{ text: 'OK' }]
       );
     }
-  }, [biometricAvailable, loginWithBiometric, clearError, handleError]);
+  }, [biometricAvailable, setUser, setToken]);
 
   const handleForgotPassword = useCallback(() => {
-    try {
-      Alert.alert(
-        'Reset Password',
-        'Password reset functionality will be available soon.',
-        [{ text: 'OK' }]
-      );
-    } catch (error) {
-      handleError(error instanceof Error ? error : new Error(String(error)));
-    }
-  }, [handleError]);
+    navigation.navigate('ForgotPassword');
+  }, [navigation]);
 
   const isFormValid = formData.email.trim() && formData.password && !isLoading;
-  const showLockoutWarning = authAttempts >= 2 && !lockoutTime;
+  const showAttemptsWarning = authAttempts >= 2;
+  const isLocked = authAttempts >= 5;
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="light" />
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+      <StatusBar style="auto" />
       <LinearGradient
-        colors={['#000000', '#1a1a1a', '#000000']}
+        colors={[
+          colors.background,
+          colors.primary + '10',
+          colors.background,
+        ]}
         style={styles.gradient}
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoid}
         >
-          <View style={styles.content}>
-            {/* Header */}
-            <View style={styles.header}>
-              <Text style={styles.title}>Welcome Back</Text>
-              <Text style={styles.subtitle}>Sign in to your CRYB account</Text>
-            </View>
+          <ScrollView 
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Header with Logo */}
+            <Animated.View 
+              style={[
+                styles.header,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                }
+              ]}
+            >
+              <Animated.View 
+                style={[
+                  styles.logoContainer,
+                  {
+                    backgroundColor: colors.primary,
+                    transform: [{ scale: logoScale }],
+                  }
+                ]}
+              >
+                <Text style={[styles.logoText, { color: colors.textInverse }]}>C</Text>
+              </Animated.View>
+              <Text style={[styles.title, { color: colors.text }]}>Welcome Back</Text>
+              <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+                Sign in to your CRYB account
+              </Text>
+            </Animated.View>
 
-            {/* Error Display */}
-            {error && (
-              <View style={styles.errorContainer}>
-                <Ionicons name="warning" size={20} color="#ff6b6b" />
-                <Text style={styles.errorText}>{error}</Text>
-              </View>
-            )}
+            {/* Main Card */}
+            <Animated.View
+              style={[
+                styles.cardContainer,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                }
+              ]}
+            >
+              <Card variant="elevated" padding="lg">
+                {/* Error Display */}
+                {error && (
+                  <View style={[styles.errorContainer, { backgroundColor: colors.error + '15', borderColor: colors.error + '30' }]}>
+                    <Ionicons name="warning" size={20} color={colors.error} />
+                    <Text style={[styles.errorText, { color: colors.error }]}>{error}</Text>
+                  </View>
+                )}
 
-            {/* Lockout Warning */}
-            {showLockoutWarning && (
-              <View style={styles.warningContainer}>
-                <Ionicons name="shield-checkmark" size={20} color="#ffa726" />
-                <Text style={styles.warningText}>
-                  {3 - authAttempts} attempt{3 - authAttempts !== 1 ? 's' : ''} remaining
-                </Text>
-              </View>
-            )}
+                {/* Attempts Warning */}
+                {showAttemptsWarning && !isLocked && (
+                  <View style={[styles.warningContainer, { backgroundColor: colors.warning + '15', borderColor: colors.warning + '30' }]}>
+                    <Ionicons name="shield-checkmark" size={20} color={colors.warning} />
+                    <Text style={[styles.warningText, { color: colors.warning }]}>
+                      {5 - authAttempts} attempt{5 - authAttempts !== 1 ? 's' : ''} remaining
+                    </Text>
+                  </View>
+                )}
 
-            {/* Lockout Display */}
-            {lockoutTimeRemaining > 0 && (
-              <View style={styles.lockoutContainer}>
-                <Ionicons name="time" size={20} color="#ff6b6b" />
-                <Text style={styles.lockoutText}>
-                  Account locked for {lockoutTimeRemaining} seconds
-                </Text>
-              </View>
-            )}
+                {/* Lockout Display */}
+                {isLocked && (
+                  <View style={[styles.lockoutContainer, { backgroundColor: colors.error + '20', borderColor: colors.error + '50' }]}>
+                    <Ionicons name="lock-closed" size={20} color={colors.error} />
+                    <Text style={[styles.lockoutText, { color: colors.error }]}>
+                      Account temporarily locked. Please try again later.
+                    </Text>
+                  </View>
+                )}
 
-            {/* Form */}
-            <View style={styles.form}>
-              {/* Email Input */}
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Email</Text>
-                <View style={[styles.inputWrapper, formErrors.email && styles.inputError]}>
-                  <Ionicons name="mail" size={20} color="#666" />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Enter your email"
-                    placeholderTextColor="#666"
+                {/* Form */}
+                <View style={styles.form}>
+                  <Input
+                    label="Email"
                     value={formData.email}
                     onChangeText={(value) => handleInputChange('email', value)}
+                    leftIcon="mail"
                     keyboardType="email-address"
                     autoCapitalize="none"
                     autoCorrect={false}
-                    editable={!isLoading && lockoutTimeRemaining === 0}
+                    error={formErrors.email}
+                    containerStyle={{ marginBottom: spacing.md }}
+                    editable={!isLoading && !isLocked}
                   />
-                </View>
-                {formErrors.email && (
-                  <Text style={styles.fieldError}>{formErrors.email}</Text>
-                )}
-              </View>
 
-              {/* Password Input */}
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Password</Text>
-                <View style={[styles.inputWrapper, formErrors.password && styles.inputError]}>
-                  <Ionicons name="lock-closed" size={20} color="#666" />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Enter your password"
-                    placeholderTextColor="#666"
+                  <Input
+                    label="Password"
                     value={formData.password}
                     onChangeText={(value) => handleInputChange('password', value)}
+                    leftIcon="lock-closed"
+                    rightIcon={showPassword ? 'eye-off' : 'eye'}
+                    onRightIconPress={() => setShowPassword(!showPassword)}
                     secureTextEntry={!showPassword}
                     autoCapitalize="none"
                     autoCorrect={false}
-                    editable={!isLoading && lockoutTimeRemaining === 0}
+                    error={formErrors.password}
+                    containerStyle={{ marginBottom: spacing.sm }}
+                    editable={!isLoading && !isLocked}
                   />
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                    style={styles.showPasswordButton}
+
+                  {/* Forgot Password */}
+                  <Button
+                    title="Forgot Password?"
+                    onPress={handleForgotPassword}
+                    variant="ghost"
+                    size="sm"
+                    style={styles.forgotPasswordButton}
+                    textStyle={{ color: colors.primary }}
                     disabled={isLoading}
-                  >
-                    <Ionicons
-                      name={showPassword ? 'eye-off' : 'eye'}
-                      size={20}
-                      color="#666"
-                    />
-                  </TouchableOpacity>
+                  />
                 </View>
-                {formErrors.password && (
-                  <Text style={styles.fieldError}>{formErrors.password}</Text>
-                )}
-              </View>
 
-              {/* Forgot Password */}
-              <TouchableOpacity
-                onPress={handleForgotPassword}
-                style={styles.forgotPasswordButton}
-                disabled={isLoading}
-              >
-                <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-              </TouchableOpacity>
-            </View>
+                {/* Actions */}
+                <View style={styles.actions}>
+                  {/* Login Button */}
+                  <Button
+                    title="Sign In"
+                    onPress={handleLogin}
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    loading={isLoading}
+                    disabled={!isFormValid || isLocked}
+                    style={{ marginBottom: spacing.md }}
+                  />
 
-            {/* Actions */}
-            <View style={styles.actions}>
-              {/* Login Button */}
-              <TouchableOpacity
-                style={[
-                  styles.loginButton,
-                  (!isFormValid || lockoutTimeRemaining > 0) && styles.loginButtonDisabled
-                ]}
-                onPress={handleLogin}
-                disabled={!isFormValid || lockoutTimeRemaining > 0}
-              >
-                {isLoading ? (
-                  <ActivityIndicator color="#ffffff" size="small" />
-                ) : (
-                  <Text style={styles.loginButtonText}>Sign In</Text>
-                )}
-              </TouchableOpacity>
-
-              {/* Biometric Login */}
-              {biometricAvailable && (
-                <TouchableOpacity
-                  style={styles.biometricButton}
-                  onPress={handleBiometricLogin}
-                  disabled={isLoading || lockoutTimeRemaining > 0}
-                >
-                  <Ionicons name="finger-print" size={24} color="#4a9eff" />
-                  <Text style={styles.biometricButtonText}>Use Biometric</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+                  {/* Biometric Login */}
+                  {biometricAvailable && (
+                    <Button
+                      title="Use Biometric"
+                      onPress={handleBiometricLogin}
+                      variant="outline"
+                      size="lg"
+                      fullWidth
+                      icon={<Ionicons name="finger-print" size={20} color={colors.primary} />}
+                      disabled={isLoading || isLocked}
+                    />
+                  )}
+                </View>
+              </Card>
+            </Animated.View>
 
             {/* Register Link */}
-            <View style={styles.footer}>
-              <Text style={styles.footerText}>Don't have an account?</Text>
-              <TouchableOpacity disabled={isLoading}>
-                <Text style={styles.registerLink}>Sign Up</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+            <Animated.View
+              style={[
+                styles.footer,
+                {
+                  opacity: fadeAnim,
+                }
+              ]}
+            >
+              <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+                Don't have an account?
+              </Text>
+              <Button
+                title="Sign Up"
+                onPress={() => navigation.navigate('Register')}
+                variant="ghost"
+                size="sm"
+                textStyle={{ color: colors.primary }}
+                disabled={isLoading}
+              />
+            </Animated.View>
+          </ScrollView>
         </KeyboardAvoidingView>
       </LinearGradient>
     </SafeAreaView>
@@ -370,7 +446,6 @@ const LoginScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
   },
   gradient: {
     flex: 1,
@@ -378,184 +453,109 @@ const styles = StyleSheet.create({
   keyboardAvoid: {
     flex: 1,
   },
-  content: {
+  scrollView: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 40,
-    paddingBottom: 20,
+  },
+  scrollContent: {
+    flexGrow: 1,
+    paddingHorizontal: spacing.xxl,
+    paddingTop: spacing.xxxl,
+    paddingBottom: spacing.xxxl,
   },
   header: {
     alignItems: 'center',
-    marginBottom: 40,
+    marginBottom: spacing.xxxl,
+  },
+  logoContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: spacing.xl,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  logoText: {
+    fontSize: typography.h3,
+    fontWeight: '800',
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 8,
+    fontSize: typography.h3,
+    fontWeight: '700',
+    marginBottom: spacing.sm,
+    textAlign: 'center',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#cccccc',
+    fontSize: typography.body1,
     textAlign: 'center',
+    lineHeight: 24,
+  },
+  cardContainer: {
+    marginBottom: spacing.xxl,
   },
   errorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 107, 107, 0.1)',
-    padding: 12,
+    padding: spacing.md,
     borderRadius: 8,
-    marginBottom: 16,
+    marginBottom: spacing.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 107, 107, 0.3)',
   },
   errorText: {
-    color: '#ff6b6b',
-    fontSize: 14,
-    marginLeft: 8,
+    fontSize: typography.body2,
+    marginLeft: spacing.sm,
     flex: 1,
   },
   warningContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 167, 38, 0.1)',
-    padding: 12,
+    padding: spacing.md,
     borderRadius: 8,
-    marginBottom: 16,
+    marginBottom: spacing.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 167, 38, 0.3)',
   },
   warningText: {
-    color: '#ffa726',
-    fontSize: 14,
-    marginLeft: 8,
+    fontSize: typography.body2,
+    marginLeft: spacing.sm,
     flex: 1,
   },
   lockoutContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255, 107, 107, 0.2)',
-    padding: 12,
+    padding: spacing.md,
     borderRadius: 8,
-    marginBottom: 16,
+    marginBottom: spacing.lg,
     borderWidth: 1,
-    borderColor: 'rgba(255, 107, 107, 0.5)',
   },
   lockoutText: {
-    color: '#ff6b6b',
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
-    marginLeft: 8,
+    marginLeft: spacing.sm,
     flex: 1,
   },
   form: {
-    marginBottom: 40,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 8,
-  },
-  inputWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderColor: '#333333',
-  },
-  inputError: {
-    borderColor: '#ff6b6b',
-    backgroundColor: 'rgba(255, 107, 107, 0.05)',
-  },
-  textInput: {
-    flex: 1,
-    color: '#ffffff',
-    fontSize: 16,
-    marginLeft: 12,
-  },
-  showPasswordButton: {
-    padding: 4,
-  },
-  fieldError: {
-    color: '#ff6b6b',
-    fontSize: 12,
-    marginTop: 4,
-    marginLeft: 4,
+    marginBottom: spacing.xxl,
   },
   forgotPasswordButton: {
     alignSelf: 'flex-end',
-    marginTop: 8,
-  },
-  forgotPasswordText: {
-    color: '#4a9eff',
-    fontSize: 14,
-    fontWeight: '500',
   },
   actions: {
-    gap: 16,
-    marginBottom: 40,
-  },
-  loginButton: {
-    backgroundColor: '#4a9eff',
-    paddingVertical: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  loginButtonDisabled: {
-    backgroundColor: '#333333',
-    opacity: 0.5,
-  },
-  loginButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  biometricButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    paddingVertical: 16,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#4a9eff',
-    gap: 8,
-  },
-  biometricButtonText: {
-    color: '#4a9eff',
-    fontSize: 16,
-    fontWeight: '500',
+    marginBottom: spacing.xxl,
   },
   footer: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    paddingTop: spacing.xl,
   },
   footerText: {
-    color: '#cccccc',
-    fontSize: 14,
-  },
-  registerLink: {
-    color: '#4a9eff',
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: typography.body2,
+    marginRight: spacing.sm,
   },
 });
 
-// Wrap with error boundary
-export default function SafeLoginScreen() {
-  return (
-    <ErrorBoundary>
-      <LoginScreen />
-    </ErrorBoundary>
-  );
-}
+export { LoginScreen };

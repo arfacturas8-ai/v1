@@ -2,7 +2,7 @@ import { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { ethers } from "ethers";
 import { authMiddleware } from "../middleware/auth";
-import { tokenGatingService } from "../services/token-gating";
+import { simpleTokenGatingService } from "../services/simple-token-gating";
 import { prisma } from "@cryb/database";
 
 const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
@@ -79,7 +79,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         }
       }
 
-      const rule = await tokenGatingService.createTokenGatingRule(body);
+      const rule = await simpleTokenGatingService.createTokenGatingRule(body);
 
       return reply.send({
         success: true,
@@ -115,7 +115,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         isActive: z.coerce.boolean().optional(),
       }).parse(request.query);
 
-      const rules = await tokenGatingService.getTokenGatingRules(query);
+      const rules = await simpleTokenGatingService.getTokenGatingRules(query);
 
       return reply.send({
         success: true,
@@ -148,7 +148,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         ruleId: z.string(),
       }).parse(request.params);
 
-      const rule = await tokenGatingService.getTokenGatingRule(params.ruleId);
+      const rule = await simpleTokenGatingService.getTokenGatingRule(params.ruleId);
 
       if (!rule) {
         return reply.code(404).send({
@@ -210,7 +210,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
       }).parse(request.body);
 
       // Verify user has permission to update this rule
-      const existingRule = await tokenGatingService.getTokenGatingRule(params.ruleId);
+      const existingRule = await simpleTokenGatingService.getTokenGatingRule(params.ruleId);
       if (!existingRule) {
         return reply.code(404).send({
           success: false,
@@ -232,7 +232,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         }
       }
 
-      const updatedRule = await tokenGatingService.updateTokenGatingRule(params.ruleId, body);
+      const updatedRule = await simpleTokenGatingService.updateTokenGatingRule(params.ruleId, body);
 
       return reply.send({
         success: true,
@@ -266,7 +266,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
       }).parse(request.params);
 
       // Verify user has permission to delete this rule
-      const existingRule = await tokenGatingService.getTokenGatingRule(params.ruleId);
+      const existingRule = await simpleTokenGatingService.getTokenGatingRule(params.ruleId);
       if (!existingRule) {
         return reply.code(404).send({
           success: false,
@@ -288,7 +288,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         }
       }
 
-      const result = await tokenGatingService.deleteTokenGatingRule(params.ruleId);
+      const result = await simpleTokenGatingService.deleteTokenGatingRule(params.ruleId);
 
       if (!result.success) {
         return reply.code(500).send({
@@ -331,7 +331,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         communityId: z.string().optional(),
       }).parse(request.body);
 
-      const result = await tokenGatingService.checkAccess(
+      const result = await simpleTokenGatingService.checkAccess(
         request.userId,
         body.serverId,
         body.channelId,
@@ -400,7 +400,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         });
       }
 
-      const result = await tokenGatingService.checkAccess(
+      const result = await simpleTokenGatingService.checkAccess(
         params.userId,
         body.serverId,
         body.channelId,
@@ -442,7 +442,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
         })).max(10), // Limit to 10 rules per request
       }).parse(request.body);
 
-      const results = await tokenGatingService.bulkCheckAccess(request.userId, body.rules);
+      const results = await simpleTokenGatingService.bulkCheckAccess(request.userId, body.rules);
 
       return reply.send({
         success: true,
@@ -469,7 +469,7 @@ const tokenGatingRoutes: FastifyPluginAsync = async (fastify) => {
   // Get supported tokens
   fastify.get("/supported-tokens", async (request: any, reply) => {
     try {
-      const tokens = tokenGatingService.getSupportedTokens();
+      const tokens = simpleTokenGatingService.getSupportedTokens();
 
       return reply.send({
         success: true,

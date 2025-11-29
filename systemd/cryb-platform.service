@@ -1,50 +1,66 @@
 [Unit]
 Description=CRYB Platform - PM2 Process Manager
 Documentation=https://pm2.keymetrics.io/
-After=network.target
+After=network-online.target
 After=docker.service
+Wants=network-online.target
 Wants=docker.service
+RequiresMountsFor=/home/ubuntu/cryb-platform
 
 [Service]
-Type=notify
+Type=forking
 User=ubuntu
 Group=ubuntu
 WorkingDirectory=/home/ubuntu/cryb-platform
-Environment=PATH=/usr/bin:/usr/local/bin:/home/ubuntu/.nvm/versions/node/v18.18.0/bin
+Environment=PATH=/usr/bin:/usr/local/bin:/home/ubuntu/.nvm/versions/node/v20.17.0/bin
 Environment=NODE_ENV=production
 Environment=PM2_HOME=/home/ubuntu/.pm2
+EnvironmentFile=-/home/ubuntu/cryb-platform/.env.production
 
-# Ensure all dependencies are available
-ExecStartPre=/bin/sleep 10
-ExecStartPre=/usr/bin/docker ps
-ExecStartPre=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && which pm2'
+# Create log directory
+ExecStartPre=/bin/mkdir -p /home/ubuntu/cryb-platform/logs
+ExecStartPre=/bin/chown ubuntu:ubuntu /home/ubuntu/cryb-platform/logs
 
-# Start PM2 with ecosystem configuration
-ExecStart=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && pm2 start /home/ubuntu/cryb-platform/ecosystem.config.js --env production --no-daemon'
+# Wait for dependencies
+ExecStartPre=/bin/sleep 15
+ExecStartPre=/bin/bash -c 'timeout 30 bash -c "until docker ps >/dev/null 2>&1; do sleep 1; done"'
+
+# Start PM2 services
+ExecStart=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && pm2 delete all || true && pm2 start /home/ubuntu/cryb-platform/ecosystem.config.js --env production'
 
 # Graceful shutdown
-ExecStop=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && pm2 stop all'
+ExecStop=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && pm2 stop all && pm2 delete all'
 
 # Reload configuration
 ExecReload=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && pm2 reload /home/ubuntu/cryb-platform/ecosystem.config.js --env production'
 
+# Health check
+ExecStartPost=/bin/sleep 10
+ExecStartPost=/bin/bash -c 'source /home/ubuntu/.nvm/nvm.sh && pm2 list | grep -q online'
+
 # Restart policy
 Restart=always
-RestartSec=10
+RestartSec=15
+StartLimitBurst=5
+StartLimitInterval=300
 KillMode=mixed
 KillSignal=SIGTERM
-TimeoutStopSec=30
+TimeoutStartSec=120
+TimeoutStopSec=60
 
 # Resource limits
 LimitNOFILE=65536
 LimitNPROC=65536
+LimitCORE=infinity
 
 # Security settings
 NoNewPrivileges=true
 PrivateTmp=true
 ProtectSystem=strict
 ReadWritePaths=/home/ubuntu/cryb-platform/logs
+ReadWritePaths=/home/ubuntu/cryb-platform/tmp
 ReadWritePaths=/home/ubuntu/.pm2
+ReadWritePaths=/tmp
 
 [Install]
 WantedBy=multi-user.target

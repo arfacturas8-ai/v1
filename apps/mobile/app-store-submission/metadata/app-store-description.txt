@@ -1,0 +1,37 @@
+CRYB - Next-Generation Community Platform
+
+Connect, communicate, and collaborate like never before with CRYB, the ultimate hybrid community platform that seamlessly blends Discord-like real-time communication with cutting-edge Web3 integration.
+
+🚀 FEATURES
+
+REAL-TIME COMMUNICATION
+• Voice and video calls with crystal-clear quality
+• Text messaging with rich media support
+• Server-based community organization
+• Direct messaging and group chats
+• Screen sharing and file uploads
+
+WEB3 INTEGRATION
+• Crypto wallet integration with WalletConnect
+• Blockchain-based authentication and identity
+• NFT avatar support and digital collectibles
+• Decentralized data storage options
+• Smart contract interactions
+
+ADVANCED FUNCTIONALITY
+• Biometric security with Face ID/Touch ID
+• Push notifications for instant updates
+• Offline mode with automatic sync
+• Cross-platform compatibility
+• Custom emoji and reaction support
+
+PRIVACY & SECURITY
+• End-to-end encryption for sensitive data
+• Secure local storage with encryption
+• SSL certificate pinning
+• Privacy-focused design
+• No tracking or data selling
+
+Whether you're building a gaming community, running a business team, or connecting with friends, CRYB provides the tools you need for modern digital communication.
+
+Join the future of community platforms with CRYB!

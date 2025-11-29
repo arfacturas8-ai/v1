@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { MainStackParamList } from '../../navigation/MainNavigator';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 type ServerListScreenNavigationProp = NativeStackNavigationProp<MainStackParamList, 'MainTabs'>;
 
@@ -328,59 +329,59 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.lg,
   },
   searchContainer: {
-    marginBottom: 16,
+    marginBottom: spacing.lg,
   },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    gap: 12,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    gap: spacing.md,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: typography.body1,
   },
   actionButtons: {
     flexDirection: 'row',
-    gap: 12,
+    gap: spacing.md,
   },
   actionButton: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    gap: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    gap: spacing.sm,
   },
   actionButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: spacing.xl,
   },
   sectionHeader: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: typography.h6,
     fontWeight: 'bold',
   },
   serverItem: {
-    marginHorizontal: 20,
-    marginBottom: 16,
-    borderRadius: 12,
+    marginHorizontal: spacing.xl,
+    marginBottom: spacing.lg,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     overflow: 'hidden',
   },
   serverBanner: {
@@ -388,13 +389,13 @@ const styles = StyleSheet.create({
     height: 100,
   },
   serverContent: {
-    padding: 16,
+    padding: spacing.lg,
   },
   serverHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   serverInfo: {
     flexDirection: 'row',
@@ -404,7 +405,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 8,
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   serverIconPlaceholder: {
     width: 50,
@@ -412,11 +413,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   serverIconText: {
     color: '#ffffff',
-    fontSize: 20,
+    fontSize: typography.h5,
     fontWeight: 'bold',
   },
   serverTitleContainer: {
@@ -429,7 +430,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   serverName: {
-    fontSize: 18,
+    fontSize: typography.h6,
     fontWeight: 'bold',
   },
   unreadIndicator: {
@@ -438,62 +439,62 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   serverCategory: {
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   serverActions: {
-    marginLeft: 12,
+    marginLeft: spacing.md,
   },
   joinedBadge: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
+    paddingHorizontal: spacing.md,
     paddingVertical: 6,
     borderRadius: 6,
-    gap: 4,
+    gap: spacing.xs,
   },
   joinedText: {
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '600',
   },
   joinButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
     borderRadius: 6,
   },
   joinButtonText: {
     color: '#ffffff',
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
   },
   serverDescription: {
-    fontSize: 14,
+    fontSize: typography.body2,
     lineHeight: 20,
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   serverStats: {
     flexDirection: 'row',
-    gap: 16,
+    gap: spacing.lg,
   },
   statItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: spacing.xs,
   },
   statText: {
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   noResultsContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 60,
-    paddingHorizontal: 40,
+    paddingHorizontal: spacing.xxxl,
   },
   noResultsText: {
-    fontSize: 16,
+    fontSize: typography.body1,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: spacing.lg,
   },
 });

@@ -16,7 +16,10 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useAuthStore } from '../../stores/authStore';
+import { useSocketStore } from '../../stores/socketStore';
+import apiService from '../../services/RealApiService';
 import { MainStackParamList } from '../../navigation/MainNavigator';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 type ChatRoomRouteProp = RouteProp<MainStackParamList, 'ChatRoom'>;
 type ChatRoomNavigationProp = NativeStackNavigationProp<MainStackParamList, 'ChatRoom'>;
@@ -27,56 +30,20 @@ interface Message {
   authorId: string;
   authorName: string;
   authorAvatar?: string;
-  timestamp: Date;
+  timestamp: string;
   type: 'text' | 'image' | 'file' | 'system';
-  isOwn: boolean;
-  reactions?: { emoji: string; count: number }[];
+  isOwn?: boolean;
+  reactions?: { emoji: string; count: number; users: string[] }[];
+  channelId: string;
+  serverId?: string;
+  attachments?: any[];
+  mentions?: string[];
+  isEdited: boolean;
+  editedAt?: string;
+  replyTo?: string;
 }
 
-const mockMessages: Message[] = [
-  {
-    id: '1',
-    content: 'Hey everyone! Welcome to our chat room.',
-    authorId: '1',
-    authorName: 'Alice Johnson',
-    authorAvatar: 'https://via.placeholder.com/40',
-    timestamp: new Date(Date.now() - 3600000),
-    type: 'text',
-    isOwn: false,
-  },
-  {
-    id: '2',
-    content: 'Thanks for setting this up! Excited to be here.',
-    authorId: '2',
-    authorName: 'You',
-    timestamp: new Date(Date.now() - 3000000),
-    type: 'text',
-    isOwn: true,
-  },
-  {
-    id: '3',
-    content: 'Does anyone have experience with React Native animations?',
-    authorId: '3',
-    authorName: 'Bob Smith',
-    authorAvatar: 'https://via.placeholder.com/40',
-    timestamp: new Date(Date.now() - 1800000),
-    type: 'text',
-    isOwn: false,
-    reactions: [
-      { emoji: '👍', count: 2 },
-      { emoji: '🤔', count: 1 },
-    ],
-  },
-  {
-    id: '4',
-    content: 'I have some experience with Reanimated 3. Happy to help!',
-    authorId: '2',
-    authorName: 'You',
-    timestamp: new Date(Date.now() - 1500000),
-    type: 'text',
-    isOwn: true,
-  },
-];
+// Remove mock messages - will load from API
 
 export function ChatRoomScreen() {
   const route = useRoute<ChatRoomRouteProp>();
@@ -86,44 +53,149 @@ export function ChatRoomScreen() {
 
   const { roomId, roomName } = route.params;
 
-  const [messages, setMessages] = useState<Message[]>(mockMessages);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const typingTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
+  const { socket, isConnected, sendMessage } = useSocketStore();
 
   const flatListRef = useRef<FlatList>(null);
 
+  // Load messages on mount
   useEffect(() => {
-    // TODO: Connect to WebSocket and load messages
-    // Scroll to bottom on mount
-    setTimeout(() => {
-      flatListRef.current?.scrollToEnd({ animated: false });
-    }, 100);
-  }, []);
+    loadMessages();
+  }, [roomId]);
+
+  // Set up socket listeners
+  useEffect(() => {
+    if (!socket || !isConnected) return;
+
+    // Join the channel
+    socket.emit('join-channel', { channelId: roomId });
+
+    // Listen for new messages
+    const handleNewMessage = (message: Message) => {
+      setMessages(prev => {
+        // Avoid duplicates
+        if (prev.find(m => m.id === message.id)) return prev;
+        return [...prev, { ...message, isOwn: message.authorId === user?.id }];
+      });
+    };
+
+    // Listen for typing indicators
+    const handleTyping = (data: { userId: string; username: string; isTyping: boolean }) => {
+      if (data.userId === user?.id) return; // Don't show own typing
+      
+      setTypingUsers(prev => {
+        if (data.isTyping && !prev.includes(data.username)) {
+          return [...prev, data.username];
+        } else if (!data.isTyping) {
+          return prev.filter(name => name !== data.username);
+        }
+        return prev;
+      });
+    };
+
+    // Listen for message updates
+    const handleMessageUpdate = (updatedMessage: Message) => {
+      setMessages(prev => prev.map(msg => 
+        msg.id === updatedMessage.id 
+          ? { ...updatedMessage, isOwn: updatedMessage.authorId === user?.id }
+          : msg
+      ));
+    };
+
+    // Listen for message deletions
+    const handleMessageDelete = (messageId: string) => {
+      setMessages(prev => prev.filter(msg => msg.id !== messageId));
+    };
+
+    socket.on('new-message', handleNewMessage);
+    socket.on('user-typing', handleTyping);
+    socket.on('message-updated', handleMessageUpdate);
+    socket.on('message-deleted', handleMessageDelete);
+
+    return () => {
+      socket.emit('leave-channel', { channelId: roomId });
+      socket.off('new-message', handleNewMessage);
+      socket.off('user-typing', handleTyping);
+      socket.off('message-updated', handleMessageUpdate);
+      socket.off('message-deleted', handleMessageDelete);
+    };
+  }, [socket, isConnected, roomId, user?.id]);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    if (messages.length > 0) {
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+    }
+  }, [messages.length]);
+
+  const loadMessages = async () => {
+    try {
+      setIsLoading(true);
+      const response = await apiService.getMessages(roomId);
+      
+      if (response && Array.isArray(response)) {
+        const messagesWithOwnership = response.map(msg => ({
+          id: msg.id,
+          content: msg.content,
+          authorId: msg.sender.id,
+          authorName: msg.sender.username,
+          authorAvatar: msg.sender.avatar,
+          timestamp: msg.createdAt,
+          type: msg.type,
+          isOwn: msg.sender.id === user?.id,
+          reactions: msg.reactions || [],
+          channelId: msg.channel || roomId,
+          attachments: [],
+          mentions: [],
+          isEdited: msg.isEdited || false,
+          editedAt: msg.updatedAt,
+        }));
+        setMessages(messagesWithOwnership);
+      }
+    } catch (error) {
+      console.error('Failed to load messages:', error);
+      Alert.alert('Error', 'Failed to load messages');
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSendMessage = useCallback(async () => {
     if (!inputText.trim()) return;
 
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      content: inputText.trim(),
-      authorId: user?.id || '2',
-      authorName: user?.username || 'You',
-      timestamp: new Date(),
-      type: 'text',
-      isOwn: true,
-    };
+    const messageContent = inputText.trim();
+    setInputText(''); // Clear input immediately for better UX
 
-    setMessages(prev => [...prev, newMessage]);
-    setInputText('');
+    try {
+      // Send via API
+      const response = await apiService.sendMessage(messageContent, undefined, roomId);
+      
+      if (!response.success && !response.message) {
+        throw new Error('Failed to send message');
+      }
 
-    // TODO: Send message via WebSocket/API
+      // Also send via socket for real-time updates
+      if (socket && isConnected) {
+        socket.emit('send-message', {
+          channelId: roomId,
+          content: messageContent,
+          type: 'text'
+        });
+      }
 
-    // Auto scroll to bottom
-    setTimeout(() => {
-      flatListRef.current?.scrollToEnd({ animated: true });
-    }, 100);
-  }, [inputText, user]);
+    } catch (error) {
+      console.error('Failed to send message:', error);
+      Alert.alert('Error', 'Failed to send message');
+      setInputText(messageContent); // Restore input on error
+    }
+  }, [inputText, roomId, socket, isConnected]);
 
   const handleReaction = useCallback((messageId: string, emoji: string) => {
     setMessages(prev => prev.map(msg => {
@@ -185,8 +257,44 @@ export function ChatRoomScreen() {
     Alert.alert('Message Actions', '', actions);
   }, [handleReaction]);
 
-  const formatTime = (date: Date): string => {
+  const formatTime = (dateString: string): string => {
+    const date = new Date(dateString);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  // Handle typing indicators
+  const handleInputChange = (text: string) => {
+    setInputText(text);
+    
+    if (!socket || !isConnected) return;
+
+    // Send typing start event
+    if (!isTyping && text.length > 0) {
+      setIsTyping(true);
+      socket.emit('typing-start', { channelId: roomId });
+    }
+
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    // Set new timeout to stop typing
+    typingTimeoutRef.current = setTimeout(() => {
+      if (isTyping) {
+        setIsTyping(false);
+        socket.emit('typing-stop', { channelId: roomId });
+      }
+    }, 2000);
+
+    // Stop typing if input is empty
+    if (text.length === 0 && isTyping) {
+      setIsTyping(false);
+      socket.emit('typing-stop', { channelId: roomId });
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    }
   };
 
   const renderMessage = ({ item, index }: { item: Message; index: number }) => {
@@ -268,6 +376,15 @@ export function ChatRoomScreen() {
     );
   };
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <View style={[styles.container, styles.loadingContainer, { backgroundColor: colors.background }]}>
+        <Text style={[styles.loadingText, { color: colors.text }]}>Loading messages...</Text>
+      </View>
+    );
+  }
+
   return (
     <KeyboardAvoidingView
       style={[styles.container, { backgroundColor: colors.background }]}
@@ -301,7 +418,7 @@ export function ChatRoomScreen() {
           placeholder="Type a message..."
           placeholderTextColor={colors.textSecondary}
           value={inputText}
-          onChangeText={setInputText}
+          onChangeText={handleInputChange}
           multiline
           maxLength={1000}
         />
@@ -329,11 +446,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   messagesContent: {
-    paddingVertical: 16,
+    paddingVertical: spacing.lg,
   },
   messageContainer: {
-    paddingHorizontal: 16,
-    marginBottom: 8,
+    paddingHorizontal: spacing.lg,
+    marginBottom: spacing.sm,
   },
   ownMessageContainer: {
     alignItems: 'flex-end',
@@ -343,38 +460,38 @@ const styles = StyleSheet.create({
   },
   messageBubble: {
     maxWidth: '80%',
-    padding: 12,
+    padding: spacing.md,
     borderRadius: 16,
     position: 'relative',
   },
   messageHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 4,
-    gap: 8,
+    marginBottom: spacing.xs,
+    gap: spacing.sm,
   },
   authorAvatar: {
     width: 20,
     height: 20,
-    borderRadius: 10,
+    borderRadius: deviceInfo.isTablet ? 12 : 10,
   },
   authorName: {
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '600',
   },
   messageText: {
-    fontSize: 16,
+    fontSize: typography.body1,
     lineHeight: 22,
   },
   messageTime: {
     fontSize: 11,
-    marginTop: 4,
+    marginTop: spacing.xs,
     alignSelf: 'flex-end',
   },
   reactionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 4,
+    gap: spacing.xs,
     marginTop: 6,
   },
   reactionBubble: {
@@ -382,40 +499,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 6,
     paddingVertical: 2,
-    borderRadius: 12,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     gap: 2,
   },
   reactionEmoji: {
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   reactionCount: {
     fontSize: 11,
     fontWeight: '500',
   },
   typingContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
   },
   typingText: {
-    fontSize: 12,
+    fontSize: typography.caption,
     fontStyle: 'italic',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 12,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    gap: spacing.md,
   },
   attachButton: {
-    padding: 4,
+    padding: spacing.xs,
   },
   textInput: {
     flex: 1,
     maxHeight: 100,
-    fontSize: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    fontSize: typography.body1,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
     borderRadius: 20,
     backgroundColor: 'rgba(128, 128, 128, 0.1)',
   },
@@ -425,5 +542,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    fontSize: typography.body1,
+    opacity: 0.7,
   },
 });

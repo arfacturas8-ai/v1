@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CRYB Test</title>
+  <style>
+    body { 
+      margin: 0; 
+      padding: 20px; 
+      background: #0A0A0B; 
+      color: white; 
+      font-family: system-ui; 
+    }
+    .status { 
+      padding: 10px; 
+      margin: 10px 0; 
+      border-radius: 8px; 
+    }
+    .loading { background: #333; }
+    .success { background: #004d00; }
+    .error { background: #4d0000; }
+  </style>
+</head>
+<body>
+  <h1>CRYB App Test</h1>
+  <div id="status" class="status loading">Loading...</div>
+  <div id="root"></div>
+
+  <script>
+    const statusEl = document.getElementById('status');
+    
+    function updateStatus(message, type = 'loading') {
+      statusEl.textContent = message;
+      statusEl.className = `status ${type}`;
+      console.log('STATUS:', message);
+    }
+
+    function checkAppRender() {
+      const root = document.getElementById('root');
+      const hasContent = root && root.innerHTML.trim().length > 0;
+      const childCount = root ? root.children.length : 0;
+      
+      if (hasContent) {
+        updateStatus(`App rendered successfully! ${childCount} child elements, ${root.innerHTML.length} chars`, 'success');
+        console.log('Root content:', root.innerHTML.substring(0, 200) + '...');
+      } else {
+        updateStatus('App not rendered - root is empty', 'error');
+      }
+    }
+
+    // Monitor console errors
+    window.addEventListener('error', (e) => {
+      updateStatus(`JavaScript Error: ${e.message}`, 'error');
+      console.error('ERROR:', e);
+    });
+
+    window.addEventListener('unhandledrejection', (e) => {
+      updateStatus(`Unhandled Promise Rejection: ${e.reason}`, 'error');
+      console.error('PROMISE ERROR:', e);
+    });
+
+    // Check app render after delays
+    setTimeout(() => {
+      updateStatus('Checking if app rendered...', 'loading');
+      checkAppRender();
+    }, 2000);
+
+    setTimeout(() => {
+      checkAppRender();
+    }, 5000);
+
+    setTimeout(() => {
+      checkAppRender();
+    }, 10000);
+  </script>
+
+  <!-- Load the main app -->
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>

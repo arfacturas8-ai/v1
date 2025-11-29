@@ -1,0 +1,52 @@
+{
+  "timestamp": "2025-09-30T15:44:23.778Z",
+  "socketTests": {
+    "basicConnection": {
+      "success": false,
+      "error": "websocket error",
+      "connectionTime": 1007
+    },
+    "authenticatedConnection": {
+      "success": false,
+      "error": "websocket error",
+      "connectionTime": 1004
+    },
+    "disconnection": {
+      "success": false,
+      "error": "No active socket connection"
+    }
+  },
+  "realTimeTests": {
+    "messaging": {
+      "success": false,
+      "error": "No active socket connection"
+    },
+    "presence": {
+      "success": false,
+      "error": "No active socket connection"
+    },
+    "voiceChannel": {
+      "success": false,
+      "error": "No active socket connection"
+    }
+  },
+  "performanceMetrics": {
+    "averageConnectionTime": 1005.5,
+    "averageResponseTime": 0,
+    "maxConnectionTime": 1007,
+    "maxResponseTime": 0,
+    "minConnectionTime": 1004,
+    "minResponseTime": 0
+  },
+  "summary": {
+    "totalTests": 6,
+    "successfulTests": 0,
+    "failedTests": 6,
+    "successRate": "0.00%",
+    "socketConnectionWorking": false,
+    "authenticatedConnectionWorking": false,
+    "realTimeMessagingWorking": false,
+    "presenceSystemWorking": false,
+    "voiceChannelWorking": false
+  }
+}

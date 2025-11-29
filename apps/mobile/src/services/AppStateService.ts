@@ -593,4 +593,4 @@ class AppStateService {
   }
 }
 
-export const AppStateService = AppStateService.getInstance();
+export const appStateService = AppStateService.getInstance();

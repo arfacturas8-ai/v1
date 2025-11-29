@@ -9,7 +9,7 @@ import Redis from "ioredis";
 // Initialize Redis and Queue for AI services
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
-  port: parseInt(process.env.REDIS_PORT || '6379'),
+  port: parseInt(process.env.REDIS_PORT || '6380'),
   password: process.env.REDIS_PASSWORD,
 });
 
@@ -517,6 +517,485 @@ const moderationRoutes: FastifyPluginAsync = async (fastify) => {
       return reply.code(500).send({
         success: false,
         error: "Failed to unban user",
+      });
+    }
+  });
+
+  // Reddit-specific moderation routes
+
+  // Ban user from community (Reddit-style)
+  fastify.post("/communities/:communityId/ban", async (request: any, reply) => {
+    try {
+      const { communityId } = z.object({
+        communityId: z.string(),
+      }).parse(request.params);
+
+      const body = z.object({
+        userId: z.string(),
+        reason: z.string().max(500).optional(),
+        duration: z.number().optional(), // Duration in days, null for permanent
+        note: z.string().max(1000).optional(),
+      }).parse(request.body);
+
+      // Check if user is a moderator of this community
+      const moderator = await prisma.communityModerator.findUnique({
+        where: {
+          communityId_userId: {
+            communityId,
+            userId: request.userId,
+          },
+        },
+      });
+
+      if (!moderator) {
+        return reply.code(403).send({
+          success: false,
+          error: "Only community moderators can ban users",
+        });
+      }
+
+      // Remove user from community
+      await prisma.communityMember.deleteMany({
+        where: {
+          communityId,
+          userId: body.userId,
+        },
+      });
+
+      // Create ban record
+      const expiresAt = body.duration ? 
+        new Date(Date.now() + body.duration * 24 * 60 * 60 * 1000) : 
+        null;
+
+      const ban = await prisma.communityBan.create({
+        data: {
+          communityId,
+          userId: body.userId,
+          reason: body.reason || "No reason provided",
+          note: body.note,
+          expiresAt,
+          bannedBy: request.userId,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+            },
+          },
+          community: {
+            select: {
+              id: true,
+              name: true,
+              displayName: true,
+            },
+          },
+        },
+      });
+
+      return reply.send({
+        success: true,
+        data: ban,
+        message: "User banned successfully",
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to ban user",
+      });
+    }
+  });
+
+  // Get community bans
+  fastify.get("/communities/:communityId/bans", async (request: any, reply) => {
+    try {
+      const { communityId } = z.object({
+        communityId: z.string(),
+      }).parse(request.params);
+
+      // Check if user is a moderator
+      const moderator = await prisma.communityModerator.findUnique({
+        where: {
+          communityId_userId: {
+            communityId,
+            userId: request.userId,
+          },
+        },
+      });
+
+      if (!moderator) {
+        return reply.code(403).send({
+          success: false,
+          error: "Only community moderators can view bans",
+        });
+      }
+
+      const bans = await prisma.communityBan.findMany({
+        where: { 
+          communityId,
+          // Only show active bans (non-expired)
+          OR: [
+            { expiresAt: null },
+            { expiresAt: { gt: new Date() } }
+          ]
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatar: true,
+            },
+          },
+          bannedByUser: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+            },
+          },
+        },
+        orderBy: { createdAt: "desc" },
+      });
+
+      return reply.send({
+        success: true,
+        data: bans,
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to get bans",
+      });
+    }
+  });
+
+  // Unban user from community
+  fastify.delete("/communities/:communityId/ban/:userId", async (request: any, reply) => {
+    try {
+      const { communityId, userId } = z.object({
+        communityId: z.string(),
+        userId: z.string(),
+      }).parse(request.params);
+
+      // Check if user is a moderator
+      const moderator = await prisma.communityModerator.findUnique({
+        where: {
+          communityId_userId: {
+            communityId,
+            userId: request.userId,
+          },
+        },
+      });
+
+      if (!moderator) {
+        return reply.code(403).send({
+          success: false,
+          error: "Only community moderators can unban users",
+        });
+      }
+
+      await prisma.communityBan.deleteMany({
+        where: {
+          communityId,
+          userId,
+        },
+      });
+
+      return reply.send({
+        success: true,
+        message: "User unbanned successfully",
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to unban user",
+      });
+    }
+  });
+
+  // Mute user (prevent posting/commenting for duration)
+  fastify.post("/communities/:communityId/mute", async (request: any, reply) => {
+    try {
+      const { communityId } = z.object({
+        communityId: z.string(),
+      }).parse(request.params);
+
+      const body = z.object({
+        userId: z.string(),
+        reason: z.string().max(500).optional(),
+        duration: z.number().min(1).max(365).default(7), // Duration in days
+      }).parse(request.body);
+
+      // Check if user is a moderator
+      const moderator = await prisma.communityModerator.findUnique({
+        where: {
+          communityId_userId: {
+            communityId,
+            userId: request.userId,
+          },
+        },
+      });
+
+      if (!moderator) {
+        return reply.code(403).send({
+          success: false,
+          error: "Only community moderators can mute users",
+        });
+      }
+
+      const expiresAt = new Date(Date.now() + body.duration * 24 * 60 * 60 * 1000);
+
+      const mute = await prisma.communityMute.create({
+        data: {
+          communityId,
+          userId: body.userId,
+          reason: body.reason || "No reason provided",
+          expiresAt,
+          mutedBy: request.userId,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+            },
+          },
+        },
+      });
+
+      return reply.send({
+        success: true,
+        data: mute,
+        message: `User muted for ${body.duration} days`,
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to mute user",
+      });
+    }
+  });
+
+  // Get moderation queue (reported posts/comments)
+  fastify.get("/communities/:communityId/queue", async (request: any, reply) => {
+    try {
+      const { communityId } = z.object({
+        communityId: z.string(),
+      }).parse(request.params);
+
+      const { type = 'all', status = 'pending' } = z.object({
+        type: z.enum(['all', 'posts', 'comments']).default('all'),
+        status: z.enum(['pending', 'resolved', 'ignored']).default('pending'),
+      }).parse(request.query);
+
+      // Check if user is a moderator
+      const moderator = await prisma.communityModerator.findUnique({
+        where: {
+          communityId_userId: {
+            communityId,
+            userId: request.userId,
+          },
+        },
+      });
+
+      if (!moderator) {
+        return reply.code(403).send({
+          success: false,
+          error: "Only community moderators can view moderation queue",
+        });
+      }
+
+      // Get reported content
+      const whereClause: any = { status };
+      
+      if (type === 'posts') {
+        whereClause.postId = { not: null };
+        whereClause.post = { communityId };
+      } else if (type === 'comments') {
+        whereClause.commentId = { not: null };
+        whereClause.comment = { 
+          post: { communityId } 
+        };
+      } else {
+        // For 'all', we need to filter by community through related models
+        whereClause.OR = [
+          { 
+            postId: { not: null },
+            post: { communityId }
+          },
+          { 
+            commentId: { not: null },
+            comment: { post: { communityId } }
+          }
+        ];
+      }
+
+      const reports = await prisma.report.findMany({
+        where: whereClause,
+        include: {
+          reporter: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+            },
+          },
+          post: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  displayName: true,
+                },
+              },
+              community: {
+                select: {
+                  id: true,
+                  name: true,
+                  displayName: true,
+                },
+              },
+            },
+          },
+          comment: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  displayName: true,
+                },
+              },
+              post: {
+                select: {
+                  id: true,
+                  title: true,
+                  community: {
+                    select: {
+                      id: true,
+                      name: true,
+                      displayName: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
+        take: 50,
+      });
+
+      return reply.send({
+        success: true,
+        data: reports,
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to get moderation queue",
+      });
+    }
+  });
+
+  // Resolve report
+  fastify.post("/reports/:reportId/resolve", async (request: any, reply) => {
+    try {
+      const { reportId } = z.object({
+        reportId: z.string(),
+      }).parse(request.params);
+
+      const body = z.object({
+        action: z.enum(['approve', 'remove', 'ignore']),
+        note: z.string().max(1000).optional(),
+      }).parse(request.body);
+
+      const report = await prisma.report.findUnique({
+        where: { id: reportId },
+        include: {
+          post: {
+            include: { community: true },
+          },
+          comment: {
+            include: { 
+              post: { include: { community: true } } 
+            },
+          },
+        },
+      });
+
+      if (!report) {
+        return reply.code(404).send({
+          success: false,
+          error: "Report not found",
+        });
+      }
+
+      // Check if user is a moderator of the relevant community
+      const communityId = report.post?.communityId || report.comment?.post.communityId;
+      
+      const moderator = await prisma.communityModerator.findUnique({
+        where: {
+          communityId_userId: {
+            communityId: communityId!,
+            userId: request.userId,
+          },
+        },
+      });
+
+      if (!moderator) {
+        return reply.code(403).send({
+          success: false,
+          error: "Only community moderators can resolve reports",
+        });
+      }
+
+      // Update report status
+      const updatedReport = await prisma.report.update({
+        where: { id: reportId },
+        data: {
+          status: 'resolved',
+          resolvedAt: new Date(),
+          resolvedBy: request.userId,
+          moderatorNote: body.note,
+        },
+      });
+
+      // Take action based on moderator decision
+      if (body.action === 'remove') {
+        if (report.postId) {
+          await prisma.post.update({
+            where: { id: report.postId },
+            data: { isRemoved: true },
+          });
+        } else if (report.commentId) {
+          await prisma.comment.update({
+            where: { id: report.commentId },
+            data: { isRemoved: true },
+          });
+        }
+      }
+
+      return reply.send({
+        success: true,
+        data: updatedReport,
+        message: `Report ${body.action}d successfully`,
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to resolve report",
       });
     }
   });

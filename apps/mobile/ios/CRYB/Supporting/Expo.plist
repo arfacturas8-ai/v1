@@ -7,10 +7,10 @@
     <key>EXUpdatesEnabled</key>
     <true/>
     <key>EXUpdatesLaunchWaitMs</key>
-    <integer>5000</integer>
+    <integer>0</integer>
     <key>EXUpdatesRuntimeVersion</key>
-    <string>exposdk:51.0.0</string>
+    <string>1.0.0</string>
     <key>EXUpdatesURL</key>
-    <string>https://u.expo.dev/undefined</string>
+    <string>https://u.expo.dev/4f19f1c1-277a-4bbe-a083-720d33712241</string>
   </dict>
 </plist>

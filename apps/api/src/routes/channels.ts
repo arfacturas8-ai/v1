@@ -13,7 +13,7 @@ const createChannelSchema = z.object({
     .max(100, "Channel name must be 100 characters or less")
     .regex(/^[a-zA-Z0-9\-_\s]+$/, "Channel name can only contain letters, numbers, hyphens, underscores, and spaces"),
   description: z.string().max(1024, "Description must be 1024 characters or less").optional(),
-  type: z.enum(['TEXT', 'VOICE', 'VIDEO', 'FORUM', 'STAGE', 'CATEGORY', 'ANNOUNCEMENT'], {
+  type: z.enum(['GUILD_TEXT', 'DM', 'GUILD_VOICE', 'GROUP_DM', 'GUILD_CATEGORY', 'GUILD_ANNOUNCEMENT', 'ANNOUNCEMENT_THREAD', 'PUBLIC_THREAD', 'PRIVATE_THREAD', 'GUILD_STAGE_VOICE', 'GUILD_DIRECTORY', 'GUILD_FORUM', 'GUILD_MEDIA', 'TEXT', 'VOICE'], {
     errorMap: () => ({ message: "Invalid channel type" })
   }),
   parentId: z.string().cuid("Invalid parent category ID").optional(),
@@ -169,6 +169,119 @@ export default async function channelRoutes(fastify: FastifyInstance) {
   /**
    * @swagger
    * /channels:
+   *   get:
+   *     tags: [channels]
+   *     summary: List channels for a server
+   *     description: Get all channels for a specific server
+   *     security:
+   *       - Bearer: []
+   */
+  fastify.get('/', {
+    preHandler: [authMiddleware],
+    schema: {
+      tags: ['channels'],
+      summary: 'List channels for a server',
+      security: [{ Bearer: [] }],
+      querystring: {
+        type: 'object',
+        properties: {
+          serverId: { type: 'string', description: 'Server ID to list channels for' }
+        },
+        required: ['serverId']
+      },
+      response: {
+        200: {
+          type: 'object',
+          properties: {
+            success: { type: 'boolean' },
+            data: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  name: { type: 'string' },
+                  type: { type: 'string' },
+                  position: { type: 'number' },
+                  serverId: { type: 'string' }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    try {
+      const { serverId } = request.query as any;
+
+      if (!serverId) {
+        return reply.code(400).send({
+          success: false,
+          error: "serverId query parameter is required"
+        });
+      }
+
+      // Check if user is a member of the server
+      const serverMember = await prisma.serverMember.findUnique({
+        where: {
+          serverId_userId: {
+            serverId,
+            userId: request.userId!
+          }
+        }
+      });
+
+      if (!serverMember) {
+        return reply.code(403).send({
+          success: false,
+          error: "Not a member of this server"
+        });
+      }
+
+      // Get all channels for the server
+      const channels = await prisma.channel.findMany({
+        where: { serverId },
+        select: {
+          id: true,
+          name: true,
+          type: true,
+          position: true,
+          serverId: true,
+          parentId: true,
+          description: true,
+          isPrivate: true,
+          nsfw: true,
+          userLimit: true,
+          bitrate: true,
+          slowMode: true,
+          topic: true,
+          createdAt: true,
+          updatedAt: true
+        },
+        orderBy: [
+          { position: 'asc' },
+          { createdAt: 'asc' }
+        ]
+      });
+
+      return reply.send({
+        success: true,
+        data: channels
+      });
+
+    } catch (error) {
+      fastify.log.error({ error, userId: request.userId }, 'Failed to list channels');
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to retrieve channels"
+      });
+    }
+  });
+
+  /**
+   * @swagger
+   * /channels:
    *   post:
    *     tags: [channels]
    *     summary: Create a new channel
@@ -193,7 +306,7 @@ export default async function channelRoutes(fastify: FastifyInstance) {
           description: { type: 'string', maxLength: 1024, description: 'Channel description' },
           type: { 
             type: 'string', 
-            enum: ['TEXT', 'VOICE', 'VIDEO', 'FORUM', 'STAGE', 'CATEGORY', 'ANNOUNCEMENT'],
+            enum: ['GUILD_TEXT', 'DM', 'GUILD_VOICE', 'GROUP_DM', 'GUILD_CATEGORY', 'GUILD_ANNOUNCEMENT', 'ANNOUNCEMENT_THREAD', 'PUBLIC_THREAD', 'PRIVATE_THREAD', 'GUILD_STAGE_VOICE', 'GUILD_DIRECTORY', 'GUILD_FORUM', 'GUILD_MEDIA', 'TEXT', 'VOICE'],
             description: 'Channel type'
           },
           parentId: { type: 'string', description: 'Parent category ID' },
@@ -303,7 +416,7 @@ export default async function channelRoutes(fastify: FastifyInstance) {
           where: {
             id: parentId,
             serverId,
-            type: 'CATEGORY'
+            type: 'GUILD_CATEGORY'
           }
         });
         
@@ -316,7 +429,7 @@ export default async function channelRoutes(fastify: FastifyInstance) {
       }
 
       // Validate voice channel specific fields
-      if (['VOICE', 'STAGE'].includes(type)) {
+      if (['GUILD_VOICE', 'GUILD_STAGE_VOICE'].includes(type)) {
         if (userLimit !== undefined && (userLimit < 0 || userLimit > 99)) {
           return reply.code(400).send({
             success: false,
@@ -346,7 +459,7 @@ export default async function channelRoutes(fastify: FastifyInstance) {
       const channel = await prisma.$transaction(async (tx) => {
         // Clean channel name based on type
         let cleanName = name;
-        if (type !== 'CATEGORY') {
+        if (type !== 'GUILD_CATEGORY') {
           cleanName = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-_]/g, '');
         }
 
@@ -387,9 +500,10 @@ export default async function channelRoutes(fastify: FastifyInstance) {
           data: {
             serverId,
             userId: request.userId!,
-            action: "CHANNEL_CREATE",
+            actionType: 2, // CHANNEL_CREATE
             targetId: newChannel.id,
-            metadata: {
+            reason: "Channel created",
+            options: {
               channelName: newChannel.name,
               channelType: newChannel.type,
               parentId: newChannel.parentId
@@ -426,7 +540,8 @@ export default async function channelRoutes(fastify: FastifyInstance) {
       fastify.log.error({ error, userId: request.userId }, 'Channel creation failed');
       return reply.code(500).send({
         success: false,
-        error: "Failed to create channel. Please try again."
+        error: "Failed to create channel. Please try again.",
+        debug: error instanceof Error ? error.message : String(error)
       });
     }
   });
@@ -619,7 +734,7 @@ export default async function channelRoutes(fastify: FastifyInstance) {
           where: {
             id: updateData.parentId,
             serverId: channel.serverId,
-            type: 'CATEGORY'
+            type: 'GUILD_CATEGORY'
           }
         });
         
@@ -747,7 +862,7 @@ export default async function channelRoutes(fastify: FastifyInstance) {
     }
 
     // Cannot delete categories with children
-    if (channel.type === 'CATEGORY' && channel.children.length > 0) {
+    if (channel.type === 'GUILD_CATEGORY' && channel.children.length > 0) {
       throwBadRequest('Cannot delete category with child channels');
     }
 

@@ -1,0 +1,541 @@
+# ==============================================
+# CRYB PLATFORM - PRODUCTION CI/CD PIPELINE
+# ==============================================
+# Enterprise-grade CI/CD with security scanning,
+# blue-green deployments, and rollback capabilities
+# ==============================================
+
+name: 🚀 Production CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, production]
+    tags: ['v*']
+  pull_request:
+    branches: [main, production]
+    types: [opened, synchronize, reopened]
+
+env:
+  # Container Registry
+  ECR_REGISTRY: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.us-east-1.amazonaws.com
+  ECR_REPOSITORY: cryb-platform
+  
+  # Kubernetes Clusters
+  EKS_CLUSTER_PRIMARY: cryb-production-primary
+  EKS_CLUSTER_SECONDARY: cryb-production-secondary
+  EKS_REGION_PRIMARY: us-east-1
+  EKS_REGION_SECONDARY: us-west-2
+  
+  # Build Configuration
+  NODE_VERSION: '20.x'
+  DOCKER_BUILDKIT: 1
+  COMPOSE_DOCKER_CLI_BUILD: 1
+
+# ==============================================
+# JOBS
+# ==============================================
+jobs:
+  # ==============================================
+  # CODE QUALITY & SECURITY SCANNING
+  # ==============================================
+  code-quality:
+    name: 🔍 Code Quality & Security
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    outputs:
+      security-scan-results: ${{ steps.security-scan.outputs.results }}
+      quality-gate-passed: ${{ steps.quality-gate.outputs.passed }}
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+      
+      - name: 📦 Install Dependencies
+        run: |
+          npm ci --only=production
+          npm ci --only=development
+        working-directory: ./apps/api
+      
+      - name: 🧪 Run Unit Tests
+        run: |
+          npm run test:unit -- --coverage --ci --watchAll=false
+          npm run test:integration -- --ci --watchAll=false
+        working-directory: ./apps/api
+        env:
+          NODE_ENV: test
+          CI: true
+      
+      - name: 📊 Upload Coverage Reports
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./apps/api/coverage/lcov.info
+          flags: api
+          name: cryb-api-coverage
+          fail_ci_if_error: true
+      
+      - name: 🔒 Security Vulnerability Scan
+        id: security-scan
+        run: |
+          npm audit --audit-level=high --json > security-audit.json
+          npm run security:scan || true
+          echo "results=$(cat security-audit.json | jq -c .)" >> $GITHUB_OUTPUT
+        working-directory: ./apps/api
+        continue-on-error: true
+      
+      - name: 🔍 SAST Code Analysis
+        uses: github/codeql-action/analyze@v2
+        with:
+          languages: javascript,typescript
+          queries: security-and-quality
+      
+      - name: 🛡️ Snyk Security Scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --all-projects
+        continue-on-error: true
+      
+      - name: 📋 SonarCloud Analysis
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=cryb-platform
+            -Dsonar.organization=cryb
+            -Dsonar.sources=apps/api/src
+            -Dsonar.tests=apps/api/__tests__
+            -Dsonar.javascript.lcov.reportPaths=apps/api/coverage/lcov.info
+            -Dsonar.coverage.exclusions=**/*.test.js,**/*.spec.js
+      
+      - name: ✅ Quality Gate Check
+        id: quality-gate
+        run: |
+          # Check coverage threshold
+          COVERAGE=$(cat apps/api/coverage/coverage-summary.json | jq -r '.total.lines.pct')
+          if (( $(echo "$COVERAGE >= 80" | bc -l) )); then
+            echo "✅ Coverage threshold met: $COVERAGE%"
+            echo "passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "❌ Coverage threshold not met: $COVERAGE% (required: 80%)"
+            echo "passed=false" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+
+  # ==============================================
+  # BUILD & CONTAINERIZE
+  # ==============================================
+  build:
+    name: 🏗️ Build & Containerize
+    runs-on: ubuntu-latest
+    needs: [code-quality]
+    timeout-minutes: 45
+    
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+      image-digest: ${{ steps.build.outputs.digest }}
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: 🔧 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        with:
+          platforms: linux/amd64,linux/arm64
+          driver-opts: image=moby/buildkit:master
+      
+      - name: 🏷️ Extract Metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=sha,prefix={{branch}}-
+          labels: |
+            org.opencontainers.image.title=CRYB Platform API
+            org.opencontainers.image.description=Discord-like social platform API
+            org.opencontainers.image.vendor=CRYB
+            org.opencontainers.image.version={{version}}
+            org.opencontainers.image.created={{date 'YYYY-MM-DDTHH:mm:ssZ'}}
+            org.opencontainers.image.revision={{sha}}
+      
+      - name: 🔑 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.EKS_REGION_PRIMARY }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-duration-seconds: 3600
+      
+      - name: 🏃 Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registries: ${{ secrets.AWS_ACCOUNT_ID }}
+      
+      - name: 🏗️ Build and Push Image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./apps/api
+          file: ./apps/api/Dockerfile.optimized
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            BUILD_DATE=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.created'] }}
+            VCS_REF=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.revision'] }}
+            VERSION=${{ fromJSON(steps.meta.outputs.json).labels['org.opencontainers.image.version'] }}
+          secrets: |
+            GIT_AUTH_TOKEN=${{ secrets.GITHUB_TOKEN }}
+      
+      - name: 🔍 Container Security Scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ steps.meta.outputs.tags }}
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+          exit-code: '1'
+        continue-on-error: true
+      
+      - name: 📤 Upload Trivy Results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  # ==============================================
+  # STAGING DEPLOYMENT
+  # ==============================================
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+    environment: staging
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: 🔑 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.EKS_REGION_PRIMARY }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      
+      - name: ⚙️ Update Kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ${{ env.EKS_REGION_PRIMARY }} --name ${{ env.EKS_CLUSTER_PRIMARY }}
+      
+      - name: 🛠️ Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: '3.13.0'
+      
+      - name: 🚀 Deploy to Staging
+        run: |
+          helm upgrade --install cryb-staging ./infrastructure/helm-charts/cryb-platform \
+            --namespace cryb-staging \
+            --create-namespace \
+            --set image.repository=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }} \
+            --set image.tag=${{ needs.build.outputs.image-tag }} \
+            --set environment=staging \
+            --set replicaCount=2 \
+            --set resources.requests.cpu=250m \
+            --set resources.requests.memory=512Mi \
+            --set resources.limits.cpu=1000m \
+            --set resources.limits.memory=2Gi \
+            --wait --timeout=10m
+      
+      - name: 🧪 Run Smoke Tests
+        run: |
+          kubectl wait --for=condition=ready pod -l app=cryb-api -n cryb-staging --timeout=300s
+          kubectl get pods -n cryb-staging
+          
+          # Run smoke tests
+          npm run test:smoke -- --config staging
+        working-directory: ./apps/api
+        env:
+          STAGING_API_URL: https://staging-api.cryb.ai
+
+  # ==============================================
+  # PRODUCTION DEPLOYMENT (BLUE-GREEN)
+  # ==============================================
+  deploy-production:
+    name: 🚀 Production Blue-Green Deployment
+    runs-on: ubuntu-latest
+    needs: [build, deploy-staging]
+    if: github.ref == 'refs/heads/production' || startsWith(github.ref, 'refs/tags/v')
+    environment: production
+    timeout-minutes: 60
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: 🔑 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.EKS_REGION_PRIMARY }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      
+      - name: ⚙️ Update Kubeconfig for Primary Cluster
+        run: |
+          aws eks update-kubeconfig --region ${{ env.EKS_REGION_PRIMARY }} --name ${{ env.EKS_CLUSTER_PRIMARY }}
+      
+      - name: 🛠️ Install Required Tools
+        run: |
+          # Install Helm
+          curl https://get.helm.sh/helm-v3.13.0-linux-amd64.tar.gz | tar xz
+          sudo mv linux-amd64/helm /usr/local/bin/
+          
+          # Install Argo Rollouts CLI
+          curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
+          chmod +x kubectl-argo-rollouts-linux-amd64
+          sudo mv kubectl-argo-rollouts-linux-amd64 /usr/local/bin/kubectl-argo-rollouts
+      
+      - name: 🔄 Blue-Green Deployment
+        id: deploy
+        run: |
+          # Get current deployment state
+          CURRENT_SLOT=$(kubectl get rollout cryb-api -n cryb-api -o jsonpath='{.spec.strategy.blueGreen.activeService}' 2>/dev/null || echo "blue")
+          
+          if [[ "$CURRENT_SLOT" == "cryb-api-blue" ]]; then
+            NEW_SLOT="green"
+            ACTIVE_SERVICE="cryb-api-green"
+            PREVIEW_SERVICE="cryb-api-blue"
+          else
+            NEW_SLOT="blue"
+            ACTIVE_SERVICE="cryb-api-blue"
+            PREVIEW_SERVICE="cryb-api-green"
+          fi
+          
+          echo "Deploying to $NEW_SLOT slot"
+          echo "new-slot=$NEW_SLOT" >> $GITHUB_OUTPUT
+          echo "active-service=$ACTIVE_SERVICE" >> $GITHUB_OUTPUT
+          
+          # Deploy new version to inactive slot
+          helm upgrade --install cryb-production-$NEW_SLOT ./infrastructure/helm-charts/cryb-platform \
+            --namespace cryb-api \
+            --create-namespace \
+            --set image.repository=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }} \
+            --set image.tag=${{ needs.build.outputs.image-tag }} \
+            --set environment=production \
+            --set slot=$NEW_SLOT \
+            --set replicaCount=6 \
+            --set blueGreen.enabled=true \
+            --set blueGreen.activeService=$ACTIVE_SERVICE \
+            --set blueGreen.previewService=$PREVIEW_SERVICE \
+            --wait --timeout=15m
+      
+      - name: 🧪 Production Health Checks
+        run: |
+          # Wait for deployment to be ready
+          kubectl wait --for=condition=ready pod -l app=cryb-api,slot=${{ steps.deploy.outputs.new-slot }} -n cryb-api --timeout=600s
+          
+          # Run comprehensive health checks
+          npm run test:health-check -- --config production --slot ${{ steps.deploy.outputs.new-slot }}
+          npm run test:load -- --config production --duration 300s --users 1000
+        working-directory: ./apps/api
+        env:
+          PRODUCTION_API_URL: https://api.cryb.ai
+      
+      - name: 🔄 Traffic Switch
+        run: |
+          # Promote the new deployment
+          kubectl argo rollouts promote cryb-api -n cryb-api
+          
+          # Wait for rollout to complete
+          kubectl argo rollouts status cryb-api -n cryb-api --timeout=600s
+          
+          # Verify traffic switch
+          kubectl get rollout cryb-api -n cryb-api -o yaml
+      
+      - name: 🌍 Deploy to Secondary Region
+        run: |
+          # Configure secondary region
+          aws eks update-kubeconfig --region ${{ env.EKS_REGION_SECONDARY }} --name ${{ env.EKS_CLUSTER_SECONDARY }}
+          
+          # Deploy to secondary cluster
+          helm upgrade --install cryb-production-west ./infrastructure/helm-charts/cryb-platform \
+            --namespace cryb-api \
+            --create-namespace \
+            --set image.repository=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }} \
+            --set image.tag=${{ needs.build.outputs.image-tag }} \
+            --set environment=production \
+            --set region=us-west-2 \
+            --set replicaCount=3 \
+            --wait --timeout=15m
+
+  # ==============================================
+  # POST-DEPLOYMENT VALIDATION
+  # ==============================================
+  post-deployment:
+    name: 🔍 Post-Deployment Validation
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: success()
+    timeout-minutes: 30
+    
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: 🧪 End-to-End Tests
+        run: |
+          npm run test:e2e -- --config production
+        working-directory: ./apps/api
+        env:
+          PRODUCTION_API_URL: https://api.cryb.ai
+          E2E_TIMEOUT: 300000
+      
+      - name: 📊 Performance Tests
+        run: |
+          npm run test:performance -- --config production --duration 600s --users 5000
+        working-directory: ./tests/performance
+      
+      - name: 🔒 Security Validation
+        run: |
+          npm run test:security -- --config production
+        working-directory: ./tests/security
+      
+      - name: 📈 Metrics Validation
+        run: |
+          # Validate metrics are being collected
+          curl -f "https://monitoring.cryb.ai/api/v1/query?query=up{job=\"cryb-api\"}" || exit 1
+          
+          # Check error rates
+          ERROR_RATE=$(curl -s "https://monitoring.cryb.ai/api/v1/query?query=rate(http_requests_total{job=\"cryb-api\",status=~\"5..\"}[5m])" | jq -r '.data.result[0].value[1]')
+          if (( $(echo "$ERROR_RATE > 0.01" | bc -l) )); then
+            echo "❌ Error rate too high: $ERROR_RATE"
+            exit 1
+          fi
+
+  # ==============================================
+  # ROLLBACK ON FAILURE
+  # ==============================================
+  rollback:
+    name: 🔄 Rollback on Failure
+    runs-on: ubuntu-latest
+    needs: [deploy-production, post-deployment]
+    if: failure()
+    environment: production
+    timeout-minutes: 15
+    
+    steps:
+      - name: 🔑 Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.EKS_REGION_PRIMARY }}
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+      
+      - name: ⚙️ Update Kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ${{ env.EKS_REGION_PRIMARY }} --name ${{ env.EKS_CLUSTER_PRIMARY }}
+      
+      - name: 🔄 Execute Rollback
+        run: |
+          echo "🚨 Deployment failed, initiating rollback..."
+          
+          # Rollback using Argo Rollouts
+          kubectl argo rollouts abort cryb-api -n cryb-api
+          kubectl argo rollouts undo cryb-api -n cryb-api
+          kubectl argo rollouts status cryb-api -n cryb-api --timeout=300s
+          
+          echo "✅ Rollback completed successfully"
+      
+      - name: 📢 Send Failure Notification
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: |
+            🚨 Production deployment failed and has been rolled back
+            Repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
+            Actor: ${{ github.actor }}
+
+  # ==============================================
+  # NOTIFICATIONS
+  # ==============================================
+  notify:
+    name: 📢 Deployment Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-production, post-deployment]
+    if: always()
+    
+    steps:
+      - name: 📢 Success Notification
+        if: ${{ needs.deploy-production.result == 'success' && needs.post-deployment.result == 'success' }}
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          channel: '#deployments'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+          message: |
+            ✅ Production deployment successful!
+            Repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
+            Image: ${{ needs.build.outputs.image-tag }}
+            Actor: ${{ github.actor }}
+      
+      - name: 📧 Email Notification
+        if: ${{ needs.deploy-production.result == 'success' && needs.post-deployment.result == 'success' }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: "✅ CRYB Platform - Production Deployment Successful"
+          to: ${{ secrets.DEPLOYMENT_EMAIL_LIST }}
+          from: "CRYB CI/CD <noreply@cryb.ai>"
+          body: |
+            Production deployment completed successfully!
+            
+            Details:
+            - Repository: ${{ github.repository }}
+            - Commit: ${{ github.sha }}
+            - Image: ${{ needs.build.outputs.image-tag }}
+            - Deployed by: ${{ github.actor }}
+            - Deployment time: ${{ github.event.head_commit.timestamp }}
+            
+            Monitoring: https://monitoring.cryb.ai
+            Application: https://app.cryb.ai

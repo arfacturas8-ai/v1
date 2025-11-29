@@ -12,12 +12,20 @@
     "test:load": "turbo run test:load",
     "test:security": "turbo run test:security",
     "test:coverage": "turbo run test:coverage",
-    "test:ci": "npm run test:unit && npm run test:e2e && npm run test:security",
+    "test:coverage:report": "node scripts/coverage-reporter.js",
+    "test:coverage:validate": "node scripts/validate-coverage.js",
+    "test:coverage:badges": "node scripts/generate-coverage-badge.js",
+    "test:coverage:html": "npm run test:coverage:report && open coverage/coverage-report.html",
+    "test:coverage:check": "npm run test:coverage:report && npm run test:coverage:validate",
+    "test:coverage:full": "npm run test:coverage:report && npm run test:coverage:validate && npm run test:coverage:badges",
+    "test:ci": "npm run test:unit && npm run test:e2e && npm run test:security && npm run test:coverage:check",
+    "test:all": "npm run test:unit && npm run test:e2e && npm run test:load && npm run test:security && npm run test:coverage:report",
     "type-check": "turbo run type-check",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\""
   },
   "devDependencies": {
     "@playwright/test": "^1.48.2",
+    "@testing-library/dom": "^10.4.1",
     "@turbo/gen": "^2.5.5",
     "@types/jest": "^29.5.14",
     "artillery": "^2.0.21",
@@ -37,7 +45,9 @@
     "node": ">=20.0.0"
   },
   "dependencies": {
+    "@radix-ui/react-slider": "^1.3.6",
     "axios": "^1.11.0",
+    "critters": "^0.0.25",
     "socket.io-client": "^4.8.1"
   }
 }

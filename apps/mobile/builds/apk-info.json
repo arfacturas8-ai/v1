@@ -1,0 +1,19 @@
+{
+  "app_name": "CRYB",
+  "version": "1.0.0",
+  "platform": "android",
+  "api_url": "http://api.cryb.ai/api/v1",
+  "features": [
+    "Real API connectivity",
+    "Login/Register screens", 
+    "Communities list",
+    "Posts and comments",
+    "Discord/Reddit features",
+    "Push notifications",
+    "Voice/Video chat",
+    "Web3 integration"
+  ],
+  "build_date": "Wed Sep 17 23:15:23 UTC 2025",
+  "build_method": "gradle_direct",
+  "status": "ready_for_installation"
+}

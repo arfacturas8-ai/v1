@@ -3,6 +3,8 @@ import { prisma, FriendshipStatus, PresenceStatus } from '@cryb/database';
 import { validate, validationSchemas, commonSchemas } from '../middleware/validation';
 import { throwBadRequest, throwUnauthorized, throwForbidden, throwNotFound } from '../middleware/errorHandler';
 import { authMiddleware, optionalAuthMiddleware } from '../middleware/auth';
+import { sendSuccess, sendPaginated, ErrorResponses } from '../utils/responses';
+import { paginationQuerySchema, createPaginatedResult } from '../utils/pagination';
 import { z } from 'zod';
 
 export default async function userRoutes(fastify: FastifyInstance) {
@@ -83,13 +85,10 @@ export default async function userRoutes(fastify: FastifyInstance) {
 
     const friendCount = user._count.friendsInitiated + user._count.friendsReceived;
 
-    reply.send({
-      success: true,
-      data: {
-        ...user,
-        friendCount,
-        _count: undefined
-      }
+    sendSuccess(reply, {
+      ...user,
+      friendCount,
+      _count: undefined
     });
   });
 
@@ -177,10 +176,230 @@ export default async function userRoutes(fastify: FastifyInstance) {
       });
     }
 
-    reply.send({
-      success: true,
-      data: updatedUser
+    sendSuccess(reply, updatedUser, {
+      message: 'User profile updated successfully'
     });
+  });
+
+  /**
+   * @swagger
+   * /users/me/avatar:
+   *   post:
+   *     tags: [users]
+   *     summary: Upload user avatar
+   *     description: Upload a new avatar image for the current user
+   *     security:
+   *       - Bearer: []
+   *     consumes:
+   *       - multipart/form-data
+   *     parameters:
+   *       - in: formData
+   *         name: avatar
+   *         type: file
+   *         required: true
+   *         description: Avatar image file (JPG, PNG, GIF, WebP, max 5MB)
+   */
+  fastify.post('/me/avatar', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Upload user avatar',
+      security: [{ Bearer: [] }],
+      consumes: ['multipart/form-data']
+    }
+  }, async (request, reply) => {
+    try {
+      const data = await request.file();
+      
+      if (!data) {
+        throwBadRequest('No file uploaded');
+      }
+
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(data.mimetype)) {
+        throwBadRequest('Invalid file type. Only JPG, PNG, GIF, and WebP images are allowed');
+      }
+
+      // Validate file size (5MB limit)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const chunks = [];
+      let totalSize = 0;
+
+      for await (const chunk of data.file) {
+        totalSize += chunk.length;
+        if (totalSize > maxSize) {
+          throwBadRequest('File too large. Maximum size is 5MB');
+        }
+        chunks.push(chunk);
+      }
+
+      const buffer = Buffer.concat(chunks);
+
+      // Upload to MinIO
+      if (!fastify.services?.fileUpload) {
+        throwBadRequest('File upload service not available');
+      }
+
+      const filename = `users/${request.userId}/avatar_${Date.now()}.${data.mimetype.split('/')[1]}`;
+      const uploadResult = await fastify.services.fileUpload.uploadBuffer(
+        buffer,
+        filename,
+        data.mimetype
+      );
+
+      // Update user avatar in database
+      const updatedUser = await prisma.user.update({
+        where: { id: request.userId! },
+        data: {
+          avatar: uploadResult.url,
+          updatedAt: new Date()
+        },
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          avatar: true,
+          updatedAt: true
+        }
+      });
+
+      // Emit real-time event for avatar update
+      const friendships = await prisma.friendship.findMany({
+        where: {
+          OR: [
+            { initiatorId: request.userId!, status: 'ACCEPTED' },
+            { receiverId: request.userId!, status: 'ACCEPTED' }
+          ]
+        },
+        select: {
+          initiatorId: true,
+          receiverId: true
+        }
+      });
+
+      for (const friendship of friendships) {
+        const friendId = friendship.initiatorId === request.userId! 
+          ? friendship.receiverId 
+          : friendship.initiatorId;
+        
+        fastify.io.to(`user:${friendId}`).emit('userAvatarUpdate', {
+          userId: request.userId,
+          avatar: updatedUser.avatar
+        });
+      }
+
+      reply.send({
+        success: true,
+        data: {
+          avatar: updatedUser.avatar,
+          uploadedAt: new Date().toISOString()
+        },
+        message: 'Avatar uploaded successfully'
+      });
+
+    } catch (error) {
+      fastify.log.error('Avatar upload failed:', error);
+      throw error;
+    }
+  });
+
+  /**
+   * @swagger
+   * /users/me/banner:
+   *   post:
+   *     tags: [users]
+   *     summary: Upload user banner
+   *     description: Upload a new banner image for the current user
+   *     security:
+   *       - Bearer: []
+   *     consumes:
+   *       - multipart/form-data
+   *     parameters:
+   *       - in: formData
+   *         name: banner
+   *         type: file
+   *         required: true
+   *         description: Banner image file (JPG, PNG, GIF, WebP, max 10MB)
+   */
+  fastify.post('/me/banner', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Upload user banner',
+      security: [{ Bearer: [] }],
+      consumes: ['multipart/form-data']
+    }
+  }, async (request, reply) => {
+    try {
+      const data = await request.file();
+      
+      if (!data) {
+        throwBadRequest('No file uploaded');
+      }
+
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(data.mimetype)) {
+        throwBadRequest('Invalid file type. Only JPG, PNG, GIF, and WebP images are allowed');
+      }
+
+      // Validate file size (10MB limit for banners)
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      const chunks = [];
+      let totalSize = 0;
+
+      for await (const chunk of data.file) {
+        totalSize += chunk.length;
+        if (totalSize > maxSize) {
+          throwBadRequest('File too large. Maximum size is 10MB');
+        }
+        chunks.push(chunk);
+      }
+
+      const buffer = Buffer.concat(chunks);
+
+      // Upload to MinIO
+      if (!fastify.services?.fileUpload) {
+        throwBadRequest('File upload service not available');
+      }
+
+      const filename = `users/${request.userId}/banner_${Date.now()}.${data.mimetype.split('/')[1]}`;
+      const uploadResult = await fastify.services.fileUpload.uploadBuffer(
+        buffer,
+        filename,
+        data.mimetype
+      );
+
+      // Update user banner in database
+      const updatedUser = await prisma.user.update({
+        where: { id: request.userId! },
+        data: {
+          banner: uploadResult.url,
+          updatedAt: new Date()
+        },
+        select: {
+          id: true,
+          username: true,
+          displayName: true,
+          banner: true,
+          updatedAt: true
+        }
+      });
+
+      reply.send({
+        success: true,
+        data: {
+          banner: updatedUser.banner,
+          uploadedAt: new Date().toISOString()
+        },
+        message: 'Banner uploaded successfully'
+      });
+
+    } catch (error) {
+      fastify.log.error('Banner upload failed:', error);
+      throw error;
+    }
   });
 
   /**
@@ -1649,6 +1868,515 @@ export default async function userRoutes(fastify: FastifyInstance) {
       }
     });
   });
+
+  /**
+   * Get user posts by username
+   */
+  fastify.get('/:username/posts', {
+    preHandler: optionalAuthMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Get user posts by username',
+      params: {
+        type: 'object',
+        required: ['username'],
+        properties: {
+          username: { type: 'string' }
+        }
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', minimum: 1, default: 1 },
+          limit: { type: 'number', minimum: 1, maximum: 50, default: 25 }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as { username: string };
+    const { page, limit } = request.query as { page: number; limit: number };
+
+    const user = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true }
+    });
+
+    if (!user) {
+      throwNotFound('User not found');
+    }
+
+    const [posts, total] = await Promise.all([
+      prisma.post.findMany({
+        where: { 
+          userId: user.id,
+          isRemoved: false 
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatar: true
+            }
+          },
+          community: {
+            select: {
+              id: true,
+              name: true,
+              displayName: true,
+              icon: true
+            }
+          },
+          _count: {
+            select: {
+              comments: true,
+              votes: true,
+              awards: true
+            }
+          }
+        },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit
+      }),
+      prisma.post.count({ 
+        where: { 
+          userId: user.id,
+          isRemoved: false 
+        } 
+      })
+    ]);
+
+    reply.send({
+      success: true,
+      data: {
+        items: posts,
+        total,
+        page,
+        pageSize: limit,
+        hasMore: page * limit < total
+      }
+    });
+  });
+
+  /**
+   * Get user comments by username
+   */
+  fastify.get('/:username/comments', {
+    preHandler: optionalAuthMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Get user comments by username',
+      params: {
+        type: 'object',
+        required: ['username'],
+        properties: {
+          username: { type: 'string' }
+        }
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', minimum: 1, default: 1 },
+          limit: { type: 'number', minimum: 1, maximum: 50, default: 25 }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as { username: string };
+    const { page, limit } = request.query as { page: number; limit: number };
+
+    const user = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true }
+    });
+
+    if (!user) {
+      throwNotFound('User not found');
+    }
+
+    const [comments, total] = await Promise.all([
+      prisma.comment.findMany({
+        where: { 
+          userId: user.id,
+          isRemoved: false 
+        },
+        include: {
+          post: {
+            select: {
+              id: true,
+              title: true,
+              communityId: true,
+              community: {
+                select: {
+                  name: true,
+                  displayName: true
+                }
+              }
+            }
+          },
+          user: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatar: true
+            }
+          },
+          _count: {
+            select: {
+              votes: true
+            }
+          }
+        },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit
+      }),
+      prisma.comment.count({ 
+        where: { 
+          userId: user.id,
+          isRemoved: false 
+        } 
+      })
+    ]);
+
+    const formattedComments = comments.map(comment => ({
+      id: comment.id,
+      content: comment.content,
+      postId: comment.postId,
+      postTitle: comment.post.title,
+      communityName: comment.post.community.name,
+      score: comment._count.votes,
+      createdAt: comment.createdAt,
+      user: comment.user
+    }));
+
+    reply.send({
+      success: true,
+      data: {
+        items: formattedComments,
+        total,
+        page,
+        pageSize: limit,
+        hasMore: page * limit < total
+      }
+    });
+  });
+
+  /**
+   * Get user's saved posts (requires auth)
+   */
+  fastify.get('/:username/saved', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Get user saved posts',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['username'],
+        properties: {
+          username: { type: 'string' }
+        }
+      },
+      querystring: {
+        type: 'object',
+        properties: {
+          page: { type: 'number', minimum: 1, default: 1 },
+          limit: { type: 'number', minimum: 1, maximum: 50, default: 25 }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as { username: string };
+    const { page, limit } = request.query as { page: number; limit: number };
+
+    // Users can only view their own saved posts
+    const currentUser = await prisma.user.findUnique({
+      where: { id: request.userId! },
+      select: { username: true }
+    });
+
+    if (currentUser?.username !== username) {
+      throwForbidden('You can only view your own saved posts');
+    }
+
+    const [savedPosts, total] = await Promise.all([
+      prisma.savedPost.findMany({
+        where: { userId: request.userId! },
+        include: {
+          post: {
+            include: {
+              user: {
+                select: {
+                  id: true,
+                  username: true,
+                  displayName: true,
+                  avatar: true
+                }
+              },
+              community: {
+                select: {
+                  id: true,
+                  name: true,
+                  displayName: true,
+                  icon: true
+                }
+              },
+              _count: {
+                select: {
+                  comments: true,
+                  votes: true,
+                  awards: true
+                }
+              }
+            }
+          }
+        },
+        orderBy: { createdAt: 'desc' },
+        skip: (page - 1) * limit,
+        take: limit
+      }),
+      prisma.savedPost.count({ where: { userId: request.userId! } })
+    ]);
+
+    const posts = savedPosts.map(sp => sp.post);
+
+    reply.send({
+      success: true,
+      data: {
+        items: posts,
+        total,
+        page,
+        pageSize: limit,
+        hasMore: page * limit < total
+      }
+    });
+  });
+
+  /**
+   * Follow/unfollow user
+   */
+  fastify.post('/:username/follow', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Follow a user',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['username'],
+        properties: {
+          username: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as { username: string };
+
+    const targetUser = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true }
+    });
+
+    if (!targetUser) {
+      throwNotFound('User not found');
+    }
+
+    if (targetUser.id === request.userId) {
+      throwBadRequest('You cannot follow yourself');
+    }
+
+    // Check if already following
+    const existingFollow = await prisma.userFollow.findUnique({
+      where: {
+        followerId_followingId: {
+          followerId: request.userId!,
+          followingId: targetUser.id
+        }
+      }
+    });
+
+    if (existingFollow) {
+      throwBadRequest('Already following this user');
+    }
+
+    // Create follow relationship
+    await prisma.userFollow.create({
+      data: {
+        followerId: request.userId!,
+        followingId: targetUser.id
+      }
+    });
+
+    // Send notification to the followed user
+    await prisma.notification.create({
+      data: {
+        userId: targetUser.id,
+        type: 'USER_FOLLOW',
+        title: 'New Follower',
+        content: `You have a new follower`,
+        metadata: {
+          followerId: request.userId!,
+          followerUsername: (await prisma.user.findUnique({
+            where: { id: request.userId! },
+            select: { username: true }
+          }))?.username
+        }
+      }
+    });
+
+    reply.send({
+      success: true,
+      message: 'User followed successfully'
+    });
+  });
+
+  /**
+   * Unfollow user
+   */
+  fastify.delete('/:username/follow', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Unfollow a user',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['username'],
+        properties: {
+          username: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as { username: string };
+
+    const targetUser = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true }
+    });
+
+    if (!targetUser) {
+      throwNotFound('User not found');
+    }
+
+    // Delete follow relationship
+    const result = await prisma.userFollow.deleteMany({
+      where: {
+        followerId: request.userId!,
+        followingId: targetUser.id
+      }
+    });
+
+    if (result.count === 0) {
+      throwBadRequest('Not following this user');
+    }
+
+    reply.send({
+      success: true,
+      message: 'User unfollowed successfully'
+    });
+  });
+
+  /**
+   * Get user by username with profile data
+   */
+  fastify.get('/profile/:username', {
+    preHandler: optionalAuthMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Get user profile by username',
+      params: {
+        type: 'object',
+        properties: {
+          username: { type: 'string' }
+        },
+        required: ['username']
+      }
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as { username: string };
+
+    const user = await prisma.user.findUnique({
+      where: { username },
+      include: {
+        _count: {
+          select: {
+            posts: { where: { isRemoved: false } },
+            comments: { where: { isRemoved: false } },
+            followers: true,
+            following: true,
+            awardsReceived: true
+          }
+        }
+      }
+    });
+
+    if (!user) {
+      throwNotFound('User not found');
+    }
+
+    // Calculate total upvotes
+    const [postUpvotes, commentUpvotes] = await Promise.all([
+      prisma.postVote.count({
+        where: {
+          post: { userId: user.id },
+          value: 1
+        }
+      }),
+      prisma.commentVote.count({
+        where: {
+          comment: { userId: user.id },
+          value: 1
+        }
+      })
+    ]);
+
+    // Check if current user is following
+    let isFollowing = false;
+    if (request.userId) {
+      const follow = await prisma.userFollow.findUnique({
+        where: {
+          followerId_followingId: {
+            followerId: request.userId,
+            followingId: user.id
+          }
+        }
+      });
+      isFollowing = !!follow;
+    }
+
+    const profileData = {
+      id: user.id,
+      username: user.username,
+      displayName: user.displayName,
+      email: user.email,
+      avatar: user.avatar,
+      bio: user.bio,
+      location: user.location,
+      website: user.website,
+      joinedAt: user.createdAt,
+      isFollowing,
+      followersCount: user._count.followers,
+      followingCount: user._count.following,
+      postsCount: user._count.posts,
+      commentsCount: user._count.comments,
+      awardsReceived: user._count.awardsReceived,
+      totalUpvotes: postUpvotes + commentUpvotes,
+      isPremium: user.premiumType !== 'NONE',
+      isModerator: user.role === 'MODERATOR',
+      isAdmin: user.role === 'ADMIN',
+      badges: [] // TODO: Implement badges system
+    };
+
+    reply.send({
+      success: true,
+      data: profileData
+    });
+  });
 }
 
 /**
@@ -1687,7 +2415,7 @@ async function cleanupUserExternalData(userId: string, username: string): Promis
     // Clean up Redis data
     try {
       const Redis = await import('ioredis');
-      const redis = new Redis.default(process.env.REDIS_URL || 'redis://localhost:6379');
+      const redis = new Redis.default(process.env.REDIS_URL || 'redis://localhost:6380');
       
       const patterns = [
         `user:${userId}`,
@@ -1751,4 +2479,220 @@ async function cleanupUserExternalData(userId: string, username: string): Promis
     console.error(`External data cleanup failed for user ${userId}:`, error);
     // Don't throw error - account deletion should still succeed
   }
+
+  /**
+   * @swagger
+   * /users/{username}/block:
+   *   post:
+   *     tags: [users]
+   *     summary: Block a user
+   *     security:
+   *       - Bearer: []
+   */
+  fastify.post('/:username/block', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Block a user',
+      security: [{ Bearer: [] }]
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as any;
+
+    // Get target user
+    const targetUser = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true, username: true, displayName: true }
+    });
+
+    if (!targetUser) {
+      throwNotFound('User not found');
+    }
+
+    if (targetUser.id === request.userId) {
+      throwBadRequest('Cannot block yourself');
+    }
+
+    // Check if already blocked
+    const existingBlock = await prisma.blockedUser.findUnique({
+      where: {
+        blockerId_blockedId: {
+          blockerId: request.userId!,
+          blockedId: targetUser.id
+        }
+      }
+    });
+
+    if (existingBlock) {
+      throwBadRequest('User already blocked');
+    }
+
+    // Create block relationship
+    const block = await prisma.blockedUser.create({
+      data: {
+        blockerId: request.userId!,
+        blockedId: targetUser.id
+      },
+      include: {
+        blocked: {
+          select: {
+            id: true,
+            username: true,
+            displayName: true,
+            avatar: true
+          }
+        }
+      }
+    });
+
+    // Remove any friendship between users
+    await prisma.friendship.deleteMany({
+      where: {
+        OR: [
+          { initiatorId: request.userId!, receiverId: targetUser.id },
+          { initiatorId: targetUser.id, receiverId: request.userId! }
+        ]
+      }
+    });
+
+    // Delete any conversations between users
+    await prisma.conversationParticipant.deleteMany({
+      where: {
+        userId: request.userId!,
+        conversation: {
+          participants: {
+            some: {
+              userId: targetUser.id
+            }
+          }
+        }
+      }
+    });
+
+    reply.send({
+      success: true,
+      data: {
+        id: block.id,
+        userId: block.blocked.id,
+        username: block.blocked.username,
+        displayName: block.blocked.displayName,
+        avatarUrl: block.blocked.avatar,
+        blockedAt: block.createdAt
+      }
+    });
+  });
+
+  /**
+   * @swagger
+   * /users/{username}/block:
+   *   delete:
+   *     tags: [users]
+   *     summary: Unblock a user
+   *     security:
+   *       - Bearer: []
+   */
+  fastify.delete('/:username/block', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['users'],
+      summary: 'Unblock a user',
+      security: [{ Bearer: [] }]
+    }
+  }, async (request, reply) => {
+    const { username } = request.params as any;
+
+    // Get target user
+    const targetUser = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true }
+    });
+
+    if (!targetUser) {
+      throwNotFound('User not found');
+    }
+
+    // Delete block relationship
+    const deleted = await prisma.blockedUser.deleteMany({
+      where: {
+        blockerId: request.userId!,
+        blockedId: targetUser.id
+      }
+    });
+
+    if (deleted.count === 0) {
+      throwNotFound('User is not blocked');
+    }
+
+    reply.send({
+      success: true,
+      message: 'User unblocked successfully'
+    });
+  });
+
+  /**
+   * @swagger
+   * /users/blocked:
+   *   get:
+   *     tags: [users]
+   *     summary: Get list of blocked users
+   *     security:
+   *       - Bearer: []
+   */
+  fastify.get('/blocked', {
+    preHandler: [
+      authMiddleware,
+      validate({
+        query: commonSchemas.pagination
+      })
+    ],
+    schema: {
+      tags: ['users'],
+      summary: 'Get list of blocked users',
+      security: [{ Bearer: [] }]
+    }
+  }, async (request, reply) => {
+    const { page = 1, limit = 20 } = request.query as any;
+
+    const [blockedUsers, total] = await Promise.all([
+      prisma.blockedUser.findMany({
+        where: { blockerId: request.userId! },
+        include: {
+          blocked: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatar: true
+            }
+          }
+        },
+        skip: (page - 1) * limit,
+        take: limit,
+        orderBy: { createdAt: 'desc' }
+      }),
+      prisma.blockedUser.count({
+        where: { blockerId: request.userId! }
+      })
+    ]);
+
+    const formattedUsers = blockedUsers.map(block => ({
+      id: block.id,
+      userId: block.blocked.id,
+      username: block.blocked.username,
+      displayName: block.blocked.displayName,
+      avatarUrl: block.blocked.avatar,
+      blockedAt: block.createdAt
+    }));
+
+    reply.send({
+      success: true,
+      data: formattedUsers,
+      pagination: {
+        total,
+        page,
+        pageSize: limit,
+        hasMore: page * limit < total
+      }
+    });
+  });
 }

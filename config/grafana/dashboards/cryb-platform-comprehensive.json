@@ -1,0 +1,583 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "CRYB Platform - Comprehensive Analytics",
+    "tags": ["cryb", "platform", "analytics"],
+    "style": "dark",
+    "timezone": "browser",
+    "refresh": "30s",
+    "schemaVersion": 30,
+    "version": 1,
+    "panels": [
+      {
+        "id": 1,
+        "title": "Platform Overview",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+        "collapsed": false
+      },
+      {
+        "id": 2,
+        "title": "Active Users (Last 24h)",
+        "type": "stat",
+        "gridPos": { "h": 8, "w": 6, "x": 0, "y": 1 },
+        "targets": [
+          {
+            "expr": "cryb_active_users_total{time_period=\"24h\"}",
+            "legendFormat": "Active Users",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": null },
+                { "color": "yellow", "value": 100 },
+                { "color": "green", "value": 500 }
+              ]
+            },
+            "unit": "short"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Messages Today",
+        "type": "stat",
+        "gridPos": { "h": 8, "w": 6, "x": 6, "y": 1 },
+        "targets": [
+          {
+            "expr": "increase(cryb_messages_total[24h])",
+            "legendFormat": "Messages",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": null },
+                { "color": "yellow", "value": 1000 },
+                { "color": "green", "value": 5000 }
+              ]
+            },
+            "unit": "short"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Real-time Connections",
+        "type": "stat",
+        "gridPos": { "h": 8, "w": 6, "x": 12, "y": 1 },
+        "targets": [
+          {
+            "expr": "cryb_realtime_connections_total",
+            "legendFormat": "{{type}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": null },
+                { "color": "yellow", "value": 50 },
+                { "color": "green", "value": 200 }
+              ]
+            },
+            "unit": "short"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "orientation": "auto",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "System Health Score",
+        "type": "gauge",
+        "gridPos": { "h": 8, "w": 6, "x": 18, "y": 1 },
+        "targets": [
+          {
+            "expr": "avg(cryb_system_health_score)",
+            "legendFormat": "Health Score",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": 0 },
+                { "color": "yellow", "value": 70 },
+                { "color": "green", "value": 90 }
+              ]
+            },
+            "min": 0,
+            "max": 100,
+            "unit": "percent"
+          }
+        },
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"],
+            "fields": ""
+          },
+          "orientation": "auto",
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        }
+      },
+      {
+        "id": 6,
+        "title": "User Engagement",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+        "collapsed": false
+      },
+      {
+        "id": 7,
+        "title": "User Registrations Over Time",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 10 },
+        "targets": [
+          {
+            "expr": "rate(cryb_user_registrations_total[5m])",
+            "legendFormat": "{{source}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Registrations/sec",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+          "show": true,
+          "values": false,
+          "min": false,
+          "max": false,
+          "current": false,
+          "total": false,
+          "avg": false
+        },
+        "nullPointMode": "null",
+        "steppedLine": false,
+        "tooltip": {
+          "value_type": "individual"
+        },
+        "timeFrom": null,
+        "timeShift": null
+      },
+      {
+        "id": 8,
+        "title": "User Session Duration",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 10 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(cryb_user_session_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th percentile",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(cryb_user_session_duration_seconds_bucket[5m]))",
+            "legendFormat": "50th percentile",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Duration (seconds)",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+          "show": true,
+          "values": false,
+          "min": false,
+          "max": false,
+          "current": false,
+          "total": false,
+          "avg": false
+        },
+        "nullPointMode": "null",
+        "steppedLine": false,
+        "tooltip": {
+          "value_type": "individual"
+        }
+      },
+      {
+        "id": 9,
+        "title": "Content & Communication",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 18 },
+        "collapsed": false
+      },
+      {
+        "id": 10,
+        "title": "Posts & Comments Created",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 0, "y": 19 },
+        "targets": [
+          {
+            "expr": "rate(cryb_posts_created_total[5m])",
+            "legendFormat": "Posts",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_comments_created_total[5m])",
+            "legendFormat": "Comments",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Rate/sec",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 11,
+        "title": "Message Volume by Channel Type",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 8, "y": 19 },
+        "targets": [
+          {
+            "expr": "rate(cryb_messages_total[5m])",
+            "legendFormat": "{{channel_type}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Messages/sec",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": true,
+        "percentage": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 12,
+        "title": "Voice Call Activity",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 16, "y": 19 },
+        "targets": [
+          {
+            "expr": "cryb_voice_calls_active",
+            "legendFormat": "Active Calls",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_voice_calls_total[5m])",
+            "legendFormat": "New Calls/sec",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Count",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 13,
+        "title": "Technical Performance",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 27 },
+        "collapsed": false
+      },
+      {
+        "id": 14,
+        "title": "API Response Times",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 0, "y": 28 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th percentile",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "50th percentile",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[5m]))",
+            "legendFormat": "99th percentile",
+            "refId": "C"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Response Time (seconds)",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 15,
+        "title": "Database Performance",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 8, "y": 28 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(cryb_db_query_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th percentile",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_db_slow_queries_total[5m])",
+            "legendFormat": "Slow Queries/sec",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Query Time (seconds)",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 16,
+        "title": "Error Rates",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 16, "y": 28 },
+        "targets": [
+          {
+            "expr": "rate(cryb_errors_total[5m])",
+            "legendFormat": "{{level}} - {{service}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(http_requests_total{status_code=~\"5..\"}[5m])",
+            "legendFormat": "HTTP 5xx Errors",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Errors/sec",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "pointradius": 2,
+        "bars": false,
+        "stack": false,
+        "percentage": false,
+        "legend": {
+          "show": true
+        }
+      }
+    ],
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "datasource",
+          "type": "datasource",
+          "query": "prometheus",
+          "current": {
+            "value": "prometheus",
+            "text": "prometheus"
+          }
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "name": "Deployments",
+          "datasource": "prometheus",
+          "enable": true,
+          "expr": "increase(cryb_deployment_events_total[1m])",
+          "iconColor": "blue",
+          "textFormat": "{{event_type}}: {{version}}"
+        }
+      ]
+    }
+  },
+  "folderId": 0,
+  "overwrite": true
+}

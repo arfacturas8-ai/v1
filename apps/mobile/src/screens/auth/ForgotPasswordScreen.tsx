@@ -1,15 +1,15 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
   Alert,
-  ActivityIndicator,
+  ScrollView,
+  Animated,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -18,17 +18,47 @@ import { Ionicons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import { useTheme } from '../../contexts/ThemeContext';
 import { AuthStackParamList } from '../../navigation/AuthNavigator';
+import { Button, Input, Card } from '../../components/ui';
+import apiService from '../../services/RealApiService';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 type ForgotPasswordScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'ForgotPassword'>;
 
 export function ForgotPasswordScreen() {
   const navigation = useNavigation<ForgotPasswordScreenNavigationProp>();
-  const { colors } = useTheme();
+  const { colors, spacing, typography } = useTheme();
 
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  
+  // Animations
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(50)).current;
+  const logoScale = useRef(new Animated.Value(0.8)).current;
+  
+  useEffect(() => {
+    // Animate in
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(slideAnim, {
+        toValue: 0,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.spring(logoScale, {
+        toValue: 1,
+        tension: 100,
+        friction: 8,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
 
   const validateEmail = useCallback((email: string): boolean => {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
@@ -36,10 +66,8 @@ export function ForgotPasswordScreen() {
 
   const handleResetPassword = useCallback(async () => {
     try {
-      setError('');
-      
       if (!email.trim()) {
-        setError('Email is required');
+        setError('Please enter your email address');
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
         return;
       }
@@ -51,17 +79,20 @@ export function ForgotPasswordScreen() {
       }
 
       setIsLoading(true);
-
-      // TODO: Implement API call to reset password
-      // For now, simulate the request
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      setEmailSent(true);
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-
+      setError(null);
+      
+      const result = await apiService.forgotPassword(email.trim());
+      
+      if (result.success) {
+        setEmailSent(true);
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+      } else {
+        setError(result.message || 'Failed to send reset email. Please try again.');
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+      }
     } catch (error) {
-      console.error('Password reset error:', error);
-      setError('Unable to send reset email. Please try again.');
+      console.error('Forgot password error:', error);
+      setError('Network error. Please check your connection and try again.');
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
       setIsLoading(false);
@@ -71,38 +102,56 @@ export function ForgotPasswordScreen() {
   const handleBackToLogin = useCallback(() => {
     navigation.navigate('Login');
   }, [navigation]);
+  
+  const handleEmailChange = useCallback((value: string) => {
+    setEmail(value);
+    if (error) {
+      setError(null);
+    }
+  }, [error]);
 
   if (emailSent) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
         <LinearGradient
-          colors={[colors.primary, colors.primaryDark]}
+          colors={[
+            colors.background,
+            colors.success + '10',
+            colors.background,
+          ]}
           style={styles.gradient}
         >
-          <View style={styles.content}>
-            <View style={styles.successContainer}>
-              <Ionicons name="checkmark-circle" size={80} color="#ffffff" />
-              <Text style={styles.successTitle}>Email Sent!</Text>
-              <Text style={styles.successMessage}>
-                We've sent a password reset link to {email}. 
-                Please check your email and follow the instructions to reset your password.
-              </Text>
-              
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={styles.primaryButton}
-                  onPress={handleBackToLogin}
-                >
-                  <Text style={styles.primaryButtonText}>Back to Sign In</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  style={styles.secondaryButton}
-                  onPress={() => setEmailSent(false)}
-                >
-                  <Text style={styles.secondaryButtonText}>Send Again</Text>
-                </TouchableOpacity>
+          <View style={styles.successContainer}>
+            <Animated.View style={{ transform: [{ scale: logoScale }] }}>
+              <View style={[styles.successIcon, { backgroundColor: colors.success }]}>
+                <Ionicons name="mail" size={40} color={colors.textInverse} />
               </View>
+            </Animated.View>
+            
+            <Text style={[styles.successTitle, { color: colors.text }]}>
+              Email Sent!
+            </Text>
+            <Text style={[styles.successMessage, { color: colors.textSecondary }]}>
+              We've sent password reset instructions to {email}
+            </Text>
+            
+            <View style={styles.buttonContainer}>
+              <Button
+                title="Back to Login"
+                onPress={handleBackToLogin}
+                variant="primary"
+                size="lg"
+                fullWidth
+                style={{ marginBottom: spacing.sm }}
+              />
+              
+              <Button
+                title="Send Again"
+                onPress={() => setEmailSent(false)}
+                variant="outline"
+                size="lg"
+                fullWidth
+              />
             </View>
           </View>
         </LinearGradient>
@@ -111,82 +160,146 @@ export function ForgotPasswordScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
       <LinearGradient
-        colors={[colors.primary, colors.primaryDark]}
+        colors={[
+          colors.background,
+          colors.primary + '10',
+          colors.background,
+        ]}
         style={styles.gradient}
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardAvoid}
         >
-          <View style={styles.content}>
-            <View style={styles.header}>
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+          >
+            {/* Header with Logo */}
+            <Animated.View 
+              style={[
+                styles.header,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                }
+              ]}
+            >
               <TouchableOpacity
                 style={styles.backButton}
                 onPress={() => navigation.goBack()}
               >
-                <Ionicons name="chevron-back" size={24} color="#ffffff" />
+                <Ionicons name="chevron-back" size={24} color={colors.text} />
               </TouchableOpacity>
               
-              <Text style={styles.title}>Reset Password</Text>
-              <Text style={styles.subtitle}>
-                Enter your email address and we'll send you a link to reset your password.
-              </Text>
-            </View>
-
-            {error ? (
-              <View style={styles.errorContainer}>
-                <Ionicons name="warning" size={20} color="#ff6b6b" />
-                <Text style={styles.errorText}>{error}</Text>
-              </View>
-            ) : null}
-
-            <View style={styles.form}>
-              <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Email Address</Text>
-                <View style={[styles.inputWrapper, error && styles.inputError]}>
-                  <Ionicons name="mail" size={20} color="rgba(255,255,255,0.7)" />
-                  <TextInput
-                    style={styles.textInput}
-                    placeholder="Enter your email"
-                    placeholderTextColor="rgba(255,255,255,0.5)"
-                    value={email}
-                    onChangeText={(text) => {
-                      setEmail(text);
-                      if (error) setError('');
-                    }}
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    editable={!isLoading}
-                  />
-                </View>
-              </View>
-            </View>
-
-            <TouchableOpacity
-              style={[styles.resetButton, (!email.trim() || isLoading) && styles.resetButtonDisabled]}
-              onPress={handleResetPassword}
-              disabled={!email.trim() || isLoading}
-            >
-              {isLoading ? (
-                <ActivityIndicator color="#6366f1" size="small" />
-              ) : (
-                <Text style={styles.resetButtonText}>Send Reset Link</Text>
-              )}
-            </TouchableOpacity>
-
-            <View style={styles.footer}>
-              <Text style={styles.footerText}>Remember your password?</Text>
-              <TouchableOpacity 
-                onPress={handleBackToLogin}
-                disabled={isLoading}
+              <Animated.View 
+                style={[
+                  styles.logoContainer,
+                  {
+                    backgroundColor: colors.primary,
+                    transform: [{ scale: logoScale }],
+                  }
+                ]}
               >
-                <Text style={styles.backToLoginText}>Back to Sign In</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
+                <Text style={[styles.logoText, { color: colors.textInverse }]}>C</Text>
+              </Animated.View>
+              
+              <Text style={[styles.title, { color: colors.text }]}>Forgot Password</Text>
+              <Text style={[styles.subtitle, { color: colors.textSecondary }]}>
+                Enter your email address and we'll send you instructions to reset your password
+              </Text>
+            </Animated.View>
+
+            {/* Main Card */}
+            <Animated.View
+              style={[
+                styles.cardContainer,
+                {
+                  opacity: fadeAnim,
+                  transform: [{ translateY: slideAnim }],
+                }
+              ]}
+            >
+              <Card variant="elevated" padding="lg">
+                {/* Error Display */}
+                {error && (
+                  <View style={[styles.errorContainer, { backgroundColor: colors.error + '15', borderColor: colors.error + '30' }]}>
+                    <Ionicons name="warning" size={20} color={colors.error} />
+                    <Text style={[styles.errorText, { color: colors.error }]}>{error}</Text>
+                  </View>
+                )}
+
+                {/* Email Input */}
+                <Input
+                  label="Email Address"
+                  value={email}
+                  onChangeText={handleEmailChange}
+                  leftIcon="mail"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  placeholder="Enter your email address"
+                  containerStyle={{ marginBottom: spacing.lg }}
+                  editable={!isLoading}
+                />
+
+                {/* Send Reset Email Button */}
+                <Button
+                  title="Send Reset Email"
+                  onPress={handleResetPassword}
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                  loading={isLoading}
+                  disabled={!email.trim()}
+                  style={{ marginBottom: spacing.md }}
+                />
+
+                {/* Help Text */}
+                <View style={styles.helpContainer}>
+                  <Ionicons name="information-circle" size={16} color={colors.info} />
+                  <Text style={[styles.helpText, { color: colors.textSecondary }]}>
+                    If you don't receive an email within a few minutes, check your spam folder or try again with a different email address.
+                  </Text>
+                </View>
+              </Card>
+            </Animated.View>
+
+            {/* Alternative Actions */}
+            <Animated.View
+              style={[
+                styles.footer,
+                {
+                  opacity: fadeAnim,
+                }
+              ]}
+            >
+              <View style={styles.alternativeActions}>
+                <Text style={[styles.footerText, { color: colors.textSecondary }]}>
+                  Remember your password?
+                </Text>
+                <Button
+                  title="Back to Login"
+                  onPress={handleBackToLogin}
+                  variant="ghost"
+                  size="sm"
+                  textStyle={{ color: colors.primary }}
+                  disabled={isLoading}
+                />
+              </View>
+              
+              <View style={styles.supportContainer}>
+                <Text style={[styles.supportText, { color: colors.textTertiary }]}>
+                  Still having trouble? Contact{' '}
+                  <Text style={{ color: colors.primary }}>support@cryb.ai</Text>
+                </Text>
+              </View>
+            </Animated.View>
+          </ScrollView>
         </KeyboardAvoidingView>
       </LinearGradient>
     </SafeAreaView>
@@ -203,8 +316,11 @@ const styles = StyleSheet.create({
   keyboardAvoid: {
     flex: 1,
   },
-  content: {
+  scrollView: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
     paddingHorizontal: 24,
     paddingTop: 20,
     paddingBottom: 40,
@@ -216,146 +332,124 @@ const styles = StyleSheet.create({
   backButton: {
     position: 'absolute',
     left: 0,
-    top: 0,
+    top: 8,
     padding: 8,
+    zIndex: 10,
+  },
+  logoContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 40,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  logoText: {
+    fontSize: 28,
+    fontWeight: '800',
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 16,
-    marginTop: 40,
+    fontWeight: '700',
+    marginBottom: 8,
+    textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.8)',
     textAlign: 'center',
     lineHeight: 24,
+    paddingHorizontal: 16,
+  },
+  cardContainer: {
+    marginBottom: 24,
   },
   errorContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(255,107,107,0.1)',
     padding: 12,
     borderRadius: 8,
-    marginBottom: 20,
+    marginBottom: 16,
     borderWidth: 1,
-    borderColor: 'rgba(255,107,107,0.3)',
   },
   errorText: {
-    color: '#ff6b6b',
     fontSize: 14,
     marginLeft: 8,
     flex: 1,
   },
-  form: {
-    marginBottom: 32,
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  inputLabel: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#ffffff',
-    marginBottom: 8,
-  },
-  inputWrapper: {
+  helpContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(255,255,255,0.1)',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.2)',
+    alignItems: 'flex-start',
+    paddingHorizontal: 4,
   },
-  inputError: {
-    borderColor: '#ff6b6b',
-    backgroundColor: 'rgba(255,107,107,0.1)',
-  },
-  textInput: {
+  helpText: {
+    fontSize: 12,
+    lineHeight: 18,
+    marginLeft: 8,
     flex: 1,
-    color: '#ffffff',
-    fontSize: 16,
-    marginLeft: 12,
-  },
-  resetButton: {
-    backgroundColor: '#ffffff',
-    paddingVertical: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginBottom: 24,
-  },
-  resetButtonDisabled: {
-    opacity: 0.5,
-  },
-  resetButtonText: {
-    color: '#6366f1',
-    fontSize: 18,
-    fontWeight: '600',
   },
   footer: {
+    paddingTop: 20,
+  },
+  alternativeActions: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    marginBottom: 24,
   },
   footerText: {
-    color: 'rgba(255,255,255,0.8)',
     fontSize: 14,
+    marginRight: 8,
   },
-  backToLoginText: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '600',
+  supportContainer: {
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
+  supportText: {
+    fontSize: 12,
+    textAlign: 'center',
+    lineHeight: 18,
+  },
+  // Success screen styles
   successContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 32,
+    paddingHorizontal: 40,
+  },
+  successIcon: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 32,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 16,
+    elevation: 16,
   },
   successTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginTop: 24,
+    fontWeight: '700',
+    textAlign: 'center',
     marginBottom: 16,
   },
   successMessage: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.8)',
     textAlign: 'center',
     lineHeight: 24,
-    marginBottom: 48,
+    paddingHorizontal: 20,
   },
   buttonContainer: {
     width: '100%',
-    gap: 16,
-  },
-  primaryButton: {
-    backgroundColor: '#ffffff',
-    paddingVertical: 18,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  primaryButtonText: {
-    color: '#6366f1',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    borderWidth: 2,
-    borderColor: '#ffffff',
-    paddingVertical: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-  },
-  secondaryButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
+    paddingTop: 32,
+    gap: 12,
   },
 });

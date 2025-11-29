@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`CreatePostPage Snapshot Testing matches snapshot 1`] = `
+<div>
+  <div
+    aria-label="Create post page"
+    role="main"
+    style="padding: 20px; max-width: 1200px; margin: 0px auto;"
+  >
+    <h1>
+      CreatePostPage
+    </h1>
+    <p>
+      Content under construction...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CreatePostPage Snapshot Testing matches snapshot for authenticated user 1`] = `
+<div>
+  <div
+    aria-label="Create post page"
+    role="main"
+    style="padding: 20px; max-width: 1200px; margin: 0px auto;"
+  >
+    <h1>
+      CreatePostPage
+    </h1>
+    <p>
+      Content under construction...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CreatePostPage Snapshot Testing matches snapshot for unauthenticated user 1`] = `
+<div>
+  <div
+    aria-label="Create post page"
+    role="main"
+    style="padding: 20px; max-width: 1200px; margin: 0px auto;"
+  >
+    <h1>
+      CreatePostPage
+    </h1>
+    <p>
+      Content under construction...
+    </p>
+  </div>
+</div>
+`;
+
+exports[`CreatePostPage Snapshot Testing matches snapshot with loading state 1`] = `
+<div>
+  <div
+    aria-label="Create post page"
+    role="main"
+    style="padding: 20px; max-width: 1200px; margin: 0px auto;"
+  >
+    <h1>
+      CreatePostPage
+    </h1>
+    <p>
+      Content under construction...
+    </p>
+  </div>
+</div>
+`;

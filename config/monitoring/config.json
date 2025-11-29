@@ -1,0 +1,44 @@
+{
+  "monitoring": {
+    "enabled": true,
+    "interval": 30,
+    "retention_days": 7,
+    "alerts": {
+      "enabled": true,
+      "webhook_url": "",
+      "email": ""
+    },
+    "services": {
+      "api": {
+        "url": "http://localhost:3002/health",
+        "timeout": 5,
+        "expected_status": [200, 503]
+      },
+      "web": {
+        "url": "http://localhost:3000",
+        "timeout": 5,
+        "expected_status": [200]
+      },
+      "database": {
+        "host": "localhost",
+        "port": 5432,
+        "database": "cryb",
+        "user": "cryb_user"
+      },
+      "redis": {
+        "host": "localhost",
+        "port": 6380
+      }
+    },
+    "thresholds": {
+      "cpu_warning": 80,
+      "cpu_critical": 95,
+      "memory_warning": 85,
+      "memory_critical": 95,
+      "disk_warning": 80,
+      "disk_critical": 90,
+      "response_time_warning": 1000,
+      "response_time_critical": 5000
+    }
+  }
+}

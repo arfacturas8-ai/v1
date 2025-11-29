@@ -1,0 +1,37 @@
+{
+  "name": "cryb-search-analytics",
+  "version": "1.0.0",
+  "description": "Elasticsearch search analytics and metrics for Cryb Platform",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "lint": "eslint src/",
+    "health-check": "curl -f http://localhost:${PORT:-9471}/health"
+  },
+  "keywords": [
+    "prometheus",
+    "elasticsearch",
+    "search",
+    "analytics",
+    "monitoring",
+    "cryb"
+  ],
+  "author": "Cryb Platform Engineering",
+  "license": "MIT",
+  "dependencies": {
+    "prom-client": "^15.0.0",
+    "@elastic/elasticsearch": "^9.1.1",
+    "express": "^4.18.2",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1",
+    "jest": "^29.7.0",
+    "eslint": "^8.50.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

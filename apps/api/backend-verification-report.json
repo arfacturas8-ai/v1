@@ -1,0 +1,143 @@
+{
+  "timestamp": "2025-09-23T00:24:01.324Z",
+  "overall": {
+    "status": "broken",
+    "score": "5/7"
+  },
+  "components": {
+    "apiServer": {
+      "status": "working",
+      "details": {
+        "statusCode": 200,
+        "healthChecks": {
+          "status": "partial",
+          "timestamp": "2025-09-23T00:24:00.893Z",
+          "checks": {
+            "api": "healthy",
+            "database": "healthy",
+            "redis": "healthy",
+            "elasticsearch": "disabled",
+            "minio": "healthy",
+            "realtime": "healthy"
+          }
+        },
+        "responseTime": 1758587040896,
+        "timestamp": "2025-09-23T00:24:00.896Z"
+      }
+    },
+    "database": {
+      "status": "working",
+      "details": {
+        "connection": "successful",
+        "version": "PostgreSQL detected",
+        "tablesCount": 68,
+        "tables": [
+          " AuditLog",
+          " Award",
+          " Ban",
+          " Block",
+          " Channel",
+          " ChannelPermission",
+          " ChunkedUploadSession",
+          " Comment",
+          " Community",
+          " CommunityBadge"
+        ],
+        "timestamp": "2025-09-23T00:24:01.102Z"
+      }
+    },
+    "authentication": {
+      "status": "broken",
+      "details": {
+        "error": "Request failed with status code 400",
+        "response": {
+          "success": false,
+          "error": "Invalid request data",
+          "timestamp": "2025-09-23T00:24:01.120Z",
+          "path": "/api/v1/auth/register",
+          "method": "POST",
+          "statusCode": 400,
+          "code": "REQUEST_VALIDATION_ERROR",
+          "details": {
+            "validation": [
+              {
+                "instancePath": "",
+                "schemaPath": "#/required",
+                "keyword": "required",
+                "params": {
+                  "missingProperty": "displayName"
+                },
+                "message": "must have required property 'displayName'"
+              }
+            ],
+            "validationContext": "body"
+          }
+        },
+        "status": 400,
+        "timestamp": "2025-09-23T00:24:01.124Z"
+      }
+    },
+    "realtime": {
+      "status": "working",
+      "details": {
+        "handshake": "success",
+        "protocol": "Engine.IO v4",
+        "timestamp": "2025-09-23T00:24:01.131Z"
+      }
+    },
+    "endpoints": {
+      "status": "working",
+      "details": {
+        "total": 5,
+        "working": 4,
+        "broken": 1,
+        "endpoints": {
+          "/api/v1/communities": {
+            "status": "working",
+            "statusCode": 200,
+            "description": "Communities list"
+          },
+          "/api/v1/posts": {
+            "status": "working",
+            "statusCode": 200,
+            "description": "Posts list"
+          },
+          "/api/v1/search": {
+            "status": "broken",
+            "error": "Request failed with status code 500",
+            "statusCode": 500,
+            "description": "Search functionality"
+          },
+          "/documentation": {
+            "status": "working",
+            "statusCode": 200,
+            "description": "API documentation"
+          },
+          "/metrics": {
+            "status": "working",
+            "statusCode": 200,
+            "description": "Prometheus metrics"
+          }
+        },
+        "timestamp": "2025-09-23T00:24:01.228Z"
+      }
+    },
+    "middleware": {
+      "status": "broken",
+      "details": {
+        "error": "Request failed with status code 400",
+        "timestamp": "2025-09-23T00:24:01.233Z"
+      }
+    },
+    "services": {
+      "status": "working",
+      "details": {
+        "redis": true,
+        "minio": false,
+        "elasticsearch": true,
+        "livekit": true,
+        "timestamp": "2025-09-23T00:24:01.323Z"
+      }
+    }
+  }
+}

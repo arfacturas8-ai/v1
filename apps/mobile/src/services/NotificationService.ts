@@ -9,6 +9,7 @@ import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Constants from 'expo-constants';
 import { CrashDetector } from '../utils/CrashDetector';
+import { apiService } from './ApiService';
 
 export interface NotificationPermissionStatus {
   granted: boolean;
@@ -345,26 +346,22 @@ class NotificationService {
 
   private async sendTokenToServer(tokenData: PushToken): Promise<void> {
     try {
-      const authToken = await AsyncStorage.getItem('@auth_token');
-      if (!authToken) {
-        console.warn('[Notifications] No auth token available');
+      if (!apiService.isAuthenticated()) {
+        console.warn('[Notifications] No authentication available');
         return;
       }
 
-      const response = await fetch('http://localhost:3001/api/notifications/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify(tokenData),
+      const response = await apiService.registerPushToken({
+        token: tokenData.token,
+        platform: tokenData.platform,
+        deviceId: tokenData.deviceId,
       });
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      if (response.success) {
+        console.log('[Notifications] Token sent to server successfully');
+      } else {
+        throw new Error(response.error || 'Failed to register push token');
       }
-
-      console.log('[Notifications] Token sent to server successfully');
 
     } catch (error) {
       console.error('[Notifications] Server token error:', error);
@@ -597,4 +594,4 @@ class NotificationService {
   }
 }
 
-export const NotificationService = NotificationService.getInstance();
+export const notificationService = NotificationService.getInstance();

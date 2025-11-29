@@ -14,8 +14,7 @@
       },
       "ios": {
         "simulator": true,
-        "buildConfiguration": "Debug",
-        "bundleIdentifier": "app.cryb.ios.dev"
+        "buildConfiguration": "Debug"
       },
       "android": {
         "buildType": "apk",
@@ -26,12 +25,15 @@
       "distribution": "internal",
       "channel": "preview",
       "env": {
-        "NODE_ENV": "staging",
-        "APP_VARIANT": "staging"
+        "NODE_ENV": "production",
+        "APP_VARIANT": "production",
+        "EXPO_PUBLIC_ENVIRONMENT": "production",
+        "EXPO_PUBLIC_API_BASE_URL": "http://localhost:3002",
+        "EXPO_PUBLIC_WS_URL": "ws://localhost:3002",
+        "EXPO_PUBLIC_BUILD_TYPE": "production"
       },
       "ios": {
         "buildConfiguration": "Release",
-        "bundleIdentifier": "app.cryb.ios.staging",
         "enterpriseProvisioning": "adhoc"
       },
       "android": {
@@ -45,17 +47,17 @@
         "NODE_ENV": "production",
         "APP_VARIANT": "production",
         "EXPO_PUBLIC_ENVIRONMENT": "production",
-        "EXPO_PUBLIC_API_BASE_URL": "http://api.cryb.ai",
-        "EXPO_PUBLIC_WS_URL": "ws://api.cryb.ai",
+        "EXPO_PUBLIC_API_BASE_URL": "https://api.cryb.ai",
+        "EXPO_PUBLIC_WS_URL": "wss://api.cryb.ai",
         "EXPO_PUBLIC_BUILD_TYPE": "production"
       },
       "ios": {
         "buildConfiguration": "Release",
-        "bundleIdentifier": "app.cryb.ios",
-        "enterpriseProvisioning": "universal"
+        "simulator": false,
+        "autoIncrement": "buildNumber"
       },
       "android": {
-        "buildType": "aab",
+        "buildType": "app-bundle",
         "gradleCommand": ":app:bundleRelease"
       }
     },

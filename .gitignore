@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 dist
+# Production environment files (NEVER commit these)
+.env.production
+.env.production.local
+.env.production.secure
+*.env.production
+apps/**/.env.production
+.env.backup.*
+*.env.backup.*
+apps/**/.env.backup.*
+
+# Android SDK and large binaries
+commandlinetools-*.zip
+*.apk
+*.aab

@@ -5,6 +5,67 @@ import { authMiddleware } from "../middleware/auth";
 import { validate, validationSchemas } from "../middleware/validation";
 
 const communityRoutes: FastifyPluginAsync = async (fastify) => {
+  // Get public communities (specific public endpoint)
+  fastify.get("/public", async (request, reply) => {
+    try {
+      const { page = 1, limit = 20, sort = "members" } = z.object({
+        page: z.coerce.number().min(1).default(1),
+        limit: z.coerce.number().min(1).max(100).default(20),
+        sort: z.enum(["members", "recent", "posts", "name"]).default("members"),
+      }).parse(request.query);
+
+      let orderBy: any;
+      switch (sort) {
+        case "members":
+          orderBy = { memberCount: "desc" };
+          break;
+        case "recent":
+          orderBy = { createdAt: "desc" };
+          break;
+        case "posts":
+          orderBy = { posts: { _count: "desc" } };
+          break;
+        case "name":
+          orderBy = { name: "asc" };
+          break;
+        default:
+          orderBy = { memberCount: "desc" };
+      }
+
+      const [communities, total] = await Promise.all([
+        prisma.community.findMany({
+          where: { isPublic: true },
+          include: {
+            _count: {
+              select: { members: true, posts: true },
+            },
+          },
+          skip: (page - 1) * limit,
+          take: limit,
+          orderBy,
+        }),
+        prisma.community.count({ where: { isPublic: true } }),
+      ]);
+
+      return reply.send({
+        success: true,
+        data: {
+          items: communities,
+          total,
+          page,
+          pageSize: limit,
+          hasMore: page * limit < total,
+        },
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: "Failed to get public communities",
+      });
+    }
+  });
+
   // Get all communities (public endpoint)
   fastify.get("/", async (request, reply) => {
     try {
@@ -18,7 +79,7 @@ const communityRoutes: FastifyPluginAsync = async (fastify) => {
           where: { isPublic: true },
           include: {
             _count: {
-              select: { members: true, posts: true },
+              select: { CommunityMember: true, Post: true },
             },
           },
           skip: (page - 1) * limit,
@@ -58,7 +119,7 @@ const communityRoutes: FastifyPluginAsync = async (fastify) => {
         where: { name },
         include: {
           _count: {
-            select: { members: true, posts: true },
+            select: { CommunityMember: true, Post: true },
           },
         },
       });
@@ -111,6 +172,7 @@ const communityRoutes: FastifyPluginAsync = async (fastify) => {
       const community = await prisma.community.create({
         data: {
           ...body,
+          memberCount: 1, // Initialize with 1 member (the creator)
           members: {
             create: {
               userId: request.userId,
@@ -121,6 +183,11 @@ const communityRoutes: FastifyPluginAsync = async (fastify) => {
               userId: request.userId,
               permissions: { all: true },
             },
+          },
+        },
+        include: {
+          _count: {
+            select: { members: true, posts: true },
           },
         },
       });
@@ -179,15 +246,26 @@ const communityRoutes: FastifyPluginAsync = async (fastify) => {
         },
       });
 
+      // Update member count
+      await prisma.community.update({
+        where: { id: community.id },
+        data: { memberCount: { increment: 1 } },
+      });
+
       return reply.send({
         success: true,
         data: member,
       });
     } catch (error) {
-      fastify.log.error(error);
+      fastify.log.error('Join community error:', error);
       return reply.code(500).send({
         success: false,
-        error: "Failed to join community",
+        error: "An unexpected error occurred",
+        details: {
+          message: (error as any)?.message || 'Unknown error',
+          requestId: request.id,
+          processingTime: 0
+        }
       });
     }
   });

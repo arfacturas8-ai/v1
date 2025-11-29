@@ -17,10 +17,10 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   
   // Redis
-  REDIS_URL: z.string().default('redis://:cryb_redis_password@localhost:6380/0'),
+  REDIS_URL: z.string().default('redis://localhost:6380/0'),
   REDIS_HOST: z.string().default('localhost'),
   REDIS_PORT: z.coerce.number().default(6380),
-  REDIS_PASSWORD: z.string().default('cryb_redis_password'),
+  REDIS_PASSWORD: z.string().optional(),
   
   // JWT secrets (critical for security)
   JWT_SECRET: z.string().min(32, 'JWT_SECRET must be at least 32 characters for security'),
@@ -56,19 +56,19 @@ const envSchema = z.object({
   
   // LiveKit for voice/video
   LIVEKIT_URL: z.string().default('ws://localhost:7880'),
-  LIVEKIT_API_KEY: z.string().default('devkey'),
-  LIVEKIT_API_SECRET: z.string().default('secret'),
+  LIVEKIT_API_KEY: z.string().optional(),
+  LIVEKIT_API_SECRET: z.string().optional(),
   LIVEKIT_BACKUP_URLS: z.string().optional(),
   
   // Voice/Video Quality Settings
   VOICE_BITRATE: z.coerce.number().default(64000),
   VIDEO_BITRATE: z.coerce.number().default(1500000),
-  AUDIO_ECHO_CANCELLATION: z.string().transform(val => val === 'true').default(true),
-  AUDIO_NOISE_SUPPRESSION: z.string().transform(val => val === 'true').default(true),
-  AUDIO_AUTO_GAIN_CONTROL: z.string().transform(val => val === 'true').default(true),
+  AUDIO_ECHO_CANCELLATION: z.string().transform(val => val === 'true').default('true'),
+  AUDIO_NOISE_SUPPRESSION: z.string().transform(val => val === 'true').default('true'),
+  AUDIO_AUTO_GAIN_CONTROL: z.string().transform(val => val === 'true').default('true'),
   
   // Feature Flags
-  ENABLE_VOICE_VIDEO: z.string().transform(val => val === 'true').default(false),
+  ENABLE_VOICE_VIDEO: z.string().transform(val => val === 'true').default('false'),
   
   // External services (optional)
   ELASTICSEARCH_URL: z.string().url().optional(),
@@ -80,6 +80,33 @@ const envSchema = z.object({
   
   // Logging
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']).default('info'),
+  
+  // Monitoring and Observability
+  SENTRY_DSN: z.string().url().optional(),
+  SENTRY_ENVIRONMENT: z.string().optional(),
+  SENTRY_RELEASE: z.string().optional(),
+  SENTRY_TRACES_SAMPLE_RATE: z.coerce.number().min(0).max(1).default(0.1),
+  SENTRY_PROFILES_SAMPLE_RATE: z.coerce.number().min(0).max(1).default(0.1),
+  SENTRY_MAX_BREADCRUMBS: z.coerce.number().default(100),
+  SENTRY_ENABLE_IN_DEVELOPMENT: z.string().transform(val => val === 'true').default('false'),
+  
+  // Prometheus metrics
+  PROMETHEUS_METRICS_PORT: z.coerce.number().default(9090),
+  PROMETHEUS_METRICS_PATH: z.string().default('/metrics'),
+  PROMETHEUS_ENABLED: z.string().transform(val => val === 'true').default('true'),
+  
+  // Jaeger tracing
+  JAEGER_ENDPOINT: z.string().url().optional(),
+  JAEGER_SERVICE_NAME: z.string().default('cryb-api'),
+  JAEGER_ENABLED: z.string().transform(val => val === 'true').default('false'),
+  
+  // Performance monitoring
+  ENABLE_PERFORMANCE_MONITORING: z.string().transform(val => val === 'true').default('true'),
+  PERFORMANCE_SAMPLE_RATE: z.coerce.number().min(0).max(1).default(0.1),
+  
+  // Health checks
+  HEALTH_CHECK_ENABLED: z.string().transform(val => val === 'true').default('true'),
+  HEALTH_CHECK_INTERVAL: z.coerce.number().default(30000),
   
   // API configuration
   API_HOST: z.string().optional(),
@@ -139,6 +166,18 @@ export function validateEnvironment(): Environment {
       console.log(`🔊 Audio processing: EC=${env.AUDIO_ECHO_CANCELLATION}, NS=${env.AUDIO_NOISE_SUPPRESSION}, AGC=${env.AUDIO_AUTO_GAIN_CONTROL}`);
     }
     
+    // Monitoring status
+    console.log(`📊 Monitoring status:`);
+    console.log(`   • Sentry: ${env.SENTRY_DSN ? 'Configured' : 'Not configured'}`);
+    console.log(`   • Prometheus: ${env.PROMETHEUS_ENABLED ? 'Enabled' : 'Disabled'}`);
+    console.log(`   • Jaeger: ${env.JAEGER_ENABLED ? 'Enabled' : 'Disabled'}`);
+    console.log(`   • Performance monitoring: ${env.ENABLE_PERFORMANCE_MONITORING ? 'Enabled' : 'Disabled'}`);
+    console.log(`   • Health checks: ${env.HEALTH_CHECK_ENABLED ? 'Enabled' : 'Disabled'}`);
+    if (env.SENTRY_DSN) {
+      console.log(`   • Sentry traces sample rate: ${env.SENTRY_TRACES_SAMPLE_RATE}`);
+      console.log(`   • Sentry profiles sample rate: ${env.SENTRY_PROFILES_SAMPLE_RATE}`);
+    }
+    
     return env;
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -190,13 +229,17 @@ function validateProductionSecurity(env: Environment): void {
     securityIssues.push('JWT_SECRET should be at least 64 characters in production');
   }
   
-  // Check for development URLs in production
-  if (env.DATABASE_URL.includes('localhost')) {
-    securityIssues.push('DATABASE_URL should not use localhost in production');
-  }
+  // Check for development URLs in production (skip if single-server deployment)
+  const isSingleServerDeployment = process.env.SINGLE_SERVER_DEPLOYMENT === 'true';
   
-  if (env.REDIS_URL.includes('localhost') || env.REDIS_HOST === 'localhost') {
-    securityIssues.push('Redis should not use localhost in production');
+  if (!isSingleServerDeployment) {
+    if (env.DATABASE_URL.includes('localhost')) {
+      securityIssues.push('DATABASE_URL should not use localhost in production');
+    }
+    
+    if (env.REDIS_URL.includes('localhost') || env.REDIS_HOST === 'localhost') {
+      securityIssues.push('Redis should not use localhost in production');
+    }
   }
   
   // Check HTTPS requirements

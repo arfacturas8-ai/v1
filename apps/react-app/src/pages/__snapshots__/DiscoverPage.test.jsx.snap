@@ -1,0 +1,482 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`DiscoverPage Snapshot Tests matches snapshot for empty state 1`] = `
+<div>
+  <div
+    aria-label="Discover page"
+    role="main"
+    style="min-height: 100vh; padding-top: 80px;"
+  >
+    <div
+      style="max-width: 1200px; margin: 0px auto; padding: 24px 20px;"
+    >
+      <div
+        style="margin-bottom: 32px;"
+      >
+        <h1
+          style="font-size: 32px; font-weight: 700; color: rgb(31, 41, 55); margin-bottom: 8px;"
+        >
+          Discover
+        </h1>
+        <p
+          style="font-size: 16px; color: rgb(107, 114, 128); line-height: 1.6;"
+        >
+          Explore trending communities, topics, and people
+        </p>
+      </div>
+      <div
+        style="position: relative; margin-bottom: 24px;"
+      >
+        <div
+          aria-hidden="true"
+          data-testid="search-icon"
+          size="20"
+          style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgb(156, 163, 175);"
+        />
+        <input
+          aria-label="Search discover page"
+          placeholder="Search communities, tags, or people..."
+          style="width: 100%; padding: 14px 16px 14px 48px; font-size: 16px; border: 2px solid #e5e7eb; border-radius: 12px; outline: none; transition: all 0.2s; background: rgb(255, 255, 255);"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        style="display: flex; gap: 8px; margin-bottom: 32px; border-bottom: 2px solid #e5e7eb; overflow-x: auto;"
+      >
+        <button
+          aria-label="View Trending"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; border-bottom: 2px solid transparent;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="trending-up-icon"
+            size="18"
+          />
+          Trending
+        </button>
+        <button
+          aria-label="View Communities"
+          aria-pressed="true"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; color: rgb(102, 126, 234); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap; border-bottom: 2px solid #667eea;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="users-icon"
+            size="18"
+          />
+          Communities
+        </button>
+        <button
+          aria-label="View Tags"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="hash-icon"
+            size="18"
+          />
+          Tags
+        </button>
+        <button
+          aria-label="View People"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="star-icon"
+            size="18"
+          />
+          People
+        </button>
+      </div>
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;"
+      />
+      <div
+        aria-live="polite"
+        role="status"
+        style="text-align: center; padding: 60px 20px; background: rgb(255, 255, 255); border-radius: 12px;"
+      >
+        <div
+          aria-hidden="true"
+          color="#d1d5db"
+          data-testid="filter-icon"
+          size="48"
+          style="margin-bottom: 16px;"
+        />
+        <h3
+          style="font-size: 18px; font-weight: 600; color: rgb(55, 65, 81); margin-bottom: 8px;"
+        >
+          No results found
+        </h3>
+        <p
+          style="font-size: 14px; color: rgb(107, 114, 128);"
+        >
+          Try adjusting your search or check back later
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DiscoverPage Snapshot Tests matches snapshot for loading state 1`] = `
+<div>
+  <div
+    aria-label="Discover page"
+    role="main"
+    style="min-height: 100vh; padding-top: 80px;"
+  >
+    <div
+      style="max-width: 1200px; margin: 0px auto; padding: 24px 20px;"
+    >
+      <div
+        style="margin-bottom: 32px;"
+      >
+        <h1
+          style="font-size: 32px; font-weight: 700; color: rgb(31, 41, 55); margin-bottom: 8px;"
+        >
+          Discover
+        </h1>
+        <p
+          style="font-size: 16px; color: rgb(107, 114, 128); line-height: 1.6;"
+        >
+          Explore trending communities, topics, and people
+        </p>
+      </div>
+      <div
+        style="position: relative; margin-bottom: 24px;"
+      >
+        <div
+          aria-hidden="true"
+          data-testid="search-icon"
+          size="20"
+          style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgb(156, 163, 175);"
+        />
+        <input
+          aria-label="Search discover page"
+          placeholder="Search communities, tags, or people..."
+          style="width: 100%; padding: 14px 16px 14px 48px; font-size: 16px; border: 2px solid #e5e7eb; border-radius: 12px; outline: none; transition: all 0.2s; background: rgb(255, 255, 255);"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        style="display: flex; gap: 8px; margin-bottom: 32px; border-bottom: 2px solid #e5e7eb; overflow-x: auto;"
+      >
+        <button
+          aria-label="View Trending"
+          aria-pressed="true"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid #667eea; color: rgb(102, 126, 234); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="trending-up-icon"
+            size="18"
+          />
+          Trending
+        </button>
+        <button
+          aria-label="View Communities"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="users-icon"
+            size="18"
+          />
+          Communities
+        </button>
+        <button
+          aria-label="View Tags"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="hash-icon"
+            size="18"
+          />
+          Tags
+        </button>
+        <button
+          aria-label="View People"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="star-icon"
+            size="18"
+          />
+          People
+        </button>
+      </div>
+      <div
+        aria-label="Loading discover content"
+        aria-live="polite"
+        role="status"
+      >
+        <div
+          data-testid="page-skeleton"
+          data-type="grid"
+        >
+          Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`DiscoverPage Snapshot Tests matches snapshot for trending tab 1`] = `
+<div>
+  <div
+    aria-label="Discover page"
+    role="main"
+    style="min-height: 100vh; padding-top: 80px;"
+  >
+    <div
+      style="max-width: 1200px; margin: 0px auto; padding: 24px 20px;"
+    >
+      <div
+        style="margin-bottom: 32px;"
+      >
+        <h1
+          style="font-size: 32px; font-weight: 700; color: rgb(31, 41, 55); margin-bottom: 8px;"
+        >
+          Discover
+        </h1>
+        <p
+          style="font-size: 16px; color: rgb(107, 114, 128); line-height: 1.6;"
+        >
+          Explore trending communities, topics, and people
+        </p>
+      </div>
+      <div
+        style="position: relative; margin-bottom: 24px;"
+      >
+        <div
+          aria-hidden="true"
+          data-testid="search-icon"
+          size="20"
+          style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: rgb(156, 163, 175);"
+        />
+        <input
+          aria-label="Search discover page"
+          placeholder="Search communities, tags, or people..."
+          style="width: 100%; padding: 14px 16px 14px 48px; font-size: 16px; border: 2px solid #e5e7eb; border-radius: 12px; outline: none; transition: all 0.2s; background: rgb(255, 255, 255);"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        style="display: flex; gap: 8px; margin-bottom: 32px; border-bottom: 2px solid #e5e7eb; overflow-x: auto;"
+      >
+        <button
+          aria-label="View Trending"
+          aria-pressed="true"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid #667eea; color: rgb(102, 126, 234); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="trending-up-icon"
+            size="18"
+          />
+          Trending
+        </button>
+        <button
+          aria-label="View Communities"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="users-icon"
+            size="18"
+          />
+          Communities
+        </button>
+        <button
+          aria-label="View Tags"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="hash-icon"
+            size="18"
+          />
+          Tags
+        </button>
+        <button
+          aria-label="View People"
+          aria-pressed="false"
+          style="display: flex; align-items: center; gap: 8px; padding: 12px 20px; background: none; border-bottom: 2px solid transparent; color: rgb(107, 114, 128); font-size: 15px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: all 0.2s; white-space: nowrap;"
+        >
+          <div
+            aria-hidden="true"
+            data-testid="star-icon"
+            size="18"
+          />
+          People
+        </button>
+      </div>
+      <div
+        style="display: flex; flex-direction: column; gap: 24px;"
+      >
+        <section>
+          <h2
+            style="font-size: 20px; font-weight: 600; color: rgb(31, 41, 55); margin-bottom: 16px;"
+          >
+            Trending Communities
+          </h2>
+          <div
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px;"
+          >
+            <a
+              href="/community/test-community"
+              style="display: block; padding: 20px; background: rgb(255, 255, 255); border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; transition: all 0.2s;"
+            >
+              <h3
+                style="font-size: 18px; font-weight: 600; color: rgb(31, 41, 55); margin-bottom: 8px;"
+              >
+                Test Community
+              </h3>
+              <p
+                style="font-size: 14px; color: rgb(107, 114, 128); margin-bottom: 12px;"
+              >
+                A test community
+              </p>
+              <span
+                style="font-size: 13px; color: rgb(156, 163, 175);"
+              >
+                500
+                 members
+              </span>
+            </a>
+            <a
+              href="/community/gaming-community"
+              style="display: block; padding: 20px; background: rgb(255, 255, 255); border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; transition: all 0.2s;"
+            >
+              <h3
+                style="font-size: 18px; font-weight: 600; color: rgb(31, 41, 55); margin-bottom: 8px;"
+              >
+                Gaming Community
+              </h3>
+              <p
+                style="font-size: 14px; color: rgb(107, 114, 128); margin-bottom: 12px;"
+              >
+                For gamers
+              </p>
+              <span
+                style="font-size: 13px; color: rgb(156, 163, 175);"
+              >
+                1000
+                 members
+              </span>
+            </a>
+            <a
+              href="/community/tech-community"
+              style="display: block; padding: 20px; background: rgb(255, 255, 255); border-radius: 12px; border: 1px solid #e5e7eb; text-decoration: none; transition: all 0.2s;"
+            >
+              <h3
+                style="font-size: 18px; font-weight: 600; color: rgb(31, 41, 55); margin-bottom: 8px;"
+              >
+                Tech Community
+              </h3>
+              <p
+                style="font-size: 14px; color: rgb(107, 114, 128); margin-bottom: 12px;"
+              >
+                Technology discussions
+              </p>
+              <span
+                style="font-size: 13px; color: rgb(156, 163, 175);"
+              >
+                750
+                 members
+              </span>
+            </a>
+          </div>
+        </section>
+        <section>
+          <h2
+            style="font-size: 20px; font-weight: 600; color: rgb(31, 41, 55); margin-bottom: 16px;"
+          >
+            Trending Tags
+          </h2>
+          <div
+            style="display: flex; flex-wrap: wrap; gap: 12px;"
+          >
+            <a
+              href="/tag/javascript"
+              style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgb(243, 244, 246); border-radius: 20px; text-decoration: none; color: rgb(55, 65, 81); font-size: 14px; font-weight: 500; transition: all 0.2s;"
+            >
+              #
+              javascript
+              <span
+                style="font-size: 12px; color: rgb(156, 163, 175);"
+              >
+                100
+              </span>
+            </a>
+            <a
+              href="/tag/react"
+              style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgb(243, 244, 246); border-radius: 20px; text-decoration: none; color: rgb(55, 65, 81); font-size: 14px; font-weight: 500; transition: all 0.2s;"
+            >
+              #
+              react
+              <span
+                style="font-size: 12px; color: rgb(156, 163, 175);"
+              >
+                80
+              </span>
+            </a>
+            <a
+              href="/tag/nodejs"
+              style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgb(243, 244, 246); border-radius: 20px; text-decoration: none; color: rgb(55, 65, 81); font-size: 14px; font-weight: 500; transition: all 0.2s;"
+            >
+              #
+              nodejs
+              <span
+                style="font-size: 12px; color: rgb(156, 163, 175);"
+              >
+                60
+              </span>
+            </a>
+            <a
+              href="/tag/python"
+              style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgb(243, 244, 246); border-radius: 20px; text-decoration: none; color: rgb(55, 65, 81); font-size: 14px; font-weight: 500; transition: all 0.2s;"
+            >
+              #
+              python
+              <span
+                style="font-size: 12px; color: rgb(156, 163, 175);"
+              >
+                90
+              </span>
+            </a>
+            <a
+              href="/tag/gaming"
+              style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; background: rgb(243, 244, 246); border-radius: 20px; text-decoration: none; color: rgb(55, 65, 81); font-size: 14px; font-weight: 500; transition: all 0.2s;"
+            >
+              #
+              gaming
+              <span
+                style="font-size: 12px; color: rgb(156, 163, 175);"
+              >
+                50
+              </span>
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,453 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import './design-tokens.css';
+
+:root {
+  /* Colors */
+  --background: 0 0% 4%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 8%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 8%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 240 5.9% 10%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 240 5.9% 10%;
+  --radius: 0.5rem;
+  
+  /* Custom CRYB colors */
+  --cryb-primary: 264 83% 57%;
+  --cryb-primary-foreground: 0 0% 98%;
+  --cryb-secondary: 240 5% 26%;
+  --cryb-secondary-foreground: 0 0% 98%;
+  --cryb-accent: 142 76% 36%;
+  --cryb-accent-foreground: 0 0% 98%;
+  --cryb-warning: 38 92% 50%;
+  --cryb-warning-foreground: 0 0% 98%;
+  --cryb-error: 0 84% 60%;
+  --cryb-error-foreground: 0 0% 98%;
+  --cryb-success: 142 76% 36%;
+  --cryb-success-foreground: 0 0% 98%;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(var(--cryb-primary)) 0%, hsl(var(--cryb-accent)) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(var(--cryb-secondary)) 0%, hsl(var(--primary)) 100%);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  
+  /* Animation durations */
+  --animation-fast: 150ms;
+  --animation-normal: 250ms;
+  --animation-slow: 350ms;
+  
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+  
+  /* Typography */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  
+  /* Z-indexes */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 240 4.9% 83.9%;
+  
+  /* Dark mode gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(264 83% 67%) 0%, hsl(142 76% 46%) 100%);
+  --gradient-secondary: linear-gradient(135deg, hsl(240 5% 36%) 0%, hsl(240 10% 20%) 100%);
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Geist Sans', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: 'rlig' 1, 'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Focus styles */
+:focus {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: hsl(var(--cryb-primary) / 0.3);
+  color: hsl(var(--foreground));
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.6);
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  :root {
+    --border: 240 5.9% 60%;
+    --input: 240 5.9% 60%;
+  }
+  
+  .dark {
+    --border: 240 5% 84.9%;
+    --input: 240 5% 84.9%;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+
+  :root {
+    --spacing-xs: 0.125rem;
+    --spacing-sm: 0.25rem;
+    --spacing-md: 0.5rem;
+    --spacing-lg: 1rem;
+    --spacing-xl: 1.5rem;
+    --spacing-2xl: 2rem;
+  }
+
+  /* Full-screen modals on mobile */
+  .modal-backdrop {
+    padding: 0 !important;
+  }
+
+  .modal {
+    max-height: 100vh !important;
+    max-width: 100vw !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  /* Touch-friendly targets */
+  button, a, input[type="checkbox"], input[type="radio"], select {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Scrollbar hidden on mobile for better UX */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Bottom navigation padding */
+  .pb-nav-mobile {
+    padding-bottom: 4rem;
+  }
+}
+
+/* Tablet optimizations */
+@media (min-width: 641px) and (max-width: 1024px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .text-gradient-primary {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .glass {
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid hsl(var(--border) / 0.2);
+  }
+  
+  .shadow-glow {
+    box-shadow: 0 0 20px hsl(var(--cryb-primary) / 0.3);
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn var(--animation-normal) ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp var(--animation-normal) ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown var(--animation-normal) ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn var(--animation-normal) ease-out;
+  }
+  
+  .loading-skeleton {
+    background: linear-gradient(90deg, hsl(var(--muted)) 25%, hsl(var(--muted-foreground) / 0.1) 50%, hsl(var(--muted)) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-gradient-primary text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 hover:shadow-lg hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground font-medium py-2 px-4 rounded-lg transition-all duration-200 hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-input bg-background text-foreground rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent placeholder:text-muted-foreground disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .card-elevated {
+    @apply bg-card border border-border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8,0,1,1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+/* Print styles */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  a, a:visited {
+    text-decoration: underline;
+  }
+  
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+  
+  pre, blockquote {
+    border: 1px solid #999;
+    page-break-inside: avoid;
+  }
+  
+  thead {
+    display: table-header-group;
+  }
+  
+  tr, img {
+    page-break-inside: avoid;
+  }
+  
+  img {
+    max-width: 100% !important;
+  }
+  
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+  
+  h2, h3 {
+    page-break-after: avoid;
+  }
+}

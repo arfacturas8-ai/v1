@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-09-30T16:12:20.613Z",
+  "testDuration": 30000,
+  "concurrentConnections": 10,
+  "metrics": {
+    "connections": {
+      "total": 10,
+      "successful": 0,
+      "failed": 10,
+      "averageConnectionTime": null
+    },
+    "messaging": {
+      "messagesSent": 0,
+      "messagesReceived": 0,
+      "averageLatency": 0,
+      "deliveryRate": 0
+    },
+    "presence": {
+      "presenceUpdates": 0,
+      "presenceReceived": 0,
+      "presenceLatency": 0
+    },
+    "typing": {
+      "typingIndicatorsSent": 0,
+      "typingIndicatorsReceived": 0,
+      "typingLatency": 0
+    },
+    "voice": {
+      "voiceChannelJoins": 0,
+      "voiceChannelEvents": 0,
+      "liveKitTokens": 0
+    },
+    "errors": {
+      "connectionErrors": 0,
+      "messageErrors": 0,
+      "authErrors": 41,
+      "timeouts": 10
+    },
+    "performance": {
+      "cpuUsage": {
+        "user": 368405,
+        "system": 59820
+      },
+      "memoryUsage": -3.5247039794921875,
+      "networkLatency": 0
+    }
+  },
+  "summary": {
+    "overallHealth": "POOR",
+    "criticalIssues": [
+      "10 connection failures detected",
+      "Low message delivery rate: 0.0%"
+    ],
+    "warnings": [],
+    "recommendations": [
+      "Review timeout configurations and network infrastructure"
+    ]
+  }
+}

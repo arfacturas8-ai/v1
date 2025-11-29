@@ -1,0 +1,645 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "CRYB Platform - Business Analytics",
+    "tags": ["cryb", "business", "kpi", "analytics"],
+    "style": "dark",
+    "timezone": "browser",
+    "refresh": "1m",
+    "schemaVersion": 30,
+    "version": 1,
+    "panels": [
+      {
+        "id": 1,
+        "title": "Executive KPIs",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+        "collapsed": false
+      },
+      {
+        "id": 2,
+        "title": "Daily Active Users (DAU)",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 0, "y": 1 },
+        "targets": [
+          {
+            "expr": "cryb_active_users_total{time_period=\"24h\"}",
+            "legendFormat": "DAU",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "Daily Active Users"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Weekly Active Users (WAU)",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 4, "y": 1 },
+        "targets": [
+          {
+            "expr": "cryb_active_users_total{time_period=\"7d\"}",
+            "legendFormat": "WAU",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "Weekly Active Users"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Monthly Active Users (MAU)",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 8, "y": 1 },
+        "targets": [
+          {
+            "expr": "cryb_active_users_total{time_period=\"30d\"}",
+            "legendFormat": "MAU",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "Monthly Active Users"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "User Retention (30d)",
+        "type": "gauge",
+        "gridPos": { "h": 6, "w": 4, "x": 12, "y": 1 },
+        "targets": [
+          {
+            "expr": "cryb_user_retention_rate{period=\"30d\"}",
+            "legendFormat": "Retention Rate",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": 0 },
+                { "color": "yellow", "value": 20 },
+                { "color": "green", "value": 40 }
+              ]
+            },
+            "min": 0,
+            "max": 100,
+            "unit": "percent"
+          }
+        },
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          },
+          "orientation": "auto",
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        }
+      },
+      {
+        "id": 6,
+        "title": "Daily Registrations",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 16, "y": 1 },
+        "targets": [
+          {
+            "expr": "increase(cryb_user_registrations_total[24h])",
+            "legendFormat": "New Users",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "New Registrations Today"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 7,
+        "title": "Avg Session Duration",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 20, "y": 1 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.5, rate(cryb_user_session_duration_seconds_bucket[24h]))",
+            "legendFormat": "Median Duration",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "s",
+            "displayName": "Median Session Duration"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 8,
+        "title": "User Growth & Engagement",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 },
+        "collapsed": false
+      },
+      {
+        "id": 9,
+        "title": "User Registration Trends",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+        "targets": [
+          {
+            "expr": "increase(cryb_user_registrations_total[1h])",
+            "legendFormat": "{{source}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "New Users per Hour",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": true,
+        "legend": {
+          "show": true,
+          "values": true,
+          "current": true,
+          "total": true
+        }
+      },
+      {
+        "id": 10,
+        "title": "User Engagement Score Distribution",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(cryb_user_engagement_score_bucket[1h]))",
+            "legendFormat": "95th percentile",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.75, rate(cryb_user_engagement_score_bucket[1h]))",
+            "legendFormat": "75th percentile",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(cryb_user_engagement_score_bucket[1h]))",
+            "legendFormat": "50th percentile",
+            "refId": "C"
+          },
+          {
+            "expr": "histogram_quantile(0.25, rate(cryb_user_engagement_score_bucket[1h]))",
+            "legendFormat": "25th percentile",
+            "refId": "D"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Engagement Score",
+            "show": true,
+            "min": 0,
+            "max": 100
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 11,
+        "title": "Content Creation & Interaction",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+        "collapsed": false
+      },
+      {
+        "id": 12,
+        "title": "Content Creation Rate",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 0, "y": 17 },
+        "targets": [
+          {
+            "expr": "rate(cryb_posts_created_total[5m])",
+            "legendFormat": "Posts - {{community}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_comments_created_total[5m])",
+            "legendFormat": "Comments - {{community}}",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Content per Second",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": true,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 13,
+        "title": "Top Communities by Activity",
+        "type": "piechart",
+        "gridPos": { "h": 8, "w": 8, "x": 8, "y": 17 },
+        "targets": [
+          {
+            "expr": "topk(10, increase(cryb_posts_created_total[24h]))",
+            "legendFormat": "{{community}}",
+            "refId": "A"
+          }
+        ],
+        "options": {
+          "pieType": "pie",
+          "tooltip": {
+            "mode": "single"
+          },
+          "legend": {
+            "displayMode": "list",
+            "placement": "bottom",
+            "values": ["value", "percent"]
+          },
+          "displayLabels": ["name", "percent"]
+        }
+      },
+      {
+        "id": 14,
+        "title": "Feature Usage Patterns",
+        "type": "heatmap",
+        "gridPos": { "h": 8, "w": 8, "x": 16, "y": 17 },
+        "targets": [
+          {
+            "expr": "increase(cryb_feature_usage_total[1h])",
+            "legendFormat": "{{feature}}",
+            "refId": "A"
+          }
+        ],
+        "heatmap": {
+          "xBucketSize": null,
+          "yBucketSize": null,
+          "xBucketNumber": null,
+          "yBucketNumber": null
+        },
+        "cards": {
+          "cardPadding": null,
+          "cardRound": null
+        },
+        "color": {
+          "mode": "spectrum",
+          "cardColor": "#b4ff00",
+          "colorScale": "sqrt",
+          "exponent": 0.5,
+          "min": null,
+          "max": null
+        },
+        "legend": {
+          "show": false
+        },
+        "dataFormat": "timeseries",
+        "yAxis": {
+          "show": true
+        }
+      },
+      {
+        "id": 15,
+        "title": "Communication & Voice",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 25 },
+        "collapsed": false
+      },
+      {
+        "id": 16,
+        "title": "Message Volume by Hour",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 26 },
+        "targets": [
+          {
+            "expr": "rate(cryb_messages_total[1h])",
+            "legendFormat": "{{channel_type}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Messages per Hour",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": true,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 17,
+        "title": "Voice Call Quality Metrics",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 26 },
+        "targets": [
+          {
+            "expr": "cryb_voice_calls_active",
+            "legendFormat": "Active Calls",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_voice_calls_poor_quality_total[5m])",
+            "legendFormat": "Poor Quality Rate",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(cryb_voice_call_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th Call Duration",
+            "refId": "C"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Count / Duration",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 18,
+        "title": "Business Performance",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 34 },
+        "collapsed": false
+      },
+      {
+        "id": 19,
+        "title": "Revenue Metrics (Crypto Tips)",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 0, "y": 35 },
+        "targets": [
+          {
+            "expr": "increase(cryb_crypto_tips_total[24h])",
+            "legendFormat": "{{currency}} - {{amount_range}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Tips per Day",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": true,
+        "stack": true,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 20,
+        "title": "NFT Activity",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 8, "y": 35 },
+        "targets": [
+          {
+            "expr": "rate(cryb_nft_transactions_total[1h])",
+            "legendFormat": "{{type}} - {{collection}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Transactions per Hour",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": true,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 21,
+        "title": "Platform Growth Rate",
+        "type": "stat",
+        "gridPos": { "h": 8, "w": 8, "x": 16, "y": 35 },
+        "targets": [
+          {
+            "expr": "(cryb_active_users_total{time_period=\"24h\"} - cryb_active_users_total{time_period=\"24h\"} offset 7d) / cryb_active_users_total{time_period=\"24h\"} offset 7d * 100",
+            "legendFormat": "Weekly Growth Rate",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": -10 },
+                { "color": "yellow", "value": 0 },
+                { "color": "green", "value": 5 }
+              ]
+            },
+            "unit": "percent",
+            "displayName": "Weekly User Growth"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      }
+    ],
+    "time": {
+      "from": "now-7d",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "datasource",
+          "type": "datasource",
+          "query": "prometheus",
+          "current": {
+            "value": "prometheus",
+            "text": "prometheus"
+          }
+        },
+        {
+          "name": "community",
+          "type": "query",
+          "query": "label_values(cryb_posts_created_total, community)",
+          "current": {
+            "value": "all",
+            "text": "All"
+          },
+          "includeAll": true,
+          "allValue": ".*"
+        }
+      ]
+    }
+  },
+  "folderId": 0,
+  "overwrite": true
+}

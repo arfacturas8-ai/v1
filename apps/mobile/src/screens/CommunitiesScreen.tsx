@@ -15,6 +15,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../contexts/ThemeContext';
 import { MainStackParamList } from '../navigation/MainNavigator';
+import apiService from '../services/RealApiService';
+import { deviceInfo, spacing, typography, scale } from '../utils/responsive';
 
 type CommunitiesScreenNavigationProp = NativeStackNavigationProp<MainStackParamList, 'MainTabs'>;
 
@@ -32,45 +34,7 @@ interface Community {
   onlineMembers: number;
 }
 
-const mockCommunities: Community[] = [
-  {
-    id: '1',
-    name: 'Gaming Hub',
-    description: 'The ultimate destination for gamers to discuss latest releases, share gameplay, and organize tournaments.',
-    memberCount: 15420,
-    onlineMembers: 892,
-    iconUrl: 'https://via.placeholder.com/50',
-    bannerUrl: 'https://via.placeholder.com/300x100',
-    isJoined: true,
-    category: 'Gaming',
-    tags: ['gaming', 'esports', 'tournaments'],
-    isVerified: true,
-  },
-  {
-    id: '2',
-    name: 'Crypto Traders',
-    description: 'Professional cryptocurrency trading community with market analysis, signals, and educational content.',
-    memberCount: 8950,
-    onlineMembers: 234,
-    iconUrl: 'https://via.placeholder.com/50',
-    isJoined: false,
-    category: 'Finance',
-    tags: ['crypto', 'trading', 'bitcoin'],
-    isVerified: true,
-  },
-  {
-    id: '3',
-    name: 'Tech Innovation',
-    description: 'Explore cutting-edge technology, startup discussions, and innovation in the tech industry.',
-    memberCount: 12500,
-    onlineMembers: 445,
-    iconUrl: 'https://via.placeholder.com/50',
-    isJoined: true,
-    category: 'Technology',
-    tags: ['tech', 'startups', 'ai'],
-    isVerified: false,
-  },
-];
+// Removed mock data - using real API now
 
 const categories = ['All', 'Gaming', 'Technology', 'Finance', 'Entertainment', 'Education'];
 
@@ -78,12 +42,13 @@ export function CommunitiesScreen() {
   const navigation = useNavigation<CommunitiesScreenNavigationProp>();
   const { colors } = useTheme();
 
-  const [communities, setCommunities] = useState<Community[]>(mockCommunities);
-  const [filteredCommunities, setFilteredCommunities] = useState<Community[]>(mockCommunities);
+  const [communities, setCommunities] = useState<Community[]>([]);
+  const [filteredCommunities, setFilteredCommunities] = useState<Community[]>([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const filterCommunities = useCallback(() => {
     let filtered = communities;
@@ -108,14 +73,42 @@ export function CommunitiesScreen() {
     filterCommunities();
   }, [filterCommunities]);
 
+  // Load communities on component mount
+  useEffect(() => {
+    const loadInitialCommunities = async () => {
+      await onRefresh();
+      setInitialLoading(false);
+    };
+    
+    loadInitialCommunities();
+  }, []);
+
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
     try {
-      // TODO: Fetch fresh data from API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setCommunities(mockCommunities);
+      // Fetch communities from API
+      const communitiesResponse = await apiService.getCommunities();
+      if (communitiesResponse && Array.isArray(communitiesResponse)) {
+        const apiCommunities: Community[] = communitiesResponse.map(community => ({
+          id: community.id,
+          name: community.name,
+          description: community.description,
+          memberCount: community.memberCount || 0,
+          onlineMembers: 0, // This would need to be calculated from online members
+          iconUrl: community.avatar,
+          bannerUrl: community.banner,
+          isJoined: community.isMember || false,
+          category: 'General', // Default category if not provided
+          tags: ['general'],
+          isVerified: false, // Set based on community data if available
+        }));
+        setCommunities(apiCommunities);
+      } else {
+        setCommunities([]);
+      }
     } catch (error) {
       console.error('Error refreshing communities:', error);
+      setCommunities([]);
     } finally {
       setRefreshing(false);
     }
@@ -124,20 +117,38 @@ export function CommunitiesScreen() {
   const handleJoinCommunity = useCallback(async (communityId: string) => {
     try {
       setLoading(true);
-      // TODO: API call to join community
-      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Check if user is already joined
+      const community = communities.find(c => c.id === communityId);
+      if (!community) return;
 
-      setCommunities(prev => prev.map(community =>
-        community.id === communityId
-          ? { ...community, isJoined: !community.isJoined }
-          : community
-      ));
+      if (community.isJoined) {
+        // Leave community
+        const response = await apiService.leaveCommunity(communityId);
+        if (response) {
+          setCommunities(prev => prev.map(c =>
+            c.id === communityId
+              ? { ...c, isJoined: false, memberCount: Math.max(0, c.memberCount - 1) }
+              : c
+          ));
+        }
+      } else {
+        // Join community
+        const response = await apiService.joinCommunity(communityId);
+        if (response) {
+          setCommunities(prev => prev.map(c =>
+            c.id === communityId
+              ? { ...c, isJoined: true, memberCount: c.memberCount + 1 }
+              : c
+          ));
+        }
+      }
     } catch (error) {
-      console.error('Error joining community:', error);
+      console.error('Error joining/leaving community:', error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [communities]);
 
   const handleCommunityPress = useCallback((community: Community) => {
     navigation.navigate('Server', {
@@ -296,6 +307,20 @@ export function CommunitiesScreen() {
     </View>
   );
 
+  if (initialLoading) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        {renderHeader()}
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
+            Loading communities...
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <FlatList
@@ -313,6 +338,16 @@ export function CommunitiesScreen() {
         }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
+        ListEmptyComponent={() => (
+          <View style={styles.emptyContainer}>
+            <Text style={[styles.emptyTitle, { color: colors.text }]}>
+              No communities found
+            </Text>
+            <Text style={[styles.emptySubtitle, { color: colors.textSecondary }]}>
+              Try adjusting your search or category filter
+            </Text>
+          </View>
+        )}
       />
     </View>
   );
@@ -323,60 +358,60 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: spacing.xl,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.lg,
   },
   title: {
-    fontSize: 28,
+    fontSize: typography.h3,
     fontWeight: 'bold',
   },
   createButton: {
-    padding: 8,
+    padding: spacing.sm,
   },
   searchContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    paddingHorizontal: spacing.xl,
+    marginBottom: spacing.lg,
   },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    gap: 12,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    gap: spacing.md,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: typography.body1,
   },
   categoriesList: {
-    marginBottom: 16,
+    marginBottom: spacing.lg,
   },
   categoriesContainer: {
-    paddingHorizontal: 20,
-    gap: 8,
+    paddingHorizontal: spacing.xl,
+    gap: spacing.sm,
   },
   categoryItem: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
     borderRadius: 20,
     borderWidth: 1,
   },
   categoryText: {
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
   },
   communityItem: {
-    marginHorizontal: 20,
-    marginBottom: 16,
-    borderRadius: 12,
+    marginHorizontal: spacing.xl,
+    marginBottom: spacing.lg,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     overflow: 'hidden',
   },
   communityBanner: {
@@ -384,13 +419,13 @@ const styles = StyleSheet.create({
     height: 100,
   },
   communityContent: {
-    padding: 16,
+    padding: spacing.lg,
   },
   communityHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   communityInfo: {
     flexDirection: 'row',
@@ -400,7 +435,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 8,
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   communityTitleContainer: {
     flex: 1,
@@ -412,42 +447,42 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   communityName: {
-    fontSize: 18,
+    fontSize: typography.h6,
     fontWeight: 'bold',
   },
   communityCategory: {
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   joinButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
     borderRadius: 6,
     minWidth: 60,
     alignItems: 'center',
   },
   joinButtonText: {
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: '600',
   },
   communityDescription: {
-    fontSize: 14,
+    fontSize: typography.body2,
     lineHeight: 20,
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   communityStats: {
     flexDirection: 'row',
-    gap: 16,
-    marginBottom: 12,
+    gap: spacing.lg,
+    marginBottom: spacing.md,
   },
   statItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: spacing.xs,
   },
   statText: {
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   communityTags: {
     flexDirection: 'row',
@@ -455,12 +490,38 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   tag: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
     borderRadius: 4,
   },
   tagText: {
     fontSize: 11,
     fontWeight: '500',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 100,
+  },
+  loadingText: {
+    marginTop: spacing.lg,
+    fontSize: typography.body1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.xxxl,
+    paddingTop: 100,
+  },
+  emptyTitle: {
+    fontSize: typography.h5,
+    fontWeight: 'bold',
+    marginBottom: spacing.sm,
+  },
+  emptySubtitle: {
+    fontSize: typography.body1,
+    textAlign: 'center',
   },
 });

@@ -1,0 +1,333 @@
+{
+  "summary": {
+    "totalTests": 34,
+    "passedTests": 3,
+    "failedTests": 7,
+    "warnTests": 1,
+    "successRate": 9,
+    "avgResponseTime": 4,
+    "totalRequests": 59,
+    "rateLimitHits": 0
+  },
+  "testResults": [
+    {
+      "test": "Health Check",
+      "status": "TESTING",
+      "message": "Testing health endpoints",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.560Z"
+    },
+    {
+      "test": "Health Check",
+      "status": "FAIL",
+      "message": "No health endpoints found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.600Z"
+    },
+    {
+      "test": "Authentication",
+      "status": "TESTING",
+      "message": "Testing authentication endpoints",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.600Z"
+    },
+    {
+      "test": "Authentication",
+      "status": "FAIL",
+      "message": "Registration failed: 404",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.604Z"
+    },
+    {
+      "test": "Authentication",
+      "status": "FAIL",
+      "message": "Login failed: 404",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.608Z"
+    },
+    {
+      "test": "Authentication",
+      "status": "FAIL",
+      "message": "Invalid login not properly rejected",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.613Z"
+    },
+    {
+      "test": "Authorization",
+      "status": "TESTING",
+      "message": "Testing protected endpoints",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.613Z"
+    },
+    {
+      "test": "Authorization",
+      "status": "INFO",
+      "message": "/v1/auth/me endpoint not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.618Z"
+    },
+    {
+      "test": "Authorization",
+      "status": "INFO",
+      "message": "/v1/users/profile endpoint not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.621Z"
+    },
+    {
+      "test": "Authorization",
+      "status": "FAIL",
+      "message": "/v1/posts not properly protected",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.626Z"
+    },
+    {
+      "test": "Authorization",
+      "status": "FAIL",
+      "message": "/v1/communities not properly protected",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.629Z"
+    },
+    {
+      "test": "Authorization",
+      "status": "INFO",
+      "message": "/v1/admin/users endpoint not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.633Z"
+    },
+    {
+      "test": "User Endpoints",
+      "status": "TESTING",
+      "message": "Testing user-related endpoints",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.633Z"
+    },
+    {
+      "test": "User Endpoints",
+      "status": "INFO",
+      "message": "Users endpoint not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.636Z"
+    },
+    {
+      "test": "User Endpoints",
+      "status": "INFO",
+      "message": "User search endpoint not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.638Z"
+    },
+    {
+      "test": "Post Endpoints",
+      "status": "TESTING",
+      "message": "Testing post-related endpoints",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.638Z"
+    },
+    {
+      "test": "Post Endpoints",
+      "status": "INFO",
+      "message": "Posts endpoint not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.642Z"
+    },
+    {
+      "test": "Community Endpoints",
+      "status": "TESTING",
+      "message": "Testing community-related endpoints",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.642Z"
+    },
+    {
+      "test": "Community Endpoints",
+      "status": "INFO",
+      "message": "Communities endpoint not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.645Z"
+    },
+    {
+      "test": "Search Endpoints",
+      "status": "TESTING",
+      "message": "Testing search functionality",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.646Z"
+    },
+    {
+      "test": "Search Endpoints",
+      "status": "INFO",
+      "message": "/v1/search?q=test not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.648Z"
+    },
+    {
+      "test": "Search Endpoints",
+      "status": "INFO",
+      "message": "/v1/search/posts?q=test not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.651Z"
+    },
+    {
+      "test": "Search Endpoints",
+      "status": "INFO",
+      "message": "/v1/search/communities?q=test not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.653Z"
+    },
+    {
+      "test": "Search Endpoints",
+      "status": "INFO",
+      "message": "/v1/search/users?q=test not found",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.656Z"
+    },
+    {
+      "test": "Rate Limiting",
+      "status": "TESTING",
+      "message": "Testing API rate limiting",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:47.656Z"
+    },
+    {
+      "test": "Rate Limiting",
+      "status": "WARN",
+      "message": "No rate limiting detected after 30 requests",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.275Z"
+    },
+    {
+      "test": "Input Validation",
+      "status": "TESTING",
+      "message": "Testing API input validation",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.275Z"
+    },
+    {
+      "test": "Input Validation",
+      "status": "FAIL",
+      "message": "Input validation not working",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.289Z"
+    },
+    {
+      "test": "Error Handling",
+      "status": "TESTING",
+      "message": "Testing API error handling",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.289Z"
+    },
+    {
+      "test": "Error Handling",
+      "status": "PASS",
+      "message": "Error handling working properly",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.301Z"
+    },
+    {
+      "test": "Performance",
+      "status": "TESTING",
+      "message": "Analyzing API performance metrics",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.301Z"
+    },
+    {
+      "test": "Performance",
+      "status": "INFO",
+      "message": "Performance metrics calculated",
+      "data": {
+        "avgResponseTime": 4,
+        "maxResponseTime": 23,
+        "minResponseTime": 2,
+        "p95": 5,
+        "p99": 23,
+        "totalRequests": 59,
+        "rateLimitHits": 0
+      },
+      "timestamp": "2025-09-19T22:51:49.301Z"
+    },
+    {
+      "test": "Performance",
+      "status": "PASS",
+      "message": "Average response time: 4ms",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.301Z"
+    },
+    {
+      "test": "Performance",
+      "status": "PASS",
+      "message": "95th percentile: 5ms",
+      "data": null,
+      "timestamp": "2025-09-19T22:51:49.301Z"
+    }
+  ],
+  "performanceMetrics": {
+    "responseTime": [
+      2,
+      2,
+      2,
+      2,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      5,
+      5,
+      5,
+      5,
+      23
+    ],
+    "avgResponseTime": 4,
+    "maxResponseTime": 23,
+    "minResponseTime": 2
+  },
+  "testData": {
+    "usersCreated": 0,
+    "postsFound": 0,
+    "communitiesFound": 0,
+    "tokensObtained": 0
+  },
+  "timestamp": "2025-09-19T22:51:49.302Z"
+}

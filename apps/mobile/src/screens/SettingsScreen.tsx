@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuthStore } from '../stores/authStore';
 import { MainStackParamList } from '../navigation/MainNavigator';
+import { deviceInfo, spacing, typography, scale } from '../utils/responsive';
 
 type SettingsScreenNavigationProp = NativeStackNavigationProp<MainStackParamList, 'Settings'>;
 
@@ -315,14 +316,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 40,
+    paddingBottom: spacing.xxxl,
   },
   userSection: {
     flexDirection: 'row',
     alignItems: 'center',
-    margin: 20,
-    padding: 20,
-    borderRadius: 12,
+    margin: spacing.xl,
+    padding: spacing.xl,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
   },
   userAvatar: {
     width: 50,
@@ -333,42 +334,42 @@ const styles = StyleSheet.create({
   },
   userAvatarText: {
     color: '#ffffff',
-    fontSize: 20,
+    fontSize: typography.h5,
     fontWeight: 'bold',
   },
   userInfo: {
-    marginLeft: 16,
+    marginLeft: spacing.lg,
     flex: 1,
   },
   username: {
-    fontSize: 18,
+    fontSize: typography.h6,
     fontWeight: 'bold',
     marginBottom: 2,
   },
   userEmail: {
-    fontSize: 14,
+    fontSize: typography.body2,
   },
   section: {
-    marginBottom: 24,
+    marginBottom: spacing.xxl,
   },
   sectionTitle: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
-    marginBottom: 8,
-    marginHorizontal: 20,
+    marginBottom: spacing.sm,
+    marginHorizontal: spacing.xl,
     textTransform: 'uppercase',
     letterSpacing: 0.5,
   },
   sectionContent: {
-    marginHorizontal: 20,
-    borderRadius: 12,
+    marginHorizontal: spacing.xl,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
     overflow: 'hidden',
   },
   settingItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
+    padding: spacing.lg,
   },
   settingItemLeft: {
     flexDirection: 'row',
@@ -376,20 +377,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   settingItemText: {
-    marginLeft: 16,
+    marginLeft: spacing.lg,
     flex: 1,
   },
   settingItemTitle: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '500',
     marginBottom: 2,
   },
   settingItemDescription: {
-    fontSize: 13,
+    fontSize: typography.body2,
     lineHeight: 18,
   },
   settingItemRight: {
-    marginLeft: 16,
+    marginLeft: spacing.lg,
   },
   separator: {
     height: 1,
@@ -399,14 +400,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginHorizontal: 20,
-    paddingVertical: 16,
-    borderRadius: 12,
-    gap: 8,
+    marginHorizontal: spacing.xl,
+    paddingVertical: spacing.lg,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    gap: spacing.sm,
   },
   logoutButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
   },
 });

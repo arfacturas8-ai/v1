@@ -1,53 +1,101 @@
 const fastify = require('fastify')({ logger: true });
 
-// Add basic CORS
+// Test server for debugging
 fastify.register(require('@fastify/cors'), {
   origin: true,
   credentials: true
 });
 
-// Basic health check
+// Health check
 fastify.get('/health', async (request, reply) => {
-  return { status: 'healthy', timestamp: new Date().toISOString() };
+  return { status: 'ok', timestamp: new Date().toISOString() };
 });
 
-// Test registration endpoint (simple version)
+// Test registration endpoint
 fastify.post('/auth/register', async (request, reply) => {
+  console.log('Registration request body:', request.body);
+  
   const { username, displayName, email, password } = request.body || {};
   
+  // Validation
   if (!username || !displayName) {
     return reply.code(400).send({
-      error: 'Username and display name are required'
+      success: false,
+      error: 'Username and displayName are required'
     });
   }
   
+  // Simple validation for testing
+  if (username.length < 3) {
+    return reply.code(400).send({
+      success: false,
+      error: 'Username must be at least 3 characters'
+    });
+  }
+  
+  if (displayName.length < 1) {
+    return reply.code(400).send({
+      success: false,
+      error: 'Display name is required'
+    });
+  }
+  
+  // Mock successful registration
   return reply.code(201).send({
     success: true,
-    message: 'Registration endpoint working',
+    message: 'Registration successful',
     data: {
-      username,
-      displayName,
-      email
+      user: {
+        id: 'test-user-id',
+        username,
+        displayName,
+        email,
+        isVerified: false
+      },
+      tokens: {
+        accessToken: 'test-access-token',
+        refreshToken: 'test-refresh-token',
+        expiresAt: new Date(Date.now() + 15 * 60 * 1000).toISOString()
+      }
     }
   });
 });
 
-// Test login endpoint (simple version)
-fastify.post('/auth/login', async (request, reply) => {
-  const { username, email, password } = request.body || {};
+// Test search endpoint
+fastify.get('/search', async (request, reply) => {
+  console.log('Search request query:', request.query);
   
-  if ((!username && !email) || !password) {
+  const { q } = request.query || {};
+  
+  if (!q) {
     return reply.code(400).send({
-      error: 'Username/email and password are required'
+      success: false,
+      error: 'Search query parameter "q" is required'
     });
   }
   
-  return reply.code(200).send({
+  // Mock search results
+  return reply.send({
     success: true,
-    message: 'Login endpoint working',
     data: {
-      user: { username: username || 'test', email: email || 'test@example.com' },
-      token: 'test-token'
+      users: {
+        items: [
+          {
+            id: 'user1',
+            username: 'testuser',
+            displayName: 'Test User',
+            avatar: null
+          }
+        ],
+        total: 1,
+        source: 'mock'
+      }
+    },
+    query: q,
+    searchMeta: {
+      searchEngine: 'mock',
+      searchTime: '5ms',
+      totalSources: 1
     }
   });
 });
@@ -55,8 +103,8 @@ fastify.post('/auth/login', async (request, reply) => {
 // Start server
 const start = async () => {
   try {
-    await fastify.listen({ port: 3001, host: '0.0.0.0' });
-    console.log('🚀 Test server started on port 3001');
+    await fastify.listen({ port: 3002, host: '0.0.0.0' });
+    console.log('🚀 Test API Server running on http://0.0.0.0:3002');
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

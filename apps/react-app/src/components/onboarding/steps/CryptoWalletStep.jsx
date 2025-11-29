@@ -1,0 +1,401 @@
+import React, { useState } from 'react'
+
+const CryptoWalletStep = ({ onComplete, onSkip }) => {
+  const [walletStatus, setWalletStatus] = useState('disconnected') // disconnected, connecting, connected, error
+  const [walletAddress, setWalletAddress] = useState('')
+  const [walletType, setWalletType] = useState('')
+
+  const connectWallet = async (type) => {
+    setWalletStatus('connecting')
+    setWalletType(type)
+
+    try {
+      if (type === 'metamask') {
+        if (typeof window.ethereum !== 'undefined') {
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+          if (accounts.length > 0) {
+            setWalletAddress(accounts[0])
+            setWalletStatus('connected')
+          }
+        } else {
+          throw new Error('MetaMask not installed')
+        }
+      }
+      // Add other wallet types here
+    } catch (error) {
+      console.error('Wallet connection failed:', error)
+      setWalletStatus('error')
+    }
+  }
+
+  const disconnectWallet = () => {
+    setWalletStatus('disconnected')
+    setWalletAddress('')
+    setWalletType('')
+  }
+
+  return (
+    <div style={{
+  paddingTop: '16px',
+  paddingBottom: '16px'
+}}>
+      <div style={{
+  textAlign: 'center'
+}}>
+        <h3 style={{
+  fontWeight: 'bold',
+  color: '#c9d1d9'
+}}>Connect Your Wallet</h3>
+        <p style={{
+  color: '#c9d1d9'
+}}>
+          Connect your crypto wallet to earn CRYB tokens and access Web3 features.
+        </p>
+      </div>
+
+      {walletStatus === 'disconnected' && (
+        <div className="space-y-6">
+          <div style={{
+  padding: '24px',
+  borderRadius: '12px'
+}}>
+            <h4 style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>💰 Why Connect Your Wallet?</h4>
+            <div style={{
+  display: 'grid',
+  gap: '16px',
+  color: '#c9d1d9'
+}}>
+              <div style={{
+  display: 'flex',
+  alignItems: 'flex-start'
+}}>
+                <span className="text-green-500 mt-1">✓</span>
+                <span>Earn CRYB tokens for community participation</span>
+              </div>
+              <div style={{
+  display: 'flex',
+  alignItems: 'flex-start'
+}}>
+                <span className="text-green-500 mt-1">✓</span>
+                <span>Access exclusive Web3 features</span>
+              </div>
+              <div style={{
+  display: 'flex',
+  alignItems: 'flex-start'
+}}>
+                <span className="text-green-500 mt-1">✓</span>
+                <span>Trade and showcase your NFTs</span>
+              </div>
+              <div style={{
+  display: 'flex',
+  alignItems: 'flex-start'
+}}>
+                <span className="text-green-500 mt-1">✓</span>
+                <span>Participate in governance voting</span>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h4 style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>Choose Your Wallet</h4>
+            <div className="space-y-3">
+              <button
+                onClick={() => connectWallet('metamask')}
+                style={{
+  width: '100%',
+  padding: '16px',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center'
+}}
+              >
+                <div style={{
+  width: '48px',
+  height: '48px',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}}>
+                  <span style={{
+  color: '#ffffff',
+  fontWeight: 'bold'
+}}>M</span>
+                </div>
+                <div style={{
+  textAlign: 'left',
+  flex: '1'
+}}>
+                  <div style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>MetaMask</div>
+                  <div style={{
+  color: '#c9d1d9'
+}}>Most popular Ethereum wallet</div>
+                </div>
+                <div style={{
+  color: '#c9d1d9'
+}}>
+                  <svg style={{
+  width: '24px',
+  height: '24px'
+}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+
+              <button
+                onClick={() => connectWallet('walletconnect')}
+                style={{
+  width: '100%',
+  padding: '16px',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center'
+}}
+              >
+                <div style={{
+  width: '48px',
+  height: '48px',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}}>
+                  <span style={{
+  color: '#ffffff',
+  fontWeight: 'bold'
+}}>W</span>
+                </div>
+                <div style={{
+  textAlign: 'left',
+  flex: '1'
+}}>
+                  <div style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>WalletConnect</div>
+                  <div style={{
+  color: '#c9d1d9'
+}}>Connect any mobile wallet</div>
+                </div>
+                <div style={{
+  color: '#c9d1d9'
+}}>
+                  <svg style={{
+  width: '24px',
+  height: '24px'
+}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+
+              <button
+                onClick={() => connectWallet('coinbase')}
+                style={{
+  width: '100%',
+  padding: '16px',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center'
+}}
+              >
+                <div style={{
+  width: '48px',
+  height: '48px',
+  borderRadius: '12px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}}>
+                  <span style={{
+  color: '#ffffff',
+  fontWeight: 'bold'
+}}>C</span>
+                </div>
+                <div style={{
+  textAlign: 'left',
+  flex: '1'
+}}>
+                  <div style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>Coinbase Wallet</div>
+                  <div style={{
+  color: '#c9d1d9'
+}}>User-friendly wallet by Coinbase</div>
+                </div>
+                <div style={{
+  color: '#c9d1d9'
+}}>
+                  <svg style={{
+  width: '24px',
+  height: '24px'
+}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div style={{
+  padding: '16px',
+  borderRadius: '12px'
+}}>
+            <h5 style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>🔒 Security Note</h5>
+            <p style={{
+  color: '#c9d1d9'
+}}>
+              CRYB will never ask for your private keys or seed phrase. 
+              Only connect wallets you trust and keep your private keys secure.
+            </p>
+          </div>
+        </div>
+      )}
+
+      {walletStatus === 'connecting' && (
+        <div style={{
+  textAlign: 'center',
+  paddingTop: '32px',
+  paddingBottom: '32px'
+}}>
+          <div style={{
+  borderRadius: '50%',
+  height: '48px',
+  width: '48px'
+}}></div>
+          <h4 style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>Connecting to {walletType}...</h4>
+          <p style={{
+  color: '#c9d1d9'
+}}>Please check your wallet and approve the connection.</p>
+        </div>
+      )}
+
+      {walletStatus === 'connected' && (
+        <div style={{
+  textAlign: 'center',
+  paddingTop: '32px',
+  paddingBottom: '32px'
+}}>
+          <div className="text-6xl mb-4">🎉</div>
+          <h4 style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>Wallet Connected!</h4>
+          <p style={{
+  color: '#c9d1d9'
+}}>
+            Your {walletType} wallet is now connected to CRYB.
+          </p>
+          
+          <div style={{
+  padding: '16px',
+  borderRadius: '12px'
+}}>
+            <div style={{
+  color: '#c9d1d9'
+}}>Connected Address:</div>
+            <div style={{
+  color: '#c9d1d9'
+}}>
+              {walletAddress}
+            </div>
+          </div>
+
+          <button
+            onClick={disconnectWallet}
+            className="text-red-600 hover:text-red-700 text-sm"
+          >
+            Disconnect Wallet
+          </button>
+        </div>
+      )}
+
+      {walletStatus === 'error' && (
+        <div style={{
+  textAlign: 'center',
+  paddingTop: '32px',
+  paddingBottom: '32px'
+}}>
+          <div className="text-6xl mb-4">❌</div>
+          <h4 style={{
+  fontWeight: '600',
+  color: '#c9d1d9'
+}}>Connection Failed</h4>
+          <p style={{
+  color: '#c9d1d9'
+}}>
+            Unable to connect to your wallet. Please try again.
+          </p>
+          
+          <button
+            onClick={() => setWalletStatus('disconnected')}
+            style={{
+  paddingLeft: '16px',
+  paddingRight: '16px',
+  paddingTop: '8px',
+  paddingBottom: '8px',
+  color: '#ffffff',
+  borderRadius: '12px'
+}}
+          >
+            Try Again
+          </button>
+        </div>
+      )}
+
+      <div style={{
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between'
+}}>
+        <button
+          onClick={onSkip}
+          style={{
+  color: '#c9d1d9'
+}}
+        >
+          Skip for now
+        </button>
+        
+        <button
+          onClick={onComplete}
+          style={{
+  paddingLeft: '24px',
+  paddingRight: '24px',
+  paddingTop: '8px',
+  paddingBottom: '8px',
+  color: '#ffffff',
+  borderRadius: '12px'
+}}
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+  )
+}
+
+
+
+
+export default CryptoWalletStep

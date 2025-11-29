@@ -1,0 +1,220 @@
+# ====================================================
+# CRYB Platform - Search Analytics Performance Override
+# Memory and performance optimizations for production
+# ====================================================
+
+version: '3.9'
+
+services:
+  # Elasticsearch Performance Optimizations
+  elasticsearch:
+    environment:
+      # Memory settings for better performance
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g -XX:+UseG1GC -XX:MaxGCPauseMillis=400 -XX:+UseStringDeduplication"
+      # Production memory settings
+      - indices.memory.index_buffer_size=20%
+      - indices.memory.min_index_buffer_size=96mb
+      # Circuit breakers for memory protection
+      - indices.breaker.total.limit=85%
+      - indices.breaker.fielddata.limit=30%
+      - indices.breaker.request.limit=40%
+      # Cache settings
+      - indices.queries.cache.size=15%
+      - indices.requests.cache.size=5%
+      # Thread pool optimizations
+      - thread_pool.search.size=13
+      - thread_pool.search.queue_size=1000
+      - thread_pool.write.size=13
+      - thread_pool.write.queue_size=10000
+    deploy:
+      resources:
+        limits:
+          cpus: '6.0'
+          memory: 8G
+        reservations:
+          cpus: '4.0'
+          memory: 4G
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s || exit 1"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 120s
+
+  # TimescaleDB Performance Optimizations
+  timescaledb:
+    environment:
+      # Additional PostgreSQL performance settings
+      - POSTGRES_INITDB_ARGS="-E UTF8 --locale=C"
+    command: >
+      postgres
+      -c max_connections=300
+      -c shared_buffers=1GB
+      -c effective_cache_size=4GB
+      -c maintenance_work_mem=256MB
+      -c checkpoint_completion_target=0.9
+      -c wal_buffers=64MB
+      -c default_statistics_target=100
+      -c random_page_cost=1.1
+      -c effective_io_concurrency=200
+      -c work_mem=16MB
+      -c min_wal_size=4GB
+      -c max_wal_size=16GB
+      -c max_worker_processes=24
+      -c max_parallel_workers_per_gather=12
+      -c max_parallel_workers=24
+      -c max_parallel_maintenance_workers=12
+      -c timescaledb.max_background_workers=24
+      -c log_min_duration_statement=1000
+      -c log_checkpoints=on
+      -c log_connections=on
+      -c log_disconnections=on
+      -c log_lock_waits=on
+      -c deadlock_timeout=1s
+      -c max_locks_per_transaction=64
+    deploy:
+      resources:
+        limits:
+          cpus: '6.0'
+          memory: 6G
+        reservations:
+          cpus: '2.0'
+          memory: 2G
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+      - timescaledb_backups:/backups
+      - ./config/timescaledb/postgresql.conf:/etc/postgresql/postgresql.conf
+      - /dev/shm:/dev/shm # Shared memory for better performance
+
+  # Kafka Performance Optimizations
+  kafka:
+    environment:
+      # Memory and performance settings
+      - KAFKA_HEAP_OPTS=-Xmx2G -Xms2G
+      - KAFKA_JVM_PERFORMANCE_OPTS=-XX:+UseG1GC -XX:MaxGCPauseMillis=200 -XX:+UseStringDeduplication
+      # Increased batch sizes for better throughput
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=2097152
+      - KAFKA_MESSAGE_MAX_BYTES=2097152
+      - KAFKA_SOCKET_SEND_BUFFER_BYTES=102400
+      - KAFKA_SOCKET_RECEIVE_BUFFER_BYTES=102400
+      - KAFKA_SOCKET_REQUEST_MAX_BYTES=104857600
+      # Log settings for better performance
+      - KAFKA_LOG_FLUSH_INTERVAL_MESSAGES=10000
+      - KAFKA_LOG_FLUSH_INTERVAL_MS=1000
+      - KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS=300000
+      - KAFKA_LOG_SEGMENT_BYTES=1073741824
+      - KAFKA_LOG_RETENTION_BYTES=1073741824
+      # Compression
+      - KAFKA_COMPRESSION_TYPE=lz4
+      - KAFKA_NUM_NETWORK_THREADS=8
+      - KAFKA_NUM_IO_THREADS=16
+      - KAFKA_BACKGROUND_THREADS=20
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+
+  # Search Analytics Service Optimizations
+  search-analytics:
+    environment:
+      # Node.js performance settings
+      - NODE_OPTIONS=--max-old-space-size=2048 --optimize-for-size --gc-interval=100
+      # Increased batch sizes for better performance
+      - INDEXING_BATCH_SIZE=500
+      - ANALYTICS_BATCH_SIZE=2000
+      - CACHE_TTL=600
+      - MAX_SEARCH_RESULTS=1000
+      # Memory management
+      - ELASTICSEARCH_CIRCUIT_BREAKER_THRESHOLD=0.90
+      - KAFKA_MEMORY_THRESHOLD=0.85
+      - KAFKA_QUEUE_SIZE_LIMIT=15000
+      # Connection pool sizes
+      - DATABASE_POOL_SIZE=25
+      - ELASTICSEARCH_MAX_CONNECTIONS=50
+      - REDIS_POOL_SIZE=20
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3003/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 120s
+
+  # Analytics Processor Optimizations
+  analytics-processor:
+    environment:
+      # Node.js performance settings
+      - NODE_OPTIONS=--max-old-space-size=1024 --optimize-for-size
+      - BATCH_SIZE=2000
+      - PROCESSING_INTERVAL=5000
+      # Memory management
+      - MEMORY_THRESHOLD=0.85
+      - QUEUE_SIZE_LIMIT=10000
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Search Indexer Optimizations  
+  search-indexer:
+    environment:
+      # Node.js performance settings
+      - NODE_OPTIONS=--max-old-space-size=1024 --optimize-for-size
+      - BATCH_SIZE=300
+      - PROCESSING_INTERVAL=3000
+      # Memory management
+      - MEMORY_THRESHOLD=0.85
+      - QUEUE_SIZE_LIMIT=5000
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  # Kibana Performance Optimizations
+  kibana:
+    environment:
+      # Memory settings
+      - NODE_OPTIONS=--max-old-space-size=1024
+      - ELASTICSEARCH_REQUESTTIMEOUT=300000
+      - ELASTICSEARCH_PINGTIMEOUT=30000
+      # Performance settings
+      - KIBANA_DEFAULTAPPID=discover
+      - TELEMETRY_ENABLED=false
+      - NEWSFEED_ENABLED=false
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+
+# Performance monitoring volumes
+volumes:
+  # Additional performance monitoring data
+  performance_logs:
+    driver: local
+  metrics_data:
+    driver: local

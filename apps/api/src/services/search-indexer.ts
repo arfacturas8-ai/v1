@@ -392,16 +392,13 @@ export class SearchIndexingService extends EventEmitter {
     const { type, id } = job.data;
 
     try {
-      // For now, we'll implement message deletion
-      // TODO: Implement deletion for other content types
-      if (type === 'message') {
-        // Note: Elasticsearch client doesn't expose delete method in our current implementation
-        // This would need to be added to the CrashProofElasticsearchService
-        logger.info('Message deletion requested', { messageId: id });
-        return { deleted: true, id };
-      }
-
-      throw new Error(`Deletion not implemented for type: ${type}`);
+      const indexName = this.getIndexName(type);
+      
+      // Delete from Elasticsearch
+      await this.elasticsearch.deleteDocument(indexName, id);
+      
+      logger.info(`Deleted ${type} from index`, { type, id, indexName });
+      return { deleted: true, id, type };
     } catch (error) {
       logger.error('Deletion job failed', { type, id, error });
       throw error;

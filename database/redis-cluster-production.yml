@@ -1,0 +1,740 @@
+# CRYB Platform Redis Cluster Configuration
+# High-availability Redis cluster for session storage, caching, and real-time features
+# Author: Database Infrastructure Team
+# Version: 1.0
+
+version: '3.9'
+
+services:
+  # ==========================================
+  # REDIS CLUSTER NODES (6 nodes for HA)
+  # ==========================================
+  
+  # Primary Redis nodes
+  redis-node-1:
+    image: redis:7-alpine
+    container_name: cryb-redis-node-1
+    hostname: redis-node-1
+    restart: unless-stopped
+    command: >
+      redis-server 
+      --cluster-enabled yes 
+      --cluster-config-file nodes-6379.conf 
+      --cluster-node-timeout 5000 
+      --appendonly yes 
+      --port 6379
+      --bind 0.0.0.0
+      --protected-mode no
+      --requirepass ${REDIS_PASSWORD}
+      --masterauth ${REDIS_PASSWORD}
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --tcp-keepalive 60
+      --tcp-backlog 511
+      --timeout 300
+      --databases 16
+      --notify-keyspace-events KEA
+      --hash-max-ziplist-entries 512
+      --hash-max-ziplist-value 64
+      --list-max-ziplist-size -2
+      --set-max-intset-entries 512
+      --zset-max-ziplist-entries 128
+      --zset-max-ziplist-value 64
+      --activerehashing yes
+      --client-output-buffer-limit normal 0 0 0
+      --client-output-buffer-limit replica 256mb 64mb 60
+      --client-output-buffer-limit pubsub 32mb 8mb 60
+      --hz 10
+      --aof-rewrite-incremental-fsync yes
+      --rdb-save-incremental-fsync yes
+    ports:
+      - "7001:6379"
+      - "17001:16379"  # Cluster bus port
+    volumes:
+      - redis_node1_data:/data
+      - ./config/redis/redis-cluster-node.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.11
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-node-2:
+    image: redis:7-alpine
+    container_name: cryb-redis-node-2
+    hostname: redis-node-2
+    restart: unless-stopped
+    command: >
+      redis-server 
+      --cluster-enabled yes 
+      --cluster-config-file nodes-6379.conf 
+      --cluster-node-timeout 5000 
+      --appendonly yes 
+      --port 6379
+      --bind 0.0.0.0
+      --protected-mode no
+      --requirepass ${REDIS_PASSWORD}
+      --masterauth ${REDIS_PASSWORD}
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --tcp-keepalive 60
+      --tcp-backlog 511
+      --timeout 300
+      --databases 16
+      --notify-keyspace-events KEA
+      --hash-max-ziplist-entries 512
+      --hash-max-ziplist-value 64
+      --list-max-ziplist-size -2
+      --set-max-intset-entries 512
+      --zset-max-ziplist-entries 128
+      --zset-max-ziplist-value 64
+      --activerehashing yes
+      --client-output-buffer-limit normal 0 0 0
+      --client-output-buffer-limit replica 256mb 64mb 60
+      --client-output-buffer-limit pubsub 32mb 8mb 60
+      --hz 10
+      --aof-rewrite-incremental-fsync yes
+      --rdb-save-incremental-fsync yes
+    ports:
+      - "7002:6379"
+      - "17002:16379"
+    volumes:
+      - redis_node2_data:/data
+      - ./config/redis/redis-cluster-node.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.12
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-node-3:
+    image: redis:7-alpine
+    container_name: cryb-redis-node-3
+    hostname: redis-node-3
+    restart: unless-stopped
+    command: >
+      redis-server 
+      --cluster-enabled yes 
+      --cluster-config-file nodes-6379.conf 
+      --cluster-node-timeout 5000 
+      --appendonly yes 
+      --port 6379
+      --bind 0.0.0.0
+      --protected-mode no
+      --requirepass ${REDIS_PASSWORD}
+      --masterauth ${REDIS_PASSWORD}
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --tcp-keepalive 60
+      --tcp-backlog 511
+      --timeout 300
+      --databases 16
+      --notify-keyspace-events KEA
+      --hash-max-ziplist-entries 512
+      --hash-max-ziplist-value 64
+      --list-max-ziplist-size -2
+      --set-max-intset-entries 512
+      --zset-max-ziplist-entries 128
+      --zset-max-ziplist-value 64
+      --activerehashing yes
+      --client-output-buffer-limit normal 0 0 0
+      --client-output-buffer-limit replica 256mb 64mb 60
+      --client-output-buffer-limit pubsub 32mb 8mb 60
+      --hz 10
+      --aof-rewrite-incremental-fsync yes
+      --rdb-save-incremental-fsync yes
+    ports:
+      - "7003:6379"
+      - "17003:16379"
+    volumes:
+      - redis_node3_data:/data
+      - ./config/redis/redis-cluster-node.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.13
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Replica Redis nodes
+  redis-node-4:
+    image: redis:7-alpine
+    container_name: cryb-redis-node-4
+    hostname: redis-node-4
+    restart: unless-stopped
+    command: >
+      redis-server 
+      --cluster-enabled yes 
+      --cluster-config-file nodes-6379.conf 
+      --cluster-node-timeout 5000 
+      --appendonly yes 
+      --port 6379
+      --bind 0.0.0.0
+      --protected-mode no
+      --requirepass ${REDIS_PASSWORD}
+      --masterauth ${REDIS_PASSWORD}
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --tcp-keepalive 60
+      --tcp-backlog 511
+      --timeout 300
+      --databases 16
+      --notify-keyspace-events KEA
+      --hash-max-ziplist-entries 512
+      --hash-max-ziplist-value 64
+      --list-max-ziplist-size -2
+      --set-max-intset-entries 512
+      --zset-max-ziplist-entries 128
+      --zset-max-ziplist-value 64
+      --activerehashing yes
+      --client-output-buffer-limit normal 0 0 0
+      --client-output-buffer-limit replica 256mb 64mb 60
+      --client-output-buffer-limit pubsub 32mb 8mb 60
+      --hz 10
+      --aof-rewrite-incremental-fsync yes
+      --rdb-save-incremental-fsync yes
+    ports:
+      - "7004:6379"
+      - "17004:16379"
+    volumes:
+      - redis_node4_data:/data
+      - ./config/redis/redis-cluster-node.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.14
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-node-5:
+    image: redis:7-alpine
+    container_name: cryb-redis-node-5
+    hostname: redis-node-5
+    restart: unless-stopped
+    command: >
+      redis-server 
+      --cluster-enabled yes 
+      --cluster-config-file nodes-6379.conf 
+      --cluster-node-timeout 5000 
+      --appendonly yes 
+      --port 6379
+      --bind 0.0.0.0
+      --protected-mode no
+      --requirepass ${REDIS_PASSWORD}
+      --masterauth ${REDIS_PASSWORD}
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --tcp-keepalive 60
+      --tcp-backlog 511
+      --timeout 300
+      --databases 16
+      --notify-keyspace-events KEA
+      --hash-max-ziplist-entries 512
+      --hash-max-ziplist-value 64
+      --list-max-ziplist-size -2
+      --set-max-intset-entries 512
+      --zset-max-ziplist-entries 128
+      --zset-max-ziplist-value 64
+      --activerehashing yes
+      --client-output-buffer-limit normal 0 0 0
+      --client-output-buffer-limit replica 256mb 64mb 60
+      --client-output-buffer-limit pubsub 32mb 8mb 60
+      --hz 10
+      --aof-rewrite-incremental-fsync yes
+      --rdb-save-incremental-fsync yes
+    ports:
+      - "7005:6379"
+      - "17005:16379"
+    volumes:
+      - redis_node5_data:/data
+      - ./config/redis/redis-cluster-node.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.15
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-node-6:
+    image: redis:7-alpine
+    container_name: cryb-redis-node-6
+    hostname: redis-node-6
+    restart: unless-stopped
+    command: >
+      redis-server 
+      --cluster-enabled yes 
+      --cluster-config-file nodes-6379.conf 
+      --cluster-node-timeout 5000 
+      --appendonly yes 
+      --port 6379
+      --bind 0.0.0.0
+      --protected-mode no
+      --requirepass ${REDIS_PASSWORD}
+      --masterauth ${REDIS_PASSWORD}
+      --maxmemory 2gb
+      --maxmemory-policy allkeys-lru
+      --save 900 1
+      --save 300 10
+      --save 60 10000
+      --tcp-keepalive 60
+      --tcp-backlog 511
+      --timeout 300
+      --databases 16
+      --notify-keyspace-events KEA
+      --hash-max-ziplist-entries 512
+      --hash-max-ziplist-value 64
+      --list-max-ziplist-size -2
+      --set-max-intset-entries 512
+      --zset-max-ziplist-entries 128
+      --zset-max-ziplist-value 64
+      --activerehashing yes
+      --client-output-buffer-limit normal 0 0 0
+      --client-output-buffer-limit replica 256mb 64mb 60
+      --client-output-buffer-limit pubsub 32mb 8mb 60
+      --hz 10
+      --aof-rewrite-incremental-fsync yes
+      --rdb-save-incremental-fsync yes
+    ports:
+      - "7006:6379"
+      - "17006:16379"
+    volumes:
+      - redis_node6_data:/data
+      - ./config/redis/redis-cluster-node.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.16
+    deploy:
+      resources:
+        limits:
+          memory: 3G
+          cpus: '1.5'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==========================================
+  # REDIS CLUSTER INITIALIZATION
+  # ==========================================
+  redis-cluster-init:
+    image: redis:7-alpine
+    container_name: cryb-redis-cluster-init
+    command: >
+      sh -c "
+        echo 'Waiting for Redis nodes to be ready...'
+        sleep 30
+        echo 'Creating Redis cluster...'
+        redis-cli -a ${REDIS_PASSWORD} --cluster create 
+        172.30.0.11:6379 172.30.0.12:6379 172.30.0.13:6379 
+        172.30.0.14:6379 172.30.0.15:6379 172.30.0.16:6379 
+        --cluster-replicas 1 --cluster-yes
+        echo 'Redis cluster created successfully!'
+      "
+    depends_on:
+      - redis-node-1
+      - redis-node-2
+      - redis-node-3
+      - redis-node-4
+      - redis-node-5
+      - redis-node-6
+    networks:
+      - cryb-redis-network
+
+  # ==========================================
+  # REDIS SENTINEL FOR MONITORING
+  # ==========================================
+  redis-sentinel-1:
+    image: redis:7-alpine
+    container_name: cryb-redis-sentinel-1
+    hostname: redis-sentinel-1
+    restart: unless-stopped
+    command: >
+      sh -c "
+        echo 'port 26379
+        sentinel monitor cryb-cluster 172.30.0.11 6379 2
+        sentinel auth-pass cryb-cluster ${REDIS_PASSWORD}
+        sentinel down-after-milliseconds cryb-cluster 5000
+        sentinel parallel-syncs cryb-cluster 1
+        sentinel failover-timeout cryb-cluster 10000
+        sentinel announce-ip 172.30.0.21
+        sentinel announce-port 26379' > /etc/redis-sentinel.conf
+        redis-sentinel /etc/redis-sentinel.conf
+      "
+    ports:
+      - "26379:26379"
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.21
+    depends_on:
+      - redis-cluster-init
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  redis-sentinel-2:
+    image: redis:7-alpine
+    container_name: cryb-redis-sentinel-2
+    hostname: redis-sentinel-2
+    restart: unless-stopped
+    command: >
+      sh -c "
+        echo 'port 26379
+        sentinel monitor cryb-cluster 172.30.0.11 6379 2
+        sentinel auth-pass cryb-cluster ${REDIS_PASSWORD}
+        sentinel down-after-milliseconds cryb-cluster 5000
+        sentinel parallel-syncs cryb-cluster 1
+        sentinel failover-timeout cryb-cluster 10000
+        sentinel announce-ip 172.30.0.22
+        sentinel announce-port 26379' > /etc/redis-sentinel.conf
+        redis-sentinel /etc/redis-sentinel.conf
+      "
+    ports:
+      - "26380:26379"
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.22
+    depends_on:
+      - redis-cluster-init
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  redis-sentinel-3:
+    image: redis:7-alpine
+    container_name: cryb-redis-sentinel-3
+    hostname: redis-sentinel-3
+    restart: unless-stopped
+    command: >
+      sh -c "
+        echo 'port 26379
+        sentinel monitor cryb-cluster 172.30.0.11 6379 2
+        sentinel auth-pass cryb-cluster ${REDIS_PASSWORD}
+        sentinel down-after-milliseconds cryb-cluster 5000
+        sentinel parallel-syncs cryb-cluster 1
+        sentinel failover-timeout cryb-cluster 10000
+        sentinel announce-ip 172.30.0.23
+        sentinel announce-port 26379' > /etc/redis-sentinel.conf
+        redis-sentinel /etc/redis-sentinel.conf
+      "
+    ports:
+      - "26381:26379"
+    networks:
+      cryb-redis-network:
+        ipv4_address: 172.30.0.23
+    depends_on:
+      - redis-cluster-init
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  # ==========================================
+  # REDIS PROXY FOR LOAD BALANCING
+  # ==========================================
+  redis-proxy:
+    image: haproxy:2.8-alpine
+    container_name: cryb-redis-proxy
+    hostname: redis-proxy
+    restart: unless-stopped
+    ports:
+      - "6379:6379"    # Main Redis port
+      - "8404:8404"    # HAProxy stats
+    volumes:
+      - ./config/redis/haproxy-redis.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+    depends_on:
+      - redis-cluster-init
+    networks:
+      - cryb-redis-network
+    healthcheck:
+      test: ["CMD", "nc", "-z", "localhost", "6379"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  # ==========================================
+  # REDIS MONITORING
+  # ==========================================
+  redis-exporter:
+    image: oliver006/redis_exporter:latest
+    container_name: cryb-redis-exporter
+    hostname: redis-exporter
+    restart: unless-stopped
+    environment:
+      REDIS_ADDR: "redis://172.30.0.11:6379,redis://172.30.0.12:6379,redis://172.30.0.13:6379"
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_EXPORTER_INCL_SYSTEM_METRICS: "true"
+      REDIS_EXPORTER_IS_CLUSTER: "true"
+    ports:
+      - "9121:9121"
+    depends_on:
+      - redis-cluster-init
+    networks:
+      - cryb-redis-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  # ==========================================
+  # REDIS COMMANDER (GUI)
+  # ==========================================
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: cryb-redis-commander
+    hostname: redis-commander
+    restart: unless-stopped
+    environment:
+      REDIS_HOSTS: >
+        cluster:172.30.0.11:6379:0:${REDIS_PASSWORD},
+        node1:172.30.0.11:6379:0:${REDIS_PASSWORD},
+        node2:172.30.0.12:6379:0:${REDIS_PASSWORD},
+        node3:172.30.0.13:6379:0:${REDIS_PASSWORD},
+        node4:172.30.0.14:6379:0:${REDIS_PASSWORD},
+        node5:172.30.0.15:6379:0:${REDIS_PASSWORD},
+        node6:172.30.0.16:6379:0:${REDIS_PASSWORD}
+      HTTP_USER: admin
+      HTTP_PASSWORD: ${REDIS_ADMIN_PASSWORD}
+      PORT: 8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis-cluster-init
+    networks:
+      - cryb-redis-network
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+
+  # ==========================================
+  # REDIS BACKUP SERVICE
+  # ==========================================
+  redis-backup:
+    image: redis:7-alpine
+    container_name: cryb-redis-backup
+    hostname: redis-backup
+    restart: unless-stopped
+    command: >
+      sh -c "
+        while true; do
+          echo 'Starting Redis backup...'
+          timestamp=$(date +%Y%m%d_%H%M%S)
+          
+          # Backup each node
+          for i in 1 2 3 4 5 6; do
+            node_ip=172.30.0.1$i
+            echo 'Backing up node $i at $node_ip...'
+            redis-cli -h $node_ip -a ${REDIS_PASSWORD} --rdb /backups/redis_node_$i_$timestamp.rdb
+          done
+          
+          # Create cluster backup metadata
+          redis-cli -h 172.30.0.11 -a ${REDIS_PASSWORD} cluster nodes > /backups/cluster_nodes_$timestamp.txt
+          
+          # Cleanup old backups (keep last 7 days)
+          find /backups -name '*.rdb' -mtime +7 -delete
+          find /backups -name '*.txt' -mtime +7 -delete
+          
+          echo 'Backup completed. Sleeping for 6 hours...'
+          sleep 21600  # 6 hours
+        done
+      "
+    volumes:
+      - redis_backups:/backups
+    networks:
+      - cryb-redis-network
+    depends_on:
+      - redis-cluster-init
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.5'
+
+  # ==========================================
+  # REDIS HEALTH MONITOR
+  # ==========================================
+  redis-health-monitor:
+    image: redis:7-alpine
+    container_name: cryb-redis-health-monitor
+    hostname: redis-health-monitor
+    restart: unless-stopped
+    command: >
+      sh -c "
+        while true; do
+          echo '=== Redis Cluster Health Check ==='
+          
+          # Check cluster status
+          redis-cli -h 172.30.0.11 -a ${REDIS_PASSWORD} cluster info
+          
+          # Check each node
+          for i in 1 2 3 4 5 6; do
+            node_ip=172.30.0.1$i
+            echo 'Checking node $i at $node_ip...'
+            redis-cli -h $node_ip -a ${REDIS_PASSWORD} ping
+            redis-cli -h $node_ip -a ${REDIS_PASSWORD} info memory | grep used_memory_human
+            redis-cli -h $node_ip -a ${REDIS_PASSWORD} info stats | grep total_commands_processed
+          done
+          
+          # Check sentinel status
+          echo 'Checking Sentinel status...'
+          redis-cli -h 172.30.0.21 -p 26379 sentinel masters
+          
+          echo 'Health check completed. Sleeping for 60 seconds...'
+          sleep 60
+        done
+      "
+    networks:
+      - cryb-redis-network
+    depends_on:
+      - redis-cluster-init
+      - redis-sentinel-1
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+
+# ==========================================
+# NETWORKS AND VOLUMES
+# ==========================================
+networks:
+  cryb-redis-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+volumes:
+  # Redis node data volumes
+  redis_node1_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/redis/node1
+      
+  redis_node2_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/redis/node2
+      
+  redis_node3_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/redis/node3
+      
+  redis_node4_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/redis/node4
+      
+  redis_node5_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/redis/node5
+      
+  redis_node6_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/redis/node6
+      
+  # Backup storage
+  redis_backups:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /opt/cryb/backups/redis

@@ -1,0 +1,79 @@
+version: 2
+
+updates:
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    target-branch: "develop"
+    versioning-strategy: increase
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "automated"
+    reviewers:
+      - "cryb-platform-team"
+    assignees:
+      - "cryb-platform-team"
+    ignore:
+      # Ignore major version updates for stable dependencies
+      - dependency-name: "react"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "react-dom"
+        update-types: ["version-update:semver-major"]
+      # Allow only security updates for development dependencies
+      - dependency-name: "*"
+        dependency-type: "development"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+    groups:
+      # Group React ecosystem updates
+      react-ecosystem:
+        patterns:
+          - "react*"
+          - "@types/react*"
+      # Group Sentry updates
+      sentry:
+        patterns:
+          - "@sentry/*"
+      # Group Vite ecosystem updates
+      vite-ecosystem:
+        patterns:
+          - "vite*"
+          - "@vitejs/*"
+      # Group testing dependencies
+      testing:
+        patterns:
+          - "vitest*"
+          - "@testing-library/*"
+          - "jest*"
+      # Group ESLint dependencies
+      linting:
+        patterns:
+          - "eslint*"
+          - "@eslint/*"
+      # Group security-related dependencies
+      security:
+        patterns:
+          - "dompurify*"
+          - "*sanitize*"
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(ci)"
+      include: "scope"
+    labels:
+      - "github-actions"
+      - "automated"

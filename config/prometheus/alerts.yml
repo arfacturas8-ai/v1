@@ -51,12 +51,102 @@ groups:
         for: 5m
         labels:
           severity: warning
-          service: postgresql
-          alert_type: connections
+          service: database
+          alert_type: resource
         annotations:
           summary: "High database connection usage"
-          description: "PostgreSQL has {{ $value | humanizePercentage }} connection usage"
+          description: "Database connection usage is above 80% (current: {{ $value | humanizePercentage }})"
           runbook_url: "https://wiki.cryb.ai/runbooks/high-db-connections"
+      
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: |
+          (
+            1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)
+          ) > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+          alert_type: resource
+        annotations:
+          summary: "High memory usage on {{ $labels.instance }}"
+          description: "Memory usage is above 85% (current: {{ $value | humanizePercentage }})"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-memory-usage"
+      
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: |
+          100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 10m
+        labels:
+          severity: warning
+          service: system
+          alert_type: resource
+        annotations:
+          summary: "High CPU usage on {{ $labels.instance }}"
+          description: "CPU usage is above 80% for 10 minutes (current: {{ $value }}%)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-cpu-usage"
+      
+      # API response time too slow
+      - alert: SlowAPIResponse
+        expr: |
+          histogram_quantile(0.95, sum(rate(http_request_duration_seconds_bucket{job="cryb-api"}[5m])) by (le)) > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: cryb-api
+          alert_type: performance
+        annotations:
+          summary: "API response time is slow"
+          description: "95th percentile response time is above 2 seconds (current: {{ $value }}s)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/slow-api-response"
+          dashboard: "https://monitoring.cryb.ai/d/api-performance"
+      
+      # Authentication failures spike
+      - alert: HighAuthFailures
+        expr: |
+          rate(cryb_auth_failures_total[5m]) > 10
+        for: 2m
+        labels:
+          severity: warning
+          service: auth
+          alert_type: security
+        annotations:
+          summary: "High authentication failure rate"
+          description: "Authentication failures are above 10/second for 2 minutes (current: {{ $value }}/s)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/high-auth-failures"
+      
+      # Low cache hit rate
+      - alert: LowCacheHitRate
+        expr: |
+          (
+            rate(cryb_cache_hits_total[10m]) / 
+            (rate(cryb_cache_hits_total[10m]) + rate(cryb_cache_misses_total[10m]))
+          ) < 0.70
+        for: 5m
+        labels:
+          severity: warning
+          service: cache
+          alert_type: performance
+        annotations:
+          summary: "Low cache hit rate"
+          description: "Cache hit rate is below 70% (current: {{ $value | humanizePercentage }})"
+          runbook_url: "https://wiki.cryb.ai/runbooks/low-cache-hit-rate"
+      
+      # Socket.IO connection issues
+      - alert: HighSocketIOErrors
+        expr: |
+          rate(socketio_connection_errors_total[5m]) > 5
+        for: 3m
+        labels:
+          severity: warning
+          service: socketio
+          alert_type: connectivity
+        annotations:
+          summary: "High Socket.IO connection errors"
+          description: "Socket.IO connection errors are above 5/second (current: {{ $value }}/s)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/socketio-errors"
 
   # ==============================================
   # INFRASTRUCTURE ALERTS
@@ -521,3 +611,299 @@ groups:
           summary: "Container running out of memory"
           description: "Container {{ $labels.name }} memory usage: {{ $value | humanizePercentage }}"
           runbook_url: "https://wiki.cryb.ai/runbooks/container-memory"
+
+  # ==============================================
+  # ADVANCED BUSINESS KPI ALERTS
+  # ==============================================
+  - name: cryb.advanced_business
+    rules:
+      # Declining daily active users
+      - alert: DecliningDailyActiveUsers
+        expr: |
+          (
+            cryb_daily_active_users - cryb_daily_active_users offset 1d
+          ) / cryb_daily_active_users offset 1d * 100 < -10
+        for: 6h
+        labels:
+          severity: warning
+          alert_type: business_kpi
+        annotations:
+          summary: "Daily active users declining"
+          description: "DAU has decreased by {{ $value | humanizePercentage }} compared to yesterday"
+          dashboard: "https://monitoring.cryb.ai/d/user-engagement"
+      
+      # Low community engagement
+      - alert: LowCommunityEngagement
+        expr: |
+          rate(cryb_messages_total[6h]) / cryb_active_users_current < 0.5
+        for: 2h
+        labels:
+          severity: warning
+          alert_type: business_kpi
+        annotations:
+          summary: "Low community engagement detected"
+          description: "Message rate per active user is {{ $value }}"
+          dashboard: "https://monitoring.cryb.ai/d/community-health"
+      
+      # High user churn rate
+      - alert: HighUserChurnRate
+        expr: |
+          rate(cryb_user_deactivations_total[24h]) / rate(cryb_user_registrations_total[24h]) > 0.3
+        for: 4h
+        labels:
+          severity: critical
+          alert_type: business_kpi
+        annotations:
+          summary: "High user churn rate detected"
+          description: "Churn rate is {{ $value | humanizePercentage }} (deactivations vs registrations)"
+          dashboard: "https://monitoring.cryb.ai/d/user-retention"
+      
+      # Revenue impacting issues
+      - alert: PaymentProcessingFailures
+        expr: |
+          rate(cryb_payment_failures_total[30m]) > 0.02
+        for: 10m
+        labels:
+          severity: critical
+          alert_type: business_revenue
+        annotations:
+          summary: "High payment processing failure rate"
+          description: "Payment failure rate is {{ $value }} per second"
+          dashboard: "https://monitoring.cryb.ai/d/payment-health"
+
+  # ==============================================
+  # PERFORMANCE SLI/SLO ALERTS
+  # ==============================================
+  - name: cryb.slo_violations
+    rules:
+      # API Response Time SLO (95th percentile < 500ms)
+      - alert: APIResponseTimeSLOViolation
+        expr: |
+          (
+            histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="cryb-api"}[5m])) > 0.5
+          )
+        for: 2m
+        labels:
+          severity: critical
+          alert_type: slo_violation
+          sli: api_response_time
+        annotations:
+          summary: "API Response Time SLO violation"
+          description: "95th percentile API response time is {{ $value }}s (SLO: < 500ms)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/api-latency-slo"
+          dashboard: "https://monitoring.cryb.ai/d/api-slo"
+      
+      # API Availability SLO (99.9% uptime)
+      - alert: APIAvailabilitySLOViolation
+        expr: |
+          (
+            1 - (
+              rate(http_requests_total{job="cryb-api",code=~"5.."}[30m]) /
+              rate(http_requests_total{job="cryb-api"}[30m])
+            )
+          ) < 0.999
+        for: 5m
+        labels:
+          severity: critical
+          alert_type: slo_violation
+          sli: api_availability
+        annotations:
+          summary: "API Availability SLO violation"
+          description: "API availability is {{ $value | humanizePercentage }} (SLO: > 99.9%)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/api-availability-slo"
+          dashboard: "https://monitoring.cryb.ai/d/api-slo"
+      
+      # Message Delivery SLO (99.5% success rate)
+      - alert: MessageDeliverySLOViolation
+        expr: |
+          (
+            rate(cryb_messages_total[10m]) - rate(cryb_messages_failed_total[10m])
+          ) / rate(cryb_messages_total[10m]) < 0.995
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: slo_violation
+          sli: message_delivery
+        annotations:
+          summary: "Message Delivery SLO violation"
+          description: "Message delivery success rate is {{ $value | humanizePercentage }} (SLO: > 99.5%)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/message-delivery-slo"
+          dashboard: "https://monitoring.cryb.ai/d/messaging-slo"
+      
+      # Voice Call Quality SLO (95% of calls with good quality)
+      - alert: VoiceCallQualitySLOViolation
+        expr: |
+          (
+            1 - (
+              rate(cryb_voice_calls_poor_quality_total[30m]) /
+              rate(cryb_voice_calls_total[30m])
+            )
+          ) < 0.95
+        for: 10m
+        labels:
+          severity: warning
+          alert_type: slo_violation
+          sli: voice_call_quality
+        annotations:
+          summary: "Voice Call Quality SLO violation"
+          description: "Good quality voice calls: {{ $value | humanizePercentage }} (SLO: > 95%)"
+          runbook_url: "https://wiki.cryb.ai/runbooks/voice-quality-slo"
+          dashboard: "https://monitoring.cryb.ai/d/voice-slo"
+
+  # ==============================================
+  # MONITORING STACK HEALTH ALERTS
+  # ==============================================
+  - name: cryb.monitoring_health
+    rules:
+      # Prometheus scrape failures
+      - alert: PrometheusScrapeFailing
+        expr: |
+          up == 0
+        for: 2m
+        labels:
+          severity: warning
+          alert_type: monitoring
+        annotations:
+          summary: "Prometheus scrape target down"
+          description: "Prometheus cannot scrape {{ $labels.job }} target {{ $labels.instance }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/prometheus-scrape"
+      
+      # Prometheus high cardinality
+      - alert: PrometheusHighCardinality
+        expr: |
+          prometheus_tsdb_symbol_table_size_bytes > 100000000  # 100MB
+        for: 15m
+        labels:
+          severity: warning
+          alert_type: monitoring
+        annotations:
+          summary: "Prometheus high cardinality detected"
+          description: "Prometheus symbol table size is {{ $value | humanize1024 }}"
+          runbook_url: "https://wiki.cryb.ai/runbooks/prometheus-cardinality"
+      
+      # Grafana dashboard errors
+      - alert: GrafanaDashboardErrors
+        expr: |
+          increase(grafana_api_response_status_total{code=~"5.."}[10m]) > 10
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: monitoring
+        annotations:
+          summary: "Grafana dashboard errors"
+          description: "Grafana has {{ $value }} 5xx errors in last 10 minutes"
+          runbook_url: "https://wiki.cryb.ai/runbooks/grafana-errors"
+      
+      # Loki log ingestion failures
+      - alert: LokiLogIngestionFailures
+        expr: |
+          rate(loki_distributor_ingester_append_failures_total[5m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+          alert_type: monitoring
+        annotations:
+          summary: "Loki log ingestion failures"
+          description: "Loki has {{ $value }} log ingestion failures per second"
+          runbook_url: "https://wiki.cryb.ai/runbooks/loki-ingestion"
+
+  # ==============================================
+  # CAPACITY PLANNING ALERTS
+  # ==============================================
+  - name: cryb.capacity_planning
+    rules:
+      # Disk space projection
+      - alert: DiskSpaceProjectionCritical
+        expr: |
+          predict_linear(node_filesystem_avail_bytes{fstype!="tmpfs"}[6h], 24*3600) < 0
+        for: 30m
+        labels:
+          severity: critical
+          alert_type: capacity
+        annotations:
+          summary: "Disk space will be exhausted within 24 hours"
+          description: "{{ $labels.device }} on {{ $labels.instance }} will run out of space in less than 24h"
+          runbook_url: "https://wiki.cryb.ai/runbooks/disk-capacity"
+      
+      # Memory usage trend
+      - alert: MemoryUsageTrendIncreasing
+        expr: |
+          predict_linear(node_memory_MemAvailable_bytes[2h], 4*3600) < node_memory_MemTotal_bytes * 0.1
+        for: 1h
+        labels:
+          severity: warning
+          alert_type: capacity
+        annotations:
+          summary: "Memory usage trending upward"
+          description: "{{ $labels.instance }} will have less than 10% memory available in 4 hours"
+          runbook_url: "https://wiki.cryb.ai/runbooks/memory-capacity"
+      
+      # Connection pool exhaustion prediction
+      - alert: DatabaseConnectionPoolExhaustionPredicted
+        expr: |
+          predict_linear(pg_stat_database_numbackends[1h], 2*3600) > pg_settings_max_connections * 0.9
+        for: 30m
+        labels:
+          severity: warning
+          alert_type: capacity
+        annotations:
+          summary: "Database connection pool exhaustion predicted"
+          description: "Database connections will exceed 90% of limit in 2 hours"
+          runbook_url: "https://wiki.cryb.ai/runbooks/db-connection-capacity"
+
+  # ==============================================
+  # MULTI-BURN-RATE SLO ALERTS
+  # ==============================================
+  - name: cryb.slo_burn_rate
+    rules:
+      # Fast burn - API availability
+      - alert: APIAvailabilityFastBurn
+        expr: |
+          (
+            1 - (
+              rate(http_requests_total{job="cryb-api",code!~"5.."}[2m]) /
+              rate(http_requests_total{job="cryb-api"}[2m])
+            )
+          ) > 0.02  # 2% error rate
+          and
+          (
+            1 - (
+              rate(http_requests_total{job="cryb-api",code!~"5.."}[30m]) /
+              rate(http_requests_total{job="cryb-api"}[30m])
+            )
+          ) > 0.02
+        for: 2m
+        labels:
+          severity: critical
+          alert_type: slo_burn
+          window: fast
+        annotations:
+          summary: "API Availability SLO fast burn rate"
+          description: "High error rate will exhaust error budget quickly"
+          runbook_url: "https://wiki.cryb.ai/runbooks/api-availability-burn"
+      
+      # Slow burn - API availability
+      - alert: APIAvailabilitySlowBurn
+        expr: |
+          (
+            1 - (
+              rate(http_requests_total{job="cryb-api",code!~"5.."}[30m]) /
+              rate(http_requests_total{job="cryb-api"}[30m])
+            )
+          ) > 0.001  # 0.1% error rate
+          and
+          (
+            1 - (
+              rate(http_requests_total{job="cryb-api",code!~"5.."}[6h]) /
+              rate(http_requests_total{job="cryb-api"}[6h])
+            )
+          ) > 0.001
+        for: 15m
+        labels:
+          severity: warning
+          alert_type: slo_burn
+          window: slow
+        annotations:
+          summary: "API Availability SLO slow burn rate"
+          description: "Sustained error rate is consuming error budget"
+          runbook_url: "https://wiki.cryb.ai/runbooks/api-availability-burn"

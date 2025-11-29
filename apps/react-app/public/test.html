@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRYB Test</title>
+    <style>
+        body { 
+            background: #121212; 
+            color: white; 
+            font-family: system-ui; 
+            padding: 2rem;
+        }
+        .status { 
+            padding: 1rem; 
+            border-radius: 8px; 
+            margin: 1rem 0; 
+            background: #1F2937; 
+        }
+        .success { background: #10B981; color: white; }
+        .error { background: #EF4444; color: white; }
+    </style>
+</head>
+<body>
+    <h1>CRYB Platform Test</h1>
+    <div id="status"></div>
+    <script>
+        const status = document.getElementById('status');
+        
+        // Test 1: Check if page loads
+        status.innerHTML = '<div class="status">✅ HTML loads correctly</div>';
+        
+        // Test 2: Check CSS
+        const styles = window.getComputedStyle(document.body);
+        if (styles.backgroundColor === 'rgb(18, 18, 18)') {
+            status.innerHTML += '<div class="status success">✅ CSS Dark theme applied</div>';
+        } else {
+            status.innerHTML += '<div class="status error">❌ CSS issue: BG color is ' + styles.backgroundColor + '</div>';
+        }
+        
+        // Test 3: Check API
+        fetch('/api/health')
+            .then(r => r.text())
+            .then(() => {
+                status.innerHTML += '<div class="status success">✅ API reachable</div>';
+            })
+            .catch(e => {
+                status.innerHTML += '<div class="status error">❌ API error: ' + e.message + '</div>';
+            });
+    </script>
+</body>
+</html>

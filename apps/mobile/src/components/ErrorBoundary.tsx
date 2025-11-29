@@ -8,6 +8,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } fr
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
 import RNRestart from 'react-native-restart';
 import { CrashDetector } from '../utils/CrashDetector';
+import { deviceInfo, spacing, typography, scale } from '../utils/responsive';
 
 interface ErrorInfo {
   componentStack: string;
@@ -159,11 +160,11 @@ class ErrorBoundaryClass extends React.Component<
 // Functional error fallback component
 function ErrorFallback({ 
   error, 
-  resetError, 
+  resetErrorBoundary: resetError, 
   restart = () => RNRestart.Restart() 
 }: { 
   error: Error; 
-  resetError: () => void;
+  resetErrorBoundary: () => void;
   restart?: () => void;
 }) {
   const handleRetry = async () => {
@@ -237,9 +238,9 @@ export function ErrorBoundary({
   fallback?: React.ComponentType<any>;
   onError?: (error: Error, errorInfo: { componentStack: string }) => void;
 }) {
-  const handleError = React.useCallback(async (error: Error, errorInfo: { componentStack: string }) => {
+  const handleError = React.useCallback(async (error: Error, errorInfo: any) => {
     try {
-      await CrashDetector.reportError(error, { componentStack: errorInfo.componentStack }, 'high');
+      await CrashDetector.reportError(error, { componentStack: errorInfo.componentStack || '' }, 'high');
       onError?.(error, errorInfo);
     } catch (reportingError) {
       console.error('[ErrorBoundary] Failed to report error:', reportingError);
@@ -283,39 +284,39 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    padding: 20,
+    padding: spacing.xl,
     justifyContent: 'center',
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
+    fontSize: typography.h4,
     fontWeight: 'bold',
     color: '#ffffff',
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: spacing.lg,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: typography.body1,
     color: '#cccccc',
     textAlign: 'center',
-    marginBottom: 32,
+    marginBottom: spacing.xxxl,
     lineHeight: 24,
   },
   errorDetails: {
-    backgroundColor: '#1a1a1a',
-    padding: 16,
+    backgroundColor: '#0A0A0B',
+    padding: spacing.lg,
     borderRadius: 8,
-    marginBottom: 32,
+    marginBottom: spacing.xxxl,
     width: '100%',
   },
   errorTitle: {
-    fontSize: 14,
+    fontSize: typography.body2,
     fontWeight: 'bold',
     color: '#ff6b6b',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   errorText: {
-    fontSize: 12,
+    fontSize: typography.caption,
     color: '#ffffff',
     fontFamily: 'monospace',
     lineHeight: 18,
@@ -323,26 +324,26 @@ const styles = StyleSheet.create({
   errorId: {
     fontSize: 10,
     color: '#888888',
-    marginTop: 8,
+    marginTop: spacing.sm,
   },
   actions: {
     width: '100%',
-    gap: 16,
+    gap: spacing.lg,
   },
   primaryButton: {
     backgroundColor: '#4a9eff',
-    padding: 16,
+    padding: spacing.lg,
     borderRadius: 8,
     alignItems: 'center',
   },
   primaryButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
   },
   secondaryButton: {
     backgroundColor: 'transparent',
-    padding: 16,
+    padding: spacing.lg,
     borderRadius: 8,
     borderWidth: 1,
     borderColor: '#4a9eff',
@@ -350,25 +351,25 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: '#4a9eff',
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
   },
   restartButton: {
     backgroundColor: '#ff6b6b',
-    padding: 16,
+    padding: spacing.lg,
     borderRadius: 8,
     alignItems: 'center',
   },
   restartButtonText: {
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
   },
   footer: {
-    fontSize: 12,
+    fontSize: typography.caption,
     color: '#888888',
     textAlign: 'center',
-    marginTop: 32,
+    marginTop: spacing.xxxl,
     lineHeight: 18,
   },
 });

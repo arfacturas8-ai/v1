@@ -3,7 +3,7 @@
  * Tests mobile app connectivity to the backend API
  */
 
-const API_BASE_URL = 'http://localhost:3002';
+const API_BASE_URL = 'http://api.cryb.ai';
 
 async function testApiConnection() {
   console.log('🧪 Testing API Connection to:', API_BASE_URL);

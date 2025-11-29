@@ -21,6 +21,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import * as Haptics from 'expo-haptics';
 import { CrashDetector } from '../../utils/CrashDetector';
 import { useErrorHandler } from '../ErrorBoundary';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 const { width } = Dimensions.get('window');
 
@@ -512,7 +513,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#333',
   },
   attachmentPreview: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0A0A0B',
     overflow: 'hidden',
   },
   attachmentsList: {
@@ -565,7 +566,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   textInput: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0A0A0B',
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -597,7 +598,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 80,
     left: 16,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#0A0A0B',
     borderRadius: 12,
     padding: 8,
     flexDirection: 'row',

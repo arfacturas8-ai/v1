@@ -8,7 +8,7 @@ import Redis from "ioredis";
 // Redis and Queue setup
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'localhost',
-  port: parseInt(process.env.REDIS_PORT || '6379'),
+  port: parseInt(process.env.REDIS_PORT || '6380'),
   password: process.env.REDIS_PASSWORD,
 });
 

@@ -1,0 +1,738 @@
+# ==============================================
+# CRYB Platform CI/CD Pipeline
+# ==============================================
+# Comprehensive continuous integration and deployment
+# Includes: Testing, building, security scanning, deployment
+# ==============================================
+
+name: 'CRYB Platform CI/CD'
+
+on:
+  push:
+    branches: [main, develop, staging]
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+      - '.gitignore'
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+      deploy_only:
+        description: 'Skip tests and deploy only'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  NODE_VERSION: '18'
+  DOCKER_REGISTRY: 'ghcr.io'
+  IMAGE_NAME: 'cryb-platform'
+  MONITORING_WEBHOOK: ${{ secrets.MONITORING_WEBHOOK }}
+
+jobs:
+  # ==============================================
+  # DETECT CHANGES
+  # ==============================================
+  detect-changes:
+    name: 'Detect Changes'
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.changes.outputs.api }}
+      web: ${{ steps.changes.outputs.web }}
+      mobile: ${{ steps.changes.outputs.mobile }}
+      admin: ${{ steps.changes.outputs.admin }}
+      infrastructure: ${{ steps.changes.outputs.infrastructure }}
+      security: ${{ steps.changes.outputs.security }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            api:
+              - 'apps/api/**'
+              - 'packages/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+            web:
+              - 'apps/react-app/**'
+              - 'apps/web-lite/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+            mobile:
+              - 'apps/mobile/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+            admin:
+              - 'apps/admin/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+            infrastructure:
+              - 'docker-compose*.yml'
+              - 'Dockerfile*'
+              - 'config/**'
+              - 'scripts/**'
+              - 'infrastructure/**'
+            security:
+              - 'config/wazuh/**'
+              - 'config/fail2ban/**'
+              - 'config/suricata/**'
+              - 'config/security-automation/**'
+              - 'services/security-*/**'
+
+  # ==============================================
+  # SECURITY SCANNING
+  # ==============================================
+  security-scan:
+    name: 'Security Scan'
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch' || !inputs.deploy_only
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      - name: Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'CRYB Platform'
+          path: '.'
+          format: 'JSON'
+          out: 'dependency-check'
+
+      - name: OWASP ZAP Baseline Scan
+        uses: zaproxy/action-baseline@v0.10.0
+        with:
+          target: 'https://staging.cryb.ai'
+          rules_file_name: '.zap/rules.tsv'
+          cmd_options: '-a'
+
+  # ==============================================
+  # CODE QUALITY
+  # ==============================================
+  code-quality:
+    name: 'Code Quality'
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch' || !inputs.deploy_only
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run ESLint
+        run: pnpm run lint:ci
+
+      - name: Run Prettier check
+        run: pnpm run format:check
+
+      - name: Run TypeScript check
+        run: pnpm run type-check
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  # ==============================================
+  # API TESTS
+  # ==============================================
+  test-api:
+    name: 'Test API'
+    runs-on: ubuntu-latest
+    needs: [detect-changes]
+    if: (needs.detect-changes.outputs.api == 'true' || needs.detect-changes.outputs.infrastructure == 'true') && (github.event_name != 'workflow_dispatch' || !inputs.deploy_only)
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: cryb_test
+          POSTGRES_USER: cryb_user
+          POSTGRES_PASSWORD: cryb_password
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup test environment
+        run: |
+          cp apps/api/.env.example apps/api/.env.test
+          echo "DATABASE_URL=postgresql://cryb_user:cryb_password@localhost:5432/cryb_test" >> apps/api/.env.test
+          echo "REDIS_URL=redis://localhost:6379" >> apps/api/.env.test
+
+      - name: Run database migrations
+        run: pnpm --filter @cryb/api run db:migrate:test
+
+      - name: Run unit tests
+        run: pnpm --filter @cryb/api run test:unit
+
+      - name: Run integration tests
+        run: pnpm --filter @cryb/api run test:integration
+
+      - name: Run API tests
+        run: pnpm --filter @cryb/api run test:api
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-test-results
+          path: |
+            apps/api/coverage/
+            apps/api/test-results/
+
+  # ==============================================
+  # WEB TESTS
+  # ==============================================
+  test-web:
+    name: 'Test Web App'
+    runs-on: ubuntu-latest
+    needs: [detect-changes]
+    if: (needs.detect-changes.outputs.web == 'true') && (github.event_name != 'workflow_dispatch' || !inputs.deploy_only)
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run unit tests
+        run: pnpm --filter @cryb/react-app run test
+
+      - name: Run component tests
+        run: pnpm --filter @cryb/react-app run test:components
+
+      - name: Build application
+        run: pnpm --filter @cryb/react-app run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: apps/react-app/dist/
+
+  # ==============================================
+  # MOBILE TESTS
+  # ==============================================
+  test-mobile:
+    name: 'Test Mobile App'
+    runs-on: ubuntu-latest
+    needs: [detect-changes]
+    if: (needs.detect-changes.outputs.mobile == 'true') && (github.event_name != 'workflow_dispatch' || !inputs.deploy_only)
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Setup Expo CLI
+        run: npm install -g @expo/cli
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm --filter @cryb/mobile run test
+
+      - name: Check Expo compatibility
+        run: pnpm --filter @cryb/mobile run expo:doctor
+
+      - name: Build for preview
+        if: github.ref == 'refs/heads/develop'
+        run: pnpm --filter @cryb/mobile run build:preview
+
+  # ==============================================
+  # ADMIN PANEL TESTS
+  # ==============================================
+  test-admin:
+    name: 'Test Admin Panel'
+    runs-on: ubuntu-latest
+    needs: [detect-changes]
+    if: (needs.detect-changes.outputs.admin == 'true') && (github.event_name != 'workflow_dispatch' || !inputs.deploy_only)
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run tests
+        run: pnpm --filter @cryb/admin run test
+
+      - name: Build application
+        run: pnpm --filter @cryb/admin run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: admin-build
+          path: apps/admin/.next/
+
+  # ==============================================
+  # E2E TESTS
+  # ==============================================
+  e2e-tests:
+    name: 'E2E Tests'
+    runs-on: ubuntu-latest
+    needs: [test-api, test-web]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright
+        run: pnpm dlx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: pnpm run test:e2e
+        env:
+          BASE_URL: ${{ github.ref == 'refs/heads/main' && 'https://staging.cryb.ai' || 'http://localhost:3000' }}
+
+      - name: Upload E2E results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-test-results
+          path: |
+            test-results/
+            playwright-report/
+
+  # ==============================================
+  # BUILD DOCKER IMAGES
+  # ==============================================
+  build-images:
+    name: 'Build Docker Images'
+    runs-on: ubuntu-latest
+    needs: [detect-changes, security-scan, code-quality]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.event_name == 'workflow_dispatch'
+    
+    strategy:
+      matrix:
+        component: [api, web, admin, security-exporter, security-automation]
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/${{ matrix.component }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ${{ matrix.component == 'api' && 'apps/api/Dockerfile' || 
+                    matrix.component == 'web' && 'apps/react-app/Dockerfile' ||
+                    matrix.component == 'admin' && 'apps/admin/Dockerfile' ||
+                    format('services/{0}/Dockerfile', matrix.component) }}
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
+
+  # ==============================================
+  # DEPLOY TO STAGING
+  # ==============================================
+  deploy-staging:
+    name: 'Deploy to Staging'
+    runs-on: ubuntu-latest
+    needs: [build-images, test-api, test-web]
+    if: github.ref == 'refs/heads/develop' || (github.event_name == 'workflow_dispatch' && inputs.environment == 'staging')
+    environment:
+      name: staging
+      url: https://staging.cryb.ai
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.STAGING_SSH_KEY }}
+
+      - name: Deploy to staging
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_HOST }} << 'EOF'
+            cd /opt/cryb-platform
+            
+            # Backup current deployment
+            ./scripts/create-pre-deployment-backup.sh
+            
+            # Pull latest changes
+            git fetch origin
+            git checkout develop
+            git pull origin develop
+            
+            # Update Docker images
+            docker-compose -f docker-compose.staging.yml pull
+            
+            # Run database migrations
+            ./scripts/run-migrations.sh staging
+            
+            # Deploy with zero downtime
+            ./scripts/deploy-staging.sh
+            
+            # Run health checks
+            ./scripts/health-check.sh staging
+            
+            # Update monitoring
+            ./scripts/update-monitoring-config.sh staging
+          EOF
+
+      - name: Run post-deployment tests
+        run: |
+          sleep 30  # Wait for services to start
+          curl -f https://staging.cryb.ai/api/health || exit 1
+          pnpm run test:staging
+
+      - name: Notify deployment
+        if: always()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          message: |
+            Staging deployment ${{ job.status }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            URL: https://staging.cryb.ai
+
+  # ==============================================
+  # DEPLOY TO PRODUCTION
+  # ==============================================
+  deploy-production:
+    name: 'Deploy to Production'
+    runs-on: ubuntu-latest
+    needs: [build-images, e2e-tests]
+    if: github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.environment == 'production')
+    environment:
+      name: production
+      url: https://cryb.ai
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.PRODUCTION_SSH_KEY }}
+
+      - name: Create production backup
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'EOF'
+            cd /opt/cryb-platform
+            ./scripts/create-pre-deployment-backup.sh production
+          EOF
+
+      - name: Deploy to production
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'EOF'
+            cd /opt/cryb-platform
+            
+            # Pull latest changes
+            git fetch origin
+            git checkout main
+            git pull origin main
+            
+            # Update Docker images
+            docker-compose -f docker-compose.production.yml pull
+            
+            # Run database migrations
+            ./scripts/run-migrations.sh production
+            
+            # Deploy with zero downtime
+            ./scripts/deploy-production.sh
+            
+            # Run comprehensive health checks
+            ./scripts/health-check-production.sh
+            
+            # Update monitoring and alerting
+            ./scripts/update-monitoring-config.sh production
+            
+            # Verify security monitoring
+            ./scripts/verify-security-monitoring.sh
+          EOF
+
+      - name: Run production smoke tests
+        run: |
+          sleep 60  # Wait for services to fully start
+          curl -f https://cryb.ai/api/health || exit 1
+          pnpm run test:production:smoke
+
+      - name: Update CDN cache
+        run: |
+          curl -X POST "${{ secrets.CDN_PURGE_URL }}" \
+            -H "Authorization: Bearer ${{ secrets.CDN_API_KEY }}" \
+            -H "Content-Type: application/json" \
+            -d '{"purge_everything": true}'
+
+      - name: Notify successful deployment
+        if: success()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: success
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          message: |
+            🚀 Production deployment successful!
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            URL: https://cryb.ai
+            Deployed by: ${{ github.actor }}
+
+      - name: Notify failed deployment
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+          message: |
+            🚨 Production deployment failed!
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Please check the logs and initiate rollback if necessary.
+
+  # ==============================================
+  # SECURITY MONITORING DEPLOYMENT
+  # ==============================================
+  deploy-security:
+    name: 'Deploy Security Monitoring'
+    runs-on: ubuntu-latest
+    needs: [detect-changes, build-images]
+    if: needs.detect-changes.outputs.security == 'true' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.PRODUCTION_SSH_KEY }}
+
+      - name: Deploy security monitoring
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} << 'EOF'
+            cd /opt/cryb-platform
+            
+            # Update security monitoring configuration
+            ./scripts/update-security-config.sh
+            
+            # Restart security services
+            docker-compose -f docker-compose.security-monitoring.yml up -d
+            
+            # Verify security services
+            ./scripts/security-monitoring-status.sh
+            
+            # Update security rules
+            ./scripts/update-security-rules.sh
+          EOF
+
+      - name: Test security monitoring
+        run: |
+          sleep 30
+          # Verify security endpoints are responding
+          curl -f ${{ secrets.PRODUCTION_HOST }}:9200/health || exit 1
+          curl -f ${{ secrets.PRODUCTION_HOST }}:3200/health || exit 1
+
+  # ==============================================
+  # PERFORMANCE MONITORING
+  # ==============================================
+  performance-monitoring:
+    name: 'Performance Monitoring'
+    runs-on: ubuntu-latest
+    needs: [deploy-staging]
+    if: github.ref == 'refs/heads/develop'
+    
+    steps:
+      - name: Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          urls: |
+            https://staging.cryb.ai
+            https://staging.cryb.ai/communities
+            https://staging.cryb.ai/login
+          configPath: '.lighthouserc.json'
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+
+      - name: Web Vitals Check
+        run: |
+          npx web-vitals-cli https://staging.cryb.ai \
+            --reporter json \
+            --output performance-report.json
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-results
+          path: |
+            lhci_reports/
+            performance-report.json
+
+  # ==============================================
+  # CLEANUP
+  # ==============================================
+  cleanup:
+    name: 'Cleanup'
+    runs-on: ubuntu-latest
+    needs: [deploy-production, deploy-staging]
+    if: always()
+    
+    steps:
+      - name: Clean up old Docker images
+        run: |
+          # Clean up images older than 7 days
+          docker image prune -a --filter "until=168h" --force
+
+      - name: Clean up old artifacts
+        uses: geekyeggo/delete-artifact@v4
+        with:
+          name: |
+            api-test-results
+            web-build
+            admin-build
+            e2e-test-results
+          failOnError: false

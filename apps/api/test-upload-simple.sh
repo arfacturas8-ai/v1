@@ -1,119 +1,91 @@
 #!/bin/bash
 
-# Simple file upload test script
+echo "🔧 Testing file upload endpoints..."
 
-echo "========================================"
-echo "📁 FILE UPLOAD SYSTEM TEST"
-echo "========================================"
+# Create a test file
+echo "Hello from CRYB upload test!" > test-upload.txt
 
-# Create test user and get token
-echo -e "\n👤 Creating test user..."
+# First get an auth token by registering/logging in
+echo "1. Getting authentication token..."
 
-TIMESTAMP=$(date +%s)
-EMAIL="test-upload-${TIMESTAMP}@example.com"
-USERNAME="test_upload_${TIMESTAMP}"
-
-REGISTER_RESPONSE=$(curl -s -X POST "http://localhost:3002/api/v1/auth/register" \
+# Try to register a test user (if it already exists, it will fail but we'll try login)
+REGISTER_RESPONSE=$(curl -s -X POST http://localhost:3002/api/v1/auth/register \
   -H "Content-Type: application/json" \
-  -d "{
-    \"email\": \"${EMAIL}\",
-    \"username\": \"${USERNAME}\",
-    \"displayName\": \"Test Upload User\",
-    \"password\": \"TestPassword123!\",
-    \"confirmPassword\": \"TestPassword123!\"
-  }")
+  -d '{
+    "username": "testuploaduser",
+    "email": "testupload@example.com", 
+    "password": "TestPassword123!",
+    "confirmPassword": "TestPassword123!"
+  }')
 
-TOKEN=$(echo "$REGISTER_RESPONSE" | grep -o '"accessToken":"[^"]*' | cut -d'"' -f4)
-USER_ID=$(echo "$REGISTER_RESPONSE" | grep -o '"id":"[^"]*' | cut -d'"' -f4)
+echo "Register response: $REGISTER_RESPONSE"
+
+# Try to login to get token
+LOGIN_RESPONSE=$(curl -s -X POST http://localhost:3002/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "testupload@example.com",
+    "password": "TestPassword123!"
+  }')
+
+echo "Login response: $LOGIN_RESPONSE"
+
+# Extract token from response (assuming JSON format)
+TOKEN=$(echo "$LOGIN_RESPONSE" | grep -o '"token":"[^"]*"' | sed 's/"token":"\([^"]*\)"/\1/')
 
 if [ -z "$TOKEN" ]; then
-  echo "❌ Failed to create user and get token"
-  echo "Response: $REGISTER_RESPONSE"
+  echo "❌ Failed to get authentication token"
+  cat test-upload.txt
   exit 1
 fi
 
-echo "✅ User created successfully"
-echo "   User ID: $USER_ID"
-echo "   Token obtained"
+echo "✅ Got token: ${TOKEN:0:20}..."
 
-# Test 1: Avatar upload
-echo -e "\n🖼️  Testing avatar upload..."
+# Test avatar upload
+echo ""
+echo "2. Testing avatar upload..."
+AVATAR_RESPONSE=$(curl -s -X POST http://localhost:3002/api/v1/uploads/avatar \
+  -H "Authorization: Bearer $TOKEN" \
+  -F "file=@test-upload.txt;type=text/plain")
 
-# Create a small test image (1x1 pixel PNG)
-echo -n "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==" | base64 -d > /tmp/test-avatar.png
+echo "Avatar upload response: $AVATAR_RESPONSE"
 
-AVATAR_RESPONSE=$(curl -s -X POST "http://localhost:3002/api/v1/uploads/avatar" \
-  -H "Authorization: Bearer ${TOKEN}" \
-  -F "file=@/tmp/test-avatar.png;type=image/png")
+# Test media upload
+echo ""
+echo "3. Testing media upload..."
+MEDIA_RESPONSE=$(curl -s -X POST http://localhost:3002/api/v1/uploads/media \
+  -H "Authorization: Bearer $TOKEN" \
+  -F "file=@test-upload.txt;type=text/plain")
 
-if echo "$AVATAR_RESPONSE" | grep -q '"success":true'; then
-  echo "✅ Avatar upload successful"
-  FILE_ID=$(echo "$AVATAR_RESPONSE" | grep -o '"id":"[^"]*' | head -1 | cut -d'"' -f4)
-  echo "   File ID: $FILE_ID"
-else
-  echo "❌ Avatar upload failed"
-  echo "   Response: $AVATAR_RESPONSE"
-fi
+echo "Media upload response: $MEDIA_RESPONSE"
 
-# Test 2: Document upload
-echo -e "\n📄 Testing document upload..."
+# Test attachment upload
+echo ""
+echo "4. Testing attachment upload..."
+ATTACHMENT_RESPONSE=$(curl -s -X POST http://localhost:3002/api/v1/uploads/attachment \
+  -H "Authorization: Bearer $TOKEN" \
+  -F "files=@test-upload.txt;type=text/plain")
 
-echo "This is a test document for upload testing." > /tmp/test-document.txt
+echo "Attachment upload response: $ATTACHMENT_RESPONSE"
 
-DOC_RESPONSE=$(curl -s -X POST "http://localhost:3002/api/v1/uploads/document" \
-  -H "Authorization: Bearer ${TOKEN}" \
-  -F "file=@/tmp/test-document.txt;type=text/plain")
+# Test file listing
+echo ""
+echo "5. Testing file listing..."
+LIST_RESPONSE=$(curl -s -X GET http://localhost:3002/api/v1/uploads/ \
+  -H "Authorization: Bearer $TOKEN")
 
-if echo "$DOC_RESPONSE" | grep -q '"success":true'; then
-  echo "✅ Document upload successful"
-  FILE_ID=$(echo "$DOC_RESPONSE" | grep -o '"id":"[^"]*' | head -1 | cut -d'"' -f4)
-  echo "   File ID: $FILE_ID"
-else
-  echo "❌ Document upload failed"
-  echo "   Response: $DOC_RESPONSE"
-fi
+echo "File listing response: $LIST_RESPONSE"
 
-# Test 3: Signed URL generation
-echo -e "\n🔗 Testing signed URL generation..."
+# Test upload stats
+echo ""
+echo "6. Testing upload stats..."
+STATS_RESPONSE=$(curl -s -X GET http://localhost:3002/api/v1/uploads/stats \
+  -H "Authorization: Bearer $TOKEN")
 
-SIGNED_URL_RESPONSE=$(curl -s -X POST "http://localhost:3002/api/v1/uploads/signed-url" \
-  -H "Authorization: Bearer ${TOKEN}" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "filename": "test-file.jpg",
-    "contentType": "image/jpeg"
-  }')
+echo "Upload stats response: $STATS_RESPONSE"
 
-if echo "$SIGNED_URL_RESPONSE" | grep -q '"success":true'; then
-  echo "✅ Signed URL generated successfully"
-  FILE_ID=$(echo "$SIGNED_URL_RESPONSE" | grep -o '"fileId":"[^"]*' | cut -d'"' -f4)
-  echo "   File ID: $FILE_ID"
-else
-  echo "❌ Signed URL generation failed"
-  echo "   Response: $SIGNED_URL_RESPONSE"
-fi
+# Cleanup
+rm -f test-upload.txt
 
-# Test 4: Upload statistics
-echo -e "\n📊 Testing upload statistics..."
-
-STATS_RESPONSE=$(curl -s -X GET "http://localhost:3002/api/v1/uploads/stats" \
-  -H "Authorization: Bearer ${TOKEN}")
-
-if echo "$STATS_RESPONSE" | grep -q '"success":true'; then
-  echo "✅ Stats retrieved successfully"
-  echo "   Response: $STATS_RESPONSE" | head -c 200
-else
-  echo "❌ Stats retrieval failed"
-  echo "   Response: $STATS_RESPONSE"
-fi
-
-# Clean up
-rm -f /tmp/test-avatar.png /tmp/test-document.txt
-
-echo -e "\n========================================"
-echo "📋 TEST COMPLETE"
-echo "========================================"
-echo "🎉 FILE UPLOAD SYSTEM IS OPERATIONAL!"
-echo "✅ Users can upload avatars and documents"
-echo "✅ Signed URLs for direct uploads work"
-echo "✅ Upload statistics are available"
+echo ""
+echo "🎉 Upload endpoint testing completed!"

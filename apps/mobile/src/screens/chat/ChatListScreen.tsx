@@ -14,6 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { MainStackParamList } from '../../navigation/MainNavigator';
+import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
 
 type ChatListScreenNavigationProp = NativeStackNavigationProp<MainStackParamList, 'MainTabs'>;
 
@@ -278,31 +279,31 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: spacing.xl,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.lg,
   },
   searchContainer: {
-    marginBottom: 16,
+    marginBottom: spacing.lg,
   },
   searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 12,
-    gap: 12,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
+    gap: spacing.md,
   },
   searchInput: {
     flex: 1,
-    fontSize: 16,
+    fontSize: typography.body1,
   },
   quickActions: {
     flexDirection: 'row',
-    gap: 12,
+    gap: spacing.md,
   },
   quickActionButton: {
     width: 44,
@@ -312,11 +313,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   chatItem: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    marginHorizontal: 20,
-    marginBottom: 8,
-    borderRadius: 12,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: spacing.md,
+    marginHorizontal: spacing.xl,
+    marginBottom: spacing.sm,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
   },
   chatItemLeft: {
     flexDirection: 'row',
@@ -324,7 +325,7 @@ const styles = StyleSheet.create({
   },
   avatarContainer: {
     position: 'relative',
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   avatar: {
     width: 50,
@@ -355,45 +356,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: spacing.xs,
   },
   chatName: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: '600',
     flex: 1,
   },
   chatTime: {
-    fontSize: 12,
-    marginLeft: 8,
+    fontSize: typography.caption,
+    marginLeft: spacing.sm,
   },
   chatMessageRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: spacing.xs,
   },
   lastMessage: {
-    fontSize: 14,
+    fontSize: typography.body2,
     flex: 1,
   },
   unreadBadge: {
     minWidth: 20,
     height: 20,
-    borderRadius: 10,
+    borderRadius: deviceInfo.isTablet ? 12 : 10,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 6,
-    marginLeft: 8,
+    marginLeft: spacing.sm,
   },
   unreadCount: {
     color: '#ffffff',
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: 'bold',
   },
   participantsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: spacing.xs,
   },
   participantsText: {
     fontSize: 11,

@@ -5,7 +5,7 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { AppState } from 'react-native';
-import { NotificationService, NotificationPermissionStatus, NotificationPayload } from '../services/NotificationService';
+import { notificationService, NotificationPermissionStatus, NotificationPayload } from '../services/NotificationService';
 import { CrashDetector } from '../utils/CrashDetector';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
@@ -50,11 +50,11 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
     setError(null);
 
     try {
-      const success = await NotificationService.initialize();
+      const success = await notificationService.initialize();
       
       if (success) {
-        const permissions = NotificationService.getPermissionStatus();
-        const token = NotificationService.getPushToken();
+        const permissions = notificationService.getPermissionStatus();
+        const token = notificationService.getPushToken();
         
         setPermissionStatus(permissions);
         setPushToken(token);
@@ -89,12 +89,12 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
     setError(null);
 
     try {
-      const status = await NotificationService.requestPermissions();
+      const status = await notificationService.requestPermissions();
       setPermissionStatus(status);
       
       // Update token if permissions granted
       if (status.granted) {
-        const token = NotificationService.getPushToken();
+        const token = notificationService.getPushToken();
         setPushToken(token);
       }
 
@@ -130,7 +130,7 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
         return null;
       }
 
-      const notificationId = await NotificationService.scheduleLocalNotification(payload);
+      const notificationId = await notificationService.scheduleLocalNotification(payload);
       
       if (!notificationId) {
         setError('Failed to schedule notification');
@@ -155,7 +155,7 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
   // Cancel notification
   const cancelNotification = useCallback(async (id: string): Promise<void> => {
     try {
-      await NotificationService.cancelNotification(id);
+      await notificationService.cancelNotification(id);
     } catch (err) {
       console.error('[NotificationContext] Cancel notification error:', err);
       setError(err instanceof Error ? err.message : 'Failed to cancel notification');
@@ -165,7 +165,7 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
   // Cancel all notifications
   const cancelAllNotifications = useCallback(async (): Promise<void> => {
     try {
-      await NotificationService.cancelAllNotifications();
+      await notificationService.cancelAllNotifications();
     } catch (err) {
       console.error('[NotificationContext] Cancel all notifications error:', err);
       setError(err instanceof Error ? err.message : 'Failed to cancel notifications');
@@ -175,7 +175,7 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
   // Set badge count
   const setBadgeCount = useCallback(async (count: number): Promise<void> => {
     try {
-      await NotificationService.setBadgeCount(count);
+      await notificationService.setBadgeCount(count);
     } catch (err) {
       console.error('[NotificationContext] Set badge count error:', err);
       setError(err instanceof Error ? err.message : 'Failed to set badge count');
@@ -185,7 +185,7 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
   // Clear badge
   const clearBadge = useCallback(async (): Promise<void> => {
     try {
-      await NotificationService.clearBadge();
+      await notificationService.clearBadge();
     } catch (err) {
       console.error('[NotificationContext] Clear badge error:', err);
       setError(err instanceof Error ? err.message : 'Failed to clear badge');
@@ -197,9 +197,9 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
     setIsLoading(true);
     
     try {
-      await NotificationService.refreshToken();
+      await notificationService.refreshToken();
       
-      const token = NotificationService.getPushToken();
+      const token = notificationService.getPushToken();
       setPushToken(token);
 
     } catch (err) {
@@ -225,7 +225,7 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
           clearBadge();
           
           // Refresh permissions status
-          const currentStatus = NotificationService.getPermissionStatus();
+          const currentStatus = notificationService.getPermissionStatus();
           if (currentStatus) {
             setPermissionStatus(currentStatus);
           }
@@ -250,7 +250,7 @@ function NotificationProviderComponent({ children }: NotificationProviderProps) 
   // Cleanup on unmount
   useEffect(() => {
     return () => {
-      NotificationService.cleanup();
+      notificationService.cleanup();
     };
   }, []);
 

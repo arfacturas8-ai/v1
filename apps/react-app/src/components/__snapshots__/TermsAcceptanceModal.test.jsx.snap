@@ -1,0 +1,709 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`TermsAcceptanceModal Snapshots matches snapshot of legal links section 1`] = `
+<div
+  style="padding: 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;"
+>
+  <strong>
+    Full Legal Documents:
+  </strong>
+  <div
+    style="margin-top: 8px; display: flex; gap: 12px;"
+  >
+    <a
+      href="/terms"
+      style="color: rgb(102, 126, 234); text-decoration: underline;"
+      target="_blank"
+    >
+      Read Full Terms →
+    </a>
+    <a
+      href="/privacy"
+      style="color: rgb(102, 126, 234); text-decoration: underline;"
+      target="_blank"
+    >
+      Read Privacy Policy →
+    </a>
+    <a
+      href="/guidelines"
+      style="color: rgb(102, 126, 234); text-decoration: underline;"
+      target="_blank"
+    >
+      Community Guidelines →
+    </a>
+  </div>
+</div>
+`;
+
+exports[`TermsAcceptanceModal Snapshots matches snapshot of modal footer 1`] = `
+<div
+  style="padding: 24px; display: flex; gap: 12px; flex-direction: column;"
+>
+  <button
+    disabled=""
+    style="padding: 14px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: not-allowed; transition: all 0.2s; box-shadow: none;"
+  >
+    ✓ I Accept the Terms & Privacy Policy
+  </button>
+  <button
+    style="padding: 12px 24px; border-radius: 8px; background-color: transparent; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;"
+  >
+    Decline & Exit
+  </button>
+  <p
+    style="font-size: 11px; text-align: center; margin-top: 8px; line-height: 1.4;"
+  >
+    By clicking "I Accept", you agree to be bound by these terms.
+    <br />
+    Last updated: January 2025 • Version 1.0.0
+  </p>
+</div>
+`;
+
+exports[`TermsAcceptanceModal Snapshots matches snapshot of modal header 1`] = `
+<div
+  style="padding: 24px; text-align: center;"
+>
+  <div
+    style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgb(255, 255, 255); font-size: 24px; font-weight: bold; margin: 0px auto 16px;"
+  >
+    C
+  </div>
+  <h2
+    style="font-size: 24px; font-weight: 600; margin-bottom: 8px;"
+  >
+    Terms of Service & Privacy Policy
+  </h2>
+  <p
+    style="font-size: 14px; line-height: 1.6;"
+  >
+    Please review and accept our terms to continue using CRYB
+  </p>
+</div>
+`;
+
+exports[`TermsAcceptanceModal Snapshots matches snapshot when modal is hidden 1`] = `<div />`;
+
+exports[`TermsAcceptanceModal Snapshots matches snapshot when modal is visible 1`] = `
+<div>
+  <div
+    style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px;"
+  >
+    <div
+      style="border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden;"
+    >
+      <div
+        style="padding: 24px; text-align: center;"
+      >
+        <div
+          style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgb(255, 255, 255); font-size: 24px; font-weight: bold; margin: 0px auto 16px;"
+        >
+          C
+        </div>
+        <h2
+          style="font-size: 24px; font-weight: 600; margin-bottom: 8px;"
+        >
+          Terms of Service & Privacy Policy
+        </h2>
+        <p
+          style="font-size: 14px; line-height: 1.6;"
+        >
+          Please review and accept our terms to continue using CRYB
+        </p>
+      </div>
+      <div
+        style="flex: 1; padding: 24px; overflow-y: auto; font-size: 14px; line-height: 1.8;"
+      >
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            🔐 Your Privacy
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              We respect your privacy and protect your data
+            </li>
+            <li>
+              Your wallet address is your identity - we don't sell your data
+            </li>
+            <li>
+              End-to-end encryption for direct messages
+            </li>
+            <li>
+              GDPR compliant - you can export/delete your data anytime
+            </li>
+            <li>
+              We use cookies for essential functionality only
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            📜 Terms of Service
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              You must be 13+ years old to use CRYB
+            </li>
+            <li>
+              You're responsible for your account security
+            </li>
+            <li>
+              No spam, harassment, or illegal content
+            </li>
+            <li>
+              We reserve the right to moderate content
+            </li>
+            <li>
+              Community guidelines must be followed
+            </li>
+            <li>
+              NFT/token transactions are non-custodial (we never hold your crypto)
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            ⚡ Web3 & Crypto
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              Wallet connections are non-custodial - you control your keys
+            </li>
+            <li>
+              Gas fees may apply for on-chain transactions
+            </li>
+            <li>
+              Smart contract interactions are at your own risk
+            </li>
+            <li>
+              We take 0% platform fees on tips, NFTs, and token sales
+            </li>
+            <li>
+              Verify all transactions before signing
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            🛡️ Community Guidelines
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              Be respectful and kind to other members
+            </li>
+            <li>
+              No hate speech, discrimination, or bullying
+            </li>
+            <li>
+              No scams, phishing, or financial fraud
+            </li>
+            <li>
+              Respect intellectual property and copyright
+            </li>
+            <li>
+              Report violations to moderators
+            </li>
+          </ul>
+        </div>
+        <div
+          style="padding: 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;"
+        >
+          <strong>
+            Full Legal Documents:
+          </strong>
+          <div
+            style="margin-top: 8px; display: flex; gap: 12px;"
+          >
+            <a
+              href="/terms"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Read Full Terms →
+            </a>
+            <a
+              href="/privacy"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Read Privacy Policy →
+            </a>
+            <a
+              href="/guidelines"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Community Guidelines →
+            </a>
+          </div>
+        </div>
+        <div
+          style="text-align: center; padding: 16px; font-size: 13px; font-style: italic;"
+        >
+          ↓ Please scroll to the bottom to continue ↓
+        </div>
+      </div>
+      <div
+        style="padding: 24px; display: flex; gap: 12px; flex-direction: column;"
+      >
+        <button
+          disabled=""
+          style="padding: 14px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: not-allowed; transition: all 0.2s; box-shadow: none;"
+        >
+          ✓ I Accept the Terms & Privacy Policy
+        </button>
+        <button
+          style="padding: 12px 24px; border-radius: 8px; background-color: transparent; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;"
+        >
+          Decline & Exit
+        </button>
+        <p
+          style="font-size: 11px; text-align: center; margin-top: 8px; line-height: 1.4;"
+        >
+          By clicking "I Accept", you agree to be bound by these terms.
+          <br />
+          Last updated: January 2025 • Version 1.0.0
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TermsAcceptanceModal Snapshots matches snapshot with accept button disabled 1`] = `
+<div>
+  <div
+    style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px;"
+  >
+    <div
+      style="border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden;"
+    >
+      <div
+        style="padding: 24px; text-align: center;"
+      >
+        <div
+          style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgb(255, 255, 255); font-size: 24px; font-weight: bold; margin: 0px auto 16px;"
+        >
+          C
+        </div>
+        <h2
+          style="font-size: 24px; font-weight: 600; margin-bottom: 8px;"
+        >
+          Terms of Service & Privacy Policy
+        </h2>
+        <p
+          style="font-size: 14px; line-height: 1.6;"
+        >
+          Please review and accept our terms to continue using CRYB
+        </p>
+      </div>
+      <div
+        style="flex: 1; padding: 24px; overflow-y: auto; font-size: 14px; line-height: 1.8;"
+      >
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            🔐 Your Privacy
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              We respect your privacy and protect your data
+            </li>
+            <li>
+              Your wallet address is your identity - we don't sell your data
+            </li>
+            <li>
+              End-to-end encryption for direct messages
+            </li>
+            <li>
+              GDPR compliant - you can export/delete your data anytime
+            </li>
+            <li>
+              We use cookies for essential functionality only
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            📜 Terms of Service
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              You must be 13+ years old to use CRYB
+            </li>
+            <li>
+              You're responsible for your account security
+            </li>
+            <li>
+              No spam, harassment, or illegal content
+            </li>
+            <li>
+              We reserve the right to moderate content
+            </li>
+            <li>
+              Community guidelines must be followed
+            </li>
+            <li>
+              NFT/token transactions are non-custodial (we never hold your crypto)
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            ⚡ Web3 & Crypto
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              Wallet connections are non-custodial - you control your keys
+            </li>
+            <li>
+              Gas fees may apply for on-chain transactions
+            </li>
+            <li>
+              Smart contract interactions are at your own risk
+            </li>
+            <li>
+              We take 0% platform fees on tips, NFTs, and token sales
+            </li>
+            <li>
+              Verify all transactions before signing
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            🛡️ Community Guidelines
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              Be respectful and kind to other members
+            </li>
+            <li>
+              No hate speech, discrimination, or bullying
+            </li>
+            <li>
+              No scams, phishing, or financial fraud
+            </li>
+            <li>
+              Respect intellectual property and copyright
+            </li>
+            <li>
+              Report violations to moderators
+            </li>
+          </ul>
+        </div>
+        <div
+          style="padding: 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;"
+        >
+          <strong>
+            Full Legal Documents:
+          </strong>
+          <div
+            style="margin-top: 8px; display: flex; gap: 12px;"
+          >
+            <a
+              href="/terms"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Read Full Terms →
+            </a>
+            <a
+              href="/privacy"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Read Privacy Policy →
+            </a>
+            <a
+              href="/guidelines"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Community Guidelines →
+            </a>
+          </div>
+        </div>
+        <div
+          style="text-align: center; padding: 16px; font-size: 13px; font-style: italic;"
+        >
+          ↓ Please scroll to the bottom to continue ↓
+        </div>
+      </div>
+      <div
+        style="padding: 24px; display: flex; gap: 12px; flex-direction: column;"
+      >
+        <button
+          disabled=""
+          style="padding: 14px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: not-allowed; transition: all 0.2s; box-shadow: none;"
+        >
+          ✓ I Accept the Terms & Privacy Policy
+        </button>
+        <button
+          style="padding: 12px 24px; border-radius: 8px; background-color: transparent; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;"
+        >
+          Decline & Exit
+        </button>
+        <p
+          style="font-size: 11px; text-align: center; margin-top: 8px; line-height: 1.4;"
+        >
+          By clicking "I Accept", you agree to be bound by these terms.
+          <br />
+          Last updated: January 2025 • Version 1.0.0
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`TermsAcceptanceModal Snapshots matches snapshot with accept button enabled after scrolling 1`] = `
+<div>
+  <div
+    style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; background-color: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px;"
+  >
+    <div
+      style="border-radius: 16px; max-width: 600px; width: 100%; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); overflow: hidden;"
+    >
+      <div
+        style="padding: 24px; text-align: center;"
+      >
+        <div
+          style="width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: rgb(255, 255, 255); font-size: 24px; font-weight: bold; margin: 0px auto 16px;"
+        >
+          C
+        </div>
+        <h2
+          style="font-size: 24px; font-weight: 600; margin-bottom: 8px;"
+        >
+          Terms of Service & Privacy Policy
+        </h2>
+        <p
+          style="font-size: 14px; line-height: 1.6;"
+        >
+          Please review and accept our terms to continue using CRYB
+        </p>
+      </div>
+      <div
+        style="flex: 1; padding: 24px; overflow-y: auto; font-size: 14px; line-height: 1.8;"
+      >
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            🔐 Your Privacy
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              We respect your privacy and protect your data
+            </li>
+            <li>
+              Your wallet address is your identity - we don't sell your data
+            </li>
+            <li>
+              End-to-end encryption for direct messages
+            </li>
+            <li>
+              GDPR compliant - you can export/delete your data anytime
+            </li>
+            <li>
+              We use cookies for essential functionality only
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            📜 Terms of Service
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              You must be 13+ years old to use CRYB
+            </li>
+            <li>
+              You're responsible for your account security
+            </li>
+            <li>
+              No spam, harassment, or illegal content
+            </li>
+            <li>
+              We reserve the right to moderate content
+            </li>
+            <li>
+              Community guidelines must be followed
+            </li>
+            <li>
+              NFT/token transactions are non-custodial (we never hold your crypto)
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            ⚡ Web3 & Crypto
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              Wallet connections are non-custodial - you control your keys
+            </li>
+            <li>
+              Gas fees may apply for on-chain transactions
+            </li>
+            <li>
+              Smart contract interactions are at your own risk
+            </li>
+            <li>
+              We take 0% platform fees on tips, NFTs, and token sales
+            </li>
+            <li>
+              Verify all transactions before signing
+            </li>
+          </ul>
+        </div>
+        <div
+          style="margin-bottom: 24px;"
+        >
+          <h3
+            style="font-size: 18px; font-weight: 600; margin-bottom: 12px;"
+          >
+            🛡️ Community Guidelines
+          </h3>
+          <ul
+            style="padding-left: 20px; margin-bottom: 16px;"
+          >
+            <li>
+              Be respectful and kind to other members
+            </li>
+            <li>
+              No hate speech, discrimination, or bullying
+            </li>
+            <li>
+              No scams, phishing, or financial fraud
+            </li>
+            <li>
+              Respect intellectual property and copyright
+            </li>
+            <li>
+              Report violations to moderators
+            </li>
+          </ul>
+        </div>
+        <div
+          style="padding: 16px; border-radius: 8px; font-size: 13px; margin-bottom: 16px;"
+        >
+          <strong>
+            Full Legal Documents:
+          </strong>
+          <div
+            style="margin-top: 8px; display: flex; gap: 12px;"
+          >
+            <a
+              href="/terms"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Read Full Terms →
+            </a>
+            <a
+              href="/privacy"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Read Privacy Policy →
+            </a>
+            <a
+              href="/guidelines"
+              style="color: rgb(102, 126, 234); text-decoration: underline;"
+              target="_blank"
+            >
+              Community Guidelines →
+            </a>
+          </div>
+        </div>
+      </div>
+      <div
+        style="padding: 24px; display: flex; gap: 12px; flex-direction: column;"
+      >
+        <button
+          style="padding: 14px 24px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); color: rgb(255, 255, 255);"
+        >
+          ✓ I Accept the Terms & Privacy Policy
+        </button>
+        <button
+          style="padding: 12px 24px; border-radius: 8px; background-color: transparent; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s;"
+        >
+          Decline & Exit
+        </button>
+        <p
+          style="font-size: 11px; text-align: center; margin-top: 8px; line-height: 1.4;"
+        >
+          By clicking "I Accept", you agree to be bound by these terms.
+          <br />
+          Last updated: January 2025 • Version 1.0.0
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -1,0 +1,28 @@
+port: 7880
+bind_addresses:
+  - ""
+
+keys:
+  APIHmK7VRxK9Xb5M3PqN8Yz2Fw4Jt6Lp: LkT9Qx3Vm8Sz5Rn2Bp7Wj4Ht6Fg3Cd1
+
+redis:
+  address: localhost:6379
+  db: 0
+
+rtc:
+  port_range_start: 50000
+  port_range_end: 60000
+
+webhook:
+  urls:
+    - http://localhost:3002/api/v1/voice/webhook
+  api_key: APIHmK7VRxK9Xb5M3PqN8Yz2Fw4Jt6Lp
+
+room:
+  auto_create: true
+  empty_timeout: 300
+  max_participants: 100
+
+log_level: info
+
+development: true

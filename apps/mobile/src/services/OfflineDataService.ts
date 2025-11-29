@@ -46,7 +46,7 @@ export interface OfflineStats {
 
 class OfflineDataService {
   private static instance: OfflineDataService;
-  private mmkv: MMKV;
+  private mmkv!: MMKV;
   private isInitialized = false;
   private cacheStats = {
     hits: 0,
@@ -357,7 +357,8 @@ class OfflineDataService {
       // For now, we'll simulate the sync operation
       console.log(`[OfflineDataService] Executing sync: ${operation.type} ${operation.resource}`);
 
-      const response = await fetch(`http://localhost:3001/api/sync/${operation.resource}`, {
+      const apiUrl = __DEV__ ? 'http://localhost:3002' : 'https://api.cryb.ai';
+      const response = await fetch(`${apiUrl}/api/sync/${operation.resource}`, {
         method: operation.type === 'create' ? 'POST' : 
                 operation.type === 'update' ? 'PUT' : 'DELETE',
         headers: {
@@ -601,7 +602,7 @@ class OfflineDataService {
     }
   }
 
-  isInitialized(): boolean {
+  getIsInitialized(): boolean {
     return this.isInitialized;
   }
 
@@ -621,4 +622,4 @@ class OfflineDataService {
   }
 }
 
-export const OfflineDataService = OfflineDataService.getInstance();
+export const offlineDataService = OfflineDataService.getInstance();

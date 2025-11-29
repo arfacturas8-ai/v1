@@ -4,10 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { WalletConnectModal } from '@walletconnect/modal-react-native';
+// import { WalletConnectModal } from '@walletconnect/modal-react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useAuthStore } from './src/stores/authStore';
 import { useSocketStore } from './src/stores/socketStore';
+import { pushNotificationService } from './src/services/PushNotificationService';
+import { initializeCrashReporting } from './src/services/CrashReportingService';
 import { RootNavigator } from './src/navigation/RootNavigator';
 import { ThemeProvider } from './src/contexts/ThemeContext';
 import { NotificationProvider } from './src/contexts/NotificationContext';
@@ -44,11 +46,21 @@ export default function App() {
   React.useEffect(() => {
     async function prepare() {
       try {
+        // Initialize crash reporting first
+        await initializeCrashReporting({
+          dsn: process.env.EXPO_PUBLIC_SENTRY_DSN || '',
+          environment: __DEV__ ? 'development' : 'production',
+          enableInExpoDevelopment: __DEV__,
+        });
+        
         // Initialize auth
         await initializeAuth();
         
         // Connect to WebSocket
-        await connectSocket();
+        // await connectSocket();
+        
+        // Initialize notifications
+        await pushNotificationService.initialize();
         
         // Load fonts, assets, etc.
         // await Font.loadAsync({...});
@@ -64,7 +76,7 @@ export default function App() {
     }
 
     prepare();
-  }, []);
+  }, [initializeAuth]);
 
   if (!appIsReady) {
     return null;
@@ -74,19 +86,14 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
         <QueryClientProvider client={queryClient}>
-          <WalletConnectModal
-            projectId={projectId}
-            providerMetadata={providerMetadata}
-          >
-            <ThemeProvider>
-              <NotificationProvider>
-                <NavigationContainer>
-                  <RootNavigator />
-                  <StatusBar style="auto" />
-                </NavigationContainer>
-              </NotificationProvider>
-            </ThemeProvider>
-          </WalletConnectModal>
+          <ThemeProvider>
+            <NotificationProvider>
+              <NavigationContainer>
+                <RootNavigator />
+                <StatusBar style="auto" />
+              </NavigationContainer>
+            </NotificationProvider>
+          </ThemeProvider>
         </QueryClientProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

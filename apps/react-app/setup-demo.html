@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo Setup for CRYB Community Platform</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        button { background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .info { background: #e7f3ff; border: 1px solid #bee5eb; color: #0c5460; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CRYB Community Platform Demo Setup</h1>
+        <p>This page helps you set up demo data for testing the CRYB community features.</p>
+        
+        <div class="info">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Click "Setup Demo Auth" to authenticate</li>
+                <li>Click "Create Demo Data" to populate the platform</li>
+                <li>Click "Open Platform" to go to the main application</li>
+            </ol>
+        </div>
+
+        <button onclick="setupAuth()">Setup Demo Auth</button>
+        <button onclick="createDemoData()">Create Demo Data</button>
+        <button onclick="clearData()">Clear All Data</button>
+        <button onclick="openPlatform()">Open Platform</button>
+        <button onclick="openTestPage()">Open Test Page</button>
+
+        <div id="status"></div>
+    </div>
+
+    <script>
+        function showStatus(message, isSuccess = true) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = `<div class="${isSuccess ? 'success' : 'info'}">${message}</div>`;
+        }
+
+        function setupAuth() {
+            // Set up demo authentication
+            localStorage.setItem('auth_token', 'demo_token_' + Date.now());
+            localStorage.setItem('user', JSON.stringify({ 
+                email: 'demo@example.com', 
+                username: 'testuser',
+                joinDate: new Date().toISOString()
+            }));
+            showStatus('✅ Demo authentication set up successfully!');
+        }
+
+        function createDemoData() {
+            try {
+                // Create communities
+                const communities = [
+                    {
+                        id: 'comm_1695686400000',
+                        name: 'javascript',
+                        displayName: 'JavaScript',
+                        description: 'A community for JavaScript developers to share knowledge, discuss best practices, and help each other.',
+                        category: 'technology',
+                        members: 1234,
+                        posts: 56,
+                        online: 89,
+                        created: new Date().toISOString(),
+                        creator: 'testuser',
+                        isPrivate: false
+                    },
+                    {
+                        id: 'comm_1695686402000',
+                        name: 'react',
+                        displayName: 'React',
+                        description: 'React community for sharing components, hooks, and best practices.',
+                        category: 'technology',
+                        members: 2345,
+                        posts: 123,
+                        online: 67,
+                        created: new Date().toISOString(),
+                        creator: 'reactdev',
+                        isPrivate: false
+                    },
+                    {
+                        id: 'comm_1695686403000',
+                        name: 'webdev',
+                        displayName: 'Web Development',
+                        description: 'General web development community covering frontend, backend, and full-stack development.',
+                        category: 'technology',
+                        members: 3456,
+                        posts: 234,
+                        online: 45,
+                        created: new Date().toISOString(),
+                        creator: 'webmaster',
+                        isPrivate: false
+                    },
+                    {
+                        id: 'comm_1695686404000',
+                        name: 'gaming',
+                        displayName: 'Gaming',
+                        description: 'Discuss your favorite games, share gameplay tips, and connect with fellow gamers.',
+                        category: 'gaming',
+                        members: 4567,
+                        posts: 345,
+                        online: 123,
+                        created: new Date().toISOString(),
+                        creator: 'gamer123',
+                        isPrivate: false
+                    }
+                ];
+
+                localStorage.setItem('communities', JSON.stringify(communities));
+
+                // Create posts
+                const posts = [
+                    {
+                        id: 'post_1695686401000',
+                        title: 'Welcome to the JavaScript Community!',
+                        content: 'This is the first post in our JavaScript community. Feel free to share your projects, ask questions, and help fellow developers!',
+                        community: 'javascript',
+                        author: 'testuser',
+                        score: 15,
+                        comments: 5,
+                        created: new Date().toISOString(),
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'post_1695686405000',
+                        title: 'React Hooks Best Practices',
+                        content: 'Here are some best practices when using React hooks in your applications. Always use the dependency array correctly and avoid infinite loops!',
+                        community: 'react',
+                        author: 'reactdev',
+                        score: 23,
+                        comments: 8,
+                        created: new Date(Date.now() - 3600000).toISOString(),
+                        createdAt: new Date(Date.now() - 3600000).toISOString()
+                    },
+                    {
+                        id: 'post_1695686406000',
+                        title: 'Modern CSS Grid Tutorial',
+                        content: 'Learn how to create responsive layouts using CSS Grid with this comprehensive tutorial. Grid is amazing for complex layouts!',
+                        community: 'webdev',
+                        author: 'webmaster',
+                        score: 18,
+                        comments: 12,
+                        created: new Date(Date.now() - 7200000).toISOString(),
+                        createdAt: new Date(Date.now() - 7200000).toISOString()
+                    },
+                    {
+                        id: 'post_1695686407000',
+                        title: 'Best Indie Games of 2024',
+                        content: 'Check out these amazing indie games that you should definitely play this year! From puzzle games to RPGs, there\'s something for everyone.',
+                        community: 'gaming',
+                        author: 'gamer123',
+                        score: 31,
+                        comments: 15,
+                        created: new Date(Date.now() - 10800000).toISOString(),
+                        createdAt: new Date(Date.now() - 10800000).toISOString()
+                    },
+                    {
+                        id: 'post_1695686408000',
+                        title: 'TypeScript vs JavaScript: When to Use Each',
+                        content: 'A comprehensive comparison of TypeScript and JavaScript. Learn when to use each one for your projects.',
+                        community: 'javascript',
+                        author: 'devexpert',
+                        score: 42,
+                        comments: 23,
+                        created: new Date(Date.now() - 14400000).toISOString(),
+                        createdAt: new Date(Date.now() - 14400000).toISOString()
+                    }
+                ];
+
+                localStorage.setItem('posts', JSON.stringify(posts));
+
+                // Set up joined communities
+                const joinedCommunities = ['javascript', 'react'];
+                localStorage.setItem('joinedCommunities', JSON.stringify(joinedCommunities));
+
+                // Set up user votes
+                const userVotes = {
+                    'post_1695686401000': 'upvote',
+                    'post_1695686405000': 'upvote',
+                    'post_1695686407000': 'downvote'
+                };
+                localStorage.setItem('userVotes', JSON.stringify(userVotes));
+
+                showStatus(`✅ Demo data created successfully!<br/>
+                    - ${communities.length} communities created<br/>
+                    - ${posts.length} posts created<br/>
+                    - ${joinedCommunities.length} communities joined<br/>
+                    - ${Object.keys(userVotes).length} votes recorded`);
+
+            } catch (error) {
+                showStatus('❌ Error creating demo data: ' + error.message, false);
+            }
+        }
+
+        function clearData() {
+            localStorage.clear();
+            showStatus('✅ All data cleared from localStorage');
+        }
+
+        function openPlatform() {
+            window.open('http://localhost:3007', '_blank');
+        }
+
+        function openTestPage() {
+            window.open('http://localhost:3007/test', '_blank');
+        }
+
+        // Check current status on load
+        window.onload = function() {
+            const authToken = localStorage.getItem('auth_token');
+            const communities = JSON.parse(localStorage.getItem('communities') || '[]');
+            const posts = JSON.parse(localStorage.getItem('posts') || '[]');
+            
+            if (authToken) {
+                showStatus(`Current Status:<br/>
+                    - ✅ Authenticated<br/>
+                    - ${communities.length} communities<br/>
+                    - ${posts.length} posts`, false);
+            } else {
+                showStatus('Not authenticated. Click "Setup Demo Auth" to start.', false);
+            }
+        };
+    </script>
+</body>
+</html>

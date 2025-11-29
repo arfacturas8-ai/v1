@@ -1,0 +1,201 @@
+config:
+  target: 'http://54.236.166.224'
+  phases:
+    # Warm-up phase
+    - duration: 30
+      arrivalRate: 1
+      name: "Warm-up"
+    # Ramp-up phase
+    - duration: 60
+      arrivalRate: 5
+      name: "Ramp-up"
+    # Load test phase
+    - duration: 120
+      arrivalRate: 15
+      name: "Load test"
+    # Spike test phase
+    - duration: 30
+      arrivalRate: 50
+      name: "Spike test"
+    # Soak test phase
+    - duration: 300
+      arrivalRate: 10
+      name: "Soak test"
+
+  environments:
+    production:
+      target: "http://54.236.166.224"
+    staging:
+      target: "http://54.236.166.224"
+    local:
+      target: "http://54.236.166.224"
+
+  variables:
+    testUserPrefix: "loadtest_user_"
+    testCommunityPrefix: "loadtest_community_"
+
+  plugins:
+    expect: {}
+    metrics-by-endpoint: {}
+    hls:
+      file: "./test-results/load-test-report.html"
+
+  processor: "./load-test-helpers.js"
+
+scenarios:
+  - name: "User Registration and Authentication"
+    weight: 15
+    flow:
+      - post:
+          url: "/api/auth/register"
+          json:
+            username: "{{ testUserPrefix }}{{ $uuid }}"
+            email: "{{ testUserPrefix }}{{ $uuid }}@example.com"
+            password: "TestPassword123!"
+          capture:
+            json: "$.token"
+            as: "authToken"
+            strict: false
+          expect:
+            statusCode: [201, 400] # 400 for duplicate users
+            
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "{{ testUserPrefix }}{{ $uuid }}@example.com"
+            password: "TestPassword123!"
+          capture:
+            json: "$.token"
+            as: "authToken"
+            strict: false
+          expect:
+            statusCode: [200, 401]
+
+  - name: "Browse Communities and Posts"
+    weight: 30
+    flow:
+      - get:
+          url: "/api/communities"
+          expect:
+            statusCode: 200
+            hasProperty: "communities"
+            
+      - get:
+          url: "/api/posts"
+          qs:
+            limit: 20
+            sort: "hot"
+          expect:
+            statusCode: 200
+            hasProperty: "posts"
+            
+      - get:
+          url: "/api/posts"
+          qs:
+            limit: 20
+            sort: "new"
+          expect:
+            statusCode: 200
+
+  - name: "Authenticated User Actions"
+    weight: 25
+    flow:
+      - function: "authenticateUser"
+      
+      - get:
+          url: "/api/auth/me"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            statusCode: 200
+            hasProperty: "user"
+            
+      - post:
+          url: "/api/communities"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            name: "{{ testCommunityPrefix }}{{ $uuid }}"
+            description: "Load test community"
+            type: "public"
+          capture:
+            json: "$.community.id"
+            as: "communityId"
+            strict: false
+          expect:
+            statusCode: [201, 400]
+            
+      - post:
+          url: "/api/posts"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            title: "Load Test Post {{ $randomString }}"
+            content: "This is a load test post created at {{ $timestamp }}"
+            type: "text"
+            community_id: "{{ communityId }}"
+          capture:
+            json: "$.post.id"
+            as: "postId"
+            strict: false
+          expect:
+            statusCode: [201, 400]
+
+  - name: "Post Interactions"
+    weight: 20
+    flow:
+      - function: "authenticateUser"
+      - function: "getRandomPost"
+      
+      - post:
+          url: "/api/posts/{{ postId }}/vote"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            type: "{{ voteType }}"
+          expect:
+            statusCode: [200, 400]
+            
+      - post:
+          url: "/api/comments"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            content: "Load test comment {{ $randomString }}"
+            post_id: "{{ postId }}"
+          expect:
+            statusCode: [201, 400]
+
+  - name: "Real-time Messaging"
+    weight: 10
+    flow:
+      - function: "authenticateUser"
+      - function: "getRandomCommunity"
+      
+      - get:
+          url: "/api/messages/{{ communityId }}"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          expect:
+            statusCode: [200, 404]
+            
+      - post:
+          url: "/api/messages"
+          headers:
+            Authorization: "Bearer {{ authToken }}"
+          json:
+            content: "Load test message {{ $randomString }}"
+            channel_id: "{{ communityId }}"
+            type: "text"
+          expect:
+            statusCode: [201, 400]
+
+# Performance thresholds
+expect:
+  - statusCode: 200
+  - contentType: json
+  - responseTime: 
+      p95: 2000 # 95% of requests should complete within 2 seconds
+      p99: 5000 # 99% of requests should complete within 5 seconds
+  - errorRate: 
+      max: 5 # Maximum 5% error rate

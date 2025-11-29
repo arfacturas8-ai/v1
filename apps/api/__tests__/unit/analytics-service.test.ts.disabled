@@ -1,0 +1,504 @@
+// @jest imports are available globally
+import { AnalyticsService, AnalyticsEvent, VoiceSessionMetrics, MessageMetrics } from '../../src/services/analytics';
+import { mockDb } from '../setup';
+
+// Mock BullMQ
+const mockQueue = {
+  add: jest.fn(),
+  close: jest.fn(),
+  obliterate: jest.fn(),
+  pause: jest.fn(),
+  resume: jest.fn(),
+  isPaused: jest.fn(),
+  getJobs: jest.fn(),
+  getJobCounts: jest.fn(),
+  clean: jest.fn()
+};
+
+describe('AnalyticsService', () => {
+  let analyticsService: AnalyticsService;
+
+  beforeEach(() => {
+    analyticsService = new AnalyticsService(mockQueue as any);
+    jest.clearAllMocks();
+    jest.clearAllTimers();
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
+
+  describe('trackEvent', () => {
+    test('should track basic analytics event', async () => {
+      const event: AnalyticsEvent = {
+        type: 'message_sent',
+        userId: '1',
+        serverId: 'server1',
+        channelId: 'channel1',
+        metadata: { messageLength: 50 }
+      };
+
+      await analyticsService.trackEvent(event);
+
+      expect(mockQueue.add).toHaveBeenCalledWith('analytics-event', event);
+    });
+
+    test('should add timestamp if not provided', async () => {
+      const event: AnalyticsEvent = {
+        type: 'user_joined',
+        userId: '1',
+        serverId: 'server1'
+      };
+
+      const beforeTime = Date.now();
+      await analyticsService.trackEvent(event);
+      const afterTime = Date.now();
+
+      expect(mockQueue.add).toHaveBeenCalledWith(
+        'analytics-event',
+        expect.objectContaining({
+          ...event,
+          timestamp: expect.any(Date)
+        })
+      );
+
+      const calledEvent = (mockQueue.add as jest.Mock).mock.calls[0][1];
+      const timestamp = calledEvent.timestamp.getTime();
+      expect(timestamp).toBeGreaterThanOrEqual(beforeTime);
+      expect(timestamp).toBeLessThanOrEqual(afterTime);
+    });
+
+    test('should preserve provided timestamp', async () => {
+      const customTimestamp = new Date('2023-01-01T00:00:00Z');
+      const event: AnalyticsEvent = {
+        type: 'voice_joined',
+        userId: '1',
+        timestamp: customTimestamp
+      };
+
+      await analyticsService.trackEvent(event);
+
+      expect(mockQueue.add).toHaveBeenCalledWith('analytics-event', {
+        ...event,
+        timestamp: customTimestamp
+      });
+    });
+
+    test('should handle queue errors gracefully', async () => {
+      const error = new Error('Queue error');
+      mockQueue.add.mockRejectedValueOnce(error);
+
+      const event: AnalyticsEvent = {
+        type: 'message_sent',
+        userId: '1'
+      };
+
+      // Should not throw
+      await expect(analyticsService.trackEvent(event)).resolves.not.toThrow();
+    });
+  });
+
+  describe('trackVoiceSession', () => {
+    test('should track voice session metrics', async () => {
+      const metrics: VoiceSessionMetrics = {
+        userId: '1',
+        serverId: 'server1',
+        channelId: 'channel1',
+        sessionDuration: 300, // 5 minutes
+        timestamp: new Date()
+      };
+
+      await analyticsService.trackVoiceSession(metrics);
+
+      expect(mockQueue.add).toHaveBeenCalledWith('voice-session-metrics', metrics);
+    });
+
+    test('should validate session duration', async () => {
+      const metrics: VoiceSessionMetrics = {
+        userId: '1',
+        serverId: 'server1',
+        channelId: 'channel1',
+        sessionDuration: -10, // Invalid negative duration
+        timestamp: new Date()
+      };
+
+      await expect(analyticsService.trackVoiceSession(metrics))
+        .rejects.toThrow('Session duration must be positive');
+    });
+
+    test('should handle very long sessions', async () => {
+      const metrics: VoiceSessionMetrics = {
+        userId: '1',
+        serverId: 'server1',
+        channelId: 'channel1',
+        sessionDuration: 86400, // 24 hours
+        timestamp: new Date()
+      };
+
+      await analyticsService.trackVoiceSession(metrics);
+
+      expect(mockQueue.add).toHaveBeenCalledWith('voice-session-metrics', metrics);
+    });
+  });
+
+  describe('trackMessageMetrics', () => {
+    test('should track message metrics', async () => {
+      const metrics: MessageMetrics = {
+        serverId: 'server1',
+        channelId: 'channel1',
+        userId: '1',
+        messageCount: 5,
+        characterCount: 250,
+        wordCount: 45,
+        attachmentCount: 2,
+        mentionCount: 1,
+        reactionCount: 3,
+        timestamp: new Date()
+      };
+
+      await analyticsService.trackEvent({
+        type: 'message_sent',
+        userId: 'user1',
+        channelId: 'channel1',
+        metadata: metrics
+      });
+
+      expect(mockQueue.add).toHaveBeenCalledWith('message-metrics', metrics);
+    });
+
+    test('should validate message metrics', async () => {
+      const invalidMetrics: MessageMetrics = {
+        channelId: 'channel1',
+        userId: '1',
+        messageCount: -1, // Invalid negative count
+        characterCount: 250,
+        wordCount: 45,
+        attachmentCount: 2,
+        mentionCount: 1,
+        reactionCount: 3,
+        timestamp: new Date()
+      };
+
+      await expect(analyticsService.trackEvent({
+        type: 'message_sent',
+        metadata: invalidMetrics
+      })).rejects.toThrow();
+    });
+  });
+
+  describe('getServerAnalytics', () => {
+    test('should retrieve server analytics', async () => {
+      const mockAnalytics = {
+        totalMessages: 1000,
+        totalUsers: 50,
+        activeUsers24h: 25,
+        averageSessionDuration: 1800,
+        peakConcurrentUsers: 40,
+        topChannels: [
+          { channelId: 'channel1', messageCount: 500 },
+          { channelId: 'channel2', messageCount: 300 }
+        ]
+      };
+
+      mockDb.analytics.findMany.mockResolvedValue([
+        { serverId: 'server1', ...mockAnalytics }
+      ]);
+
+      const result = await analyticsService.getServerAnalytics('server1', 7);
+
+      expect(result).toEqual(mockAnalytics);
+      expect(mockDb.analytics.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            serverId: 'server1'
+          })
+        })
+      );
+    });
+
+    test('should handle different time periods', async () => {
+      mockDb.analytics.findMany.mockResolvedValue([]);
+
+      await analyticsService.getServerAnalytics('server1', 1);
+      await analyticsService.getServerAnalytics('server1', 30);
+
+      expect(mockDb.analytics.findMany).toHaveBeenCalledTimes(2);
+    });
+
+    test('should return default values for no data', async () => {
+      mockDb.analytics.findMany.mockResolvedValue([]);
+
+      const result = await analyticsService.getServerAnalytics('server1', 7);
+
+      expect(result).toEqual({
+        totalMessages: 0,
+        totalUsers: 0,
+        activeUsers24h: 0,
+        averageSessionDuration: 0,
+        peakConcurrentUsers: 0,
+        topChannels: []
+      });
+    });
+  });
+
+  describe('getUserAnalytics', () => {
+    test('should retrieve user analytics', async () => {
+      const mockUserAnalytics = {
+        totalMessages: 200,
+        totalVoiceTime: 3600,
+        favoriteChannels: [
+          { channelId: 'channel1', messageCount: 150 }
+        ],
+        averageMessageLength: 75,
+        reactionsSent: 50,
+        reactionsReceived: 80
+      };
+
+      mockDb.userAnalytics.findMany.mockResolvedValue([
+        { userId: '1', ...mockUserAnalytics }
+      ]);
+
+      const result = await analyticsService.getUserAnalytics('1', '30d');
+
+      expect(result).toEqual(mockUserAnalytics);
+      expect(mockDb.userAnalytics.findMany).toHaveBeenCalledWith(
+        expect.objectContaining({
+          where: expect.objectContaining({
+            userId: '1'
+          })
+        })
+      );
+    });
+
+    test('should handle user with no activity', async () => {
+      mockDb.userAnalytics.findMany.mockResolvedValue([]);
+
+      const result = await analyticsService.getUserAnalytics('1', '7d');
+
+      expect(result).toEqual({
+        totalMessages: 0,
+        totalVoiceTime: 0,
+        favoriteChannels: [],
+        averageMessageLength: 0,
+        reactionsSent: 0,
+        reactionsReceived: 0
+      });
+    });
+  });
+
+  describe('generateInsights', () => {
+    test('should generate server insights', async () => {
+      mockDb.analytics.aggregate.mockResolvedValue([
+        { _sum: { messageCount: 1000, voiceTime: 7200 } }
+      ]);
+
+      const insights = await analyticsService.generateInsights('server1', 'server');
+
+      expect(insights).toEqual(
+        expect.objectContaining({
+          totalActivity: expect.any(Number),
+          trends: expect.any(Array),
+          recommendations: expect.any(Array)
+        })
+      );
+    });
+
+    test('should generate user insights', async () => {
+      mockDb.userAnalytics.aggregate.mockResolvedValue([
+        { _avg: { sessionDuration: 1200 } }
+      ]);
+
+      const insights = await analyticsService.generateInsights('1', 'user');
+
+      expect(insights).toEqual(
+        expect.objectContaining({
+          activityLevel: expect.any(String),
+          patterns: expect.any(Array),
+          suggestions: expect.any(Array)
+        })
+      );
+    });
+
+    test('should handle invalid insight type', async () => {
+      await expect(
+        analyticsService.generateInsights('1', 'invalid' as any)
+      ).rejects.toThrow('Invalid insight type');
+    });
+  });
+
+  describe('exportAnalytics', () => {
+    test('should export analytics data', async () => {
+      const mockData = [
+        { timestamp: new Date(), type: 'message_sent', count: 10 },
+        { timestamp: new Date(), type: 'user_joined', count: 2 }
+      ];
+
+      mockDb.analytics.findMany.mockResolvedValue(mockData);
+
+      const result = await analyticsService.exportAnalytics('server1', {
+        startDate: new Date('2023-01-01'),
+        endDate: new Date('2023-01-31'),
+        format: 'json'
+      });
+
+      expect(result).toEqual({
+        data: mockData,
+        format: 'json',
+        exportedAt: expect.any(Date),
+        totalRecords: mockData.length
+      });
+    });
+
+    test('should support CSV format', async () => {
+      mockDb.analytics.findMany.mockResolvedValue([]);
+
+      const result = await analyticsService.exportAnalytics('server1', {
+        startDate: new Date('2023-01-01'),
+        endDate: new Date('2023-01-31'),
+        format: 'csv'
+      });
+
+      expect(result.format).toBe('csv');
+      expect(typeof result.data).toBe('string');
+    });
+  });
+
+  describe('Real-time Analytics', () => {
+    test('should batch events for efficient processing', async () => {
+      const events: AnalyticsEvent[] = [
+        { type: 'message_sent', userId: '1' },
+        { type: 'message_sent', userId: '2' },
+        { type: 'user_joined', userId: '3' }
+      ];
+
+      for (const event of events) {
+        await analyticsService.trackEvent(event);
+      }
+
+      // Fast-forward time to trigger batch processing
+      jest.advanceTimersByTime(30000);
+
+      expect(mockQueue.add).toHaveBeenCalledTimes(events.length);
+    });
+
+    test('should handle high-volume event streams', async () => {
+      const eventCount = 1000;
+      const promises: Promise<void>[] = [];
+
+      for (let i = 0; i < eventCount; i++) {
+        promises.push(analyticsService.trackEvent({
+          type: 'message_sent',
+          userId: i.toString(),
+          timestamp: new Date()
+        }));
+      }
+
+      await Promise.all(promises);
+
+      expect(mockQueue.add).toHaveBeenCalledTimes(eventCount);
+    });
+  });
+
+  describe('Error Handling', () => {
+    test('should handle database connection errors', async () => {
+      const dbError = new Error('Database connection failed');
+      mockDb.analytics.findMany.mockRejectedValue(dbError);
+
+      await expect(
+        analyticsService.getServerAnalytics('server1', '7d')
+      ).rejects.toThrow('Database connection failed');
+    });
+
+    test('should recover from temporary queue failures', async () => {
+      // First call fails
+      mockQueue.add.mockRejectedValueOnce(new Error('Queue temporarily unavailable'));
+      // Second call succeeds
+      mockQueue.add.mockResolvedValueOnce({ id: '123' });
+
+      const event: AnalyticsEvent = {
+        type: 'message_sent',
+        userId: '1'
+      };
+
+      // Should not throw due to error handling
+      await expect(analyticsService.trackEvent(event)).resolves.not.toThrow();
+    });
+
+    test('should validate required fields', async () => {
+      const invalidEvent = {
+        type: 'invalid_type' as any,
+        userId: '1'
+      };
+
+      await expect(
+        analyticsService.trackEvent(invalidEvent)
+      ).rejects.toThrow('Invalid event type');
+    });
+  });
+
+  describe('Memory Management', () => {
+    test('should properly clean up resources on destroy', () => {
+      const clearIntervalSpy = jest.spyOn(global, 'clearInterval');
+
+      analyticsService.destroy();
+
+      expect(clearIntervalSpy).toHaveBeenCalled();
+      expect(mockQueue.close).toHaveBeenCalled();
+    });
+
+    test('should prevent memory leaks from event cache', async () => {
+      // Add many events to potentially fill cache
+      for (let i = 0; i < 10000; i++) {
+        await analyticsService.trackEvent({
+          type: 'message_sent',
+          userId: i.toString()
+        });
+      }
+
+      // Cache should be managed and not grow infinitely
+      const cacheSize = analyticsService.getCacheSize();
+      expect(cacheSize).toBeLessThan(1000); // Reasonable cache limit
+    });
+  });
+
+  describe('Performance Metrics', () => {
+    test('should track processing performance', async () => {
+      const startTime = Date.now();
+      
+      await analyticsService.trackEvent({
+        type: 'message_sent',
+        userId: '1'
+      });
+
+      const endTime = Date.now();
+      const processingTime = endTime - startTime;
+
+      // Event tracking should be fast (under 10ms)
+      expect(processingTime).toBeLessThan(10);
+    });
+
+    test('should handle concurrent requests efficiently', async () => {
+      const concurrentRequests = 100;
+      const promises: Promise<void>[] = [];
+
+      const startTime = Date.now();
+
+      for (let i = 0; i < concurrentRequests; i++) {
+        promises.push(analyticsService.trackEvent({
+          type: 'message_sent',
+          userId: i.toString()
+        }));
+      }
+
+      await Promise.all(promises);
+
+      const endTime = Date.now();
+      const totalTime = endTime - startTime;
+
+      // Should handle 100 concurrent requests in reasonable time
+      expect(totalTime).toBeLessThan(1000); // Under 1 second
+    });
+  });
+});

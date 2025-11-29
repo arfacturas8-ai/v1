@@ -1,0 +1,1172 @@
+{
+  "metadata": {
+    "timestamp": "2025-09-30T15:40:24.533Z",
+    "totalEndpoints": 51,
+    "testResults": {
+      "passed": 6,
+      "failed": 46,
+      "skipped": 0
+    },
+    "successRate": 11.76470588235294
+  },
+  "authentication": {
+    "registerFlow": {
+      "success": false,
+      "status": 400,
+      "error": "Request failed with status code 400",
+      "data": {
+        "success": false,
+        "error": "Request validation failed",
+        "code": "REQUEST_VALIDATION_ERROR",
+        "details": {
+          "validation": {
+            "unknown": [
+              "must have required property 'displayName'"
+            ]
+          },
+          "validationContext": "body",
+          "requestId": "2d3a268a-4460-4583-8062-82c59d32df54",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.561Z",
+        "path": "/api/v1/auth/register",
+        "method": "POST",
+        "statusCode": 400
+      },
+      "responseTime": 0
+    },
+    "loginFlow": null,
+    "jwtHandling": null,
+    "twoFactorAuth": {
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "245afe97-6def-4600-a724-686db9b56b23",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.572Z",
+        "path": "/api/v1/2fa/setup",
+        "method": "POST",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    }
+  },
+  "endpoints": {
+    "User Registration": {
+      "method": "POST",
+      "endpoint": "/api/v1/auth/register",
+      "requiresAuth": false,
+      "success": false,
+      "status": 400,
+      "error": "Request failed with status code 400",
+      "data": {
+        "success": false,
+        "error": "Request validation failed",
+        "code": "REQUEST_VALIDATION_ERROR",
+        "details": {
+          "validation": {
+            "unknown": [
+              "must have required property 'displayName'"
+            ]
+          },
+          "validationContext": "body",
+          "requestId": "2d3a268a-4460-4583-8062-82c59d32df54",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.561Z",
+        "path": "/api/v1/auth/register",
+        "method": "POST",
+        "statusCode": 400
+      },
+      "responseTime": 0
+    },
+    "2FA Setup": {
+      "method": "POST",
+      "endpoint": "/api/v1/2fa/setup",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "245afe97-6def-4600-a724-686db9b56b23",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.572Z",
+        "path": "/api/v1/2fa/setup",
+        "method": "POST",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "Health Check": {
+      "method": "GET",
+      "endpoint": "/health",
+      "requiresAuth": false,
+      "success": true,
+      "status": 200,
+      "data": {
+        "status": "partial",
+        "timestamp": "2025-09-30T15:40:24.580Z",
+        "checks": {
+          "api": "healthy",
+          "database": "healthy",
+          "redis": "healthy",
+          "elasticsearch": "healthy",
+          "minio": "disabled",
+          "realtime": "degraded"
+        }
+      },
+      "responseTime": 6,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "95",
+        "x-ratelimit-reset": "25",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "192",
+        "date": "Tue, 30 Sep 2025 15:40:24 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "API Documentation": {
+      "method": "GET",
+      "endpoint": "/documentation",
+      "requiresAuth": false,
+      "success": true,
+      "status": 200,
+      "data": "<!-- HTML for static distribution bundle build -->\n      <!DOCTYPE html>\n      <html lang=\"en\">\n      <head>\n      <meta charset=\"UTF-8\">\n      <title>Swagger UI</title>\n      <link rel=\"stylesheet\" type=\"text/css\" href=\"/documentation/static/swagger-ui.css\" />\n      <link rel=\"stylesheet\" type=\"text/css\" href=\"/documentation/static/index.css\" />\n      \n      \n      <link rel=\"icon\" type=\"image/png\" href=\"/documentation/static/favicon-32x32.png\" sizes=\"32x32\" />\n      <link rel=\"icon\" type=\"image/png\" href=\"/documentation/static/favicon-16x16.png\" sizes=\"16x16\" />\n      \n      </head>\n\n      <body>\n      <div id=\"swagger-ui\"></div>\n      <script src=\"/documentation/static/swagger-ui-bundle.js\" charset=\"UTF-8\"> </script>\n      <script src=\"/documentation/static/swagger-ui-standalone-preset.js\" charset=\"UTF-8\"> </script>\n      <script src=\"/documentation/static/swagger-initializer.js\" charset=\"UTF-8\"> </script>\n      \n      </body>\n      </html>\n      ",
+      "responseTime": 3,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "content-type": "text/html; charset=utf-8",
+        "content-length": "964",
+        "date": "Tue, 30 Sep 2025 15:40:24 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "API Metrics": {
+      "method": "GET",
+      "endpoint": "/metrics",
+      "requiresAuth": false,
+      "success": true,
+      "status": 200,
+      "data": "# HELP http_requests_total Total number of HTTP requests\n# TYPE http_requests_total counter\nhttp_requests_total{method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\n\n# HELP http_request_duration_seconds Duration of HTTP requests in seconds\n# TYPE http_request_duration_seconds histogram\nhttp_request_duration_seconds_bucket{le=\"0.005\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3131\nhttp_request_duration_seconds_bucket{le=\"0.01\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3406\nhttp_request_duration_seconds_bucket{le=\"0.025\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3450\nhttp_request_duration_seconds_bucket{le=\"0.05\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"0.1\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"0.25\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"0.5\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"1\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"2.5\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"5\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"10\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_bucket{le=\"+Inf\",method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\nhttp_request_duration_seconds_sum{method=\"GET\",route=\"/metrics\",status_code=\"200\"} 13.943579819972419\nhttp_request_duration_seconds_count{method=\"GET\",route=\"/metrics\",status_code=\"200\"} 3456\n\n# HELP http_request_size_bytes Size of HTTP requests in bytes\n# TYPE http_request_size_bytes histogram\n\n# HELP http_response_size_bytes Size of HTTP responses in bytes\n# TYPE http_response_size_bytes histogram\n\n# HELP cryb_user_registrations_total Total number of user registrations\n# TYPE cryb_user_registrations_total counter\n\n# HELP cryb_messages_total Total number of messages sent\n# TYPE cryb_messages_total counter\n\n# HELP cryb_messages_failed_total Total number of failed messages\n# TYPE cryb_messages_failed_total counter\n\n# HELP cryb_voice_calls_total Total number of voice calls started\n# TYPE cryb_voice_calls_total counter\n\n# HELP cryb_voice_call_duration_seconds Duration of voice calls in seconds\n# TYPE cryb_voice_call_duration_seconds histogram\n\n# HELP cryb_voice_calls_active Number of active voice calls\n# TYPE cryb_voice_calls_active gauge\n\n# HELP cryb_voice_calls_poor_quality_total Total number of poor quality voice calls\n# TYPE cryb_voice_calls_poor_quality_total counter\n\n# HELP socketio_connected_clients Number of connected Socket.IO clients\n# TYPE socketio_connected_clients gauge\nsocketio_connected_clients 0\n\n# HELP socketio_connection_attempts_total Total number of Socket.IO connection attempts\n# TYPE socketio_connection_attempts_total counter\nsocketio_connection_attempts_total 0\n\n# HELP socketio_connection_errors_total Total number of Socket.IO connection errors\n# TYPE socketio_connection_errors_total counter\n\n# HELP socketio_messages_total Total number of Socket.IO messages\n# TYPE socketio_messages_total counter\n\n# HELP socketio_message_duration_seconds Duration of Socket.IO message processing in seconds\n# TYPE socketio_message_duration_seconds histogram\n\n# HELP socketio_message_queue_size Number of messages in Socket.IO queue\n# TYPE socketio_message_queue_size gauge\nsocketio_message_queue_size 0\n\n# HELP cryb_auth_attempts_total Total number of authentication attempts\n# TYPE cryb_auth_attempts_total counter\n\n# HELP cryb_auth_failures_total Total number of authentication failures\n# TYPE cryb_auth_failures_total counter\n\n# HELP cryb_db_connections_active Number of active database connections\n# TYPE cryb_db_connections_active gauge\ncryb_db_connections_active 0\n\n# HELP cryb_db_queries_total Total number of database queries\n# TYPE cryb_db_queries_total counter\n\n# HELP cryb_db_query_duration_seconds Duration of database queries in seconds\n# TYPE cryb_db_query_duration_seconds histogram\n\n# HELP cryb_db_slow_queries_total Total number of slow database queries\n# TYPE cryb_db_slow_queries_total counter\n\n# HELP cryb_db_errors_total Total number of database errors\n# TYPE cryb_db_errors_total counter\n\n# HELP cryb_errors_total Total number of application errors\n# TYPE cryb_errors_total counter\n\n# HELP cryb_crashes_total Total number of application crashes\n# TYPE cryb_crashes_total counter\n\n# HELP cryb_uploads_total Total number of file uploads\n# TYPE cryb_uploads_total counter\n\n# HELP cryb_upload_size_bytes Size of uploaded files in bytes\n# TYPE cryb_upload_size_bytes histogram\n\n# HELP cryb_upload_errors_total Total number of upload errors\n# TYPE cryb_upload_errors_total counter\n\n# HELP cryb_cache_hits_total Total number of cache hits\n# TYPE cryb_cache_hits_total counter\n\n# HELP cryb_cache_misses_total Total number of cache misses\n# TYPE cryb_cache_misses_total counter\n\n# HELP cryb_cache_size_bytes Current cache size in bytes\n# TYPE cryb_cache_size_bytes gauge\n\n# HELP cryb_search_queries_total Total number of search queries\n# TYPE cryb_search_queries_total counter\n\n# HELP cryb_search_duration_seconds Duration of search queries in seconds\n# TYPE cryb_search_duration_seconds histogram\n\n# HELP cryb_search_errors_total Total number of search errors\n# TYPE cryb_search_errors_total counter\n\n# HELP cryb_notifications_sent_total Total number of notifications sent\n# TYPE cryb_notifications_sent_total counter\n\n# HELP cryb_notifications_failed_total Total number of failed notifications\n# TYPE cryb_notifications_failed_total counter\n\n# HELP cryb_nodejs_process_cpu_user_seconds_total Total user CPU time spent in seconds.\n# TYPE cryb_nodejs_process_cpu_user_seconds_total counter\ncryb_nodejs_process_cpu_user_seconds_total 356.52177099999943\n\n# HELP cryb_nodejs_process_cpu_system_seconds_total Total system CPU time spent in seconds.\n# TYPE cryb_nodejs_process_cpu_system_seconds_total counter\ncryb_nodejs_process_cpu_system_seconds_total 107.40291399999991\n\n# HELP cryb_nodejs_process_cpu_seconds_total Total user and system CPU time spent in seconds.\n# TYPE cryb_nodejs_process_cpu_seconds_total counter\ncryb_nodejs_process_cpu_seconds_total 463.9246850000004\n\n# HELP cryb_nodejs_process_start_time_seconds Start time of the process since unix epoch in seconds.\n# TYPE cryb_nodejs_process_start_time_seconds gauge\ncryb_nodejs_process_start_time_seconds 1759212254\n\n# HELP cryb_nodejs_process_resident_memory_bytes Resident memory size in bytes.\n# TYPE cryb_nodejs_process_resident_memory_bytes gauge\ncryb_nodejs_process_resident_memory_bytes 471523328\n\n# HELP cryb_nodejs_process_virtual_memory_bytes Virtual memory size in bytes.\n# TYPE cryb_nodejs_process_virtual_memory_bytes gauge\ncryb_nodejs_process_virtual_memory_bytes 101238153216\n\n# HELP cryb_nodejs_process_heap_bytes Process heap size in bytes.\n# TYPE cryb_nodejs_process_heap_bytes gauge\ncryb_nodejs_process_heap_bytes 506138624\n\n# HELP cryb_nodejs_process_open_fds Number of open file descriptors.\n# TYPE cryb_nodejs_process_open_fds gauge\ncryb_nodejs_process_open_fds 93\n\n# HELP cryb_nodejs_process_max_fds Maximum number of open file descriptors.\n# TYPE cryb_nodejs_process_max_fds gauge\ncryb_nodejs_process_max_fds 1048576\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_seconds Lag of event loop in seconds.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_seconds 0.00231892\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_min_seconds The minimum recorded event loop delay.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_min_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_min_seconds 0.004235264\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_max_seconds The maximum recorded event loop delay.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_max_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_max_seconds 0.007114751\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_mean_seconds The mean of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_mean_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_mean_seconds 0.005194163547511312\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_stddev_seconds The standard deviation of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_stddev_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_stddev_seconds 0.00030107774836436724\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_p50_seconds The 50th percentile of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_p50_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_p50_seconds 0.005111807\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_p90_seconds The 90th percentile of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_p90_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_p90_seconds 0.005218303\n\n# HELP cryb_nodejs_nodejs_eventloop_lag_p99_seconds The 99th percentile of the recorded event loop delays.\n# TYPE cryb_nodejs_nodejs_eventloop_lag_p99_seconds gauge\ncryb_nodejs_nodejs_eventloop_lag_p99_seconds 0.006365183\n\n# HELP cryb_nodejs_nodejs_active_resources Number of active resources that are currently keeping the event loop alive, grouped by async resource type.\n# TYPE cryb_nodejs_nodejs_active_resources gauge\ncryb_nodejs_nodejs_active_resources{type=\"TCPSocketWrap\"} 22\ncryb_nodejs_nodejs_active_resources{type=\"TCPServerWrap\"} 1\ncryb_nodejs_nodejs_active_resources{type=\"Timeout\"} 44\ncryb_nodejs_nodejs_active_resources{type=\"Immediate\"} 2\n\n# HELP cryb_nodejs_nodejs_active_resources_total Total number of active resources.\n# TYPE cryb_nodejs_nodejs_active_resources_total gauge\ncryb_nodejs_nodejs_active_resources_total 69\n\n# HELP cryb_nodejs_nodejs_active_handles Number of active libuv handles grouped by handle type. Every handle type is C++ class name.\n# TYPE cryb_nodejs_nodejs_active_handles gauge\ncryb_nodejs_nodejs_active_handles{type=\"Socket\"} 22\ncryb_nodejs_nodejs_active_handles{type=\"Server\"} 1\n\n# HELP cryb_nodejs_nodejs_active_handles_total Total number of active handles.\n# TYPE cryb_nodejs_nodejs_active_handles_total gauge\ncryb_nodejs_nodejs_active_handles_total 23\n\n# HELP cryb_nodejs_nodejs_active_requests Number of active libuv requests grouped by request type. Every request type is C++ class name.\n# TYPE cryb_nodejs_nodejs_active_requests gauge\n\n# HELP cryb_nodejs_nodejs_active_requests_total Total number of active requests.\n# TYPE cryb_nodejs_nodejs_active_requests_total gauge\ncryb_nodejs_nodejs_active_requests_total 0\n\n# HELP cryb_nodejs_nodejs_heap_size_total_bytes Process heap size from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_size_total_bytes gauge\ncryb_nodejs_nodejs_heap_size_total_bytes 187699200\n\n# HELP cryb_nodejs_nodejs_heap_size_used_bytes Process heap size used from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_size_used_bytes gauge\ncryb_nodejs_nodejs_heap_size_used_bytes 177452376\n\n# HELP cryb_nodejs_nodejs_external_memory_bytes Node.js external memory size in bytes.\n# TYPE cryb_nodejs_nodejs_external_memory_bytes gauge\ncryb_nodejs_nodejs_external_memory_bytes 30946837\n\n# HELP cryb_nodejs_nodejs_heap_space_size_total_bytes Process heap space size total from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_space_size_total_bytes gauge\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"read_only\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"new\"} 2097152\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"old\"} 130859008\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"code\"} 7077888\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"shared\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"trusted\"} 3710976\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"new_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"large_object\"} 43798528\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"code_large_object\"} 155648\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"shared_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_total_bytes{space=\"trusted_large_object\"} 0\n\n# HELP cryb_nodejs_nodejs_heap_space_size_used_bytes Process heap space size used from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_space_size_used_bytes gauge\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"read_only\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"new\"} 589096\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"old\"} 124179288\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"code\"} 5940864\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"shared\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"trusted\"} 3368288\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"new_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"large_object\"} 43240048\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"code_large_object\"} 138432\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"shared_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_used_bytes{space=\"trusted_large_object\"} 0\n\n# HELP cryb_nodejs_nodejs_heap_space_size_available_bytes Process heap space size available from Node.js in bytes.\n# TYPE cryb_nodejs_nodejs_heap_space_size_available_bytes gauge\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"read_only\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"new\"} 441816\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"old\"} 4112144\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"code\"} 693792\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"shared\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"trusted\"} 274320\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"new_large_object\"} 1048576\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"code_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"shared_large_object\"} 0\ncryb_nodejs_nodejs_heap_space_size_available_bytes{space=\"trusted_large_object\"} 0\n\n# HELP cryb_nodejs_nodejs_version_info Node.js version info.\n# TYPE cryb_nodejs_nodejs_version_info gauge\ncryb_nodejs_nodejs_version_info{version=\"v22.18.0\",major=\"22\",minor=\"18\",patch=\"0\"} 1\n\n# HELP cryb_nodejs_nodejs_gc_duration_seconds Garbage collection duration by kind, one of major, minor, incremental or weakcb.\n# TYPE cryb_nodejs_nodejs_gc_duration_seconds histogram\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"minor\"} 2586\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"minor\"} 3484\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"minor\"} 3492\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"minor\"} 3492\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"minor\"} 3492\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"minor\"} 3492\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"minor\"} 3492\ncryb_nodejs_nodejs_gc_duration_seconds_sum{kind=\"minor\"} 3.629953128933906\ncryb_nodejs_nodejs_gc_duration_seconds_count{kind=\"minor\"} 3492\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"major\"} 0\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"major\"} 0\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_sum{kind=\"major\"} 0.5272435508966445\ncryb_nodejs_nodejs_gc_duration_seconds_count{kind=\"major\"} 26\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.001\",kind=\"incremental\"} 14\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.01\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"0.1\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"1\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"2\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"5\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_bucket{le=\"+Inf\",kind=\"incremental\"} 25\ncryb_nodejs_nodejs_gc_duration_seconds_sum{kind=\"incremental\"} 0.037058788299560545\ncryb_nodejs_nodejs_gc_duration_seconds_count{kind=\"incremental\"} 25\n",
+      "responseTime": 9,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin, accept-encoding",
+        "access-control-allow-credentials": "true",
+        "content-type": "text/plain",
+        "date": "Tue, 30 Sep 2025 15:40:24 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72",
+        "transfer-encoding": "chunked"
+      }
+    },
+    "Get Current User": {
+      "method": "GET",
+      "endpoint": "/api/v1/users/me",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "d278f8f9-7db3-4a79-aaeb-95676b3938b9",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.595Z",
+        "path": "/api/v1/users/me",
+        "method": "GET",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "Update User Profile": {
+      "method": "PATCH",
+      "endpoint": "/api/v1/users/me",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "02e28120-a4c8-4604-9b58-1a2bb69e6e2f",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.598Z",
+        "path": "/api/v1/users/me",
+        "method": "PATCH",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "Get User Preferences": {
+      "method": "GET",
+      "endpoint": "/api/v1/users/me/preferences",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/users/me/preferences not found"
+      },
+      "responseTime": 0
+    },
+    "Update User Preferences": {
+      "method": "PATCH",
+      "endpoint": "/api/v1/users/me/preferences",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route PATCH /api/v1/users/me/preferences not found"
+      },
+      "responseTime": 0
+    },
+    "Create Community": {
+      "method": "POST",
+      "endpoint": "/api/v1/communities",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "5b4c5598-d736-4aba-b348-0a99fa8ec1b3",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.609Z",
+        "path": "/api/v1/communities",
+        "method": "POST",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "List Communities": {
+      "method": "GET",
+      "endpoint": "/api/v1/communities",
+      "requiresAuth": false,
+      "success": true,
+      "status": 200,
+      "data": {
+        "success": true,
+        "data": {
+          "items": [
+            {
+              "id": "cmfxis2f90001l5vto4z4k1qs",
+              "name": "testcommunity",
+              "description": "A test community",
+              "banner": null,
+              "createdAt": "2025-09-24T05:04:31.558Z",
+              "displayName": "Test Community",
+              "icon": null,
+              "isNsfw": false,
+              "isPublic": true,
+              "memberCount": 1,
+              "rules": null,
+              "updatedAt": "2025-09-24T05:04:31.558Z",
+              "_count": {
+                "members": 1,
+                "posts": 0
+              }
+            },
+            {
+              "id": "cmfxix0qc0006l5vtvm007yqj",
+              "name": "testcommunity2",
+              "description": "A test community for CRUD testing",
+              "banner": null,
+              "createdAt": "2025-09-24T05:08:22.644Z",
+              "displayName": "Test Community 2",
+              "icon": null,
+              "isNsfw": false,
+              "isPublic": true,
+              "memberCount": 1,
+              "rules": null,
+              "updatedAt": "2025-09-24T05:08:22.644Z",
+              "_count": {
+                "members": 1,
+                "posts": 1
+              }
+            }
+          ],
+          "total": 2,
+          "page": 1,
+          "pageSize": 20,
+          "hasMore": false
+        }
+      },
+      "responseTime": 35,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "93",
+        "x-ratelimit-reset": "25",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "742",
+        "date": "Tue, 30 Sep 2025 15:40:24 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "Search Communities": {
+      "method": "GET",
+      "endpoint": "/api/v1/search/communities?q=test",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/search/communities?q=test not found"
+      },
+      "responseTime": 0
+    },
+    "Create Post": {
+      "method": "POST",
+      "endpoint": "/api/v1/posts",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "37672d00-7977-4448-828f-e0b367d8ff99",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.654Z",
+        "path": "/api/v1/posts",
+        "method": "POST",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "List Posts": {
+      "method": "GET",
+      "endpoint": "/api/v1/posts",
+      "requiresAuth": false,
+      "success": true,
+      "status": 200,
+      "data": {
+        "success": true,
+        "data": {
+          "items": [
+            {
+              "id": "cmfxix0rp000cl5vtoi7v9e7z",
+              "title": "Test Post",
+              "content": "This is a test post content",
+              "commentCount": 2,
+              "communityId": "cmfxix0qc0006l5vtvm007yqj",
+              "createdAt": "2025-09-24T05:08:22.693Z",
+              "editedAt": null,
+              "flair": null,
+              "isLocked": false,
+              "isPinned": false,
+              "isRemoved": false,
+              "nsfw": false,
+              "score": 0,
+              "thumbnail": null,
+              "updatedAt": "2025-09-28T21:28:40.855Z",
+              "url": null,
+              "userId": "cmfxiipvt0000bfh9npu2hfbw",
+              "viewCount": 1,
+              "user": {
+                "id": "cmfxiipvt0000bfh9npu2hfbw",
+                "username": "testuser",
+                "displayName": "Test User",
+                "avatar": null
+              },
+              "community": {
+                "id": "cmfxix0qc0006l5vtvm007yqj",
+                "name": "testcommunity2",
+                "displayName": "Test Community 2",
+                "icon": null
+              },
+              "_count": {
+                "comments": 2,
+                "votes": 0,
+                "awards": 0
+              }
+            }
+          ],
+          "total": 1,
+          "page": 1,
+          "pageSize": 25,
+          "hasMore": false
+        }
+      },
+      "responseTime": 18,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "90",
+        "x-ratelimit-reset": "25",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "764",
+        "date": "Tue, 30 Sep 2025 15:40:24 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "Get Hot Posts": {
+      "method": "GET",
+      "endpoint": "/api/v1/posts/hot",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Post not found"
+      },
+      "responseTime": 0
+    },
+    "Get New Posts": {
+      "method": "GET",
+      "endpoint": "/api/v1/posts/new",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Post not found"
+      },
+      "responseTime": 0
+    },
+    "Get Rising Posts": {
+      "method": "GET",
+      "endpoint": "/api/v1/posts/rising",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Post not found"
+      },
+      "responseTime": 0
+    },
+    "Get Awards": {
+      "method": "GET",
+      "endpoint": "/api/v1/awards",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/awards not found"
+      },
+      "responseTime": 0
+    },
+    "Get User Karma": {
+      "method": "GET",
+      "endpoint": "/api/v1/karma/me",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/karma/me not found"
+      },
+      "responseTime": 0
+    },
+    "Create Server": {
+      "method": "POST",
+      "endpoint": "/api/v1/servers",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/servers not found"
+      },
+      "responseTime": 0
+    },
+    "List Servers": {
+      "method": "GET",
+      "endpoint": "/api/v1/servers",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/servers not found"
+      },
+      "responseTime": 0
+    },
+    "Discover Servers": {
+      "method": "GET",
+      "endpoint": "/api/v1/servers/discover",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/servers/discover not found"
+      },
+      "responseTime": 0
+    },
+    "Get Direct Messages": {
+      "method": "GET",
+      "endpoint": "/api/v1/messages/direct",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "9bdcb38f-fa62-4fc1-bce2-da7081fabffb",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.698Z",
+        "path": "/api/v1/messages/direct",
+        "method": "GET",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "Voice Test Connection": {
+      "method": "GET",
+      "endpoint": "/api/voice-test/connection",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/voice-test/connection not found"
+      },
+      "responseTime": 0
+    },
+    "Voice Test Token": {
+      "method": "POST",
+      "endpoint": "/api/voice-test/token",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/voice-test/token not found"
+      },
+      "responseTime": 0
+    },
+    "Create Voice Room": {
+      "method": "POST",
+      "endpoint": "/api/v1/voice/rooms",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "816ee04b-7788-4cb8-98cc-5ca5d91c15e5",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.704Z",
+        "path": "/api/v1/voice/rooms",
+        "method": "POST",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "Get Voice Rooms": {
+      "method": "GET",
+      "endpoint": "/api/v1/voice/rooms",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/voice/rooms not found"
+      },
+      "responseTime": 0
+    },
+    "Get Voice Token": {
+      "method": "POST",
+      "endpoint": "/api/v1/voice/token",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/voice/token not found"
+      },
+      "responseTime": 0
+    },
+    "Get Upload URL": {
+      "method": "POST",
+      "endpoint": "/api/v1/uploads/url",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/uploads/url not found"
+      },
+      "responseTime": 0
+    },
+    "List User Uploads": {
+      "method": "GET",
+      "endpoint": "/api/v1/uploads/me",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/uploads/me not found"
+      },
+      "responseTime": 0
+    },
+    "Search All": {
+      "method": "GET",
+      "endpoint": "/api/v1/search?q=test",
+      "requiresAuth": false,
+      "success": true,
+      "status": 200,
+      "data": {
+        "success": true,
+        "data": {
+          "users": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "posts": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "messages": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "servers": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "communities": {
+            "results": [],
+            "total": 0,
+            "took": 0
+          },
+          "suggestions": []
+        },
+        "query": "test",
+        "searchMeta": {
+          "searchId": "search_1759246824714_rodo3jirt",
+          "searchEngine": "elasticsearch",
+          "searchTime": "12ms",
+          "totalSources": 6,
+          "fuzzyEnabled": false,
+          "sortBy": "relevance",
+          "suggestions": []
+        }
+      },
+      "responseTime": 16,
+      "headers": {
+        "content-security-policy": "default-src 'self';style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;script-src 'self' 'unsafe-inline' 'unsafe-eval';img-src 'self' data: https: blob:;font-src 'self' https://fonts.gstatic.com;connect-src 'self' ws: wss: https:;media-src 'self' blob:;object-src 'none';frame-src 'self';worker-src 'self' blob:;form-action 'self';frame-ancestors 'none';base-uri 'self';manifest-src 'self';script-src-attr 'none'",
+        "cross-origin-opener-policy": "same-origin",
+        "cross-origin-resource-policy": "same-origin",
+        "origin-agent-cluster": "?1",
+        "referrer-policy": "no-referrer",
+        "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+        "x-content-type-options": "nosniff",
+        "x-dns-prefetch-control": "off",
+        "x-download-options": "noopen",
+        "x-frame-options": "SAMEORIGIN",
+        "x-permitted-cross-domain-policies": "none",
+        "x-xss-protection": "0",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "x-ratelimit-limit": "100",
+        "x-ratelimit-remaining": "86",
+        "x-ratelimit-reset": "25",
+        "content-type": "application/json; charset=utf-8",
+        "content-length": "464",
+        "date": "Tue, 30 Sep 2025 15:40:24 GMT",
+        "connection": "keep-alive",
+        "keep-alive": "timeout=72"
+      }
+    },
+    "Search Posts": {
+      "method": "GET",
+      "endpoint": "/api/v1/search/posts?q=test",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/search/posts?q=test not found"
+      },
+      "responseTime": 0
+    },
+    "Search Users": {
+      "method": "GET",
+      "endpoint": "/api/v1/search/users?q=test",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/search/users?q=test not found"
+      },
+      "responseTime": 0
+    },
+    "Get Analytics Dashboard": {
+      "method": "GET",
+      "endpoint": "/api/v1/analytics/dashboard",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/analytics/dashboard not found"
+      },
+      "responseTime": 0
+    },
+    "Track Event": {
+      "method": "POST",
+      "endpoint": "/api/v1/analytics/track",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/analytics/track not found"
+      },
+      "responseTime": 0
+    },
+    "Admin Dashboard": {
+      "method": "GET",
+      "endpoint": "/api/v1/admin/dashboard",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "df52027c-e91b-49fc-864b-cd06c07e085f",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.744Z",
+        "path": "/api/v1/admin/dashboard",
+        "method": "GET",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "Admin Users": {
+      "method": "GET",
+      "endpoint": "/api/v1/admin/users",
+      "requiresAuth": true,
+      "success": false,
+      "status": 401,
+      "error": "Request failed with status code 401",
+      "data": {
+        "success": false,
+        "error": "Authorization header missing",
+        "code": "AUTH_HEADER_MISSING",
+        "details": {
+          "requestId": "a47618fa-823f-4253-888b-bd82225724c4",
+          "processingTime": 0
+        },
+        "timestamp": "2025-09-30T15:40:24.747Z",
+        "path": "/api/v1/admin/users",
+        "method": "GET",
+        "statusCode": 401
+      },
+      "responseTime": 0
+    },
+    "Admin Statistics": {
+      "method": "GET",
+      "endpoint": "/api/v1/admin/statistics",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/admin/statistics not found"
+      },
+      "responseTime": 0
+    },
+    "Get Moderation Queue": {
+      "method": "GET",
+      "endpoint": "/api/v1/moderation/queue",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/moderation/queue not found"
+      },
+      "responseTime": 0
+    },
+    "Get User Reports": {
+      "method": "GET",
+      "endpoint": "/api/v1/moderation/reports",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/moderation/reports not found"
+      },
+      "responseTime": 0
+    },
+    "Web3 Status": {
+      "method": "GET",
+      "endpoint": "/api/v1/web3/status",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/web3/status not found"
+      },
+      "responseTime": 0
+    },
+    "Get Notifications": {
+      "method": "GET",
+      "endpoint": "/api/v1/notifications",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/notifications not found"
+      },
+      "responseTime": 0
+    },
+    "Mark Notifications Read": {
+      "method": "POST",
+      "endpoint": "/api/v1/notifications/mark-read",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/notifications/mark-read not found"
+      },
+      "responseTime": 0
+    },
+    "Notification Preferences": {
+      "method": "GET",
+      "endpoint": "/api/v1/notifications/preferences",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/notifications/preferences not found"
+      },
+      "responseTime": 0
+    },
+    "Update Notification Preferences": {
+      "method": "PATCH",
+      "endpoint": "/api/v1/notifications/preferences",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route PATCH /api/v1/notifications/preferences not found"
+      },
+      "responseTime": 0
+    },
+    "List Bots": {
+      "method": "GET",
+      "endpoint": "/api/v1/bots",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/bots not found"
+      },
+      "responseTime": 0
+    },
+    "Get Bot Commands": {
+      "method": "GET",
+      "endpoint": "/api/v1/bots/commands",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/bots/commands not found"
+      },
+      "responseTime": 0
+    },
+    "Create Bot": {
+      "method": "POST",
+      "endpoint": "/api/v1/bots",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/bots not found"
+      },
+      "responseTime": 0
+    },
+    "Socket Test": {
+      "method": "GET",
+      "endpoint": "/api/v1/socket-test",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/socket-test not found"
+      },
+      "responseTime": 0
+    },
+    "Socket Connection Info": {
+      "method": "GET",
+      "endpoint": "/api/v1/socket-test/connection",
+      "requiresAuth": false,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route GET /api/v1/socket-test/connection not found"
+      },
+      "responseTime": 0
+    },
+    "Socket Auth Test": {
+      "method": "POST",
+      "endpoint": "/api/v1/socket-test/auth",
+      "requiresAuth": true,
+      "success": false,
+      "status": 404,
+      "error": "Request failed with status code 404",
+      "data": {
+        "success": false,
+        "error": "Route not found",
+        "message": "Route POST /api/v1/socket-test/auth not found"
+      },
+      "responseTime": 0
+    }
+  },
+  "performance": {
+    "averageResponseTime": 14.5,
+    "maxResponseTime": 35,
+    "minResponseTime": 3,
+    "totalRequests": 6,
+    "slowEndpoints": []
+  },
+  "security": {
+    "authenticationRequired": 28,
+    "authenticationOptional": 23,
+    "rateLimitingDetected": true,
+    "securityHeadersPresent": true,
+    "jwtValidationWorking": false
+  },
+  "businessLogic": {
+    "userManagement": false,
+    "communityManagement": false,
+    "postingSystem": false,
+    "votingSystem": false,
+    "messagingSystem": false,
+    "voiceVideoSupport": false,
+    "fileUploadSupport": false,
+    "searchFunctionality": true,
+    "moderationTools": false,
+    "analyticsTracking": false,
+    "web3Integration": false,
+    "notificationSystem": false
+  },
+  "errorHandling": {
+    "totalErrors": 45,
+    "errorTypes": {
+      "400": 1,
+      "401": 9,
+      "404": 35
+    },
+    "commonErrors": [
+      {
+        "status": "404",
+        "count": 35
+      },
+      {
+        "status": "401",
+        "count": 9
+      },
+      {
+        "status": "400",
+        "count": 1
+      }
+    ],
+    "validationErrors": 1,
+    "authenticationErrors": 9,
+    "serverErrors": 0
+  },
+  "integrations": {
+    "elasticsearch": true,
+    "redis": true,
+    "database": true,
+    "minio": false,
+    "livekit": false,
+    "openai": false
+  }
+}

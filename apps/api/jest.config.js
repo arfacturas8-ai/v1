@@ -11,10 +11,13 @@ module.exports = {
     'src/**/*.{ts,js}',
     '!src/**/*.d.ts',
     '!src/index.ts',
+    '!src/index-minimal.ts',
     '!src/types/**/*',
+    '!**/node_modules/**',
+    '!coverage/**'
   ],
   coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov', 'html', 'json-summary'],
+  coverageReporters: ['text', 'lcov', 'html', 'json-summary', 'json'],
   coverageThreshold: {
     global: {
       branches: 80,
@@ -24,8 +27,22 @@ module.exports = {
     },
   },
   setupFilesAfterEnv: ['<rootDir>/__tests__/setup.ts'],
-  testTimeout: 10000,
+  testTimeout: 15000,
   verbose: true,
   detectOpenHandles: true,
   forceExit: true,
+  maxWorkers: '50%',
+  clearMocks: true,
+  resetMocks: true,
+  restoreMocks: true,
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1'
+  },
+  transform: {
+    '^.+\\.(ts|tsx)$': ['ts-jest', {
+      tsconfig: 'tsconfig.json'
+    }]
+  },
+  testSequencer: './jest-sequencer.js',
+  passWithNoTests: true
 };

@@ -46,10 +46,11 @@ export class MinioService extends EventEmitter {
 
   private createClient(config: MinioConfig): Client {
     return new Client({
-      ...config,
-      transportAgent: {
-        timeout: this.connectionTimeout
-      }
+      endPoint: config.endpoint,
+      port: config.port,
+      useSSL: config.useSSL,
+      accessKey: config.accessKey,
+      secretKey: config.secretKey
     });
   }
 
@@ -190,7 +191,7 @@ export class MinioService extends EventEmitter {
         size: buffer.length,
         contentType,
         hash,
-        etag
+        etag: typeof etag === 'string' ? etag : etag?.etag || ''
       };
     });
   }
@@ -230,9 +231,7 @@ export class MinioService extends EventEmitter {
         ]
       };
       
-      const uploadUrl = await client.presignedPutObject(bucket, objectName, expiry, {
-        'Content-Type': contentType
-      });
+      const uploadUrl = await client.presignedPutObject(bucket, objectName, expiry);
       
       return {
         uploadUrl,
@@ -301,9 +300,7 @@ export class MinioService extends EventEmitter {
       await client.copyObject(
         destBucket,
         destObjectName,
-        copySource,
-        undefined,
-        metadata
+        copySource
       );
       
       this.emit('file_copied', {

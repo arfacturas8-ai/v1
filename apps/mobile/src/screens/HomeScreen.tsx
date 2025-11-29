@@ -16,6 +16,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useAuthStore } from '../stores/authStore';
 import { MainStackParamList } from '../navigation/MainNavigator';
+import apiService from '../services/RealApiService';
+import { deviceInfo, spacing, typography, scale } from '../utils/responsive';
 
 type HomeScreenNavigationProp = NativeStackNavigationProp<MainStackParamList, 'MainTabs'>;
 
@@ -32,62 +34,120 @@ interface FeedItem {
   comments: number;
 }
 
-const mockFeedData: FeedItem[] = [
-  {
-    id: '1',
-    type: 'announcement',
-    title: 'Welcome to CRYB!',
-    content: 'Explore our hybrid platform combining Discord-like chat with Reddit-style communities.',
-    author: 'CRYB Team',
-    timestamp: '2 hours ago',
-    likes: 42,
-    comments: 8,
-  },
-  {
-    id: '2',
-    type: 'server-activity',
-    title: 'New message in Gaming Hub',
-    content: 'Join the discussion about the latest game releases and upcoming tournaments.',
-    author: 'GameMaster',
-    timestamp: '4 hours ago',
-    serverName: 'Gaming Hub',
-    likes: 15,
-    comments: 3,
-  },
-  {
-    id: '3',
-    type: 'post',
-    title: 'Crypto Market Analysis',
-    content: 'Share your thoughts on the current market trends and predictions for the upcoming quarter.',
-    author: 'CryptoAnalyst',
-    timestamp: '6 hours ago',
-    imageUrl: 'https://via.placeholder.com/300x150',
-    likes: 28,
-    comments: 12,
-  },
-];
-
 export function HomeScreen() {
   const navigation = useNavigation<HomeScreenNavigationProp>();
   const { colors } = useTheme();
   const { user } = useAuthStore();
 
   const [refreshing, setRefreshing] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [feedData, setFeedData] = useState<FeedItem[]>(mockFeedData);
+  const [loading, setLoading] = useState(true);
+  const [feedData, setFeedData] = useState<FeedItem[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  // Helper function to format timestamps
+  const formatTimestamp = useCallback((timestamp: string) => {
+    const date = new Date(timestamp);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }, []);
+
+  // Helper function to get timestamp value for sorting
+  const getTimestampValue = useCallback((timestamp: string) => {
+    if (timestamp === 'Just now') return Date.now();
+    if (timestamp.includes('m ago')) return Date.now() - parseInt(timestamp) * 60000;
+    if (timestamp.includes('h ago')) return Date.now() - parseInt(timestamp) * 3600000;
+    if (timestamp.includes('d ago')) return Date.now() - parseInt(timestamp) * 86400000;
+    return new Date(timestamp).getTime();
+  }, []);
+
+  const loadFeed = useCallback(async () => {
+    try {
+      setError(null);
+      
+      // Fetch posts and communities from API to populate feed
+      const [postsResponse, communitiesResponse] = await Promise.all([
+        apiService.getPosts(undefined, 'hot', 15),
+        apiService.getCommunities()
+      ]);
+
+      const feedItems: FeedItem[] = [];
+
+      // Add posts to feed
+      if (postsResponse && Array.isArray(postsResponse)) {
+        const postFeedItems: FeedItem[] = postsResponse.map(post => ({
+          id: post.id,
+          type: 'post' as const,
+          title: post.title,
+          content: post.content.substring(0, 200) + (post.content.length > 200 ? '...' : ''),
+          author: post.author.username,
+          timestamp: formatTimestamp(post.createdAt),
+          serverName: post.community.name,
+          likes: post.votes,
+          comments: post.commentCount,
+          imageUrl: post.images && post.images.length > 0 ? post.images[0] : undefined,
+        }));
+        feedItems.push(...postFeedItems);
+      }
+
+      // Add recent communities as server activities
+      if (communitiesResponse && Array.isArray(communitiesResponse)) {
+        const recentCommunities = communitiesResponse
+          .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+          .slice(0, 3);
+          
+        const communityFeedItems: FeedItem[] = recentCommunities.map(community => ({
+          id: `community-${community.id}`,
+          type: 'server-activity' as const,
+          title: `New Community: ${community.name}`,
+          content: community.description,
+          author: 'CRYB Platform',
+          timestamp: formatTimestamp(community.createdAt),
+          serverName: community.name,
+          likes: community.memberCount || 0,
+          comments: 0,
+        }));
+        feedItems.push(...communityFeedItems);
+      }
+
+      // Sort feed items by timestamp
+      feedItems.sort((a, b) => {
+        const timeA = getTimestampValue(a.timestamp);
+        const timeB = getTimestampValue(b.timestamp);
+        return timeB - timeA;
+      });
+
+      setFeedData(feedItems);
+    } catch (error) {
+      console.error('Error loading feed:', error);
+      setError('Failed to load feed. Please try again.');
+    }
+  }, []);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    try {
-      // TODO: Fetch fresh data from API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setFeedData(mockFeedData);
-    } catch (error) {
-      console.error('Error refreshing feed:', error);
-    } finally {
-      setRefreshing(false);
-    }
-  }, []);
+    await loadFeed();
+    setRefreshing(false);
+  }, [loadFeed]);
+
+  // Load feed on component mount
+  useEffect(() => {
+    const initializeFeed = async () => {
+      setLoading(true);
+      await loadFeed();
+      setLoading(false);
+    };
+    
+    initializeFeed();
+  }, [loadFeed]);
 
   const handleItemPress = useCallback((item: FeedItem) => {
     if (item.type === 'server-activity' && item.serverName) {
@@ -216,6 +276,20 @@ export function HomeScreen() {
     </View>
   );
 
+  if (loading) {
+    return (
+      <View style={[styles.container, { backgroundColor: colors.background }]}>
+        {renderHeader()}
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={colors.primary} />
+          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
+            Loading your feed...
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <FlatList
@@ -233,6 +307,26 @@ export function HomeScreen() {
         }
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollContent}
+        ListEmptyComponent={() => (
+          <View style={styles.emptyContainer}>
+            <Text style={[styles.emptyTitle, { color: colors.text }]}>
+              No posts yet
+            </Text>
+            <Text style={[styles.emptySubtitle, { color: colors.textSecondary }]}>
+              {error ? error : 'Be the first to share something with the community!'}
+            </Text>
+            {error && (
+              <TouchableOpacity 
+                style={[styles.retryButton, { backgroundColor: colors.primary }]}
+                onPress={onRefresh}
+              >
+                <Text style={[styles.retryButtonText, { color: colors.background }]}>
+                  Try Again
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        )}
       />
     </View>
   );
@@ -243,61 +337,61 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContent: {
-    paddingBottom: 20,
+    paddingBottom: spacing.xl,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 16,
+    paddingHorizontal: spacing.xl,
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.lg,
   },
   greeting: {
-    fontSize: 24,
+    fontSize: typography.h4,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginBottom: spacing.xs,
   },
   headerSubtitle: {
-    fontSize: 14,
+    fontSize: typography.body2,
   },
   settingsButton: {
-    padding: 8,
+    padding: spacing.sm,
   },
   quickActions: {
     flexDirection: 'row',
-    paddingHorizontal: 20,
-    marginBottom: 24,
-    gap: 12,
+    paddingHorizontal: spacing.xl,
+    marginBottom: spacing.xxl,
+    gap: spacing.md,
   },
   quickAction: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: spacing.lg,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
   },
   quickActionText: {
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '600',
     marginTop: 6,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: typography.h6,
     fontWeight: 'bold',
-    paddingHorizontal: 20,
-    marginBottom: 16,
+    paddingHorizontal: spacing.xl,
+    marginBottom: spacing.lg,
   },
   feedItem: {
-    marginHorizontal: 20,
-    marginBottom: 16,
-    padding: 16,
-    borderRadius: 12,
+    marginHorizontal: spacing.xl,
+    marginBottom: spacing.lg,
+    padding: spacing.lg,
+    borderRadius: deviceInfo.isTablet ? 14 : 12,
   },
   feedItemHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.sm,
   },
   feedItemType: {
     flexDirection: 'row',
@@ -305,28 +399,28 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   feedItemTypeText: {
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '600',
     textTransform: 'uppercase',
   },
   feedItemTimestamp: {
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   feedItemTitle: {
-    fontSize: 16,
+    fontSize: typography.body1,
     fontWeight: 'bold',
     marginBottom: 6,
   },
   feedItemContent: {
-    fontSize: 14,
+    fontSize: typography.body2,
     lineHeight: 20,
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   feedItemImage: {
     width: '100%',
     height: 150,
     borderRadius: 8,
-    marginBottom: 12,
+    marginBottom: spacing.md,
   },
   feedItemFooter: {
     flexDirection: 'row',
@@ -337,22 +431,58 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feedItemAuthorText: {
-    fontSize: 12,
+    fontSize: typography.caption,
   },
   feedItemServerName: {
-    fontSize: 12,
+    fontSize: typography.caption,
     fontWeight: '600',
   },
   feedItemActions: {
     flexDirection: 'row',
-    gap: 16,
+    gap: spacing.lg,
   },
   feedItemAction: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 4,
+    gap: spacing.xs,
   },
   feedItemActionText: {
-    fontSize: 12,
+    fontSize: typography.caption,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 100,
+  },
+  loadingText: {
+    marginTop: spacing.lg,
+    fontSize: typography.body1,
+  },
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.xxxl,
+    paddingTop: 100,
+  },
+  emptyTitle: {
+    fontSize: typography.h5,
+    fontWeight: 'bold',
+    marginBottom: spacing.sm,
+  },
+  emptySubtitle: {
+    fontSize: typography.body1,
+    textAlign: 'center',
+    marginBottom: spacing.xxl,
+  },
+  retryButton: {
+    paddingHorizontal: spacing.xxl,
+    paddingVertical: spacing.md,
+    borderRadius: 8,
+  },
+  retryButtonText: {
+    fontSize: typography.body1,
+    fontWeight: '600',
   },
 });

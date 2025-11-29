@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`BrowserNotSupportedPage Component Snapshot matches snapshot 1`] = `
+<div>
+  <div
+    aria-label="Browser not supported page"
+    class="min-h-screen bg-[#0A0A0B] flex items-center justify-center p-6"
+    role="main"
+  >
+    <div
+      animate="[object Object]"
+      aria-live="polite"
+      class="text-center max-w-2xl"
+      initial="[object Object]"
+      role="alert"
+    >
+      <svg
+        aria-hidden="true"
+        class="w-24 h-24 mx-auto mb-6 text-yellow-500"
+        data-testid="alert-triangle-icon"
+      />
+      <h1
+        class="text-4xl font-bold mb-4"
+      >
+        Browser Not Supported
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-400 mb-8"
+      >
+        Your browser is outdated. Please upgrade to a modern browser for the best experience.
+      </p>
+      <div
+        class="grid grid-cols-3 gap-4"
+      >
+        <a
+          aria-label="Download Chrome browser"
+          class="p-6 bg-white dark:bg-gray-800 rounded-2xl hover:shadow-lg transition-shadow"
+          href="https://www.google.com/chrome/"
+        >
+          <div
+            aria-hidden="true"
+            class="text-6xl mb-3"
+          >
+            🌐
+          </div>
+          <div
+            class="font-semibold"
+          >
+            Chrome
+          </div>
+        </a>
+        <a
+          aria-label="Download Firefox browser"
+          class="p-6 bg-white dark:bg-gray-800 rounded-2xl hover:shadow-lg transition-shadow"
+          href="https://www.mozilla.org/firefox/"
+        >
+          <div
+            aria-hidden="true"
+            class="text-6xl mb-3"
+          >
+            🦊
+          </div>
+          <div
+            class="font-semibold"
+          >
+            Firefox
+          </div>
+        </a>
+        <a
+          aria-label="Download Safari browser"
+          class="p-6 bg-white dark:bg-gray-800 rounded-2xl hover:shadow-lg transition-shadow"
+          href="https://www.apple.com/safari/"
+        >
+          <div
+            aria-hidden="true"
+            class="text-6xl mb-3"
+          >
+            🧭
+          </div>
+          <div
+            class="font-semibold"
+          >
+            Safari
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`BrowserNotSupportedPage Component Snapshot matches snapshot in dark mode context 1`] = `
+<div>
+  <div
+    aria-label="Browser not supported page"
+    class="min-h-screen bg-[#0A0A0B] flex items-center justify-center p-6 dark"
+    role="main"
+  >
+    <div
+      animate="[object Object]"
+      aria-live="polite"
+      class="text-center max-w-2xl"
+      initial="[object Object]"
+      role="alert"
+    >
+      <svg
+        aria-hidden="true"
+        class="w-24 h-24 mx-auto mb-6 text-yellow-500"
+        data-testid="alert-triangle-icon"
+      />
+      <h1
+        class="text-4xl font-bold mb-4"
+      >
+        Browser Not Supported
+      </h1>
+      <p
+        class="text-gray-600 dark:text-gray-400 mb-8"
+      >
+        Your browser is outdated. Please upgrade to a modern browser for the best experience.
+      </p>
+      <div
+        class="grid grid-cols-3 gap-4"
+      >
+        <a
+          aria-label="Download Chrome browser"
+          class="p-6 bg-white dark:bg-gray-800 rounded-2xl hover:shadow-lg transition-shadow"
+          href="https://www.google.com/chrome/"
+        >
+          <div
+            aria-hidden="true"
+            class="text-6xl mb-3"
+          >
+            🌐
+          </div>
+          <div
+            class="font-semibold"
+          >
+            Chrome
+          </div>
+        </a>
+        <a
+          aria-label="Download Firefox browser"
+          class="p-6 bg-white dark:bg-gray-800 rounded-2xl hover:shadow-lg transition-shadow"
+          href="https://www.mozilla.org/firefox/"
+        >
+          <div
+            aria-hidden="true"
+            class="text-6xl mb-3"
+          >
+            🦊
+          </div>
+          <div
+            class="font-semibold"
+          >
+            Firefox
+          </div>
+        </a>
+        <a
+          aria-label="Download Safari browser"
+          class="p-6 bg-white dark:bg-gray-800 rounded-2xl hover:shadow-lg transition-shadow"
+          href="https://www.apple.com/safari/"
+        >
+          <div
+            aria-hidden="true"
+            class="text-6xl mb-3"
+          >
+            🧭
+          </div>
+          <div
+            class="font-semibold"
+          >
+            Safari
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

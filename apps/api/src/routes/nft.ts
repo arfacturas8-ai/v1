@@ -1,7 +1,7 @@
 import { FastifyPluginAsync } from "fastify";
 import { z } from "zod";
 import { authMiddleware } from "../middleware/auth";
-import { nftService } from "../services/nft";
+import { simpleNftService } from "../services/simple-nft";
 import { prisma } from "@cryb/database";
 
 const nftRoutes: FastifyPluginAsync = async (fastify) => {
@@ -27,7 +27,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
         });
       }
 
-      const ownership = await nftService.verifyNFTOwnership(
+      const ownership = await simpleNftService.verifyNFTOwnership(
         body.contractAddress,
         body.tokenId,
         user.walletAddress,
@@ -67,7 +67,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
         chain: z.string().default("ethereum"),
       }).parse(request.body);
 
-      const result = await nftService.setNFTProfilePicture(
+      const result = await simpleNftService.setNFTProfilePicture(
         request.userId,
         body.contractAddress,
         body.tokenId,
@@ -82,7 +82,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
       }
 
       // Get updated profile picture data
-      const profilePicture = await nftService.getUserNFTProfilePicture(request.userId);
+      const profilePicture = await simpleNftService.getUserNFTProfilePicture(request.userId);
 
       return reply.send({
         success: true,
@@ -114,7 +114,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
     await authMiddleware(request, reply);
 
     try {
-      const profilePicture = await nftService.getUserNFTProfilePicture(request.userId);
+      const profilePicture = await simpleNftService.getUserNFTProfilePicture(request.userId);
 
       return reply.send({
         success: true,
@@ -137,7 +137,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
         userId: z.string(),
       }).parse(request.params);
 
-      const profilePicture = await nftService.getUserNFTProfilePicture(params.userId);
+      const profilePicture = await simpleNftService.getUserNFTProfilePicture(params.userId);
 
       return reply.send({
         success: true,
@@ -165,7 +165,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
     await authMiddleware(request, reply);
 
     try {
-      const result = await nftService.removeNFTProfilePicture(request.userId);
+      const result = await simpleNftService.removeNFTProfilePicture(request.userId);
 
       if (!result.success) {
         return reply.code(500).send({
@@ -200,7 +200,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
         limit: z.coerce.number().min(1).max(100).default(20),
       }).parse(request.query);
 
-      const result = await nftService.getUserNFTs(request.userId, query.page, query.limit);
+      const result = await simpleNftService.getUserNFTs(request.userId, query.page, query.limit);
 
       return reply.send({
         success: true,
@@ -241,7 +241,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
         chain: z.string().default("ethereum"),
       }).parse(request.query);
 
-      const metadata = await nftService.fetchNFTMetadata(
+      const metadata = await simpleNftService.fetchNFTMetadata(
         query.contractAddress,
         query.tokenId,
         query.chain
@@ -281,7 +281,7 @@ const nftRoutes: FastifyPluginAsync = async (fastify) => {
     await authMiddleware(request, reply);
 
     try {
-      const result = await nftService.bulkVerifyUserNFTs(request.userId);
+      const result = await simpleNftService.bulkVerifyUserNFTs(request.userId);
 
       return reply.send({
         success: true,

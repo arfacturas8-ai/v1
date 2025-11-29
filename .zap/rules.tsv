@@ -1,0 +1,40 @@
+# ZAP Baseline Scan Rules Configuration
+# Format: rule_id	threshold	ignore
+# Thresholds: IGNORE, INFO, LOW, MEDIUM, HIGH
+
+# Allow some common development patterns
+10098	IGNORE	# Cross-Domain Misconfiguration - common in development
+10063	IGNORE	# Feature Policy Header Not Set - not critical for initial testing
+10035	IGNORE	# Strict-Transport-Security Header Not Set - handled by reverse proxy
+
+# Critical security rules (should always be enforced)
+40012	HIGH	# Cross Site Scripting (Reflected)
+40014	HIGH	# Cross Site Scripting (Persistent)
+40016	HIGH	# Cross Site Scripting (Persistent) - Prime
+40017	HIGH	# Cross Site Scripting (Persistent) - Spider
+40018	HIGH	# SQL Injection
+90019	HIGH	# SQL Injection - MySQL
+90020	HIGH	# SQL Injection - PostgreSQL
+90021	HIGH	# SQL Injection - SQLite
+90022	HIGH	# SQL Injection - Oracle
+90023	HIGH	# SQL Injection - MongoDB
+
+# Medium priority security rules
+10016	MEDIUM	# Web Browser XSS Protection Not Enabled
+10017	MEDIUM	# Cross-Domain JavaScript Source File Inclusion
+10019	MEDIUM	# Content-Type Header Missing
+10020	MEDIUM	# X-Frame-Options Header Not Set
+10021	MEDIUM	# X-Content-Type-Options Header Missing
+10023	MEDIUM	# Information Disclosure - Debug Error Messages
+10025	MEDIUM	# Information Disclosure - Sensitive Information in URL
+10026	MEDIUM	# HTTP Parameter Override
+
+# Authentication and session management
+10043	HIGH	# User Controllable JavaScript Event (XSS)
+40013	HIGH	# Session Fixation
+40014	HIGH	# Cross Site Scripting (Persistent)
+40016	HIGH	# Cross Site Scripting (Persistent) - Prime
+
+# API security rules
+90033	HIGH	# Loosely Scoped Cookie
+90034	HIGH	# Cloud Metadata Potentially Exposed

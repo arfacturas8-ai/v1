@@ -1,0 +1,786 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "CRYB Platform - Real-time Monitoring",
+    "tags": ["cryb", "realtime", "monitoring", "live"],
+    "style": "dark",
+    "timezone": "browser",
+    "refresh": "5s",
+    "schemaVersion": 30,
+    "version": 1,
+    "panels": [
+      {
+        "id": 1,
+        "title": "Live Platform Status",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+        "collapsed": false
+      },
+      {
+        "id": 2,
+        "title": "Active Users Now",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 0, "y": 1 },
+        "targets": [
+          {
+            "expr": "cryb_active_users_total{time_period=\"1h\"}",
+            "legendFormat": "Active Users",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "Active Users (1h)"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 3,
+        "title": "Real-time Connections",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 4, "y": 1 },
+        "targets": [
+          {
+            "expr": "sum(cryb_realtime_connections_total)",
+            "legendFormat": "Connections",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "WebSocket Connections"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 4,
+        "title": "Messages/Min",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 8, "y": 1 },
+        "targets": [
+          {
+            "expr": "rate(cryb_messages_total[1m]) * 60",
+            "legendFormat": "Messages/Min",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "Messages per Minute"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 5,
+        "title": "Voice Calls Active",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 12, "y": 1 },
+        "targets": [
+          {
+            "expr": "sum(cryb_voice_calls_active)",
+            "legendFormat": "Active Calls",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "Active Voice Calls"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 6,
+        "title": "API Requests/Min",
+        "type": "stat",
+        "gridPos": { "h": 6, "w": 4, "x": 16, "y": 1 },
+        "targets": [
+          {
+            "expr": "rate(http_requests_total[1m]) * 60",
+            "legendFormat": "Requests/Min",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "palette-classic" },
+            "unit": "short",
+            "displayName": "API Requests per Minute"
+          }
+        },
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "center",
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          }
+        }
+      },
+      {
+        "id": 7,
+        "title": "System Health",
+        "type": "gauge",
+        "gridPos": { "h": 6, "w": 4, "x": 20, "y": 1 },
+        "targets": [
+          {
+            "expr": "avg(cryb_system_health_score)",
+            "legendFormat": "Health Score",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "color": { "mode": "thresholds" },
+            "thresholds": {
+              "steps": [
+                { "color": "red", "value": 0 },
+                { "color": "yellow", "value": 70 },
+                { "color": "green", "value": 90 }
+              ]
+            },
+            "min": 0,
+            "max": 100,
+            "unit": "percent"
+          }
+        },
+        "options": {
+          "reduceOptions": {
+            "values": false,
+            "calcs": ["lastNotNull"]
+          },
+          "orientation": "auto",
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        }
+      },
+      {
+        "id": 8,
+        "title": "Real-time Activity",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 },
+        "collapsed": false
+      },
+      {
+        "id": 9,
+        "title": "Live Message Volume",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+        "targets": [
+          {
+            "expr": "rate(cryb_messages_total[1m]) * 60",
+            "legendFormat": "{{channel_type}}",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Messages per Minute",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": true,
+        "legend": {
+          "show": true,
+          "values": true,
+          "current": true
+        },
+        "tooltip": {
+          "shared": true,
+          "sort": 2,
+          "value_type": "individual"
+        }
+      },
+      {
+        "id": 10,
+        "title": "WebSocket Connection Status",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 8 },
+        "targets": [
+          {
+            "expr": "cryb_realtime_connections_total",
+            "legendFormat": "{{type}}",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(socketio_connection_attempts_total[1m]) * 60",
+            "legendFormat": "Connection Attempts/min",
+            "refId": "B"
+          },
+          {
+            "expr": "rate(socketio_connection_errors_total[1m]) * 60",
+            "legendFormat": "Connection Errors/min",
+            "refId": "C"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Connections",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true,
+          "values": true,
+          "current": true
+        }
+      },
+      {
+        "id": 11,
+        "title": "Live API Performance",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+        "collapsed": false
+      },
+      {
+        "id": 12,
+        "title": "API Response Times (Live)",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 0, "y": 17 },
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[1m]))",
+            "legendFormat": "95th percentile",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket[1m]))",
+            "legendFormat": "50th percentile",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.99, rate(http_request_duration_seconds_bucket[1m]))",
+            "legendFormat": "99th percentile",
+            "refId": "C"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Response Time (seconds)",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        },
+        "alert": {
+          "alertRuleTags": {},
+          "conditions": [
+            {
+              "evaluator": {
+                "params": [1],
+                "type": "gt"
+              },
+              "operator": {
+                "type": "and"
+              },
+              "query": {
+                "params": ["A", "5m", "now"]
+              },
+              "reducer": {
+                "params": [],
+                "type": "avg"
+              },
+              "type": "query"
+            }
+          ],
+          "executionErrorState": "alerting",
+          "for": "5m",
+          "frequency": "10s",
+          "handler": 1,
+          "name": "High API Response Time",
+          "noDataState": "no_data",
+          "notifications": []
+        }
+      },
+      {
+        "id": 13,
+        "title": "Error Rate Heatmap",
+        "type": "heatmap",
+        "gridPos": { "h": 8, "w": 8, "x": 8, "y": 17 },
+        "targets": [
+          {
+            "expr": "rate(http_requests_total{status_code=~\"4..|5..\"}[1m]) / rate(http_requests_total[1m]) * 100",
+            "legendFormat": "{{method}} {{route}}",
+            "refId": "A"
+          }
+        ],
+        "heatmap": {
+          "xBucketSize": null,
+          "yBucketSize": null,
+          "xBucketNumber": null,
+          "yBucketNumber": null
+        },
+        "cards": {
+          "cardPadding": null,
+          "cardRound": null
+        },
+        "color": {
+          "mode": "spectrum",
+          "cardColor": "#b4ff00",
+          "colorScale": "sqrt",
+          "exponent": 0.5,
+          "min": 0,
+          "max": 10
+        },
+        "legend": {
+          "show": true
+        },
+        "dataFormat": "timeseries",
+        "yAxis": {
+          "show": true,
+          "label": "Error Rate %"
+        }
+      },
+      {
+        "id": 14,
+        "title": "Database Performance",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 8, "x": 16, "y": 17 },
+        "targets": [
+          {
+            "expr": "cryb_db_connections_active",
+            "legendFormat": "Active Connections",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_db_queries_total[1m]) * 60",
+            "legendFormat": "Queries/min",
+            "refId": "B"
+          },
+          {
+            "expr": "histogram_quantile(0.95, rate(cryb_db_query_duration_seconds_bucket[1m])) * 1000",
+            "legendFormat": "95th Query Time (ms)",
+            "refId": "C"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Count / Time",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 15,
+        "title": "Content & User Activity",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 25 },
+        "collapsed": false
+      },
+      {
+        "id": 16,
+        "title": "Content Creation Rate",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 0, "y": 26 },
+        "targets": [
+          {
+            "expr": "rate(cryb_posts_created_total[1m]) * 60",
+            "legendFormat": "Posts/min",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_comments_created_total[1m]) * 60",
+            "legendFormat": "Comments/min",
+            "refId": "B"
+          },
+          {
+            "expr": "rate(cryb_reactions_created_total[1m]) * 60",
+            "legendFormat": "Reactions/min",
+            "refId": "C"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Content per Minute",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": true,
+        "legend": {
+          "show": true,
+          "values": true,
+          "current": true
+        }
+      },
+      {
+        "id": 17,
+        "title": "User Engagement Activity",
+        "type": "graph",
+        "gridPos": { "h": 8, "w": 12, "x": 12, "y": 26 },
+        "targets": [
+          {
+            "expr": "rate(cryb_page_views_total[1m]) * 60",
+            "legendFormat": "Page Views/min",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(cryb_feature_usage_total[1m]) * 60",
+            "legendFormat": "Feature Usage/min",
+            "refId": "B"
+          },
+          {
+            "expr": "rate(cryb_user_sessions_total[1m]) * 60",
+            "legendFormat": "New Sessions/min",
+            "refId": "C"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Activities per Minute",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true,
+          "values": true,
+          "current": true
+        }
+      },
+      {
+        "id": 18,
+        "title": "System Resources",
+        "type": "row",
+        "gridPos": { "h": 1, "w": 24, "x": 0, "y": 34 },
+        "collapsed": false
+      },
+      {
+        "id": 19,
+        "title": "CPU Usage",
+        "type": "graph",
+        "gridPos": { "h": 6, "w": 6, "x": 0, "y": 35 },
+        "targets": [
+          {
+            "expr": "100 - (avg by (instance) (rate(node_cpu_seconds_total{mode=\"idle\"}[1m])) * 100)",
+            "legendFormat": "CPU Usage %",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "CPU %",
+            "show": true,
+            "min": 0,
+            "max": 100
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        },
+        "thresholds": [
+          {
+            "value": 80,
+            "colorMode": "critical",
+            "op": "gt"
+          }
+        ]
+      },
+      {
+        "id": 20,
+        "title": "Memory Usage",
+        "type": "graph",
+        "gridPos": { "h": 6, "w": 6, "x": 6, "y": 35 },
+        "targets": [
+          {
+            "expr": "(1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100",
+            "legendFormat": "Memory Usage %",
+            "refId": "A"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Memory %",
+            "show": true,
+            "min": 0,
+            "max": 100
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        },
+        "thresholds": [
+          {
+            "value": 85,
+            "colorMode": "critical",
+            "op": "gt"
+          }
+        ]
+      },
+      {
+        "id": 21,
+        "title": "Network I/O",
+        "type": "graph",
+        "gridPos": { "h": 6, "w": 6, "x": 12, "y": 35 },
+        "targets": [
+          {
+            "expr": "rate(node_network_receive_bytes_total[1m])",
+            "legendFormat": "Received",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(node_network_transmit_bytes_total[1m])",
+            "legendFormat": "Transmitted",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Bytes/sec",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        }
+      },
+      {
+        "id": 22,
+        "title": "Disk I/O",
+        "type": "graph",
+        "gridPos": { "h": 6, "w": 6, "x": 18, "y": 35 },
+        "targets": [
+          {
+            "expr": "rate(node_disk_reads_completed_total[1m])",
+            "legendFormat": "Reads",
+            "refId": "A"
+          },
+          {
+            "expr": "rate(node_disk_writes_completed_total[1m])",
+            "legendFormat": "Writes",
+            "refId": "B"
+          }
+        ],
+        "yAxes": [
+          {
+            "label": "Operations/sec",
+            "show": true
+          },
+          {
+            "show": true
+          }
+        ],
+        "xAxis": {
+          "show": true
+        },
+        "lines": true,
+        "fill": 1,
+        "linewidth": 2,
+        "points": false,
+        "bars": false,
+        "stack": false,
+        "legend": {
+          "show": true
+        }
+      }
+    ],
+    "time": {
+      "from": "now-30m",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "templating": {
+      "list": [
+        {
+          "name": "datasource",
+          "type": "datasource",
+          "query": "prometheus",
+          "current": {
+            "value": "prometheus",
+            "text": "prometheus"
+          }
+        },
+        {
+          "name": "instance",
+          "type": "query",
+          "query": "label_values(up, instance)",
+          "current": {
+            "value": "all",
+            "text": "All"
+          },
+          "includeAll": true,
+          "allValue": ".*"
+        }
+      ]
+    },
+    "annotations": {
+      "list": [
+        {
+          "name": "Alerts",
+          "datasource": "prometheus",
+          "enable": true,
+          "expr": "ALERTS{alertstate=\"firing\"}",
+          "iconColor": "red",
+          "textFormat": "{{alertname}}: {{instance}}"
+        }
+      ]
+    }
+  },
+  "folderId": 0,
+  "overwrite": true
+}

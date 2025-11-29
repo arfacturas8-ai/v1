@@ -1,0 +1,142 @@
+{
+  "timestamp": "2025-09-24T05:04:04.597Z",
+  "platform": {
+    "api": "http://localhost:3002",
+    "web": "http://localhost:3001",
+    "react": "http://localhost:3000"
+  },
+  "testResults": {
+    "Reddit Features": {
+      "status": "COMPLETED",
+      "data": {
+        "/api/v1/communities": {
+          "statusCode": 200,
+          "accessible": true,
+          "requiresAuth": false
+        },
+        "/api/v1/posts": {
+          "statusCode": 200,
+          "accessible": true,
+          "requiresAuth": false
+        },
+        "/api/v1/comments": {
+          "statusCode": 200,
+          "accessible": true,
+          "requiresAuth": false
+        }
+      }
+    },
+    "Discord Features": {
+      "status": "COMPLETED",
+      "data": {
+        "/api/v1/servers": {
+          "statusCode": 401,
+          "accessible": true,
+          "requiresAuth": true
+        },
+        "/api/v1/channels": {
+          "statusCode": 401,
+          "accessible": true,
+          "requiresAuth": true
+        },
+        "/api/v1/messages": {
+          "statusCode": 401,
+          "accessible": true,
+          "requiresAuth": true
+        }
+      }
+    },
+    "Voice/Video Features": {
+      "status": "COMPLETED",
+      "data": {
+        "/api/v1/voice": {
+          "statusCode": 404,
+          "accessible": true,
+          "hasLiveKit": false
+        },
+        "/api/v1/voice/test": {
+          "statusCode": 404,
+          "accessible": true,
+          "hasLiveKit": false
+        },
+        "/api/v1/voice/rooms": {
+          "statusCode": 404,
+          "accessible": true,
+          "hasLiveKit": false
+        }
+      }
+    },
+    "Web3/Crypto Features": {
+      "status": "COMPLETED",
+      "data": {
+        "/api/v1/web3": {
+          "statusCode": 404,
+          "accessible": true,
+          "implemented": false
+        },
+        "/api/v1/nft": {
+          "statusCode": 404,
+          "accessible": true,
+          "implemented": false
+        },
+        "/api/v1/crypto/payments": {
+          "statusCode": 404,
+          "accessible": true,
+          "implemented": false
+        }
+      }
+    },
+    "Media/Upload Features": {
+      "status": "COMPLETED",
+      "data": {
+        "/api/v1/uploads": {
+          "statusCode": 401,
+          "accessible": true,
+          "supportsMedia": true
+        },
+        "/api/v1/media": {
+          "statusCode": 404,
+          "accessible": true,
+          "supportsMedia": false
+        },
+        "/api/v1/uploads/image": {
+          "statusCode": 404,
+          "accessible": true,
+          "supportsMedia": false
+        }
+      }
+    },
+    "Real-time Features": {
+      "status": "COMPLETED",
+      "data": {
+        "socketIOEndpoint": {
+          "available": false,
+          "error": "response.data.includes is not a function"
+        }
+      }
+    },
+    "API Versioning": {
+      "status": "COMPLETED",
+      "data": {
+        "api/v1": {
+          "statusCode": 404,
+          "supported": false,
+          "healthy": false
+        },
+        "api/v2": {
+          "statusCode": 404,
+          "supported": false,
+          "healthy": false
+        }
+      }
+    },
+    "Rate Limiting": {
+      "status": "COMPLETED",
+      "data": {
+        "rateLimitExists": false,
+        "requestsBeforeLimit": 15,
+        "rateLimitProtection": "NOT_DETECTED"
+      }
+    }
+  }
+}

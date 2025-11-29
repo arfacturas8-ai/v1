@@ -1,0 +1,25 @@
+[Unit]
+Description=Cryb Platform Auto-Recovery System
+After=network.target
+Wants=network.target
+
+[Service]
+Type=forking
+User=ubuntu
+Group=ubuntu
+WorkingDirectory=/home/ubuntu/cryb-platform
+ExecStart=/home/ubuntu/cryb-platform/scripts/auto-recovery-system.sh --daemon
+ExecStop=/home/ubuntu/cryb-platform/scripts/auto-recovery-system.sh --stop
+PIDFile=/var/run/cryb-recovery.pid
+Restart=on-failure
+RestartSec=10
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/home/ubuntu/cryb-platform/logs /home/ubuntu/cryb-platform/data /var/run /tmp
+
+[Install]
+WantedBy=multi-user.target

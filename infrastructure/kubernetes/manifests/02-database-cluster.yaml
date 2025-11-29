@@ -1,0 +1,546 @@
+# ==============================================
+# CRYB PLATFORM - DATABASE CLUSTER
+# ==============================================
+# PostgreSQL with TimescaleDB and Redis Cluster
+# ==============================================
+
+---
+# PostgreSQL Primary
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cryb-postgres-primary
+  namespace: cryb-database
+  labels:
+    app: cryb-postgres
+    role: primary
+    tier: database
+spec:
+  serviceName: cryb-postgres-primary
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cryb-postgres
+      role: primary
+  template:
+    metadata:
+      labels:
+        app: cryb-postgres
+        role: primary
+        tier: database
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9187"
+    spec:
+      serviceAccountName: cryb-postgres-sa
+      
+      # Security Context
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
+        fsGroup: 999
+      
+      # Tolerations for dedicated nodes
+      tolerations:
+        - key: cryb.io/database-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      
+      nodeSelector:
+        role: database
+        nodegroup: cryb-database-nodes
+      
+      containers:
+        - name: postgres
+          image: timescale/timescaledb:latest-pg15
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+          
+          env:
+            - name: POSTGRES_DB
+              value: "cryb"
+            - name: POSTGRES_USER
+              value: "cryb_admin"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cryb-postgres-secret
+                  key: password
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+            - name: POSTGRES_INITDB_ARGS
+              value: "-E UTF8 --locale=C"
+          
+          # Resource Limits
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "1000m"
+              ephemeral-storage: "2Gi"
+            limits:
+              memory: "8Gi"
+              cpu: "4000m"
+              ephemeral-storage: "10Gi"
+          
+          # Security Context
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: false
+            runAsNonRoot: true
+            runAsUser: 999
+          
+          # Health Checks
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U $POSTGRES_USER -d $POSTGRES_DB
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - pg_isready -U $POSTGRES_USER -d $POSTGRES_DB
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Volume Mounts
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+            - name: postgres-config
+              mountPath: /etc/postgresql/postgresql.conf
+              subPath: postgresql.conf
+            - name: postgres-init
+              mountPath: /docker-entrypoint-initdb.d
+        
+        # PostgreSQL Exporter for Prometheus
+        - name: postgres-exporter
+          image: prometheuscommunity/postgres-exporter:v0.15.0
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: metrics
+              containerPort: 9187
+              protocol: TCP
+          
+          env:
+            - name: DATA_SOURCE_NAME
+              value: "postgresql://cryb_admin:$(POSTGRES_PASSWORD)@localhost:5432/cryb?sslmode=disable"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cryb-postgres-secret
+                  key: password
+          
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+      
+      volumes:
+        - name: postgres-config
+          configMap:
+            name: cryb-postgres-config
+        - name: postgres-init
+          configMap:
+            name: cryb-postgres-init
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+        labels:
+          app: cryb-postgres
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "gp3-encrypted"
+        resources:
+          requests:
+            storage: 500Gi
+
+---
+# PostgreSQL Read Replicas
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cryb-postgres-replica
+  namespace: cryb-database
+  labels:
+    app: cryb-postgres
+    role: replica
+    tier: database
+spec:
+  serviceName: cryb-postgres-replica
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cryb-postgres
+      role: replica
+  template:
+    metadata:
+      labels:
+        app: cryb-postgres
+        role: replica
+        tier: database
+    spec:
+      serviceAccountName: cryb-postgres-sa
+      
+      tolerations:
+        - key: cryb.io/database-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      
+      nodeSelector:
+        role: database
+        nodegroup: cryb-database-nodes
+      
+      containers:
+        - name: postgres
+          image: timescale/timescaledb:latest-pg15
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: postgres
+              containerPort: 5432
+              protocol: TCP
+          
+          env:
+            - name: PGUSER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cryb-postgres-secret
+                  key: password
+            - name: POSTGRES_MASTER_SERVICE
+              value: "cryb-postgres-primary.cryb-database.svc.cluster.local"
+            - name: POSTGRES_REPLICA_USER
+              value: "replica_user"
+            - name: POSTGRES_REPLICA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cryb-postgres-secret
+                  key: replica_password
+          
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+          
+          # Volume Mounts
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+            - name: replica-config
+              mountPath: /etc/postgresql/postgresql.conf
+              subPath: postgresql.conf
+      
+      volumes:
+        - name: replica-config
+          configMap:
+            name: cryb-postgres-replica-config
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+        labels:
+          app: cryb-postgres
+          role: replica
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "gp3-encrypted"
+        resources:
+          requests:
+            storage: 500Gi
+
+---
+# Redis Cluster
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: cryb-redis-primary
+  namespace: cryb-database
+  labels:
+    app: cryb-redis
+    role: primary
+    tier: cache
+spec:
+  serviceName: cryb-redis-primary
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cryb-redis
+      role: primary
+  template:
+    metadata:
+      labels:
+        app: cryb-redis
+        role: primary
+        tier: cache
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "9121"
+    spec:
+      serviceAccountName: cryb-redis-sa
+      
+      tolerations:
+        - key: cryb.io/database-node
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+      
+      nodeSelector:
+        role: database
+        nodegroup: cryb-database-nodes
+      
+      containers:
+        - name: redis
+          image: redis:7-alpine
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: redis
+              containerPort: 6379
+              protocol: TCP
+          
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cryb-redis-secret
+                  key: password
+          
+          command:
+            - redis-server
+            - /etc/redis/redis.conf
+          
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "500m"
+            limits:
+              memory: "4Gi"
+              cpu: "2000m"
+          
+          # Security Context
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 999
+          
+          # Health Checks
+          livenessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          readinessProbe:
+            exec:
+              command:
+                - redis-cli
+                - ping
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          
+          # Volume Mounts
+          volumeMounts:
+            - name: redis-storage
+              mountPath: /data
+            - name: redis-config
+              mountPath: /etc/redis/redis.conf
+              subPath: redis.conf
+            - name: tmp
+              mountPath: /tmp
+        
+        # Redis Exporter
+        - name: redis-exporter
+          image: oliver006/redis_exporter:v1.55.0
+          imagePullPolicy: IfNotPresent
+          
+          ports:
+            - name: metrics
+              containerPort: 9121
+              protocol: TCP
+          
+          env:
+            - name: REDIS_ADDR
+              value: "redis://localhost:6379"
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: cryb-redis-secret
+                  key: password
+          
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+      
+      volumes:
+        - name: redis-config
+          configMap:
+            name: cryb-redis-config
+        - name: tmp
+          emptyDir: {}
+  
+  volumeClaimTemplates:
+    - metadata:
+        name: redis-storage
+        labels:
+          app: cryb-redis
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: "gp3-encrypted"
+        resources:
+          requests:
+            storage: 100Gi
+
+---
+# PostgreSQL Primary Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cryb-postgres-primary
+  namespace: cryb-database
+  labels:
+    app: cryb-postgres
+    role: primary
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+      protocol: TCP
+    - name: metrics
+      port: 9187
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: cryb-postgres
+    role: primary
+
+---
+# PostgreSQL Replica Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cryb-postgres-replica
+  namespace: cryb-database
+  labels:
+    app: cryb-postgres
+    role: replica
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: postgres
+      protocol: TCP
+  selector:
+    app: cryb-postgres
+    role: replica
+
+---
+# Redis Primary Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: cryb-redis-primary
+  namespace: cryb-database
+  labels:
+    app: cryb-redis
+    role: primary
+spec:
+  type: ClusterIP
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis
+      protocol: TCP
+    - name: metrics
+      port: 9121
+      targetPort: metrics
+      protocol: TCP
+  selector:
+    app: cryb-redis
+    role: primary
+
+---
+# Service Accounts
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cryb-postgres-sa
+  namespace: cryb-database
+  labels:
+    app: cryb-postgres
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/CrybPostgresServiceRole
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: cryb-redis-sa
+  namespace: cryb-database
+  labels:
+    app: cryb-redis
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::ACCOUNT_ID:role/CrybRedisServiceRole
