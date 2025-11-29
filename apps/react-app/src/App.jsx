@@ -103,6 +103,7 @@ const CreateProposalPage = lazy(() => import('./pages/CreateProposalPage'))
 const NetworkOfflinePage = lazy(() => import('./pages/NetworkOfflinePage'))
 const BrowserNotSupportedPage = lazy(() => import('./pages/BrowserNotSupportedPage'))
 const AccountSuspendedPage = lazy(() => import('./pages/AccountSuspendedPage'))
+const DocProgressPage = lazy(() => import('./pages/DocProgressPage'))
 
 // NEW SCREENS - Admin & Moderation
 const UserManagementPage = lazy(() => import('./pages/UserManagementPage'))
@@ -244,6 +245,7 @@ export default function App() {
                   <Route path="/mfa-login" element={<LazyRoute component={MFALoginPage} name="MFALoginPage" />} />
                   <Route path="/oauth/callback" element={<LazyRoute component={OAuthCallbackPage} name="OAuthCallbackPage" />} />
                   <Route path="/maintenance" element={<LazyRoute component={MaintenancePage} name="MaintenancePage" />} />
+                  <Route path="/doc-progress" element={<LazyRoute component={DocProgressPage} name="DocProgressPage" />} />
                   <Route path="/403" element={<LazyRoute component={ForbiddenPage} name="ForbiddenPage" />} />
                   <Route path="/forbidden" element={<LazyRoute component={ForbiddenPage} name="ForbiddenPage" />} />
                   <Route path="/500" element={<LazyRoute component={ServerErrorPage} name="ServerErrorPage" />} />
