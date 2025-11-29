@@ -6,8 +6,6 @@ import {
   Wallet, Coins, Bot, ShoppingBag, ChevronDown
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
-import WalletConnectButton from './web3/WalletConnectButton'
-import ThemeToggle from './ui/ThemeToggle'
 
 const iconMap = {
   Home: Home,
@@ -31,14 +29,10 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [isNotificationOpen, setIsNotificationOpen] = useState(false)
-  const [searchSuggestions, setSearchSuggestions] = useState([])
-  const [showSuggestions, setShowSuggestions] = useState(false)
-  const [unreadNotifications, setUnreadNotifications] = useState(3)
+  const [isScrolled, setIsScrolled] = useState(false)
 
-  const searchRef = useRef(null)
   const userMenuRef = useRef(null)
   const notificationRef = useRef(null)
-  const [isScrolled, setIsScrolled] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,9 +44,6 @@ function Header() {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowSuggestions(false)
-      }
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false)
       }
@@ -65,47 +56,26 @@ function Header() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  useEffect(() => {
-    if (searchQuery.trim()) {
-      const suggestions = [
-        { type: 'community', name: 'CryptoPunks', members: '12.5K' },
-        { type: 'user', name: 'crypto_whale', verified: true },
-        { type: 'nft', name: 'Bored Ape #1234' },
-        { type: 'collection', name: 'Azuki Collection' }
-      ].filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-      setSearchSuggestions(suggestions)
-    } else {
-      setSearchSuggestions([])
-    }
-  }, [searchQuery])
-
   const handleSearch = (e) => {
     e.preventDefault()
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`)
       setSearchQuery('')
-      setShowSuggestions(false)
       setIsMobileMenuOpen(false)
     }
   }
 
   const handleLogout = () => {
     logout()
-    navigate('/landing')
+    navigate('/login')
   }
 
   const navItems = [
-    { path: '/home', label: 'Home', icon: 'Home', primary: true },
-    { path: '/communities', label: 'Communities', icon: 'Hash', primary: true },
-    { path: '/nft-marketplace', label: 'Explore', icon: 'ShoppingBag', primary: true },
-    { path: '/crypto', label: 'Stats', icon: 'Coins', primary: true },
-    { path: '/activity', label: 'Activity', icon: 'Activity', primary: false },
-    { path: '/users', label: 'Users', icon: 'Users', primary: false },
-    { path: '/chat', label: 'Chat', icon: 'MessageCircle', primary: false },
-    { path: '/bots', label: 'Bots', icon: 'Bot', primary: false }
+    { path: '/home', label: 'Home', icon: 'Home' },
+    { path: '/communities', label: 'Communities', icon: 'Hash' },
+    { path: '/nft-marketplace', label: 'Explore', icon: 'ShoppingBag' },
+    { path: '/crypto', label: 'Stats', icon: 'Coins' }
   ]
-
-  const primaryNavItems = navItems.filter(item => item.primary)
 
   const mockNotifications = [
     { id: 1, type: 'bid', message: 'New bid on your NFT', time: '2m ago', read: false },
@@ -113,559 +83,182 @@ function Header() {
     { id: 3, type: 'like', message: 'Your post received 10 likes', time: '3h ago', read: true }
   ]
 
+  const unreadCount = mockNotifications.filter(n => !n.read).length
+
   return (
     <>
-      {/* Modern Header with Glassmorphism */}
-      <header style={{
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 50,
-  background: isScrolled ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.08) 0%, rgba(163, 113, 247, 0.08) 100%)' : 'transparent',
-  backdropFilter: isScrolled ? 'blur(16px)' : 'none',
-  WebkitBackdropFilter: isScrolled ? 'blur(16px)' : 'none',
-  borderBottom: isScrolled ? '1px solid rgba(163, 113, 247, 0.15)' : '1px solid transparent',
-  transition: 'all 0.3s ease'
-}}>
-        <div style={{
-  paddingLeft: '32px',
-  paddingRight: '32px'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  height: '80px'
-}}>
-            {/* Left Section */}
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '32px'
-}}>
-              {/* Logo */}
-              <Link to="/" style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-                <span style={{
-  fontWeight: 'bold'
-}}>
-                  CRYB
-                </span>
-              </Link>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-[#0d1117]/80 backdrop-blur-xl border-b border-white/10'
+          : 'bg-transparent'
+      }`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Logo */}
+            <Link to="/home" className="flex items-center gap-2">
+              <span className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+                CRYB
+              </span>
+            </Link>
 
-              {/* Desktop Navigation with Hover Effects */}
-              <nav style={{
-  display: 'none',
-  alignItems: 'center',
-  gap: '4px'
-}}>
-                {primaryNavItems.map((item) => {
-                  const Icon = iconMap[item.icon]
-                  const isActive = location.pathname === item.path
-                  return (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      style={{
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '12px',
-  fontWeight: '600',
-  color: '#ffffff'
-}}
-                    >
-                      <Icon size={18} className="transition-transform group-hover:scale-110" />
-                      <span>{item.label}</span>
-                      {isActive && (
-                        <div style={{
-  position: 'absolute',
-  borderRadius: '50%'
-}}></div>
-                      )}
-                      {!isActive && (
-                        <div style={{
-  position: 'absolute',
-  borderRadius: '12px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}></div>
-                      )}
-                    </Link>
-                  )
-                })}
-              </nav>
-            </div>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center gap-1">
+              {navItems.map((item) => {
+                const Icon = iconMap[item.icon]
+                const isActive = location.pathname === item.path
+                return (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      isActive
+                        ? 'text-white bg-[#58a6ff]/10'
+                        : 'text-[#8b949e] hover:text-white hover:bg-[#161b22]/60'
+                    }`}
+                  >
+                    <Icon size={18} />
+                    <span>{item.label}</span>
+                  </Link>
+                )
+              })}
+            </nav>
 
-            {/* Center Search Bar with Autocomplete */}
-            <div style={{
-  display: 'none',
-  flex: '1',
-  marginLeft: '32px',
-  marginRight: '32px'
-}} ref={searchRef}>
-              <form onSubmit={handleSearch} style={{
-  position: 'relative'
-}}>
-                <div style={{
-  position: 'relative'
-}}>
-                  <Search style={{
-  position: 'absolute',
-  width: '20px',
-  height: '20px',
-  color: '#c9d1d9'
-}} />
-                  <input
-                    type="search"
-                    placeholder="Search items, collections, and accounts..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onFocus={() => setShowSuggestions(true)}
-                    style={{
-  width: '100%',
-  height: '56px',
-  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(163, 113, 247, 0.1) 100%)',
-  border: '1px solid rgba(163, 113, 247, 0.2)',
-  borderRadius: '24px',
-  color: '#ffffff',
-  paddingLeft: '48px',
-  paddingRight: '16px'
-}}
-                  />
-
-                  {/* Search Suggestions Dropdown */}
-                  {showSuggestions && searchSuggestions.length > 0 && (
-                    <div style={{
-  position: 'absolute',
-  top: '100%',
-  marginTop: '8px',
-  width: '100%',
-  background: 'rgba(10, 10, 11, 0.95)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  borderRadius: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  overflow: 'hidden',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
-}}>
-                      {searchSuggestions.map((suggestion, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => {
-                            setSearchQuery(suggestion.name)
-                            setShowSuggestions(false)
-                          }}
-                          style={{
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  background: 'transparent',
-  border: 'none',
-  cursor: 'pointer',
-  transition: 'background 0.2s ease'
-}}
-                          onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'}
-                          onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                        >
-                          <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-                            <span style={{
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>{suggestion.name[0]}</span>
-                          </div>
-                          <div style={{
-  flex: '1',
-  textAlign: 'left'
-}}>
-                            <div style={{
-  fontWeight: '600',
-  color: '#ffffff'
-}}>{suggestion.name}</div>
-                            <div style={{
-  color: '#c9d1d9'
-}}>{suggestion.type}</div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </form>
-            </div>
+            {/* Desktop Search */}
+            <form onSubmit={handleSearch} className="hidden lg:block flex-1 max-w-md mx-8">
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8b949e]" />
+                <input
+                  type="search"
+                  placeholder="Search CRYB..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full h-10 pl-11 pr-4 bg-[#161b22]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#8b949e] outline-none focus:border-[#58a6ff]/50 transition-all"
+                />
+              </div>
+            </form>
 
             {/* Right Section */}
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px'
-}}>
+            <div className="flex items-center gap-2 sm:gap-3">
               {user ? (
                 <>
-                  {/* Theme Toggle */}
-                  <div style={{
-  display: 'none'
-}}>
-                    <ThemeToggle variant="icon" size="md" />
-                  </div>
-
-                  {/* Wallet Connect Button */}
-                  <div style={{
-  display: 'none'
-}}>
-                    <WalletConnectButton />
-                  </div>
-
-                  {/* Notifications Bell */}
-                  <div style={{
-  position: 'relative'
-}} ref={notificationRef}>
+                  {/* Notifications */}
+                  <div className="relative" ref={notificationRef}>
                     <button
                       onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                      style={{
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '40px',
-  height: '40px',
-  borderRadius: '12px',
-  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(163, 113, 247, 0.1) 100%)',
-  border: '1px solid rgba(163, 113, 247, 0.2)',
-  transition: 'all 0.2s ease'
-}}
+                      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:text-white hover:border-[#58a6ff]/30 transition-all"
                       aria-label="Notifications"
                     >
-                      <Bell size={20} style={{
-  color: '#c9d1d9'
-}} />
-                      {unreadNotifications > 0 && (
-                        <div style={{
-  position: 'absolute',
-  width: '20px',
-  height: '20px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-                          <span style={{
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>{unreadNotifications}</span>
-                        </div>
+                      <Bell size={18} />
+                      {unreadCount > 0 && (
+                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                          {unreadCount}
+                        </span>
                       )}
                     </button>
 
-                    {/* Notifications Dropdown */}
                     {isNotificationOpen && (
-                      <div style={{
-  position: 'absolute',
-  top: '100%',
-  right: 0,
-  marginTop: '8px',
-  width: '384px',
-  background: 'rgba(10, 10, 11, 0.95)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  borderRadius: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  overflow: 'hidden',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
-}}>
-                        <div style={{
-  padding: '16px'
-}}>
-                          <h3 style={{
-  fontWeight: 'bold',
-  color: '#ffffff'
-}}>Notifications</h3>
+                      <div className="absolute right-0 mt-2 w-80 bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
+                        <div className="p-4 border-b border-white/10">
+                          <h3 className="font-semibold text-white">Notifications</h3>
                         </div>
-                        <div className="max-h-96 overflow-y-auto">
+                        <div className="max-h-80 overflow-y-auto">
                           {mockNotifications.map((notification) => (
                             <div
                               key={notification.id}
-                              style={{
-  padding: '16px',
-  background: 'transparent',
-  cursor: 'pointer',
-  transition: 'background 0.2s ease'
-}}
-                              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
-                              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                              className="px-4 py-3 hover:bg-[#161b22]/60 transition-colors cursor-pointer"
                             >
-                              <div style={{
-  display: 'flex',
-  alignItems: 'flex-start',
-  gap: '12px'
-}}>
-                                <div style={{
-  width: '8px',
-  height: '8px',
-  borderRadius: '50%'
-}}></div>
-                                <div style={{
-  flex: '1'
-}}>
-                                  <p style={{
-  color: '#ffffff'
-}}>{notification.message}</p>
-                                  <p style={{
-  color: '#c9d1d9'
-}}>{notification.time}</p>
+                              <div className="flex items-start gap-3">
+                                {!notification.read && (
+                                  <span className="w-2 h-2 mt-2 bg-[#58a6ff] rounded-full flex-shrink-0"></span>
+                                )}
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm text-[#c9d1d9]">{notification.message}</p>
+                                  <p className="text-xs text-[#8b949e] mt-1">{notification.time}</p>
                                 </div>
                               </div>
                             </div>
                           ))}
                         </div>
-                        <div style={{
-  padding: '12px'
-}}>
-                          <button style={{
-  width: '100%',
-  textAlign: 'center',
-  fontWeight: '600'
-}}>
+                        <div className="p-3 border-t border-white/10">
+                          <Link
+                            to="/notifications"
+                            onClick={() => setIsNotificationOpen(false)}
+                            className="block w-full text-center text-sm text-[#58a6ff] font-medium hover:underline"
+                          >
                             View all notifications
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     )}
                   </div>
 
-                  {/* Create Button */}
+                  {/* Create Button - Desktop */}
                   <button
-                    style={{
-  display: 'none',
-  alignItems: 'center',
-  gap: '8px',
-  paddingLeft: '24px',
-  paddingRight: '24px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  color: '#ffffff',
-  borderRadius: '12px',
-  fontWeight: '600'
-}}
                     onClick={() => navigate('/submit')}
+                    className="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
                   >
-                    <Plus size={18} />
-                    Create
+                    <Plus size={16} />
+                    <span>Create</span>
                   </button>
 
                   {/* User Menu */}
-                  <div style={{
-  position: 'relative'
-}} ref={userMenuRef}>
+                  <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(163, 113, 247, 0.1) 100%)',
-  border: '1px solid rgba(163, 113, 247, 0.2)',
-  borderRadius: '12px',
-  padding: '4px',
-  transition: 'all 0.2s ease'
-}}
+                      className="flex items-center gap-2 p-1 pr-2 bg-[#161b22]/60 border border-white/10 rounded-lg hover:border-[#58a6ff]/30 transition-all"
                     >
-                      <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: '600'
-}}>
+                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-sm font-semibold">
                         {user?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
-                      <ChevronDown size={16} style={{
-  display: 'none',
-  color: '#c9d1d9'
-}} />
+                      <ChevronDown size={14} className="text-[#8b949e] hidden sm:block" />
                     </button>
 
                     {isUserMenuOpen && (
-                      <div style={{
-  position: 'absolute',
-  top: '100%',
-  right: 0,
-  marginTop: '8px',
-  width: '256px',
-  background: 'rgba(10, 10, 11, 0.95)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  borderRadius: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  overflow: 'hidden',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)'
-}}>
-                        <div style={{
-  padding: '16px'
-}}>
-                          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px'
-}}>
-                            <div style={{
-  width: '48px',
-  height: '48px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
+                      <div className="absolute right-0 mt-2 w-56 bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
+                        <div className="p-4 border-b border-white/10">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
-                            <div>
-                              <div style={{
-  fontWeight: 'bold',
-  color: '#ffffff'
-}}>{user?.username || 'User'}</div>
-                              <div style={{
-  color: '#c9d1d9'
-}}>{user?.email || 'user@cryb.com'}</div>
+                            <div className="min-w-0">
+                              <div className="font-semibold text-white text-sm truncate">{user?.username || 'User'}</div>
+                              <div className="text-xs text-[#8b949e] truncate">{user?.email || ''}</div>
                             </div>
                           </div>
                         </div>
-                        <div style={{
-  paddingTop: '8px',
-  paddingBottom: '8px'
-}}>
+                        <div className="py-2">
                           <Link
-                            to="/profile"
+                            to={`/profile/${user?.username}`}
                             onClick={() => setIsUserMenuOpen(false)}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  color: '#c9d1d9',
-  background: 'transparent',
-  textDecoration: 'none',
-  transition: 'background 0.2s ease'
-}}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
                           >
-                            <User size={18} />
-                            My Profile
+                            <User size={16} />
+                            <span className="text-sm">Profile</span>
                           </Link>
                           <Link
                             to="/settings"
                             onClick={() => setIsUserMenuOpen(false)}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  color: '#c9d1d9',
-  background: 'transparent',
-  textDecoration: 'none',
-  transition: 'background 0.2s ease'
-}}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
                           >
-                            <Settings size={18} />
-                            Settings
-                          </Link>
-                          <Link
-                            to="/activity"
-                            onClick={() => setIsUserMenuOpen(false)}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  color: '#c9d1d9',
-  background: 'transparent',
-  textDecoration: 'none',
-  transition: 'background 0.2s ease'
-}}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                          >
-                            <Activity size={18} />
-                            Activity
+                            <Settings size={16} />
+                            <span className="text-sm">Settings</span>
                           </Link>
                           <Link
                             to="/wallet"
                             onClick={() => setIsUserMenuOpen(false)}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  color: '#c9d1d9',
-  background: 'transparent',
-  textDecoration: 'none',
-  transition: 'background 0.2s ease'
-}}
-                            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.08)'}
-                            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
                           >
-                            <Wallet size={18} />
-                            My Wallet
+                            <Wallet size={16} />
+                            <span className="text-sm">Wallet</span>
                           </Link>
                         </div>
-                        <div style={{
-  paddingTop: '8px',
-  paddingBottom: '8px'
-}}>
+                        <div className="py-2 border-t border-white/10">
                           <button
                             onClick={handleLogout}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  width: '100%',
-  textAlign: 'left'
-}}
+                            className="flex items-center gap-3 px-4 py-2.5 w-full text-[#ef4444] hover:bg-[#ef4444]/10 transition-colors"
                           >
-                            <LogOut size={18} />
-                            Sign Out
+                            <LogOut size={16} />
+                            <span className="text-sm">Sign Out</span>
                           </button>
                         </div>
                       </div>
@@ -675,55 +268,50 @@ function Header() {
                   {/* Mobile Menu Button */}
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '40px',
-  height: '40px',
-  borderRadius: '12px',
-  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.1) 0%, rgba(163, 113, 247, 0.1) 100%)',
-  border: '1px solid rgba(163, 113, 247, 0.2)',
-  transition: 'all 0.2s ease'
-}}
+                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:text-white transition-colors"
                   >
                     {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                   </button>
                 </>
               ) : (
-                <button
-                  style={{
-  paddingLeft: '24px',
-  paddingRight: '24px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  color: '#ffffff',
-  borderRadius: '12px',
-  fontWeight: '600'
-}}
-                  onClick={() => navigate('/landing')}
-                >
-                  Sign In
-                </button>
+                <div className="flex items-center gap-3">
+                  <Link
+                    to="/login"
+                    className="text-[#c9d1d9] hover:text-white text-sm font-medium transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="px-4 py-2 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all"
+                  >
+                    Get Started
+                  </Link>
+                </div>
               )}
             </div>
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && user && (
-          <div style={{
-  background: 'rgba(10, 10, 11, 0.95)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  borderTop: '1px solid rgba(255, 255, 255, 0.08)'
-}}>
-            <div style={{
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '24px',
-  paddingBottom: '24px'
-}}>
+          <div className="md:hidden bg-[#0d1117]/95 backdrop-blur-xl border-t border-white/10">
+            <div className="p-4 space-y-2">
+              {/* Mobile Search */}
+              <form onSubmit={handleSearch} className="mb-4">
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8b949e]" />
+                  <input
+                    type="search"
+                    placeholder="Search CRYB..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full h-11 pl-11 pr-4 bg-[#161b22]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#8b949e] outline-none focus:border-[#58a6ff]/50"
+                  />
+                </div>
+              </form>
+
+              {/* Mobile Nav Items */}
               {navItems.map((item) => {
                 const Icon = iconMap[item.icon]
                 const isActive = location.pathname === item.path
@@ -732,197 +320,39 @@ function Header() {
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  borderRadius: '12px',
-  fontWeight: '600',
-  color: isActive ? '#ffffff' : '#c9d1d9',
-  background: isActive ? 'rgba(255, 255, 255, 0.1)' : 'transparent',
-  textDecoration: 'none',
-  transition: 'all 0.2s ease'
-}}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                      isActive
+                        ? 'text-white bg-[#58a6ff]/10'
+                        : 'text-[#c9d1d9] hover:bg-[#161b22]/60'
+                    }`}
                   >
                     <Icon size={20} />
-                    {item.label}
+                    <span>{item.label}</span>
                   </Link>
                 )
               })}
 
-              {/* Mobile Search */}
-              <div className="pt-4">
-                <form onSubmit={handleSearch}>
-                  <div style={{
-  position: 'relative'
-}}>
-                    <Search style={{
-  position: 'absolute',
-  width: '20px',
-  height: '20px',
-  color: '#c9d1d9'
-}} />
-                    <input
-                      type="search"
-                      placeholder="Search..."
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      style={{
-  width: '100%',
-  height: '48px',
-  background: 'rgba(255, 255, 255, 0.08)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  color: '#ffffff',
-  paddingLeft: '48px',
-  paddingRight: '16px'
-}}
-                    />
-                  </div>
-                </form>
-              </div>
-
-              {/* Mobile Actions */}
-              <div className="pt-4 space-y-2">
+              <div className="pt-4 border-t border-white/10">
                 <button
                   onClick={() => {
                     navigate('/submit')
                     setIsMobileMenuOpen(false)
                   }}
-                  style={{
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '8px',
-  paddingLeft: '24px',
-  paddingRight: '24px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  color: '#ffffff',
-  borderRadius: '12px',
-  fontWeight: '600'
-}}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all"
                 >
                   <Plus size={18} />
-                  Create
+                  <span>Create Post</span>
                 </button>
-
-                <ThemeToggle variant="full" size="md" style={{
-  width: '100%'
-}} />
               </div>
             </div>
           </div>
         )}
       </header>
 
-      {/* Mobile Bottom Navigation */}
-      {user && (
-        <nav style={{
-  position: 'fixed',
-  bottom: 0,
-  left: 0,
-  right: 0,
-  zIndex: 50,
-  background: 'rgba(10, 10, 11, 0.9)',
-  backdropFilter: 'blur(20px)',
-  WebkitBackdropFilter: 'blur(20px)',
-  borderTop: '1px solid rgba(255, 255, 255, 0.08)'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-around',
-  height: '80px',
-  paddingLeft: '8px',
-  paddingRight: '8px'
-}}>
-            {primaryNavItems.map((item) => {
-              const Icon = iconMap[item.icon]
-              const isActive = location.pathname === item.path
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  style={{
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '4px',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '12px',
-  color: '#c9d1d9'
-}}
-                >
-                  <div className={`transition-all duration-200 ${isActive ? 'scale-110' : ''}`}>
-                    <Icon size={24} />
-                  </div>
-                  <span style={{
-  fontWeight: '600'
-}}>{item.label}</span>
-                  {isActive && (
-                    <div style={{
-  position: 'absolute',
-  width: '4px',
-  height: '4px',
-  borderRadius: '50%'
-}}></div>
-                  )}
-                </Link>
-              )
-            })}
-
-            {/* Mobile Create Button */}
-            <button
-              onClick={() => navigate('/submit')}
-              style={{
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '4px',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px'
-}}
-            >
-              <div style={{
-  width: '48px',
-  height: '48px',
-  borderRadius: '24px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-                <Plus size={24} style={{
-  color: '#ffffff'
-}} />
-              </div>
-            </button>
-          </div>
-        </nav>
-      )}
-
-      {/* Spacer for fixed header */}
-      <div style={{
-  height: '80px'
-}}></div>
+      {/* Header Spacer */}
+      <div className="h-16"></div>
     </>
   )
 }
-
-
 
 export default Header

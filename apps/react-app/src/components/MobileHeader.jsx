@@ -2,44 +2,31 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   Menu, Search, Bell, User, Settings, LogOut, Plus, X,
-  Home, Users, Activity, Zap, MessageCircle, Bot,
+  Home, Users, Activity, MessageCircle, Bot,
   ShoppingBag, Hash, Wallet, Coins
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
-import WalletConnectButton from './web3/WalletConnectButton'
-import ThemeToggle from './ui/ThemeToggle'
 
 function MobileHeader() {
   const location = useLocation()
   const navigate = useNavigate()
   const { logout, user } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isNotificationOpen, setIsNotificationOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [unreadCount, setUnreadCount] = useState(3)
 
   const userMenuRef = useRef(null)
   const mobileMenuRef = useRef(null)
-  const notificationRef = useRef(null)
 
   const navItems = [
     { href: '/home', label: 'Home', icon: Home },
     { href: '/communities', label: 'Communities', icon: Hash },
     { href: '/nft-marketplace', label: 'Explore', icon: ShoppingBag },
     { href: '/crypto', label: 'Stats', icon: Coins },
+    { href: '/messages', label: 'Messages', icon: MessageCircle },
     { href: '/users', label: 'Users', icon: Users },
     { href: '/activity', label: 'Activity', icon: Activity },
-    { href: '/chat', label: 'Chat', icon: MessageCircle },
     { href: '/bots', label: 'Bots', icon: Bot },
-  ]
-
-  const primaryNavItems = navItems.slice(0, 4)
-
-  const mockNotifications = [
-    { id: 1, type: 'bid', message: 'New bid on your NFT', time: '2m ago', read: false },
-    { id: 2, type: 'follow', message: 'crypto_whale started following you', time: '1h ago', read: false },
-    { id: 3, type: 'like', message: 'Your post received 10 likes', time: '3h ago', read: true }
   ]
 
   useEffect(() => {
@@ -47,11 +34,8 @@ function MobileHeader() {
       if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
         setIsUserMenuOpen(false)
       }
-      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target) && !event.target.closest('button[aria-label="Menu"]')) {
         setIsMobileMenuOpen(false)
-      }
-      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
-        setIsNotificationOpen(false)
       }
     }
 
@@ -60,23 +44,19 @@ function MobileHeader() {
   }, [])
 
   useEffect(() => {
-    const handleEscape = (event) => {
-      if (event.key === 'Escape') {
-        setIsUserMenuOpen(false)
-        setIsMobileMenuOpen(false)
-        setIsNotificationOpen(false)
-      }
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
     }
-
-    document.addEventListener('keydown', handleEscape)
-    return () => document.removeEventListener('keydown', handleEscape)
-  }, [])
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
 
   const handleLogout = async () => {
-    const result = await logout()
-    if (result.success) {
-      navigate('/landing', { replace: true })
-    }
+    await logout()
+    navigate('/login', { replace: true })
   }
 
   const handleSearch = (e) => {
@@ -84,317 +64,94 @@ function MobileHeader() {
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
       setSearchQuery('')
+      setIsMobileMenuOpen(false)
     }
-  }
-
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(prev => !prev)
-  }
-
-  const toggleUserMenu = () => {
-    setIsUserMenuOpen(prev => !prev)
-  }
-
-  const toggleNotifications = () => {
-    setIsNotificationOpen(prev => !prev)
   }
 
   return (
     <>
-      {/* Mobile-Optimized Header with Glassmorphism */}
-      <header style={{
-  position: 'fixed',
-  background: 'rgba(22, 27, 34, 0.6)',
-  paddingTop: 'env(safe-area-inset-top)'
-}}>
-        <div style={{
-  paddingLeft: '16px',
-  paddingRight: '16px'
-}}>
+      {/* Mobile Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0d1117]/95 backdrop-blur-xl border-b border-white/10 pt-[env(safe-area-inset-top)] md:hidden">
+        <div className="px-4">
           {/* Top Bar */}
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  height: '64px'
-}}>
+          <div className="flex items-center justify-between h-14">
             {/* Logo */}
-            <Link to="/home" style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-              <span style={{
-  fontWeight: 'bold'
-}}>
+            <Link to="/home" className="flex items-center">
+              <span className="text-xl font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
                 CRYB
               </span>
             </Link>
 
             {/* Right Actions */}
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px'
-}}>
-              {user && (
+            <div className="flex items-center gap-2">
+              {user ? (
                 <>
-                  {/* Theme Toggle - Mobile */}
-                  <ThemeToggle variant="icon" size="sm" />
-
                   {/* Notifications */}
-                  <div style={{
-  position: 'relative'
-}} ref={notificationRef}>
-                    <button
-                      onClick={toggleNotifications}
-                      style={{
-  position: 'relative',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '40px',
-  height: '40px',
-  borderRadius: '12px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
-                      aria-label={`Notifications ${unreadCount > 0 ? `(${unreadCount} unread)` : ''}`}
-                    >
-                      <Bell size={18} style={{
-  color: '#c9d1d9'
-}} />
-                      {unreadCount > 0 && (
-                        <span style={{
-  position: 'absolute',
-  height: '20px',
-  width: '20px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: '50%',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
-                          {unreadCount > 9 ? '9+' : unreadCount}
-                        </span>
-                      )}
-                    </button>
+                  <Link
+                    to="/notifications"
+                    className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:text-white transition-colors"
+                  >
+                    <Bell size={18} />
+                    <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                      3
+                    </span>
+                  </Link>
 
-                    {/* Notifications Dropdown */}
-                    {isNotificationOpen && (
-                      <div style={{
-  position: 'absolute',
-  width: '320px',
-  borderRadius: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  overflow: 'hidden'
-}}>
-                        <div style={{
-  padding: '12px'
-}}>
-                          <h3 style={{
-  fontWeight: 'bold',
-  color: '#ffffff'
-}}>Notifications</h3>
-                        </div>
-                        <div className="max-h-80 overflow-y-auto">
-                          {mockNotifications.map((notification) => (
-                            <div
-                              key={notification.id}
-                              style={{
-  padding: '12px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
-                            >
-                              <div style={{
-  display: 'flex',
-  alignItems: 'flex-start',
-  gap: '8px'
-}}>
-                                <div style={{
-  width: '8px',
-  height: '8px',
-  borderRadius: '50%'
-}}></div>
-                                <div style={{
-  flex: '1'
-}}>
-                                  <p style={{
-  color: '#ffffff'
-}}>{notification.message}</p>
-                                  <p style={{
-  color: '#c9d1d9'
-}}>{notification.time}</p>
-                                </div>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <div style={{
-  padding: '8px'
-}}>
-                          <button style={{
-  width: '100%',
-  textAlign: 'center',
-  fontWeight: '600',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  borderRadius: '12px'
-}}>
-                            View all
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* User Profile */}
-                  <div style={{
-  position: 'relative'
-}} ref={userMenuRef}>
+                  {/* User Menu */}
+                  <div className="relative" ref={userMenuRef}>
                     <button
-                      onClick={toggleUserMenu}
-                      style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  padding: '4px',
-  borderRadius: '12px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                      onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                      className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white text-sm font-semibold"
                     >
-                      <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: '600'
-}}>
-                        {user?.username?.charAt(0).toUpperCase() || 'U'}
-                      </div>
+                      {user?.username?.charAt(0).toUpperCase() || 'U'}
                     </button>
 
                     {isUserMenuOpen && (
-                      <div style={{
-  position: 'absolute',
-  width: '224px',
-  borderRadius: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  overflow: 'hidden'
-}}>
-                        <div style={{
-  padding: '12px'
-}}>
-                          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px'
-}}>
-                            <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
+                      <div className="absolute right-0 mt-2 w-56 bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
+                        <div className="p-4 border-b border-white/10">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
-                            <div>
-                              <div style={{
-  fontWeight: 'bold',
-  color: '#ffffff'
-}}>{user?.username || 'User'}</div>
-                              <div style={{
-  color: '#c9d1d9'
-}}>{user?.email || 'user@cryb.com'}</div>
+                            <div className="min-w-0">
+                              <div className="font-semibold text-white text-sm truncate">{user?.username || 'User'}</div>
+                              <div className="text-xs text-[#8b949e] truncate">{user?.email || ''}</div>
                             </div>
                           </div>
                         </div>
-                        <div style={{
-  paddingTop: '4px',
-  paddingBottom: '4px'
-}}>
+                        <div className="py-2">
                           <Link
-                            to="/profile"
+                            to={`/profile/${user?.username}`}
                             onClick={() => setIsUserMenuOpen(false)}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  color: '#c9d1d9',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
                           >
                             <User size={16} />
-                            My Profile
+                            <span className="text-sm">Profile</span>
                           </Link>
                           <Link
                             to="/settings"
                             onClick={() => setIsUserMenuOpen(false)}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  color: '#c9d1d9',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
                           >
                             <Settings size={16} />
-                            Settings
+                            <span className="text-sm">Settings</span>
                           </Link>
                           <Link
                             to="/wallet"
                             onClick={() => setIsUserMenuOpen(false)}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  color: '#c9d1d9',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
                           >
                             <Wallet size={16} />
-                            My Wallet
+                            <span className="text-sm">Wallet</span>
                           </Link>
                         </div>
-                        <div style={{
-  paddingTop: '4px',
-  paddingBottom: '4px'
-}}>
+                        <div className="py-2 border-t border-white/10">
                           <button
                             onClick={handleLogout}
-                            style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  width: '100%',
-  textAlign: 'left'
-}}
+                            className="flex items-center gap-3 px-4 py-2.5 w-full text-[#ef4444] hover:bg-[#ef4444]/10 transition-colors"
                           >
                             <LogOut size={16} />
-                            Sign Out
+                            <span className="text-sm">Sign Out</span>
                           </button>
                         </div>
                       </div>
@@ -403,46 +160,28 @@ function MobileHeader() {
 
                   {/* Hamburger Menu */}
                   <button
-                    style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '40px',
-  height: '40px',
-  borderRadius: '12px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
-                    onClick={toggleMobileMenu}
+                    className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:text-white transition-colors"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label="Menu"
                   >
-                    {isMobileMenuOpen ? (
-                      <X size={20} style={{
-  color: '#c9d1d9'
-}} />
-                    ) : (
-                      <Menu size={20} style={{
-  color: '#c9d1d9'
-}} />
-                    )}
+                    {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                   </button>
                 </>
-              )}
-
-              {!user && (
-                <button
-                  style={{
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  color: '#ffffff',
-  borderRadius: '12px',
-  fontWeight: '600'
-}}
-                  onClick={() => navigate('/landing')}
-                >
-                  Sign In
-                </button>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/login"
+                    className="px-4 py-2 text-[#c9d1d9] hover:text-white text-sm font-medium transition-colors"
+                  >
+                    Sign In
+                  </Link>
+                  <Link
+                    to="/register"
+                    className="px-4 py-2 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all"
+                  >
+                    Get Started
+                  </Link>
+                </div>
               )}
             </div>
           </div>
@@ -451,28 +190,14 @@ function MobileHeader() {
           {user && (
             <div className="pb-3">
               <form onSubmit={handleSearch}>
-                <div style={{
-  position: 'relative'
-}}>
-                  <Search style={{
-  position: 'absolute',
-  height: '16px',
-  width: '16px',
-  color: '#c9d1d9'
-}} />
+                <div className="relative">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8b949e]" />
                   <input
                     type="search"
-                    placeholder="Search items, collections..."
+                    placeholder="Search CRYB..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    style={{
-  width: '100%',
-  height: '48px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  borderRadius: '12px',
-  color: '#ffffff',
-  fontSize: '16px'
-}}
+                    className="w-full h-11 pl-11 pr-4 bg-[#161b22]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#8b949e] outline-none focus:border-[#58a6ff]/50"
                   />
                 </div>
               </form>
@@ -484,16 +209,9 @@ function MobileHeader() {
         {isMobileMenuOpen && user && (
           <div
             ref={mobileMenuRef}
-            style={{
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+            className="absolute top-full left-0 right-0 bg-[#0d1117]/95 backdrop-blur-xl border-t border-white/10 max-h-[70vh] overflow-y-auto"
           >
-            <nav style={{
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '16px',
-  paddingBottom: '16px'
-}}>
+            <nav className="p-4 space-y-1">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.href
                 const IconComponent = item.icon
@@ -501,144 +219,41 @@ function MobileHeader() {
                   <Link
                     key={item.href}
                     to={item.href}
-                    style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  borderRadius: '12px',
-  fontWeight: '600',
-  color: '#c9d1d9',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+                      isActive
+                        ? 'text-white bg-[#58a6ff]/10'
+                        : 'text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white'
+                    }`}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <IconComponent size={18} />
+                    <IconComponent size={20} />
                     {item.label}
                   </Link>
                 )
               })}
 
-              {/* Wallet Connect in Menu */}
-              <div className="pt-3 pb-2">
-                <WalletConnectButton />
+              <div className="pt-4 border-t border-white/10">
+                <button
+                  onClick={() => {
+                    navigate('/submit')
+                    setIsMobileMenuOpen(false)
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
+                >
+                  <Plus size={18} />
+                  <span>Create Post</span>
+                </button>
               </div>
             </nav>
           </div>
         )}
       </header>
 
-      {/* Enhanced Mobile Bottom Navigation with Glassmorphism */}
-      {user && (
-        <nav
-          style={{
-  position: 'fixed',
-  background: 'rgba(22, 27, 34, 0.6)',
-  paddingBottom: 'env(safe-area-inset-bottom)'
-}}
-          role="navigation"
-          aria-label="Bottom navigation"
-        >
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-around',
-  height: '80px',
-  paddingLeft: '8px',
-  paddingRight: '8px'
-}}>
-            {primaryNavItems.map((item) => {
-              const isActive = location.pathname === item.href
-              const IconComponent = item.icon
-              return (
-                <Link
-                  key={item.href}
-                  to={item.href}
-                  style={{
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: '4px',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '12px',
-  color: '#c9d1d9'
-}}
-                  aria-current={isActive ? 'page' : undefined}
-                  aria-label={item.label}
-                >
-                  <div className={`transition-all duration-200 ${isActive ? 'scale-110' : ''}`}>
-                    <IconComponent style={{
-  width: '24px',
-  height: '24px'
-}} />
-                  </div>
-                  <span style={{
-  fontWeight: '600'
-}}>{item.label}</span>
-                  {isActive && (
-                    <div style={{
-  position: 'absolute',
-  width: '4px',
-  height: '4px',
-  borderRadius: '50%'
-}}></div>
-                  )}
-                </Link>
-              )
-            })}
-
-            {/* Floating Create Button */}
-            <button
-              onClick={() => navigate('/submit')}
-              style={{
-  position: 'relative',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}
-              aria-label="Create new post"
-            >
-              <div style={{
-  width: '56px',
-  height: '56px',
-  borderRadius: '24px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-                <Plus size={26} style={{
-  color: '#ffffff'
-}} />
-              </div>
-              <div style={{
-  position: 'absolute',
-  borderRadius: '24px'
-}}></div>
-            </button>
-          </div>
-        </nav>
-      )}
-
-      {/* Spacer for fixed header */}
-      <div style={{
-  height: '64px'
-}}></div>
-      {user && <div style={{
-  height: '80px'
-}}></div>}
+      {/* Header Spacer */}
+      <div className="h-[calc(56px+env(safe-area-inset-top))] md:hidden" />
+      {user && <div className="h-3 md:hidden" />}
     </>
   )
 }
-
-
 
 export default MobileHeader
