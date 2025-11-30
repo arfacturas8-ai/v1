@@ -171,14 +171,14 @@ function Header() {
                     >
                       <Bell size={18} />
                       {unreadCount > 0 && (
-                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[11px] font-bold rounded-full flex items-center justify-center">
                           {unreadCount}
                         </span>
                       )}
                     </button>
 
                     {isNotificationOpen && (
-                      <div className="absolute right-0 mt-2 w-80 bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
+                      <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-32px)] bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
                         <div className="p-4 border-b border-white/10">
                           <h3 className="font-semibold text-white">Notifications</h3>
                         </div>

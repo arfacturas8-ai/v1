@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
   if (isSubmitted) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#0d1117] p-4 md:p-6" role="main" aria-label="Password reset confirmation">
-        <div className="w-full max-w-md md:max-w-lg bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="w-full max-w-md md:max-w-lg bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <div className="flex justify-center mb-3 md:mb-4">
             <div className="inline-flex items-center justify-center w-11 h-11 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-full" aria-hidden="true">
               <CheckCircle size={22} color="#fff" aria-hidden="true" />
@@ -98,7 +98,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0d1117] p-4 md:p-6" role="main" aria-label="Forgot password page">
-      <div className="w-full max-w-md md:max-w-lg bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+      <div className="w-full max-w-md md:max-w-lg bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         <div className="text-center mb-5 md:mb-6">
           <h1 className="text-lg md:text-xl font-bold text-white mb-2">
             Forgot Password?

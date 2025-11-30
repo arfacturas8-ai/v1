@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import { Eye, EyeOff, KeyRound, CheckCircle, AlertTriangle } from 'lucide-react'
 import authService from '../services/authService'
 import { useResponsive } from '../hooks/useResponsive'
 
@@ -145,15 +146,15 @@ export default function PasswordResetPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7] p-4 md:p-6"
+      className="min-h-screen flex items-center justify-center bg-[#0d1117] p-4 md:p-6"
       role="main"
       aria-label="Password reset page"
     >
-      <div className="bg-[#0A0A0B] rounded-xl p-5 md:p-6 max-w-md md:max-w-lg w-full shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)]">
+      <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 max-w-md md:max-w-lg w-full shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         {/* Header */}
         <div className="text-center mb-5 md:mb-6">
-          <div className="w-11 h-11 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center text-white text-xl md:text-2xl font-bold mx-auto mb-2 md:mb-3" aria-hidden="true">
-            🔑
+          <div className="w-11 h-11 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center mx-auto mb-2 md:mb-3" aria-hidden="true">
+            <KeyRound className="w-5 h-5 text-white" />
           </div>
           <h1 className="text-lg md:text-xl font-semibold mb-2 text-white">
             {step === 'request' && 'Reset Password'}
@@ -240,10 +241,10 @@ export default function PasswordResetPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-base md:text-lg min-h-[44px]"
+                  className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-[#8b949e] hover:text-white transition-colors min-h-[44px] flex items-center justify-center"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
 
@@ -305,7 +306,9 @@ export default function PasswordResetPage() {
         {/* Success State */}
         {step === 'success' && (
           <div className="text-center" role="status" aria-live="polite">
-            <div className="text-4xl md:text-5xl mb-5 md:mb-6" aria-hidden="true">✅</div>
+            <div className="w-16 h-16 mx-auto mb-5 md:mb-6 bg-emerald-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
+              <CheckCircle className="w-8 h-8 text-emerald-500" />
+            </div>
             <p className="text-sm md:text-base text-[#8b949e] mb-5 md:mb-6 leading-relaxed">
               {message}
             </p>
@@ -321,7 +324,9 @@ export default function PasswordResetPage() {
         {/* Error State */}
         {step === 'error' && (
           <div className="text-center" role="alert">
-            <div className="text-4xl md:text-5xl mb-5 md:mb-6" aria-hidden="true">⚠️</div>
+            <div className="w-16 h-16 mx-auto mb-5 md:mb-6 bg-amber-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
+              <AlertTriangle className="w-8 h-8 text-amber-500" />
+            </div>
             <p className="text-sm md:text-base text-[#8b949e] mb-5 md:mb-6 leading-relaxed">
               {error}
             </p>

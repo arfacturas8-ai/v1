@@ -274,9 +274,9 @@ function HomePage() {
   return (
     <div className="flex justify-center min-h-screen bg-[#0d1117] text-[#c9d1d9]">
       {isOffline && (
-        <div className="fixed top-0 left-0 right-0 p-3 bg-gradient-to-r from-yellow-500/90 to-red-500/90 backdrop-blur-lg text-white text-center z-[100] flex items-center justify-center gap-2 border-b border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
-          <WifiOff size={18} />
-          <span className="font-medium text-sm sm:text-base">You're offline. Showing cached content.</span>
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 px-4 py-2 bg-amber-500/90 backdrop-blur-lg text-white text-center z-40 flex items-center justify-center gap-2 rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+          <WifiOff size={16} />
+          <span className="font-medium text-sm">Offline mode</span>
         </div>
       )}
 

@@ -248,9 +248,9 @@ export default function WalletConnectionPage() {
 
         {/* Error */}
         {error && (
-          <div className="flex gap-3 p-4 bg-red-50 border border-red-200 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-6" role="alert" aria-live="assertive">
-            <AlertCircle size={20} className="text-red-500 flex-shrink-0" aria-hidden="true" />
-            <p className="text-sm text-red-900 leading-relaxed">
+          <div className="flex gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-6" role="alert" aria-live="assertive">
+            <AlertCircle size={20} className="text-red-400 flex-shrink-0" aria-hidden="true" />
+            <p className="text-sm text-red-400 leading-relaxed">
               {error}
             </p>
           </div>

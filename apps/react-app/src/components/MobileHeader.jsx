@@ -114,7 +114,7 @@ function MobileHeader() {
                   >
                     <Bell size={18} />
                     {unreadNotifications > 0 && (
-                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[11px] font-bold rounded-full flex items-center justify-center">
                         {unreadNotifications > 9 ? '9+' : unreadNotifications}
                       </span>
                     )}

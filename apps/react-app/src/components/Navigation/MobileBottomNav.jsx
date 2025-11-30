@@ -35,7 +35,7 @@ export default function MobileBottomNav() {
 
   const navItems = [
     { path: '/home', icon: Home, label: 'Home' },
-    { path: '/communities', icon: Hash, label: 'Explore' },
+    { path: '/communities', icon: Hash, label: 'Communities' },
     { path: '/messages', icon: MessageCircle, label: 'Messages', badge: unreadMessages },
     { path: `/profile/${user?.username}`, icon: User, label: 'Profile' },
   ];
@@ -60,7 +60,7 @@ export default function MobileBottomNav() {
               aria-label={item.label}
             >
               <Icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110' : ''}`} />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <span className="text-xs font-medium">{item.label}</span>
               {isActive && (
                 <div className="absolute -bottom-1 w-1 h-1 bg-[#58a6ff] rounded-full" />
               )}
@@ -98,12 +98,12 @@ export default function MobileBottomNav() {
               <div className="relative">
                 <Icon className={`w-5 h-5 transition-transform ${isActive ? 'scale-110' : ''}`} />
                 {item.badge > 0 && (
-                  <span className="absolute -top-1 -right-2 w-4 h-4 bg-[#58a6ff] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                  <span className="absolute -top-1 -right-2 w-4 h-4 bg-[#58a6ff] text-white text-[11px] font-bold rounded-full flex items-center justify-center">
                     {item.badge > 9 ? '9+' : item.badge}
                   </span>
                 )}
               </div>
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <span className="text-xs font-medium">{item.label}</span>
               {isActive && (
                 <div className="absolute -bottom-1 w-1 h-1 bg-[#58a6ff] rounded-full" />
               )}
