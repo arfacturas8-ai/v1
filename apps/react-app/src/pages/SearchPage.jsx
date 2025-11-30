@@ -412,25 +412,78 @@ function SearchPage() {
   const MemoizedUserProfile = useMemo(() => memo(UserProfile), [])
 
   return (
-    <div
-      role="main"
-      aria-label="Search page"
-      style={{
-        padding: isMobile ? '12px' : '20px',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        minHeight: '100vh',
-        backgroundColor: '#0d1117'
-      }}
-    >
+    <>
+      <style>
+        {`
+          @keyframes spin {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+
+          input[type="text"]::placeholder {
+            color: #8b949e;
+            opacity: 1;
+          }
+
+          input[type="text"]:focus::placeholder {
+            color: #6e7681;
+          }
+        `}
+      </style>
+      <div
+        role="main"
+        aria-label="Search page"
+        style={{
+          padding: isMobile ? '12px' : '20px',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          minHeight: '100vh',
+          backgroundColor: '#0d1117'
+        }}
+      >
       {/* Search Header */}
       <div style={{ marginBottom: `${spacing.xl}px` }}>
-        <h1 style={{ fontSize: `${fontSize['3xl']}px`, fontWeight: 'bold', marginBottom: `${spacing.md}px`, color: '#ffffff' }}>
+        <h1 style={{
+          fontSize: `${fontSize['3xl']}px`,
+          fontWeight: 'bold',
+          marginBottom: `${spacing.md}px`,
+          background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>
           Search
         </h1>
 
         {/* Search Input */}
         <div style={{ position: 'relative', marginBottom: `${spacing.lg}px` }}>
+          {/* Search Icon */}
+          <svg
+            style={{
+              position: 'absolute',
+              left: '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              width: '20px',
+              height: '20px',
+              color: '#8b949e',
+              pointerEvents: 'none'
+            }}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
           <input
             type="text"
             value={query}
@@ -439,14 +492,22 @@ function SearchPage() {
             aria-label="Search input"
             style={{
               width: '100%',
-              padding: isMobile ? '10px 12px' : '12px 16px',
+              padding: isMobile ? '10px 12px 10px 44px' : '12px 16px 12px 48px',
               fontSize: `${fontSize.base}px`,
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '12px',
-              backgroundColor: 'rgba(22, 27, 34, 0.6)',
-              backdropFilter: 'blur(12px)',
+              backgroundColor: '#0d1117',
               color: '#ffffff',
-              outline: 'none'
+              outline: 'none',
+              transition: 'all 0.2s ease'
+            }}
+            onFocus={(e) => {
+              e.target.style.borderColor = 'rgba(88, 166, 255, 0.3)'
+              e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+              e.target.style.boxShadow = 'none'
             }}
           />
           {loading && (
@@ -479,7 +540,17 @@ function SearchPage() {
                 border: 'none',
                 borderBottom: activeTab === tab.id ? '2px solid #58a6ff' : '2px solid transparent',
                 cursor: 'pointer',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => {
+                if (activeTab !== tab.id) {
+                  e.target.style.color = '#c9d1d9'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (activeTab !== tab.id) {
+                  e.target.style.color = '#8b949e'
+                }
               }}
             >
               {tab.label}
@@ -489,7 +560,7 @@ function SearchPage() {
                   padding: '2px 8px',
                   fontSize: '12px',
                   borderRadius: '12px',
-                  background: activeTab === tab.id ? 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' : 'rgba(255, 255, 255, 0.1)',
+                  background: activeTab === tab.id ? 'linear-gradient(to right, #58a6ff, #a371f7)' : 'rgba(255, 255, 255, 0.1)',
                   color: '#ffffff'
                 }}>
                   {tab.count}
@@ -518,14 +589,26 @@ function SearchPage() {
         <>
           {/* Loading Skeletons */}
           {(activeTab === 'all' || activeTab === 'communities') && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="communities-heading">
-              <h2 id="communities-heading" style={{
+            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="communities-heading-loading">
+              <h2 id="communities-heading-loading" style={{
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#ffffff'
+                color: '#c9d1d9',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
               }}>
                 Communities
+                <span style={{
+                  display: 'inline-block',
+                  width: '20px',
+                  height: '20px',
+                  border: '2px solid rgba(88, 166, 255, 0.2)',
+                  borderTopColor: '#58a6ff',
+                  borderRadius: '50%',
+                  animation: 'spin 0.8s linear infinite'
+                }} />
               </h2>
               <div style={{
                 display: 'grid',
@@ -540,14 +623,26 @@ function SearchPage() {
           )}
 
           {(activeTab === 'all' || activeTab === 'posts') && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="posts-heading">
-              <h2 id="posts-heading" style={{
+            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="posts-heading-loading">
+              <h2 id="posts-heading-loading" style={{
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#ffffff'
+                color: '#c9d1d9',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
               }}>
                 Posts
+                <span style={{
+                  display: 'inline-block',
+                  width: '20px',
+                  height: '20px',
+                  border: '2px solid rgba(88, 166, 255, 0.2)',
+                  borderTopColor: '#58a6ff',
+                  borderRadius: '50%',
+                  animation: 'spin 0.8s linear infinite'
+                }} />
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: `${spacing.md}px` }}>
                 {[...Array(3)].map((_, i) => (
@@ -558,14 +653,26 @@ function SearchPage() {
           )}
 
           {(activeTab === 'all' || activeTab === 'users') && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="users-heading">
-              <h2 id="users-heading" style={{
+            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="users-heading-loading">
+              <h2 id="users-heading-loading" style={{
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#ffffff'
+                color: '#c9d1d9',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
               }}>
                 Users
+                <span style={{
+                  display: 'inline-block',
+                  width: '20px',
+                  height: '20px',
+                  border: '2px solid rgba(88, 166, 255, 0.2)',
+                  borderTopColor: '#58a6ff',
+                  borderRadius: '50%',
+                  animation: 'spin 0.8s linear infinite'
+                }} />
               </h2>
               <div style={{
                 display: 'grid',
@@ -590,9 +697,22 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#ffffff'
+                color: '#c9d1d9',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
               }}>
                 Communities
+                <span style={{
+                  padding: '4px 12px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                  color: '#ffffff'
+                }}>
+                  {filteredResults.communities.length}
+                </span>
               </h2>
               <div style={{
                 display: 'grid',
@@ -618,9 +738,22 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#ffffff'
+                color: '#c9d1d9',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
               }}>
                 Posts
+                <span style={{
+                  padding: '4px 12px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                  color: '#ffffff'
+                }}>
+                  {filteredResults.posts.length}
+                </span>
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: `${spacing.md}px` }}>
                 {filteredResults.posts.map(post => (
@@ -645,9 +778,22 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#ffffff'
+                color: '#c9d1d9',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px'
               }}>
                 Users
+                <span style={{
+                  padding: '4px 12px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                  color: '#ffffff'
+                }}>
+                  {filteredResults.users.length}
+                </span>
               </h2>
               <div style={{
                 display: 'grid',
@@ -689,7 +835,8 @@ function SearchPage() {
           onAward={handleAwardSubmit}
         />
       )}
-    </div>
+      </div>
+    </>
   )
 }
 

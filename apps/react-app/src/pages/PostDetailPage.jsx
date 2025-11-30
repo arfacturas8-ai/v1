@@ -327,7 +327,7 @@ export default function PostDetailPage() {
             {/* Left column - Post */}
             <div className="lg:col-span-2 space-y-6">
               {/* Post card */}
-              <Card className="overflow-hidden bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+              <Card className="overflow-hidden bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <CardContent className="p-0">
                   {/* Post header */}
                   <div className="p-4 border-b border-white/10">
@@ -447,7 +447,7 @@ export default function PostDetailPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target"
+                        className="gap-1.5 touch-target text-[#8b949e] hover:text-white hover:bg-[#161b22]/60"
                         onClick={() => {
                           navigator.clipboard.writeText(window.location.href)
                           announce('Link copied to clipboard')
@@ -461,7 +461,7 @@ export default function PostDetailPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target"
+                        className="gap-1.5 touch-target text-[#8b949e] hover:text-white hover:bg-[#161b22]/60"
                         onClick={() => {
                           // Save logic would go here
                           announce('Post saved')
@@ -493,7 +493,7 @@ export default function PostDetailPage() {
 
               {/* Comment composer */}
               {user ? (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardContent className="p-4 safe-area-bottom">
                     <form onSubmit={handleCommentSubmit} className="space-y-3">
                       <div>
@@ -524,7 +524,7 @@ export default function PostDetailPage() {
                   </CardContent>
                 </Card>
               ) : (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10 border-dashed">
+                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 border-dashed rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardContent className="p-6 text-center">
                     <p className="text-[#8b949e] mb-4">
                       Sign in to join the discussion
@@ -542,7 +542,7 @@ export default function PostDetailPage() {
               )}
 
               {/* Comments section */}
-              <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+              <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <CardHeader className="border-b border-white/10">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg text-white">
@@ -574,7 +574,7 @@ export default function PostDetailPage() {
             <div className="lg:col-span-1 space-y-4">
               {/* Community info */}
               {post.community && (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardHeader className="pb-3">
                     <div className="flex items-center gap-3">
                       {post.community.icon ? (
@@ -614,7 +614,7 @@ export default function PostDetailPage() {
 
               {/* Author info */}
               {post.author && (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base text-white">About the Author</CardTitle>
                   </CardHeader>
@@ -647,7 +647,7 @@ export default function PostDetailPage() {
                       </div>
                     </div>
                     <Link to={`/u/${post.author.username}`}>
-                      <Button variant="outline" size="sm" className="w-full touch-target border-white/10 text-[#c9d1d9] hover:bg-[#161b22]/60 backdrop-blur-xl">
+                      <Button variant="outline" size="sm" className="w-full touch-target border-white/10 text-[#c9d1d9] hover:text-white hover:bg-[#161b22]/60 backdrop-blur-xl">
                         View Profile
                       </Button>
                     </Link>
@@ -656,7 +656,7 @@ export default function PostDetailPage() {
               )}
 
               {/* Post metadata */}
-              <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+              <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base text-white">Post Info</CardTitle>
                 </CardHeader>
@@ -693,7 +693,7 @@ export default function PostDetailPage() {
               </Card>
 
               {/* Report option */}
-              <Card className="border-red-500/30 bg-red-500/10 backdrop-blur-xl">
+              <Card className="border border-red-500/30 bg-red-500/10 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <CardContent className="p-4">
                   <Button
                     variant="ghost"
