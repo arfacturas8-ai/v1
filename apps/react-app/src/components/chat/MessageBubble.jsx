@@ -196,15 +196,15 @@ function MessageBubble({
       backdropFilter: 'blur(10px)',
     }
 
-    // OpenSea Blue: #58a6ff
+    // OpenSea Dark Theme - User messages with gradient
     if (isOwnMessage) {
       return {
         ...baseStyles,
         background: isSelected
-          ? 'linear-gradient(135deg, #58a6ff, #1868B7)'
-          : 'linear-gradient(135deg, #58a6ff, #58a6ff)',
+          ? 'linear-gradient(135deg, #58a6ff, #a371f7)'
+          : 'linear-gradient(135deg, #58a6ff, #a371f7)',
         color: 'white',
-        borderRadius: '12px 16px 4px 16px',
+        borderRadius: '16px 16px 4px 16px',
         marginLeft: 'auto',
         boxShadow: isSelected
           ? '0 8px 32px rgba(88, 166, 255, 0.4), 0 2px 8px rgba(88, 166, 255, 0.3)'
@@ -215,10 +215,10 @@ function MessageBubble({
       return {
         ...baseStyles,
         background: isSelected
-          ? '#2C2F36'
-          : '#2C2F36',
+          ? '#2a2e36'
+          : '#21262d',
         color: '#FFFFFF',
-        borderRadius: '12px 16px 16px 4px',
+        borderRadius: '16px 16px 16px 4px',
         border: '1px solid rgba(255, 255, 255, 0.1)',
         boxShadow: isSelected
           ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)'

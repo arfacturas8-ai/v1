@@ -69,10 +69,10 @@ export default function LoginPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-full sm:max-w-[480px] md:max-w-[440px]">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl p-3.5 sm:p-4">
+        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-3.5 sm:p-4">
           <div className="text-center mb-3 sm:mb-2.5">
             <div className="flex justify-center mb-1.5 sm:mb-[5px]">
-              <div className="w-11 h-11 sm:w-10 sm:h-10 rounded-[10px] bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center" aria-hidden="true">
+              <div className="w-11 h-11 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center" aria-hidden="true">
                 <Sparkles className="h-5.5 w-5.5 sm:h-5 sm:w-5 text-white" aria-hidden="true" />
               </div>
             </div>
@@ -82,7 +82,7 @@ export default function LoginPage() {
 
           {error && (
             <div
-              className="mb-2 px-2.5 py-2.5 bg-red-500/10 border border-red-500/20 rounded-[10px] text-red-500 text-xs sm:text-xs"
+              className="mb-2 px-2.5 py-2.5 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-xs sm:text-xs"
               role="alert"
               aria-live="assertive"
             >
@@ -104,7 +104,7 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-[10px] pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-blue-500/50 min-h-[44px]"
+                  className="w-full bg-[#0d1117] border border-white/10 rounded-xl pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-[#58a6ff]/50 min-h-[44px]"
                   placeholder="you@example.com"
                   autoComplete="email"
                   aria-required="true"
@@ -126,7 +126,7 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-[10px] pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-blue-500/50 min-h-[44px]"
+                  className="w-full bg-[#0d1117] border border-white/10 rounded-xl pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-[#58a6ff]/50 min-h-[44px]"
                   placeholder="Enter your password"
                   autoComplete="current-password"
                   aria-required="true"
@@ -171,7 +171,7 @@ export default function LoginPage() {
               fullWidth
               loading={loading}
               disabled={loading}
-              className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-[10px] px-4 py-2.5 sm:py-2.5 text-white font-semibold text-base sm:text-sm cursor-pointer flex items-center justify-center gap-1.5 transition-opacity w-full hover:opacity-90 min-h-[44px]"
+              className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-xl px-4 py-2.5 sm:py-2.5 text-white font-semibold text-base sm:text-sm cursor-pointer flex items-center justify-center gap-1.5 transition-opacity w-full hover:opacity-90 min-h-[44px]"
               aria-label="Sign in to your account"
             >
               {loading ? 'Signing in...' : 'Sign in'}

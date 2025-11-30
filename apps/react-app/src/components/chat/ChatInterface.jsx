@@ -348,13 +348,9 @@ function ChatInterface({
   const channelMembers = onlineUsers.size || 1
 
   return (
-    <div style={{
-  display: 'flex'
-}}>
+    <div className="flex h-full bg-[#0d1117]">
       {/* Channel Sidebar */}
-      <div style={{
-  overflow: 'hidden'
-}}>
+      <div className="overflow-hidden">
         <ChannelSidebar
           servers={servers}
           channels={channels}
@@ -376,72 +372,35 @@ function ChatInterface({
       </div>
 
       {/* Main Chat Area */}
-      <div style={{
-  display: 'flex',
-  flex: '1',
-  flexDirection: 'column'
-}}>
+      <div className="flex-1 flex flex-col">
         {/* Channel Header - OpenSea Style */}
-        <Card variant="flat" padding="sm" className="rounded-none border-x-0 border-t-0 shadow-sm">
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px'
-}}>
+        <div className="h-14 flex items-center justify-between px-4 bg-[#161b22]/60 backdrop-blur-xl border-b border-white/10">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-3">
               {sidebarCollapsed && (
-                <IconButton
-                  variant="ghost"
-                  size="icon-sm"
+                <button
                   onClick={() => setSidebarCollapsed(false)}
+                  className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
                   aria-label="Show sidebar"
                 >
-                  <Hash style={{
-  width: '16px',
-  height: '16px'
-}} />
-                </IconButton>
+                  <Hash className="w-5 h-5" />
+                </button>
               )}
 
-              <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px'
-}}>
-                <div style={{
-  width: '32px',
-  height: '32px',
-  borderRadius: '12px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-[#0d1117] flex items-center justify-center">
                   {isVoiceChannel ? (
-                    <Volume2 style={{
-  width: '20px',
-  height: '20px'
-}} />
+                    <Volume2 className="w-5 h-5 text-[#58a6ff]" />
                   ) : (
-                    <Hash style={{
-  width: '20px',
-  height: '20px'
-}} />
+                    <Hash className="w-5 h-5 text-[#58a6ff]" />
                   )}
                 </div>
                 <div>
-                  <h2 style={{
-  fontWeight: '600'
-}}>
+                  <h2 className="font-semibold text-white">
                     {currentChannelData?.name || 'General'}
                   </h2>
                   {currentChannelData?.description && (
-                    <span style={{
-  display: 'none'
-}}>
+                    <span className="hidden md:block text-xs text-[#8b949e]">
                       {currentChannelData.description}
                     </span>
                   )}
@@ -449,137 +408,83 @@ function ChatInterface({
               </div>
             </div>
 
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px'
-}}>
+            <div className="flex items-center gap-1">
               {/* Voice call controls */}
               {isVoiceChannel && (
                 <>
-                  <IconButton variant="ghost" size="icon-sm" aria-label="Start voice call">
-                    <Phone style={{
-  width: '16px',
-  height: '16px'
-}} />
-                  </IconButton>
-                  <IconButton variant="ghost" size="icon-sm" aria-label="Start video call">
-                    <Video style={{
-  width: '16px',
-  height: '16px'
-}} />
-                  </IconButton>
+                  <button className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Start voice call">
+                    <Phone className="w-5 h-5" />
+                  </button>
+                  <button className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Start video call">
+                    <Video className="w-5 h-5" />
+                  </button>
                 </>
               )}
 
               {/* Search */}
-              <IconButton
-                variant="ghost"
-                size="icon-sm"
+              <button
                 onClick={() => {
                   setRightPanelContent('search')
                   setRightPanelOpen(true)
                 }}
+                className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
                 aria-label="Search messages"
               >
-                <Search style={{
-  width: '16px',
-  height: '16px'
-}} />
-              </IconButton>
+                <Search className="w-5 h-5" />
+              </button>
 
               {/* Members */}
-              <Button
-                variant="ghost"
-                size="sm"
+              <button
                 onClick={() => {
                   setRightPanelContent('members')
                   setRightPanelOpen(!rightPanelOpen)
                 }}
-                leftIcon={<Users style={{
-  width: '16px',
-  height: '16px'
-}} />}
-                style={{
-  display: 'none'
-}}
+                className="hidden md:flex items-center gap-1 px-3 py-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
               >
-                {channelMembers}
-              </Button>
+                <Users className="w-5 h-5" />
+                <span className="text-sm">{channelMembers}</span>
+              </button>
 
               {/* Notifications */}
-              <div style={{
-  position: 'relative'
-}}>
-                <IconButton
-                  variant="ghost"
-                  size="icon-sm"
+              <div className="relative">
+                <button
                   onClick={() => {
                     setRightPanelContent('notifications')
                     setRightPanelOpen(!rightPanelOpen)
                   }}
+                  className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
                   aria-label="Notifications"
                 >
-                  <Bell style={{
-  width: '16px',
-  height: '16px'
-}} />
-                </IconButton>
+                  <Bell className="w-5 h-5" />
+                </button>
                 {notifications.length > 0 && (
-                  <span style={{
-  position: 'absolute',
-  color: '#ffffff',
-  fontWeight: 'bold',
-  borderRadius: '50%',
-  width: '16px',
-  height: '16px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs font-bold rounded-full flex items-center justify-center">
                     {notifications.length}
                   </span>
                 )}
               </div>
 
               {/* Settings */}
-              <IconButton variant="ghost" size="icon-sm" aria-label="Settings">
-                <Settings style={{
-  width: '16px',
-  height: '16px'
-}} />
-              </IconButton>
+              <button className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Settings">
+                <Settings className="w-5 h-5" />
+              </button>
 
               {/* Close (mobile) */}
               {isMobile && onClose && (
-                <IconButton variant="ghost" size="icon-sm" onClick={onClose} aria-label="Close chat">
-                  <X style={{
-  width: '16px',
-  height: '16px'
-}} />
-                </IconButton>
+                <button onClick={onClose} className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Close chat">
+                  <X className="w-5 h-5" />
+                </button>
               )}
             </div>
           </div>
-        </Card>
+        </div>
 
         {/* Pinned Messages */}
         {pinnedMessages.length > 0 && (
-          <div style={{
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px'
-}}>
-            <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-              <Pin style={{
-  width: '16px',
-  height: '16px'
-}} />
-              <span className="text-sm text-rgb(var(--color-warning-800)) dark:text-rgb(var(--color-warning-200))">
+          <div className="px-4 py-2 bg-[#161b22]/40 border-b border-white/10">
+            <div className="flex items-center gap-2">
+              <Pin className="w-4 h-4 text-[#58a6ff]" />
+              <span className="text-sm text-[#c9d1d9]">
                 {pinnedMessages.length} pinned message{pinnedMessages.length > 1 ? 's' : ''}
               </span>
             </div>
@@ -598,16 +503,9 @@ function ChatInterface({
         )}
 
         {/* Messages Area */}
-        <div ref={chatContainerRef} style={{
-  flex: '1',
-  display: 'flex'
-}}>
+        <div ref={chatContainerRef} className="flex-1 flex overflow-hidden">
           {/* Message List */}
-          <div style={{
-  flex: '1',
-  display: 'flex',
-  flexDirection: 'column'
-}}>
+          <div className="flex-1 flex flex-col">
             <MessageList
               messages={messages}
               currentUserId={user?.id}
@@ -654,9 +552,7 @@ function ChatInterface({
 
       {/* Right Panel */}
       {rightPanelOpen && (
-        <div style={{
-  width: '240px'
-}}>
+        <div className="w-60 bg-[#161b22]/60 backdrop-blur-xl border-l border-white/10 overflow-y-auto">
           {rightPanelContent === 'members' && (
             <UserPresenceSystem
               users={Array.from(onlineUsers.entries())}

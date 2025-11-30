@@ -184,23 +184,23 @@ const NFTDetailPage = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-4"
           >
-            <div className="aspect-square bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden">
+            <div className="aspect-square bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all">
               <img src={nftData.image} alt={nftData.name} className="w-full h-full object-cover" />
             </div>
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4">
-              <div className="p-4 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-center">
+              <div className="p-4 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all text-center">
                 <Eye className="w-5 h-5 mx-auto mb-2 text-[#8b949e]" />
                 <div className="text-xl font-bold text-white">{nftData.stats.views}</div>
                 <div className="text-sm text-[#8b949e]">Views</div>
               </div>
-              <div className="p-4 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-center">
+              <div className="p-4 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all text-center">
                 <Heart className="w-5 h-5 mx-auto mb-2 text-red-400" />
                 <div className="text-xl font-bold text-white">{nftData.stats.likes}</div>
                 <div className="text-sm text-[#8b949e]">Likes</div>
               </div>
-              <div className="p-4 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-center">
+              <div className="p-4 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all text-center">
                 <Tag className="w-5 h-5 mx-auto mb-2 text-[#58a6ff]" />
                 <div className="text-xl font-bold text-white">{nftData.stats.offers}</div>
                 <div className="text-sm text-[#8b949e]">Offers</div>
@@ -215,16 +215,20 @@ const NFTDetailPage = () => {
             className="space-y-6"
           >
             {/* Price Card */}
-            <div className="p-6 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white">
-              <div className="flex items-center justify-between mb-4">
+            <div className="p-6 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="flex items-center justify-between mb-6">
                 <div>
-                  <div className="text-sm opacity-90">Current Price</div>
-                  <div className="text-4xl font-bold">{nftData.price}</div>
-                  <div className="text-sm opacity-90">{nftData.priceUSD}</div>
+                  <div className="text-sm text-[#8b949e] mb-2">Current Price</div>
+                  <div className="text-4xl font-bold text-white mb-1">{nftData.price}</div>
+                  <div className="text-base text-[#8b949e]">{nftData.priceUSD}</div>
                 </div>
                 <button
                   onClick={() => setIsLiked(!isLiked)}
-                  className="p-3 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-sm transition-colors"
+                  className={`p-3 rounded-xl transition-all ${
+                    isLiked
+                      ? 'bg-red-500/20 border border-red-500/50 text-red-400'
+                      : 'bg-[#0d1117] border border-white/10 text-white hover:bg-[#21262d]'
+                  }`}
                   aria-label={isLiked ? 'Unlike NFT' : 'Like NFT'}
                   aria-pressed={isLiked}
                 >
@@ -234,7 +238,7 @@ const NFTDetailPage = () => {
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={handlePurchase}
-                  className="py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold transition-colors flex items-center justify-center gap-2"
+                  className="py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-xl font-semibold transition-opacity flex items-center justify-center gap-2"
                   aria-label="Buy this NFT now"
                 >
                   <ShoppingCart className="w-5 h-5" />
@@ -242,7 +246,7 @@ const NFTDetailPage = () => {
                 </button>
                 <button
                   onClick={handleMakeOffer}
-                  className="py-3 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-sm rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold transition-colors"
+                  className="py-3 bg-[#0d1117] border border-white/10 hover:bg-[#21262d] text-white rounded-xl font-semibold transition-colors"
                   aria-label="Make an offer for this NFT"
                 >
                   Make Offer
@@ -322,10 +326,10 @@ const NFTDetailPage = () => {
                 {activeTab === 'attributes' && (
                   <div className="grid grid-cols-2 gap-4">
                     {nftData.attributes.map((attr, index) => (
-                      <div key={index} className="p-4 bg-[#21262d]/50 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                        <div className="text-sm text-[#8b949e] mb-1">{attr.trait_type}</div>
-                        <div className="font-semibold text-white mb-1">{attr.value}</div>
-                        <div className="text-xs text-[#58a6ff]">{attr.rarity} have this trait</div>
+                      <div key={index} className="p-4 bg-[#0d1117] border border-white/10 rounded-xl hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all">
+                        <div className="text-xs text-[#8b949e] mb-2 uppercase tracking-wide">{attr.trait_type}</div>
+                        <div className="font-bold text-white mb-2 text-base">{attr.value}</div>
+                        <div className="text-xs text-[#58a6ff] bg-[#58a6ff]/10 px-2 py-1 rounded inline-block">{attr.rarity} have this trait</div>
                       </div>
                     ))}
                   </div>
@@ -338,21 +342,21 @@ const NFTDetailPage = () => {
                       { event: 'Transfer', from: 'charlie.eth', to: 'bob.eth', price: '-', time: '1 day ago' },
                       { event: 'Minted', from: 'Creator', to: 'charlie.eth', price: '0.5 ETH', time: '7 days ago' }
                     ].map((item, index) => (
-                      <div key={index} className="flex items-center justify-between p-3 bg-[#21262d]/50 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                        <div className="flex items-center gap-3">
-                          <div className={`w-2 h-2 rounded-full ${
+                      <div key={index} className="flex items-center justify-between p-4 bg-[#0d1117] border border-white/10 rounded-xl hover:border-[#58a6ff]/30 hover:bg-[#161b22]/40 transition-all">
+                        <div className="flex items-center gap-4">
+                          <div className={`w-2.5 h-2.5 rounded-full ${
                             item.event === 'Sale' ? 'bg-green-400' :
                             item.event === 'Transfer' ? 'bg-[#58a6ff]' : 'bg-[#a371f7]'
                           }`} />
                           <div>
-                            <div className="font-medium text-white">{item.event}</div>
+                            <div className="font-semibold text-white mb-1">{item.event}</div>
                             <div className="text-sm text-[#8b949e]">
                               {item.from} → {item.to}
                             </div>
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="font-semibold text-white">{item.price}</div>
+                          <div className="font-bold text-white mb-1">{item.price}</div>
                           <div className="text-xs text-[#8b949e]">{item.time}</div>
                         </div>
                       </div>

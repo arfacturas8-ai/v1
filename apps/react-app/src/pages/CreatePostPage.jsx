@@ -183,18 +183,18 @@ function CreatePostPage() {
                   value={formData.community}
                   onChange={handleInputChange}
                   className={cn(
-                    "w-full px-4 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border bg-[#21262d]/60 backdrop-blur-xl",
+                    "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
                     "text-white border-white/10",
-                    "focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent",
+                    "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                     "transition-all duration-200",
                     errors.community && "border-red-500"
                   )}
                   aria-label="Select community"
                   aria-invalid={!!errors.community}
                 >
-                  <option value="" className="bg-[#21262d]">Select a community...</option>
+                  <option value="" className="bg-[#0d1117]">Select a community...</option>
                   {communities.map((community) => (
-                    <option key={community.id} value={community.name} className="bg-[#21262d]">
+                    <option key={community.id} value={community.name} className="bg-[#0d1117]">
                       c/{community.displayName || community.name}
                     </option>
                   ))}
@@ -227,12 +227,12 @@ function CreatePostPage() {
                         type="button"
                         onClick={() => setFormData(prev => ({ ...prev, type: type.id }))}
                         className={cn(
-                          "p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border-2 transition-all duration-200",
+                          "p-4 rounded-xl border-2 transition-all duration-200",
                           "flex flex-col items-center gap-2 text-center",
-                          "hover:shadow-md",
+                          "hover:border-[#58a6ff]/30",
                           isSelected
-                            ? "border-[#58a6ff] bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20"
-                            : "border-white/10 bg-[#21262d]/40 hover:border-white/10"
+                            ? "border-[#58a6ff] bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 shadow-[0_0_0_3px_rgba(88,166,255,0.1)]"
+                            : "border-white/10 bg-[#0d1117] hover:bg-[#161b22]/40"
                         )}
                         aria-pressed={isSelected}
                       >
@@ -273,9 +273,9 @@ function CreatePostPage() {
                   placeholder="Enter your post title..."
                   maxLength={300}
                   className={cn(
-                    "w-full px-4 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border bg-[#21262d]/60 backdrop-blur-xl",
+                    "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
                     "text-white placeholder:text-[#8b949e] border-white/10",
-                    "focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent",
+                    "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                     "transition-all duration-200",
                     errors.title && "border-red-500"
                   )}
@@ -317,7 +317,7 @@ function CreatePostPage() {
                     }}
                     placeholder="Share your thoughts..."
                     className={cn(
-                      "bg-[#21262d]/60 border-white/10 text-white",
+                      "bg-[#0d1117] border-white/10 text-white rounded-xl",
                       errors.content && "border-red-500"
                     )}
                   />
@@ -347,9 +347,9 @@ function CreatePostPage() {
                     onChange={handleInputChange}
                     placeholder="https://example.com"
                     className={cn(
-                      "w-full px-4 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border bg-[#21262d]/60 backdrop-blur-xl",
+                      "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
                       "text-white placeholder:text-[#8b949e] border-white/10",
-                      "focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent",
+                      "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                       "transition-all duration-200",
                       errors.url && "border-red-500"
                     )}
@@ -375,9 +375,9 @@ function CreatePostPage() {
                       placeholder="Add a description or your thoughts about this link..."
                       rows={4}
                       className={cn(
-                        "w-full px-4 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border bg-[#21262d]/60 backdrop-blur-xl",
+                        "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
                         "text-white placeholder:text-[#8b949e] border-white/10",
-                        "focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent",
+                        "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                         "transition-all duration-200 resize-y"
                       )}
                     />
@@ -398,11 +398,11 @@ function CreatePostPage() {
                   <div className="space-y-4">
                     <div
                       className={cn(
-                        "border-2 border-dashed rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8",
+                        "border-2 border-dashed rounded-xl p-8",
                         "flex flex-col items-center justify-center",
                         "transition-all duration-200",
-                        errors.image ? "border-red-500" : "border-white/10",
-                        "hover:border-[#58a6ff] cursor-pointer bg-[#21262d]/40"
+                        errors.image ? "border-red-500 bg-red-500/5" : "border-white/10",
+                        "hover:border-[#58a6ff]/50 hover:bg-[#58a6ff]/5 cursor-pointer bg-[#0d1117]"
                       )}
                     >
                       <ImageIcon className="w-12 h-12 text-[#8b949e] mb-4" />
@@ -415,7 +415,7 @@ function CreatePostPage() {
                           className="hidden"
                           aria-label="Upload image"
                         />
-                        <span className="text-[#58a6ff] hover:text-[#a371f7] font-medium">
+                        <span className="text-[#58a6ff] hover:text-[#a371f7] font-medium transition-colors">
                           Choose an image
                         </span>
                       </label>
@@ -428,21 +428,22 @@ function CreatePostPage() {
                     </div>
 
                     {formData.image && (
-                      <div className="relative">
+                      <div className="relative bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                         <img
                           src={URL.createObjectURL(formData.image)}
                           alt="Preview"
-                          className="w-full max-h-96 object-contain rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10"
+                          className="w-full max-h-96 object-contain rounded-lg"
                         />
                         <button
                           type="button"
                           onClick={() => setFormData(prev => ({ ...prev, image: null }))}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
+                          className="absolute top-6 right-6 bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors shadow-lg"
                           aria-label="Remove image"
                         >
                           ×
                         </button>
-                        <div className="mt-2 text-sm text-[#c9d1d9]">
+                        <div className="mt-3 text-sm text-[#c9d1d9] flex items-center gap-2">
+                          <CheckCircle className="w-4 h-4 text-green-500" />
                           {formData.image.name}
                         </div>
                       </div>
@@ -467,9 +468,9 @@ function CreatePostPage() {
                         placeholder="Add a caption or description for your image..."
                         rows={3}
                         className={cn(
-                          "w-full px-4 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border bg-[#21262d]/60 backdrop-blur-xl",
+                          "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
                           "text-white placeholder:text-[#8b949e] border-white/10",
-                          "focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent",
+                          "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                           "transition-all duration-200 resize-y"
                         )}
                       />
@@ -500,8 +501,8 @@ function CreatePostPage() {
                     disabled={loading}
                     className={cn(
                       "flex-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white",
-                      "px-6 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-medium",
-                      "transition-all duration-200",
+                      "px-6 py-3 rounded-xl font-medium",
+                      "transition-all duration-200 shadow-lg hover:shadow-xl",
                       "disabled:opacity-50 disabled:cursor-not-allowed",
                       "flex items-center justify-center gap-2"
                     )}
@@ -525,9 +526,9 @@ function CreatePostPage() {
                     disabled={loading}
                     variant="outline"
                     className={cn(
-                      "px-6 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-medium",
-                      "border-2 border-white/10 text-[#c9d1d9]",
-                      "hover:bg-[#161b22]/60 backdrop-blur-xl",
+                      "px-6 py-3 rounded-xl font-medium",
+                      "border border-white/10 text-[#c9d1d9] bg-[#0d1117]",
+                      "hover:bg-[#161b22]/60 hover:border-white/20",
                       "transition-all duration-200",
                       "disabled:opacity-50 disabled:cursor-not-allowed"
                     )}
@@ -537,7 +538,7 @@ function CreatePostPage() {
                 </div>
 
                 {/* Tips */}
-                <div className="mt-6 p-4 bg-[#58a6ff]/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-[#58a6ff]/30">
+                <div className="mt-6 p-4 bg-[#58a6ff]/10 rounded-xl border border-[#58a6ff]/30">
                   <h4 className="font-medium text-[#58a6ff] mb-2 flex items-center gap-2">
                     <AlertCircle className="w-4 h-4" />
                     Posting Tips
