@@ -8,6 +8,9 @@ import {
 } from 'lucide-react'
 import { Card, Button, Input, Textarea } from '../components/ui'
 import offlineStorage from '../services/offlineStorage'
+import communityService from '../services/communityService'
+import postsService from '../services/postsService'
+import { useAuth } from '../contexts/AuthContext'
 import {
   SkipToContent,
   announce,
@@ -19,6 +22,7 @@ import {
 function CommunityPage() {
   const { communityName } = useParams()
   const navigate = useNavigate()
+  const { user } = useAuth()
   const [community, setCommunity] = useState(null)
   const [posts, setPosts] = useState([])
   const [isJoined, setIsJoined] = useState(false)
@@ -29,79 +33,11 @@ function CommunityPage() {
   const [sortBy, setSortBy] = useState('hot')
   const [userVotes, setUserVotes] = useState({})
   const [isOffline, setIsOffline] = useState(!navigator.onLine)
+  const [joinLoading, setJoinLoading] = useState(false)
 
   // Accessibility: Announce loading and error states to screen readers
   useLoadingAnnouncement(loading, `Loading ${communityName} community`)
   useErrorAnnouncement(error)
-
-  // Mock community data with enhanced features
-  const mockCommunityData = {
-    name: communityName,
-    displayName: communityName?.charAt(0).toUpperCase() + communityName?.slice(1) || 'Community',
-    description: `Welcome to c/${communityName} - A vibrant community for passionate discussions and sharing knowledge.`,
-    memberCount: 45230,
-    onlineCount: 892,
-    createdAt: '2023-06-15T00:00:00Z',
-    banner: null,
-    icon: null,
-    category: 'general',
-    rules: [
-      'Be respectful and civil',
-      'No spam or self-promotion',
-      'Use appropriate flairs',
-      'Search before posting',
-      'Follow community content policy'
-    ],
-    moderators: ['user1', 'user2', 'moderator3'],
-    postsToday: 23,
-    trending: true
-  }
-
-  // Enhanced mock posts data
-  const mockPosts = [
-    {
-      id: '1',
-      title: 'Welcome to our amazing community! 🎉',
-      content: 'This is a great place to share ideas and connect with like-minded people. Looking forward to seeing what everyone shares!',
-      author: 'communitymod',
-      score: 156,
-      upvotes: 172,
-      downvotes: 16,
-      comments: 24,
-      created: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-      community: communityName,
-      type: 'text',
-      pinned: true,
-      awards: ['gold', 'silver']
-    },
-    {
-      id: '2',
-      title: 'Interesting discussion about the latest trends',
-      content: 'What do you all think about the recent developments in our field? I\'d love to hear different perspectives.',
-      author: 'thoughtfuluser',
-      score: 89,
-      upvotes: 95,
-      downvotes: 6,
-      comments: 18,
-      created: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
-      community: communityName,
-      type: 'text'
-    },
-    {
-      id: '3',
-      title: 'Check out this amazing resource I found',
-      content: 'I stumbled upon this incredible tool that I think the community would appreciate. It has really helped me improve my workflow.',
-      author: 'helpfulcontributor',
-      score: 234,
-      upvotes: 267,
-      downvotes: 33,
-      comments: 45,
-      created: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString(),
-      community: communityName,
-      type: 'link',
-      trending: true
-    }
-  ]
 
   // Extract loadCommunity as a callback for retry functionality
   const loadCommunity = useCallback(async () => {
@@ -116,15 +52,32 @@ function CommunityPage() {
         setPosts(cachedPosts)
       }
 
-      // 2. Fetch fresh data (simulated with mock data)
-      await new Promise(resolve => setTimeout(resolve, 500))
+      // 2. Fetch community data from API
+      const communityResponse = await communityService.getCommunityByName(communityName)
 
-      setCommunity(mockCommunityData)
-      setPosts(mockPosts)
-      setIsJoined(Math.random() > 0.5) // Random join status
+      if (!communityResponse.success) {
+        // Community not found
+        setCommunity(null)
+        setLoading(false)
+        return
+      }
 
-      // 3. Save fresh data to cache
-      await offlineStorage.savePosts(mockPosts)
+      const communityData = communityResponse.community
+      setCommunity(communityData)
+      setIsJoined(communityData.isMember || false)
+
+      // 3. Fetch community posts
+      const postsResponse = await postsService.getPosts({
+        communityId: communityData.id,
+        sort: sortBy,
+        limit: 20
+      })
+
+      if (postsResponse.success) {
+        setPosts(postsResponse.posts || [])
+        // Save to cache for offline access
+        await offlineStorage.savePosts(postsResponse.posts || [])
+      }
 
     } catch (err) {
       console.error('Error loading community:', err)
@@ -132,7 +85,7 @@ function CommunityPage() {
     } finally {
       setLoading(false)
     }
-  }, [communityName, mockCommunityData, mockPosts])
+  }, [communityName, sortBy])
 
   useEffect(() => {
     loadCommunity()
@@ -150,37 +103,72 @@ function CommunityPage() {
     }
   }, [communityName, loadCommunity])
 
-  const handleJoin = useCallback(() => {
-    if (!isJoined) {
-      setIsJoined(true)
-      setCommunity({ ...community, memberCount: community.memberCount + 1 })
-    } else {
-      setIsJoined(false)
-      setCommunity({ ...community, memberCount: community.memberCount - 1 })
+  const handleJoin = useCallback(async () => {
+    if (!user) {
+      navigate('/login')
+      return
     }
-  }, [isJoined, community])
 
-  const handleCreatePost = useCallback((e) => {
+    if (!community?.id) return
+
+    setJoinLoading(true)
+    try {
+      if (!isJoined) {
+        const response = await communityService.joinCommunity(community.id)
+        if (response.success) {
+          setIsJoined(true)
+          setCommunity({ ...community, memberCount: (community.memberCount || 0) + 1 })
+          announce(`Joined ${community.displayName || community.name}`)
+        }
+      } else {
+        const response = await communityService.leaveCommunity(community.id)
+        if (response.success) {
+          setIsJoined(false)
+          setCommunity({ ...community, memberCount: Math.max(0, (community.memberCount || 1) - 1) })
+          announce(`Left ${community.displayName || community.name}`)
+        }
+      }
+    } catch (err) {
+      console.error('Error joining/leaving community:', err)
+    } finally {
+      setJoinLoading(false)
+    }
+  }, [isJoined, community, user, navigate])
+
+  const handleCreatePost = useCallback(async (e) => {
     e.preventDefault()
 
-    const post = {
-      id: `post_${Date.now()}`,
-      title: newPost.title,
-      content: newPost.content,
-      community: communityName,
-      author: 'currentuser',
-      score: 1,
-      upvotes: 1,
-      downvotes: 0,
-      comments: 0,
-      created: new Date().toISOString(),
-      type: newPost.type
+    if (!user) {
+      navigate('/login')
+      return
     }
 
-    setPosts([post, ...posts])
-    setNewPost({ title: '', content: '', type: 'text' })
-    setShowPostForm(false)
-  }, [newPost, communityName, posts])
+    if (!community?.id) return
+
+    try {
+      const postData = {
+        title: newPost.title.trim(),
+        content: newPost.content.trim(),
+        communityId: community.id,
+        type: newPost.type
+      }
+
+      const response = await postsService.createPost(postData)
+
+      if (response.success) {
+        // Add the new post to the top of the list
+        const createdPost = response.data?.post || response.post
+        if (createdPost) {
+          setPosts([createdPost, ...posts])
+        }
+        setNewPost({ title: '', content: '', type: 'text' })
+        setShowPostForm(false)
+        announce('Post created successfully')
+      }
+    } catch (err) {
+      console.error('Error creating post:', err)
+    }
+  }, [newPost, community, posts, user, navigate])
 
   const handleVote = useCallback((postId, voteType) => {
     const currentVote = userVotes[postId]

@@ -50,6 +50,14 @@ class UserService {
   }
 
   /**
+   * Get user by username (alias for getUserProfile)
+   * @param {string} username
+   */
+  async getUserByUsername(username) {
+    return this.getUserProfile(username);
+  }
+
+  /**
    * Update current user profile
    * @param {Object} profileData
    */

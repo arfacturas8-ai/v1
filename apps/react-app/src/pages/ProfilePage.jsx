@@ -85,7 +85,7 @@ function ProfilePage() {
       setIsOwnProfile(targetUsername === currentUser?.username)
 
       // Fetch user profile data from API
-      const userResponse = await userService.getUserByUsername(targetUsername)
+      const userResponse = await userService.getUserProfile(targetUsername)
 
       if (!userResponse.success || !userResponse.user) {
         setError('User not found')
