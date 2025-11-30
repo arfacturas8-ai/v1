@@ -23,9 +23,17 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
   const uploadService = (fastify as any).services.fileUpload as FileUploadService;
   
   // Initialize local file storage service as fallback
+  // SECURITY: Always use environment variables for paths and URLs
+  if (!process.env.LOCAL_STORAGE_PATH) {
+    fastify.log.warn('LOCAL_STORAGE_PATH not set in environment variables, using default');
+  }
+  if (!process.env.LOCAL_STORAGE_URL) {
+    fastify.log.warn('LOCAL_STORAGE_URL not set in environment variables, using default');
+  }
+
   const localStorageService = createLocalFileStorageService({
     baseStoragePath: process.env.LOCAL_STORAGE_PATH || '/var/www/uploads',
-    baseUrl: process.env.LOCAL_STORAGE_URL || 'http://localhost:3002/api/v1/uploads/serve'
+    baseUrl: process.env.LOCAL_STORAGE_URL || '/api/v1/uploads/serve'
   });
   
   // Helper function to determine which upload service to use
@@ -39,17 +47,39 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
 
   /**
    * File serving endpoint for local storage
+   * SECURITY: Requires authentication to prevent unauthorized file access
    */
-  fastify.get('/serve/:bucket/:userId/:filename', async (request: any, reply) => {
+  fastify.get('/serve/:bucket/:userId/:filename', {
+    preHandler: [authMiddleware]
+  }, async (request: any, reply) => {
     try {
       const { bucket, userId, filename } = request.params;
-      
+
+      // SECURITY: Verify user has permission to access this file
+      // Users can only access their own files unless they have special permissions
+      if (request.userId !== userId) {
+        // TODO: Add additional checks for shared files or public files
+        return reply.code(403).send({
+          success: false,
+          error: 'Access denied'
+        });
+      }
+
+      // SECURITY: Sanitize filename to prevent directory traversal attacks
+      const sanitizedFilename = path.basename(filename);
+      if (filename !== sanitizedFilename) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Invalid filename'
+        });
+      }
+
       // Construct file path
       const filePath = path.join(
         process.env.LOCAL_STORAGE_PATH || '/var/www/uploads',
         bucket,
         userId,
-        filename
+        sanitizedFilename
       );
       
       // Check if file exists
@@ -506,18 +536,32 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
 
       const { service, type } = getUploadService();
 
-      // TODO: Verify user owns the file or has permission to delete it
-      // This would require querying your database for file ownership
+      // SECURITY: Verify user owns the file or has permission to delete it
+      // Extract bucket and filename from the fileId
+      // Format: bucket/userId/filename
+      const parts = fileId.split('/');
+      if (parts.length < 3) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Invalid file ID format'
+        });
+      }
 
-      // For now, we'll extract bucket and filename from the fileId
-      // In a real implementation, you'd look this up in your database
-      const bucket = 'uploads'; // Default bucket
-      const filename = fileId; // Simplified - in reality you'd have proper file tracking
+      const [bucket, fileOwnerId, ...filenameParts] = parts;
+      const filename = filenameParts.join('/');
+
+      // Verify user owns the file
+      if (fileOwnerId !== userId) {
+        return reply.code(403).send({
+          success: false,
+          error: 'Access denied - you can only delete your own files'
+        });
+      }
 
       if (type === 'local') {
         await (service as LocalFileStorageService).deleteFile(bucket, userId, filename);
       } else {
-        await (service as FileUploadService).deleteFile(bucket, filename);
+        await (service as FileUploadService).deleteFile(bucket, `${userId}/${filename}`);
       }
 
       reply.send({
@@ -649,17 +693,23 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
       const bucket = 'uploads';
       const filename = fileId;
 
+      // SECURITY: Verify user has permission to download this file
+      // TODO: Look up file ownership and permissions from database
+
       if (type === 'local') {
         // For local storage, return the direct serve URL
-        const downloadUrl = `${process.env.LOCAL_STORAGE_URL || 'http://localhost:3002/api/v1/uploads/serve'}/${bucket}/${userId}/${filename}`;
-        
+        // Note: This requires authentication via the /serve endpoint
+        const baseUrl = process.env.LOCAL_STORAGE_URL || '/api/v1/uploads/serve';
+        const downloadUrl = `${baseUrl}/${bucket}/${userId}/${filename}`;
+
         reply.send({
           success: true,
           data: {
             downloadUrl,
-            expiresIn: null, // Local URLs don't expire
+            expiresIn: null, // Local URLs don't expire but require auth
             expiresAt: null,
-            storageType: 'local'
+            storageType: 'local',
+            requiresAuth: true
           }
         });
       } else {
@@ -733,13 +783,19 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
     preHandler: [authMiddleware],
     schema: {
       tags: ['uploads'],
-      summary: 'Cleanup temporary files',
+      summary: 'Cleanup temporary files (admin only)',
       security: [{ Bearer: [] }]
     }
   }, async (request: any, reply) => {
     try {
-      // TODO: Add admin permission check
-      
+      // SECURITY: Only allow admins to cleanup files
+      // TODO: Implement proper role-based access control
+      // For now, we'll return an error
+      return reply.code(403).send({
+        success: false,
+        error: 'Admin access required'
+      });
+
       const { service, type } = getUploadService();
       
       if (type === 'local') {

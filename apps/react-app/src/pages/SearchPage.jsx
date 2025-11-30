@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react'
+import PropTypes from 'prop-types'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
 import communityService from '../services/communityService'
 import postsService from '../services/postsService'
@@ -107,6 +108,7 @@ function SearchPage() {
       }
     } catch (error) {
       console.error('Search failed:', error)
+      showError('Failed to search. Please try again.')
     } finally {
       setLoading(false)
     }
@@ -133,6 +135,7 @@ function SearchPage() {
       }))
     } catch (error) {
       console.error('Failed to join community:', error)
+      showError('Failed to join community. Please try again.')
     }
   }, [])
 
@@ -150,6 +153,7 @@ function SearchPage() {
       }))
     } catch (error) {
       console.error('Failed to leave community:', error)
+      showError('Failed to leave community. Please try again.')
     }
   }, [])
 
@@ -167,6 +171,7 @@ function SearchPage() {
       }))
     } catch (error) {
       console.error('Vote failed:', error)
+      showError('Failed to vote. Please try again.')
     }
   }, [])
 
@@ -687,6 +692,8 @@ function SearchPage() {
     </div>
   )
 }
+
+SearchPage.propTypes = {}
 
 export default SearchPage
 

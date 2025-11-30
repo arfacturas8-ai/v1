@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { Bot, Plus, Settings, Trash2, RefreshCw, Copy, Eye, EyeOff, Activity, Power, PowerOff, Search, Filter, TrendingUp, Zap, Command } from 'lucide-react'
 import botService from '../services/botService'
 
@@ -83,9 +84,12 @@ const BotManagementPage = () => {
         setNewBotData({ name: '', description: '', type: 'custom', prefix: '!', permissions: [], avatarUrl: '' })
         setShowCreateModal(false)
         loadBots()
+      } else {
+        showMessage(response.error || 'Failed to create bot', 'error')
       }
     } catch (error) {
-      showMessage('Failed to create bot', 'error')
+      console.error('Bot creation error:', error)
+      showMessage(error.message || 'Failed to create bot', 'error')
     }
   }
 
@@ -99,9 +103,12 @@ const BotManagementPage = () => {
       if (response.success) {
         showMessage('Bot deleted successfully', 'success')
         loadBots()
+      } else {
+        showMessage(response.error || 'Failed to delete bot', 'error')
       }
     } catch (error) {
-      showMessage('Failed to delete bot', 'error')
+      console.error('Bot deletion error:', error)
+      showMessage(error.message || 'Failed to delete bot', 'error')
     }
   }
 
@@ -115,9 +122,12 @@ const BotManagementPage = () => {
       if (response.success) {
         showMessage('Token regenerated successfully', 'success')
         loadBots()
+      } else {
+        showMessage(response.error || 'Failed to regenerate token', 'error')
       }
     } catch (error) {
-      showMessage('Failed to regenerate token', 'error')
+      console.error('Token regeneration error:', error)
+      showMessage(error.message || 'Failed to regenerate token', 'error')
     }
   }
 
@@ -127,9 +137,12 @@ const BotManagementPage = () => {
       if (response.success) {
         showMessage(`Bot ${!currentStatus ? 'enabled' : 'disabled'} successfully`, 'success')
         loadBots()
+      } else {
+        showMessage(response.error || 'Failed to toggle bot status', 'error')
       }
     } catch (error) {
-      showMessage('Failed to toggle bot status', 'error')
+      console.error('Bot toggle error:', error)
+      showMessage(error.message || 'Failed to toggle bot status', 'error')
     }
   }
 
@@ -140,6 +153,9 @@ const BotManagementPage = () => {
       const response = await botService.getActivityLogs(bot.id)
       if (response.success) {
         setActivityLogs(response.data || [])
+      } else {
+        console.error('Failed to load activity logs:', response.error)
+        setActivityLogs([])
       }
     } catch (error) {
       console.error('Failed to load activity logs:', error)
@@ -152,7 +168,8 @@ const BotManagementPage = () => {
       await navigator.clipboard.writeText(text)
       showMessage('Copied to clipboard!', 'success')
     } catch (error) {
-      showMessage('Failed to copy', 'error')
+      console.error('Clipboard error:', error)
+      showMessage(error.message || 'Failed to copy', 'error')
     }
   }
 
@@ -202,7 +219,7 @@ const BotManagementPage = () => {
   })
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#c9d1d9] p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-[#0d1117] text-[#c9d1d9] p-4 sm:p-6 lg:p-8" role="main" aria-label="Bot management page">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6 mb-8">
         <div>
@@ -212,8 +229,9 @@ const BotManagementPage = () => {
         <button
           className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-4 sm:px-6 py-3 rounded-xl text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
           onClick={() => setShowCreateModal(true)}
+          aria-label="Add new bot"
         >
-          <Plus size={20} />
+          <Plus size={20} aria-hidden="true" />
           Add New Bot
         </button>
       </div>
@@ -270,6 +288,7 @@ const BotManagementPage = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full pl-12 pr-4 py-3 bg-[#21262d] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-sm sm:text-base placeholder:text-[#8b949e] focus:outline-none focus:border-[#58a6ff] focus:bg-[#161b22] transition-all"
+            aria-label="Search bots"
           />
         </div>
         <div className="flex gap-2">
@@ -322,8 +341,9 @@ const BotManagementPage = () => {
           <button
             className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={() => setShowCreateModal(true)}
+            aria-label="Create your first bot"
           >
-            <Plus size={16} />
+            <Plus size={16} aria-hidden="true" />
             Create Bot
           </button>
         </div>
@@ -442,22 +462,25 @@ const BotManagementPage = () => {
                 <button
                   className="flex-1 bg-[#161b22] text-[#c9d1d9] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#21262d] hover:border-[#58a6ff] transition-all"
                   onClick={() => viewActivityLogs(bot)}
+                  aria-label={`View activity logs for ${bot.name}`}
                 >
-                  <Activity size={16} />
+                  <Activity size={16} aria-hidden="true" />
                   Activity
                 </button>
                 <button
                   className="flex-1 bg-[#161b22] text-[#c9d1d9] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#21262d] hover:border-[#58a6ff] transition-all"
                   onClick={() => handleRegenerateToken(bot.id, bot.name)}
+                  aria-label={`Regenerate token for ${bot.name}`}
                 >
-                  <RefreshCw size={16} />
+                  <RefreshCw size={16} aria-hidden="true" />
                   Regenerate
                 </button>
                 <button
                   className="p-2.5 border border-red-500/20 text-red-400 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-red-500/10 hover:border-red-500 transition-all"
                   onClick={() => handleDeleteBot(bot.id, bot.name)}
+                  aria-label={`Delete ${bot.name}`}
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={16} aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -474,6 +497,7 @@ const BotManagementPage = () => {
               <button
                 className="text-[#8b949e] hover:bg-[#21262d] hover:text-white w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
                 onClick={() => setShowCreateModal(false)}
+                aria-label="Close create bot modal"
               >
                 &times;
               </button>
@@ -588,6 +612,7 @@ const BotManagementPage = () => {
               <button
                 className="text-[#8b949e] hover:bg-[#21262d] hover:text-white w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
                 onClick={() => setShowActivityModal(false)}
+                aria-label="Close activity modal"
               >
                 &times;
               </button>
@@ -647,5 +672,7 @@ const BotManagementPage = () => {
     </div>
   )
 }
+
+BotManagementPage.propTypes = {}
 
 export default BotManagementPage

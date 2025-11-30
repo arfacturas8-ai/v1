@@ -119,11 +119,12 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
     return nestedReplies;
   }
 
-  // Get comments for a post
+  // Get comments for a post (public endpoint with rate limiting recommendation)
+  // RATE LIMITING: Consider implementing rate limiting on this endpoint to prevent abuse
   fastify.get("/post/:postId", async (request, reply) => {
     try {
       const { postId } = z.object({
-        postId: z.string(),
+        postId: z.string().max(100), // Add max length validation
       }).parse(request.params);
 
       const { sort = "top", depth = 5 } = z.object({
@@ -538,10 +539,11 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
   });
 
   // Get comment thread (all replies to a specific comment)
+  // RATE LIMITING: Consider implementing rate limiting on this endpoint to prevent abuse
   fastify.get("/:id/thread", async (request, reply) => {
     try {
       const { id } = z.object({
-        id: z.string(),
+        id: z.string().max(100), // Add max length validation
       }).parse(request.params);
 
       const { sort = "top", depth = 10 } = z.object({
@@ -713,10 +715,11 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
   });
 
   // Get comment by ID with context
+  // RATE LIMITING: Consider implementing rate limiting on this endpoint to prevent abuse
   fastify.get("/:id", async (request, reply) => {
     try {
       const { id } = z.object({
-        id: z.string(),
+        id: z.string().max(100), // Add max length validation
       }).parse(request.params);
 
       const { context = 3 } = z.object({

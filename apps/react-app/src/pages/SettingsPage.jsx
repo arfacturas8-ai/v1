@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Link, useNavigate } from 'react-router-dom'
 import { Button, Input } from '../components/ui'
 import userService from '../services/userService'
 import apiService from '../services/api'
@@ -16,6 +17,7 @@ import { useLoadingAnnouncement, useErrorAnnouncement } from '../utils/accessibi
 import { useResponsive } from '../hooks/useResponsive'
 
 function SettingsPage() {
+  const navigate = useNavigate()
   const { isMobile, isTablet, spacing, fontSize, padding, containerMaxWidth } = useResponsive()
 
   const compactSpacing = {
@@ -173,7 +175,8 @@ function SettingsPage() {
               try {
                 const res = await userService.getUserById(userId)
                 return res.success ? res.user : null
-              } catch {
+              } catch (error) {
+                console.error(`Failed to load blocked user ${userId}:`, error)
                 return null
               }
             })
@@ -183,17 +186,34 @@ function SettingsPage() {
           setBlockedUsers([])
         }
 
-        // Mock security data (replace with real API calls)
+        // Load security data from API
         setTwoFactorEnabled(user.twoFactorEnabled || false)
-        setActiveSessions([
-          { id: 1, device: 'Chrome on Windows', location: 'New York, US', lastActive: '2 minutes ago', current: true },
-          { id: 2, device: 'Safari on iPhone', location: 'New York, US', lastActive: '1 hour ago', current: false }
-        ])
-        setLoginHistory([
-          { id: 1, timestamp: '2025-11-08 14:30', location: 'New York, US', device: 'Chrome on Windows', status: 'success' },
-          { id: 2, timestamp: '2025-11-07 09:15', location: 'New York, US', device: 'Safari on iPhone', status: 'success' },
-          { id: 3, timestamp: '2025-11-06 18:45', location: 'Los Angeles, US', device: 'Firefox on Mac', status: 'success' }
-        ])
+
+        // Fetch active sessions
+        try {
+          const sessionsResponse = await apiService.get('/users/me/sessions')
+          if (sessionsResponse.success && sessionsResponse.data) {
+            setActiveSessions(sessionsResponse.data.sessions || [])
+          } else {
+            setActiveSessions([])
+          }
+        } catch (error) {
+          console.error('Failed to load active sessions:', error)
+          setActiveSessions([])
+        }
+
+        // Fetch login history
+        try {
+          const historyResponse = await apiService.get('/users/me/login-history')
+          if (historyResponse.success && historyResponse.data) {
+            setLoginHistory(historyResponse.data.history || [])
+          } else {
+            setLoginHistory([])
+          }
+        } catch (error) {
+          console.error('Failed to load login history:', error)
+          setLoginHistory([])
+        }
       }
     } catch (error) {
       console.error('Failed to load user data:', error)
@@ -338,15 +358,17 @@ function SettingsPage() {
       const response = await userService.deleteAccountGDPR({ confirmation: 'DELETE MY ACCOUNT' })
       if (response.success) {
         showMessage('Your account deletion request has been submitted. You will be logged out shortly.')
+        // Use navigate or logout instead of window.location
         setTimeout(() => {
-          window.location.href = '/'
+          authService.logout()
+          navigate('/')
         }, 3000)
       } else {
-        showMessage('Failed to delete account', 'error')
+        showMessage(response.error || 'Failed to delete account', 'error')
       }
     } catch (error) {
       console.error('Account deletion error:', error)
-      showMessage('An error occurred while deleting your account', 'error')
+      showMessage(error.message || 'An error occurred while deleting your account', 'error')
     } finally {
       setLoading(false)
     }
@@ -591,8 +613,10 @@ function SettingsPage() {
                   ...styles.sidebarButton,
                   ...(activeTab === tab.id ? styles.sidebarButtonActive : {})
                 }}
+                aria-label={`${tab.label} settings`}
+                aria-current={activeTab === tab.id ? 'page' : undefined}
               >
-                <span style={styles.sidebarIcon}>{tab.icon}</span>
+                <span style={styles.sidebarIcon} aria-hidden="true">{tab.icon}</span>
                 <span style={styles.sidebarLabel}>{tab.label}</span>
               </button>
             ))}
@@ -629,6 +653,7 @@ function SettingsPage() {
                           accept="image/*"
                           onChange={handleAvatarUpload}
                           style={styles.fileInput}
+                          aria-label="Upload profile picture"
                         />
                       </label>
                       <p style={styles.uploadHint}>JPG, PNG or GIF. Max size 5MB.</p>
@@ -657,6 +682,7 @@ function SettingsPage() {
                     onChange={(e) => setProfileData({ ...profileData, displayName: e.target.value })}
                     placeholder="Enter your display name"
                     style={styles.input}
+                    aria-label="Display name"
                   />
                 </div>
 
@@ -1080,7 +1106,11 @@ function SettingsPage() {
                         </div>
                       </div>
                       {!session.current && (
-                        <button className="touch-target" style={styles.secondaryButton}>
+                        <button
+                          className="touch-target"
+                          style={styles.secondaryButton}
+                          aria-label={`Revoke session ${session.device}`}
+                        >
                           Revoke
                         </button>
                       )}
@@ -1440,7 +1470,13 @@ function SettingsPage() {
               <div style={styles.card}>
                 <h3 style={styles.cardTitle}>Saved Addresses</h3>
                 <p style={styles.emptyState}>No saved wallet addresses yet</p>
-                <button className="touch-target" style={styles.secondaryButton}>Add Address</button>
+                <button
+                  className="touch-target"
+                  style={styles.secondaryButton}
+                  aria-label="Add wallet address"
+                >
+                  Add Address
+                </button>
               </div>
             </div>
           )}
@@ -1452,6 +1488,8 @@ function SettingsPage() {
 
 // CRYB Glass Morphism Theme Styles
 // Add keyframes for animations
+SettingsPage.propTypes = {}
+
 const styleSheet = document.createElement('style')
 styleSheet.textContent = `
   @keyframes spin {

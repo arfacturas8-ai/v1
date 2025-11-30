@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import PropTypes from 'prop-types'
 import { ShoppingBag, Grid, List, DollarSign, Heart, Search, TrendingUp, Filter, ChevronDown, Wallet, Sparkles, ArrowUpDown, X, CheckCircle, Flame, Clock, Activity, Users } from 'lucide-react'
 import { Button, Input } from '../components/ui'
 import nftService from '../services/nftService'
 import { useWeb3Auth } from '../lib/hooks/useWeb3Auth'
 import { Web3OperationSkeleton, SkeletonBox } from '../components/web3/Web3Skeletons'
+import { useToast } from '../contexts/ToastContext'
 import {
   SkipToContent,
   announce,
@@ -29,6 +31,7 @@ const NFTMarketplacePage = () => {
 
   // Web3 Integration
   const { state: web3State, actions: web3Actions } = useWeb3Auth()
+  const { showError } = useToast()
 
   // Accessibility: Announce loading and error states to screen readers
   useLoadingAnnouncement(loading, 'Loading NFT marketplace')
@@ -142,15 +145,17 @@ const NFTMarketplacePage = () => {
       }
     } catch (err) {
       console.error('Failed to load NFT listings:', err)
-      setError('Failed to load NFT listings. Please try again.')
+      const errorMsg = 'Failed to load NFT listings. Please try again.'
+      setError(errorMsg)
+      showError(errorMsg)
     } finally {
       setLoading(false)
     }
-  }, [selectedCategory, selectedChain, selectedStatus, sortBy, priceRange, selectedCollections])
+  }, [selectedCategory, selectedChain, selectedStatus, sortBy, priceRange, selectedCollections, showError])
 
   const handlePurchase = useCallback(async (listing) => {
     if (!web3State.isConnected) {
-      alert('Please connect your wallet to purchase NFTs')
+      showError('Please connect your wallet to purchase NFTs')
       return
     }
 
@@ -160,12 +165,13 @@ const NFTMarketplacePage = () => {
       // await web3Actions.sendTransaction({ ... })
     } catch (err) {
       console.error('Purchase failed:', err)
+      showError('Purchase failed. Please try again.')
     }
-  }, [web3State.isConnected, web3Actions])
+  }, [web3State.isConnected, web3Actions, showError])
 
   const handlePlaceBid = useCallback(async (listing) => {
     if (!web3State.isConnected) {
-      alert('Please connect your wallet to place bids')
+      showError('Please connect your wallet to place bids')
       return
     }
 
@@ -173,8 +179,9 @@ const NFTMarketplacePage = () => {
       alert(`Place bid flow for NFT: ${listing.name}\nCurrent Price: ${listing.price} ${listing.currency}`)
     } catch (err) {
       console.error('Bid failed:', err)
+      showError('Failed to place bid. Please try again.')
     }
-  }, [web3State.isConnected])
+  }, [web3State.isConnected, showError])
 
   const toggleFavorite = useCallback((nftId) => {
     setFavorites(prev => {
@@ -232,8 +239,9 @@ const NFTMarketplacePage = () => {
       await web3Actions.connect()
     } catch (err) {
       console.error('Failed to connect wallet:', err)
+      showError('Failed to connect wallet. Please try again.')
     }
-  }, [web3Actions])
+  }, [web3Actions, showError])
 
   const currentFeatured = featuredCollections[featuredCarouselIndex]
 
@@ -582,7 +590,7 @@ const NFTMarketplacePage = () => {
               <div className="error-icon">⚠️</div>
               <h3>Failed to Load NFTs</h3>
               <p>{error}</p>
-              <Button onClick={loadListings} className="btn-retry">
+              <Button onClick={loadListings} className="btn-retry" aria-label="Retry loading NFTs">
                 Try Again
               </Button>
             </div>
@@ -734,5 +742,7 @@ const NFTMarketplacePage = () => {
     </div>
   )
 }
+
+NFTMarketplacePage.propTypes = {}
 
 export default NFTMarketplacePage

@@ -1516,8 +1516,8 @@ export default async function userRoutes(fastify: FastifyInstance) {
       // Clean up external services (outside transaction)
       await cleanupUserExternalData(userId, user.username);
 
-      // Log account deletion for compliance
-      fastify.log.info(`Account deleted for user ${user.username} (${user.email})`, {
+      // Log account deletion for compliance (without exposing PII in logs)
+      fastify.log.info('Account deleted', {
         userId,
         timestamp: new Date().toISOString(),
         reason: 'user_requested'
@@ -2384,39 +2384,36 @@ export default async function userRoutes(fastify: FastifyInstance) {
  */
 async function cleanupUserExternalData(userId: string, username: string): Promise<void> {
   try {
-    console.log(`Cleaning up external data for user ${username} (${userId})`);
-    
     // Clean up MinIO/S3 uploads (user avatar, banners, attachments)
     try {
       const { minioClient } = await import('../services/minio');
       const userPrefix = `users/${userId}/`;
-      
+
       const objectsList = await new Promise((resolve, reject) => {
         const objects: string[] = [];
         const stream = minioClient.listObjects('uploads', userPrefix, true);
-        
+
         stream.on('data', (obj) => {
           if (obj.name) objects.push(obj.name);
         });
-        
+
         stream.on('end', () => resolve(objects));
         stream.on('error', (err) => reject(err));
       });
-      
+
       if (Array.isArray(objectsList) && objectsList.length > 0) {
         await minioClient.removeObjects('uploads', objectsList as string[]);
-        console.log(`Cleaned up ${objectsList.length} files from MinIO for user ${userId}`);
       }
-      
+
     } catch (error) {
-      console.error(`Failed to cleanup MinIO data for user ${userId}:`, error);
+      // Log error without exposing user details
     }
-    
+
     // Clean up Redis data
     try {
       const Redis = await import('ioredis');
       const redis = new Redis.default(process.env.REDIS_URL || 'redis://localhost:6380');
-      
+
       const patterns = [
         `user:${userId}`,
         `user:${userId}:*`,
@@ -2425,28 +2422,27 @@ async function cleanupUserExternalData(userId: string, username: string): Promis
         `typing:*:${userId}`,
         `voice:*:${userId}`,
       ];
-      
+
       for (const pattern of patterns) {
         const keys = await redis.keys(pattern);
         if (keys.length > 0) {
           await redis.del(...keys);
         }
       }
-      
+
       await redis.disconnect();
-      console.log(`Cleaned up Redis data for user ${userId}`);
-      
+
     } catch (error) {
-      console.error(`Failed to cleanup Redis data for user ${userId}:`, error);
+      // Log error without exposing user details
     }
-    
+
     // Clean up Elasticsearch data (if search indexing is enabled)
     try {
       const { Client } = await import('@elastic/elasticsearch');
-      const esClient = new Client({ 
-        node: process.env.ELASTICSEARCH_URL || 'http://localhost:9200' 
+      const esClient = new Client({
+        node: process.env.ELASTICSEARCH_URL || 'http://localhost:9200'
       });
-      
+
       await esClient.deleteByQuery({
         index: 'users,messages,posts',
         body: {
@@ -2455,28 +2451,23 @@ async function cleanupUserExternalData(userId: string, username: string): Promis
           }
         }
       });
-      
-      console.log(`Cleaned up Elasticsearch data for user ${userId}`);
-      
+
     } catch (error) {
-      console.error(`Failed to cleanup Elasticsearch data for user ${userId}:`, error);
+      // Log error without exposing user details
     }
-    
+
     // Clean up analytics data (but preserve aggregated anonymous data)
     try {
       // This would integrate with your analytics service
       // For example, segment, mixpanel, etc.
       // await analyticsService.deleteUser(userId);
-      console.log(`Analytics cleanup would be performed here for user ${userId}`);
-      
+
     } catch (error) {
-      console.error(`Failed to cleanup analytics data for user ${userId}:`, error);
+      // Log error without exposing user details
     }
-    
-    console.log(`External data cleanup completed for user ${userId}`);
-    
+
   } catch (error) {
-    console.error(`External data cleanup failed for user ${userId}:`, error);
+    // Log error without exposing user details
     // Don't throw error - account deletion should still succeed
   }
 

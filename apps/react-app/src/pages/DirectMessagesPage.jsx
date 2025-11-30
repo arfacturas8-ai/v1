@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react'
+import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import socketService from '../services/socket'
@@ -116,6 +117,24 @@ const ConversationItem = memo(({ conversation, isActive, onClick }) => {
 })
 
 ConversationItem.displayName = 'ConversationItem'
+ConversationItem.propTypes = {
+  conversation: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    user: PropTypes.shape({
+      displayName: PropTypes.string.isRequired,
+      avatar: PropTypes.string,
+      status: PropTypes.string
+    }).isRequired,
+    lastMessage: PropTypes.shape({
+      content: PropTypes.string,
+      timestamp: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      type: PropTypes.string
+    }),
+    unreadCount: PropTypes.number
+  }).isRequired,
+  isActive: PropTypes.bool.isRequired,
+  onClick: PropTypes.func.isRequired
+}
 
 // Memoized message component
 const Message = memo(({ message, isOwn, user }) => {
@@ -175,6 +194,24 @@ const Message = memo(({ message, isOwn, user }) => {
 })
 
 Message.displayName = 'Message'
+Message.propTypes = {
+  message: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    content: PropTypes.string.isRequired,
+    timestamp: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    type: PropTypes.string,
+    fileName: PropTypes.string,
+    fileSize: PropTypes.string,
+    read: PropTypes.bool,
+    delivered: PropTypes.bool,
+    sent: PropTypes.bool
+  }).isRequired,
+  isOwn: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    displayName: PropTypes.string,
+    avatar: PropTypes.string
+  })
+}
 
 // New conversation modal
 const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) => {
@@ -191,9 +228,12 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
           const response = await apiService.get(`/users/search?q=${searchTerm}`)
           if (response.success) {
             setUsers(response.data.users || [])
+          } else {
+            setUsers([])
           }
         } catch (err) {
           console.error('Failed to search users:', err)
+          setUsers([])
         } finally {
           setLoading(false)
         }
@@ -241,6 +281,7 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
               onChange={(e) => setSearchTerm(e.target.value)}
               className="search-input"
               autoFocus
+              aria-label="Search users"
             />
           </div>
 
@@ -283,6 +324,11 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
 })
 
 NewConversationModal.displayName = 'NewConversationModal'
+NewConversationModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onCreateConversation: PropTypes.func.isRequired
+}
 
 function DirectMessagesPage() {
   const navigate = useNavigate()
@@ -550,8 +596,8 @@ function DirectMessagesPage() {
         type: file.type.startsWith('image/') ? 'image' : 'file'
       })
     }
-    reader.onerror = () => {
-      console.error('Failed to read file')
+    reader.onerror = (error) => {
+      console.error('Failed to read file:', error)
       setError('Failed to read file. Please try again.')
     }
     reader.readAsDataURL(file)
@@ -609,6 +655,7 @@ function DirectMessagesPage() {
       }
     } catch (err) {
       console.error('Failed to create conversation:', err)
+      setError(err.message || 'Failed to create conversation. Please try again.')
     }
   }, [])
 
@@ -1751,5 +1798,7 @@ function DirectMessagesPage() {
     </div>
   )
 }
+
+DirectMessagesPage.propTypes = {}
 
 export default DirectMessagesPage

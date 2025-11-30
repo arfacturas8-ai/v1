@@ -260,12 +260,7 @@ const communityRoutes: FastifyPluginAsync = async (fastify) => {
       fastify.log.error('Join community error:', error);
       return reply.code(500).send({
         success: false,
-        error: "An unexpected error occurred",
-        details: {
-          message: (error as any)?.message || 'Unknown error',
-          requestId: request.id,
-          processingTime: 0
-        }
+        error: "Failed to join community"
       });
     }
   });

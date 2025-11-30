@@ -13,9 +13,27 @@ class MessageService {
    * @returns {Promise<Object>} Messages with pagination
    */
   async getMessages(channelId, options = {}) {
-    const params = { channelId, ...options };
-    const queryString = new URLSearchParams(params).toString();
-    return api.get(`/messages${queryString ? `?${queryString}` : ''}`);
+    try {
+      const params = { channelId, ...options };
+      const queryString = new URLSearchParams(params).toString();
+      const response = await api.get(`/messages${queryString ? `?${queryString}` : ''}`);
+
+      if (response.success && response.data) {
+        return {
+          success: true,
+          messages: response.data.messages || response.data || [],
+          pagination: response.data.pagination || {}
+        };
+      }
+
+      return { success: false, error: 'Failed to fetch messages' };
+    } catch (error) {
+      console.error('Get messages error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch messages'
+      };
+    }
   }
 
   /**
@@ -25,11 +43,25 @@ class MessageService {
    * @returns {Promise<Object>} Created message
    */
   async sendMessage(channelId, messageData) {
-    const data = {
-      channelId,
-      ...messageData
-    };
-    return api.post('/messages', data);
+    try {
+      const data = {
+        channelId,
+        ...messageData
+      };
+      const response = await api.post('/messages', data);
+
+      if (response.success && response.data) {
+        return { success: true, message: response.data.message || response.data };
+      }
+
+      return { success: false, error: 'Failed to send message' };
+    } catch (error) {
+      console.error('Send message error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to send message'
+      };
+    }
   }
 
   /**
@@ -38,7 +70,21 @@ class MessageService {
    * @returns {Promise<Object>} Message details
    */
   async getMessage(messageId) {
-    return api.get(`/messages/${messageId}`);
+    try {
+      const response = await api.get(`/messages/${messageId}`);
+
+      if (response.success && response.data) {
+        return { success: true, data: response.data };
+      }
+
+      return { success: false, error: 'Message not found' };
+    } catch (error) {
+      console.error('Get message error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch message'
+      };
+    }
   }
 
   /**
@@ -48,7 +94,21 @@ class MessageService {
    * @returns {Promise<Object>} Updated message
    */
   async editMessage(messageId, content) {
-    return api.patch(`/messages/${messageId}`, { content });
+    try {
+      const response = await api.patch(`/messages/${messageId}`, { content });
+
+      if (response.success && response.data) {
+        return { success: true, message: response.data.message || response.data };
+      }
+
+      return { success: false, error: 'Failed to edit message' };
+    } catch (error) {
+      console.error('Edit message error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to edit message'
+      };
+    }
   }
 
   /**
@@ -57,7 +117,20 @@ class MessageService {
    * @returns {Promise<Object>} Success response
    */
   async deleteMessage(messageId) {
-    return api.delete(`/messages/${messageId}`);
+    try {
+      const response = await api.delete(`/messages/${messageId}`);
+
+      return {
+        success: response.success,
+        message: response.message || 'Message deleted'
+      };
+    } catch (error) {
+      console.error('Delete message error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to delete message'
+      };
+    }
   }
 
   /**
@@ -67,7 +140,21 @@ class MessageService {
    * @returns {Promise<Object>} Reaction data
    */
   async addReaction(messageId, emoji) {
-    return api.post(`/messages/${messageId}/reactions`, { emoji });
+    try {
+      const response = await api.post(`/messages/${messageId}/reactions`, { emoji });
+
+      if (response.success && response.data) {
+        return { success: true, reaction: response.data.reaction || response.data };
+      }
+
+      return { success: false, error: 'Failed to add reaction' };
+    } catch (error) {
+      console.error('Add reaction error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to add reaction'
+      };
+    }
   }
 
   /**
@@ -78,8 +165,22 @@ class MessageService {
    * @returns {Promise<Object>} Success response
    */
   async removeReaction(messageId, emoji) {
-    // The backend API toggles reactions, so we use the same endpoint
-    return api.post(`/messages/${messageId}/reactions`, { emoji });
+    try {
+      // The backend API toggles reactions, so we use the same endpoint
+      const response = await api.post(`/messages/${messageId}/reactions`, { emoji });
+
+      if (response.success && response.data) {
+        return { success: true, reaction: response.data.reaction || response.data };
+      }
+
+      return { success: false, error: 'Failed to remove reaction' };
+    } catch (error) {
+      console.error('Remove reaction error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to remove reaction'
+      };
+    }
   }
 
   /**
@@ -90,8 +191,26 @@ class MessageService {
    * @returns {Promise<Object>} List of users who reacted
    */
   async getReactionDetails(messageId, emoji, params = {}) {
-    const queryString = new URLSearchParams(params).toString();
-    return api.get(`/messages/${messageId}/reactions/${emoji}${queryString ? `?${queryString}` : ''}`);
+    try {
+      const queryString = new URLSearchParams(params).toString();
+      const response = await api.get(`/messages/${messageId}/reactions/${emoji}${queryString ? `?${queryString}` : ''}`);
+
+      if (response.success && response.data) {
+        return {
+          success: true,
+          users: response.data.users || response.data || [],
+          pagination: response.data.pagination || {}
+        };
+      }
+
+      return { success: false, error: 'Failed to fetch reaction details' };
+    } catch (error) {
+      console.error('Get reaction details error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch reaction details'
+      };
+    }
   }
 
   /**
@@ -100,7 +219,20 @@ class MessageService {
    * @returns {Promise<Object>} Pinned message
    */
   async pinMessage(messageId) {
-    return api.post(`/messages/${messageId}/pin`);
+    try {
+      const response = await api.post(`/messages/${messageId}/pin`);
+
+      return {
+        success: response.success,
+        message: response.message || 'Message pinned'
+      };
+    } catch (error) {
+      console.error('Pin message error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to pin message'
+      };
+    }
   }
 
   /**
@@ -109,7 +241,20 @@ class MessageService {
    * @returns {Promise<Object>} Success response
    */
   async unpinMessage(messageId) {
-    return api.post(`/messages/${messageId}/unpin`);
+    try {
+      const response = await api.post(`/messages/${messageId}/unpin`);
+
+      return {
+        success: response.success,
+        message: response.message || 'Message unpinned'
+      };
+    } catch (error) {
+      console.error('Unpin message error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to unpin message'
+      };
+    }
   }
 
   /**
@@ -119,37 +264,45 @@ class MessageService {
    * @returns {Promise<Object>} List of pinned messages
    */
   async getPinnedMessages(channelId, params = {}) {
-    const queryParams = {
-      channelId,
-      ...params
-    };
+    try {
+      const queryParams = {
+        channelId,
+        ...params
+      };
 
-    // Get all messages for the channel and filter pinned ones
-    // Note: This could be optimized with a dedicated backend endpoint
-    const response = await this.getMessages(channelId, {
-      ...params,
-      limit: 100 // Get more messages to find pinned ones
-    });
+      // Get all messages for the channel and filter pinned ones
+      // Note: This could be optimized with a dedicated backend endpoint
+      const response = await this.getMessages(channelId, {
+        ...params,
+        limit: 100 // Get more messages to find pinned ones
+      });
 
-    if (response.success && response.data && response.data.messages) {
-      // Filter for pinned messages
-      const pinnedMessages = response.data.messages.filter(msg => msg.isPinned);
+      if (response.success && response.messages) {
+        // Filter for pinned messages
+        const pinnedMessages = response.messages.filter(msg => msg.isPinned);
 
-      return {
-        success: true,
-        data: {
-          messages: pinnedMessages,
-          pagination: {
-            total: pinnedMessages.length,
-            page: params.page || 1,
-            pageSize: params.limit || 50,
-            hasMore: false
+        return {
+          success: true,
+          data: {
+            messages: pinnedMessages,
+            pagination: {
+              total: pinnedMessages.length,
+              page: params.page || 1,
+              pageSize: params.limit || 50,
+              hasMore: false
+            }
           }
-        }
+        };
+      }
+
+      return { success: false, error: 'Failed to fetch pinned messages' };
+    } catch (error) {
+      console.error('Get pinned messages error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch pinned messages'
       };
     }
-
-    return response;
   }
 
   /**
@@ -160,13 +313,31 @@ class MessageService {
    * @returns {Promise<Object>} Search results
    */
   async searchMessages(channelId, query, params = {}) {
-    const searchParams = {
-      channelId,
-      q: query,
-      ...params
-    };
-    const queryString = new URLSearchParams(searchParams).toString();
-    return api.get(`/messages/search${queryString ? `?${queryString}` : ''}`);
+    try {
+      const searchParams = {
+        channelId,
+        q: query,
+        ...params
+      };
+      const queryString = new URLSearchParams(searchParams).toString();
+      const response = await api.get(`/messages/search${queryString ? `?${queryString}` : ''}`);
+
+      if (response.success && response.data) {
+        return {
+          success: true,
+          messages: response.data.messages || response.data.results || response.data || [],
+          total: response.data.total || 0
+        };
+      }
+
+      return { success: false, error: 'Search failed' };
+    } catch (error) {
+      console.error('Search messages error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Search failed'
+      };
+    }
   }
 
   /**
@@ -176,25 +347,33 @@ class MessageService {
    * @returns {Promise<Object>} List of reply messages
    */
   async getMessageReplies(messageId, params = {}) {
-    // First get the message which includes replies
-    const message = await this.getMessage(messageId);
+    try {
+      // First get the message which includes replies
+      const message = await this.getMessage(messageId);
 
-    if (message.success && message.data && message.data.replies) {
-      return {
-        success: true,
-        data: {
-          messages: message.data.replies,
-          pagination: {
-            total: message.data._count?.replies || message.data.replies.length,
-            page: params.page || 1,
-            pageSize: params.limit || 50,
-            hasMore: false
+      if (message.success && message.data && message.data.replies) {
+        return {
+          success: true,
+          data: {
+            messages: message.data.replies,
+            pagination: {
+              total: message.data._count?.replies || message.data.replies.length,
+              page: params.page || 1,
+              pageSize: params.limit || 50,
+              hasMore: false
+            }
           }
-        }
+        };
+      }
+
+      return { success: false, error: 'Failed to fetch message replies' };
+    } catch (error) {
+      console.error('Get message replies error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch message replies'
       };
     }
-
-    return message;
   }
 
   /**
@@ -204,12 +383,30 @@ class MessageService {
    * @returns {Promise<Object>} Upload response with attachment URLs
    */
   async uploadAttachments(channelId, files) {
-    const fileArray = Array.isArray(files) ? files : [files];
+    try {
+      const fileArray = Array.isArray(files) ? files : [files];
 
-    if (fileArray.length === 1) {
-      return api.uploadFile('/messages/attachments', fileArray[0], { channelId });
-    } else {
-      return api.uploadFiles('/messages/attachments', fileArray, { channelId });
+      if (fileArray.length === 1) {
+        const response = await api.uploadFile('/messages/attachments', fileArray[0], { channelId });
+
+        if (response.success && response.data) {
+          return { success: true, attachments: response.data.attachments || response.data };
+        }
+      } else {
+        const response = await api.uploadFiles('/messages/attachments', fileArray, { channelId });
+
+        if (response.success && response.data) {
+          return { success: true, attachments: response.data.attachments || response.data };
+        }
+      }
+
+      return { success: false, error: 'Failed to upload attachments' };
+    } catch (error) {
+      console.error('Upload attachments error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to upload attachments'
+      };
     }
   }
 
@@ -220,7 +417,20 @@ class MessageService {
    * @returns {Promise<Object>} Success response
    */
   async reportMessage(messageId, reportData) {
-    return api.post(`/messages/${messageId}/report`, reportData);
+    try {
+      const response = await api.post(`/messages/${messageId}/report`, reportData);
+
+      return {
+        success: response.success,
+        message: response.message || 'Message reported'
+      };
+    } catch (error) {
+      console.error('Report message error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to report message'
+      };
+    }
   }
 
   /**
@@ -230,10 +440,23 @@ class MessageService {
    * @returns {Promise<Object>} Success response
    */
   async bulkDeleteMessages(channelId, messageIds) {
-    return api.post(`/messages/bulk-delete`, {
-      channelId,
-      messageIds
-    });
+    try {
+      const response = await api.post(`/messages/bulk-delete`, {
+        channelId,
+        messageIds
+      });
+
+      return {
+        success: response.success,
+        message: response.message || `${messageIds.length} messages deleted`
+      };
+    } catch (error) {
+      console.error('Bulk delete messages error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to delete messages'
+      };
+    }
   }
 
   /**
@@ -272,37 +495,45 @@ class MessageService {
    * @returns {Promise<Object>} Messages with pagination
    */
   async getMessagesAround(channelId, aroundMessageId, limit = 50) {
-    const halfLimit = Math.floor(limit / 2);
+    try {
+      const halfLimit = Math.floor(limit / 2);
 
-    // Get messages before and after the target message
-    const [before, after] = await Promise.all([
-      this.getMessagesBefore(channelId, aroundMessageId, halfLimit),
-      this.getMessagesAfter(channelId, aroundMessageId, halfLimit)
-    ]);
+      // Get messages before and after the target message
+      const [before, after] = await Promise.all([
+        this.getMessagesBefore(channelId, aroundMessageId, halfLimit),
+        this.getMessagesAfter(channelId, aroundMessageId, halfLimit)
+      ]);
 
-    // Also get the target message
-    const targetMessage = await this.getMessage(aroundMessageId);
+      // Also get the target message
+      const targetMessage = await this.getMessage(aroundMessageId);
 
-    const beforeMessages = before.success ? before.data.messages : [];
-    const afterMessages = after.success ? after.data.messages : [];
-    const centerMessage = targetMessage.success ? [targetMessage.data] : [];
+      const beforeMessages = before.success ? before.messages : [];
+      const afterMessages = after.success ? after.messages : [];
+      const centerMessage = targetMessage.success && targetMessage.data ? [targetMessage.data] : [];
 
-    // Combine and sort messages
-    const allMessages = [...beforeMessages, ...centerMessage, ...afterMessages]
-      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+      // Combine and sort messages
+      const allMessages = [...beforeMessages, ...centerMessage, ...afterMessages]
+        .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
-    return {
-      success: true,
-      data: {
-        messages: allMessages,
-        pagination: {
-          total: allMessages.length,
-          page: 1,
-          pageSize: limit,
-          hasMore: false
+      return {
+        success: true,
+        data: {
+          messages: allMessages,
+          pagination: {
+            total: allMessages.length,
+            page: 1,
+            pageSize: limit,
+            hasMore: false
+          }
         }
-      }
-    };
+      };
+    } catch (error) {
+      console.error('Get messages around error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch messages'
+      };
+    }
   }
 
   /**
@@ -312,10 +543,23 @@ class MessageService {
    * @returns {Promise<Object>} Success response
    */
   async markAsRead(channelId, lastMessageId) {
-    return api.post(`/messages/read`, {
-      channelId,
-      lastMessageId
-    });
+    try {
+      const response = await api.post(`/messages/read`, {
+        channelId,
+        lastMessageId
+      });
+
+      return {
+        success: response.success,
+        message: response.message || 'Messages marked as read'
+      };
+    } catch (error) {
+      console.error('Mark as read error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to mark messages as read'
+      };
+    }
   }
 
   /**
@@ -324,7 +568,21 @@ class MessageService {
    * @returns {Promise<Object>} Unread count
    */
   async getUnreadCount(channelId) {
-    return api.get(`/messages/unread?channelId=${channelId}`);
+    try {
+      const response = await api.get(`/messages/unread?channelId=${channelId}`);
+
+      if (response.success && response.data) {
+        return { success: true, count: response.data.count || 0 };
+      }
+
+      return { success: false, error: 'Failed to fetch unread count' };
+    } catch (error) {
+      console.error('Get unread count error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch unread count'
+      };
+    }
   }
 
   /**
@@ -333,7 +591,20 @@ class MessageService {
    * @returns {Promise<Object>} Success response
    */
   async startTyping(channelId) {
-    return api.post(`/messages/typing`, { channelId });
+    try {
+      const response = await api.post(`/messages/typing`, { channelId });
+
+      return {
+        success: response.success,
+        message: response.message || 'Typing indicator started'
+      };
+    } catch (error) {
+      console.error('Start typing error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to start typing indicator'
+      };
+    }
   }
 
   /**
@@ -342,7 +613,21 @@ class MessageService {
    * @returns {Promise<Object>} List of users currently typing
    */
   async getTypingUsers(channelId) {
-    return api.get(`/messages/typing?channelId=${channelId}`);
+    try {
+      const response = await api.get(`/messages/typing?channelId=${channelId}`);
+
+      if (response.success && response.data) {
+        return { success: true, users: response.data.users || response.data || [] };
+      }
+
+      return { success: false, error: 'Failed to fetch typing users' };
+    } catch (error) {
+      console.error('Get typing users error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch typing users'
+      };
+    }
   }
 }
 

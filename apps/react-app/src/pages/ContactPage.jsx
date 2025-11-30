@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 
 function ContactPage() {
@@ -106,7 +107,11 @@ function ContactPage() {
               Thank you for contacting us. We'll get back to you within 24 hours.
             </p>
             <div className="flex flex-col gap-3">
-              <Link to="/home" className="block px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline font-semibold text-center hover:opacity-90 transition-opacity">
+              <Link
+                to="/home"
+                className="block px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline font-semibold text-center hover:opacity-90 transition-opacity"
+                aria-label="Return to home page"
+              >
                 Back to Home
               </Link>
               <button
@@ -116,6 +121,7 @@ function ContactPage() {
                   setSubmitError('')
                 }}
                 className="px-6 py-3.5 bg-[#161b22]/60 text-[#58a6ff] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold cursor-pointer hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors"
+                aria-label="Send another message"
               >
                 Send Another Message
               </button>
@@ -154,9 +160,12 @@ function ContactPage() {
                   }`}
                   placeholder="Enter your name"
                   disabled={isLoading}
+                  aria-label="Your name"
+                  aria-invalid={errors.name ? 'true' : 'false'}
+                  aria-describedby={errors.name ? 'name-error' : undefined}
                 />
                 {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                  <p id="name-error" className="text-red-500 text-sm mt-1" role="alert">{errors.name}</p>
                 )}
               </div>
               <div>
@@ -172,9 +181,12 @@ function ContactPage() {
                   }`}
                   placeholder="your@email.com"
                   disabled={isLoading}
+                  aria-label="Email address"
+                  aria-invalid={errors.email ? 'true' : 'false'}
+                  aria-describedby={errors.email ? 'email-error' : undefined}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  <p id="email-error" className="text-red-500 text-sm mt-1" role="alert">{errors.email}</p>
                 )}
               </div>
             </div>
@@ -190,6 +202,9 @@ function ContactPage() {
                   errors.subject ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-white/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
                 }`}
                 disabled={isLoading}
+                aria-label="Subject"
+                aria-invalid={errors.subject ? 'true' : 'false'}
+                aria-describedby={errors.subject ? 'subject-error' : undefined}
               >
                 <option value="">Select a subject</option>
                 <option value="general">General Question</option>
@@ -200,7 +215,7 @@ function ContactPage() {
                 <option value="other">Other</option>
               </select>
               {errors.subject && (
-                <p className="text-red-500 text-sm mt-1">{errors.subject}</p>
+                <p id="subject-error" className="text-red-500 text-sm mt-1" role="alert">{errors.subject}</p>
               )}
             </div>
 
@@ -217,12 +232,15 @@ function ContactPage() {
                 }`}
                 placeholder="Tell us how we can help... (minimum 10 characters)"
                 disabled={isLoading}
+                aria-label="Message"
+                aria-invalid={errors.message ? 'true' : 'false'}
+                aria-describedby={errors.message ? 'message-error' : undefined}
               />
               <div className="flex justify-between mt-1">
                 {errors.message ? (
-                  <p className="text-red-500 text-sm">{errors.message}</p>
+                  <p id="message-error" className="text-red-500 text-sm" role="alert">{errors.message}</p>
                 ) : (
-                  <p className="text-[#8b949e] text-sm">
+                  <p className="text-[#8b949e] text-sm" aria-live="polite">
                     {formData.message.length}/1000 characters
                   </p>
                 )}
@@ -266,6 +284,7 @@ function ContactPage() {
                 className={`block text-center px-6 py-3.5 bg-[#161b22]/60 text-[#58a6ff] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline font-semibold hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors ${
                   isLoading ? 'opacity-50 pointer-events-none' : ''
                 }`}
+                aria-label="Visit help center"
               >
                 Visit Help Center
               </Link>
@@ -274,7 +293,11 @@ function ContactPage() {
         </div>
 
         <div className="text-center mt-8">
-          <Link to="/home" className="text-[#8b949e] no-underline font-medium hover:text-[#c9d1d9] transition-colors">
+          <Link
+            to="/home"
+            className="text-[#8b949e] no-underline font-medium hover:text-[#c9d1d9] transition-colors"
+            aria-label="Back to home page"
+          >
             ← Back to Home
           </Link>
         </div>
@@ -282,5 +305,7 @@ function ContactPage() {
     </div>
   )
 }
+
+ContactPage.propTypes = {}
 
 export default ContactPage

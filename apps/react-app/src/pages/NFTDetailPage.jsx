@@ -1,10 +1,13 @@
 import React, { useState, useEffect, memo } from 'react'
+import PropTypes from 'prop-types'
 import { motion } from 'framer-motion'
 import { useParams, useNavigate } from 'react-router-dom'
 import {
   ArrowLeft, Heart, Share2, ShoppingCart, Tag, Eye,
   Clock, TrendingUp, Users, ExternalLink, MoreVertical
 } from 'lucide-react'
+import nftService from '../services/nftService'
+import { useToast } from '../contexts/ToastContext'
 
 /**
  * NFTDetailPage Component
@@ -13,10 +16,12 @@ import {
 const NFTDetailPage = () => {
   const { nftId } = useParams()
   const navigate = useNavigate()
+  const { showSuccess, showError } = useToast()
   const [isLiked, setIsLiked] = useState(false)
   const [activeTab, setActiveTab] = useState('details') // details, history, offers
   const [nftData, setNftData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     loadNFTData()
@@ -24,63 +29,114 @@ const NFTDetailPage = () => {
 
   const loadNFTData = async () => {
     setIsLoading(true)
+    setError(null)
     try {
-      await new Promise(resolve => setTimeout(resolve, 800))
-      setNftData({
-        id: nftId,
-        name: 'Cosmic Explorer #4721',
-        collection: 'Cosmic Explorers',
-        creator: 'ArtistDAO',
-        owner: 'alice.eth',
-        price: '2.5 ETH',
-        priceUSD: '$4,250',
-        image: 'https://picsum.photos/800/800?random=1',
-        description: 'A unique digital collectible from the Cosmic Explorers collection. This NFT represents ownership of a one-of-a-kind piece of digital art.',
-        attributes: [
-          { trait_type: 'Background', value: 'Nebula', rarity: '12%' },
-          { trait_type: 'Body', value: 'Cosmic', rarity: '8%' },
-          { trait_type: 'Eyes', value: 'Laser', rarity: '5%' },
-          { trait_type: 'Accessory', value: 'Crown', rarity: '3%' }
-        ],
-        stats: {
-          views: 1234,
-          likes: 456,
-          offers: 12
-        },
-        contract: '0x1234...5678',
-        tokenId: '4721',
-        blockchain: 'Ethereum',
-        royalty: '10%'
-      })
+      const response = await nftService.getNFTDetails(nftId)
+      if (response.success && response.data) {
+        setNftData(response.data)
+      } else {
+        throw new Error(response.error || 'Failed to load NFT details')
+      }
     } catch (err) {
-      console.error(err)
+      console.error('Failed to load NFT:', err)
+      const errorMsg = err.message || 'Failed to load NFT details. Please try again.'
+      setError(errorMsg)
+      showError(errorMsg)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handlePurchase = () => {
-    alert('Purchase flow would start here')
+  const handlePurchase = async () => {
+    try {
+      // In a real app, this would integrate with Web3
+      showSuccess('Purchase flow initiated')
+      // await nftService.purchaseNFT(nftId)
+    } catch (err) {
+      console.error('Purchase failed:', err)
+      showError('Purchase failed. Please try again.')
+    }
   }
 
-  const handleMakeOffer = () => {
-    alert('Make offer modal would open here')
+  const handleMakeOffer = async () => {
+    try {
+      // In a real app, this would open a modal for offer details
+      showSuccess('Make offer modal would open')
+      // Open offer modal
+    } catch (err) {
+      console.error('Make offer failed:', err)
+      showError('Failed to make offer. Please try again.')
+    }
+  }
+
+  const handleShare = async () => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: nftData?.name || 'NFT',
+          url: window.location.href
+        })
+      } else {
+        await navigator.clipboard.writeText(window.location.href)
+        showSuccess('Link copied to clipboard')
+      }
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        console.error('Share failed:', err)
+        showError('Failed to share')
+      }
+    }
   }
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center" role="status" aria-live="polite">
         <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin" />
+        <span className="sr-only">Loading NFT details...</span>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center p-4">
+        <div className="text-center max-w-md">
+          <div className="text-6xl mb-4">⚠️</div>
+          <h2 className="text-2xl font-bold mb-2 text-white">Failed to Load NFT</h2>
+          <p className="text-[#8b949e] mb-6">{error}</p>
+          <div className="flex gap-3 justify-center">
+            <button
+              onClick={loadNFTData}
+              className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold hover:opacity-90 transition-opacity"
+              aria-label="Retry loading NFT"
+            >
+              Try Again
+            </button>
+            <button
+              onClick={() => navigate('/nft-marketplace')}
+              className="px-6 py-3 bg-[#161b22]/60 backdrop-blur-xl text-[#58a6ff] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold hover:bg-[#161b22]/80 transition-colors"
+              aria-label="Back to marketplace"
+            >
+              Back to Marketplace
+            </button>
+          </div>
+        </div>
       </div>
     )
   }
 
   if (!nftData) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center p-4">
         <div className="text-center">
+          <div className="text-6xl mb-4">🔍</div>
           <h2 className="text-2xl font-bold mb-2 text-white">NFT Not Found</h2>
-          <button onClick={() => navigate('/nft-marketplace')} className="text-[#58a6ff] hover:underline">
+          <p className="text-[#8b949e] mb-6">The NFT you're looking for doesn't exist or has been removed.</p>
+          <button
+            onClick={() => navigate('/nft-marketplace')}
+            className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold hover:opacity-90 transition-opacity"
+            aria-label="Back to marketplace"
+          >
             Back to Marketplace
           </button>
         </div>
@@ -104,10 +160,17 @@ const NFTDetailPage = () => {
             <h1 className="text-2xl font-bold text-white">{nftData.name}</h1>
             <p className="text-sm text-[#8b949e]">{nftData.collection}</p>
           </div>
-          <button className="p-2 hover:bg-[#21262d] rounded-lg text-[#c9d1d9] transition-colors">
+          <button
+            onClick={handleShare}
+            className="p-2 hover:bg-[#21262d] rounded-lg text-[#c9d1d9] transition-colors"
+            aria-label="Share NFT"
+          >
             <Share2 className="w-5 h-5" />
           </button>
-          <button className="p-2 hover:bg-[#21262d] rounded-lg text-[#c9d1d9] transition-colors">
+          <button
+            className="p-2 hover:bg-[#21262d] rounded-lg text-[#c9d1d9] transition-colors"
+            aria-label="More options"
+          >
             <MoreVertical className="w-5 h-5" />
           </button>
         </div>
@@ -162,6 +225,8 @@ const NFTDetailPage = () => {
                 <button
                   onClick={() => setIsLiked(!isLiked)}
                   className="p-3 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-sm transition-colors"
+                  aria-label={isLiked ? 'Unlike NFT' : 'Like NFT'}
+                  aria-pressed={isLiked}
                 >
                   <Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
                 </button>
@@ -170,6 +235,7 @@ const NFTDetailPage = () => {
                 <button
                   onClick={handlePurchase}
                   className="py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold transition-colors flex items-center justify-center gap-2"
+                  aria-label="Buy this NFT now"
                 >
                   <ShoppingCart className="w-5 h-5" />
                   Buy Now
@@ -177,6 +243,7 @@ const NFTDetailPage = () => {
                 <button
                   onClick={handleMakeOffer}
                   className="py-3 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-sm rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold transition-colors"
+                  aria-label="Make an offer for this NFT"
                 >
                   Make Offer
                 </button>
@@ -215,6 +282,9 @@ const NFTDetailPage = () => {
                         ? 'bg-[#58a6ff]/10 text-[#58a6ff] border-b-2 border-[#58a6ff]'
                         : 'text-[#8b949e] hover:bg-[#21262d]'
                     }`}
+                    role="tab"
+                    aria-selected={activeTab === tab}
+                    aria-controls={`${tab}-panel`}
                   >
                     {tab}
                   </button>
@@ -297,6 +367,8 @@ const NFTDetailPage = () => {
     </div>
   )
 }
+
+NFTDetailPage.propTypes = {}
 
 export default memo(NFTDetailPage)
 

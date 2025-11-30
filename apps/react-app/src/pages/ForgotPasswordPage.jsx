@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
@@ -173,3 +174,6 @@ export default function ForgotPasswordPage() {
   )
 }
 
+ForgotPasswordPage.propTypes = {}
+
+export { ForgotPasswordPage }

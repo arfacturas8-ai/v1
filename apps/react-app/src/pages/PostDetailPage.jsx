@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, MessageSquare, Share2, Bookmark, ExternalLink, Eye, Clock, Users, WifiOff } from 'lucide-react'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card'
@@ -9,6 +10,7 @@ import { ModernThreadedComments } from '../components/social/ModernThreadedComme
 import { SkeletonPost, SkeletonCard } from '../components/ui/SkeletonLoader'
 import EmptyState from '../components/ui/EmptyState'
 import { useAuth } from '../contexts/AuthContext.jsx'
+import { useToast } from '../contexts/ToastContext'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '../lib/utils'
 import offlineStorage from '../services/offlineStorage'
@@ -24,6 +26,7 @@ export default function PostDetailPage() {
   const { communityName, postId } = useParams()
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { showSuccess, showError } = useToast()
   const { isMobile, isTablet } = useResponsive()
   const [post, setPost] = useState(null)
   const [comments, setComments] = useState([])
@@ -89,7 +92,9 @@ export default function PostDetailPage() {
 
     } catch (error) {
       console.error('Error loading post:', error)
-      setError('Failed to load post. Using cached data if available.')
+      const errorMsg = 'Failed to load post. Using cached data if available.'
+      setError(errorMsg)
+      showError(errorMsg)
     } finally {
       setLoading(false)
     }
@@ -119,11 +124,17 @@ export default function PostDetailPage() {
         const result = await response.json()
         if (result.success) {
           setNewComment('')
+          showSuccess('Comment posted successfully')
           loadPostAndComments() // Reload to show new comment
+        } else {
+          throw new Error(result.error || 'Failed to post comment')
         }
+      } else {
+        throw new Error('Failed to post comment')
       }
     } catch (error) {
       console.error('Error submitting comment:', error)
+      showError('Failed to post comment. Please try again.')
     } finally {
       setSubmittingComment(false)
     }
@@ -147,11 +158,17 @@ export default function PostDetailPage() {
       if (response.ok) {
         const result = await response.json()
         if (result.success) {
+          showSuccess('Reply posted successfully')
           loadPostAndComments() // Reload to show new reply
+        } else {
+          throw new Error(result.error || 'Failed to post reply')
         }
+      } else {
+        throw new Error('Failed to post reply')
       }
     } catch (error) {
       console.error('Error submitting reply:', error)
+      showError('Failed to post reply. Please try again.')
     }
   }
 
@@ -170,9 +187,12 @@ export default function PostDetailPage() {
 
       if (response.ok) {
         loadPostAndComments() // Reload to show updated scores
+      } else {
+        throw new Error('Failed to vote on comment')
       }
     } catch (error) {
       console.error('Error voting on comment:', error)
+      showError('Failed to vote. Please try again.')
     }
   }
 
@@ -213,6 +233,10 @@ export default function PostDetailPage() {
             title="Error Loading Post"
             description={error}
             action={{
+              label: "Try Again",
+              onClick: loadPostAndComments
+            }}
+            secondaryAction={{
               label: "Go Back",
               onClick: () => navigate(-1)
             }}
@@ -442,6 +466,7 @@ export default function PostDetailPage() {
                           // Save logic would go here
                           announce('Post saved')
                         }}
+                        aria-label="Save post"
                       >
                         <Bookmark className="w-4 h-4" />
                         Save
@@ -678,6 +703,7 @@ export default function PostDetailPage() {
                       // Report logic would go here
                       announce('Report submitted')
                     }}
+                    aria-label="Report this post"
                   >
                     Report Post
                   </Button>
@@ -691,4 +717,6 @@ export default function PostDetailPage() {
   )
 }
 
+PostDetailPage.propTypes = {}
 
+export { PostDetailPage }
