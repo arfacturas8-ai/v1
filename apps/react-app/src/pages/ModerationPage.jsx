@@ -287,7 +287,7 @@ export default function ModerationPage() {
                         </button>
                         <button
                           onClick={() => handleRemoveContent(report.id)}
-                          className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white text-sm rounded-lg transition-colors disabled:opacity-50"
+                          className="px-4 py-2 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg hover:bg-red-500/20 hover:border-red-500/50 transition-all disabled:opacity-50"
                           disabled={processingReport === report.id}
                           aria-label={`Remove content for report about ${report.type}`}
                         >

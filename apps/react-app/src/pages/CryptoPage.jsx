@@ -84,7 +84,7 @@ function CryptoPage() {
           {/* Hero Title */}
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6">
             The Future of
-            <span className="text-gradient bg-gradient-to-r from-accent-primary to-accent-light bg-clip-text text-transparent"> Web3 </span>
+            <span className="text-gradient bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"> Web3 </span>
             Social
           </h1>
 
@@ -261,21 +261,21 @@ function CryptoPage() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-2xl mx-auto mb-12 md:mb-16">
-              <div className="bg-[#141416] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
+              <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
                 <div className="p-4 md:p-6 text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-accent-light mb-2">1B</div>
+                  <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">1B</div>
                   <div className="text-sm text-[#8b949e]">Total Supply</div>
                 </div>
               </div>
-              <div className="bg-[#141416] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
+              <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
                 <div className="p-4 md:p-6 text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-success mb-2">40%</div>
+                  <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-2">40%</div>
                   <div className="text-sm text-[#8b949e]">Community Owned</div>
                 </div>
               </div>
-              <div className="bg-[#141416] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
+              <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
                 <div className="p-4 md:p-6 text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-warning mb-2">15%</div>
+                  <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-2">15%</div>
                   <div className="text-sm text-[#8b949e]">Max Staking APY</div>
                 </div>
               </div>
@@ -306,28 +306,28 @@ function CryptoPage() {
                 </div>
 
                 <div className="text-center">
-                  <div className="bg-[#0A0A0B]/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-6">
+                  <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-4 md:p-6">
                     <h4 className="font-semibold text-white mb-3 md:mb-4">Token Flow</h4>
                     <div className="space-y-2 md:space-y-3 text-sm">
                       <div className="flex items-center justify-between">
                         <span className="text-[#8b949e]">User Rewards</span>
-                        <span className="text-accent-light">40%</span>
+                        <span className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent font-semibold">40%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-[#8b949e]">Development</span>
-                        <span className="text-info">20%</span>
+                        <span className="text-[#58a6ff] font-semibold">20%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-[#8b949e]">Ecosystem</span>
-                        <span className="text-success">15%</span>
+                        <span className="text-emerald-400 font-semibold">15%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-[#8b949e]">Treasury</span>
-                        <span className="text-warning">15%</span>
+                        <span className="text-[#a371f7] font-semibold">15%</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <span className="text-[#8b949e]">Public Sale</span>
-                        <span className="text-accent-secondary">10%</span>
+                        <span className="text-[#58a6ff] font-semibold">10%</span>
                       </div>
                     </div>
                   </div>
@@ -365,17 +365,17 @@ function CryptoPage() {
               {features.map((feature, index) => {
                 const IconComponent = feature.icon
                 return (
-                  <div key={index} className="bg-[#141416] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-4 md:p-6 group hover:border-accent-primary/30 transition-all duration-300">
+                  <div key={index} className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-4 md:p-6 group hover:border-[#58a6ff]/50 transition-all duration-300">
                     <div className="flex items-start gap-3 md:gap-4">
-                      <div className="p-3 bg-accent-primary/20 rounded-lg group-hover:bg-accent-primary/30 transition-colors flex-shrink-0">
-                        <IconComponent className="h-6 w-6 text-accent-light" />
+                      <div className="p-3 bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 rounded-lg group-hover:from-[#58a6ff]/30 group-hover:to-[#a371f7]/30 transition-colors flex-shrink-0">
+                        <IconComponent className="h-6 w-6 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-base md:text-lg font-bold text-white mb-2">{feature.title}</h3>
                         <p className="text-sm text-[#c9d1d9] mb-3 md:mb-4">{feature.description}</p>
                         <div className="flex flex-wrap gap-1.5 md:gap-2">
                           {feature.benefits.map((benefit, benefitIndex) => (
-                            <span key={benefitIndex} className="badge bg-accent-primary/10 text-accent-light text-xs">
+                            <span key={benefitIndex} className="badge bg-[#58a6ff]/10 text-[#58a6ff] text-xs border border-[#58a6ff]/20">
                               {benefit}
                             </span>
                           ))}
@@ -394,12 +394,12 @@ function CryptoPage() {
                 return (
                   <div
                     key={index}
-                    className="card p-6 group hover:border-accent-primary/30 transition-all duration-300 cursor-pointer"
+                    className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 group hover:border-[#58a6ff]/50 transition-all duration-300 cursor-pointer"
                     onClick={() => setActiveFeature(index)}
                   >
                     <div className="text-center">
-                      <div className="inline-flex p-4 md:p-6 bg-accent-primary/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] group-hover:bg-accent-primary/30 transition-colors mb-4 md:mb-6">
-                        <IconComponent className="h-8 w-8 text-accent-light" />
+                      <div className="inline-flex p-4 md:p-6 bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] group-hover:from-[#58a6ff]/30 group-hover:to-[#a371f7]/30 transition-colors mb-4 md:mb-6">
+                        <IconComponent className="h-8 w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" />
                       </div>
                       <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">{feature.title}</h3>
                       <p className="text-sm md:text-base text-[#c9d1d9] mb-4 md:mb-6">{feature.description}</p>
@@ -407,7 +407,7 @@ function CryptoPage() {
                       <div className="space-y-2">
                         {feature.benefits.map((benefit, benefitIndex) => (
                           <div key={benefitIndex} className="flex items-center justify-center gap-2 text-sm text-[#8b949e]">
-                            <div className="w-1.5 h-1.5 bg-accent-light rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-full"></div>
                             <span>{benefit}</span>
                           </div>
                         ))}
@@ -437,25 +437,25 @@ function CryptoPage() {
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-                <div className="text-center group">
-                  <div className="inline-flex p-4 md:p-6 bg-success/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
-                    <Shield className="h-8 w-8 text-success" />
+                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-emerald-400/30 transition-all duration-300">
+                  <div className="inline-flex p-4 md:p-6 bg-emerald-400/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
+                    <Shield className="h-8 w-8 text-emerald-400" />
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">Secure & Trustless</h3>
                   <p className="text-sm md:text-base text-[#c9d1d9]">Built on blockchain technology for maximum security and transparency</p>
                 </div>
 
-                <div className="text-center group">
-                  <div className="inline-flex p-4 md:p-6 bg-info/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
-                    <Users className="h-8 w-8 text-info" />
+                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-[#58a6ff]/50 transition-all duration-300">
+                  <div className="inline-flex p-4 md:p-6 bg-[#58a6ff]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
+                    <Users className="h-8 w-8 text-[#58a6ff]" />
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">Community Owned</h3>
                   <p className="text-sm md:text-base text-[#c9d1d9]">Participate in governance and help shape the future of the platform</p>
                 </div>
 
-                <div className="text-center group">
-                  <div className="inline-flex p-4 md:p-6 bg-warning/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
-                    <TrendingUp className="h-8 w-8 text-warning" />
+                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-[#a371f7]/50 transition-all duration-300">
+                  <div className="inline-flex p-4 md:p-6 bg-[#a371f7]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
+                    <TrendingUp className="h-8 w-8 text-[#a371f7]" />
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">Earn While Social</h3>
                   <p className="text-sm md:text-base text-[#c9d1d9]">Get rewarded for your contributions to the community</p>

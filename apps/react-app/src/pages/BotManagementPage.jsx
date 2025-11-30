@@ -249,7 +249,7 @@ const BotManagementPage = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
-        <div className="bg-[#161b22]/60 backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
+        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
           <div className="w-14 h-14 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-[#58a6ff]">
             <Bot size={24} />
           </div>
@@ -258,7 +258,7 @@ const BotManagementPage = () => {
             <div className="text-sm text-[#8b949e] font-medium">Total Bots</div>
           </div>
         </div>
-        <div className="bg-[#161b22]/60 backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
+        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
           <div className="w-14 h-14 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center text-emerald-500">
             <Power size={24} />
           </div>
@@ -267,7 +267,7 @@ const BotManagementPage = () => {
             <div className="text-sm text-[#8b949e] font-medium">Active Bots</div>
           </div>
         </div>
-        <div className="bg-[#161b22]/60 backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
+        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
           <div className="w-14 h-14 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center text-amber-500">
             <Command size={24} />
           </div>
@@ -310,7 +310,7 @@ const BotManagementPage = () => {
 
       {/* Loading State */}
       {loading && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-sm border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <RefreshCw size={48} className="mx-auto mb-4 text-[#58a6ff] animate-spin" />
           <p className="text-[#8b949e]">Loading bots...</p>
         </div>
@@ -318,7 +318,7 @@ const BotManagementPage = () => {
 
       {/* Error State */}
       {error && !loading && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-sm border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">Error Loading Bots</h3>
           <p className="text-[#8b949e] mb-6">{error}</p>
@@ -334,7 +334,7 @@ const BotManagementPage = () => {
 
       {/* Empty State */}
       {!loading && !error && filteredBots.length === 0 && searchQuery === '' && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-sm border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">No Bots Yet</h3>
           <p className="text-[#8b949e] mb-6">Create your first automation bot to get started</p>
@@ -351,7 +351,7 @@ const BotManagementPage = () => {
 
       {/* No Results */}
       {!loading && !error && filteredBots.length === 0 && searchQuery !== '' && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-sm border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Search size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">No Results Found</h3>
           <p className="text-[#8b949e]">Try adjusting your search or filters</p>
@@ -362,7 +362,7 @@ const BotManagementPage = () => {
       {!loading && !error && filteredBots.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredBots.map((bot) => (
-            <div key={bot.id} className="bg-[#161b22]/60 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-black/30 transition-all">
+            <div key={bot.id} className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-black/30 transition-all">
               {/* Bot Header */}
               <div className="flex items-start gap-4 pb-4 mb-4 border-b border-white/10">
                 <div className="w-16 h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white flex-shrink-0">
@@ -476,7 +476,7 @@ const BotManagementPage = () => {
                   Regenerate
                 </button>
                 <button
-                  className="p-2.5 border border-red-500/20 text-red-400 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-red-500/10 hover:border-red-500 transition-all"
+                  className="p-2.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-red-500/20 hover:border-red-500/50 transition-all"
                   onClick={() => handleDeleteBot(bot.id, bot.name)}
                   aria-label={`Delete ${bot.name}`}
                 >
