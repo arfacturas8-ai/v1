@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import { CheckCircle, XCircle, Clock } from 'lucide-react'
 import authService from '../services/authService'
 import { useResponsive } from '../hooks/useResponsive'
 
@@ -75,11 +76,23 @@ export default function EmailVerificationPage() {
           />
         )
       case 'success':
-        return <div className="text-7xl md:text-8xl" aria-hidden="true">✅</div>
+        return (
+          <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
+            <CheckCircle className="w-10 h-10 text-emerald-500" />
+          </div>
+        )
       case 'error':
-        return <div className="text-7xl md:text-8xl" aria-hidden="true">❌</div>
+        return (
+          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
+            <XCircle className="w-10 h-10 text-red-400" />
+          </div>
+        )
       case 'expired':
-        return <div className="text-7xl md:text-8xl" aria-hidden="true">⏰</div>
+        return (
+          <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
+            <Clock className="w-10 h-10 text-amber-500" />
+          </div>
+        )
       default:
         return null
     }
@@ -91,7 +104,7 @@ export default function EmailVerificationPage() {
       role="main"
       aria-label="Email verification page"
     >
-      <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+      <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         <div className="flex justify-center mb-6 md:mb-8">
           {getIcon()}
         </div>

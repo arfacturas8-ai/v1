@@ -101,7 +101,8 @@ function Header() {
     { path: '/home', label: 'Home', icon: 'Home' },
     { path: '/communities', label: 'Communities', icon: 'Hash' },
     { path: '/nft-marketplace', label: 'Explore', icon: 'ShoppingBag' },
-    { path: '/crypto', label: 'Stats', icon: 'Coins' }
+    { path: '/crypto', label: 'Stats', icon: 'Coins' },
+    { path: '/messages', label: 'Messages', icon: 'MessageCircle' }
   ]
 
   const unreadCount = notifications.filter(n => !n.read).length
