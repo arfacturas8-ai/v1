@@ -117,7 +117,7 @@ const AwardNotificationSystem = ({ userId, onClose }) => {
         return <Bell style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
     }
   }
@@ -340,7 +340,7 @@ const AwardNotificationSystem = ({ userId, onClose }) => {
   fontWeight: 'bold'
 }}>Notifications</h2>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   {unreadCount > 0 ? `${unreadCount} unread` : 'All caught up!'}
                 </p>
@@ -398,7 +398,7 @@ const AwardNotificationSystem = ({ userId, onClose }) => {
   paddingBottom: '4px',
   borderRadius: '12px',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
               >
                 {label}

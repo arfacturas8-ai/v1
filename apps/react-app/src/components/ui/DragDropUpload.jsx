@@ -78,7 +78,7 @@ const DragDropUpload = ({
         <Upload style={{
   width: '48px',
   height: '48px',
-  color: '#8b949e'
+  color: '#666666'
 }} />
         <p style={{
   fontWeight: '500',
@@ -87,7 +87,7 @@ const DragDropUpload = ({
           {isDragging ? 'Drop files here' : 'Drag & drop files here'}
         </p>
         <p style={{
-  color: '#8b949e'
+  color: '#666666'
 }}>or click to browse</p>
       </div>
       <input ref={fileInputRef} type="file" accept={accept} multiple={multiple} onChange={handleFileInput} style={{
@@ -98,7 +98,7 @@ const DragDropUpload = ({
           {files.map((file, index) => (
             <div key={index} style={{
   position: 'relative',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
   padding: '16px'

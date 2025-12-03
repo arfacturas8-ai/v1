@@ -31,7 +31,7 @@ export const ProgressIndicator = ({
             strokeWidth="4"
             fill="transparent"
             style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
           />
           <circle
@@ -49,11 +49,11 @@ export const ProgressIndicator = ({
         </svg>
         {showPercentage && (
           <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{Math.round(percentage)}%</span>
         )}
         {label && <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{label}</span>}
       </div>
     );
@@ -69,18 +69,18 @@ export const ProgressIndicator = ({
   justifyContent: 'space-between'
 }}>
           <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{label}</span>
           {showPercentage && (
             <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{Math.round(percentage)}%</span>
           )}
         </div>
       )}
       <div style={{
   width: '100%',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   height: '8px',
   overflow: 'hidden'

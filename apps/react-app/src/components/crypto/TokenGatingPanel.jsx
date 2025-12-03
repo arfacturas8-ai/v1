@@ -71,7 +71,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
       case 0: return <Shield style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />;
       case 1: return <Shield style={{
   width: '16px',
@@ -80,7 +80,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
       case 2: return <Shield style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />;
       case 3: return <Crown style={{
   width: '16px',
@@ -89,7 +89,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
       case 4: return <Crown style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />;
       case 5: return <Star style={{
   width: '16px',
@@ -98,7 +98,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
       default: return <Shield style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />;
     }
   };
@@ -129,7 +129,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
         return <Shield style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />;
     }
   };
@@ -164,14 +164,14 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
           <Lock style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         </div>
         <h3 style={{
   fontWeight: '600'
 }}>Connect Wallet to View Access</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your wallet to check your community access levels and permissions
         </p>
@@ -239,7 +239,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
                 {globalAccessLevel.name}
               </p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Level {globalAccessLevel.level}</p>
             </div>
           </div>
@@ -253,7 +253,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
   fontWeight: '500'
 }}>Benefits:</p>
             <ul style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               {globalAccessLevel.benefits.map((benefit, index) => (
                 <li key={index} style={{
@@ -318,7 +318,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
 
         {community && (
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{community.description}</p>
         )}
 
@@ -452,7 +452,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
   fontWeight: '500'
 }}>{community.name}</p>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{accessLevel.name} Access</p>
                 </div>
                 <div style={{
@@ -486,13 +486,13 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
           <Users style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>No accessible communities</p>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Acquire tokens or NFTs to unlock community access
           </p>
@@ -536,7 +536,7 @@ const TokenGatingPanel = ({ communityId = null, showGlobalAccess = true }) => {
                 {requirement.type === ACCESS_REQUIREMENT_TYPES.COMBINED_REQUIREMENTS && (
                   <div className="ml-6 space-y-2">
                     <p style={{
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   fontWeight: '500'
 }}>
                       {requirement.operator} of the following:

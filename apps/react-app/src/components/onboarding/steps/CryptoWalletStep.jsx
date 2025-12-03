@@ -44,10 +44,10 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 }}>
         <h3 style={{
   fontWeight: 'bold',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Connect Your Wallet</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your crypto wallet to earn CRYB tokens and access Web3 features.
         </p>
@@ -61,12 +61,12 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 }}>
             <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>💰 Why Connect Your Wallet?</h4>
             <div style={{
   display: 'grid',
   gap: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               <div style={{
   display: 'flex',
@@ -102,7 +102,7 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
           <div>
             <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Choose Your Wallet</h4>
             <div className="space-y-3">
               <button
@@ -135,14 +135,14 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 }}>
                   <div style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>MetaMask</div>
                   <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Most popular Ethereum wallet</div>
                 </div>
                 <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   <svg style={{
   width: '24px',
@@ -183,14 +183,14 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 }}>
                   <div style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>WalletConnect</div>
                   <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Connect any mobile wallet</div>
                 </div>
                 <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   <svg style={{
   width: '24px',
@@ -231,14 +231,14 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 }}>
                   <div style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Coinbase Wallet</div>
                   <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>User-friendly wallet by Coinbase</div>
                 </div>
                 <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   <svg style={{
   width: '24px',
@@ -257,10 +257,10 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 }}>
             <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>🔒 Security Note</h5>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               CRYB will never ask for your private keys or seed phrase. 
               Only connect wallets you trust and keep your private keys secure.
@@ -282,10 +282,10 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 }}></div>
           <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Connecting to {walletType}...</h4>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Please check your wallet and approve the connection.</p>
         </div>
       )}
@@ -299,10 +299,10 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
           <div className="text-6xl mb-4">🎉</div>
           <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Wallet Connected!</h4>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Your {walletType} wallet is now connected to CRYB.
           </p>
@@ -312,10 +312,10 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
   borderRadius: '12px'
 }}>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Connected Address:</div>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               {walletAddress}
             </div>
@@ -339,10 +339,10 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
           <div className="text-6xl mb-4">❌</div>
           <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Connection Failed</h4>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Unable to connect to your wallet. Please try again.
           </p>
@@ -371,7 +371,7 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
         <button
           onClick={onSkip}
           style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
         >
           Skip for now

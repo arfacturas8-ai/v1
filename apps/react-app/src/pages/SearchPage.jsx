@@ -425,7 +425,7 @@ function SearchPage() {
           }
 
           input[type="text"]::placeholder {
-            color: #8b949e;
+            color: #666666;
             opacity: 1;
           }
 
@@ -442,7 +442,7 @@ function SearchPage() {
           maxWidth: '1200px',
           margin: '0 auto',
           minHeight: '100vh',
-          backgroundColor: '#0d1117'
+          backgroundColor: '#0D0D0D'
         }}
       >
       {/* Search Header */}
@@ -470,7 +470,7 @@ function SearchPage() {
               transform: 'translateY(-50%)',
               width: '20px',
               height: '20px',
-              color: '#8b949e',
+              color: '#666666',
               pointerEvents: 'none'
             }}
             fill="none"
@@ -496,7 +496,7 @@ function SearchPage() {
               fontSize: `${fontSize.base}px`,
               border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '12px',
-              backgroundColor: '#0d1117',
+              backgroundColor: '#0D0D0D',
               color: '#ffffff',
               outline: 'none',
               transition: 'all 0.2s ease'
@@ -535,7 +535,7 @@ function SearchPage() {
                 padding: isMobile ? '10px 12px' : '12px 16px',
                 fontSize: `${fontSize.sm}px`,
                 fontWeight: activeTab === tab.id ? '600' : '400',
-                color: activeTab === tab.id ? '#58a6ff' : '#8b949e',
+                color: activeTab === tab.id ? '#58a6ff' : '#666666',
                 backgroundColor: 'transparent',
                 border: 'none',
                 borderBottom: activeTab === tab.id ? '2px solid #58a6ff' : '2px solid transparent',
@@ -544,12 +544,12 @@ function SearchPage() {
               }}
               onMouseEnter={(e) => {
                 if (activeTab !== tab.id) {
-                  e.target.style.color = '#c9d1d9'
+                  e.target.style.color = '#A0A0A0'
                 }
               }}
               onMouseLeave={(e) => {
                 if (activeTab !== tab.id) {
-                  e.target.style.color = '#8b949e'
+                  e.target.style.color = '#666666'
                 }
               }}
             >
@@ -572,7 +572,7 @@ function SearchPage() {
 
         {/* Results Count */}
         {query && (
-          <div style={{ marginBottom: `${spacing.md}px`, color: '#8b949e' }}>
+          <div style={{ marginBottom: `${spacing.md}px`, color: '#666666' }}>
             {totalResults > 0 ? (
               <p>{totalResults} result{totalResults !== 1 ? 's' : ''} for "{query}"</p>
             ) : !loading && (
@@ -594,7 +594,7 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#c9d1d9',
+                color: '#A0A0A0',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px'
@@ -628,7 +628,7 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#c9d1d9',
+                color: '#A0A0A0',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px'
@@ -658,7 +658,7 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#c9d1d9',
+                color: '#A0A0A0',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '8px'
@@ -697,7 +697,7 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#c9d1d9',
+                color: '#A0A0A0',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px'
@@ -738,7 +738,7 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#c9d1d9',
+                color: '#A0A0A0',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px'
@@ -778,7 +778,7 @@ function SearchPage() {
                 fontSize: `${fontSize.xl}px`,
                 fontWeight: '600',
                 marginBottom: `${spacing.md}px`,
-                color: '#c9d1d9',
+                color: '#A0A0A0',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '12px'

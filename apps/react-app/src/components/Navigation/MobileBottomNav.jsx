@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Hash, Plus, MessageCircle, User, Bell } from 'lucide-react';
+import { Home, Compass, Plus, MessageCircle, User } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import apiService from '../../services/api';
 
@@ -35,13 +35,13 @@ export default function MobileBottomNav() {
 
   const navItems = [
     { path: '/home', icon: Home, label: 'Home' },
-    { path: '/communities', icon: Hash, label: 'Communities' },
+    { path: '/discover', icon: Compass, label: 'Explore' },
     { path: '/messages', icon: MessageCircle, label: 'Messages', badge: unreadMessages },
     { path: `/profile/${user?.username}`, icon: User, label: 'Profile' },
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#0d1117]/95 backdrop-blur-xl border-t border-white/10 pb-[env(safe-area-inset-bottom)] md:hidden">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-[#0D0D0D]/95 backdrop-blur-xl border-t border-white/10 pb-[env(safe-area-inset-bottom)] md:hidden">
       <div className="flex items-center justify-around h-16 px-2 relative">
         {/* First two nav items */}
         {navItems.slice(0, 2).map((item) => {
@@ -55,7 +55,7 @@ export default function MobileBottomNav() {
               className={`relative flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all min-w-[64px] ${
                 isActive
                   ? 'text-[#58a6ff]'
-                  : 'text-[#8b949e] hover:text-white'
+                  : 'text-[#666666] hover:text-white'
               }`}
               aria-label={item.label}
             >
@@ -74,7 +74,7 @@ export default function MobileBottomNav() {
           className="flex flex-col items-center justify-center"
           aria-label="Create post"
         >
-          <div className="w-14 h-14 -mt-6 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center shadow-[0_4px_20px_rgba(88,166,255,0.5)] border-4 border-[#0d1117] hover:scale-105 transition-transform">
+          <div className="w-14 h-14 -mt-6 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center shadow-[0_4px_20px_rgba(88,166,255,0.5)] border-4 border-[#0D0D0D] hover:scale-105 transition-transform">
             <Plus className="w-6 h-6 text-white" />
           </div>
         </button>
@@ -91,7 +91,7 @@ export default function MobileBottomNav() {
               className={`relative flex flex-col items-center justify-center gap-1 px-4 py-2 rounded-xl transition-all min-w-[64px] ${
                 isActive
                   ? 'text-[#58a6ff]'
-                  : 'text-[#8b949e] hover:text-white'
+                  : 'text-[#666666] hover:text-white'
               }`}
               aria-label={item.label}
             >

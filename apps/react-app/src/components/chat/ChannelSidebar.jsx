@@ -222,7 +222,7 @@ function ChannelSidebar({
           <ChevronDown style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         </button>
       </div>
@@ -242,7 +242,7 @@ function ChannelSidebar({
   position: 'absolute',
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <input
               type="text"
@@ -479,7 +479,7 @@ function ChannelSidebar({
 }}>
                         {connectedUsers.length > 0 && (
                           <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                             {connectedUsers.length}
                           </span>
@@ -523,7 +523,7 @@ function ChannelSidebar({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                               <div style={{
   width: '24px',
@@ -695,7 +695,7 @@ function ChannelSidebar({
                         <div style={{
   display: 'flex',
   alignItems: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                           <span className="truncate">
                             {dm.lastMessage.content || 'Attachment'}
@@ -706,7 +706,7 @@ function ChannelSidebar({
                       )}
                       {userStatus?.activity && (
                         <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                           {userStatus.activity}
                         </div>
@@ -773,7 +773,7 @@ function ChannelSidebar({
             {user?.username || 'Anonymous'}
           </div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             #{user?.discriminator || '0000'}
           </div>

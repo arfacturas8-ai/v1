@@ -70,7 +70,7 @@ export function ErrorState({
 
       <p
         style={{
-          color: '#8b949e',
+          color: '#666666',
           fontSize: '14px',
           lineHeight: '1.6',
           maxWidth: '480px',
@@ -88,14 +88,14 @@ export function ErrorState({
             width: '100%',
             maxWidth: '600px',
             textAlign: 'left',
-            background: 'rgba(22, 27, 34, 0.6)',
+            background: 'rgba(20, 20, 20, 0.6)',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             marginBottom: '16px'
           }}
         >
           <code
             style={{
-              color: '#8b949e',
+              color: '#666666',
               fontSize: '12px',
               wordBreak: 'break-word'
             }}
@@ -108,7 +108,7 @@ export function ErrorState({
       {errorCode && (
         <p
           style={{
-            color: '#8b949e',
+            color: '#666666',
             fontSize: '14px',
             marginBottom: '24px'
           }}
@@ -151,7 +151,7 @@ export function ErrorState({
 
       <p
         style={{
-          color: '#8b949e',
+          color: '#666666',
           fontSize: '12px'
         }}
       >

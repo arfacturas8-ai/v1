@@ -250,7 +250,7 @@ function ThreadView({
   width: '32px'
 }}></div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Loading thread...</div>
         </div>
       </div>
@@ -281,7 +281,7 @@ function ThreadView({
               <MessageSquare style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
               <h3 style={{
   fontWeight: '600',
@@ -317,7 +317,7 @@ function ThreadView({
   padding: '8px',
   borderRadius: '4px',
   background: 'rgba(22, 27, 34, 0.6)',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
                 title={threadNotifications ? 'Disable notifications' : 'Enable notifications'}
               >
@@ -336,7 +336,7 @@ function ThreadView({
                 <MoreHorizontal style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
               </button>
               
@@ -352,7 +352,7 @@ function ThreadView({
                 <X style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
               </button>
             </div>
@@ -362,7 +362,7 @@ function ThreadView({
           <div style={{
   display: 'flex',
   alignItems: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <div style={{
   display: 'flex',
@@ -398,7 +398,7 @@ function ThreadView({
 }}>
                 <span style={{
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   Participants:
                 </span>
@@ -520,19 +520,19 @@ function ThreadView({
                   {parentMessage.username}
                 </span>
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   {formatTimestamp(parentMessage.timestamp)}
                 </span>
                 <Pin style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} title="Original message" />
               </div>
               
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 <MessageBubble
                   message={parentMessage}
@@ -645,20 +645,20 @@ function ThreadView({
                       {message.username}
                     </span>
                     <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       {formatTimestamp(message.timestamp)}
                     </span>
                     {message.pending && (
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Sending...</span>
                     )}
                   </div>
                 )}
                 
                 <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   <MessageBubble
                     message={message}
@@ -680,7 +680,7 @@ function ThreadView({
           <div style={{
   display: 'flex',
   alignItems: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <div style={{
   display: 'flex'

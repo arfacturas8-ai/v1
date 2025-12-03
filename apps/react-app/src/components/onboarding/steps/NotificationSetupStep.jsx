@@ -80,10 +80,10 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
 }}>
         <h3 style={{
   fontWeight: 'bold',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Notification Preferences</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Choose how you want to be notified about community activity and updates.
         </p>
@@ -109,10 +109,10 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
               <div>
                 <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Email Notifications</h4>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Get updates via email</p>
               </div>
             </div>
@@ -130,7 +130,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
               <div style={{
   width: '44px',
   height: '24px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   border: '1px solid rgba(255, 255, 255, 0.1)'
 }}></div>
@@ -161,7 +161,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
 }}
                   />
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{label}</span>
                 </label>
               ))}
@@ -188,10 +188,10 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
               <div>
                 <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Push Notifications</h4>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Instant notifications on your device</p>
               </div>
             </div>
@@ -229,7 +229,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
                 <div style={{
   width: '44px',
   height: '24px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   border: '1px solid rgba(255, 255, 255, 0.1)'
 }}></div>
@@ -272,7 +272,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
 }}
                   />
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{label}</span>
                 </label>
               ))}
@@ -299,10 +299,10 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
               <div>
                 <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>In-App Notifications</h4>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Notifications while using CRYB</p>
               </div>
             </div>
@@ -320,7 +320,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
               <div style={{
   width: '44px',
   height: '24px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   border: '1px solid rgba(255, 255, 255, 0.1)'
 }}></div>
@@ -351,7 +351,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
 }}
                   />
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{label}</span>
                 </label>
               ))}
@@ -365,10 +365,10 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
 }}>
           <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>💡 Notification Tips</h5>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <div>• You can change these settings anytime in your profile</div>
             <div>• Email digests help you stay updated without spam</div>
@@ -386,7 +386,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
         <button
           onClick={onSkip}
           style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
         >
           Skip for now

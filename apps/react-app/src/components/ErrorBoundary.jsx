@@ -118,7 +118,7 @@ class ErrorBoundary extends React.Component {
 
               {/* Error Description */}
               <p style={{
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   textAlign: 'center'
 }}>
                 {errorCount > 2
@@ -139,12 +139,12 @@ class ErrorBoundary extends React.Component {
                   {errorInfo && (
                     <details className="mt-2">
                       <summary style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         Component Stack
                       </summary>
                       <pre style={{
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   overflow: 'auto'
 }}>
                         {errorInfo.componentStack}
@@ -255,7 +255,7 @@ class ErrorBoundary extends React.Component {
               {/* Support */}
               <div style={{
   textAlign: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Need help?{' '}
                 <a href="/help" className="text-blue-500 hover:text-blue-400 underline">
@@ -267,7 +267,7 @@ class ErrorBoundary extends React.Component {
             {/* Error ID */}
             <div style={{
   textAlign: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Error ID: {Date.now().toString(36)}
             </div>
@@ -305,7 +305,7 @@ export function SimpleErrorFallback({ error, reset }) {
 }}>Something went wrong</h3>
       </div>
       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
         {error?.message || 'An unexpected error occurred'}
       </p>

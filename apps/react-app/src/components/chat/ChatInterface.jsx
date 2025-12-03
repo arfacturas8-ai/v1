@@ -348,7 +348,7 @@ function ChatInterface({
   const channelMembers = onlineUsers.size || 1
 
   return (
-    <div className="flex h-full bg-[#0d1117]">
+    <div className="flex h-full bg-[#0D0D0D]">
       {/* Channel Sidebar */}
       <div className="overflow-hidden">
         <ChannelSidebar
@@ -374,13 +374,13 @@ function ChatInterface({
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Channel Header - OpenSea Style */}
-        <div className="h-14 flex items-center justify-between px-4 bg-[#161b22]/60 backdrop-blur-xl border-b border-white/10">
+        <div className="h-14 flex items-center justify-between px-4 bg-[#141414]/60 backdrop-blur-xl border-b border-white/10">
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
               {sidebarCollapsed && (
                 <button
                   onClick={() => setSidebarCollapsed(false)}
-                  className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                  className="p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]"
                   aria-label="Show sidebar"
                 >
                   <Hash className="w-5 h-5" />
@@ -388,7 +388,7 @@ function ChatInterface({
               )}
 
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-[#0d1117] flex items-center justify-center">
+                <div className="w-8 h-8 rounded-xl bg-[#0D0D0D] flex items-center justify-center">
                   {isVoiceChannel ? (
                     <Volume2 className="w-5 h-5 text-[#58a6ff]" />
                   ) : (
@@ -400,7 +400,7 @@ function ChatInterface({
                     {currentChannelData?.name || 'General'}
                   </h2>
                   {currentChannelData?.description && (
-                    <span className="hidden md:block text-xs text-[#8b949e]">
+                    <span className="hidden md:block text-xs text-[#666666]">
                       {currentChannelData.description}
                     </span>
                   )}
@@ -412,10 +412,10 @@ function ChatInterface({
               {/* Voice call controls */}
               {isVoiceChannel && (
                 <>
-                  <button className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Start voice call">
+                  <button className="p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]" aria-label="Start voice call">
                     <Phone className="w-5 h-5" />
                   </button>
-                  <button className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Start video call">
+                  <button className="p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]" aria-label="Start video call">
                     <Video className="w-5 h-5" />
                   </button>
                 </>
@@ -427,7 +427,7 @@ function ChatInterface({
                   setRightPanelContent('search')
                   setRightPanelOpen(true)
                 }}
-                className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                className="p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]"
                 aria-label="Search messages"
               >
                 <Search className="w-5 h-5" />
@@ -439,7 +439,7 @@ function ChatInterface({
                   setRightPanelContent('members')
                   setRightPanelOpen(!rightPanelOpen)
                 }}
-                className="hidden md:flex items-center gap-1 px-3 py-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                className="hidden md:flex items-center gap-1 px-3 py-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]"
               >
                 <Users className="w-5 h-5" />
                 <span className="text-sm">{channelMembers}</span>
@@ -452,7 +452,7 @@ function ChatInterface({
                     setRightPanelContent('notifications')
                     setRightPanelOpen(!rightPanelOpen)
                   }}
-                  className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                  className="p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]"
                   aria-label="Notifications"
                 >
                   <Bell className="w-5 h-5" />
@@ -465,13 +465,13 @@ function ChatInterface({
               </div>
 
               {/* Settings */}
-              <button className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Settings">
+              <button className="p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]" aria-label="Settings">
                 <Settings className="w-5 h-5" />
               </button>
 
               {/* Close (mobile) */}
               {isMobile && onClose && (
-                <button onClick={onClose} className="p-2 rounded-xl hover:bg-[#0d1117] transition-colors text-[#8b949e] hover:text-[#58a6ff]" aria-label="Close chat">
+                <button onClick={onClose} className="p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors text-[#666666] hover:text-[#58a6ff]" aria-label="Close chat">
                   <X className="w-5 h-5" />
                 </button>
               )}
@@ -481,10 +481,10 @@ function ChatInterface({
 
         {/* Pinned Messages */}
         {pinnedMessages.length > 0 && (
-          <div className="px-4 py-2 bg-[#161b22]/40 border-b border-white/10">
+          <div className="px-4 py-2 bg-[#141414]/40 border-b border-white/10">
             <div className="flex items-center gap-2">
               <Pin className="w-4 h-4 text-[#58a6ff]" />
-              <span className="text-sm text-[#c9d1d9]">
+              <span className="text-sm text-[#A0A0A0]">
                 {pinnedMessages.length} pinned message{pinnedMessages.length > 1 ? 's' : ''}
               </span>
             </div>
@@ -552,7 +552,7 @@ function ChatInterface({
 
       {/* Right Panel */}
       {rightPanelOpen && (
-        <div className="w-60 bg-[#161b22]/60 backdrop-blur-xl border-l border-white/10 overflow-y-auto">
+        <div className="w-60 bg-[#141414]/60 backdrop-blur-xl border-l border-white/10 overflow-y-auto">
           {rightPanelContent === 'members' && (
             <UserPresenceSystem
               users={Array.from(onlineUsers.entries())}

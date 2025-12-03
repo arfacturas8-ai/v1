@@ -402,7 +402,7 @@ function NotificationsPage() {
                 className={`
                   bg-[#141414]/60 backdrop-blur-xl border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 transition-all duration-200 hover:bg-[#1c2128]/80 hover:border-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]
                   ${!notification.isRead ? 'border-l-4 border-l-[#58a6ff] border-white/10 shadow-[0_0_20px_rgba(88,166,255,0.15)]' : 'border-white/10'}
-                  ${selectedNotifications.has(notification.id) ? 'bg-[#21262d]/80 border-[#58a6ff]/30' : ''}
+                  ${selectedNotifications.has(notification.id) ? 'bg-[#1A1A1A]/80 border-[#58a6ff]/30' : ''}
                 `}
               >
                 <div className="flex items-start gap-3">

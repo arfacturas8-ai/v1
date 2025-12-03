@@ -292,7 +292,7 @@ export default function PostDetailPage() {
   return (
     <>
       <SkipToContent targetId="main-content" />
-      <div className="min-h-screen pt-16 bg-[#0d1117]">
+      <div className="min-h-screen pt-16 bg-[#0D0D0D]">
         <main
           id="main-content"
           role="main"
@@ -315,7 +315,7 @@ export default function PostDetailPage() {
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
-            className="mb-4 -ml-2 text-[#c9d1d9] hover:text-white hover:bg-[#161b22]/60 backdrop-blur-xl"
+            className="mb-4 -ml-2 text-[#A0A0A0] hover:text-white hover:bg-[#141414]/60 backdrop-blur-xl"
             aria-label="Go back to previous page"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -327,14 +327,14 @@ export default function PostDetailPage() {
             {/* Left column - Post */}
             <div className="lg:col-span-2 space-y-6">
               {/* Post card */}
-              <Card className="overflow-hidden bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <Card className="overflow-hidden bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <CardContent className="p-0">
                   {/* Post header */}
                   <div className="p-4 border-b border-white/10">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         {/* Community and author info */}
-                        <div className="flex items-center gap-2 text-sm text-[#8b949e] mb-2">
+                        <div className="flex items-center gap-2 text-sm text-[#666666] mb-2">
                           {post.community && (
                             <>
                               <Link
@@ -350,7 +350,7 @@ export default function PostDetailPage() {
                             Posted by{' '}
                             <Link
                               to={`/u/${post.author?.username || 'unknown'}`}
-                              className="hover:underline text-[#c9d1d9] hover:text-white"
+                              className="hover:underline text-[#A0A0A0] hover:text-white"
                             >
                               u/{post.author?.username || 'unknown'}
                             </Link>
@@ -381,7 +381,7 @@ export default function PostDetailPage() {
                   <div className="p-4">
                     {/* Media content */}
                     {post.mediaUrl && (
-                      <div className="mb-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden bg-[#21262d]">
+                      <div className="mb-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden bg-[#1A1A1A]">
                         {post.mediaType === 'image' ? (
                           <img
                             src={post.mediaUrl}
@@ -418,7 +418,7 @@ export default function PostDetailPage() {
 
                     {/* Text content */}
                     {post.content && (
-                      <div className="prose prose-sm max-w-none text-[#c9d1d9] whitespace-pre-wrap break-words">
+                      <div className="prose prose-sm max-w-none text-[#A0A0A0] whitespace-pre-wrap break-words">
                         {post.content}
                       </div>
                     )}
@@ -436,7 +436,7 @@ export default function PostDetailPage() {
                       />
 
                       {/* Comment count */}
-                      <div className="flex items-center gap-1.5 text-[#8b949e]">
+                      <div className="flex items-center gap-1.5 text-[#666666]">
                         <MessageSquare className="w-4 h-4" />
                         <span className="text-sm font-medium">
                           {formatNumber(post.commentCount || comments.length)} comments
@@ -447,7 +447,7 @@ export default function PostDetailPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target text-[#8b949e] hover:text-white hover:bg-[#161b22]/60"
+                        className="gap-1.5 touch-target text-[#666666] hover:text-white hover:bg-[#141414]/60"
                         onClick={() => {
                           navigator.clipboard.writeText(window.location.href)
                           announce('Link copied to clipboard')
@@ -461,7 +461,7 @@ export default function PostDetailPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target text-[#8b949e] hover:text-white hover:bg-[#161b22]/60"
+                        className="gap-1.5 touch-target text-[#666666] hover:text-white hover:bg-[#141414]/60"
                         onClick={() => {
                           // Save logic would go here
                           announce('Post saved')
@@ -474,7 +474,7 @@ export default function PostDetailPage() {
 
                       {/* View count */}
                       {post.viewCount && (
-                        <div className="flex items-center gap-1.5 text-[#8b949e] ml-auto">
+                        <div className="flex items-center gap-1.5 text-[#666666] ml-auto">
                           <Eye className="w-4 h-4" />
                           <span className="text-sm">{formatNumber(post.viewCount)} views</span>
                         </div>
@@ -493,7 +493,7 @@ export default function PostDetailPage() {
 
               {/* Comment composer */}
               {user ? (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardContent className="p-4 safe-area-bottom">
                     <form onSubmit={handleCommentSubmit} className="space-y-3">
                       <div>
@@ -507,7 +507,7 @@ export default function PostDetailPage() {
                           placeholder="What are your thoughts?"
                           rows={4}
                           disabled={submittingComment}
-                          className="w-full px-3 py-2 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-[#21262d]/60 backdrop-blur-xl text-white placeholder:text-[#8b949e] focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent resize-none text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full px-3 py-2 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-[#1A1A1A]/60 backdrop-blur-xl text-white placeholder:text-[#666666] focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent resize-none text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         />
                       </div>
                       <div className="flex justify-end">
@@ -524,9 +524,9 @@ export default function PostDetailPage() {
                   </CardContent>
                 </Card>
               ) : (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 border-dashed rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 border-dashed rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardContent className="p-6 text-center">
-                    <p className="text-[#8b949e] mb-4">
+                    <p className="text-[#666666] mb-4">
                       Sign in to join the discussion
                     </p>
                     <Button
@@ -542,7 +542,7 @@ export default function PostDetailPage() {
               )}
 
               {/* Comments section */}
-              <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <CardHeader className="border-b border-white/10">
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-lg text-white">
@@ -574,7 +574,7 @@ export default function PostDetailPage() {
             <div className="lg:col-span-1 space-y-4">
               {/* Community info */}
               {post.community && (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardHeader className="pb-3">
                     <div className="flex items-center gap-3">
                       {post.community.icon ? (
@@ -593,14 +593,14 @@ export default function PostDetailPage() {
                         <CardTitle className="text-base truncate text-white">
                           c/{post.community.name}
                         </CardTitle>
-                        <CardDescription className="text-xs text-[#8b949e]">
+                        <CardDescription className="text-xs text-[#666666]">
                           {formatNumber(post.community.memberCount || 0)} members
                         </CardDescription>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <p className="text-sm text-[#8b949e] mb-4">
+                    <p className="text-sm text-[#666666] mb-4">
                       {post.community.description || 'No description available.'}
                     </p>
                     <Link to={`/c/${post.community.name}`}>
@@ -614,7 +614,7 @@ export default function PostDetailPage() {
 
               {/* Author info */}
               {post.author && (
-                <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base text-white">About the Author</CardTitle>
                   </CardHeader>
@@ -640,14 +640,14 @@ export default function PostDetailPage() {
                           u/{post.author.username}
                         </Link>
                         {post.author.karma && (
-                          <p className="text-xs text-[#8b949e]">
+                          <p className="text-xs text-[#666666]">
                             {formatNumber(post.author.karma)} karma
                           </p>
                         )}
                       </div>
                     </div>
                     <Link to={`/u/${post.author.username}`}>
-                      <Button variant="outline" size="sm" className="w-full touch-target border-white/10 text-[#c9d1d9] hover:text-white hover:bg-[#161b22]/60 backdrop-blur-xl">
+                      <Button variant="outline" size="sm" className="w-full touch-target border-white/10 text-[#A0A0A0] hover:text-white hover:bg-[#141414]/60 backdrop-blur-xl">
                         View Profile
                       </Button>
                     </Link>
@@ -656,13 +656,13 @@ export default function PostDetailPage() {
               )}
 
               {/* Post metadata */}
-              <Card className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base text-white">Post Info</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-[#8b949e]">Posted</span>
+                    <span className="text-[#666666]">Posted</span>
                     <time dateTime={post.createdAt} className="font-medium text-white">
                       {new Date(post.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric',
@@ -673,19 +673,19 @@ export default function PostDetailPage() {
                   </div>
                   {post.updatedAt && post.updatedAt !== post.createdAt && (
                     <div className="flex justify-between">
-                      <span className="text-[#8b949e]">Last edited</span>
+                      <span className="text-[#666666]">Last edited</span>
                       <time dateTime={post.updatedAt} className="font-medium text-white">
                         {formatTimeAgo(post.updatedAt)}
                       </time>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span className="text-[#8b949e]">Comments</span>
+                    <span className="text-[#666666]">Comments</span>
                     <span className="font-medium text-white">{comments.length}</span>
                   </div>
                   {post.viewCount && (
                     <div className="flex justify-between">
-                      <span className="text-[#8b949e]">Views</span>
+                      <span className="text-[#666666]">Views</span>
                       <span className="font-medium text-white">{formatNumber(post.viewCount)}</span>
                     </div>
                   )}

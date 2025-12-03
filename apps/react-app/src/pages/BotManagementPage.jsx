@@ -219,12 +219,12 @@ const BotManagementPage = () => {
   })
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#c9d1d9] p-4 sm:p-6 lg:p-8" role="main" aria-label="Bot management page">
+    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0] p-4 sm:p-6 lg:p-8" role="main" aria-label="Bot management page">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6 mb-8">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Bot Management</h1>
-          <p className="text-sm sm:text-base text-[#8b949e]">Manage and configure your automation bots</p>
+          <p className="text-sm sm:text-base text-[#666666]">Manage and configure your automation bots</p>
         </div>
         <button
           className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-4 sm:px-6 py-3 rounded-xl text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
@@ -249,31 +249,31 @@ const BotManagementPage = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
+        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
           <div className="w-14 h-14 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-[#58a6ff]">
             <Bot size={24} />
           </div>
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-white leading-none mb-1">{stats.totalBots}</div>
-            <div className="text-sm text-[#8b949e] font-medium">Total Bots</div>
+            <div className="text-sm text-[#666666] font-medium">Total Bots</div>
           </div>
         </div>
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
+        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
           <div className="w-14 h-14 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 flex items-center justify-center text-emerald-500">
             <Power size={24} />
           </div>
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-white leading-none mb-1">{stats.activeBots}</div>
-            <div className="text-sm text-[#8b949e] font-medium">Active Bots</div>
+            <div className="text-sm text-[#666666] font-medium">Active Bots</div>
           </div>
         </div>
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
+        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
           <div className="w-14 h-14 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center text-amber-500">
             <Command size={24} />
           </div>
           <div>
             <div className="text-2xl sm:text-3xl font-bold text-white leading-none mb-1">{stats.commandsToday}</div>
-            <div className="text-sm text-[#8b949e] font-medium">Commands Today</div>
+            <div className="text-sm text-[#666666] font-medium">Commands Today</div>
           </div>
         </div>
       </div>
@@ -281,13 +281,13 @@ const BotManagementPage = () => {
       {/* Search and Filter */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <div className="flex-1 relative min-w-0 sm:min-w-[300px]">
-          <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8b949e]" />
+          <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]" />
           <input
             type="text"
             placeholder="Search bots..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-[#21262d] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-sm sm:text-base placeholder:text-[#8b949e] focus:outline-none focus:border-[#58a6ff] focus:bg-[#161b22] transition-all"
+            className="w-full pl-12 pr-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] text-sm sm:text-base placeholder:text-[#666666] focus:outline-none focus:border-[#58a6ff] focus:bg-[#141414] transition-all"
             aria-label="Search bots"
           />
         </div>
@@ -298,7 +298,7 @@ const BotManagementPage = () => {
               className={`px-4 sm:px-5 py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium border transition-all ${
                 filterStatus === status
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-transparent'
-                  : 'bg-[#21262d] text-[#8b949e] border-white/10 hover:text-[#c9d1d9] hover:border-[#58a6ff]'
+                  : 'bg-[#1A1A1A] text-[#666666] border-white/10 hover:text-[#A0A0A0] hover:border-[#58a6ff]'
               }`}
               onClick={() => setFilterStatus(status)}
             >
@@ -310,18 +310,18 @@ const BotManagementPage = () => {
 
       {/* Loading State */}
       {loading && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <RefreshCw size={48} className="mx-auto mb-4 text-[#58a6ff] animate-spin" />
-          <p className="text-[#8b949e]">Loading bots...</p>
+          <p className="text-[#666666]">Loading bots...</p>
         </div>
       )}
 
       {/* Error State */}
       {error && !loading && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">Error Loading Bots</h3>
-          <p className="text-[#8b949e] mb-6">{error}</p>
+          <p className="text-[#666666] mb-6">{error}</p>
           <button
             className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={loadBots}
@@ -334,10 +334,10 @@ const BotManagementPage = () => {
 
       {/* Empty State */}
       {!loading && !error && filteredBots.length === 0 && searchQuery === '' && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">No Bots Yet</h3>
-          <p className="text-[#8b949e] mb-6">Create your first automation bot to get started</p>
+          <p className="text-[#666666] mb-6">Create your first automation bot to get started</p>
           <button
             className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={() => setShowCreateModal(true)}
@@ -351,10 +351,10 @@ const BotManagementPage = () => {
 
       {/* No Results */}
       {!loading && !error && filteredBots.length === 0 && searchQuery !== '' && (
-        <div className="text-center py-20 bg-[#161b22]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Search size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">No Results Found</h3>
-          <p className="text-[#8b949e]">Try adjusting your search or filters</p>
+          <p className="text-[#666666]">Try adjusting your search or filters</p>
         </div>
       )}
 
@@ -362,7 +362,7 @@ const BotManagementPage = () => {
       {!loading && !error && filteredBots.length > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           {filteredBots.map((bot) => (
-            <div key={bot.id} className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-black/30 transition-all">
+            <div key={bot.id} className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-black/30 transition-all">
               {/* Bot Header */}
               <div className="flex items-start gap-4 pb-4 mb-4 border-b border-white/10">
                 <div className="w-16 h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white flex-shrink-0">
@@ -380,12 +380,12 @@ const BotManagementPage = () => {
                 </div>
                 <button
                   className={`w-12 h-7 rounded-full relative transition-all flex-shrink-0 ${
-                    bot.enabled ? 'bg-gradient-to-r from-emerald-500 to-cyan-500' : 'bg-[#21262d]'
+                    bot.enabled ? 'bg-gradient-to-r from-emerald-500 to-cyan-500' : 'bg-[#1A1A1A]'
                   }`}
                   onClick={() => handleToggleBot(bot.id, bot.enabled)}
                   aria-label={bot.enabled ? 'Disable bot' : 'Enable bot'}
                 >
-                  <div className={`w-[22px] h-[22px] bg-[#161b22]/95 rounded-full absolute top-0.5 transition-all shadow-sm ${
+                  <div className={`w-[22px] h-[22px] bg-[#141414]/95 rounded-full absolute top-0.5 transition-all shadow-sm ${
                     bot.enabled ? 'left-[22px]' : 'left-0.5'
                   }`}></div>
                 </button>
@@ -393,16 +393,16 @@ const BotManagementPage = () => {
 
               {/* Bot Description */}
               {bot.description && (
-                <p className="text-sm text-[#8b949e] leading-relaxed mb-4">{bot.description}</p>
+                <p className="text-sm text-[#666666] leading-relaxed mb-4">{bot.description}</p>
               )}
 
               {/* Bot Stats */}
               <div className="flex gap-6 mb-4">
-                <div className="flex items-center gap-2 text-xs sm:text-sm text-[#8b949e]">
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-[#666666]">
                   <Activity size={16} className="text-[#58a6ff] flex-shrink-0" />
                   <span>{bot.commandsToday || 0} commands today</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs sm:text-sm text-[#8b949e]">
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-[#666666]">
                   <Zap size={16} className="text-[#58a6ff] flex-shrink-0" />
                   <span>Prefix: {bot.prefix || '!'}</span>
                 </div>
@@ -410,21 +410,21 @@ const BotManagementPage = () => {
 
               {/* Bot Token */}
               <div className="mb-4">
-                <label className="block text-xs sm:text-sm font-semibold text-[#8b949e] uppercase tracking-wider mb-2">API Token</label>
-                <div className="bg-[#0d1117] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-3 flex justify-between items-center gap-3">
+                <label className="block text-xs sm:text-sm font-semibold text-[#666666] uppercase tracking-wider mb-2">API Token</label>
+                <div className="bg-[#0D0D0D] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-3 flex justify-between items-center gap-3">
                   <code className="font-mono text-xs sm:text-sm text-emerald-400 flex-1 overflow-hidden text-ellipsis">
                     {visibleTokens[bot.id] ? bot.token : maskToken(bot.token)}
                   </code>
                   <div className="flex gap-2">
                     <button
-                      className="p-1.5 rounded-md hover:bg-[#21262d] text-[#8b949e] hover:text-white transition-all"
+                      className="p-1.5 rounded-md hover:bg-[#1A1A1A] text-[#666666] hover:text-white transition-all"
                       onClick={() => toggleTokenVisibility(bot.id)}
                       aria-label={visibleTokens[bot.id] ? 'Hide token' : 'Show token'}
                     >
                       {visibleTokens[bot.id] ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                     <button
-                      className="p-1.5 rounded-md hover:bg-[#21262d] text-[#8b949e] hover:text-white transition-all"
+                      className="p-1.5 rounded-md hover:bg-[#1A1A1A] text-[#666666] hover:text-white transition-all"
                       onClick={() => copyToClipboard(bot.token)}
                       aria-label="Copy token"
                     >
@@ -436,7 +436,7 @@ const BotManagementPage = () => {
 
               {/* Permissions */}
               <div className="mb-4">
-                <label className="block text-xs sm:text-sm font-semibold text-[#8b949e] uppercase tracking-wider mb-2">Permissions</label>
+                <label className="block text-xs sm:text-sm font-semibold text-[#666666] uppercase tracking-wider mb-2">Permissions</label>
                 <div className="flex flex-wrap gap-2">
                   {bot.permissions && bot.permissions.length > 0 ? (
                     <>
@@ -452,7 +452,7 @@ const BotManagementPage = () => {
                       )}
                     </>
                   ) : (
-                    <span className="text-[#8b949e] text-sm">No permissions</span>
+                    <span className="text-[#666666] text-sm">No permissions</span>
                   )}
                 </div>
               </div>
@@ -460,7 +460,7 @@ const BotManagementPage = () => {
               {/* Actions */}
               <div className="flex gap-2 pt-4 border-t border-white/10">
                 <button
-                  className="flex-1 bg-[#161b22] text-[#c9d1d9] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#21262d] hover:border-[#58a6ff] transition-all"
+                  className="flex-1 bg-[#141414] text-[#A0A0A0] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#1A1A1A] hover:border-[#58a6ff] transition-all"
                   onClick={() => viewActivityLogs(bot)}
                   aria-label={`View activity logs for ${bot.name}`}
                 >
@@ -468,7 +468,7 @@ const BotManagementPage = () => {
                   Activity
                 </button>
                 <button
-                  className="flex-1 bg-[#161b22] text-[#c9d1d9] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#21262d] hover:border-[#58a6ff] transition-all"
+                  className="flex-1 bg-[#141414] text-[#A0A0A0] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#1A1A1A] hover:border-[#58a6ff] transition-all"
                   onClick={() => handleRegenerateToken(bot.id, bot.name)}
                   aria-label={`Regenerate token for ${bot.name}`}
                 >
@@ -490,12 +490,12 @@ const BotManagementPage = () => {
 
       {/* Create Bot Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-[#0d1117]/90 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowCreateModal(false)}>
-          <div className="bg-[#161b22]/95 backdrop-blur-sm border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-xl animate-slide-up" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-[#0D0D0D]/90 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowCreateModal(false)}>
+          <div className="bg-[#141414]/95 backdrop-blur-sm border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-xl animate-slide-up" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-5 border-b border-white/10 flex justify-between items-center">
               <h2 className="text-xl font-semibold text-white">Create New Bot</h2>
               <button
-                className="text-[#8b949e] hover:bg-[#21262d] hover:text-white w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
+                className="text-[#666666] hover:bg-[#1A1A1A] hover:text-white w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
                 onClick={() => setShowCreateModal(false)}
                 aria-label="Close create bot modal"
               >
@@ -506,10 +506,10 @@ const BotManagementPage = () => {
             <div className="p-6 space-y-5">
               {/* Bot Name */}
               <div>
-                <label className="block font-semibold text-sm text-[#c9d1d9] mb-2">Bot Name *</label>
+                <label className="block font-semibold text-sm text-[#A0A0A0] mb-2">Bot Name *</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2.5 bg-[#0d1117] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-sm placeholder:text-[#8b949e] focus:outline-none focus:border-[#58a6ff] focus:bg-[#161b22] transition-all"
+                  className="w-full px-3 py-2.5 bg-[#0D0D0D] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] text-sm placeholder:text-[#666666] focus:outline-none focus:border-[#58a6ff] focus:bg-[#141414] transition-all"
                   placeholder="Enter bot name"
                   value={newBotData.name}
                   onChange={(e) => setNewBotData({ ...newBotData, name: e.target.value })}
@@ -518,9 +518,9 @@ const BotManagementPage = () => {
 
               {/* Description */}
               <div>
-                <label className="block font-semibold text-sm text-[#c9d1d9] mb-2">Description</label>
+                <label className="block font-semibold text-sm text-[#A0A0A0] mb-2">Description</label>
                 <textarea
-                  className="w-full px-3 py-2.5 bg-[#0d1117] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-sm placeholder:text-[#8b949e] focus:outline-none focus:border-[#58a6ff] focus:bg-[#161b22] transition-all resize-vertical min-h-[80px]"
+                  className="w-full px-3 py-2.5 bg-[#0D0D0D] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] text-sm placeholder:text-[#666666] focus:outline-none focus:border-[#58a6ff] focus:bg-[#141414] transition-all resize-vertical min-h-[80px]"
                   rows="3"
                   placeholder="What does this bot do?"
                   value={newBotData.description}
@@ -530,10 +530,10 @@ const BotManagementPage = () => {
 
               {/* Prefix */}
               <div>
-                <label className="block font-semibold text-sm text-[#c9d1d9] mb-2">Command Prefix</label>
+                <label className="block font-semibold text-sm text-[#A0A0A0] mb-2">Command Prefix</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2.5 bg-[#0d1117] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-sm placeholder:text-[#8b949e] focus:outline-none focus:border-[#58a6ff] focus:bg-[#161b22] transition-all"
+                  className="w-full px-3 py-2.5 bg-[#0D0D0D] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] text-sm placeholder:text-[#666666] focus:outline-none focus:border-[#58a6ff] focus:bg-[#141414] transition-all"
                   placeholder="!"
                   value={newBotData.prefix}
                   onChange={(e) => setNewBotData({ ...newBotData, prefix: e.target.value })}
@@ -542,10 +542,10 @@ const BotManagementPage = () => {
 
               {/* Bot Type */}
               <div>
-                <label className="block font-semibold text-sm text-[#c9d1d9] mb-2">Bot Type</label>
+                <label className="block font-semibold text-sm text-[#A0A0A0] mb-2">Bot Type</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {botTypes.map((type) => (
-                    <label key={type.id} className="flex gap-3 p-4 bg-[#0d1117] border-2 border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer hover:border-[#58a6ff] hover:bg-[#161b22] transition-all">
+                    <label key={type.id} className="flex gap-3 p-4 bg-[#0D0D0D] border-2 border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer hover:border-[#58a6ff] hover:bg-[#141414] transition-all">
                       <input
                         type="radio"
                         name="botType"
@@ -556,7 +556,7 @@ const BotManagementPage = () => {
                       />
                       <div>
                         <strong className="block text-sm text-white mb-1">{type.name}</strong>
-                        <small className="block text-xs text-[#8b949e] leading-relaxed">{type.description}</small>
+                        <small className="block text-xs text-[#666666] leading-relaxed">{type.description}</small>
                       </div>
                     </label>
                   ))}
@@ -565,10 +565,10 @@ const BotManagementPage = () => {
 
               {/* Permissions */}
               <div>
-                <label className="block font-semibold text-sm text-[#c9d1d9] mb-2">Permissions *</label>
+                <label className="block font-semibold text-sm text-[#A0A0A0] mb-2">Permissions *</label>
                 <div className="space-y-2.5">
                   {availablePermissions.map((permission) => (
-                    <label key={permission.id} className="flex gap-3 p-3.5 bg-[#0d1117] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer hover:bg-[#161b22] hover:border-[#58a6ff] transition-all">
+                    <label key={permission.id} className="flex gap-3 p-3.5 bg-[#0D0D0D] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer hover:bg-[#141414] hover:border-[#58a6ff] transition-all">
                       <input
                         type="checkbox"
                         checked={newBotData.permissions.includes(permission.id)}
@@ -577,7 +577,7 @@ const BotManagementPage = () => {
                       />
                       <div>
                         <strong className="block text-sm text-white mb-1">{permission.name}</strong>
-                        <small className="block text-xs text-[#8b949e]">{permission.description}</small>
+                        <small className="block text-xs text-[#666666]">{permission.description}</small>
                       </div>
                     </label>
                   ))}
@@ -587,7 +587,7 @@ const BotManagementPage = () => {
 
             <div className="px-6 py-4 border-t border-white/10 flex justify-end gap-3">
               <button
-                className="px-4 py-2.5 bg-[#161b22] text-[#c9d1d9] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-medium hover:bg-[#21262d] transition-all"
+                className="px-4 py-2.5 bg-[#141414] text-[#A0A0A0] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-medium hover:bg-[#1A1A1A] transition-all"
                 onClick={() => setShowCreateModal(false)}
               >
                 Cancel
@@ -605,12 +605,12 @@ const BotManagementPage = () => {
 
       {/* Activity Logs Modal */}
       {showActivityModal && (
-        <div className="fixed inset-0 bg-[#0d1117]/90 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowActivityModal(false)}>
-          <div className="bg-[#161b22]/95 backdrop-blur-sm border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl animate-slide-up" onClick={(e) => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-[#0D0D0D]/90 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowActivityModal(false)}>
+          <div className="bg-[#141414]/95 backdrop-blur-sm border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl animate-slide-up" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-5 border-b border-white/10 flex justify-between items-center">
               <h2 className="text-xl font-semibold text-white">Activity Logs - {selectedBot?.name}</h2>
               <button
-                className="text-[#8b949e] hover:bg-[#21262d] hover:text-white w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
+                className="text-[#666666] hover:bg-[#1A1A1A] hover:text-white w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
                 onClick={() => setShowActivityModal(false)}
                 aria-label="Close activity modal"
               >
@@ -624,18 +624,18 @@ const BotManagementPage = () => {
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b border-white/10">
-                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#8b949e] uppercase tracking-wider">Time</th>
-                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#8b949e] uppercase tracking-wider">Event</th>
-                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#8b949e] uppercase tracking-wider">Details</th>
-                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#8b949e] uppercase tracking-wider">Status</th>
+                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#666666] uppercase tracking-wider">Time</th>
+                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#666666] uppercase tracking-wider">Event</th>
+                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#666666] uppercase tracking-wider">Details</th>
+                        <th className="text-left px-3 py-3 text-xs font-semibold text-[#666666] uppercase tracking-wider">Status</th>
                       </tr>
                     </thead>
                     <tbody>
                       {activityLogs.map((log, idx) => (
-                        <tr key={idx} className="border-b border-white/10 hover:bg-[#0d1117] transition-colors">
-                          <td className="px-3 py-4 text-[#c9d1d9] text-sm">{formatDate(log.timestamp)}</td>
-                          <td className="px-3 py-4 text-[#c9d1d9] text-sm">{log.event || 'Activity'}</td>
-                          <td className="px-3 py-4 text-[#c9d1d9] text-sm">{log.message}</td>
+                        <tr key={idx} className="border-b border-white/10 hover:bg-[#0D0D0D] transition-colors">
+                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{formatDate(log.timestamp)}</td>
+                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{log.event || 'Activity'}</td>
+                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{log.message}</td>
                           <td className="px-3 py-4">
                             <span className={`px-2.5 py-1 rounded-md text-xs font-semibold uppercase ${
                               log.status === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
@@ -650,7 +650,7 @@ const BotManagementPage = () => {
                     </tbody>
                   </table>
                 ) : (
-                  <div className="text-center py-12 text-[#8b949e]">
+                  <div className="text-center py-12 text-[#666666]">
                     <Activity size={32} className="mx-auto mb-4 text-[#58a6ff]" />
                     <p>No activity logs yet</p>
                   </div>
@@ -660,7 +660,7 @@ const BotManagementPage = () => {
 
             <div className="px-6 py-4 border-t border-white/10 flex justify-end">
               <button
-                className="px-4 py-2.5 bg-[#161b22] text-[#c9d1d9] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-medium hover:bg-[#21262d] transition-all"
+                className="px-4 py-2.5 bg-[#141414] text-[#A0A0A0] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-medium hover:bg-[#1A1A1A] transition-all"
                 onClick={() => setShowActivityModal(false)}
               >
                 Close

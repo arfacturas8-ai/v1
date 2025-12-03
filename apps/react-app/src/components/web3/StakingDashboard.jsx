@@ -247,14 +247,14 @@ const StakingDashboard = () => {
           <Shield style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         </div>
         <h3 style={{
   fontWeight: '600'
 }}>Connect Wallet</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your wallet to start staking CRYB tokens
         </p>
@@ -273,17 +273,17 @@ const StakingDashboard = () => {
         <div className="animate-pulse space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '96px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
         </div>
@@ -318,7 +318,7 @@ const StakingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Balance</p>
               <p style={{
   fontWeight: '600'
@@ -347,7 +347,7 @@ const StakingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Staked</p>
               <p style={{
   fontWeight: '600'
@@ -376,7 +376,7 @@ const StakingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Rewards</p>
               <p style={{
   fontWeight: '600'
@@ -402,7 +402,7 @@ const StakingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Access Level</p>
               <Badge color={accessLevelInfo.color}>
                 {accessLevelInfo.name}
@@ -435,7 +435,7 @@ const StakingDashboard = () => {
 
           <div className="space-y-4">
             <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '16px',
   borderRadius: '12px'
 }}>
@@ -445,7 +445,7 @@ const StakingDashboard = () => {
   alignItems: 'center'
 }}>
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Current APR</span>
                 <span style={{
   fontWeight: '600'
@@ -460,7 +460,7 @@ const StakingDashboard = () => {
   alignItems: 'center'
 }}>
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Staking Duration</span>
                 <span style={{
   fontWeight: '600'
@@ -475,7 +475,7 @@ const StakingDashboard = () => {
   alignItems: 'center'
 }}>
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Annual Yield</span>
                 <span style={{
   fontWeight: '600'
@@ -572,7 +572,7 @@ const StakingDashboard = () => {
   alignItems: 'center'
 }}>
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   Access Level Progress
                 </span>
@@ -591,7 +591,7 @@ const StakingDashboard = () => {
               />
               
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Stake more CRYB to unlock higher access levels and exclusive features
               </p>
@@ -609,7 +609,7 @@ const StakingDashboard = () => {
   justifyContent: 'space-between'
 }}>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Staked</span>
                   <span style={{
   fontWeight: '600'
@@ -623,7 +623,7 @@ const StakingDashboard = () => {
   justifyContent: 'space-between'
 }}>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Your Share</span>
                   <span style={{
   fontWeight: '600'
@@ -640,7 +640,7 @@ const StakingDashboard = () => {
   justifyContent: 'space-between'
 }}>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Network Participation</span>
                   <span style={{
   fontWeight: '600'
@@ -696,7 +696,7 @@ const StakingDashboard = () => {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px'
 }}
               >
@@ -729,7 +729,7 @@ const StakingDashboard = () => {
                       {tx.type} {cryb.formatTokenAmount(tx.amount)} CRYB
                     </p>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       {new Date(tx.timestamp).toLocaleString()}
                     </p>
@@ -768,7 +768,7 @@ const StakingDashboard = () => {
                 onChange={(e) => setStakeAmount(e.target.value)}
               />
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Available: {cryb.formatTokenAmount(stakingData.balance)} CRYB
               </p>
@@ -841,7 +841,7 @@ const StakingDashboard = () => {
                 onChange={(e) => setUnstakeAmount(e.target.value)}
               />
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Staked: {cryb.formatTokenAmount(stakingData.stakedAmount)} CRYB
               </p>

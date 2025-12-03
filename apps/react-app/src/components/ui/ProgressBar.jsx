@@ -40,7 +40,7 @@ const ProgressBar = ({
           {label && (
             <span style={{
   fontWeight: '500',
-  color: '#8b949e'
+  color: '#666666'
 }}>
               {label}
             </span>
@@ -48,7 +48,7 @@ const ProgressBar = ({
           {showPercentage && (
             <span style={{
   fontWeight: '500',
-  color: '#8b949e'
+  color: '#666666'
 }}>
               {Math.round(clampedProgress)}%
             </span>
@@ -57,7 +57,7 @@ const ProgressBar = ({
       )}
       <div style={{
   width: '100%',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   overflow: 'hidden'
 }}>
@@ -106,7 +106,7 @@ export const CircularProgress = ({
           strokeWidth={strokeWidth}
           fill="none"
           style={{
-  color: '#8b949e'
+  color: '#666666'
 }}
         />
         <circle

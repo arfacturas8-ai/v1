@@ -53,10 +53,10 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
 }}>
         <h3 style={{
   fontWeight: 'bold',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Create Your First Post</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Introduce yourself to the community! Share something about yourself or ask a question.
         </p>
@@ -67,7 +67,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
           <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Post Title
           </label>
@@ -85,7 +85,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
             maxLength={200}
           />
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             {postData.title.length}/200 characters
           </p>
@@ -95,7 +95,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
           <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Your Message
           </label>
@@ -113,7 +113,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
             maxLength={2000}
           />
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             {postData.content.length}/2000 characters • Markdown supported
           </p>
@@ -125,10 +125,10 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
 }}>
           <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>💡 First Post Ideas</h5>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <div>• "Hello CRYB! I'm [name] and I'm interested in [interests]"</div>
             <div>• "New to crypto/Web3, where should I start?"</div>
@@ -139,16 +139,16 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
         </div>
 
         <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '16px',
   borderRadius: '12px'
 }}>
           <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>📝 Post Guidelines</h5>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <div style={{
   display: 'flex',
@@ -190,7 +190,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
         <button
           onClick={onSkip}
           style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
         >
           Skip for now
@@ -206,8 +206,8 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
   paddingBottom: '8px',
   borderRadius: '12px',
   fontWeight: '500',
-  color: '#c9d1d9',
-  background: 'rgba(22, 27, 34, 0.6)'
+  color: '#A0A0A0',
+  background: 'rgba(20, 20, 20, 0.6)'
 }}
         >
           {isSubmitting ? (

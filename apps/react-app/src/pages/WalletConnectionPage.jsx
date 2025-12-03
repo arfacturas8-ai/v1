@@ -133,7 +133,7 @@ export default function WalletConnectionPage() {
             Wallet Connected!
           </h1>
 
-          <div className="bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-6 mb-6 md:mb-8 border border-white/10">
+          <div className="bg-[#1A1A1A]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-6 mb-6 md:mb-8 border border-white/10">
             <div className="text-sm text-[#666666] mb-2 font-medium">
               Connected Address
             </div>
@@ -152,7 +152,7 @@ export default function WalletConnectionPage() {
 
             <button
               onClick={disconnectWallet}
-              className="py-3 bg-[#21262d]/60 text-[#666666] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-semibold hover:bg-[#30363d]/80 transition-colors"
+              className="py-3 bg-[#1A1A1A]/60 text-[#666666] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-semibold hover:bg-[#30363d]/80 transition-colors"
               aria-label="Disconnect wallet"
             >
               Disconnect Wallet
@@ -190,7 +190,7 @@ export default function WalletConnectionPage() {
             return (
               <div
                 key={index}
-                className="flex flex-col items-center gap-2 p-3 bg-[#21262d]/60 rounded-lg border border-white/10"
+                className="flex flex-col items-center gap-2 p-3 bg-[#1A1A1A]/60 rounded-lg border border-white/10"
               >
                 <Icon size={20} className="text-[#58a6ff]" aria-hidden="true" />
                 <span className="text-xs md:text-sm font-semibold text-[#A0A0A0]">
@@ -257,7 +257,7 @@ export default function WalletConnectionPage() {
         )}
 
         {/* Info */}
-        <div className="bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 mb-6 border border-white/10">
+        <div className="bg-[#1A1A1A]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 mb-6 border border-white/10">
           <p className="text-xs md:text-sm text-[#666666] leading-relaxed">
             By connecting your wallet, you agree to our{' '}
             <Link to="/terms" className="text-[#58a6ff] underline">

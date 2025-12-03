@@ -18,7 +18,7 @@ export function PageLoader({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'rgba(20, 20, 20, 0.6)'
 }}
       >
         <div style={{
@@ -97,7 +97,7 @@ export function PageLoader({
           >
             <p style={{
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               {message}
             </p>
@@ -108,7 +108,7 @@ export function PageLoader({
             <div
               style={{
   width: '256px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   overflow: 'hidden'
 }}
@@ -255,7 +255,7 @@ export function BarLoader({
   position: 'relative',
   overflow: 'hidden',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'rgba(20, 20, 20, 0.6)'
 }}
       style={{ width, height }}
       role="status"

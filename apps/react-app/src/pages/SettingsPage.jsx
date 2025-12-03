@@ -582,17 +582,17 @@ function SettingsPage() {
 
   if (dataLoading) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
+      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-[#c9d1d9] text-lg">Loading settings...</p>
+          <p className="text-[#A0A0A0] text-lg">Loading settings...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div role="main" aria-label="Settings page" className="min-h-screen bg-[#0d1117]">
+    <div role="main" aria-label="Settings page" className="min-h-screen bg-[#0D0D0D]">
       {/* Global Message */}
       {message && (
         <div className={`safe-area-top fixed top-0 left-0 right-0 z-50 px-4 py-3 text-center font-medium ${
@@ -606,7 +606,7 @@ function SettingsPage() {
 
       <div className="flex min-h-screen">
         {/* Left Sidebar Navigation */}
-        <aside className="safe-area-top w-64 border-r border-white/10 bg-[#0d1117] fixed left-0 top-0 bottom-0 overflow-y-auto lg:block hidden">
+        <aside className="safe-area-top w-64 border-r border-white/10 bg-[#0D0D0D] fixed left-0 top-0 bottom-0 overflow-y-auto lg:block hidden">
           <h1 className="text-2xl font-bold text-white px-6 py-8">Settings</h1>
           <nav className="flex flex-col gap-1 px-3">
             {tabs.map(tab => (
@@ -616,7 +616,7 @@ function SettingsPage() {
                 className={`touch-target flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                    : 'text-[#8b949e] hover:bg-white/5 hover:text-[#c9d1d9]'
+                    : 'text-[#666666] hover:bg-white/5 hover:text-[#A0A0A0]'
                 }`}
                 aria-label={`${tab.label} settings`}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
@@ -629,7 +629,7 @@ function SettingsPage() {
         </aside>
 
         {/* Mobile Bottom Navigation */}
-        <aside className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 bg-[#0d1117] border-t border-white/10 lg:hidden">
+        <aside className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 bg-[#0D0D0D] border-t border-white/10 lg:hidden">
           <nav className="flex overflow-x-auto gap-2 px-3 py-3 hide-scrollbar">
             {tabs.map(tab => (
               <button
@@ -638,7 +638,7 @@ function SettingsPage() {
                 className={`touch-target flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all flex-shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                    : 'text-[#8b949e]'
+                    : 'text-[#666666]'
                 }`}
                 aria-label={`${tab.label} settings`}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
@@ -658,13 +658,13 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Profile Settings</h2>
-                  <p className="text-[#8b949e]">Customize your public profile and personal information</p>
+                  <p className="text-[#666666]">Customize your public profile and personal information</p>
                 </div>
 
                 <form onSubmit={handleProfileSubmit} className="space-y-6">
                   {/* Avatar Upload */}
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-4">Profile Picture</label>
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-4">Profile Picture</label>
                     <div className="flex items-center gap-6">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
                         {avatarPreview ? (
@@ -686,77 +686,77 @@ function SettingsPage() {
                             aria-label="Upload profile picture"
                           />
                         </label>
-                        <p className="text-[#8b949e] text-sm mt-2">JPG, PNG or GIF. Max size 5MB.</p>
+                        <p className="text-[#666666] text-sm mt-2">JPG, PNG or GIF. Max size 5MB.</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Username (Read-only) */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Username</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Username</label>
                     <input
                       type="text"
                       value={currentUser?.username || ''}
                       disabled
-                      className="w-full px-4 py-3 bg-[#0d1117]/50 border border-white/10 rounded-xl text-[#8b949e] cursor-not-allowed"
+                      className="w-full px-4 py-3 bg-[#0D0D0D]/50 border border-white/10 rounded-xl text-[#666666] cursor-not-allowed"
                     />
-                    <p className="text-[#8b949e] text-sm mt-1">Your username cannot be changed</p>
+                    <p className="text-[#666666] text-sm mt-1">Your username cannot be changed</p>
                   </div>
 
                   {/* Display Name */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Display Name</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Display Name</label>
                     <input
                       type="text"
                       value={profileData.displayName}
                       onChange={(e) => setProfileData({ ...profileData, displayName: e.target.value })}
                       placeholder="Enter your display name"
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
                       aria-label="Display name"
                     />
                   </div>
 
                   {/* Bio */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Bio</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Bio</label>
                     <textarea
                       value={profileData.bio}
                       onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
                       placeholder="Tell us about yourself..."
                       rows={4}
                       maxLength={500}
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] focus:border-[#58a6ff] focus:outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors resize-none"
                     />
-                    <p className="text-[#8b949e] text-sm mt-1">{profileData.bio.length}/500 characters</p>
+                    <p className="text-[#666666] text-sm mt-1">{profileData.bio.length}/500 characters</p>
                   </div>
 
                   {/* Location */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Location</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Location</label>
                     <input
                       type="text"
                       value={profileData.location}
                       onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
                       placeholder="City, Country"
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
                     />
                   </div>
 
                   {/* Website */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Website</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Website</label>
                     <input
                       type="url"
                       value={profileData.website}
                       onChange={(e) => setProfileData({ ...profileData, website: e.target.value })}
                       placeholder="https://yourwebsite.com"
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
                     />
                   </div>
 
                   {/* Social Links */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Social Links</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Social Links</label>
                     <div className="space-y-3">
                       <input
                         type="text"
@@ -766,7 +766,7 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, twitter: e.target.value }
                         })}
                         placeholder="Twitter/X username"
-                        className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
                       />
                       <input
                         type="text"
@@ -776,7 +776,7 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, github: e.target.value }
                         })}
                         placeholder="GitHub username"
-                        className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
                       />
                       <input
                         type="text"
@@ -786,14 +786,14 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, linkedin: e.target.value }
                         })}
                         placeholder="LinkedIn profile"
-                        className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
                       />
                     </div>
                   </div>
 
                   {/* Interests */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-3">Interests</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-3">Interests</label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                       {availableInterests.map(interest => (
                         <button
@@ -803,7 +803,7 @@ function SettingsPage() {
                           className={`touch-target px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             profileData.interests.includes(interest)
                               ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                              : 'bg-[#161b22] text-[#8b949e] border border-white/10 hover:border-[#58a6ff] hover:text-[#c9d1d9]'
+                              : 'bg-[#141414] text-[#666666] border border-white/10 hover:border-[#58a6ff] hover:text-[#A0A0A0]'
                           }`}
                         >
                           {interest}
@@ -828,44 +828,44 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Account Settings</h2>
-                  <p className="text-[#8b949e]">Manage your email, password, and account preferences</p>
+                  <p className="text-[#666666]">Manage your email, password, and account preferences</p>
                 </div>
 
                 {/* Email */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Email Address</h3>
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Current Email</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Current Email</label>
                     <input
                       type="email"
                       value={currentUser?.email || ''}
                       disabled
-                      className="w-full px-4 py-3 bg-[#0d1117]/50 border border-white/10 rounded-xl text-[#8b949e] cursor-not-allowed"
+                      className="w-full px-4 py-3 bg-[#0D0D0D]/50 border border-white/10 rounded-xl text-[#666666] cursor-not-allowed"
                     />
-                    <p className="text-[#8b949e] text-sm mt-1">Contact support to change your email address</p>
+                    <p className="text-[#666666] text-sm mt-1">Contact support to change your email address</p>
                   </div>
                 </div>
 
                 {/* Password Change */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Change Password</h3>
                   <form onSubmit={handlePasswordSubmit} className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Current Password</label>
+                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Current Password</label>
                       <div className="relative">
                         <input
                           type={showCurrentPassword ? 'text' : 'password'}
                           value={passwordData.currentPassword}
                           onChange={(e) => handlePasswordChange('currentPassword', e.target.value)}
                           placeholder="Enter current password"
-                          className={`w-full px-4 py-3 pr-12 bg-[#0d1117] border rounded-xl text-white placeholder-[#8b949e] focus:outline-none transition-colors ${
+                          className={`w-full px-4 py-3 pr-12 bg-[#0D0D0D] border rounded-xl text-white placeholder-[#666666] focus:outline-none transition-colors ${
                             passwordErrors.currentPassword ? 'border-red-500' : 'border-white/10 focus:border-[#58a6ff]'
                           }`}
                         />
                         <button
                           type="button"
                           onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b949e] hover:text-[#c9d1d9] transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#A0A0A0] transition-colors"
                           aria-label={showCurrentPassword ? 'Hide password' : 'Show password'}
                         >
                           {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -877,28 +877,28 @@ function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#c9d1d9] mb-2">New Password</label>
+                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">New Password</label>
                       <div className="relative">
                         <input
                           type={showNewPassword ? 'text' : 'password'}
                           value={passwordData.newPassword}
                           onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
                           placeholder="Enter new password"
-                          className={`w-full px-4 py-3 pr-12 bg-[#0d1117] border rounded-xl text-white placeholder-[#8b949e] focus:outline-none transition-colors ${
+                          className={`w-full px-4 py-3 pr-12 bg-[#0D0D0D] border rounded-xl text-white placeholder-[#666666] focus:outline-none transition-colors ${
                             passwordErrors.newPassword ? 'border-red-500' : 'border-white/10 focus:border-[#58a6ff]'
                           }`}
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPassword(!showNewPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b949e] hover:text-[#c9d1d9] transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#A0A0A0] transition-colors"
                           aria-label={showNewPassword ? 'Hide password' : 'Show password'}
                         >
                           {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
                       {passwordData.newPassword && (
-                        <div className="mt-2 h-2 bg-[#0d1117] rounded-full overflow-hidden">
+                        <div className="mt-2 h-2 bg-[#0D0D0D] rounded-full overflow-hidden">
                           <div
                             className={`h-full transition-all ${calculatePasswordStrength(passwordData.newPassword).color}`}
                             style={{
@@ -914,21 +914,21 @@ function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Confirm New Password</label>
+                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Confirm New Password</label>
                       <div className="relative">
                         <input
                           type={showConfirmPassword ? 'text' : 'password'}
                           value={passwordData.confirmPassword}
                           onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
                           placeholder="Re-enter new password"
-                          className={`w-full px-4 py-3 pr-12 bg-[#0d1117] border rounded-xl text-white placeholder-[#8b949e] focus:outline-none transition-colors ${
+                          className={`w-full px-4 py-3 pr-12 bg-[#0D0D0D] border rounded-xl text-white placeholder-[#666666] focus:outline-none transition-colors ${
                             passwordErrors.confirmPassword ? 'border-red-500' : 'border-white/10 focus:border-[#58a6ff]'
                           }`}
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b949e] hover:text-[#c9d1d9] transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#A0A0A0] transition-colors"
                           aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                         >
                           {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -952,7 +952,7 @@ function SettingsPage() {
                 {/* Delete Account */}
                 <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-2">Delete Account</h3>
-                  <p className="text-[#c9d1d9] mb-4">
+                  <p className="text-[#A0A0A0] mb-4">
                     Once you delete your account, there is no going back. Please be certain.
                   </p>
                   <button
@@ -971,16 +971,16 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Privacy Settings</h2>
-                  <p className="text-[#8b949e]">Control your privacy and who can see your information</p>
+                  <p className="text-[#666666]">Control your privacy and who can see your information</p>
                 </div>
 
                 <form onSubmit={handlePrivacySubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Profile Visibility</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Profile Visibility</label>
                     <select
                       value={privacySettings.profileVisibility}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, profileVisibility: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
                     >
                       <option value="public">Public - Anyone can view</option>
                       <option value="friends">Friends Only</option>
@@ -989,11 +989,11 @@ function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Who can send you friend requests?</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Who can send you friend requests?</label>
                     <select
                       value={privacySettings.friendRequestsFrom}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, friendRequestsFrom: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
                     >
                       <option value="everyone">Everyone</option>
                       <option value="friends_of_friends">Friends of Friends</option>
@@ -1002,11 +1002,11 @@ function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Who can message you?</label>
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Who can message you?</label>
                     <select
                       value={privacySettings.messagePrivacy}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, messagePrivacy: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
                     >
                       <option value="everyone">Everyone</option>
                       <option value="friends">Friends Only</option>
@@ -1014,7 +1014,7 @@ function SettingsPage() {
                     </select>
                   </div>
 
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Show Online Status"
                       description="Let others see when you're online"
@@ -1048,23 +1048,23 @@ function SettingsPage() {
 
                 {/* Blocked Users */}
                 {blockedUsers.length > 0 && (
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                     <h3 className="text-xl font-semibold text-white mb-4">Blocked Users ({blockedUsers.length})</h3>
                     <div className="space-y-3">
                       {blockedUsers.map(user => (
-                        <div key={user._id} className="flex items-center justify-between p-3 bg-[#0d1117] rounded-xl">
+                        <div key={user._id} className="flex items-center justify-between p-3 bg-[#0D0D0D] rounded-xl">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-bold">
                               {user.username[0].toUpperCase()}
                             </div>
                             <div>
                               <div className="text-white font-medium">{user.username}</div>
-                              <div className="text-[#8b949e] text-sm">{user.displayName}</div>
+                              <div className="text-[#666666] text-sm">{user.displayName}</div>
                             </div>
                           </div>
                           <button
                             onClick={() => handleUnblockUser(user._id)}
-                            className="touch-target px-4 py-2 bg-white/5 text-[#c9d1d9] rounded-xl text-sm font-medium hover:bg-white/10 transition-colors"
+                            className="touch-target px-4 py-2 bg-white/5 text-[#A0A0A0] rounded-xl text-sm font-medium hover:bg-white/10 transition-colors"
                           >
                             Unblock
                           </button>
@@ -1081,18 +1081,18 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Security</h2>
-                  <p className="text-[#8b949e]">Manage your account security and authentication</p>
+                  <p className="text-[#666666]">Manage your account security and authentication</p>
                 </div>
 
                 {/* Two-Factor Authentication */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Two-Factor Authentication</h3>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-[#c9d1d9] font-medium mb-1">
+                      <div className="text-[#A0A0A0] font-medium mb-1">
                         {twoFactorEnabled ? 'Enabled' : 'Disabled'}
                       </div>
-                      <div className="text-[#8b949e] text-sm">
+                      <div className="text-[#666666] text-sm">
                         Add an extra layer of security to your account
                       </div>
                     </div>
@@ -1110,20 +1110,20 @@ function SettingsPage() {
                 </div>
 
                 {/* Passkey Settings */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Passkeys</h3>
                   <PasskeySettings />
                 </div>
 
                 {/* Active Sessions */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Active Sessions</h3>
                   <div className="space-y-3">
                     {activeSessions.map(session => (
-                      <div key={session.id} className="flex items-center justify-between p-4 bg-[#0d1117] rounded-xl">
+                      <div key={session.id} className="flex items-center justify-between p-4 bg-[#0D0D0D] rounded-xl">
                         <div className="flex-1">
                           <div className="text-white font-medium mb-1">{session.device}</div>
-                          <div className="text-[#8b949e] text-sm flex items-center gap-2">
+                          <div className="text-[#666666] text-sm flex items-center gap-2">
                             {session.location} • {session.lastActive}
                             {session.current && (
                               <span className="px-2 py-0.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs rounded-full">
@@ -1134,7 +1134,7 @@ function SettingsPage() {
                         </div>
                         {!session.current && (
                           <button
-                            className="touch-target px-4 py-2 bg-white/5 text-[#c9d1d9] rounded-xl text-sm font-medium hover:bg-white/10 transition-colors"
+                            className="touch-target px-4 py-2 bg-white/5 text-[#A0A0A0] rounded-xl text-sm font-medium hover:bg-white/10 transition-colors"
                             aria-label={`Revoke session ${session.device}`}
                           >
                             Revoke
@@ -1146,15 +1146,15 @@ function SettingsPage() {
                 </div>
 
                 {/* Login History */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Login History</h3>
                   <div className="space-y-3">
                     {loginHistory.map(login => (
-                      <div key={login.id} className="flex items-start gap-3 p-4 bg-[#0d1117] rounded-xl">
+                      <div key={login.id} className="flex items-start gap-3 p-4 bg-[#0D0D0D] rounded-xl">
                         <div className="w-2 h-2 rounded-full bg-[#58a6ff] mt-2"></div>
                         <div className="flex-1">
                           <div className="text-white font-medium mb-1">{login.device}</div>
-                          <div className="text-[#8b949e] text-sm">
+                          <div className="text-[#666666] text-sm">
                             {login.location} • {login.timestamp}
                           </div>
                         </div>
@@ -1177,11 +1177,11 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Notification Preferences</h2>
-                  <p className="text-[#8b949e]">Choose what notifications you want to receive</p>
+                  <p className="text-[#666666]">Choose what notifications you want to receive</p>
                 </div>
 
                 <form onSubmit={handleNotificationSubmit} className="space-y-6">
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Friend Requests"
                       description="When someone sends you a friend request"
@@ -1269,16 +1269,16 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Appearance</h2>
-                  <p className="text-[#8b949e]">Customize how the app looks and feels</p>
+                  <p className="text-[#666666]">Customize how the app looks and feels</p>
                 </div>
 
                 <form onSubmit={handleAppearanceSubmit} className="space-y-6">
                   {/* Theme Toggle */}
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                     <h3 className="text-xl font-semibold text-white mb-4">Theme</h3>
                     <div className="flex items-center justify-between">
                       <ThemeToggle />
-                      <p className="text-[#c9d1d9]">
+                      <p className="text-[#A0A0A0]">
                         Current theme: <strong>{theme === 'dark' ? 'Dark' : 'Light'}</strong>
                       </p>
                     </div>
@@ -1286,8 +1286,8 @@ function SettingsPage() {
 
                   {/* Language */}
                   <div>
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">Language</label>
-                    <select className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors">
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Language</label>
+                    <select className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors">
                       <option value="en">English</option>
                       <option value="es">Spanish</option>
                       <option value="fr">French</option>
@@ -1297,7 +1297,7 @@ function SettingsPage() {
                   </div>
 
                   {/* Accessibility Options */}
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Reduce Motion"
                       description="Minimize animations and transitions"
@@ -1336,17 +1336,17 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Integrations</h2>
-                  <p className="text-[#8b949e]">Connect third-party apps and manage API access</p>
+                  <p className="text-[#666666]">Connect third-party apps and manage API access</p>
                 </div>
 
                 {/* OAuth Settings */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Connected Apps</h3>
                   <OAuthSettings />
                 </div>
 
                 {/* API Keys */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">API Keys</h3>
                   <APIKeysSettings />
                 </div>
@@ -1358,27 +1358,27 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold text-white mb-2">Web3 Wallet</h2>
-                  <p className="text-[#8b949e]">Connect and manage your cryptocurrency wallets</p>
+                  <p className="text-[#666666]">Connect and manage your cryptocurrency wallets</p>
                 </div>
 
                 {/* Wallet Connection */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Wallet Connection</h3>
                   <WalletConnectButton />
                 </div>
 
                 {/* Token Balances */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Token Balances</h3>
                   <TokenBalanceDisplay />
                 </div>
 
                 {/* Wallet Addresses */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
                   <h3 className="text-xl font-semibold text-white mb-4">Saved Addresses</h3>
-                  <p className="text-[#8b949e] mb-4">No saved wallet addresses yet</p>
+                  <p className="text-[#666666] mb-4">No saved wallet addresses yet</p>
                   <button
-                    className="touch-target px-6 py-2.5 bg-white/5 text-[#c9d1d9] rounded-xl font-medium hover:bg-white/10 transition-colors"
+                    className="touch-target px-6 py-2.5 bg-white/5 text-[#A0A0A0] rounded-xl font-medium hover:bg-white/10 transition-colors"
                     aria-label="Add wallet address"
                   >
                     Add Address
@@ -1398,8 +1398,8 @@ const ToggleSwitch = ({ label, description, checked, onChange }) => {
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex-1">
-        <div className="text-[#c9d1d9] font-medium mb-1">{label}</div>
-        <div className="text-[#8b949e] text-sm">{description}</div>
+        <div className="text-[#A0A0A0] font-medium mb-1">{label}</div>
+        <div className="text-[#666666] text-sm">{description}</div>
       </div>
       <label className="relative inline-block w-12 h-6 flex-shrink-0 cursor-pointer">
         <input
@@ -1411,7 +1411,7 @@ const ToggleSwitch = ({ label, description, checked, onChange }) => {
         <span className={`absolute inset-0 rounded-full transition-all ${
           checked
             ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7]'
-            : 'bg-[#0d1117] border-2 border-white/10'
+            : 'bg-[#0D0D0D] border-2 border-white/10'
         }`}></span>
         <span className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
           checked ? 'translate-x-6' : 'translate-x-0'

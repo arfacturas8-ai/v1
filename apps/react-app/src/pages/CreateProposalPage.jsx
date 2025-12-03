@@ -81,13 +81,13 @@ const CreateProposalPage = () => {
     <div
       role="main"
       aria-label="Create proposal page"
-      className="min-h-screen bg-[#0d1117] p-4 md:p-6"
+      className="min-h-screen bg-[#0D0D0D] p-4 md:p-6"
     >
       <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-8"
+          className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-8"
         >
           <div className="flex items-center gap-3 mb-6">
             <Vote className="w-7 h-7 md:w-8 md:h-8 text-[#58a6ff]" aria-hidden="true" />
@@ -125,7 +125,7 @@ const CreateProposalPage = () => {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <div>
-              <label htmlFor="proposal-title" className="block text-sm font-medium text-[#c9d1d9] mb-2">
+              <label htmlFor="proposal-title" className="block text-sm font-medium text-[#A0A0A0] mb-2">
                 Title *
               </label>
               <input
@@ -134,16 +134,16 @@ const CreateProposalPage = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Proposal title (min. 10 characters)"
-                className="w-full px-4 py-3 bg-[#21262d] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-base outline-none focus:border-[#58a6ff]/50 transition-colors"
+                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] text-base outline-none focus:border-[#58a6ff]/50 transition-colors"
                 disabled={loading}
                 required
                 minLength={10}
                 aria-label="Proposal title"
               />
-              <p className="text-xs text-[#8b949e] mt-1">{title.length}/10 minimum characters</p>
+              <p className="text-xs text-[#666666] mt-1">{title.length}/10 minimum characters</p>
             </div>
             <div>
-              <label htmlFor="proposal-description" className="block text-sm font-medium text-[#c9d1d9] mb-2">
+              <label htmlFor="proposal-description" className="block text-sm font-medium text-[#A0A0A0] mb-2">
                 Description *
               </label>
               <textarea
@@ -152,16 +152,16 @@ const CreateProposalPage = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your proposal in detail (min. 50 characters)"
                 rows={6}
-                className="w-full px-4 py-3 bg-[#21262d] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-base outline-none resize-y focus:border-[#58a6ff]/50 transition-colors"
+                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] text-base outline-none resize-y focus:border-[#58a6ff]/50 transition-colors"
                 disabled={loading}
                 required
                 minLength={50}
                 aria-label="Proposal description"
               />
-              <p className="text-xs text-[#8b949e] mt-1">{description.length}/50 minimum characters</p>
+              <p className="text-xs text-[#666666] mt-1">{description.length}/50 minimum characters</p>
             </div>
             <div>
-              <label htmlFor="voting-duration" className="block text-sm font-medium text-[#c9d1d9] mb-2">
+              <label htmlFor="voting-duration" className="block text-sm font-medium text-[#A0A0A0] mb-2">
                 Voting Duration (days) *
               </label>
               <input
@@ -171,12 +171,12 @@ const CreateProposalPage = () => {
                 onChange={(e) => setDuration(e.target.value)}
                 min="1"
                 max="30"
-                className="w-full px-4 py-3 bg-[#21262d] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-base outline-none focus:border-[#58a6ff]/50 transition-colors"
+                className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] text-base outline-none focus:border-[#58a6ff]/50 transition-colors"
                 disabled={loading}
                 required
                 aria-label="Voting duration in days"
               />
-              <p className="text-xs text-[#8b949e] mt-1">Between 1 and 30 days</p>
+              <p className="text-xs text-[#666666] mt-1">Between 1 and 30 days</p>
             </div>
             <button
               type="submit"

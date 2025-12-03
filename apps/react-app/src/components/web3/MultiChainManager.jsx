@@ -310,14 +310,14 @@ const MultiChainManager = () => {
           <Network style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         </div>
         <h3 style={{
   fontWeight: '600'
 }}>Connect Wallet</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your wallet to manage assets across multiple chains
         </p>
@@ -336,12 +336,12 @@ const MultiChainManager = () => {
         <div className="animate-pulse space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
           <div style={{
@@ -351,7 +351,7 @@ const MultiChainManager = () => {
             {[1, 2, 3].map(i => (
               <div key={i} style={{
   height: '128px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
             ))}
@@ -389,7 +389,7 @@ const MultiChainManager = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Portfolio</p>
               <p style={{
   fontWeight: '600'
@@ -418,7 +418,7 @@ const MultiChainManager = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Active Networks</p>
               <p style={{
   fontWeight: '600'
@@ -447,7 +447,7 @@ const MultiChainManager = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Bridge Transactions</p>
               <p style={{
   fontWeight: '600'
@@ -476,7 +476,7 @@ const MultiChainManager = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Current Gas</p>
               <p style={{
   fontWeight: '600'
@@ -553,7 +553,7 @@ const MultiChainManager = () => {
   fontWeight: '600'
 }}>{currentNetwork?.name}</h3>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   Connected to {currentNetwork?.name}
                 </p>
@@ -576,7 +576,7 @@ const MultiChainManager = () => {
                 </Badge>
               </div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Gas: {gasEstimates.get(currentNetwork?.chainId)?.standard || 0} gwei
               </p>
@@ -595,7 +595,7 @@ const MultiChainManager = () => {
 }}>
             {topAssets.map(([asset, value]) => (
               <div key={asset} style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '12px',
   borderRadius: '12px',
   textAlign: 'center'
@@ -604,7 +604,7 @@ const MultiChainManager = () => {
   fontWeight: '600'
 }}>{asset}</p>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>${value.toLocaleString()}</p>
               </div>
             ))}
@@ -642,7 +642,7 @@ const MultiChainManager = () => {
   fontWeight: '600'
 }}>{networkConfig.name}</h3>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       ${totalValue.toLocaleString()}
                     </p>
@@ -688,7 +688,7 @@ const MultiChainManager = () => {
                       <div style={{
   width: '32px',
   height: '32px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
@@ -703,7 +703,7 @@ const MultiChainManager = () => {
   fontWeight: '600'
 }}>{asset}</p>
                         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                           {parseFloat(data.balance).toLocaleString()} {asset}
                         </p>
@@ -717,7 +717,7 @@ const MultiChainManager = () => {
   fontWeight: '600'
 }}>${data.usdValue.toLocaleString()}</p>
                       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         {((data.usdValue / totalValue) * 100).toFixed(1)}%
                       </p>
@@ -772,7 +772,7 @@ const MultiChainManager = () => {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px'
 }}>
                   <div style={{
@@ -787,7 +787,7 @@ const MultiChainManager = () => {
                       <ArrowRightLeft style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                       <span className="text-lg">{getNetworkIcon(tx.toChain)}</span>
                     </div>
@@ -799,7 +799,7 @@ const MultiChainManager = () => {
                         {tx.amount} {tx.asset}
                       </p>
                       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         {fromNetwork?.name} → {toNetwork?.name}
                       </p>
@@ -817,7 +817,7 @@ const MultiChainManager = () => {
                         {tx.status}
                       </Badge>
                       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         {formatBridgeTime(tx.bridgeTime)}
                       </p>
@@ -848,7 +848,7 @@ const MultiChainManager = () => {
           
           <div className="space-y-4 mt-4">
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Select a network to switch to. Make sure your wallet supports the selected network.
             </p>
@@ -863,7 +863,7 @@ const MultiChainManager = () => {
                     key={network.chainId}
                     style={{
   padding: '16px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'rgba(20, 20, 20, 0.6)'
 }}
                     onClick={() => !isCurrentNetwork && handleNetworkSwitch(network.chainId)}
                   >
@@ -882,7 +882,7 @@ const MultiChainManager = () => {
   fontWeight: '600'
 }}>{network.name}</h4>
                           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                             {network.nativeCurrency.symbol}
                           </p>
@@ -947,7 +947,7 @@ const MultiChainManager = () => {
   fontWeight: '600'
 }}>{currentNetwork?.name}</p>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Current network</p>
                   </div>
                 </div>
@@ -1032,7 +1032,7 @@ const MultiChainManager = () => {
               />
               {currentNetwork && networkBalances.get(currentNetwork.chainId.toString())?.[bridgeAsset] && (
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   Available: {networkBalances.get(currentNetwork.chainId.toString())[bridgeAsset].balance} {bridgeAsset}
                 </p>

@@ -36,7 +36,7 @@ export function ContentLoader({
       {message && (
         <p
           style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
         >
           {message}
@@ -51,7 +51,7 @@ export function ContentLoader({
         <div
           style={{
   position: 'absolute',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -92,7 +92,7 @@ export function InlineLoader({
       <Spinner size={size} />
       {message && (
         <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           {message}
         </span>
@@ -137,7 +137,7 @@ export function InfiniteLoader({
 }}>
         <Spinner size="md" />
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{message}</p>
       </div>
     </div>
@@ -161,7 +161,7 @@ export function LoadingOverlay({
       >
         <div
           style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '24px',
   padding: '32px',
   width: '100%',
@@ -182,7 +182,7 @@ export function LoadingOverlay({
 }}>
               <p style={{
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 {message}
               </p>
@@ -198,20 +198,20 @@ export function LoadingOverlay({
   justifyContent: 'space-between'
 }}>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     Progress
                   </span>
                   <span style={{
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {progress}%
                   </span>
                 </div>
                 <div style={{
   height: '8px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
   overflow: 'hidden'
 }}>
@@ -241,7 +241,7 @@ export function CardLoader({
         <div
           key={i}
           style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
   padding: '24px'
@@ -256,7 +256,7 @@ export function CardLoader({
               <div style={{
   width: '40px',
   height: '40px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%'
 }} />
               <div style={{
@@ -264,12 +264,12 @@ export function CardLoader({
 }}>
                 <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }} />
                 <div style={{
   height: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }} />
               </div>
@@ -277,12 +277,12 @@ export function CardLoader({
             <div className="space-y-2">
               <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }} />
               <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }} />
             </div>
@@ -315,7 +315,7 @@ export function ListLoader({
             <div style={{
   width: '40px',
   height: '40px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%'
 }} />
           )}
@@ -324,12 +324,12 @@ export function ListLoader({
 }}>
             <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }} />
             <div style={{
   height: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }} />
           </div>

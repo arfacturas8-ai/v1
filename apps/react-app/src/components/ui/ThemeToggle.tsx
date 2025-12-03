@@ -76,7 +76,7 @@ export function ThemeToggle({ variant = 'switch', size = 'md', className = '' }:
 
 const styles = {
   card: {
-    background: 'rgba(22, 27, 34, 0.6)',
+    background: 'rgba(20, 20, 20, 0.6)',
     backdropFilter: 'blur(12px)',
     border: '1px solid rgba(255, 255, 255, 0.1)',
     borderRadius: '12px',
@@ -104,12 +104,12 @@ const styles = {
     margin: '0 0 16px 0'
   },
   text: {
-    color: '#c9d1d9',
+    color: '#A0A0A0',
     fontSize: '14px',
     margin: '0'
   },
   textTertiary: {
-    color: '#8b949e',
+    color: '#666666',
     fontSize: '14px'
   }
 }

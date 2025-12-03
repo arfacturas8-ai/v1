@@ -177,7 +177,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                 <Search style={{
                   width: '20px',
                   height: '20px',
-                  color: '#8b949e'
+                  color: '#666666'
                 }} />
                 <input
                   ref={inputRef}
@@ -199,7 +199,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                   alignItems: 'center',
                   gap: '8px',
                   fontSize: '12px',
-                  color: '#8b949e'
+                  color: '#666666'
                 }}>
                   <kbd style={{
                     paddingLeft: '8px',
@@ -236,7 +236,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                   <X style={{
                     width: '20px',
                     height: '20px',
-                    color: '#8b949e'
+                    color: '#666666'
                   }} />
                 </button>
               </div>
@@ -253,7 +253,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                     paddingTop: '32px',
                     paddingBottom: '32px',
                     textAlign: 'center',
-                    color: '#8b949e',
+                    color: '#666666',
                     fontSize: '14px'
                   }}>
                     No commands found for "{query}"
@@ -285,13 +285,13 @@ const CommandPalette = ({ isOpen, onClose }) => {
                             border: 'none',
                             cursor: 'pointer',
                             transition: 'background 0.2s',
-                            color: isSelected ? '#ffffff' : '#8b949e'
+                            color: isSelected ? '#ffffff' : '#666666'
                           }}
                         >
                           <Icon style={{
                             width: '20px',
                             height: '20px',
-                            color: isSelected ? '#58a6ff' : '#8b949e'
+                            color: isSelected ? '#58a6ff' : '#666666'
                           }} />
                           <span style={{
                             flex: '1',
@@ -308,7 +308,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                               borderRadius: '4px',
                               fontSize: '11px',
                               border: '1px solid rgba(255, 255, 255, 0.1)',
-                              color: '#8b949e'
+                              color: '#666666'
                             }}>
                               Enter
                             </kbd>
@@ -331,7 +331,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                 justifyContent: 'space-between',
                 borderTop: '1px solid rgba(255, 255, 255, 0.1)',
                 fontSize: '12px',
-                color: '#8b949e'
+                color: '#666666'
               }}>
                 <div style={{
                   display: 'flex',
@@ -401,7 +401,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                   </div>
                 </div>
                 <div style={{
-                  color: '#8b949e'
+                  color: '#666666'
                 }}>
                   {filteredCommands.length} {filteredCommands.length === 1 ? 'result' : 'results'}
                 </div>

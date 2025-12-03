@@ -379,29 +379,29 @@ function DirectMessagesPanel({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-full bg-[#0d1117]">
+      <div className="flex items-center justify-center h-full bg-[#0D0D0D]">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <div className="text-[#8b949e]">Loading conversation...</div>
+          <div className="text-[#666666]">Loading conversation...</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col h-full bg-[#0d1117]">
+    <div className="flex flex-col h-full bg-[#0D0D0D]">
       {/* Header */}
-      <div className="px-4 py-3 bg-[#161b22]/60 backdrop-blur-xl border-b border-white/10">
+      <div className="px-4 py-3 bg-[#141414]/60 backdrop-blur-xl border-b border-white/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Avatar/Group Icon */}
             <div className="relative">
               {conversation?.type === 'group' ? (
-                <div className="w-10 h-10 rounded-full bg-[#161b22]/60 border border-white/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-[#141414]/60 border border-white/10 flex items-center justify-center">
                   <Users className="w-5 h-5 text-white" />
                 </div>
               ) : (
-                <div className="w-10 h-10 rounded-full bg-[#161b22]/60 border border-white/10 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-[#141414]/60 border border-white/10 flex items-center justify-center">
                   {participants[0]?.avatar ? (
                     <img
                       src={participants[0].avatar}
@@ -418,7 +418,7 @@ function DirectMessagesPanel({
 
               {/* Status indicator for DMs */}
               {conversation?.type === 'direct' && participants[0] && (
-                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-[#161b22]" />
+                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-[#141414]" />
               )}
             </div>
 
@@ -426,7 +426,7 @@ function DirectMessagesPanel({
               <h2 className="font-semibold text-white">
                 {getConversationTitle()}
               </h2>
-              <p className="text-sm text-[#8b949e]">
+              <p className="text-sm text-[#666666]">
                 {getConversationSubtitle()}
               </p>
             </div>
@@ -439,14 +439,14 @@ function DirectMessagesPanel({
               <>
                 <button
                   onClick={() => startCall('voice')}
-                  className="p-2 rounded-xl hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                  className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
                   title="Start voice call"
                 >
                   <Phone className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => startCall('video')}
-                  className="p-2 rounded-xl hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                  className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
                   title="Start video call"
                 >
                   <Video className="w-5 h-5" />
@@ -457,7 +457,7 @@ function DirectMessagesPanel({
             {/* Add participant (group chat) */}
             {conversation?.type === 'group' && (
               <button
-                className="p-2 rounded-xl hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
                 title="Add participant"
               >
                 <UserPlus className="w-5 h-5" />
@@ -466,7 +466,7 @@ function DirectMessagesPanel({
 
             {/* Search */}
             <button
-              className="p-2 rounded-xl hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+              className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
               title="Search in conversation"
             >
               <Search className="w-5 h-5" />
@@ -475,21 +475,21 @@ function DirectMessagesPanel({
             {/* Info */}
             <button
               onClick={() => setShowConversationInfo(!showConversationInfo)}
-              className="p-2 rounded-xl hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+              className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
               title="Conversation info"
             >
               <Info className="w-5 h-5" />
             </button>
 
             {/* More options */}
-            <button className="p-2 rounded-xl hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]">
+            <button className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]">
               <MoreHorizontal className="w-5 h-5" />
             </button>
 
             {/* Close */}
             <button
               onClick={onClose}
-              className="p-2 rounded-xl hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+              className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
             >
               <X className="w-5 h-5" />
             </button>
@@ -498,7 +498,7 @@ function DirectMessagesPanel({
         
         {/* Call status */}
         {inCall && (
-          <div className="mt-3 p-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl">
+          <div className="mt-3 p-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {callType === 'video' ? (
@@ -548,7 +548,7 @@ function DirectMessagesPanel({
         
         {/* Conversation Info Sidebar */}
         {showConversationInfo && (
-          <div className="w-80 bg-[#161b22]/60 backdrop-blur-xl border-l border-white/10 overflow-y-auto">
+          <div className="w-80 bg-[#141414]/60 backdrop-blur-xl border-l border-white/10 overflow-y-auto">
             <div className="p-4">
               <h3 className="text-lg font-semibold text-white mb-4">
                 Conversation Info
@@ -556,14 +556,14 @@ function DirectMessagesPanel({
               
               {/* Participants */}
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-[#8b949e] mb-2">
+                <h4 className="text-sm font-medium text-[#666666] mb-2">
                   Participants ({participants.length})
                 </h4>
                 <div className="space-y-2">
                   {participants.map(participant => (
-                    <div key={participant.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-[#0d1117] transition-colors">
+                    <div key={participant.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors">
                       <div className="relative">
-                        <div className="w-8 h-8 rounded-full bg-[#0d1117] border border-white/10 flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-full bg-[#0D0D0D] border border-white/10 flex items-center justify-center">
                           {participant.avatar ? (
                             <img
                               src={participant.avatar}
@@ -576,13 +576,13 @@ function DirectMessagesPanel({
                             </span>
                           )}
                         </div>
-                        <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#161b22]" />
+                        <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#141414]" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="font-medium text-white truncate">
                           {participant.displayName}
                         </div>
-                        <div className="text-xs text-[#8b949e] truncate">
+                        <div className="text-xs text-[#666666] truncate">
                           @{participant.username}
                         </div>
                       </div>
@@ -593,54 +593,54 @@ function DirectMessagesPanel({
               
               {/* Settings */}
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-[#8b949e] mb-2">
+                <h4 className="text-sm font-medium text-[#666666] mb-2">
                   Settings
                 </h4>
                 <div className="space-y-2">
-                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0d1117] transition-colors cursor-pointer">
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
                     <span className="text-sm text-white">Notifications</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.notifications}
                       onChange={(e) => updateSetting('notifications', e.target.checked)}
-                      className="w-4 h-4 rounded border-white/10 bg-[#0d1117] text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
 
-                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0d1117] transition-colors cursor-pointer">
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
                     <span className="text-sm text-white">Pin conversation</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.pinned}
                       onChange={(e) => updateSetting('pinned', e.target.checked)}
-                      className="w-4 h-4 rounded border-white/10 bg-[#0d1117] text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
 
-                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0d1117] transition-colors cursor-pointer">
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
                     <span className="text-sm text-white">Star conversation</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.starred}
                       onChange={(e) => updateSetting('starred', e.target.checked)}
-                      className="w-4 h-4 rounded border-white/10 bg-[#0d1117] text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
 
-                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0d1117] transition-colors cursor-pointer">
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
                     <span className="text-sm text-white">Archive conversation</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.archived}
                       onChange={(e) => updateSetting('archived', e.target.checked)}
-                      className="w-4 h-4 rounded border-white/10 bg-[#0d1117] text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
                 </div>
               </div>
               
               {/* Conversation details */}
-              <div className="text-xs text-[#8b949e] space-y-1">
+              <div className="text-xs text-[#666666] space-y-1">
                 <div>
                   Created {formatTimestamp(conversation?.created)}
                 </div>

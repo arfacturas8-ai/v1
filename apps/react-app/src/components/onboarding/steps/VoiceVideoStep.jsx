@@ -51,10 +51,10 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
 }}>
         <h3 style={{
   fontWeight: 'bold',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Try Voice & Video</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           CRYB's real-time communication features help you connect with community members.
         </p>
@@ -67,10 +67,10 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
 }}>
           <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>🎤 Audio & Video Permissions</h4>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Grant permissions to use voice and video features in communities.
           </p>
@@ -98,8 +98,8 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
-  color: '#c9d1d9'
+  background: 'rgba(20, 20, 20, 0.6)',
+  color: '#A0A0A0'
 }}>
                 {permissions.microphone === true ? 'Granted' :
                  permissions.microphone === false ? 'Denied' : 'Not checked'}
@@ -128,8 +128,8 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
-  color: '#c9d1d9'
+  background: 'rgba(20, 20, 20, 0.6)',
+  color: '#A0A0A0'
 }}>
                 {permissions.camera === true ? 'Granted' :
                  permissions.camera === false ? 'Denied' : 'Not checked'}
@@ -162,10 +162,10 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
 }}>
             <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>🎙️ Voice Chat Features</h5>
             <ul style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               <li>• Crystal clear audio quality</li>
               <li>• Push-to-talk or open mic</li>
@@ -180,10 +180,10 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
 }}>
             <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>📹 Video Chat Features</h5>
             <ul style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               <li>• HD video streaming</li>
               <li>• Screen sharing</li>
@@ -195,16 +195,16 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
 
         {permissions.microphone && (
           <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '16px',
   borderRadius: '12px'
 }}>
             <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>🔊 Test Your Audio</h5>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Test your microphone to make sure it's working properly.
             </p>
@@ -217,7 +217,7 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   color: '#ffffff'
 }}
             >
@@ -232,10 +232,10 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
 }}>
           <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>💡 Voice Chat Tips</h5>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <div>• Use headphones to prevent echo</div>
             <div>• Mute when not speaking in large groups</div>
@@ -253,7 +253,7 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
         <button
           onClick={onSkip}
           style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
         >
           Skip for now

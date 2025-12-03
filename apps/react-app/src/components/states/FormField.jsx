@@ -30,7 +30,7 @@ export const FormField = ({
           style={{
             display: 'block',
             fontWeight: '500',
-            color: '#c9d1d9',
+            color: '#A0A0A0',
             marginBottom: '8px'
           }}
         >
@@ -79,7 +79,7 @@ export const FormField = ({
       )}
       {!showError && helperText && (
         <p id={name + '-helper'} style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           {helperText}
         </p>

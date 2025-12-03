@@ -23,7 +23,7 @@ export const LoadingState = ({
 }} role="status" aria-live="polite">
         <Loader2 className={`${sizeClasses[size]} animate-spin text-blue-500`} aria-hidden="true" />
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{message}</p>
       </div>
     );
@@ -38,7 +38,7 @@ export const LoadingState = ({
 }}>
             <div style={{
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   height: '48px',
   width: '48px'
 }}></div>
@@ -49,12 +49,12 @@ export const LoadingState = ({
 }}>
               <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
               <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
             </div>
@@ -78,7 +78,7 @@ export const LoadingState = ({
   width: '32px'
 }} aria-hidden="true"></div>
       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{message}</span>
     </div>
   );

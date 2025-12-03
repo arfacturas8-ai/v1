@@ -243,7 +243,7 @@ const EventsCalendarPage = () => {
             <div className="flex items-center gap-3">
               <button
                 onClick={handlePrevMonth}
-                className="p-2 hover:bg-[#21262d] rounded-lg transition-colors"
+                className="p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
                 aria-label="Previous month"
               >
                 <ChevronLeft size={20} className="text-[#A0A0A0]" />
@@ -253,7 +253,7 @@ const EventsCalendarPage = () => {
               </h2>
               <button
                 onClick={handleNextMonth}
-                className="p-2 hover:bg-[#21262d] rounded-lg transition-colors"
+                className="p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
                 aria-label="Next month"
               >
                 <ChevronRight size={20} className="text-[#A0A0A0]" />
@@ -261,7 +261,7 @@ const EventsCalendarPage = () => {
             </div>
             <button
               onClick={handleToday}
-              className="px-4 py-2 bg-[#21262d] border border-white/10 text-white rounded-lg hover:bg-[#30363d] transition-colors"
+              className="px-4 py-2 bg-[#1A1A1A] border border-white/10 text-white rounded-lg hover:bg-[#30363d] transition-colors"
               aria-label="Go to today"
             >
               Today
@@ -432,7 +432,7 @@ const EventsCalendarPage = () => {
               </div>
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="text-[#666666] hover:text-white transition-colors p-1 hover:bg-[#21262d] rounded-lg"
+                className="text-[#666666] hover:text-white transition-colors p-1 hover:bg-[#1A1A1A] rounded-lg"
                 aria-label="Close event details"
               >
                 <X size={24} />
@@ -471,7 +471,7 @@ const EventsCalendarPage = () => {
               </button>
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="px-4 py-2 bg-[#21262d] border border-white/10 hover:bg-[#30363d] text-white rounded-lg transition-colors"
+                className="px-4 py-2 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white rounded-lg transition-colors"
                 aria-label="Close"
               >
                 Close
@@ -597,7 +597,7 @@ const EventsCalendarPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-6 py-2 bg-[#21262d] border border-white/10 hover:bg-[#30363d] text-white rounded-lg transition-colors"
+                  className="px-6 py-2 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white rounded-lg transition-colors"
                   aria-label="Cancel"
                 >
                   Cancel

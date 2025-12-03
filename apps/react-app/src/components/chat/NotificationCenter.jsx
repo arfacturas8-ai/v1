@@ -357,7 +357,7 @@ function NotificationCenter({
             <Bell style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <h3 style={{
   fontWeight: '600',
@@ -632,7 +632,7 @@ function NotificationCenter({
                 <div>
                   <label style={{
   display: 'block',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     Volume: {soundSettings.volume}%
                   </label>
@@ -651,7 +651,7 @@ function NotificationCenter({
                 <div>
                   <label style={{
   display: 'block',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     Message sound
                   </label>
@@ -694,14 +694,14 @@ function NotificationCenter({
             <Bell style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <h3 style={{
   fontWeight: '500',
   color: '#ffffff'
 }}>No notifications</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               You're all caught up!
             </p>
@@ -734,7 +734,7 @@ function NotificationCenter({
                       {getGroupTitle(groupKey)}
                     </h4>
                     <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       ({groupNotifications.length})
                     </span>
@@ -744,13 +744,13 @@ function NotificationCenter({
                     <ChevronUp style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                   ) : (
                     <ChevronDown style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                   )}
                 </button>
@@ -821,7 +821,7 @@ function NotificationCenter({
   alignItems: 'center'
 }}>
                                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                                     {formatTimestamp(notification.timestamp)}
                                   </span>
@@ -836,7 +836,7 @@ function NotificationCenter({
                               </div>
                               
                               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                                 {notification.message}
                               </p>
@@ -850,10 +850,10 @@ function NotificationCenter({
                                   <Hash style={{
   width: '12px',
   height: '12px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                                     {notification.channelName}
                                   </span>
@@ -926,7 +926,7 @@ function NotificationCenter({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <span>{filteredNotifications.length} notifications</span>
             

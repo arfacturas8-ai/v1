@@ -190,7 +190,7 @@ const ModerationDashboard = () => {
               <span className="absolute -top-2 -right-2 bg-[#e53e3e] text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold">
                 {notifications.length}
               </span>
-              <div className="hidden group-hover:block absolute top-full right-0 bg-[#161b22]/95 rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.1)] min-w-[300px] max-w-[400px] z-[1000] border border-black/10">
+              <div className="hidden group-hover:block absolute top-full right-0 bg-[#141414]/95 rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.1)] min-w-[300px] max-w-[400px] z-[1000] border border-black/10">
                 {notifications.slice(0, 5).map(notification => (
                   <div
                     key={notification.id}

@@ -123,10 +123,10 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
 }}>
         <h3 style={{
   fontWeight: 'bold',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Set Up Your Profile</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Tell the community about yourself. This helps others discover and connect with you.
         </p>
@@ -145,7 +145,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
   height: '96px',
   borderRadius: '50%',
   overflow: 'hidden',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'rgba(20, 20, 20, 0.6)'
 }}>
               {avatarPreview ? (
                 <img src={avatarPreview} alt="Avatar preview" style={{
@@ -164,7 +164,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   <svg style={{
   width: '32px',
@@ -199,7 +199,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
             </label>
           </div>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Click to upload your profile picture</p>
         </div>
 
@@ -208,7 +208,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
           <label className={isMobile ? 'text-sm mb-2' : 'text-sm md:text-base mb-2'} style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Tell us about yourself
           </label>
@@ -228,7 +228,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
             maxLength={500}
           />
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             {profileData.bio.length}/500 characters
           </p>
@@ -243,7 +243,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
             <label className={isMobile ? 'text-sm mb-2' : 'text-sm md:text-base mb-2'} style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Location (optional)
             </label>
@@ -265,7 +265,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
             <label className={isMobile ? 'text-sm mb-2' : 'text-sm md:text-base mb-2'} style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Website (optional)
             </label>
@@ -290,7 +290,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
           <label className={isMobile ? 'text-sm mb-2' : 'text-sm md:text-base mb-2'} style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             What are your interests? (Select up to 6)
           </label>
@@ -308,7 +308,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
   padding: '8px',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
               >
                 {interest}
@@ -316,7 +316,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
             ))}
           </div>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Selected: {profileData.interests.length}/6
           </p>
@@ -335,7 +335,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
           onClick={onSkip}
           className={isMobile ? 'w-full h-12' : ''}
           style={{
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   padding: isMobile ? '12px' : '8px'
 }}
         >
@@ -353,8 +353,8 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
   paddingBottom: isMobile ? '12px' : '8px',
   borderRadius: '12px',
   fontWeight: '500',
-  color: '#c9d1d9',
-  background: 'rgba(22, 27, 34, 0.6)'
+  color: '#A0A0A0',
+  background: 'rgba(20, 20, 20, 0.6)'
 }}
         >
           {isLoading ? (

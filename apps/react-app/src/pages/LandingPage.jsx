@@ -78,7 +78,7 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-white relative overflow-hidden">
+    <div className="min-h-screen bg-[#0D0D0D] text-white relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] bg-[#58a6ff] rounded-full opacity-[0.03] blur-3xl"></div>
@@ -89,7 +89,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0d1117]/80 backdrop-blur-xl border-b border-white/10'
+          ? 'bg-[#0D0D0D]/80 backdrop-blur-xl border-b border-white/10'
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -103,13 +103,13 @@ export default function LandingPage() {
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
-              <Link to="/tokenomics" className="text-[#8b949e] hover:text-white transition-colors text-sm font-medium">
+              <Link to="/tokenomics" className="text-[#666666] hover:text-white transition-colors text-sm font-medium">
                 Tokenomics
               </Link>
-              <Link to="/help" className="text-[#8b949e] hover:text-white transition-colors text-sm font-medium">
+              <Link to="/help" className="text-[#666666] hover:text-white transition-colors text-sm font-medium">
                 Docs
               </Link>
-              <Link to="/guidelines" className="text-[#8b949e] hover:text-white transition-colors text-sm font-medium">
+              <Link to="/guidelines" className="text-[#666666] hover:text-white transition-colors text-sm font-medium">
                 Community
               </Link>
             </div>
@@ -118,7 +118,7 @@ export default function LandingPage() {
             <div className="hidden md:flex items-center gap-4">
               <Link
                 to="/login"
-                className="text-[#c9d1d9] hover:text-white transition-colors px-4 py-2 text-sm font-medium"
+                className="text-[#A0A0A0] hover:text-white transition-colors px-4 py-2 text-sm font-medium"
               >
                 Sign In
               </Link>
@@ -133,7 +133,7 @@ export default function LandingPage() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 text-[#8b949e] hover:text-white transition-colors"
+              className="md:hidden p-2 text-[#666666] hover:text-white transition-colors"
             >
               {mobileMenuOpen ? (
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,19 +150,19 @@ export default function LandingPage() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#161b22]/95 backdrop-blur-xl border-t border-white/10">
+          <div className="md:hidden bg-[#141414]/95 backdrop-blur-xl border-t border-white/10">
             <div className="px-4 py-4 space-y-3">
-              <Link to="/tokenomics" className="block text-[#8b949e] hover:text-white transition-colors py-2 text-sm font-medium">
+              <Link to="/tokenomics" className="block text-[#666666] hover:text-white transition-colors py-2 text-sm font-medium">
                 Tokenomics
               </Link>
-              <Link to="/help" className="block text-[#8b949e] hover:text-white transition-colors py-2 text-sm font-medium">
+              <Link to="/help" className="block text-[#666666] hover:text-white transition-colors py-2 text-sm font-medium">
                 Docs
               </Link>
-              <Link to="/guidelines" className="block text-[#8b949e] hover:text-white transition-colors py-2 text-sm font-medium">
+              <Link to="/guidelines" className="block text-[#666666] hover:text-white transition-colors py-2 text-sm font-medium">
                 Community
               </Link>
               <div className="pt-4 border-t border-white/10 space-y-3">
-                <Link to="/login" className="block text-center text-[#c9d1d9] hover:text-white transition-colors py-2.5 text-sm font-medium border border-white/20 rounded-lg">
+                <Link to="/login" className="block text-center text-[#A0A0A0] hover:text-white transition-colors py-2.5 text-sm font-medium border border-white/20 rounded-lg">
                   Sign In
                 </Link>
                 <Link to="/register" className="block text-center bg-[#58a6ff] hover:bg-[#4a8fd7] text-white py-2.5 rounded-lg text-sm font-semibold transition-all">
@@ -178,9 +178,9 @@ export default function LandingPage() {
       <section className="relative pt-32 md:pt-40 pb-20 md:pb-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-full">
+          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-full">
             <span className="w-2 h-2 bg-[#58a6ff] rounded-full animate-pulse"></span>
-            <span className="text-[#8b949e] text-sm font-medium">Decentralized Social, Reimagined</span>
+            <span className="text-[#666666] text-sm font-medium">Decentralized Social, Reimagined</span>
           </div>
 
           {/* Headline */}
@@ -193,7 +193,7 @@ export default function LandingPage() {
           </h1>
 
           {/* Subheadline */}
-          <p className="text-lg md:text-xl text-[#8b949e] max-w-3xl mx-auto mb-10 md:mb-12 leading-relaxed">
+          <p className="text-lg md:text-xl text-[#666666] max-w-3xl mx-auto mb-10 md:mb-12 leading-relaxed">
             The first truly decentralized social platform. Crypto-native communities with
             <span className="text-[#58a6ff]"> NFT membership</span>,
             <span className="text-[#a371f7]"> DAO governance</span>, and
@@ -213,7 +213,7 @@ export default function LandingPage() {
             </Link>
             <Link
               to="/login"
-              className="inline-flex items-center justify-center gap-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 hover:border-[#58a6ff]/50 text-white px-8 py-4 rounded-xl text-base font-semibold transition-all hover:bg-[#161b22]"
+              className="inline-flex items-center justify-center gap-2 bg-[#141414]/60 backdrop-blur-xl border border-white/10 hover:border-[#58a6ff]/50 text-white px-8 py-4 rounded-xl text-base font-semibold transition-all hover:bg-[#141414]"
             >
               Explore Platform
             </Link>
@@ -228,12 +228,12 @@ export default function LandingPage() {
             {stats.map((stat, i) => (
               <div
                 key={i}
-                className="text-center p-6 md:p-8 bg-[#161b22]/40 backdrop-blur-xl border border-white/5 rounded-2xl hover:border-[#58a6ff]/30 transition-all"
+                className="text-center p-6 md:p-8 bg-[#141414]/40 backdrop-blur-xl border border-white/5 rounded-2xl hover:border-[#58a6ff]/30 transition-all"
               >
                 <div className="text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
                   {stat.value}
                 </div>
-                <div className="text-[#8b949e] text-sm md:text-base font-medium">{stat.label}</div>
+                <div className="text-[#666666] text-sm md:text-base font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -250,7 +250,7 @@ export default function LandingPage() {
                 Built Different
               </span>
             </h2>
-            <p className="text-[#8b949e] text-lg md:text-xl max-w-2xl mx-auto">
+            <p className="text-[#666666] text-lg md:text-xl max-w-2xl mx-auto">
               Not your average social platform. Web3-native from the ground up.
             </p>
           </div>
@@ -260,13 +260,13 @@ export default function LandingPage() {
             {features.map((feature, i) => (
               <div
                 key={i}
-                className="group p-6 md:p-8 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl hover:border-[#58a6ff]/50 transition-all hover:shadow-[0_8px_32px_rgba(88,166,255,0.1)]"
+                className="group p-6 md:p-8 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl hover:border-[#58a6ff]/50 transition-all hover:shadow-[0_8px_32px_rgba(88,166,255,0.1)]"
               >
                 <div className="w-14 h-14 mb-6 flex items-center justify-center bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 rounded-xl text-[#58a6ff] group-hover:scale-110 transition-transform">
                   {feature.icon}
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-3">{feature.title}</h3>
-                <p className="text-[#8b949e] leading-relaxed">{feature.desc}</p>
+                <p className="text-[#666666] leading-relaxed">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -276,7 +276,7 @@ export default function LandingPage() {
       {/* CTA Section */}
       <section className="relative py-20 md:py-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
-          <div className="relative overflow-hidden bg-gradient-to-br from-[#161b22] to-[#0d1117] border border-white/10 rounded-3xl p-8 md:p-16 text-center">
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#141414] to-[#0D0D0D] border border-white/10 rounded-3xl p-8 md:p-16 text-center">
             {/* Background Glow */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#58a6ff] rounded-full opacity-[0.05] blur-3xl"></div>
@@ -290,7 +290,7 @@ export default function LandingPage() {
                   Own Your Space?
                 </span>
               </h2>
-              <p className="text-[#8b949e] text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+              <p className="text-[#666666] text-lg md:text-xl mb-10 max-w-2xl mx-auto">
                 Join thousands of communities building the future of social. Your keys, your community, your rules.
               </p>
               <Link
@@ -316,7 +316,7 @@ export default function LandingPage() {
               <span className="text-2xl font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
                 CRYB
               </span>
-              <p className="text-[#8b949e] text-sm mt-4 leading-relaxed">
+              <p className="text-[#666666] text-sm mt-4 leading-relaxed">
                 Building the decentralized future of social.
               </p>
             </div>
@@ -325,44 +325,44 @@ export default function LandingPage() {
             <div>
               <h4 className="text-white font-semibold mb-4">Platform</h4>
               <ul className="space-y-3">
-                <li><Link to="/communities" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Communities</Link></li>
-                <li><Link to="/nft-marketplace" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">NFT Marketplace</Link></li>
-                <li><Link to="/governance" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Governance</Link></li>
-                <li><Link to="/tokenomics" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Tokenomics</Link></li>
+                <li><Link to="/communities" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Communities</Link></li>
+                <li><Link to="/nft-marketplace" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">NFT Marketplace</Link></li>
+                <li><Link to="/governance" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Governance</Link></li>
+                <li><Link to="/tokenomics" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Tokenomics</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-white font-semibold mb-4">Resources</h4>
               <ul className="space-y-3">
-                <li><Link to="/help" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Help Center</Link></li>
-                <li><Link to="/guidelines" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Guidelines</Link></li>
-                <li><Link to="/contact" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Contact</Link></li>
+                <li><Link to="/help" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Help Center</Link></li>
+                <li><Link to="/guidelines" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Guidelines</Link></li>
+                <li><Link to="/contact" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Contact</Link></li>
               </ul>
             </div>
 
             <div>
               <h4 className="text-white font-semibold mb-4">Legal</h4>
               <ul className="space-y-3">
-                <li><Link to="/privacy" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Privacy Policy</Link></li>
-                <li><Link to="/terms" className="text-[#8b949e] hover:text-[#58a6ff] text-sm transition-colors">Terms of Service</Link></li>
+                <li><Link to="/privacy" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Privacy Policy</Link></li>
+                <li><Link to="/terms" className="text-[#666666] hover:text-[#58a6ff] text-sm transition-colors">Terms of Service</Link></li>
               </ul>
             </div>
           </div>
 
           {/* Bottom */}
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[#8b949e] text-sm">
+            <p className="text-[#666666] text-sm">
               © 2025 Cryb.ai. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-[#8b949e] hover:text-[#58a6ff] transition-colors">
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-[#666666] hover:text-[#58a6ff] transition-colors">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
               </a>
-              <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="text-[#8b949e] hover:text-[#58a6ff] transition-colors">
+              <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="text-[#666666] hover:text-[#58a6ff] transition-colors">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
               </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-[#8b949e] hover:text-[#58a6ff] transition-colors">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-[#666666] hover:text-[#58a6ff] transition-colors">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
               </a>
             </div>

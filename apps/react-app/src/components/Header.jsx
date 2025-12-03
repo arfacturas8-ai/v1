@@ -111,7 +111,7 @@ function Header() {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0d1117]/80 backdrop-blur-xl border-b border-white/10'
+          ? 'bg-[#0D0D0D]/80 backdrop-blur-xl border-b border-white/10'
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -135,7 +135,7 @@ function Header() {
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       isActive
                         ? 'text-white bg-[#58a6ff]/10'
-                        : 'text-[#8b949e] hover:text-white hover:bg-[#161b22]/60'
+                        : 'text-[#666666] hover:text-white hover:bg-[#141414]/60'
                     }`}
                   >
                     <Icon size={18} />
@@ -148,13 +148,13 @@ function Header() {
             {/* Desktop Search */}
             <form onSubmit={handleSearch} className="hidden lg:block flex-1 max-w-md mx-8">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8b949e]" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666666]" />
                 <input
                   type="search"
                   placeholder="Search CRYB..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-10 pl-11 pr-4 bg-[#161b22]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#8b949e] outline-none focus:border-[#58a6ff]/50 transition-all"
+                  className="w-full h-10 pl-11 pr-4 bg-[#141414]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 transition-all"
                 />
               </div>
             </form>
@@ -167,7 +167,7 @@ function Header() {
                   <div className="relative" ref={notificationRef}>
                     <button
                       onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:text-white hover:border-[#58a6ff]/30 transition-all"
+                      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[#141414]/60 border border-white/10 text-[#666666] hover:text-white hover:border-[#58a6ff]/30 transition-all"
                       aria-label="Notifications"
                     >
                       <Bell size={18} />
@@ -179,24 +179,24 @@ function Header() {
                     </button>
 
                     {isNotificationOpen && (
-                      <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-32px)] bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
+                      <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-32px)] bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
                         <div className="p-4 border-b border-white/10">
                           <h3 className="font-semibold text-white">Notifications</h3>
                         </div>
                         <div className="max-h-80 overflow-y-auto">
                           {loadingNotifications ? (
-                            <div className="px-4 py-8 text-center text-[#8b949e] text-sm">
+                            <div className="px-4 py-8 text-center text-[#666666] text-sm">
                               Loading...
                             </div>
                           ) : notifications.length === 0 ? (
-                            <div className="px-4 py-8 text-center text-[#8b949e] text-sm">
+                            <div className="px-4 py-8 text-center text-[#666666] text-sm">
                               No notifications yet
                             </div>
                           ) : (
                             notifications.map((notification) => (
                               <div
                                 key={notification.id}
-                                className="px-4 py-3 hover:bg-[#161b22]/60 transition-colors cursor-pointer"
+                                className="px-4 py-3 hover:bg-[#141414]/60 transition-colors cursor-pointer"
                                 onClick={() => {
                                   setIsNotificationOpen(false)
                                   navigate('/notifications')
@@ -207,8 +207,8 @@ function Header() {
                                     <span className="w-2 h-2 mt-2 bg-[#58a6ff] rounded-full flex-shrink-0"></span>
                                   )}
                                   <div className="flex-1 min-w-0">
-                                    <p className="text-sm text-[#c9d1d9]">{notification.message || notification.content}</p>
-                                    <p className="text-xs text-[#8b949e] mt-1">
+                                    <p className="text-sm text-[#A0A0A0]">{notification.message || notification.content}</p>
+                                    <p className="text-xs text-[#666666] mt-1">
                                       {notification.createdAt ? new Date(notification.createdAt).toLocaleDateString() : ''}
                                     </p>
                                   </div>
@@ -243,16 +243,16 @@ function Header() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center gap-2 p-1 pr-2 bg-[#161b22]/60 border border-white/10 rounded-lg hover:border-[#58a6ff]/30 transition-all"
+                      className="flex items-center gap-2 p-1 pr-2 bg-[#141414]/60 border border-white/10 rounded-lg hover:border-[#58a6ff]/30 transition-all"
                     >
                       <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-sm font-semibold">
                         {user?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
-                      <ChevronDown size={14} className="text-[#8b949e] hidden sm:block" />
+                      <ChevronDown size={14} className="text-[#666666] hidden sm:block" />
                     </button>
 
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-56 bg-[#0d1117]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
+                      <div className="absolute right-0 mt-2 w-56 bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
                         <div className="p-4 border-b border-white/10">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
@@ -260,7 +260,7 @@ function Header() {
                             </div>
                             <div className="min-w-0">
                               <div className="font-semibold text-white text-sm truncate">{user?.username || 'User'}</div>
-                              <div className="text-xs text-[#8b949e] truncate">{user?.email || ''}</div>
+                              <div className="text-xs text-[#666666] truncate">{user?.email || ''}</div>
                             </div>
                           </div>
                         </div>
@@ -268,7 +268,7 @@ function Header() {
                           <Link
                             to={`/profile/${user?.username}`}
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
                           >
                             <User size={16} />
                             <span className="text-sm">Profile</span>
@@ -276,7 +276,7 @@ function Header() {
                           <Link
                             to="/settings"
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
                           >
                             <Settings size={16} />
                             <span className="text-sm">Settings</span>
@@ -284,7 +284,7 @@ function Header() {
                           <Link
                             to="/wallet"
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#c9d1d9] hover:bg-[#161b22]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
                           >
                             <Wallet size={16} />
                             <span className="text-sm">Wallet</span>
@@ -306,7 +306,7 @@ function Header() {
                   {/* Mobile Menu Button */}
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:text-white transition-colors"
+                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#141414]/60 border border-white/10 text-[#666666] hover:text-white transition-colors"
                   >
                     {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                   </button>
@@ -315,7 +315,7 @@ function Header() {
                 <div className="flex items-center gap-3">
                   <Link
                     to="/login"
-                    className="text-[#c9d1d9] hover:text-white text-sm font-medium transition-colors"
+                    className="text-[#A0A0A0] hover:text-white text-sm font-medium transition-colors"
                   >
                     Sign In
                   </Link>
@@ -333,18 +333,18 @@ function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && user && (
-          <div className="md:hidden bg-[#0d1117]/95 backdrop-blur-xl border-t border-white/10">
+          <div className="md:hidden bg-[#0D0D0D]/95 backdrop-blur-xl border-t border-white/10">
             <div className="p-4 space-y-2">
               {/* Mobile Search */}
               <form onSubmit={handleSearch} className="mb-4">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8b949e]" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666666]" />
                   <input
                     type="search"
                     placeholder="Search CRYB..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-11 pl-11 pr-4 bg-[#161b22]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#8b949e] outline-none focus:border-[#58a6ff]/50"
+                    className="w-full h-11 pl-11 pr-4 bg-[#141414]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#666666] outline-none focus:border-[#58a6ff]/50"
                   />
                 </div>
               </form>
@@ -361,7 +361,7 @@ function Header() {
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                       isActive
                         ? 'text-white bg-[#58a6ff]/10'
-                        : 'text-[#c9d1d9] hover:bg-[#161b22]/60'
+                        : 'text-[#A0A0A0] hover:bg-[#141414]/60'
                     }`}
                   >
                     <Icon size={20} />

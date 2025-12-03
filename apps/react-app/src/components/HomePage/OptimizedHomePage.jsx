@@ -44,7 +44,7 @@ const StatCard = React.memo(({ icon: Icon, label, value, trend, color }) => (
 }}>
       <div>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{label}</p>
         <p style={{
   fontWeight: 'bold'
@@ -113,7 +113,7 @@ const CommunityCard = React.memo(({ community, onClick }) => (
           {community.name}
         </h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           {formatNumber(community.memberCount)} members
           <span className="sr-only">,</span>
@@ -127,7 +127,7 @@ const CommunityCard = React.memo(({ community, onClick }) => (
     </div>
     {community.description && (
       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
         {community.description}
       </p>
@@ -172,7 +172,7 @@ const PostCard = React.memo(({ post, onClick }) => (
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           <span>
             <Users style={{

@@ -85,7 +85,7 @@ class GlobalErrorBoundary extends React.Component {
           <div style={{
             maxWidth: '600px',
             width: '100%',
-            background: '#161b22',
+            background: '#141414',
             borderRadius: '12px',
             padding: '40px',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',

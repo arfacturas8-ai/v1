@@ -273,7 +273,7 @@ const YieldFarmingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Portfolio Value</p>
               <p style={{
   fontWeight: '600'
@@ -302,7 +302,7 @@ const YieldFarmingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Staked</p>
               <p style={{
   fontWeight: '600'
@@ -331,7 +331,7 @@ const YieldFarmingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Farmed</p>
               <p style={{
   fontWeight: '600'
@@ -360,7 +360,7 @@ const YieldFarmingDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Pending Rewards</p>
               <p style={{
   fontWeight: '600'
@@ -393,7 +393,7 @@ const YieldFarmingDashboard = () => {
                 {formatCurrency(totalValueLocked.totalValueUSD)}
               </p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total TVL</p>
             </div>
             <div style={{
@@ -405,7 +405,7 @@ const YieldFarmingDashboard = () => {
                 {formatTokenAmount(totalValueLocked.totalStaked)}
               </p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Staked CRYB</p>
             </div>
             <div style={{
@@ -417,7 +417,7 @@ const YieldFarmingDashboard = () => {
                 {formatTokenAmount(totalValueLocked.totalFarmed)}
               </p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total LP Farmed</p>
             </div>
           </div>
@@ -540,7 +540,7 @@ const YieldFarmingDashboard = () => {
   textAlign: 'right'
 }}>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Your Stake</p>
               <p style={{
   fontWeight: '600'
@@ -548,7 +548,7 @@ const YieldFarmingDashboard = () => {
                 {formatTokenAmount(pool.amount || BigInt(0))} CRYB
               </p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 ≈ {formatCurrency((Number(pool.amount || 0) / 1e18) * cryptoPrices.CRYB)}
               </p>
@@ -567,7 +567,7 @@ const YieldFarmingDashboard = () => {
 }}>
                 <div>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Pending Rewards</p>
                   <p style={{
   fontWeight: '600'
@@ -577,7 +577,7 @@ const YieldFarmingDashboard = () => {
                 </div>
                 <div>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Time to Unlock</p>
                   <p style={{
   fontWeight: '600'
@@ -587,7 +587,7 @@ const YieldFarmingDashboard = () => {
                 </div>
                 <div>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Staked Since</p>
                   <p style={{
   fontWeight: '600'
@@ -697,7 +697,7 @@ const YieldFarmingDashboard = () => {
   textAlign: 'right'
 }}>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Your LP Tokens</p>
               <p style={{
   fontWeight: '600'
@@ -705,7 +705,7 @@ const YieldFarmingDashboard = () => {
                 {formatTokenAmount(farm.stakedAmount || BigInt(0))}
               </p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 ≈ {formatCurrency((Number(farm.stakedAmount || 0) / 1e18) * cryptoPrices.CRYB * 2)}
               </p>
@@ -723,7 +723,7 @@ const YieldFarmingDashboard = () => {
 }}>
                 <div>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Pending Rewards</p>
                   <p style={{
   fontWeight: '600'
@@ -733,7 +733,7 @@ const YieldFarmingDashboard = () => {
                 </div>
                 <div>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Last Harvest</p>
                   <p style={{
   fontWeight: '600'
@@ -743,7 +743,7 @@ const YieldFarmingDashboard = () => {
                 </div>
                 <div>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Impermanent Loss</p>
                   <p style={{
   fontWeight: '600'
@@ -833,7 +833,7 @@ const YieldFarmingDashboard = () => {
   fontWeight: '500'
 }}>{actionModal.pool.name}</p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 APY: {actionModal.pool.currentAPY?.toFixed(1) || actionModal.pool.baseAPY}%
               </p>
@@ -863,7 +863,7 @@ const YieldFarmingDashboard = () => {
                 />
                 {actionModal.pool.minStake && actionModal.type === 'stake' && (
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     Minimum: {formatTokenAmount(actionModal.pool.minStake)} CRYB
                   </p>
@@ -919,13 +919,13 @@ const YieldFarmingDashboard = () => {
         <TrendingUp style={{
   width: '64px',
   height: '64px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         <h2 style={{
   fontWeight: 'bold'
 }}>Connect Wallet</h2>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your wallet to access DeFi yield farming features
         </p>
@@ -964,7 +964,7 @@ const YieldFarmingDashboard = () => {
   fontWeight: 'bold'
 }}>DeFi Yield Farming</h1>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Maximize your CRYB token rewards</p>
         </div>
         <div style={{

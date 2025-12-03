@@ -25,7 +25,7 @@ export const ErrorState = ({
   color: '#ffffff'
 }}>Oops! Something went wrong</h3>
       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{error}</p>
 
       <div style={{
@@ -64,7 +64,7 @@ export const ErrorState = ({
   paddingRight: '24px',
   paddingTop: '12px',
   paddingBottom: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
   fontWeight: '500',
   display: 'flex',
@@ -84,7 +84,7 @@ export const ErrorState = ({
 
       {errorId && (
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Error ID: {errorId}</p>
       )}
     </div>

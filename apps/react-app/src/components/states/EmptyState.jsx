@@ -20,14 +20,14 @@ export const EmptyState = ({
       <Icon style={{
   height: '80px',
   width: '80px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} aria-hidden="true" />
       <h3 style={{
   fontWeight: '600',
   color: '#ffffff'
 }}>{title}</h3>
       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{description}</p>
 
       {actionLabel && onAction && (

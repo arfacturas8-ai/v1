@@ -182,7 +182,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Status</label>
           <select
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#161b22]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
+            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
             value={filters.status}
             onChange={(e) => onFiltersChange({ ...filters, status: e.target.value })}
           >
@@ -198,7 +198,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Priority</label>
           <select
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#161b22]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
+            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
             value={filters.priority}
             onChange={(e) => onFiltersChange({ ...filters, priority: e.target.value })}
           >
@@ -213,7 +213,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
         <div className="flex flex-col gap-1">
           <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Content Type</label>
           <select
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#161b22]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
+            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
             value={filters.content_type}
             onChange={(e) => onFiltersChange({ ...filters, content_type: e.target.value })}
           >
@@ -231,7 +231,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
           <select
             value={bulkAction}
             onChange={(e) => setBulkAction(e.target.value)}
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#161b22]/95"
+            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95"
           >
             <option value="">Choose bulk action...</option>
             <option value="approved">Approve All</option>
@@ -257,7 +257,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
               onChange={handleSelectAll}
               className="absolute opacity-0 cursor-pointer h-0 w-0 peer"
             />
-            <span className="relative block h-[18px] w-[18px] bg-[#161b22]/95 border-2 border-white/10 rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
+            <span className="relative block h-[18px] w-[18px] bg-[#141414]/95 border-2 border-white/10 rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
           </label>
           <span>Select All</span>
         </div>
@@ -271,7 +271,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
           queueItems.map(item => (
             <div
               key={item.id}
-              className={`border border-black/10 border-t-0 bg-[#161b22]/95 transition-all hover:bg-black/[0.01] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] last:rounded-b-lg ${selectedItems.has(item.id) ? 'bg-[#667eea]/5 border-[#58a6ff]' : ''}`}
+              className={`border border-black/10 border-t-0 bg-[#141414]/95 transition-all hover:bg-black/[0.01] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] last:rounded-b-lg ${selectedItems.has(item.id) ? 'bg-[#667eea]/5 border-[#58a6ff]' : ''}`}
             >
               <div className="flex items-center gap-4 p-4">
                 <label className="relative block cursor-pointer select-none">
@@ -281,7 +281,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                     onChange={() => handleItemSelect(item.id)}
                     className="absolute opacity-0 cursor-pointer h-0 w-0 peer"
                   />
-                  <span className="relative block h-[18px] w-[18px] bg-[#161b22]/95 border-2 border-white/10 rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
+                  <span className="relative block h-[18px] w-[18px] bg-[#141414]/95 border-2 border-white/10 rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
                 </label>
 
                 <div
@@ -341,15 +341,15 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
               {expandedItem === item.id && (
                 <div className="px-4 pb-4 border-t border-black/5 bg-black/[0.01]">
                   <div className="mb-4">
-                    <h4 className="m-0 mb-2 text-sm font-semibold text-[#c9d1d9]">Content Preview:</h4>
-                    <div className="p-3 bg-[#161b22]/95 border border-black/10 rounded-md text-sm leading-relaxed text-[#c9d1d9] max-h-[200px] overflow-y-auto">
+                    <h4 className="m-0 mb-2 text-sm font-semibold text-[#A0A0A0]">Content Preview:</h4>
+                    <div className="p-3 bg-[#141414]/95 border border-black/10 rounded-md text-sm leading-relaxed text-[#A0A0A0] max-h-[200px] overflow-y-auto">
                       {item.content_preview || 'No preview available'}
                     </div>
                   </div>
 
                   {item.flagged_categories && item.flagged_categories.length > 0 && (
                     <div className="mb-4">
-                      <h4 className="m-0 mb-2 text-sm font-semibold text-[#c9d1d9]">Flagged Categories:</h4>
+                      <h4 className="m-0 mb-2 text-sm font-semibold text-[#A0A0A0]">Flagged Categories:</h4>
                       <div className="flex flex-wrap gap-2">
                         {item.flagged_categories.map(category => (
                           <span key={category} className="inline-block px-2 py-1 bg-red-500/10 text-red-600 rounded text-xs font-semibold uppercase tracking-wide">
@@ -362,7 +362,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
 
                   {item.triggered_rules && item.triggered_rules.length > 0 && (
                     <div className="mb-4">
-                      <h4 className="m-0 mb-2 text-sm font-semibold text-[#c9d1d9]">Triggered Rules:</h4>
+                      <h4 className="m-0 mb-2 text-sm font-semibold text-[#A0A0A0]">Triggered Rules:</h4>
                       <ul className="m-0 p-0 list-none">
                         {item.triggered_rules.map(ruleId => (
                           <li key={ruleId} className="py-1 text-sm text-gray-500">Rule ID: {ruleId}</li>

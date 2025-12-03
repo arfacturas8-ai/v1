@@ -259,8 +259,8 @@ function MessageList({
         <div key={item.id} className="flex items-center justify-center my-8">
           <div className="flex items-center w-full px-4">
             <div className="flex-1 border-t border-white/10"></div>
-            <div className="px-4 py-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
-              <span className="text-sm font-medium text-[#8b949e]">
+            <div className="px-4 py-2 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+              <span className="text-sm font-medium text-[#666666]">
                 {formatDate(item.date)}
               </span>
             </div>
@@ -497,7 +497,7 @@ function MessageList({
       {/* Selection mode actions */}
       {isSelectionMode && selectedMessages.size > 0 && (
         <div className="absolute bottom-4 left-4 right-4 z-10">
-          <div className="flex items-center justify-between p-4 bg-[#161b22]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+          <div className="flex items-center justify-between p-4 bg-[#141414]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
             <span className="font-medium text-white">
               {selectedMessages.size} message{selectedMessages.size > 1 ? 's' : ''} selected
             </span>
@@ -520,7 +520,7 @@ function MessageList({
                   setIsSelectionMode(false)
                   setSelectedMessages(new Set())
                 }}
-                className="px-4 py-2 bg-[#0d1117] border border-white/10 text-white rounded-xl font-medium hover:bg-[#161b22] transition-all"
+                className="px-4 py-2 bg-[#0D0D0D] border border-white/10 text-white rounded-xl font-medium hover:bg-[#141414] transition-all"
               >
                 Cancel
               </button>

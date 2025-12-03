@@ -216,7 +216,7 @@ function MessageBubble({
         ...baseStyles,
         background: isSelected
           ? '#2a2e36'
-          : '#21262d',
+          : '#1A1A1A',
         color: '#FFFFFF',
         borderRadius: '16px 16px 16px 4px',
         border: '1px solid rgba(255, 255, 255, 0.1)',

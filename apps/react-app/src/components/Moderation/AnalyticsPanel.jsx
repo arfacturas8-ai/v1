@@ -87,7 +87,7 @@ const AnalyticsPanel = () => {
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#161b22]/95"
+            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95"
           >
             <option value="24h">Last 24 Hours</option>
             <option value="7d">Last 7 Days</option>
@@ -147,28 +147,28 @@ const AnalyticsPanel = () => {
         {selectedMetric === 'overview' && (
           <div>
             <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="text-4xl mb-2">📊</div>
                 <div className="text-2xl font-bold text-white mb-1">{formatNumber(analytics.summary?.total_reports || 0)}</div>
                 <div className="text-sm text-gray-500 mb-1">Total Reports</div>
                 <div className="text-xs text-green-500">+{formatNumber(analytics.summary?.new_reports || 0)} new</div>
               </div>
 
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="text-4xl mb-2">⚡</div>
                 <div className="text-2xl font-bold text-white mb-1">{formatNumber(analytics.summary?.total_actions || 0)}</div>
                 <div className="text-sm text-gray-500 mb-1">Moderation Actions</div>
                 <div className="text-xs text-gray-500">{formatPercentage(analytics.summary?.auto_action_rate || 0)} automated</div>
               </div>
 
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="text-4xl mb-2">🎯</div>
                 <div className="text-2xl font-bold text-white mb-1">{formatPercentage(analytics.ai_accuracy?.accuracy || 0)}</div>
                 <div className="text-sm text-gray-500 mb-1">AI Accuracy</div>
                 <div className="text-xs text-green-500">{formatPercentage(analytics.ai_accuracy?.precision || 0)} precision</div>
               </div>
 
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="text-4xl mb-2">⏱️</div>
                 <div className="text-2xl font-bold text-white mb-1">{analytics.summary?.avg_response_time || 0}m</div>
                 <div className="text-sm text-gray-500 mb-1">Avg Response Time</div>
@@ -182,7 +182,7 @@ const AnalyticsPanel = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Report Analytics - {getTimeRangeLabel(timeRange)}</h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
                 <h4 className="text-base font-semibold text-white mb-3">Report Categories</h4>
                 {analytics.top_violations?.map((violation, index) => (
                   <div key={index} className="mb-3">
@@ -197,7 +197,7 @@ const AnalyticsPanel = () => {
                 ))}
               </div>
 
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
                 <h4 className="text-base font-semibold text-white mb-3">Resolution Status</h4>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
@@ -222,22 +222,22 @@ const AnalyticsPanel = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Moderation Actions - {getTimeRangeLabel(timeRange)}</h3>
             <div className="grid grid-cols-4 gap-4">
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
                 <div className="text-4xl mb-2">🚫</div>
                 <div className="text-2xl font-bold text-white mb-1">{analytics.summary?.bans || 0}</div>
                 <div className="text-sm text-gray-500">User Bans</div>
               </div>
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
                 <div className="text-4xl mb-2">⚠️</div>
                 <div className="text-2xl font-bold text-white mb-1">{analytics.summary?.warnings || 0}</div>
                 <div className="text-sm text-gray-500">Warnings</div>
               </div>
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
                 <div className="text-4xl mb-2">🗑️</div>
                 <div className="text-2xl font-bold text-white mb-1">{analytics.summary?.content_removed || 0}</div>
                 <div className="text-sm text-gray-500">Content Removed</div>
               </div>
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4 text-center">
                 <div className="text-4xl mb-2">🔒</div>
                 <div className="text-2xl font-bold text-white mb-1">{analytics.summary?.quarantined || 0}</div>
                 <div className="text-sm text-gray-500">Quarantined</div>
@@ -250,7 +250,7 @@ const AnalyticsPanel = () => {
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">AI Performance Metrics - {getTimeRangeLabel(timeRange)}</h3>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
                 <h4 className="text-base font-semibold text-white mb-3">Overall Performance</h4>
                 <div className="space-y-3">
                   <div>
@@ -283,7 +283,7 @@ const AnalyticsPanel = () => {
                 </div>
               </div>
 
-              <div className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
+              <div className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
                 <h4 className="text-base font-semibold text-white mb-3">Processing Stats</h4>
                 <div className="space-y-2">
                   <div className="flex justify-between">
@@ -309,7 +309,7 @@ const AnalyticsPanel = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Moderator Performance - {getTimeRangeLabel(timeRange)}</h3>
             <div className="grid grid-cols-2 gap-4">
               {analytics.moderator_performance?.map((moderator, index) => (
-                <div key={index} className="bg-[#161b22]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
+                <div key={index} className="bg-[#141414]/60 backdrop-blur-[12px] border border-white/10 rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-10 h-10 rounded-full bg-[#58a6ff] flex items-center justify-center text-white font-bold">
                       {moderator.username?.[0]?.toUpperCase() || 'M'}

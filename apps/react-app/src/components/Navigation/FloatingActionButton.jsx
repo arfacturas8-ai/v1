@@ -116,18 +116,18 @@ function FloatingActionButton() {
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   border: '1px solid rgba(255, 255, 255, 0.1)',
   borderRadius: '12px'
 }}>
                   <div style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {item.label}
                   </div>
                   <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {item.description}
                   </div>

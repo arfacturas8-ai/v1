@@ -368,7 +368,7 @@ function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0d1117]">
+      <div className="min-h-screen bg-[#0D0D0D]">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">
             <SkeletonProfile />
@@ -385,18 +385,18 @@ function ProfilePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
+        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
               <X className="w-8 h-8 text-red-400" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-3">Error Loading Profile</h2>
-            <p className="text-[#8b949e] mb-6">{error}</p>
+            <p className="text-[#666666] mb-6">{error}</p>
             <div className="flex gap-3 justify-center">
               <Button variant="primary" onClick={loadProfileData} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Try Again</Button>
               <Link to="/">
-                <Button variant="secondary" className="bg-[#161b22]/60 border border-white/10 text-[#c9d1d9]">Go Home</Button>
+                <Button variant="secondary" className="bg-[#141414]/60 border border-white/10 text-[#A0A0A0]">Go Home</Button>
               </Link>
             </div>
           </div>
@@ -407,14 +407,14 @@ function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
+        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
           <div className="p-8 text-center">
-            <div className="p-4 rounded-full bg-[#8b949e]/10 border border-[#8b949e]/20 inline-flex mb-6">
-              <User className="w-8 h-8 text-[#8b949e]" />
+            <div className="p-4 rounded-full bg-[#666666]/10 border border-[#666666]/20 inline-flex mb-6">
+              <User className="w-8 h-8 text-[#666666]" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-3">User not found</h2>
-            <p className="text-[#8b949e] mb-6">The user you're looking for doesn't exist or has been deleted.</p>
+            <p className="text-[#666666] mb-6">The user you're looking for doesn't exist or has been deleted.</p>
             <Link to="/">
               <Button variant="primary" className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Go Home</Button>
             </Link>
@@ -425,7 +425,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117]" role="main" aria-label="Profile page">
+    <div className="min-h-screen bg-[#0D0D0D]" role="main" aria-label="Profile page">
       <SkipToContent />
 
       {/* Header Section with Banner */}
@@ -440,17 +440,17 @@ function ProfilePage() {
             backgroundPosition: 'center'
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0d1117] to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent"></div>
         </div>
 
         {/* Profile Content */}
         <div className="container mx-auto px-4 -mt-24 relative z-10">
           <div className="max-w-6xl mx-auto">
-            <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
               <div className="flex flex-col md:flex-row gap-6 items-start">
                 {/* Avatar */}
                 <div className="relative group">
-                  <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-[#0d1117] shadow-xl">
+                  <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-[#0D0D0D] shadow-xl">
                     {user.avatar ? (
                       <img
                         src={user.avatar}
@@ -465,7 +465,7 @@ function ProfilePage() {
                     )}
                   </div>
                   {user.isVerified && (
-                    <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 border-[#0d1117] shadow-lg">
+                    <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 border-[#0D0D0D] shadow-lg">
                       <CheckCircle className="w-5 h-5 text-white" />
                     </div>
                   )}
@@ -490,13 +490,13 @@ function ProfilePage() {
                           )
                         })}
                       </h1>
-                      <p className="text-[#8b949e] text-sm mb-3">@{user.username}</p>
+                      <p className="text-[#666666] text-sm mb-3">@{user.username}</p>
                       {user.bio && (
-                        <p className="text-[#c9d1d9] mb-3 max-w-2xl">{user.bio}</p>
+                        <p className="text-[#A0A0A0] mb-3 max-w-2xl">{user.bio}</p>
                       )}
 
                       {/* User Meta Info */}
-                      <div className="flex flex-wrap gap-4 text-sm text-[#8b949e]">
+                      <div className="flex flex-wrap gap-4 text-sm text-[#666666]">
                         {user.location && (
                           <div className="flex items-center gap-1">
                             <MapPin className="w-4 h-4" />
@@ -526,7 +526,7 @@ function ProfilePage() {
                       {isOwnProfile ? (
                         <button
                           onClick={handleShowEditModal}
-                          className="touch-target px-4 py-2 bg-[#161b22]/60 hover:bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#c9d1d9] font-medium transition-all flex items-center gap-2"
+                          className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#A0A0A0] font-medium transition-all flex items-center gap-2"
                           aria-label="Edit profile"
                         >
                           <Edit3 className="w-4 h-4" />
@@ -538,7 +538,7 @@ function ProfilePage() {
                             onClick={handleFollow}
                             className={`touch-target px-4 py-2 rounded-xl font-medium transition-all flex items-center gap-2 ${
                               isFollowing
-                                ? 'bg-[#161b22]/60 hover:bg-[#161b22]/60 backdrop-blur-xl border border-white/10 text-[#c9d1d9]'
+                                ? 'bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 text-[#A0A0A0]'
                                 : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] text-white'
                             }`}
                             aria-label={isFollowing ? 'Unfollow user' : 'Follow user'}
@@ -557,7 +557,7 @@ function ProfilePage() {
                           </button>
                           <button
                             onClick={handleShowMessageModal}
-                            className="touch-target px-4 py-2 bg-[#161b22]/60 hover:bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#c9d1d9] font-medium transition-all flex items-center gap-2"
+                            className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#A0A0A0] font-medium transition-all flex items-center gap-2"
                             aria-label="Send message"
                           >
                             <Mail className="w-4 h-4" />
@@ -566,7 +566,7 @@ function ProfilePage() {
                       )}
                       <button
                         onClick={handleShare}
-                        className="touch-target px-4 py-2 bg-[#161b22]/60 hover:bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#c9d1d9] font-medium transition-all flex items-center gap-2"
+                        className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#A0A0A0] font-medium transition-all flex items-center gap-2"
                         aria-label="Share profile"
                       >
                         <Share2 className="w-4 h-4" />
@@ -586,7 +586,7 @@ function ProfilePage() {
                             </div>
                             <span className="text-xl font-bold text-white">{stat.value}</span>
                           </div>
-                          <span className="text-sm text-[#8b949e]">{stat.label}</span>
+                          <span className="text-sm text-[#666666]">{stat.label}</span>
                         </div>
                       )
                     })}
@@ -613,7 +613,7 @@ function ProfilePage() {
                     className={`touch-target px-4 py-3 font-medium transition-all flex items-center gap-2 whitespace-nowrap border-b-2 ${
                       activeTab === tab.id
                         ? 'text-[#58a6ff] border-[#58a6ff]'
-                        : 'text-[#8b949e] border-transparent hover:text-[#c9d1d9] hover:border-white/10'
+                        : 'text-[#666666] border-transparent hover:text-[#A0A0A0] hover:border-white/10'
                     }`}
                     aria-label={`View ${tab.label}`}
                     aria-current={activeTab === tab.id ? 'page' : undefined}
@@ -621,7 +621,7 @@ function ProfilePage() {
                     <TabIcon className="w-4 h-4" />
                     {tab.label}
                     {tab.count !== undefined && (
-                      <span className="text-xs px-2 py-0.5 bg-[#161b22]/60 rounded-full border border-white/10">
+                      <span className="text-xs px-2 py-0.5 bg-[#141414]/60 rounded-full border border-white/10">
                         {tab.count}
                       </span>
                     )}
@@ -648,7 +648,7 @@ function ProfilePage() {
                       <Link
                         key={post.id}
                         to={`/post/${post.id}`}
-                        className="block bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all group"
+                        className="block bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all group"
                       >
                         <div className="flex items-start gap-3 mb-3">
                           <div className="flex-1">
@@ -656,11 +656,11 @@ function ProfilePage() {
                               {post.title}
                             </h3>
                             {post.content && (
-                              <p className="text-[#8b949e] line-clamp-2 mb-3">
+                              <p className="text-[#666666] line-clamp-2 mb-3">
                                 {post.content.substring(0, 200)}...
                               </p>
                             )}
-                            <div className="flex items-center gap-4 text-sm text-[#8b949e]">
+                            <div className="flex items-center gap-4 text-sm text-[#666666]">
                               <div className="flex items-center gap-1">
                                 <ChevronUp className="w-4 h-4" />
                                 <span>{post.upvotes || 0}</span>
@@ -692,10 +692,10 @@ function ProfilePage() {
                     comments.map((comment) => (
                       <div
                         key={comment.id}
-                        className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
+                        className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
                       >
-                        <p className="text-[#c9d1d9] mb-3">{comment.content}</p>
-                        <div className="flex items-center gap-4 text-sm text-[#8b949e]">
+                        <p className="text-[#A0A0A0] mb-3">{comment.content}</p>
+                        <div className="flex items-center gap-4 text-sm text-[#666666]">
                           <div className="flex items-center gap-1">
                             <ChevronUp className="w-4 h-4" />
                             <span>{comment.upvotes || 0}</span>
@@ -708,10 +708,10 @@ function ProfilePage() {
                       </div>
                     ))
                   ) : (
-                    <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
-                      <MessageSquare className="w-12 h-12 text-[#8b949e] mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-[#c9d1d9] mb-2">No comments yet</h3>
-                      <p className="text-[#8b949e]">
+                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
+                      <MessageSquare className="w-12 h-12 text-[#666666] mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-2">No comments yet</h3>
+                      <p className="text-[#666666]">
                         {isOwnProfile ? "You haven't commented on any posts yet." : "This user hasn't commented on anything yet."}
                       </p>
                     </div>
@@ -727,17 +727,17 @@ function ProfilePage() {
                       <Link
                         key={post.id}
                         to={`/post/${post.id}`}
-                        className="block bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#8b949e] transition-all"
+                        className="block bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#666666] transition-all"
                       >
-                        <h3 className="text-lg font-semibold text-[#c9d1d9] mb-2">{post.title}</h3>
-                        <p className="text-[#8b949e] text-sm">Saved {formatTimeAgo(post.savedAt)}</p>
+                        <h3 className="text-lg font-semibold text-[#A0A0A0] mb-2">{post.title}</h3>
+                        <p className="text-[#666666] text-sm">Saved {formatTimeAgo(post.savedAt)}</p>
                       </Link>
                     ))
                   ) : (
-                    <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
-                      <Bookmark className="w-12 h-12 text-[#8b949e] mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-[#c9d1d9] mb-2">No saved posts</h3>
-                      <p className="text-[#8b949e]">
+                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
+                      <Bookmark className="w-12 h-12 text-[#666666] mx-auto mb-4" />
+                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-2">No saved posts</h3>
+                      <p className="text-[#666666]">
                         {isOwnProfile ? "You haven't saved any posts yet." : "This user hasn't saved any posts."}
                       </p>
                     </div>
@@ -749,20 +749,20 @@ function ProfilePage() {
               {activeTab === 'about' && (
                 <div className="space-y-6">
                   {/* Bio Section */}
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                    <h3 className="text-lg font-semibold text-[#c9d1d9] mb-4 flex items-center gap-2">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                    <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
                       <User className="w-5 h-5" />
                       About
                     </h3>
-                    <p className="text-[#c9d1d9]">
+                    <p className="text-[#A0A0A0]">
                       {user.bio || 'No bio provided.'}
                     </p>
                   </div>
 
                   {/* Social Links */}
                   {(user.socialLinks && Object.keys(user.socialLinks).length > 0) && (
-                    <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                      <h3 className="text-lg font-semibold text-[#c9d1d9] mb-4 flex items-center gap-2">
+                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
                         <LinkIcon className="w-5 h-5" />
                         Social Links
                       </h3>
@@ -785,14 +785,14 @@ function ProfilePage() {
 
                   {/* Wallet Address */}
                   {user.walletAddress && (
-                    <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                      <h3 className="text-lg font-semibold text-[#c9d1d9] mb-4 flex items-center gap-2">
+                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
                         <Wallet className="w-5 h-5" />
                         Wallet Address
                       </h3>
                       <button
                         onClick={copyWalletAddress}
-                        className="touch-target flex items-center gap-2 text-[#8b949e] hover:text-[#c9d1d9] transition-colors font-mono text-sm"
+                        className="touch-target flex items-center gap-2 text-[#666666] hover:text-[#A0A0A0] transition-colors font-mono text-sm"
                       >
                         <span className="truncate">{user.walletAddress}</span>
                         {copiedAddress ? (
@@ -811,8 +811,8 @@ function ProfilePage() {
             <div className="space-y-6">
               {/* Badges/Achievements */}
               {user.badges && user.badges.length > 0 && (
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                  <h3 className="text-lg font-semibold text-[#c9d1d9] mb-4 flex items-center gap-2">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                  <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
                     <Trophy className="w-5 h-5 text-yellow-400" />
                     Achievements
                   </h3>
@@ -822,14 +822,14 @@ function ProfilePage() {
                       return (
                         <div
                           key={idx}
-                          className="flex items-center gap-3 p-3 bg-[#0d1117] rounded-xl border border-white/10 hover:border-[#58a6ff]/30 transition-all"
+                          className="flex items-center gap-3 p-3 bg-[#0D0D0D] rounded-xl border border-white/10 hover:border-[#58a6ff]/30 transition-all"
                         >
                           <div className="p-2 rounded-lg bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20">
                             <BadgeIcon className="w-5 h-5 text-[#58a6ff]" />
                           </div>
                           <div className="flex-1">
                             <h4 className="font-semibold text-white text-sm">{badge.name}</h4>
-                            <p className="text-xs text-[#8b949e]">{badge.description}</p>
+                            <p className="text-xs text-[#666666]">{badge.description}</p>
                           </div>
                         </div>
                       )
@@ -839,31 +839,31 @@ function ProfilePage() {
               )}
 
               {/* Followers/Following */}
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                <h3 className="text-lg font-semibold text-[#c9d1d9] mb-4 flex items-center gap-2">
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
                   <Users className="w-5 h-5" />
                   Connections
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-[#0d1117] border border-white/10 rounded-xl">
+                  <div className="text-center p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
                     <div className="text-2xl font-bold text-white mb-1">
                       {user.followerCount?.toLocaleString() || 0}
                     </div>
-                    <div className="text-sm text-[#8b949e]">Followers</div>
+                    <div className="text-sm text-[#666666]">Followers</div>
                   </div>
-                  <div className="text-center p-4 bg-[#0d1117] border border-white/10 rounded-xl">
+                  <div className="text-center p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
                     <div className="text-2xl font-bold text-white mb-1">
                       {user.followingCount?.toLocaleString() || 0}
                     </div>
-                    <div className="text-sm text-[#8b949e]">Following</div>
+                    <div className="text-sm text-[#666666]">Following</div>
                   </div>
                 </div>
               </div>
 
               {/* NFTs Preview */}
               {displayNfts.length > 0 && (
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                  <h3 className="text-lg font-semibold text-[#c9d1d9] mb-4 flex items-center gap-2">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                  <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
                     <Image className="w-5 h-5" />
                     NFT Collection
                   </h3>
@@ -871,7 +871,7 @@ function ProfilePage() {
                     {displayNfts.slice(0, 4).map((nft, idx) => (
                       <div
                         key={idx}
-                        className="aspect-square rounded-lg overflow-hidden bg-[#21262d] border border-white/10 hover:border-blue-500 transition-all cursor-pointer group"
+                        className="aspect-square rounded-lg overflow-hidden bg-[#1A1A1A] border border-white/10 hover:border-blue-500 transition-all cursor-pointer group"
                       >
                         {nft.image ? (
                           <img
@@ -891,7 +891,7 @@ function ProfilePage() {
                   {displayNfts.length > 4 && (
                     <button
                       onClick={() => handleTabChange('nfts')}
-                      className="touch-target w-full mt-3 px-4 py-2 bg-[#161b22]/60 hover:bg-[#161b22] border border-white/10 rounded-xl text-[#c9d1d9] text-sm font-medium transition-all"
+                      className="touch-target w-full mt-3 px-4 py-2 bg-[#141414]/60 hover:bg-[#141414] border border-white/10 rounded-xl text-[#A0A0A0] text-sm font-medium transition-all"
                     >
                       View all {displayNfts.length} NFTs
                     </button>
@@ -900,27 +900,27 @@ function ProfilePage() {
               )}
 
               {/* Activity Stats */}
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                <h3 className="text-lg font-semibold text-[#c9d1d9] mb-4 flex items-center gap-2">
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
                   <Activity className="w-5 h-5" />
                   Activity
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#8b949e]">Total Karma</span>
-                    <span className="font-semibold text-[#c9d1d9]">{user.karma?.toLocaleString() || 0}</span>
+                    <span className="text-sm text-[#666666]">Total Karma</span>
+                    <span className="font-semibold text-[#A0A0A0]">{user.karma?.toLocaleString() || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#8b949e]">Posts Created</span>
-                    <span className="font-semibold text-[#c9d1d9]">{user.stats?.totalPosts || 0}</span>
+                    <span className="text-sm text-[#666666]">Posts Created</span>
+                    <span className="font-semibold text-[#A0A0A0]">{user.stats?.totalPosts || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#8b949e]">Comments Made</span>
-                    <span className="font-semibold text-[#c9d1d9]">{user.stats?.totalComments || 0}</span>
+                    <span className="text-sm text-[#666666]">Comments Made</span>
+                    <span className="font-semibold text-[#A0A0A0]">{user.stats?.totalComments || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#8b949e]">Awards Received</span>
-                    <span className="font-semibold text-[#c9d1d9]">{user.stats?.totalAwards || 0}</span>
+                    <span className="text-sm text-[#666666]">Awards Received</span>
+                    <span className="font-semibold text-[#A0A0A0]">{user.stats?.totalAwards || 0}</span>
                   </div>
                 </div>
               </div>
@@ -936,21 +936,21 @@ function ProfilePage() {
           onClose={handleCloseEditModal}
           title="Edit Profile"
         >
-          <div className="bg-[#161b22] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 max-w-2xl w-full mx-4">
+          <div className="bg-[#141414] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 max-w-2xl w-full mx-4">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-[#c9d1d9]">Edit Profile</h2>
+              <h2 className="text-2xl font-bold text-[#A0A0A0]">Edit Profile</h2>
               <button
                 onClick={handleCloseEditModal}
-                className="touch-target p-2 hover:bg-[#21262d] rounded-lg transition-colors"
+                className="touch-target p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5 text-[#8b949e]" />
+                <X className="w-5 h-5 text-[#666666]" />
               </button>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
+                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
                   Display Name
                 </label>
                 <Input
@@ -958,12 +958,12 @@ function ProfilePage() {
                   value={editFormData.displayName}
                   onChange={(e) => handleEditFormChange('displayName', e.target.value)}
                   placeholder="Your display name"
-                  className="w-full bg-[#0d1117] border border-white/10 text-[#c9d1d9] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
+                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
                   Bio
                 </label>
                 <textarea
@@ -971,16 +971,16 @@ function ProfilePage() {
                   onChange={(e) => handleEditFormChange('bio', e.target.value)}
                   placeholder="Tell us about yourself"
                   rows={4}
-                  className="w-full bg-[#0d1117] border border-white/10 text-[#c9d1d9] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
+                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
                   maxLength={500}
                 />
-                <p className="text-xs text-[#8b949e] mt-1">
+                <p className="text-xs text-[#666666] mt-1">
                   {editFormData.bio?.length || 0}/500 characters
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
+                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
                   Location
                 </label>
                 <Input
@@ -988,12 +988,12 @@ function ProfilePage() {
                   value={editFormData.location}
                   onChange={(e) => handleEditFormChange('location', e.target.value)}
                   placeholder="Where are you from?"
-                  className="w-full bg-[#0d1117] border border-white/10 text-[#c9d1d9] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
+                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
                   Website
                 </label>
                 <Input
@@ -1001,7 +1001,7 @@ function ProfilePage() {
                   value={editFormData.website}
                   onChange={(e) => handleEditFormChange('website', e.target.value)}
                   placeholder="https://example.com"
-                  className="w-full bg-[#0d1117] border border-white/10 text-[#c9d1d9] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
                 />
               </div>
 
@@ -1031,7 +1031,7 @@ function ProfilePage() {
                 <button
                   onClick={handleCloseEditModal}
                   disabled={saveLoading}
-                  className="touch-target px-4 py-2 bg-[#161b22]/60 hover:bg-[#161b22] border border-white/10 text-[#c9d1d9] rounded-xl font-medium transition-all"
+                  className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414] border border-white/10 text-[#A0A0A0] rounded-xl font-medium transition-all"
                 >
                   Cancel
                 </button>
@@ -1048,27 +1048,27 @@ function ProfilePage() {
           onClose={() => setShowMessageModal(false)}
           title="Send Message"
         >
-          <div className="bg-[#161b22] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 max-w-2xl w-full mx-4">
+          <div className="bg-[#141414] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 max-w-2xl w-full mx-4">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-[#c9d1d9]">Send Message to @{user.username}</h2>
+              <h2 className="text-2xl font-bold text-[#A0A0A0]">Send Message to @{user.username}</h2>
               <button
                 onClick={() => setShowMessageModal(false)}
-                className="touch-target p-2 hover:bg-[#21262d] rounded-lg transition-colors"
+                className="touch-target p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5 text-[#8b949e]" />
+                <X className="w-5 h-5 text-[#666666]" />
               </button>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
+                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
                   Message
                 </label>
                 <textarea
                   placeholder="Type your message..."
                   rows={6}
-                  className="w-full bg-[#0d1117] border border-white/10 text-[#c9d1d9] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
+                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
                 />
               </div>
 
@@ -1078,7 +1078,7 @@ function ProfilePage() {
                 </button>
                 <button
                   onClick={() => setShowMessageModal(false)}
-                  className="touch-target px-4 py-2 bg-[#161b22]/60 hover:bg-[#161b22] border border-white/10 text-[#c9d1d9] rounded-xl font-medium transition-all"
+                  className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414] border border-white/10 text-[#A0A0A0] rounded-xl font-medium transition-all"
                 >
                   Cancel
                 </button>

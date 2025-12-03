@@ -704,8 +704,8 @@ function DirectMessagesPage() {
         .dm-page {
           display: flex;
           height: 100vh;
-          background: #0d1117;
-          color: #c9d1d9;
+          background: #0D0D0D;
+          color: #A0A0A0;
           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         }
 
@@ -919,7 +919,7 @@ function DirectMessagesPage() {
           flex: 1;
           display: flex;
           flex-direction: column;
-          background: #0d1117;
+          background: #0D0D0D;
         }
 
         .chat-header {

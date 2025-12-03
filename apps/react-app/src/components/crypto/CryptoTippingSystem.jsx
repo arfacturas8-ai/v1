@@ -346,7 +346,7 @@ const CryptoTippingSystem = ({
                   {formatAmount(TIP_PRESETS[selectedPreset].amounts[selectedToken], selectedToken)}
                 </p>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   ≈ {formatUSDValue(TIP_PRESETS[selectedPreset].amounts[selectedToken], selectedToken)}
                 </p>
@@ -467,7 +467,7 @@ const CryptoTippingSystem = ({
   fontWeight: 'bold'
 }}>Crypto Tipping</h2>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Support creators with cryptocurrency tips</p>
           </div>
           
@@ -475,7 +475,7 @@ const CryptoTippingSystem = ({
   textAlign: 'right'
 }}>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Tips Sent</p>
             <p style={{
   fontWeight: '600'
@@ -516,7 +516,7 @@ const CryptoTippingSystem = ({
   fontWeight: '500'
 }}>{reaction.amount} CRYB</p>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   {formatUSDValue(reaction.amount, 'CRYB')}
                 </p>
@@ -548,7 +548,7 @@ const CryptoTippingSystem = ({
         </div>
         
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Create a personalized tip with custom amount and message
         </p>
@@ -572,7 +572,7 @@ const CryptoTippingSystem = ({
   fontWeight: 'bold'
 }}>{tipHistory.length}</div>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Tips Sent</div>
           </div>
           <div style={{
@@ -582,7 +582,7 @@ const CryptoTippingSystem = ({
   fontWeight: 'bold'
 }}>{formatUSDValue(totalTipped.toString(), 'USD')}</div>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total Value</div>
           </div>
           <div style={{
@@ -594,7 +594,7 @@ const CryptoTippingSystem = ({
               {tipHistory.length > 0 ? formatUSDValue((totalTipped / tipHistory.length).toString(), 'USD') : '$0.00'}
             </div>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Average Tip</div>
           </div>
         </div>
@@ -633,7 +633,7 @@ const CryptoTippingSystem = ({
                       {formatAmount(tip.amount, tip.token)}
                     </p>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       {tip.metadata?.message || 'No message'}
                     </p>
@@ -649,7 +649,7 @@ const CryptoTippingSystem = ({
                     {formatUSDValue(tip.amount, tip.token)}
                   </p>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {new Date(tip.timestamp).toLocaleDateString()}
                   </p>
@@ -666,13 +666,13 @@ const CryptoTippingSystem = ({
             <Gift style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>No tips sent yet</p>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Start supporting creators with your first tip!</p>
           </div>
         )}

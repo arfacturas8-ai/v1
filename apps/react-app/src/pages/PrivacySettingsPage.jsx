@@ -56,7 +56,7 @@ const PrivacySettingsPage = () => {
                 { key: 'showOnlineStatus', icon: Eye, label: 'Show Online Status', desc: 'Let others see when you are online' },
                 { key: 'showActivity', icon: Bell, label: 'Show Activity Status', desc: 'Display your recent activity to friends' }
               ].map(item => (
-                <div key={item.key} className="flex items-center justify-between gap-3 p-3 rounded-lg" style={{ background: '#21262d' }}>
+                <div key={item.key} className="flex items-center justify-between gap-3 p-3 rounded-lg" style={{ background: '#1A1A1A' }}>
                   <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                     <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#666666] flex-shrink-0" />
                     <div className="min-w-0">
@@ -64,7 +64,7 @@ const PrivacySettingsPage = () => {
                       <p className="text-xs sm:text-sm text-[#666666]">{item.desc}</p>
                     </div>
                   </div>
-                  <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#21262d', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#1A1A1A', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
                     <div className="w-5 h-5 rounded-full bg-white transition-transform" style={{ transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }} />
                   </button>
                 </div>
@@ -79,7 +79,7 @@ const PrivacySettingsPage = () => {
               <h2 className="text-base sm:text-lg font-semibold text-white">Direct Messages</h2>
             </div>
             <p className="text-sm sm:text-base text-[#666666] mb-3 sm:mb-4">Control who can send you direct messages</p>
-            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base text-white outline-none" style={{ background: '#21262d', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base text-white outline-none" style={{ background: '#1A1A1A', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
               <option value="everyone">Everyone</option>
               <option value="friends">Friends Only</option>
               <option value="none">No One</option>

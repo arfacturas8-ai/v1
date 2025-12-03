@@ -103,7 +103,7 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
   width: '48px'
 }}></div>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Loading communities...</p>
       </div>
     )
@@ -119,10 +119,10 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
 }}>
         <h3 style={{
   fontWeight: 'bold',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Join Communities</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Discover communities that match your interests. You can always join more later!
         </p>
@@ -136,12 +136,12 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
 }}>
           <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Popular Communities
           </h4>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             {selectedCommunities.length} selected
           </div>
@@ -173,7 +173,7 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
                   <div>
                     <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       {community.name}
                     </h5>
@@ -211,7 +211,7 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
               </div>
               
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 {community.description}
               </p>
@@ -220,11 +220,11 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 <span>{community.members.toLocaleString()} members</span>
                 <span style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   paddingLeft: '8px',
   paddingRight: '8px',
   paddingTop: '4px',
@@ -246,7 +246,7 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
 }}>
           <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Communities you'll join:
           </h5>
@@ -280,18 +280,18 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
       )}
 
       <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '24px',
   borderRadius: '12px'
 }}>
         <h5 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>💡 Community Tips</h5>
         <div style={{
   display: 'grid',
   gap: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           <div style={{
   display: 'flex',
@@ -332,7 +332,7 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
         <button
           onClick={onSkip}
           style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
         >
           Skip for now

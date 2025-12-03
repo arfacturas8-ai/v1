@@ -319,7 +319,7 @@ const NFTProfileSystem = () => {
                   <Image style={{
   width: '32px',
   height: '32px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                 </div>
               </div>
@@ -422,12 +422,12 @@ const NFTProfileSystem = () => {
                   })}
                 </div>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{profileData.bio}</p>
                 <div style={{
   display: 'flex',
   alignItems: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   <span>📍 {profileData.location}</span>
                   <span>🌐 {profileData.website}</span>
@@ -484,7 +484,7 @@ const NFTProfileSystem = () => {
   fontWeight: 'bold'
 }}>{profileStats.totalPosts}</div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Posts</div>
         </Card>
         <Card style={{
@@ -495,7 +495,7 @@ const NFTProfileSystem = () => {
   fontWeight: 'bold'
 }}>{profileStats.totalFollowers.toLocaleString()}</div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Followers</div>
         </Card>
         <Card style={{
@@ -506,7 +506,7 @@ const NFTProfileSystem = () => {
   fontWeight: 'bold'
 }}>{profileStats.totalLikes.toLocaleString()}</div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Likes</div>
         </Card>
         <Card style={{
@@ -517,7 +517,7 @@ const NFTProfileSystem = () => {
   fontWeight: 'bold'
 }}>{profileStats.achievementPoints.toLocaleString()}</div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Achievement Points</div>
         </Card>
       </div>
@@ -549,7 +549,7 @@ const NFTProfileSystem = () => {
   fontWeight: '500'
 }}>{achievement.name}</p>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{achievement.description}</p>
               </div>
               <Badge color={getRarityColor(achievement.rarity)}>
@@ -613,7 +613,7 @@ const NFTProfileSystem = () => {
                   <Image style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                 </div>
               </div>
@@ -640,7 +640,7 @@ const NFTProfileSystem = () => {
   justifyContent: 'space-between'
 }}>
                   <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     #{nft.tokenId}
                   </div>
@@ -662,7 +662,7 @@ const NFTProfileSystem = () => {
   justifyContent: 'space-between'
 }}>
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{attr.trait_type}:</span>
                       <span style={{
   fontWeight: '500'
@@ -682,13 +682,13 @@ const NFTProfileSystem = () => {
           <Image style={{
   width: '64px',
   height: '64px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           <h3 style={{
   fontWeight: '600'
 }}>No NFTs Found</h3>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Mint or purchase CRYB NFTs to customize your profile
           </p>
@@ -737,7 +737,7 @@ const NFTProfileSystem = () => {
   fontWeight: '500'
 }}>Achievement Progress</span>
           <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             {Math.round((achievements.length / Object.keys(ACHIEVEMENTS).length) * 100)}%
           </span>
@@ -787,7 +787,7 @@ const NFTProfileSystem = () => {
                 </div>
                 
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{achievement.description}</p>
                 
                 <div style={{
@@ -796,7 +796,7 @@ const NFTProfileSystem = () => {
   justifyContent: 'space-between'
 }}>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{achievement.requirement}</span>
                   <div style={{
   display: 'flex',
@@ -828,13 +828,13 @@ const NFTProfileSystem = () => {
         <Image style={{
   width: '64px',
   height: '64px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         <h2 style={{
   fontWeight: 'bold'
 }}>Connect Wallet</h2>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your wallet to view your NFT profile and achievements
         </p>
@@ -874,7 +874,7 @@ const NFTProfileSystem = () => {
   fontWeight: 'bold'
 }}>NFT Profile</h1>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Customize your profile with NFTs and earn achievements</p>
         </div>
         

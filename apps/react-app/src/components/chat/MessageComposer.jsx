@@ -444,7 +444,7 @@ function MessageComposer({
   }, [content])
 
   return (
-    <div className={`bg-[#161b22]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
+    <div className={`bg-[#141414]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
       {/* Reply/Edit Header */}
       {(replyToMessage || editingMessage) && (
         <div style={{
@@ -477,7 +477,7 @@ function MessageComposer({
                     Replying to {replyToMessage.username}
                   </span>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {replyToMessage.content}
                   </span>
@@ -558,7 +558,7 @@ function MessageComposer({
                     <File style={{
   width: '24px',
   height: '24px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                     <div>
                       <div style={{
@@ -567,7 +567,7 @@ function MessageComposer({
                         {attachment.name}
                       </div>
                       <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         {(attachment.size / 1024 / 1024).toFixed(1)} MB
                       </div>
@@ -687,7 +687,7 @@ function MessageComposer({
   fontWeight: '500'
 }}>Voice message</div>
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{formatDuration(recordingDuration)}</div>
             </div>
             <button
@@ -764,7 +764,7 @@ function MessageComposer({
   fontWeight: '500'
 }}>{user.displayName}</div>
                   <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>@{user.username}</div>
                 </div>
               </button>
@@ -799,14 +799,14 @@ function MessageComposer({
                   <Icon style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                   <div>
                     <div style={{
   fontWeight: '500'
 }}>/{command.name}</div>
                     <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{command.description}</div>
                   </div>
                 </button>
@@ -823,7 +823,7 @@ function MessageComposer({
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
-              className="p-2 rounded-lg hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff] disabled:opacity-50"
+              className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff] disabled:opacity-50"
             >
               <Paperclip className="w-5 h-5" />
             </button>
@@ -845,7 +845,7 @@ function MessageComposer({
               onKeyDown={handleKeyPress}
               placeholder={disabled ? 'This channel is read-only' : placeholder}
               disabled={disabled}
-              className="w-full px-3 py-2 bg-[#0d1117] border border-white/10 rounded-xl text-white placeholder-[#8b949e] resize-none focus:outline-none focus:ring-2 focus:ring-[#58a6ff]/50 focus:border-[#58a6ff]/50 transition-all"
+              className="w-full px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] resize-none focus:outline-none focus:ring-2 focus:ring-[#58a6ff]/50 focus:border-[#58a6ff]/50 transition-all"
               style={{ minHeight: '40px', maxHeight: '200px' }}
             />
 
@@ -919,7 +919,7 @@ function MessageComposer({
             {/* Formatting Toggle */}
             <button
               onClick={() => setShowFormatting(!showFormatting)}
-              className="p-2 rounded-lg hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+              className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
             >
               <Code className="w-5 h-5" />
             </button>
@@ -928,7 +928,7 @@ function MessageComposer({
             <div className="relative">
               <button
                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                className="p-2 rounded-lg hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
               >
                 <Smile className="w-5 h-5" />
               </button>
@@ -950,7 +950,7 @@ function MessageComposer({
               <button
                 onClick={startRecording}
                 disabled={disabled}
-                className="p-2 rounded-lg hover:bg-[#161b22] transition-colors text-[#8b949e] hover:text-[#58a6ff] disabled:opacity-50"
+                className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff] disabled:opacity-50"
               >
                 <Mic className="w-5 h-5" />
               </button>
@@ -970,7 +970,7 @@ function MessageComposer({
         {/* Typing Indicators */}
         {typingUsers.length > 0 && (
           <div className="px-4 pb-2">
-            <div className="text-sm text-[#8b949e] italic">
+            <div className="text-sm text-[#666666] italic">
               {typingUsers.length === 1
                 ? `${typingUsers[0]} is typing...`
                 : typingUsers.length === 2

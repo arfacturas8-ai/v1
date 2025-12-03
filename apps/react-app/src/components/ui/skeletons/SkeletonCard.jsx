@@ -16,7 +16,7 @@ export function SkeletonCard({
   return (
     <div
       style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
   padding: '16px'
@@ -76,7 +76,7 @@ export function SkeletonPostCard({
   return (
     <article
       style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
   overflow: 'hidden'
@@ -102,13 +102,13 @@ export function SkeletonPostCard({
                 <SkeletonCircle size="xs" />
                 <Skeleton width="80px" height="0.875rem" />
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>•</span>
               </>
             )}
             <Skeleton width="60px" height="0.875rem" />
             <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>•</span>
             <Skeleton width="40px" height="0.875rem" />
           </div>
@@ -180,7 +180,7 @@ export function SkeletonCommunityCard({ className = '' }) {
   return (
     <div
       style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
   overflow: 'hidden'
@@ -234,7 +234,7 @@ export function SkeletonUserCard({ showBio = true, className = '' }) {
   return (
     <div
       style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
   padding: '16px'
@@ -303,7 +303,7 @@ export function SkeletonCommentCard({ depth = 0, className = '' }) {
 }}>
             <Skeleton width="80px" height="0.875rem" />
             <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>•</span>
             <Skeleton width="40px" height="0.875rem" />
           </div>

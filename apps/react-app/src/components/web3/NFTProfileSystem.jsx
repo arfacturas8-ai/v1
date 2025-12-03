@@ -325,14 +325,14 @@ const NFTProfileSystem = () => {
           <Image style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         </div>
         <h3 style={{
   fontWeight: '600'
 }}>Connect Wallet</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your wallet to view and manage your NFT collection
         </p>
@@ -351,7 +351,7 @@ const NFTProfileSystem = () => {
         <div className="animate-pulse space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
           <div style={{
@@ -361,7 +361,7 @@ const NFTProfileSystem = () => {
             {[1, 2, 3].map(i => (
               <div key={i} style={{
   height: '256px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
             ))}
@@ -420,7 +420,7 @@ const NFTProfileSystem = () => {
 
         {/* Current Profile Section */}
         <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '16px',
   borderRadius: '12px'
 }}>
@@ -452,7 +452,7 @@ const NFTProfileSystem = () => {
   width: '64px',
   height: '64px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -460,7 +460,7 @@ const NFTProfileSystem = () => {
                   <User style={{
   width: '32px',
   height: '32px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                 </div>
               )}
@@ -487,7 +487,7 @@ const NFTProfileSystem = () => {
                 {profileNFT ? profileNFT.metadata.name : 'No Profile NFT Set'}
               </h3>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 {profileNFT ? 'Current profile picture' : 'Select an NFT to use as your profile picture'}
               </p>
@@ -519,7 +519,7 @@ const NFTProfileSystem = () => {
   fontWeight: 'bold'
 }}>{userNFTs.length}</p>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>NFTs Owned</p>
             </div>
           </div>
@@ -671,7 +671,7 @@ const NFTProfileSystem = () => {
   fontWeight: '600'
 }}>{nft.metadata.name}</h3>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       {nft.metadata.description}
                     </p>
@@ -682,7 +682,7 @@ const NFTProfileSystem = () => {
   alignItems: 'center'
 }}>
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>#{nft.tokenId}</span>
                       <div style={{
   display: 'flex'
@@ -766,12 +766,12 @@ const NFTProfileSystem = () => {
                       )}
                     </div>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       {nft.metadata.description}
                     </p>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Token ID: #{nft.tokenId}</p>
                   </div>
 
@@ -806,7 +806,7 @@ const NFTProfileSystem = () => {
           <Image style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           <h3 style={{
   fontWeight: '600'
@@ -814,7 +814,7 @@ const NFTProfileSystem = () => {
             {userNFTs.length === 0 ? 'No NFTs Found' : 'No NFTs Match Filter'}
           </h3>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             {userNFTs.length === 0 
               ? 'Start by minting your first NFT to join the CRYB community'
@@ -889,7 +889,7 @@ const NFTProfileSystem = () => {
             </div>
 
             <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '12px',
   borderRadius: '12px'
 }}>
@@ -974,7 +974,7 @@ const NFTProfileSystem = () => {
           
           <div className="space-y-4 mt-4">
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Choose an NFT from your collection to use as your profile picture
             </p>
@@ -988,7 +988,7 @@ const NFTProfileSystem = () => {
                   key={nft.tokenId}
                   style={{
   padding: '12px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'rgba(20, 20, 20, 0.6)'
 }}
                   onClick={() => handleSetProfilePicture(nft.tokenId)}
                 >
@@ -1033,7 +1033,7 @@ const NFTProfileSystem = () => {
                         {nft.metadata.rarity}
                       </Badge>
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>#{nft.tokenId}</span>
                     </div>
                   </div>
@@ -1117,7 +1117,7 @@ const NFTProfileSystem = () => {
   fontWeight: '600'
 }}>Description</h4>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {selectedNFT.metadata.description}
                   </p>
@@ -1133,12 +1133,12 @@ const NFTProfileSystem = () => {
 }}>
                     {selectedNFT.metadata.attributes.map((attr, index) => (
                       <div key={index} style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '8px',
   borderRadius: '4px'
 }}>
                         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{attr.trait_type}</p>
                         <p style={{
   fontWeight: '600'
@@ -1158,7 +1158,7 @@ const NFTProfileSystem = () => {
   justifyContent: 'space-between'
 }}>
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Token ID:</span>
                       <span style={{
   fontWeight: '600'
@@ -1169,7 +1169,7 @@ const NFTProfileSystem = () => {
   justifyContent: 'space-between'
 }}>
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Contract:</span>
                       <span style={{
   fontWeight: '600'
@@ -1182,7 +1182,7 @@ const NFTProfileSystem = () => {
   justifyContent: 'space-between'
 }}>
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Standard:</span>
                       <span style={{
   fontWeight: '600'

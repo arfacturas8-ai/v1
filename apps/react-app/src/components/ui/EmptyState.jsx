@@ -70,7 +70,7 @@ const EmptyState = ({
       <Icon
         size={sizes.icon}
         style={{
-  color: '#8b949e'
+  color: '#666666'
 }}
         strokeWidth={1.5}
       />
@@ -81,7 +81,7 @@ const EmptyState = ({
         {title}
       </h3>
       <p style={{
-  color: '#8b949e'
+  color: '#666666'
 }}>
         {description}
       </p>
