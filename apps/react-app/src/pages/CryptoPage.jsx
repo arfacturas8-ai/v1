@@ -89,7 +89,7 @@ function CryptoPage() {
           </h1>
 
           {/* Hero Subtitle */}
-          <p className="text-lg md:text-xl text-[#c9d1d9] max-w-3xl mx-auto mb-12 md:mb-16 leading-relaxed px-4">
+          <p className="text-lg md:text-xl text-[#A0A0A0] max-w-3xl mx-auto mb-12 md:mb-16 leading-relaxed px-4">
             Get ready to experience social networking reimagined with blockchain technology.
             Connect wallets, showcase NFTs, earn rewards, and join exclusive token-gated communities.
           </p>
@@ -143,7 +143,7 @@ function CryptoPage() {
             </div>
 
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">Try Web3 Features</h2>
-            <p className="text-base md:text-lg text-[#c9d1d9] max-w-2xl mx-auto mb-12 md:mb-16 px-4">
+            <p className="text-base md:text-lg text-[#A0A0A0] max-w-2xl mx-auto mb-12 md:mb-16 px-4">
               Get a preview of Cryb.ai's Web3 functionality. All features show "Coming Soon" but demonstrate the planned user experience.
             </p>
           </div>
@@ -157,7 +157,7 @@ function CryptoPage() {
                   <Wallet className="h-5 w-5" />
                   Wallet Connection
                 </h3>
-                <p className="text-sm md:text-base text-[#c9d1d9] mb-4 md:mb-6">Connect your Web3 wallet to access token-gated features</p>
+                <p className="text-sm md:text-base text-[#A0A0A0] mb-4 md:mb-6">Connect your Web3 wallet to access token-gated features</p>
                 <div className="flex flex-wrap gap-3 md:gap-4">
                   <WalletConnectButton size="md" />
                   <WalletConnectButton size="sm" variant="secondary" />
@@ -170,7 +170,7 @@ function CryptoPage() {
                   <Star className="h-5 w-5" />
                   NFT Profile Badges
                 </h3>
-                <p className="text-sm md:text-base text-[#c9d1d9] mb-4 md:mb-6">Show off your NFT collections with profile badges</p>
+                <p className="text-sm md:text-base text-[#A0A0A0] mb-4 md:mb-6">Show off your NFT collections with profile badges</p>
                 <div className="flex flex-wrap gap-3 md:gap-4 items-center">
                   <NFTProfileBadge collection="Cryb.ai Genesis" size="sm" />
                   <NFTProfileBadge collection="Cool Cats" size="md" rarity="rare" />
@@ -186,7 +186,7 @@ function CryptoPage() {
                   <Coins className="h-5 w-5" />
                   Token Portfolio
                 </h3>
-                <p className="text-sm md:text-base text-[#c9d1d9] mb-4 md:mb-6">Track your crypto balances and portfolio value</p>
+                <p className="text-sm md:text-base text-[#A0A0A0] mb-4 md:mb-6">Track your crypto balances and portfolio value</p>
                 <TokenBalanceDisplay className="max-w-sm" />
               </div>
 
@@ -195,7 +195,7 @@ function CryptoPage() {
                   <Zap className="h-5 w-5" />
                   Crypto Tipping
                 </h3>
-                <p className="text-sm md:text-base text-[#c9d1d9] mb-4 md:mb-6">Tip creators and community members with crypto</p>
+                <p className="text-sm md:text-base text-[#A0A0A0] mb-4 md:mb-6">Tip creators and community members with crypto</p>
                 <div className="flex flex-wrap gap-3 md:gap-4">
                   <CryptoTippingButton
                     recipientName="@alice"
@@ -222,7 +222,7 @@ function CryptoPage() {
                 </div>
                 <div className="text-left">
                   <h4 className="font-semibold text-white mb-2">Demo Mode</h4>
-                  <p className="text-sm text-[#c9d1d9]">
+                  <p className="text-sm text-[#A0A0A0]">
                     These components demonstrate the planned Web3 functionality. All features show "Coming Soon" overlays
                     but you can interact with them to see the intended user experience. Set{' '}
                     <code className="bg-info/20 px-1 rounded text-xs">VITE_ENABLE_WEB3_FEATURES=true</code> in
@@ -256,27 +256,27 @@ function CryptoPage() {
             </div>
 
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">Cryb.ai Token Economics</h2>
-            <p className="text-base md:text-lg text-[#c9d1d9] max-w-2xl mx-auto mb-12 md:mb-16">
+            <p className="text-base md:text-lg text-[#A0A0A0] max-w-2xl mx-auto mb-12 md:mb-16">
               Discover how Cryb.ai token will power the future of decentralized social networking through innovative economic mechanisms.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-2xl mx-auto mb-12 md:mb-16">
-              <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
+              <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
                 <div className="p-4 md:p-6 text-center">
                   <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">1B</div>
-                  <div className="text-sm text-[#8b949e]">Total Supply</div>
+                  <div className="text-sm text-[#666666]">Total Supply</div>
                 </div>
               </div>
-              <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
+              <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
                 <div className="p-4 md:p-6 text-center">
                   <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-2">40%</div>
-                  <div className="text-sm text-[#8b949e]">Community Owned</div>
+                  <div className="text-sm text-[#666666]">Community Owned</div>
                 </div>
               </div>
-              <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
+              <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6">
                 <div className="p-4 md:p-6 text-center">
                   <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-2">15%</div>
-                  <div className="text-sm text-[#8b949e]">Max Staking APY</div>
+                  <div className="text-sm text-[#666666]">Max Staking APY</div>
                 </div>
               </div>
             </div>
@@ -288,45 +288,45 @@ function CryptoPage() {
                   <div className="space-y-3 md:space-y-4">
                     <div className="flex items-center gap-3 md:gap-4">
                       <Users className="h-5 w-5 text-accent-light flex-shrink-0" />
-                      <span className="text-sm md:text-base text-[#c9d1d9]">Governance voting rights</span>
+                      <span className="text-sm md:text-base text-[#A0A0A0]">Governance voting rights</span>
                     </div>
                     <div className="flex items-center gap-3 md:gap-4">
                       <Shield className="h-5 w-5 text-success flex-shrink-0" />
-                      <span className="text-sm md:text-base text-[#c9d1d9]">Token-gated community access</span>
+                      <span className="text-sm md:text-base text-[#A0A0A0]">Token-gated community access</span>
                     </div>
                     <div className="flex items-center gap-3 md:gap-4">
                       <TrendingUp className="h-5 w-5 text-warning flex-shrink-0" />
-                      <span className="text-sm md:text-base text-[#c9d1d9]">Staking rewards up to 15% APY</span>
+                      <span className="text-sm md:text-base text-[#A0A0A0]">Staking rewards up to 15% APY</span>
                     </div>
                     <div className="flex items-center gap-3 md:gap-4">
                       <Star className="h-5 w-5 text-info flex-shrink-0" />
-                      <span className="text-sm md:text-base text-[#c9d1d9]">Creator monetization & tips</span>
+                      <span className="text-sm md:text-base text-[#A0A0A0]">Creator monetization & tips</span>
                     </div>
                   </div>
                 </div>
 
                 <div className="text-center">
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-4 md:p-6">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-4 md:p-6">
                     <h4 className="font-semibold text-white mb-3 md:mb-4">Token Flow</h4>
                     <div className="space-y-2 md:space-y-3 text-sm">
                       <div className="flex items-center justify-between">
-                        <span className="text-[#8b949e]">User Rewards</span>
+                        <span className="text-[#666666]">User Rewards</span>
                         <span className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent font-semibold">40%</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[#8b949e]">Development</span>
+                        <span className="text-[#666666]">Development</span>
                         <span className="text-[#58a6ff] font-semibold">20%</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[#8b949e]">Ecosystem</span>
+                        <span className="text-[#666666]">Ecosystem</span>
                         <span className="text-emerald-400 font-semibold">15%</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[#8b949e]">Treasury</span>
+                        <span className="text-[#666666]">Treasury</span>
                         <span className="text-[#a371f7] font-semibold">15%</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-[#8b949e]">Public Sale</span>
+                        <span className="text-[#666666]">Public Sale</span>
                         <span className="text-[#58a6ff] font-semibold">10%</span>
                       </div>
                     </div>
@@ -355,7 +355,7 @@ function CryptoPage() {
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
                 Powerful Web3 Features
               </h2>
-              <p className="text-base md:text-lg text-[#c9d1d9] max-w-2xl mx-auto">
+              <p className="text-base md:text-lg text-[#A0A0A0] max-w-2xl mx-auto">
                 Discover what's coming to Cryb.ai's Web3 ecosystem
               </p>
             </div>
@@ -365,14 +365,14 @@ function CryptoPage() {
               {features.map((feature, index) => {
                 const IconComponent = feature.icon
                 return (
-                  <div key={index} className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-4 md:p-6 group hover:border-[#58a6ff]/50 transition-all duration-300">
+                  <div key={index} className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-4 md:p-6 group hover:border-[#58a6ff]/50 transition-all duration-300">
                     <div className="flex items-start gap-3 md:gap-4">
                       <div className="p-3 bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 rounded-lg group-hover:from-[#58a6ff]/30 group-hover:to-[#a371f7]/30 transition-colors flex-shrink-0">
                         <IconComponent className="h-6 w-6 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="text-base md:text-lg font-bold text-white mb-2">{feature.title}</h3>
-                        <p className="text-sm text-[#c9d1d9] mb-3 md:mb-4">{feature.description}</p>
+                        <p className="text-sm text-[#A0A0A0] mb-3 md:mb-4">{feature.description}</p>
                         <div className="flex flex-wrap gap-1.5 md:gap-2">
                           {feature.benefits.map((benefit, benefitIndex) => (
                             <span key={benefitIndex} className="badge bg-[#58a6ff]/10 text-[#58a6ff] text-xs border border-[#58a6ff]/20">
@@ -394,7 +394,7 @@ function CryptoPage() {
                 return (
                   <div
                     key={index}
-                    className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 group hover:border-[#58a6ff]/50 transition-all duration-300 cursor-pointer"
+                    className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 group hover:border-[#58a6ff]/50 transition-all duration-300 cursor-pointer"
                     onClick={() => setActiveFeature(index)}
                   >
                     <div className="text-center">
@@ -402,11 +402,11 @@ function CryptoPage() {
                         <IconComponent className="h-8 w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" />
                       </div>
                       <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">{feature.title}</h3>
-                      <p className="text-sm md:text-base text-[#c9d1d9] mb-4 md:mb-6">{feature.description}</p>
+                      <p className="text-sm md:text-base text-[#A0A0A0] mb-4 md:mb-6">{feature.description}</p>
 
                       <div className="space-y-2">
                         {feature.benefits.map((benefit, benefitIndex) => (
-                          <div key={benefitIndex} className="flex items-center justify-center gap-2 text-sm text-[#8b949e]">
+                          <div key={benefitIndex} className="flex items-center justify-center gap-2 text-sm text-[#666666]">
                             <div className="w-1.5 h-1.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-full"></div>
                             <span>{benefit}</span>
                           </div>
@@ -431,34 +431,34 @@ function CryptoPage() {
                 <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
                   Why Cryb.ai Web3?
                 </h2>
-                <p className="text-base md:text-lg text-[#c9d1d9] max-w-2xl mx-auto">
+                <p className="text-base md:text-lg text-[#A0A0A0] max-w-2xl mx-auto">
                   The perfect blend of social networking and blockchain technology
                 </p>
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-emerald-400/30 transition-all duration-300">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-emerald-400/30 transition-all duration-300">
                   <div className="inline-flex p-4 md:p-6 bg-emerald-400/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
                     <Shield className="h-8 w-8 text-emerald-400" />
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">Secure & Trustless</h3>
-                  <p className="text-sm md:text-base text-[#c9d1d9]">Built on blockchain technology for maximum security and transparency</p>
+                  <p className="text-sm md:text-base text-[#A0A0A0]">Built on blockchain technology for maximum security and transparency</p>
                 </div>
 
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-[#58a6ff]/50 transition-all duration-300">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-[#58a6ff]/50 transition-all duration-300">
                   <div className="inline-flex p-4 md:p-6 bg-[#58a6ff]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
                     <Users className="h-8 w-8 text-[#58a6ff]" />
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">Community Owned</h3>
-                  <p className="text-sm md:text-base text-[#c9d1d9]">Participate in governance and help shape the future of the platform</p>
+                  <p className="text-sm md:text-base text-[#A0A0A0]">Participate in governance and help shape the future of the platform</p>
                 </div>
 
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-[#a371f7]/50 transition-all duration-300">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 text-center group hover:border-[#a371f7]/50 transition-all duration-300">
                   <div className="inline-flex p-4 md:p-6 bg-[#a371f7]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-4 md:mb-6 group-hover:scale-110 transition-transform">
                     <TrendingUp className="h-8 w-8 text-[#a371f7]" />
                   </div>
                   <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">Earn While Social</h3>
-                  <p className="text-sm md:text-base text-[#c9d1d9]">Get rewarded for your contributions to the community</p>
+                  <p className="text-sm md:text-base text-[#A0A0A0]">Get rewarded for your contributions to the community</p>
                 </div>
               </div>
             </div>
@@ -472,13 +472,13 @@ function CryptoPage() {
           <h2 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
             Be Among the First
           </h2>
-          <p className="text-base md:text-lg text-[#c9d1d9] mb-8 md:mb-12 lg:mb-16">
+          <p className="text-base md:text-lg text-[#A0A0A0] mb-8 md:mb-12 lg:mb-16">
             Join our early access program and be the first to experience the future of Web3 social networking
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center">
             <EmailSignup variant="large" />
-            <div className="text-xs md:text-sm text-[#8b949e]">
+            <div className="text-xs md:text-sm text-[#666666]">
               <Mail className="h-4 w-4 inline mr-1 md:mr-2" />
               Get exclusive updates and early access
             </div>

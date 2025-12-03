@@ -1,45 +1,80 @@
 /**
  * CRYB Design System - Shared Theme Configuration
+ * Following Master Build Prompt Specifications
  * All pages should import from here for consistent styling
  */
 
-// Color Palette
+// Color Palette - Master Prompt Specification
 export const colors = {
-  // Primary gradient colors
+  // Brand colors
   primary: '#58a6ff',
   secondary: '#a371f7',
 
-  // Backgrounds
-  bgPrimary: '#0d1117',
-  bgSecondary: 'rgba(22, 27, 34, 0.6)',
-  bgTertiary: 'rgba(13, 17, 23, 0.8)',
-  bgCard: 'rgba(22, 27, 34, 0.6)',
+  // Backgrounds (Darkest to Lightest)
+  bgPrimary: '#0D0D0D',      // Deepest - Page background
+  bgSecondary: '#141414',    // Cards & surfaces
+  bgTertiary: '#1A1A1A',     // Elevated cards
+  bgElevated: '#242424',     // Modals & dropdowns
+  bgHover: '#2A2A2A',        // Hover states
+  bgCard: '#141414',         // Card background
 
   // Text
-  textPrimary: '#ffffff',
-  textSecondary: '#c9d1d9',
-  textTertiary: '#8b949e',
-  textMuted: '#6b7280',
+  textPrimary: '#FFFFFF',
+  textSecondary: '#A0A0A0',
+  textTertiary: '#666666',
+  textMuted: '#666666',
+  textInverse: '#000000',
 
   // Borders
-  border: 'rgba(255, 255, 255, 0.1)',
-  borderHover: 'rgba(255, 255, 255, 0.2)',
-  borderFocus: 'rgba(88, 166, 255, 0.5)',
+  borderSubtle: '#2A2A2A',
+  border: '#333333',
+  borderStrong: '#444444',
+  borderHover: '#444444',
+  borderFocus: '#58a6ff',
 
-  // Status
-  success: '#22c55e',
-  warning: '#eab308',
-  error: '#ef4444',
-  info: '#3b82f6',
+  // Semantic - Success
+  success: '#00D26A',
+  successBg: 'rgba(0, 210, 106, 0.1)',
+  successBorder: 'rgba(0, 210, 106, 0.3)',
+
+  // Semantic - Warning
+  warning: '#FFB800',
+  warningBg: 'rgba(255, 184, 0, 0.1)',
+  warningBorder: 'rgba(255, 184, 0, 0.3)',
+
+  // Semantic - Error
+  error: '#FF3B3B',
+  errorBg: 'rgba(255, 59, 59, 0.1)',
+  errorBorder: 'rgba(255, 59, 59, 0.3)',
+
+  // Semantic - Info
+  info: '#0095FF',
+  infoBg: 'rgba(0, 149, 255, 0.1)',
+  infoBorder: 'rgba(0, 149, 255, 0.3)',
 
   // Gradients
   gradientPrimary: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+  gradientSecondary: 'linear-gradient(135deg, #a371f7 0%, #58a6ff 100%)',
   gradientBg: 'linear-gradient(135deg, rgba(88, 166, 255, 0.08) 0%, rgba(163, 113, 247, 0.08) 100%)',
   gradientBgHover: 'linear-gradient(135deg, rgba(88, 166, 255, 0.15) 0%, rgba(163, 113, 247, 0.15) 100%)'
 }
 
-// Spacing
+// Spacing - 4px Base System (Master Prompt)
 export const spacing = {
+  0: '0',
+  1: '4px',     // 0.25rem
+  2: '8px',     // 0.5rem
+  3: '12px',    // 0.75rem
+  4: '16px',    // 1rem
+  5: '20px',    // 1.25rem
+  6: '24px',    // 1.5rem
+  8: '32px',    // 2rem
+  10: '40px',   // 2.5rem
+  12: '48px',   // 3rem
+  16: '64px',   // 4rem
+  20: '80px',   // 5rem
+  24: '96px',   // 6rem
+  // Legacy aliases
   xs: '4px',
   sm: '8px',
   md: '12px',
@@ -49,43 +84,97 @@ export const spacing = {
   xxxl: '48px'
 }
 
-// Border Radius
+// Border Radius - Master Prompt Specification
 export const radius = {
-  sm: '6px',
-  md: '10px',
+  none: '0',
+  sm: '4px',
+  md: '8px',
   lg: '12px',
   xl: '16px',
+  '2xl': '24px',
   full: '9999px'
 }
 
-// Shadows
+// Shadows - Master Prompt Specification
 export const shadows = {
-  sm: '0 2px 8px rgba(0, 0, 0, 0.2)',
-  md: '0 4px 16px rgba(0, 0, 0, 0.25)',
-  lg: '0 8px 32px rgba(0, 0, 0, 0.3)',
-  xl: '0 12px 48px rgba(0, 0, 0, 0.4)',
-  glow: '0 4px 20px rgba(88, 166, 255, 0.4)'
+  sm: '0 1px 2px 0 rgba(0, 0, 0, 0.5)',
+  base: '0 2px 4px 0 rgba(0, 0, 0, 0.5)',
+  md: '0 4px 8px -2px rgba(0, 0, 0, 0.6)',
+  lg: '0 12px 24px -4px rgba(0, 0, 0, 0.7)',
+  xl: '0 20px 40px -8px rgba(0, 0, 0, 0.8)',
+  '2xl': '0 32px 64px -12px rgba(0, 0, 0, 0.9)',
+  inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.3)',
+  glowPrimary: '0 0 20px rgba(88, 166, 255, 0.4)',
+  glowSuccess: '0 0 20px rgba(0, 210, 106, 0.4)',
+  glowError: '0 0 20px rgba(255, 59, 59, 0.4)'
 }
 
-// Typography
+// Typography - Master Prompt Specification
 export const typography = {
-  fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+  fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
+  fontMono: "'JetBrains Mono', 'SF Mono', 'Roboto Mono', 'Monaco', 'Consolas', monospace",
   fontSize: {
-    xs: '11px',
-    sm: '13px',
-    md: '14px',
-    lg: '16px',
-    xl: '18px',
+    xs: '11px',      // 0.6875rem
+    sm: '13px',      // 0.8125rem
+    base: '15px',    // 0.9375rem
+    lg: '17px',      // 1.0625rem
+    xl: '20px',      // 1.25rem
+    '2xl': '24px',   // 1.5rem
+    '3xl': '30px',   // 1.875rem
+    '4xl': '36px',   // 2.25rem
+    '5xl': '48px',   // 3rem
+    // Legacy aliases
+    md: '15px',
     xxl: '24px',
-    xxxl: '32px',
+    xxxl: '30px',
     display: '48px'
   },
   fontWeight: {
+    regular: 400,
     normal: 400,
     medium: 500,
     semibold: 600,
     bold: 700
+  },
+  lineHeight: {
+    tight: 1.1,
+    snug: 1.2,
+    normal: 1.5,
+    relaxed: 1.6
   }
+}
+
+// Transitions - Master Prompt Specification
+export const transitions = {
+  fast: '150ms ease-out',
+  normal: '250ms ease-out',
+  slow: '350ms ease-out'
+}
+
+// Z-Index Layers
+export const zIndex = {
+  base: 0,
+  dropdown: 1000,
+  sticky: 1020,
+  fixed: 1030,
+  modalBackdrop: 1040,
+  modal: 1050,
+  popover: 1060,
+  tooltip: 1070,
+  notification: 1080
+}
+
+// Layout Constants
+export const layout = {
+  containerSm: '640px',
+  containerMd: '768px',
+  containerLg: '1024px',
+  containerXl: '1280px',
+  container2xl: '1536px',
+  navHeight: '64px',
+  navHeightMobile: '56px',
+  sidebarWidth: '256px',
+  bottomNavHeight: '64px'
 }
 
 // Common Styles Factory
@@ -100,29 +189,38 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
 
   // Content wrapper
   contentWrapper: {
-    maxWidth: '1200px',
+    maxWidth: layout.containerXl,
     margin: '0 auto',
     padding: isMobile ? spacing.lg : spacing.xxl
   },
 
-  // Glass card
+  // Card - Master Prompt Style
   card: {
-    background: colors.bgCard,
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
+    background: colors.bgSecondary,
     border: `1px solid ${colors.border}`,
-    borderRadius: radius.xl,
+    borderRadius: radius.lg,
     padding: spacing.xl,
+    transition: `all ${transitions.normal}`
+  },
+
+  cardHover: {
+    borderColor: colors.borderStrong,
     boxShadow: shadows.lg
+  },
+
+  cardInteractive: {
+    borderColor: colors.primary,
+    boxShadow: shadows.glowPrimary
   },
 
   // Page title with gradient
   pageTitle: {
-    fontSize: isMobile ? typography.fontSize.xxl : typography.fontSize.xxxl,
+    fontSize: isMobile ? typography.fontSize['2xl'] : typography.fontSize['3xl'],
     fontWeight: typography.fontWeight.bold,
     background: colors.gradientPrimary,
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
     marginBottom: spacing.sm
   },
 
@@ -140,10 +238,10 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     borderRadius: radius.lg,
     color: colors.textPrimary,
     padding: `${spacing.md} ${spacing.xl}`,
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.base,
     fontWeight: typography.fontWeight.semibold,
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
+    transition: `all ${transitions.normal}`,
     display: 'inline-flex',
     alignItems: 'center',
     gap: spacing.sm
@@ -156,10 +254,10 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     borderRadius: radius.lg,
     color: colors.textSecondary,
     padding: `${spacing.md} ${spacing.xl}`,
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.base,
     fontWeight: typography.fontWeight.semibold,
     cursor: 'pointer',
-    transition: 'all 0.2s ease',
+    transition: `all ${transitions.normal}`,
     display: 'inline-flex',
     alignItems: 'center',
     gap: spacing.sm
@@ -171,11 +269,16 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     padding: `${spacing.md} ${spacing.lg}`,
     background: colors.bgTertiary,
     border: `1px solid ${colors.border}`,
-    borderRadius: radius.lg,
+    borderRadius: radius.md,
     color: colors.textPrimary,
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.base,
     outline: 'none',
-    transition: 'all 0.2s ease'
+    transition: `all ${transitions.normal}`
+  },
+
+  inputFocus: {
+    borderColor: colors.borderFocus,
+    boxShadow: shadows.glowPrimary
   },
 
   // Select
@@ -183,9 +286,9 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     padding: `${spacing.md} ${spacing.xxl} ${spacing.md} ${spacing.lg}`,
     background: colors.bgTertiary,
     border: `1px solid ${colors.border}`,
-    borderRadius: radius.lg,
+    borderRadius: radius.md,
     color: colors.textPrimary,
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.base,
     appearance: 'none',
     cursor: 'pointer',
     minWidth: isMobile ? '100%' : '160px'
@@ -209,9 +312,9 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     padding: `${spacing.md} ${spacing.lg} ${spacing.md} 44px`,
     background: colors.bgTertiary,
     border: `1px solid ${colors.border}`,
-    borderRadius: radius.lg,
+    borderRadius: radius.md,
     color: colors.textPrimary,
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.base,
     outline: 'none'
   },
 
@@ -228,13 +331,13 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     alignItems: 'center',
     gap: spacing.sm,
     padding: `${spacing.md} ${spacing.xl}`,
-    borderRadius: radius.lg,
+    borderRadius: radius.md,
     border: 'none',
-    fontSize: typography.fontSize.md,
+    fontSize: typography.fontSize.base,
     fontWeight: typography.fontWeight.semibold,
     cursor: 'pointer',
     whiteSpace: 'nowrap',
-    transition: 'all 0.2s ease'
+    transition: `all ${transitions.normal}`
   },
 
   tabActive: {
@@ -243,7 +346,7 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
   },
 
   tabInactive: {
-    background: colors.bgCard,
+    background: colors.bgSecondary,
     border: `1px solid ${colors.border}`,
     color: colors.textTertiary
   },
@@ -308,7 +411,7 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     justifyContent: 'center',
     color: colors.textPrimary,
     fontWeight: typography.fontWeight.bold,
-    fontSize: typography.fontSize.xxl
+    fontSize: typography.fontSize['2xl']
   },
 
   // Badge
@@ -323,17 +426,17 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
   },
 
   badgeSuccess: {
-    background: 'rgba(34, 197, 94, 0.2)',
+    background: colors.successBg,
     color: colors.success
   },
 
   badgeWarning: {
-    background: 'rgba(234, 179, 8, 0.2)',
+    background: colors.warningBg,
     color: colors.warning
   },
 
   badgeError: {
-    background: 'rgba(239, 68, 68, 0.2)',
+    background: colors.errorBg,
     color: colors.error
   },
 
@@ -346,8 +449,8 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
   emptyState: {
     textAlign: 'center',
     padding: `${spacing.xxxl} ${spacing.xl}`,
-    background: colors.bgCard,
-    borderRadius: radius.xl,
+    background: colors.bgSecondary,
+    borderRadius: radius.lg,
     border: `1px solid ${colors.border}`
   },
 
@@ -379,8 +482,8 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
 
   // Error alert
   errorAlert: {
-    background: 'rgba(239, 68, 68, 0.1)',
-    border: `1px solid rgba(239, 68, 68, 0.3)`,
+    background: colors.errorBg,
+    border: `1px solid ${colors.errorBorder}`,
     borderRadius: radius.lg,
     padding: spacing.lg,
     color: colors.error,
@@ -389,11 +492,31 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
 
   // Success alert
   successAlert: {
-    background: 'rgba(34, 197, 94, 0.1)',
-    border: `1px solid rgba(34, 197, 94, 0.3)`,
+    background: colors.successBg,
+    border: `1px solid ${colors.successBorder}`,
     borderRadius: radius.lg,
     padding: spacing.lg,
     color: colors.success,
+    textAlign: 'center'
+  },
+
+  // Warning alert
+  warningAlert: {
+    background: colors.warningBg,
+    border: `1px solid ${colors.warningBorder}`,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    color: colors.warning,
+    textAlign: 'center'
+  },
+
+  // Info alert
+  infoAlert: {
+    background: colors.infoBg,
+    border: `1px solid ${colors.infoBorder}`,
+    borderRadius: radius.lg,
+    padding: spacing.lg,
+    color: colors.info,
     textAlign: 'center'
   },
 
@@ -408,7 +531,7 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
   link: {
     color: colors.primary,
     textDecoration: 'none',
-    transition: 'opacity 0.2s ease'
+    transition: `opacity ${transitions.normal}`
   },
 
   // Section header
@@ -441,7 +564,7 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
   },
 
   tableCell: {
-    padding: `${spacing.lg}`,
+    padding: spacing.lg,
     borderBottom: `1px solid ${colors.border}`,
     color: colors.textSecondary
   },
@@ -452,16 +575,16 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
     inset: 0,
     background: 'rgba(0, 0, 0, 0.8)',
     backdropFilter: 'blur(8px)',
+    WebkitBackdropFilter: 'blur(8px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    zIndex: 1000,
+    zIndex: zIndex.modal,
     padding: spacing.xl
   },
 
   modalContent: {
-    background: 'rgba(22, 27, 34, 0.95)',
-    backdropFilter: 'blur(16px)',
+    background: colors.bgElevated,
     border: `1px solid ${colors.border}`,
     borderRadius: radius.xl,
     width: '100%',
@@ -472,7 +595,7 @@ export const createStyles = (isMobile = false, isTablet = false) => ({
   },
 
   modalHeader: {
-    padding: `${spacing.xl}`,
+    padding: spacing.xl,
     borderBottom: `1px solid ${colors.border}`,
     display: 'flex',
     alignItems: 'center',
@@ -519,6 +642,11 @@ export const keyframes = `
     0%, 100% { opacity: 1; }
     50% { opacity: 0.5; }
   }
+
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
 `
 
-export default { colors, spacing, radius, shadows, typography, createStyles, keyframes }
+export default { colors, spacing, radius, shadows, typography, transitions, zIndex, layout, createStyles, keyframes }

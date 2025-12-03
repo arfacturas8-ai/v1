@@ -250,35 +250,35 @@ function CommunityPage() {
   // Loading state
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0d1117]">
+      <div className="min-h-screen bg-[#0D0D0D]">
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
               {/* Main Content Skeleton */}
               <div className="lg:col-span-3">
                 {/* Header skeleton */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 animate-pulse">
+                <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 animate-pulse">
                   <div className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-4 flex-1">
-                        <div className="w-16 h-16 bg-[#0d1117] rounded-full"></div>
+                        <div className="w-16 h-16 bg-[#0D0D0D] rounded-full"></div>
                         <div className="flex-1">
-                          <div className="h-8 w-48 bg-[#0d1117] rounded mb-2"></div>
-                          <div className="h-4 w-32 bg-[#0d1117] rounded mb-3"></div>
-                          <div className="h-4 w-full bg-[#0d1117] rounded"></div>
+                          <div className="h-8 w-48 bg-[#0D0D0D] rounded mb-2"></div>
+                          <div className="h-4 w-32 bg-[#0D0D0D] rounded mb-3"></div>
+                          <div className="h-4 w-full bg-[#0D0D0D] rounded"></div>
                         </div>
                       </div>
-                      <div className="h-10 w-24 bg-[#0d1117] rounded"></div>
+                      <div className="h-10 w-24 bg-[#0D0D0D] rounded"></div>
                     </div>
                   </div>
                 </div>
 
                 {/* Sort Controls skeleton */}
-                <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 animate-pulse">
+                <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 animate-pulse">
                   <div className="p-4">
                     <div className="flex gap-4">
                       {[...Array(4)].map((_, i) => (
-                        <div key={i} className="h-8 w-16 bg-[#0d1117] rounded"></div>
+                        <div key={i} className="h-8 w-16 bg-[#0D0D0D] rounded"></div>
                       ))}
                     </div>
                   </div>
@@ -287,21 +287,21 @@ function CommunityPage() {
                 {/* Posts skeleton */}
                 <div className="space-y-4">
                   {[...Array(3)].map((_, i) => (
-                    <div key={i} className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 animate-pulse">
+                    <div key={i} className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 animate-pulse">
                       <div className="flex gap-4">
                         <div className="flex flex-col items-center gap-2">
-                          <div className="h-6 w-6 bg-[#0d1117] rounded"></div>
-                          <div className="h-6 w-8 bg-[#0d1117] rounded"></div>
-                          <div className="h-6 w-6 bg-[#0d1117] rounded"></div>
+                          <div className="h-6 w-6 bg-[#0D0D0D] rounded"></div>
+                          <div className="h-6 w-8 bg-[#0D0D0D] rounded"></div>
+                          <div className="h-6 w-6 bg-[#0D0D0D] rounded"></div>
                         </div>
                         <div className="flex-1">
-                          <div className="h-6 w-3/4 bg-[#0d1117] rounded mb-3"></div>
-                          <div className="h-4 w-full bg-[#0d1117] rounded mb-2"></div>
-                          <div className="h-4 w-2/3 bg-[#0d1117] rounded mb-4"></div>
+                          <div className="h-6 w-3/4 bg-[#0D0D0D] rounded mb-3"></div>
+                          <div className="h-4 w-full bg-[#0D0D0D] rounded mb-2"></div>
+                          <div className="h-4 w-2/3 bg-[#0D0D0D] rounded mb-4"></div>
                           <div className="flex gap-4">
-                            <div className="h-4 w-16 bg-[#0d1117] rounded"></div>
-                            <div className="h-4 w-20 bg-[#0d1117] rounded"></div>
-                            <div className="h-4 w-12 bg-[#0d1117] rounded"></div>
+                            <div className="h-4 w-16 bg-[#0D0D0D] rounded"></div>
+                            <div className="h-4 w-20 bg-[#0D0D0D] rounded"></div>
+                            <div className="h-4 w-12 bg-[#0D0D0D] rounded"></div>
                           </div>
                         </div>
                       </div>
@@ -313,26 +313,26 @@ function CommunityPage() {
               {/* Sidebar Skeleton */}
               <div className="lg:col-span-1">
                 <div className="space-y-6">
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 animate-pulse">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 animate-pulse">
                     <div className="p-6">
-                      <div className="h-6 w-32 bg-[#0d1117] rounded mb-4"></div>
+                      <div className="h-6 w-32 bg-[#0D0D0D] rounded mb-4"></div>
                       <div className="space-y-3">
                         {[...Array(4)].map((_, i) => (
                           <div key={i} className="flex justify-between">
-                            <div className="h-4 w-16 bg-[#0d1117] rounded"></div>
-                            <div className="h-4 w-12 bg-[#0d1117] rounded"></div>
+                            <div className="h-4 w-16 bg-[#0D0D0D] rounded"></div>
+                            <div className="h-4 w-12 bg-[#0D0D0D] rounded"></div>
                           </div>
                         ))}
                       </div>
                     </div>
                   </div>
 
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 animate-pulse">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 animate-pulse">
                     <div className="p-6">
-                      <div className="h-6 w-24 bg-[#0d1117] rounded mb-4"></div>
+                      <div className="h-6 w-24 bg-[#0D0D0D] rounded mb-4"></div>
                       <div className="space-y-2">
                         {[...Array(5)].map((_, i) => (
-                          <div key={i} className="h-4 w-full bg-[#0d1117] rounded"></div>
+                          <div key={i} className="h-4 w-full bg-[#0D0D0D] rounded"></div>
                         ))}
                       </div>
                     </div>
@@ -349,14 +349,14 @@ function CommunityPage() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
+        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
               <Shield className="w-8 h-8 text-red-500" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-3">Error Loading Community</h2>
-            <p className="text-[#8b949e] mb-6">{error}</p>
+            <p className="text-[#666666] mb-6">{error}</p>
             <Button
               onClick={loadCommunity}
               variant="primary"
@@ -373,14 +373,14 @@ function CommunityPage() {
   // Community not found state
   if (!community) {
     return (
-      <div className="min-h-screen bg-[#0d1117] flex items-center justify-center">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
+        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
           <div className="p-8 text-center">
-            <div className="p-4 rounded-full bg-[#8b949e]/10 border border-[#8b949e]/20 inline-flex mb-6">
-              <Users className="w-8 h-8 text-[#8b949e]" />
+            <div className="p-4 rounded-full bg-[#666666]/10 border border-[#666666]/20 inline-flex mb-6">
+              <Users className="w-8 h-8 text-[#666666]" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-3">Community Not Found</h2>
-            <p className="text-[#8b949e] mb-6">c/{communityName} doesn't exist yet.</p>
+            <p className="text-[#666666] mb-6">c/{communityName} doesn't exist yet.</p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link to="/create-community">
                 <Button variant="primary" className="w-full sm:w-auto bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">
@@ -388,7 +388,7 @@ function CommunityPage() {
                 </Button>
               </Link>
               <Link to="/communities">
-                <Button variant="secondary" className="w-full sm:w-auto bg-[#161b22]/60 border border-white/10 text-[#c9d1d9]">
+                <Button variant="secondary" className="w-full sm:w-auto bg-[#141414]/60 border border-white/10 text-[#A0A0A0]">
                   Browse Communities
                 </Button>
               </Link>
@@ -450,7 +450,7 @@ function CommunityPage() {
     <>
       <SkipToContent targetId="community-main-content" />
 
-      <div className="min-h-screen bg-[#0d1117]">
+      <div className="min-h-screen bg-[#0D0D0D]">
         {/* Offline indicator */}
         {isOffline && (
           <div className="bg-yellow-900/50 border-b border-yellow-700/50 px-4 py-2 text-center">
@@ -462,7 +462,7 @@ function CommunityPage() {
         )}
 
         {/* Community Header */}
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border-b border-white/10">
+        <div className="bg-[#141414]/60 backdrop-blur-xl border-b border-white/10">
           <div className="container mx-auto px-4 py-6 max-w-6xl">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-4">
@@ -476,7 +476,7 @@ function CommunityPage() {
                   <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
                     c/{community?.displayName}
                   </h1>
-                  <div className="flex items-center gap-4 text-sm text-[#8b949e]">
+                  <div className="flex items-center gap-4 text-sm text-[#666666]">
                     <span className="flex items-center gap-1">
                       <Users className="w-4 h-4" />
                       {community?.memberCount?.toLocaleString()} members
@@ -501,7 +501,7 @@ function CommunityPage() {
                 variant={isJoined ? 'secondary' : 'primary'}
                 className={`flex items-center gap-2 ${
                   isJoined
-                    ? 'bg-[#161b22]/60 border border-white/10 text-[#c9d1d9] hover:bg-[#161b22]'
+                    ? 'bg-[#141414]/60 border border-white/10 text-[#A0A0A0] hover:bg-[#141414]'
                     : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]'
                 }`}
                 aria-label={isJoined ? `Leave ${community?.displayName}` : `Join ${community?.displayName}`}
@@ -522,7 +522,7 @@ function CommunityPage() {
 
             {/* Community Description */}
             {community?.description && (
-              <p className="mt-4 text-[#c9d1d9] max-w-3xl">{community.description}</p>
+              <p className="mt-4 text-[#A0A0A0] max-w-3xl">{community.description}</p>
             )}
           </div>
         </div>
@@ -534,11 +534,11 @@ function CommunityPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Create Post Button/Form */}
               {isJoined && (
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
                   {!showPostForm ? (
                     <button
                       onClick={handleTogglePostForm}
-                      className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-xl text-left text-[#8b949e] hover:text-white hover:bg-[#161b22] hover:border-[#58a6ff]/30 transition-all flex items-center gap-3"
+                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-left text-[#666666] hover:text-white hover:bg-[#141414] hover:border-[#58a6ff]/30 transition-all flex items-center gap-3"
                     >
                       <Plus className="w-5 h-5" />
                       Create a post
@@ -556,7 +556,7 @@ function CommunityPage() {
                           value={newPost.title}
                           onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
                           placeholder="Enter post title..."
-                          className="w-full bg-[#0d1117] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[#8b949e] focus:border-[#58a6ff]/50 focus:outline-none"
+                          className="w-full bg-[#0D0D0D] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[#666666] focus:border-[#58a6ff]/50 focus:outline-none"
                           required
                         />
                       </AccessibleFormField>
@@ -571,7 +571,7 @@ function CommunityPage() {
                           value={newPost.content}
                           onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                           placeholder="Share your thoughts..."
-                          className="w-full bg-[#0d1117] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[#8b949e] min-h-32 focus:border-[#58a6ff]/50 focus:outline-none"
+                          className="w-full bg-[#0D0D0D] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[#666666] min-h-32 focus:border-[#58a6ff]/50 focus:outline-none"
                           required
                         />
                       </AccessibleFormField>
@@ -580,7 +580,7 @@ function CommunityPage() {
                         <Button type="submit" variant="primary" className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]">
                           Post
                         </Button>
-                        <Button type="button" variant="secondary" onClick={handleCancelPost} className="bg-[#161b22]/60 border border-white/10 text-[#c9d1d9]">
+                        <Button type="button" variant="secondary" onClick={handleCancelPost} className="bg-[#141414]/60 border border-white/10 text-[#A0A0A0]">
                           Cancel
                         </Button>
                       </div>
@@ -590,7 +590,7 @@ function CommunityPage() {
               )}
 
               {/* Sort Controls */}
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4">
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4">
                 <div className="flex gap-2 overflow-x-auto pb-2">
                   {sortOptions.map((option) => {
                     const Icon = option.icon
@@ -602,7 +602,7 @@ function CommunityPage() {
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all whitespace-nowrap ${
                           isActive
                             ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                            : 'bg-[#0d1117] border border-white/10 text-[#8b949e] hover:text-white hover:border-[#58a6ff]/30'
+                            : 'bg-[#0D0D0D] border border-white/10 text-[#666666] hover:text-white hover:border-[#58a6ff]/30'
                         }`}
                         aria-pressed={isActive}
                       >
@@ -617,16 +617,16 @@ function CommunityPage() {
               {/* Posts List */}
               <div className="space-y-4">
                 {sortedPosts.length === 0 ? (
-                  <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
-                    <MessageSquare className="w-12 h-12 text-[#8b949e] mx-auto mb-4" />
+                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
+                    <MessageSquare className="w-12 h-12 text-[#666666] mx-auto mb-4" />
                     <h3 className="text-xl font-semibold text-white mb-2">No posts yet</h3>
-                    <p className="text-[#8b949e]">Be the first to post in this community!</p>
+                    <p className="text-[#666666]">Be the first to post in this community!</p>
                   </div>
                 ) : (
                   sortedPosts.map((post) => (
                     <article
                       key={post.id}
-                      className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all overflow-hidden group"
+                      className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all overflow-hidden group"
                     >
                       <div className="p-6">
                         <div className="flex gap-4">
@@ -634,22 +634,22 @@ function CommunityPage() {
                           <div className="flex flex-col items-center gap-1">
                             <button
                               onClick={() => handleVote(post.id, 'up')}
-                              className={`p-1 rounded hover:bg-[#161b22] transition-colors ${
-                                userVotes[post.id] === 'up' ? 'text-[#58a6ff]' : 'text-[#8b949e]'
+                              className={`p-1 rounded hover:bg-[#141414] transition-colors ${
+                                userVotes[post.id] === 'up' ? 'text-[#58a6ff]' : 'text-[#666666]'
                               }`}
                               aria-label={`Upvote post: ${post.title}`}
                             >
                               <ChevronUp className="w-6 h-6" />
                             </button>
                             <span className={`text-sm font-bold ${
-                              post.score > 0 ? 'text-[#58a6ff]' : post.score < 0 ? 'text-[#a371f7]' : 'text-[#8b949e]'
+                              post.score > 0 ? 'text-[#58a6ff]' : post.score < 0 ? 'text-[#a371f7]' : 'text-[#666666]'
                             }`}>
                               {post.score}
                             </span>
                             <button
                               onClick={() => handleVote(post.id, 'down')}
-                              className={`p-1 rounded hover:bg-[#161b22] transition-colors ${
-                                userVotes[post.id] === 'down' ? 'text-[#a371f7]' : 'text-[#8b949e]'
+                              className={`p-1 rounded hover:bg-[#141414] transition-colors ${
+                                userVotes[post.id] === 'down' ? 'text-[#a371f7]' : 'text-[#666666]'
                               }`}
                               aria-label={`Downvote post: ${post.title}`}
                             >
@@ -674,7 +674,7 @@ function CommunityPage() {
                                     {post.title}
                                   </h3>
                                 </Link>
-                                <div className="flex items-center gap-2 text-sm text-[#8b949e] mb-3">
+                                <div className="flex items-center gap-2 text-sm text-[#666666] mb-3">
                                   <span>Posted by u/{post.author}</span>
                                   <span>•</span>
                                   <span>{formatTimeAgo(post.created)}</span>
@@ -683,23 +683,23 @@ function CommunityPage() {
                             </div>
 
                             {post.content && (
-                              <p className="text-[#c9d1d9] mb-4 line-clamp-3">{post.content}</p>
+                              <p className="text-[#A0A0A0] mb-4 line-clamp-3">{post.content}</p>
                             )}
 
                             {/* Post Actions */}
                             <div className="flex items-center gap-4 text-sm">
                               <Link
                                 to={`/posts/${post.id}`}
-                                className="flex items-center gap-2 text-[#8b949e] hover:text-[#58a6ff] transition-colors"
+                                className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors"
                               >
                                 <MessageSquare className="w-4 h-4" />
                                 <span>{post.comments} comments</span>
                               </Link>
-                              <button className="flex items-center gap-2 text-[#8b949e] hover:text-[#58a6ff] transition-colors">
+                              <button className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors">
                                 <Share2 className="w-4 h-4" />
                                 <span>Share</span>
                               </button>
-                              <button className="flex items-center gap-2 text-[#8b949e] hover:text-[#58a6ff] transition-colors">
+                              <button className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors">
                                 <Bookmark className="w-4 h-4" />
                                 <span>Save</span>
                               </button>
@@ -716,14 +716,14 @@ function CommunityPage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* About Community */}
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
                 <h2 className="text-lg font-bold text-white mb-4">About Community</h2>
                 <div className="space-y-4">
                   {communityStats.map((stat, index) => {
                     const Icon = stat.icon
                     return (
                       <div key={index} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-[#8b949e]">
+                        <div className="flex items-center gap-2 text-[#666666]">
                           <Icon className="w-4 h-4" />
                           <span>{stat.label}</span>
                         </div>
@@ -733,7 +733,7 @@ function CommunityPage() {
                   })}
                   {community?.createdAt && (
                     <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                      <div className="flex items-center gap-2 text-[#8b949e]">
+                      <div className="flex items-center gap-2 text-[#666666]">
                         <Calendar className="w-4 h-4" />
                         <span>Created</span>
                       </div>
@@ -747,15 +747,15 @@ function CommunityPage() {
 
               {/* Community Rules */}
               {displayRules.length > 0 && (
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
                   <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
                     <Shield className="w-5 h-5 text-[#58a6ff]" />
                     Rules
                   </h2>
                   <ol className="space-y-3">
                     {displayRules.map((rule, index) => (
-                      <li key={index} className="text-sm text-[#c9d1d9] flex gap-3">
-                        <span className="text-[#8b949e] font-semibold">{index + 1}.</span>
+                      <li key={index} className="text-sm text-[#A0A0A0] flex gap-3">
+                        <span className="text-[#666666] font-semibold">{index + 1}.</span>
                         <span>{rule}</span>
                       </li>
                     ))}
@@ -765,14 +765,14 @@ function CommunityPage() {
 
               {/* Moderators */}
               {displayModerators.length > 0 && (
-                <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
                   <h2 className="text-lg font-bold text-white mb-4">Moderators</h2>
                   <div className="space-y-2">
                     {displayModerators.map((mod, index) => (
                       <Link
                         key={index}
                         to={`/user/${mod}`}
-                        className="flex items-center gap-2 text-[#8b949e] hover:text-[#58a6ff] transition-colors"
+                        className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors"
                       >
                         <div className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
                           {mod[0].toUpperCase()}

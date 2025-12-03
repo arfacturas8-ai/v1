@@ -20,14 +20,14 @@ const MobileGestureControls = () => {
     container: {
       minHeight: '100vh',
       padding: isMobile ? `${spacing.lg}px` : '20px',
-      background: '#0d1117'
+      background: '#0D0D0D'
     },
     wrapper: {
       maxWidth: containerMaxWidth.lg,
       margin: '0 auto'
     },
     card: {
-      background: 'rgba(22, 27, 34, 0.6)',
+      background: 'rgba(20, 20, 20, 0.6)',
       backdropFilter: 'blur(12px)',
       border: '1px solid rgba(255, 255, 255, 0.1)',
       borderRadius: '12px',
@@ -64,7 +64,7 @@ const MobileGestureControls = () => {
     },
     gestureDescription: {
       fontSize: `${fontSize.sm}px`,
-      color: '#8b949e',
+      color: '#666666',
       margin: 0
     }
   }

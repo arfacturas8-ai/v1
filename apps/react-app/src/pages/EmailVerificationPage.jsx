@@ -100,11 +100,11 @@ export default function EmailVerificationPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-[#0d1117] p-3 md:p-4"
+      className="min-h-screen flex items-center justify-center bg-[#0D0D0D] p-3 md:p-4"
       role="main"
       aria-label="Email verification page"
     >
-      <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+      <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         <div className="flex justify-center mb-6 md:mb-8">
           {getIcon()}
         </div>
@@ -117,7 +117,7 @@ export default function EmailVerificationPage() {
         </h1>
 
         <p
-          className="text-sm md:text-base leading-relaxed text-[#c9d1d9] mb-6 md:mb-8"
+          className="text-sm md:text-base leading-relaxed text-[#A0A0A0] mb-6 md:mb-8"
           role={status === 'error' || status === 'expired' ? 'alert' : 'status'}
           aria-live="polite"
         >
@@ -134,7 +134,7 @@ export default function EmailVerificationPage() {
               >
                 Go to Home →
               </Link>
-              <p className="text-xs md:text-sm text-[#8b949e] italic m-0">
+              <p className="text-xs md:text-sm text-[#666666] italic m-0">
                 Redirecting automatically in 3 seconds...
               </p>
             </>
@@ -161,13 +161,13 @@ export default function EmailVerificationPage() {
           )}
 
           {status === 'verifying' && (
-            <p className="text-xs md:text-sm text-[#8b949e] italic m-0">
+            <p className="text-xs md:text-sm text-[#666666] italic m-0">
               This may take a few seconds...
             </p>
           )}
         </div>
 
-        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/10 text-xs md:text-sm text-[#8b949e]">
+        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/10 text-xs md:text-sm text-[#666666]">
           <p>Having trouble? <Link to="/help" className="text-[#58a6ff] hover:text-[#79c0ff] underline transition-colors">Contact Support</Link></p>
         </div>
       </div>

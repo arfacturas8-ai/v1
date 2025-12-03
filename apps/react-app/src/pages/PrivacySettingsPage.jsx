@@ -17,7 +17,7 @@ const PrivacySettingsPage = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-6" style={{ background: '#0d1117' }} role="main" aria-label="Privacy settings page">
+    <div className="min-h-screen p-4 sm:p-6" style={{ background: '#0D0D0D' }} role="main" aria-label="Privacy settings page">
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           {/* Header */}
@@ -28,11 +28,11 @@ const PrivacySettingsPage = () => {
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-white">Privacy Settings</h1>
             </div>
-            <p className="text-sm sm:text-base text-[#8b949e]">Control who can see your information and how your data is used</p>
+            <p className="text-sm sm:text-base text-[#666666]">Control who can see your information and how your data is used</p>
           </div>
 
           {/* Profile Visibility */}
-          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(22, 27, 34, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-[#58a6ff]" />
               <h2 className="text-base sm:text-lg font-semibold text-white">Profile Visibility</h2>
@@ -41,7 +41,7 @@ const PrivacySettingsPage = () => {
               {['public', 'friends', 'private'].map(option => (
                 <label key={option} className="flex items-center gap-3 p-2 sm:p-3 rounded-lg cursor-pointer" style={{ background: settings.profileVisibility === option ? 'rgba(88, 166, 255, 0.1)' : 'transparent', border: settings.profileVisibility === option ? '1px solid rgba(88, 166, 255, 0.3)' : '1px solid transparent' }}>
                   <input type="radio" name="visibility" checked={settings.profileVisibility === option} onChange={() => updateSetting('profileVisibility', option)} className="sr-only" />
-                  <div className="w-4 h-4 rounded-full border-2 flex-shrink-0" style={{ borderColor: settings.profileVisibility === option ? '#58a6ff' : '#8b949e', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
+                  <div className="w-4 h-4 rounded-full border-2 flex-shrink-0" style={{ borderColor: settings.profileVisibility === option ? '#58a6ff' : '#666666', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
                   <span className="text-sm sm:text-base text-white capitalize">{option}</span>
                 </label>
               ))}
@@ -49,7 +49,7 @@ const PrivacySettingsPage = () => {
           </div>
 
           {/* Toggle Settings */}
-          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(22, 27, 34, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <h2 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Activity & Status</h2>
             <div className="space-y-3 sm:space-y-4">
               {[
@@ -58,10 +58,10 @@ const PrivacySettingsPage = () => {
               ].map(item => (
                 <div key={item.key} className="flex items-center justify-between gap-3 p-3 rounded-lg" style={{ background: '#21262d' }}>
                   <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                    <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#8b949e] flex-shrink-0" />
+                    <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#666666] flex-shrink-0" />
                     <div className="min-w-0">
                       <p className="text-sm sm:text-base text-white font-medium">{item.label}</p>
-                      <p className="text-xs sm:text-sm text-[#8b949e]">{item.desc}</p>
+                      <p className="text-xs sm:text-sm text-[#666666]">{item.desc}</p>
                     </div>
                   </div>
                   <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#21262d', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
@@ -73,12 +73,12 @@ const PrivacySettingsPage = () => {
           </div>
 
           {/* Direct Messages */}
-          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6" style={{ background: 'rgba(22, 27, 34, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-[#a371f7]" />
               <h2 className="text-base sm:text-lg font-semibold text-white">Direct Messages</h2>
             </div>
-            <p className="text-sm sm:text-base text-[#8b949e] mb-3 sm:mb-4">Control who can send you direct messages</p>
+            <p className="text-sm sm:text-base text-[#666666] mb-3 sm:mb-4">Control who can send you direct messages</p>
             <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base text-white outline-none" style={{ background: '#21262d', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
               <option value="everyone">Everyone</option>
               <option value="friends">Friends Only</option>

@@ -150,7 +150,7 @@ function CreatePostPage() {
     <div
       role="main"
       aria-label="Create post page"
-      className="min-h-screen bg-[#0d1117] py-8 px-4"
+      className="min-h-screen bg-[#0D0D0D] py-8 px-4"
     >
       <div className="max-w-4xl mx-auto">
         <motion.div
@@ -163,17 +163,17 @@ function CreatePostPage() {
             <h1 className="text-3xl font-bold text-white mb-2">
               Create a Post
             </h1>
-            <p className="text-[#8b949e]">
+            <p className="text-[#666666]">
               Share your thoughts, links, or images with the community
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Community Selector */}
-            <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
               <CardHeader>
                 <CardTitle className="text-lg text-white">Choose a Community</CardTitle>
-                <CardDescription className="text-[#8b949e]">
+                <CardDescription className="text-[#666666]">
                   Select the community where you want to post
                 </CardDescription>
               </CardHeader>
@@ -183,7 +183,7 @@ function CreatePostPage() {
                   value={formData.community}
                   onChange={handleInputChange}
                   className={cn(
-                    "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
+                    "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
                     "text-white border-white/10",
                     "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                     "transition-all duration-200",
@@ -192,9 +192,9 @@ function CreatePostPage() {
                   aria-label="Select community"
                   aria-invalid={!!errors.community}
                 >
-                  <option value="" className="bg-[#0d1117]">Select a community...</option>
+                  <option value="" className="bg-[#0D0D0D]">Select a community...</option>
                   {communities.map((community) => (
-                    <option key={community.id} value={community.name} className="bg-[#0d1117]">
+                    <option key={community.id} value={community.name} className="bg-[#0D0D0D]">
                       c/{community.displayName || community.name}
                     </option>
                   ))}
@@ -209,10 +209,10 @@ function CreatePostPage() {
             </Card>
 
             {/* Post Type Selection */}
-            <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
               <CardHeader>
                 <CardTitle className="text-lg text-white">Post Type</CardTitle>
-                <CardDescription className="text-[#8b949e]">
+                <CardDescription className="text-[#666666]">
                   Choose the type of content you want to share
                 </CardDescription>
               </CardHeader>
@@ -232,13 +232,13 @@ function CreatePostPage() {
                           "hover:border-[#58a6ff]/30",
                           isSelected
                             ? "border-[#58a6ff] bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 shadow-[0_0_0_3px_rgba(88,166,255,0.1)]"
-                            : "border-white/10 bg-[#0d1117] hover:bg-[#161b22]/40"
+                            : "border-white/10 bg-[#0D0D0D] hover:bg-[#141414]/40"
                         )}
                         aria-pressed={isSelected}
                       >
                         <Icon className={cn(
                           "w-6 h-6",
-                          isSelected ? "text-[#58a6ff]" : "text-[#8b949e]"
+                          isSelected ? "text-[#58a6ff]" : "text-[#666666]"
                         )} />
                         <span className={cn(
                           "font-medium",
@@ -246,7 +246,7 @@ function CreatePostPage() {
                         )}>
                           {type.label}
                         </span>
-                        <span className="text-xs text-[#8b949e]">
+                        <span className="text-xs text-[#666666]">
                           {type.description}
                         </span>
                       </button>
@@ -257,10 +257,10 @@ function CreatePostPage() {
             </Card>
 
             {/* Title Input */}
-            <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
               <CardHeader>
                 <CardTitle className="text-lg text-white">Title</CardTitle>
-                <CardDescription className="text-[#8b949e]">
+                <CardDescription className="text-[#666666]">
                   Create an engaging title for your post (max 300 characters)
                 </CardDescription>
               </CardHeader>
@@ -273,8 +273,8 @@ function CreatePostPage() {
                   placeholder="Enter your post title..."
                   maxLength={300}
                   className={cn(
-                    "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
-                    "text-white placeholder:text-[#8b949e] border-white/10",
+                    "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
+                    "text-white placeholder:text-[#666666] border-white/10",
                     "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                     "transition-all duration-200",
                     errors.title && "border-red-500"
@@ -289,7 +289,7 @@ function CreatePostPage() {
                       <span>{errors.title}</span>
                     </div>
                   ) : (
-                    <div className="text-sm text-[#8b949e]">
+                    <div className="text-sm text-[#666666]">
                       {formData.title.length}/300 characters
                     </div>
                   )}
@@ -299,10 +299,10 @@ function CreatePostPage() {
 
             {/* Content Based on Post Type */}
             {formData.type === 'text' && (
-              <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+              <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
                 <CardHeader>
                   <CardTitle className="text-lg text-white">Content</CardTitle>
-                  <CardDescription className="text-[#8b949e]">
+                  <CardDescription className="text-[#666666]">
                     Write your post content with rich text formatting
                   </CardDescription>
                 </CardHeader>
@@ -317,7 +317,7 @@ function CreatePostPage() {
                     }}
                     placeholder="Share your thoughts..."
                     className={cn(
-                      "bg-[#0d1117] border-white/10 text-white rounded-xl",
+                      "bg-[#0D0D0D] border-white/10 text-white rounded-xl",
                       errors.content && "border-red-500"
                     )}
                   />
@@ -332,10 +332,10 @@ function CreatePostPage() {
             )}
 
             {formData.type === 'link' && (
-              <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+              <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
                 <CardHeader>
                   <CardTitle className="text-lg text-white">Link URL</CardTitle>
-                  <CardDescription className="text-[#8b949e]">
+                  <CardDescription className="text-[#666666]">
                     Enter the URL you want to share
                   </CardDescription>
                 </CardHeader>
@@ -347,8 +347,8 @@ function CreatePostPage() {
                     onChange={handleInputChange}
                     placeholder="https://example.com"
                     className={cn(
-                      "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
-                      "text-white placeholder:text-[#8b949e] border-white/10",
+                      "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
+                      "text-white placeholder:text-[#666666] border-white/10",
                       "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                       "transition-all duration-200",
                       errors.url && "border-red-500"
@@ -365,7 +365,7 @@ function CreatePostPage() {
 
                   {/* Optional description for link posts */}
                   <div className="mt-4">
-                    <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
+                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
                       Description (optional)
                     </label>
                     <textarea
@@ -375,8 +375,8 @@ function CreatePostPage() {
                       placeholder="Add a description or your thoughts about this link..."
                       rows={4}
                       className={cn(
-                        "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
-                        "text-white placeholder:text-[#8b949e] border-white/10",
+                        "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
+                        "text-white placeholder:text-[#666666] border-white/10",
                         "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                         "transition-all duration-200 resize-y"
                       )}
@@ -387,10 +387,10 @@ function CreatePostPage() {
             )}
 
             {formData.type === 'image' && (
-              <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+              <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
                 <CardHeader>
                   <CardTitle className="text-lg text-white">Image Upload</CardTitle>
-                  <CardDescription className="text-[#8b949e]">
+                  <CardDescription className="text-[#666666]">
                     Upload an image to share with the community
                   </CardDescription>
                 </CardHeader>
@@ -402,10 +402,10 @@ function CreatePostPage() {
                         "flex flex-col items-center justify-center",
                         "transition-all duration-200",
                         errors.image ? "border-red-500 bg-red-500/5" : "border-white/10",
-                        "hover:border-[#58a6ff]/50 hover:bg-[#58a6ff]/5 cursor-pointer bg-[#0d1117]"
+                        "hover:border-[#58a6ff]/50 hover:bg-[#58a6ff]/5 cursor-pointer bg-[#0D0D0D]"
                       )}
                     >
-                      <ImageIcon className="w-12 h-12 text-[#8b949e] mb-4" />
+                      <ImageIcon className="w-12 h-12 text-[#666666] mb-4" />
                       <label className="cursor-pointer">
                         <input
                           type="file"
@@ -419,16 +419,16 @@ function CreatePostPage() {
                           Choose an image
                         </span>
                       </label>
-                      <p className="text-sm text-[#8b949e] mt-2">
+                      <p className="text-sm text-[#666666] mt-2">
                         or drag and drop
                       </p>
-                      <p className="text-xs text-[#8b949e]/70 mt-1">
+                      <p className="text-xs text-[#666666]/70 mt-1">
                         PNG, JPG, GIF up to 10MB
                       </p>
                     </div>
 
                     {formData.image && (
-                      <div className="relative bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                      <div className="relative bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl p-4">
                         <img
                           src={URL.createObjectURL(formData.image)}
                           alt="Preview"
@@ -442,7 +442,7 @@ function CreatePostPage() {
                         >
                           ×
                         </button>
-                        <div className="mt-3 text-sm text-[#c9d1d9] flex items-center gap-2">
+                        <div className="mt-3 text-sm text-[#A0A0A0] flex items-center gap-2">
                           <CheckCircle className="w-4 h-4 text-green-500" />
                           {formData.image.name}
                         </div>
@@ -458,7 +458,7 @@ function CreatePostPage() {
 
                     {/* Optional caption for images */}
                     <div>
-                      <label className="block text-sm font-medium text-[#c9d1d9] mb-2">
+                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
                         Caption (optional)
                       </label>
                       <textarea
@@ -468,8 +468,8 @@ function CreatePostPage() {
                         placeholder="Add a caption or description for your image..."
                         rows={3}
                         className={cn(
-                          "w-full px-4 py-3 rounded-xl border bg-[#0d1117]",
-                          "text-white placeholder:text-[#8b949e] border-white/10",
+                          "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
+                          "text-white placeholder:text-[#666666] border-white/10",
                           "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
                           "transition-all duration-200 resize-y"
                         )}
@@ -493,7 +493,7 @@ function CreatePostPage() {
             )}
 
             {/* Action Buttons */}
-            <Card className="bg-[#161b22]/60 backdrop-blur-xl border-white/10">
+            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-4">
                   <Button
@@ -527,8 +527,8 @@ function CreatePostPage() {
                     variant="outline"
                     className={cn(
                       "px-6 py-3 rounded-xl font-medium",
-                      "border border-white/10 text-[#c9d1d9] bg-[#0d1117]",
-                      "hover:bg-[#161b22]/60 hover:border-white/20",
+                      "border border-white/10 text-[#A0A0A0] bg-[#0D0D0D]",
+                      "hover:bg-[#141414]/60 hover:border-white/20",
                       "transition-all duration-200",
                       "disabled:opacity-50 disabled:cursor-not-allowed"
                     )}
@@ -543,7 +543,7 @@ function CreatePostPage() {
                     <AlertCircle className="w-4 h-4" />
                     Posting Tips
                   </h4>
-                  <ul className="text-sm text-[#c9d1d9] space-y-1 ml-6 list-disc">
+                  <ul className="text-sm text-[#A0A0A0] space-y-1 ml-6 list-disc">
                     <li>Choose a clear and descriptive title</li>
                     <li>Select the most relevant community for your content</li>
                     <li>Follow community guidelines and be respectful</li>

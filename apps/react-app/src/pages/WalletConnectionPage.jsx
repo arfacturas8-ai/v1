@@ -123,8 +123,8 @@ export default function WalletConnectionPage() {
 
   if (connectedAddress && !isConnecting) {
   return (
-    <div role="main" aria-label="Wallet connected page" className="min-h-screen flex items-center justify-center bg-[#0d1117] p-4 md:p-5">
-        <div className="w-full max-w-md bg-[#161b22]/60 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 md:p-8 text-center">
+    <div role="main" aria-label="Wallet connected page" className="min-h-screen flex items-center justify-center bg-[#0D0D0D] p-4 md:p-5">
+        <div className="w-full max-w-md bg-[#141414]/60 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 md:p-8 text-center">
           <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-emerald-500/15 rounded-full mb-6 md:mb-8" aria-hidden="true">
             <Check size={40} className="md:w-12 md:h-12 text-emerald-500" />
           </div>
@@ -134,10 +134,10 @@ export default function WalletConnectionPage() {
           </h1>
 
           <div className="bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-6 mb-6 md:mb-8 border border-white/10">
-            <div className="text-sm text-[#8b949e] mb-2 font-medium">
+            <div className="text-sm text-[#666666] mb-2 font-medium">
               Connected Address
             </div>
-            <div className="text-sm font-mono text-[#c9d1d9] font-semibold break-all">
+            <div className="text-sm font-mono text-[#A0A0A0] font-semibold break-all">
               {connectedAddress.slice(0, 6)}...{connectedAddress.slice(-4)}
             </div>
           </div>
@@ -152,7 +152,7 @@ export default function WalletConnectionPage() {
 
             <button
               onClick={disconnectWallet}
-              className="py-3 bg-[#21262d]/60 text-[#8b949e] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-semibold hover:bg-[#30363d]/80 transition-colors"
+              className="py-3 bg-[#21262d]/60 text-[#666666] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-semibold hover:bg-[#30363d]/80 transition-colors"
               aria-label="Disconnect wallet"
             >
               Disconnect Wallet
@@ -164,8 +164,8 @@ export default function WalletConnectionPage() {
   }
 
   return (
-    <div role="main" aria-label="Wallet connection page" className="min-h-screen flex items-center justify-center bg-[#0d1117] p-4 md:p-5">
-      <div className="w-full max-w-2xl bg-[#161b22]/60 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 md:p-8">
+    <div role="main" aria-label="Wallet connection page" className="min-h-screen flex items-center justify-center bg-[#0D0D0D] p-4 md:p-5">
+      <div className="w-full max-w-2xl bg-[#141414]/60 backdrop-blur-xl rounded-3xl border border-white/10 shadow-2xl p-6 md:p-8">
         {/* Header */}
         <div className="text-center mb-8 md:mb-10">
           <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-[#58a6ff]/15 rounded-full mb-4 md:mb-6" aria-hidden="true">
@@ -174,7 +174,7 @@ export default function WalletConnectionPage() {
           <h1 className="text-2xl md:text-3xl font-bold text-white mb-2 md:mb-3">
             Connect Your Wallet
           </h1>
-          <p className="text-base md:text-lg text-[#8b949e] leading-relaxed">
+          <p className="text-base md:text-lg text-[#666666] leading-relaxed">
             Choose a wallet to connect to Cryb.ai
           </p>
         </div>
@@ -193,7 +193,7 @@ export default function WalletConnectionPage() {
                 className="flex flex-col items-center gap-2 p-3 bg-[#21262d]/60 rounded-lg border border-white/10"
               >
                 <Icon size={20} className="text-[#58a6ff]" aria-hidden="true" />
-                <span className="text-xs md:text-sm font-semibold text-[#c9d1d9]">
+                <span className="text-xs md:text-sm font-semibold text-[#A0A0A0]">
                   {feature.label}
                 </span>
               </div>
@@ -235,7 +235,7 @@ export default function WalletConnectionPage() {
                 <div className="text-base md:text-lg font-semibold text-white mb-1">
                   {wallet.name}
                 </div>
-                <div className="text-sm text-[#8b949e] truncate">
+                <div className="text-sm text-[#666666] truncate">
                   {wallet.description}
                 </div>
               </div>
@@ -258,7 +258,7 @@ export default function WalletConnectionPage() {
 
         {/* Info */}
         <div className="bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 mb-6 border border-white/10">
-          <p className="text-xs md:text-sm text-[#8b949e] leading-relaxed">
+          <p className="text-xs md:text-sm text-[#666666] leading-relaxed">
             By connecting your wallet, you agree to our{' '}
             <Link to="/terms" className="text-[#58a6ff] underline">
               Terms of Service
@@ -273,7 +273,7 @@ export default function WalletConnectionPage() {
 
         {/* Footer */}
         <div className="pt-6 border-t border-white/10 text-center">
-          <p className="text-sm text-[#8b949e] mb-3">
+          <p className="text-sm text-[#666666] mb-3">
             Don't have a wallet?
           </p>
           <a

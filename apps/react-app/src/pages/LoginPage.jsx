@@ -61,7 +61,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen text-white flex items-center justify-center px-3 py-3 sm:px-3 sm:py-3 pb-6 sm:pb-3 relative overflow-hidden bg-[#0d1117]" role="main" aria-label="Login page">
+    <div className="min-h-screen text-white flex items-center justify-center px-3 py-3 sm:px-3 sm:py-3 pb-6 sm:pb-3 relative overflow-hidden bg-[#0D0D0D]" role="main" aria-label="Login page">
       {/* Background blobs */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute w-64 sm:w-80 h-64 sm:h-80 rounded-full blur-[48px] opacity-25 bg-[#58a6ff] top-10 sm:top-[60px] left-5 sm:left-[30px]" />
@@ -69,7 +69,7 @@ export default function LoginPage() {
       </div>
 
       <div className="relative z-10 w-full max-w-full sm:max-w-[480px] md:max-w-[440px]">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-3.5 sm:p-4">
+        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-3.5 sm:p-4">
           <div className="text-center mb-3 sm:mb-2.5">
             <div className="flex justify-center mb-1.5 sm:mb-[5px]">
               <div className="w-11 h-11 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center" aria-hidden="true">
@@ -77,7 +77,7 @@ export default function LoginPage() {
               </div>
             </div>
             <h1 className="text-xl sm:text-lg font-bold mb-1 text-white">Welcome back</h1>
-            <p className="text-[#8b949e] text-sm sm:text-[13px]">Enter your cryb</p>
+            <p className="text-[#666666] text-sm sm:text-[13px]">Enter your cryb</p>
           </div>
 
           {error && (
@@ -92,11 +92,11 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-2.5 sm:gap-2">
             <div className="flex flex-col">
-              <label htmlFor="email" className="block text-xs sm:text-xs font-medium text-[#c9d1d9] mb-1">
+              <label htmlFor="email" className="block text-xs sm:text-xs font-medium text-[#A0A0A0] mb-1">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8b949e]" aria-hidden="true" />
+                <Mail className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#666666]" aria-hidden="true" />
                 <input
                   type="email"
                   id="email"
@@ -104,7 +104,7 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full bg-[#0d1117] border border-white/10 rounded-xl pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-[#58a6ff]/50 min-h-[44px]"
+                  className="w-full bg-[#0D0D0D] border border-white/10 rounded-xl pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-[#58a6ff]/50 min-h-[44px]"
                   placeholder="you@example.com"
                   autoComplete="email"
                   aria-required="true"
@@ -114,11 +114,11 @@ export default function LoginPage() {
             </div>
 
             <div className="flex flex-col">
-              <label htmlFor="password" className="block text-xs sm:text-xs font-medium text-[#c9d1d9] mb-1">
+              <label htmlFor="password" className="block text-xs sm:text-xs font-medium text-[#A0A0A0] mb-1">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#8b949e]" aria-hidden="true" />
+                <Lock className="absolute left-2.5 top-1/2 -translate-y-1/2 h-4 w-4 text-[#666666]" aria-hidden="true" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   id="password"
@@ -126,7 +126,7 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="w-full bg-[#0d1117] border border-white/10 rounded-xl pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-[#58a6ff]/50 min-h-[44px]"
+                  className="w-full bg-[#0D0D0D] border border-white/10 rounded-xl pl-[34px] pr-[34px] py-2.5 sm:py-2 text-white outline-none transition-all text-base sm:text-[13px] focus:border-[#58a6ff]/50 min-h-[44px]"
                   placeholder="Enter your password"
                   autoComplete="current-password"
                   aria-required="true"
@@ -135,7 +135,7 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#8b949e] bg-none border-none cursor-pointer p-1 flex items-center transition-colors hover:text-[#c9d1d9] min-h-[44px] min-w-[44px]"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#666666] bg-none border-none cursor-pointer p-1 flex items-center transition-colors hover:text-[#A0A0A0] min-h-[44px] min-w-[44px]"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? (
@@ -158,7 +158,7 @@ export default function LoginPage() {
                   className="w-3 h-3 min-w-[12px] min-h-[12px] rounded-sm border border-white/20 bg-transparent mr-1.5 cursor-pointer accent-blue-500"
                   aria-label="Remember me"
                 />
-                <span className="text-[#8b949e] text-xs">Remember me</span>
+                <span className="text-[#666666] text-xs">Remember me</span>
               </label>
               <Link to="/password-reset" className="text-blue-400 no-underline transition-colors whitespace-nowrap hover:text-blue-300">
                 Forgot password?
@@ -181,12 +181,12 @@ export default function LoginPage() {
 
           <div className="my-3 sm:my-2.5 flex items-center">
             <div className="flex-1 border-t border-white/10"></div>
-            <span className="px-2.5 text-xs sm:text-xs text-[#8b949e]">or</span>
+            <span className="px-2.5 text-xs sm:text-xs text-[#666666]">or</span>
             <div className="flex-1 border-t border-white/10"></div>
           </div>
 
           <div className="text-center">
-            <p className="text-[#8b949e] text-sm sm:text-[13px]">
+            <p className="text-[#666666] text-sm sm:text-[13px]">
               Don't have an account?{' '}
               <Link
                 to="/register"
@@ -200,7 +200,7 @@ export default function LoginPage() {
           <div className="mt-2 sm:mt-1.5 text-center">
             <Link
               to="/"
-              className="text-xs sm:text-xs text-[#8b949e] no-underline transition-colors hover:text-[#c9d1d9]"
+              className="text-xs sm:text-xs text-[#666666] no-underline transition-colors hover:text-[#A0A0A0]"
             >
               ← Back to home
             </Link>
