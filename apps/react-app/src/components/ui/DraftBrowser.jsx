@@ -52,7 +52,7 @@ const DraftBrowser = ({
       case 'image': return 'text-[#a371f7]'
       case 'video': return 'text-red-500'
       case 'poll': return 'text-amber-500'
-      default: return 'text-[#8b949e]'
+      default: return 'text-[#666666]'
     }
   }
 
@@ -214,7 +214,7 @@ const DraftBrowser = ({
   color: '#ffffff'
 }}>Drafts</h2>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               {drafts.length} draft{drafts.length !== 1 ? 's' : ''} saved
             </p>
@@ -276,7 +276,7 @@ const DraftBrowser = ({
 }}>
             <Search style={{
   position: 'absolute',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} size={16} />
             <input
               type="text"

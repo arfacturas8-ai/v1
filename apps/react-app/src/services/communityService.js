@@ -51,7 +51,7 @@ class CommunityService {
   async getCommunity(communityId) {
     try {
       const response = await apiService.get(`${this.endpoints.communities}/${communityId}`);
-      
+
       if (response.success && response.data) {
         return { success: true, community: response.data.community };
       }
@@ -59,9 +59,28 @@ class CommunityService {
       return { success: false, error: 'Community not found' };
     } catch (error) {
       console.error('Get community error:', error);
-      return { 
-        success: false, 
-        error: error.data?.message || error.message || 'Failed to fetch community' 
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch community'
+      };
+    }
+  }
+
+  // Get community by name (slug)
+  async getCommunityByName(communityName) {
+    try {
+      const response = await apiService.get(`${this.endpoints.communities}/${communityName}`);
+
+      if (response.success && response.data) {
+        return { success: true, community: response.data.community };
+      }
+
+      return { success: false, error: 'Community not found' };
+    } catch (error) {
+      console.error('Get community by name error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to fetch community'
       };
     }
   }

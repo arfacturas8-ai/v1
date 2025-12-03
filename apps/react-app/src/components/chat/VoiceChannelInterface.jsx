@@ -400,7 +400,7 @@ function VoiceChannelInterface({
             <div style={{
   display: 'flex',
   alignItems: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               {/* Voice status indicators */}
               {participant.muted && <MicOff style={{
@@ -496,7 +496,7 @@ function VoiceChannelInterface({
   fontWeight: '500'
 }}>{channelName}</span>
             <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>({participants.length})</span>
           </div>
           
@@ -579,7 +579,7 @@ function VoiceChannelInterface({
                 {channelName}
               </h3>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 {participants.length} participant{participants.length !== 1 ? 's' : ''}
               </p>
@@ -656,7 +656,7 @@ function VoiceChannelInterface({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Microphone
               </label>
@@ -688,7 +688,7 @@ function VoiceChannelInterface({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Speaker
               </label>
@@ -720,7 +720,7 @@ function VoiceChannelInterface({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Input Volume: {audioSettings.inputVolume}%
               </label>
@@ -741,7 +741,7 @@ function VoiceChannelInterface({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Output Volume: {audioSettings.outputVolume}%
               </label>

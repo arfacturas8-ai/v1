@@ -386,11 +386,11 @@ function UserPresenceSystem({
                   <ActivityIcon style={{
   width: '12px',
   height: '12px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                 )}
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   {details?.customStatus || (activity && `${activity.type} ${activity.name}`)}
                 </span>
@@ -400,7 +400,7 @@ function UserPresenceSystem({
             {/* Last seen for offline users */}
             {user.status === 'offline' && user.lastSeen && (
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Last seen {formatLastSeen(user.lastSeen)}
               </div>
@@ -521,7 +521,7 @@ function UserPresenceSystem({
 }} />
             <span>Members</span>
             <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               ({filteredAndSortedUsers.length})
             </span>
@@ -547,7 +547,7 @@ function UserPresenceSystem({
   position: 'absolute',
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           <input
             type="text"
@@ -629,7 +629,7 @@ function UserPresenceSystem({
   paddingTop: '8px',
   paddingBottom: '8px',
   fontWeight: '600',
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   background: 'rgba(22, 27, 34, 0.6)'
 }}>
                 <div style={{
@@ -664,14 +664,14 @@ function UserPresenceSystem({
             <Users style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <h3 style={{
   fontWeight: '500',
   color: '#ffffff'
 }}>No members found</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               {searchTerm ? 'Try adjusting your search' : 'No members match the current filters'}
             </p>
@@ -688,7 +688,7 @@ function UserPresenceSystem({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           <div style={{
   display: 'flex',

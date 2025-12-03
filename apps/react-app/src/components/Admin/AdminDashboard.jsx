@@ -491,7 +491,7 @@ const AdminDashboard = ({ user, onClose }) => {
           return (
             <button
               key={tab.id}
-              className={`admin-tab ${activeTab === tab.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+              className={`admin-tab ${activeTab === tab.id ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg' : 'bg-[#1A1A1A] text-[#666666] hover:bg-[#30363d] hover:text-white'}`}
               onClick={() => setActiveTab(tab.id)}
             >
               <Icon size={18} />
@@ -518,10 +518,10 @@ const AdminDashboard = ({ user, onClose }) => {
                 <h3>Content Management</h3>
 
                 <div className="content-tabs">
-                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-blue-600 text-white font-medium text-sm shadow-lg">All Content</button>
-                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white font-medium text-sm transition-all">Posts</button>
-                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white font-medium text-sm transition-all">Comments</button>
-                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white font-medium text-sm transition-all">Flagged</button>
+                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white font-medium text-sm shadow-lg">All Content</button>
+                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#1A1A1A] text-[#666666] hover:bg-[#30363d] hover:text-white font-medium text-sm transition-all">Posts</button>
+                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#1A1A1A] text-[#666666] hover:bg-[#30363d] hover:text-white font-medium text-sm transition-all">Comments</button>
+                  <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#1A1A1A] text-[#666666] hover:bg-[#30363d] hover:text-white font-medium text-sm transition-all">Flagged</button>
                 </div>
 
                 <div className="content-search">
@@ -574,7 +574,7 @@ const AdminDashboard = ({ user, onClose }) => {
                     <div className="setting-item">
                       <label>
                         <span className="setting-label">Platform Name</span>
-                        <input type="text" defaultValue="CRYB" className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" />
+                        <input type="text" defaultValue="CRYB" className="w-full px-4 py-2.5 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
                       </label>
                     </div>
                     <div className="setting-item">
@@ -632,7 +632,7 @@ const AdminDashboard = ({ user, onClose }) => {
                     <div className="setting-item">
                       <label>
                         <span className="setting-label">Max Upload Size (MB)</span>
-                        <input type="number" defaultValue="10" min="1" max="100" className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" />
+                        <input type="number" defaultValue="10" min="1" max="100" className="w-full px-4 py-2.5 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
                       </label>
                     </div>
                   </div>
@@ -648,7 +648,7 @@ const AdminDashboard = ({ user, onClose }) => {
                     <div className="setting-item">
                       <label>
                         <span className="setting-label">Session Timeout (minutes)</span>
-                        <input type="number" defaultValue="30" min="5" max="1440" className="w-full px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all" />
+                        <input type="number" defaultValue="30" min="5" max="1440" className="w-full px-4 py-2.5 bg-[#1A1A1A] border border-white/10 rounded-lg text-white placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
                       </label>
                     </div>
                   </div>

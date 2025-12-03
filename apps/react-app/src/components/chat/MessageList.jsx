@@ -256,42 +256,15 @@ function MessageList({
   const renderItem = useCallback((item, index) => {
     if (item.type === 'date-separator') {
       return (
-        <div key={item.id} style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  marginTop: '32px',
-  marginBottom: '32px'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  width: '100%'
-}}>
-            <div style={{
-  flex: '1'
-}}></div>
-            <div style={{
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-              backgroundColor: 'var(--bg-secondary)',
-              borderColor: 'var(--border-primary)',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
-            }}>
-              <span style={{
-  fontWeight: '500',
-  color: 'var(--text-muted)'
-}}>
+        <div key={item.id} className="flex items-center justify-center my-8">
+          <div className="flex items-center w-full px-4">
+            <div className="flex-1 border-t border-white/10"></div>
+            <div className="px-4 py-2 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+              <span className="text-sm font-medium text-[#666666]">
                 {formatDate(item.date)}
               </span>
             </div>
-            <div style={{
-  flex: '1'
-}}></div>
+            <div className="flex-1 border-t border-white/10"></div>
           </div>
         </div>
       )
@@ -478,36 +451,23 @@ function MessageList({
   const bottomSpacerHeight = getSpacerHeight(visibleRange.end, flatMessageList.length)
 
   return (
-    <div style={{
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  position: 'relative'
-}}>
-      
+    <div className="flex flex-col h-full relative">
+
       {/* Loading indicator */}
       {isLoading && (
-        <div style={{
-  display: 'flex',
-  justifyContent: 'center',
-  padding: '16px'
-}}>
-          <div style={{
-  borderRadius: '50%',
-  height: '24px',
-  width: '24px'
-}}></div>
+        <div className="flex justify-center p-4">
+          <div className="w-6 h-6 border-2 border-[#58a6ff] border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
       
       {/* Messages container */}
-      <div 
+      <div
         ref={containerRef}
+        className="flex-1 overflow-y-auto"
         style={{
-  flex: '1',
-  WebkitOverflowScrolling: 'touch',
-  overscrollBehavior: 'contain'
-}}
+          WebkitOverflowScrolling: 'touch',
+          overscrollBehavior: 'contain'
+        }}
         onScroll={handleScroll}
       >
         {/* Virtual scrolling implementation */}
@@ -536,23 +496,12 @@ function MessageList({
       
       {/* Selection mode actions */}
       {isSelectionMode && selectedMessages.size > 0 && (
-        <div style={{
-  position: 'absolute',
-  padding: '16px'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-            <span style={{
-  color: '#ffffff'
-}}>
+        <div className="absolute bottom-4 left-4 right-4 z-10">
+          <div className="flex items-center justify-between p-4 bg-[#141414]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <span className="font-medium text-white">
               {selectedMessages.size} message{selectedMessages.size > 1 ? 's' : ''} selected
             </span>
-            <div style={{
-  display: 'flex'
-}}>
+            <div className="flex gap-2">
               <button
                 onClick={() => {
                   selectedMessages.forEach(messageId => {
@@ -562,14 +511,7 @@ function MessageList({
                   setIsSelectionMode(false)
                   setSelectedMessages(new Set())
                 }}
-                style={{
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '4px',
-  paddingBottom: '4px',
-  color: '#ffffff',
-  borderRadius: '4px'
-}}
+                className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:shadow-[0_8px_32px_rgba(88,166,255,0.3)] transition-all"
               >
                 Copy
               </button>
@@ -578,15 +520,7 @@ function MessageList({
                   setIsSelectionMode(false)
                   setSelectedMessages(new Set())
                 }}
-                style={{
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '4px',
-  paddingBottom: '4px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  color: '#ffffff',
-  borderRadius: '4px'
-}}
+                className="px-4 py-2 bg-[#0D0D0D] border border-white/10 text-white rounded-xl font-medium hover:bg-[#141414] transition-all"
               >
                 Cancel
               </button>
@@ -599,18 +533,9 @@ function MessageList({
       {!isAtBottom() && (
         <button
           onClick={() => scrollToBottom(true)}
-          style={{
-  position: 'absolute',
-  padding: '12px',
-  borderRadius: '50%',
-  backgroundColor: 'var(--accent-primary)',
-  color: 'white'
-}}
+          className="absolute bottom-4 right-4 p-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-full shadow-[0_8px_32px_rgba(88,166,255,0.4)] hover:shadow-[0_12px_40px_rgba(88,166,255,0.5)] transition-all z-10"
         >
-          <svg style={{
-  width: '20px',
-  height: '20px'
-}} fill="currentColor" viewBox="0 0 20 20">
+          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd" />
           </svg>
         </button>

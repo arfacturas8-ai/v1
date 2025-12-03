@@ -437,7 +437,7 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
   fontWeight: '600'
 }}>{wallet.name}</p>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{wallet.description}</p>
                   </div>
                 </div>
@@ -474,7 +474,7 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
                   <ChevronRight style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                 </div>
               </div>
@@ -505,7 +505,7 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
   textAlign: 'center'
 }}>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             By connecting a wallet, you agree to CRYB's Terms of Service
           </p>
@@ -540,30 +540,30 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
             <QrCode style={{
   width: '64px',
   height: '64px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <div style={{
   position: 'absolute'
 }}>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>QR Code would appear here</p>
             </div>
           </div>
 
           <div>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               1. Open your wallet app
             </p>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               2. Scan this QR code
             </p>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               3. Approve the connection
             </p>
@@ -625,7 +625,7 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
   fontWeight: '600'
 }}>{network.name}</p>
                     <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                       {network.nativeCurrency.symbol}
                     </p>
@@ -713,7 +713,7 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
                 </Button>
               </div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 {connectionState.balance} ETH
               </p>

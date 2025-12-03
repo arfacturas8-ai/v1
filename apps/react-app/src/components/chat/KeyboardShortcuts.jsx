@@ -368,7 +368,7 @@ function KeyboardShortcuts({
                       <Icon style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                       <span style={{
   color: '#ffffff'
@@ -420,7 +420,7 @@ function KeyboardShortcuts({
                         <Icon style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                         <span style={{
   color: '#ffffff'
@@ -502,7 +502,7 @@ function KeyboardShortcuts({
   textAlign: 'center'
 }}>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Press <kbd style={{
   paddingLeft: '4px',

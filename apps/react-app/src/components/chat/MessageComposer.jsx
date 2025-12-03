@@ -444,7 +444,7 @@ function MessageComposer({
   }, [content])
 
   return (
-    <div className={`bg-[#161b22]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
+    <div className={`bg-[#141414]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
       {/* Reply/Edit Header */}
       {(replyToMessage || editingMessage) && (
         <div style={{
@@ -477,7 +477,7 @@ function MessageComposer({
                     Replying to {replyToMessage.username}
                   </span>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {replyToMessage.content}
                   </span>
@@ -558,7 +558,7 @@ function MessageComposer({
                     <File style={{
   width: '24px',
   height: '24px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                     <div>
                       <div style={{
@@ -567,7 +567,7 @@ function MessageComposer({
                         {attachment.name}
                       </div>
                       <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         {(attachment.size / 1024 / 1024).toFixed(1)} MB
                       </div>
@@ -687,7 +687,7 @@ function MessageComposer({
   fontWeight: '500'
 }}>Voice message</div>
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{formatDuration(recordingDuration)}</div>
             </div>
             <button
@@ -764,7 +764,7 @@ function MessageComposer({
   fontWeight: '500'
 }}>{user.displayName}</div>
                   <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>@{user.username}</div>
                 </div>
               </button>
@@ -799,14 +799,14 @@ function MessageComposer({
                   <Icon style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                   <div>
                     <div style={{
   fontWeight: '500'
 }}>/{command.name}</div>
                     <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{command.description}</div>
                   </div>
                 </button>
@@ -816,48 +816,28 @@ function MessageComposer({
         )}
 
         {/* Input Container */}
-        <div style={{
-  display: 'flex',
-  alignItems: 'flex-end',
-  padding: '16px'
-}}>
+        <div className="flex items-end gap-2 p-4">
           {/* Left Actions */}
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+          <div className="flex items-center gap-1">
             {/* File Upload */}
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
-              style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+              className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff] disabled:opacity-50"
             >
-              <Paperclip style={{
-  width: '20px',
-  height: '20px',
-  color: '#c9d1d9'
-}} />
+              <Paperclip className="w-5 h-5" />
             </button>
             <input
               ref={fileInputRef}
               type="file"
               multiple
               onChange={handleFileSelect}
-              style={{
-  display: 'none'
-}}
+              className="hidden"
             />
           </div>
 
           {/* Main Input */}
-          <div style={{
-  flex: '1',
-  position: 'relative'
-}}>
+          <div className="flex-1 relative mx-2">
             <textarea
               ref={textareaRef}
               value={content}
@@ -865,17 +845,8 @@ function MessageComposer({
               onKeyDown={handleKeyPress}
               placeholder={disabled ? 'This channel is read-only' : placeholder}
               disabled={disabled}
-              style={{
-  width: '100%',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  height: 'auto'
-}}
+              className="w-full px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] resize-none focus:outline-none focus:ring-2 focus:ring-[#58a6ff]/50 focus:border-[#58a6ff]/50 transition-all"
+              style={{ minHeight: '40px', maxHeight: '200px' }}
             />
 
             {/* Format Toolbar */}
@@ -944,52 +915,29 @@ function MessageComposer({
           </div>
 
           {/* Right Actions */}
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+          <div className="flex items-center gap-1">
             {/* Formatting Toggle */}
             <button
               onClick={() => setShowFormatting(!showFormatting)}
-              style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+              className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
             >
-              <Code style={{
-  width: '20px',
-  height: '20px',
-  color: '#c9d1d9'
-}} />
+              <Code className="w-5 h-5" />
             </button>
 
             {/* Emoji Picker */}
-            <div style={{
-  position: 'relative'
-}}>
+            <div className="relative">
               <button
                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
               >
-                <Smile style={{
-  width: '20px',
-  height: '20px',
-  color: '#c9d1d9'
-}} />
+                <Smile className="w-5 h-5" />
               </button>
-              
+
               {showEmojiPicker && (
-                <div ref={emojiPickerRef} style={{
-  position: 'absolute'
-}}>
+                <div ref={emojiPickerRef} className="absolute bottom-full right-0 mb-2 z-50">
                   <EmojiPicker
                     onEmojiClick={handleEmojiClick}
-                    theme={document.documentElement.classList.contains('dark') ? 'dark' : 'light'}
+                    theme="dark"
                     width={320}
                     height={400}
                   />
@@ -1002,17 +950,9 @@ function MessageComposer({
               <button
                 onClick={startRecording}
                 disabled={disabled}
-                style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff] disabled:opacity-50"
               >
-                <Mic style={{
-  width: '20px',
-  height: '20px',
-  color: '#c9d1d9'
-}} />
+                <Mic className="w-5 h-5" />
               </button>
             )}
 
@@ -1020,30 +960,18 @@ function MessageComposer({
             <button
               onClick={editingMessage ? handleSaveEdit : handleSendMessage}
               disabled={disabled || (!content.trim() && attachments.length === 0 && !audioBlob)}
-              style={{
-  padding: '8px',
-  borderRadius: '4px',
-  color: '#ffffff'
-}}
+              className="p-2 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_8px_32px_rgba(88,166,255,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
             >
-              <Send style={{
-  width: '20px',
-  height: '20px'
-}} />
+              <Send className="w-5 h-5" />
             </button>
           </div>
         </div>
 
         {/* Typing Indicators */}
         {typingUsers.length > 0 && (
-          <div style={{
-  paddingLeft: '16px',
-  paddingRight: '16px'
-}}>
-            <div style={{
-  color: '#c9d1d9'
-}}>
-              {typingUsers.length === 1 
+          <div className="px-4 pb-2">
+            <div className="text-sm text-[#666666] italic">
+              {typingUsers.length === 1
                 ? `${typingUsers[0]} is typing...`
                 : typingUsers.length === 2
                 ? `${typingUsers[0]} and ${typingUsers[1]} are typing...`

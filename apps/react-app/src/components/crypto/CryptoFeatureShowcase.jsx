@@ -258,7 +258,7 @@ const CryptoFeatureShowcase = () => {
             CRYB Web3 Platform
           </h1>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             The most comprehensive Web3 social platform with advanced NFT, DeFi, and cryptocurrency features
           </p>
@@ -274,7 +274,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: 'bold'
 }}>8+</div>
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Crypto Features</div>
             </div>
             <div style={{
@@ -284,7 +284,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: 'bold'
 }}>5+</div>
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Blockchains</div>
             </div>
             <div style={{
@@ -294,7 +294,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: 'bold'
 }}>10+</div>
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Wallet Types</div>
             </div>
             <div style={{
@@ -304,7 +304,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: 'bold'
 }}>40%</div>
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Max APY</div>
             </div>
           </div>
@@ -347,7 +347,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>{feature.title}</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{feature.description}</p>
             
             <div className="space-y-1">
@@ -361,13 +361,13 @@ const CryptoFeatureShowcase = () => {
   height: '12px'
 }} />
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{benefit}</span>
                 </div>
               ))}
               {feature.benefits.length > 3 && (
                 <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   +{feature.benefits.length - 3} more features
                 </div>
@@ -393,7 +393,7 @@ const CryptoFeatureShowcase = () => {
               <ArrowRight style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             </div>
           </Card>
@@ -419,7 +419,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>Lightning Fast</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Optimized for performance</p>
           </div>
           <div style={{
@@ -430,7 +430,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>Secure</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Military-grade encryption</p>
           </div>
           <div style={{
@@ -441,7 +441,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>Multi-Chain</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Cross-chain compatible</p>
           </div>
           <div style={{
@@ -452,7 +452,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>Scalable</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Built for growth</p>
           </div>
         </div>
@@ -499,7 +499,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: 'bold'
 }}>{selectedFeature.title}</h2>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{selectedFeature.description}</p>
                 </div>
               </div>
@@ -533,7 +533,7 @@ const CryptoFeatureShowcase = () => {
   height: '16px'
 }} />
                     <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{benefit}</span>
                   </div>
                 ))}
@@ -575,7 +575,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: 'bold'
 }}>Web3 Features</h1>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Explore CRYB's comprehensive cryptocurrency and NFT capabilities</p>
         </div>
       </div>
@@ -646,7 +646,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: 'bold'
 }}>Crypto Payment System</h2>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Comprehensive cryptocurrency payment gateway with fiat-to-crypto onboarding
             </p>
@@ -667,7 +667,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>Multi-Currency</h3>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>BTC, ETH, USDC, CRYB</p>
                 </Card>
                 <Card style={{
@@ -682,7 +682,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>Secure</h3>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Bank-grade security</p>
                 </Card>
                 <Card style={{
@@ -697,7 +697,7 @@ const CryptoFeatureShowcase = () => {
   fontWeight: '600'
 }}>Instant</h3>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Real-time processing</p>
                 </Card>
               </div>

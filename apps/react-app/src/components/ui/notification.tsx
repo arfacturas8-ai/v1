@@ -556,7 +556,7 @@ const styles = {
     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
   },
   container: {
-    background: '#0d1117',
+    background: '#0D0D0D',
     padding: '16px'
   },
   title: {
@@ -566,12 +566,12 @@ const styles = {
     margin: '0 0 16px 0'
   },
   text: {
-    color: '#c9d1d9',
+    color: '#A0A0A0',
     fontSize: '14px',
     margin: '0'
   },
   textTertiary: {
-    color: '#8b949e',
+    color: '#666666',
     fontSize: '14px'
   }
 }

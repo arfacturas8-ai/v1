@@ -748,10 +748,6 @@ export default function App() {
                   <Route path="*" element={<LazyRoute component={NotFoundPage} name="NotFoundPage" />} />
                       </Routes>
                   </AnalyticsWrapper>
-
-                  {/* Global UI Components */}
-                  <CookieConsent />
-                  <TermsAcceptanceModal />
                 </Web3Provider>
               </OnboardingProvider>
             </ToastProvider>

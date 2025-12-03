@@ -265,18 +265,18 @@ function HomePage() {
 
   if (authLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-[#0d1117]">
+      <div className="flex items-center justify-center min-h-screen bg-[#0D0D0D]">
         <Loader size={40} className="animate-spin text-[#58a6ff]" />
       </div>
     )
   }
 
   return (
-    <div className="flex justify-center min-h-screen bg-[#0d1117] text-[#c9d1d9]">
+    <div className="flex justify-center min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
       {isOffline && (
-        <div className="fixed top-0 left-0 right-0 p-3 bg-gradient-to-r from-yellow-500/90 to-red-500/90 backdrop-blur-lg text-white text-center z-[100] flex items-center justify-center gap-2 border-b border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
-          <WifiOff size={18} />
-          <span className="font-medium text-sm sm:text-base">You're offline. Showing cached content.</span>
+        <div className="fixed top-16 left-1/2 -translate-x-1/2 px-4 py-2 bg-amber-500/90 backdrop-blur-lg text-white text-center z-40 flex items-center justify-center gap-2 rounded-full shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+          <WifiOff size={16} />
+          <span className="font-medium text-sm">Offline mode</span>
         </div>
       )}
 
@@ -297,11 +297,11 @@ function HomePage() {
                 <Link
                   key={item.id}
                   to={item.path}
-                  className={`flex items-center gap-4 px-4 py-3 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] no-underline text-base font-medium transition-all group hover:bg-[#161b22]/60 backdrop-blur-xl ${
+                  className={`flex items-center gap-4 px-4 py-3 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#A0A0A0] no-underline text-base font-medium transition-all group hover:bg-[#141414]/60 backdrop-blur-xl ${
                     item.active ? 'bg-[#58a6ff]/10 text-white font-semibold border-l-2 border-[#58a6ff]' : ''
                   }`}
                 >
-                  <Icon size={22} className={item.active ? 'text-[#58a6ff]' : 'text-[#8b949e] group-hover:text-white'} />
+                  <Icon size={22} className={item.active ? 'text-[#58a6ff]' : 'text-[#666666] group-hover:text-white'} />
                   <span className="flex-1">{item.label}</span>
                   {item.badge && (
                     <span className="bg-[#58a6ff] text-white text-xs font-bold px-2 py-0.5 rounded-full min-w-[20px] text-center">
@@ -323,7 +323,7 @@ function HomePage() {
 
           {user && (
             <div
-              className="flex items-center gap-3 p-3 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer transition-all hover:bg-[#161b22]/60 backdrop-blur-xl border border-white/10 bg-[#161b22]/40"
+              className="flex items-center gap-3 p-3 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer transition-all hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 bg-[#141414]/40"
               onClick={() => navigate(`/profile/${user.username}`)}
             >
               {user.avatar ? (
@@ -335,16 +335,16 @@ function HomePage() {
               )}
               <div className="flex-1 min-w-0">
                 <div className="font-semibold text-white text-sm truncate">{user.displayName || user.username}</div>
-                <div className="text-[#8b949e] text-xs truncate">@{user.username}</div>
+                <div className="text-[#666666] text-xs truncate">@{user.username}</div>
               </div>
-              <MoreHorizontal size={18} className="text-[#8b949e]" />
+              <MoreHorizontal size={18} className="text-[#666666]" />
             </div>
           )}
         </aside>
 
         {/* Center Feed - OpenSea Cards */}
         <main className={`flex-1 max-w-[680px] min-h-screen ${isMobile ? '' : 'border-r border-white/10'}`}>
-          <div className="sticky top-0 z-20 bg-[#0d1117]/80 backdrop-blur-xl border-b border-white/10 shadow-lg">
+          <div className="sticky top-0 z-20 bg-[#0D0D0D]/80 backdrop-blur-xl border-b border-white/10 shadow-lg">
             <div className="px-6 py-5">
               <h1 className="text-xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
                 Home Feed
@@ -358,7 +358,7 @@ function HomePage() {
                   <button
                     key={filter.id}
                     className={`flex-1 flex items-center justify-center gap-2 px-4 py-4 bg-none border-none text-sm font-medium cursor-pointer transition-all relative ${
-                      isActive ? 'text-white font-semibold' : 'text-[#8b949e] hover:text-white hover:bg-[#161b22]/60 backdrop-blur-xl'
+                      isActive ? 'text-white font-semibold' : 'text-[#666666] hover:text-white hover:bg-[#141414]/60 backdrop-blur-xl'
                     }`}
                     onClick={() => setActiveFilter(filter.id)}
                   >
@@ -378,10 +378,10 @@ function HomePage() {
                 <Loader size={36} className="animate-spin text-[#58a6ff]" />
               </div>
             ) : posts.length === 0 ? (
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <MessageCircle size={56} className="mb-4 opacity-40 mx-auto text-[#8b949e]" />
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <MessageCircle size={56} className="mb-4 opacity-40 mx-auto text-[#666666]" />
                 <h3 className="text-white text-lg font-semibold mb-2">No posts yet</h3>
-                <p className="text-[#8b949e] mb-6">Be the first to share something with the community!</p>
+                <p className="text-[#666666] mb-6">Be the first to share something with the community!</p>
                 <button
                   className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-xl text-white font-semibold cursor-pointer hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all min-h-[48px]"
                   onClick={() => navigate('/submit')}
@@ -394,7 +394,7 @@ function HomePage() {
                 {posts.map(post => (
                   <div
                     key={post.id}
-                    className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_8px_32px_rgba(88,166,255,0.1)] cursor-pointer group"
+                    className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_8px_32px_rgba(88,166,255,0.1)] cursor-pointer group"
                     onClick={() => navigate(`/post/${post.id}`)}
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -410,14 +410,14 @@ function HomePage() {
                           <span className="font-bold text-white">{post.author?.displayName || post.author?.username}</span>
                           {post.community && (
                             <>
-                              <span className="text-[#8b949e]">•</span>
+                              <span className="text-[#666666]">•</span>
                               <span className="text-[#58a6ff] text-sm font-medium hover:underline" onClick={(e) => { e.stopPropagation(); navigate(`/community/${post.community.name}`) }}>
                                 c/{post.community.name}
                               </span>
                             </>
                           )}
                         </div>
-                        <span className="text-[#8b949e] text-sm flex items-center gap-1">
+                        <span className="text-[#666666] text-sm flex items-center gap-1">
                           <Clock size={12} />
                           {post.createdAt ? new Date(post.createdAt).toLocaleDateString() : ''}
                         </span>
@@ -427,7 +427,7 @@ function HomePage() {
                     <div className="mb-4">
                       {post.title && <h3 className="text-lg font-bold text-white mb-2 leading-snug group-hover:text-[#58a6ff] transition-colors">{post.title}</h3>}
                       {post.content && (
-                        <p className="text-[#c9d1d9] leading-relaxed text-sm sm:text-base">
+                        <p className="text-[#A0A0A0] leading-relaxed text-sm sm:text-base">
                           {post.content.length > 280 ? `${post.content.slice(0, 280)}...` : post.content}
                         </p>
                       )}
@@ -444,24 +444,24 @@ function HomePage() {
 
                     <div className="flex gap-2 flex-wrap" onClick={e => e.stopPropagation()}>
                       <button
-                        className={`flex items-center gap-2 px-4 py-2.5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-sm font-medium cursor-pointer transition-all hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 min-h-[40px] ${
-                          post.userVote === 'up' ? 'text-[#58a6ff] bg-[#58a6ff]/10 border-[#58a6ff]/30' : 'text-[#8b949e]'
+                        className={`flex items-center gap-2 px-4 py-2.5 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-lg text-sm font-medium cursor-pointer transition-all hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 min-h-[40px] ${
+                          post.userVote === 'up' ? 'text-[#58a6ff] bg-[#58a6ff]/10 border-[#58a6ff]/30' : 'text-[#666666]'
                         }`}
                         onClick={() => handleVote(post.id, post.userVote === 'up' ? 'remove' : 'up')}
                       >
                         <Heart size={16} fill={post.userVote === 'up' ? '#58a6ff' : 'none'} />
                         <span>{formatNumber(post.score || 0)}</span>
                       </button>
-                      <button className="flex items-center gap-2 px-4 py-2.5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#8b949e] text-sm font-medium cursor-pointer transition-all hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 hover:text-white min-h-[40px]" onClick={() => navigate(`/post/${post.id}`)}>
+                      <button className="flex items-center gap-2 px-4 py-2.5 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#666666] text-sm font-medium cursor-pointer transition-all hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 hover:text-white min-h-[40px]" onClick={() => navigate(`/post/${post.id}`)}>
                         <MessageCircle size={16} />
                         <span>{formatNumber(post.commentCount || 0)}</span>
                       </button>
-                      <button className="flex items-center gap-2 px-4 py-2.5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#8b949e] text-sm font-medium cursor-pointer transition-all hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 hover:text-white min-h-[40px]">
+                      <button className="flex items-center gap-2 px-4 py-2.5 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#666666] text-sm font-medium cursor-pointer transition-all hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 hover:text-white min-h-[40px]">
                         <Share2 size={16} />
                       </button>
                       <button
-                        className={`flex items-center gap-2 px-4 py-2.5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-sm font-medium cursor-pointer transition-all hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#a371f7]/30 min-h-[40px] ${
-                          post.saved ? 'text-[#a371f7] bg-[#a371f7]/10 border-[#a371f7]/30' : 'text-[#8b949e]'
+                        className={`flex items-center gap-2 px-4 py-2.5 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-lg text-sm font-medium cursor-pointer transition-all hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#a371f7]/30 min-h-[40px] ${
+                          post.saved ? 'text-[#a371f7] bg-[#a371f7]/10 border-[#a371f7]/30' : 'text-[#666666]'
                         }`}
                         onClick={() => handleSave(post.id)}
                       >
@@ -474,7 +474,7 @@ function HomePage() {
                 {hasMore && (
                   <div className="text-center py-6">
                     <button
-                      className="px-8 py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#58a6ff] text-sm font-semibold cursor-pointer hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all shadow-[0_4px_16px_rgba(0,0,0,0.2)] min-h-[48px] disabled:opacity-50"
+                      className="px-8 py-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#58a6ff] text-sm font-semibold cursor-pointer hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all shadow-[0_4px_16px_rgba(0,0,0,0.2)] min-h-[48px] disabled:opacity-50"
                       onClick={handleLoadMore}
                       disabled={loadingMore}
                     >
@@ -492,27 +492,27 @@ function HomePage() {
           <div className="sticky top-4 flex flex-col gap-5">
             {/* Search */}
             <form onSubmit={handleSearch} className="relative">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8b949e]" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="text"
                 placeholder="Search CRYB..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full px-4 pl-12 py-3.5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl text-white text-base placeholder-[#8b949e] outline-none transition-all focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] shadow-[0_4px_16px_rgba(0,0,0,0.2)]"
+                className="w-full px-4 pl-12 py-3.5 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-white text-base placeholder-[#666666] outline-none transition-all focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] shadow-[0_4px_16px_rgba(0,0,0,0.2)]"
               />
             </form>
 
             {/* Wallet Card */}
             {user && (
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-[#a371f7]/30 rounded-2xl p-5 shadow-[0_8px_32px_rgba(163,113,247,0.15)]">
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-[#a371f7]/30 rounded-2xl p-5 shadow-[0_8px_32px_rgba(163,113,247,0.15)]">
                 <div className="flex items-center gap-2 text-lg font-bold text-white mb-4">
                   <Wallet size={22} className="text-[#a371f7]" />
                   <span>Web3 Wallet</span>
                 </div>
                 {web3State?.isConnected ? (
                   <>
-                    <div className="flex justify-between items-center mb-4 p-3 bg-[#161b22]/60 backdrop-blur-xl rounded-lg">
-                      <span className="text-[#8b949e] text-sm font-medium">Balance</span>
+                    <div className="flex justify-between items-center mb-4 p-3 bg-[#141414]/60 backdrop-blur-xl rounded-lg">
+                      <span className="text-[#666666] text-sm font-medium">Balance</span>
                       <span className="text-white font-bold text-base">
                         {web3State.balance ? `${(Number(web3State.balance) / 1e18).toFixed(4)} ETH` : '0 ETH'}
                       </span>
@@ -521,7 +521,7 @@ function HomePage() {
                   </>
                 ) : (
                   <>
-                    <p className="text-[#8b949e] text-sm mb-4 leading-relaxed">
+                    <p className="text-[#666666] text-sm mb-4 leading-relaxed">
                       Connect your wallet to access Web3 features, token gating, and NFT memberships.
                     </p>
                     <EnhancedWalletConnectButton size="sm" />
@@ -531,7 +531,7 @@ function HomePage() {
             )}
 
             {/* Trending Communities */}
-            <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
               <div className="flex items-center gap-2 text-lg font-bold text-white mb-4">
                 <TrendingUp size={22} className="text-[#58a6ff]" />
                 <span>Trending Communities</span>
@@ -541,7 +541,7 @@ function HomePage() {
                   {trendingCommunities.map(community => (
                     <div
                       key={community.id}
-                      className="flex items-center gap-3 py-2.5 px-3 cursor-pointer transition-all hover:bg-[#161b22]/60 backdrop-blur-xl rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] group"
+                      className="flex items-center gap-3 py-2.5 px-3 cursor-pointer transition-all hover:bg-[#141414]/60 backdrop-blur-xl rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] group"
                       onClick={() => navigate(`/community/${community.name || community.id}`)}
                     >
                       {community.icon ? (
@@ -553,23 +553,23 @@ function HomePage() {
                       )}
                       <div className="flex-1">
                         <div className="font-semibold text-white text-sm group-hover:text-[#58a6ff] transition-colors">c/{community.name}</div>
-                        <div className="text-[#8b949e] text-xs">{formatNumber(community.members || 0)} members</div>
+                        <div className="text-[#666666] text-xs">{formatNumber(community.members || 0)} members</div>
                       </div>
-                      <ChevronRight size={16} className="text-[#8b949e] group-hover:text-white transition-colors" />
+                      <ChevronRight size={16} className="text-[#666666] group-hover:text-white transition-colors" />
                     </div>
                   ))}
-                  <button className="block w-full py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 text-[#58a6ff] text-sm font-semibold cursor-pointer text-center rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all min-h-[40px]" onClick={() => navigate('/communities')}>
+                  <button className="block w-full py-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 text-[#58a6ff] text-sm font-semibold cursor-pointer text-center rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all min-h-[40px]" onClick={() => navigate('/communities')}>
                     Explore All Communities
                   </button>
                 </div>
               ) : (
-                <p className="text-[#8b949e] text-sm">No trending communities right now.</p>
+                <p className="text-[#666666] text-sm">No trending communities right now.</p>
               )}
             </div>
 
             {/* Messages Preview */}
             {user && conversations.length > 0 && (
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="flex items-center gap-2 text-lg font-bold text-white mb-4">
                   <Mail size={22} className="text-[#58a6ff]" />
                   <span>Recent Messages</span>
@@ -578,7 +578,7 @@ function HomePage() {
                   {conversations.map(conv => (
                     <div
                       key={conv.id}
-                      className="flex items-center gap-3 py-2.5 px-3 cursor-pointer hover:bg-[#161b22]/60 backdrop-blur-xl rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all group"
+                      className="flex items-center gap-3 py-2.5 px-3 cursor-pointer hover:bg-[#141414]/60 backdrop-blur-xl rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all group"
                       onClick={() => navigate(`/messages/${conv.id}`)}
                     >
                       {conv.user?.avatar ? (
@@ -591,7 +591,7 @@ function HomePage() {
                       <div className="flex-1 min-w-0">
                         <div className="font-semibold text-white text-sm group-hover:text-[#58a6ff] transition-colors">{conv.user?.displayName}</div>
                         {conv.lastMessage && (
-                          <div className="text-[#8b949e] text-xs truncate">{conv.lastMessage.content}</div>
+                          <div className="text-[#666666] text-xs truncate">{conv.lastMessage.content}</div>
                         )}
                       </div>
                       {conv.unreadCount > 0 && (
@@ -599,7 +599,7 @@ function HomePage() {
                       )}
                     </div>
                   ))}
-                  <button className="block w-full py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 text-[#58a6ff] text-sm font-semibold cursor-pointer text-center rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all min-h-[40px]" onClick={() => navigate('/messages')}>
+                  <button className="block w-full py-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 text-[#58a6ff] text-sm font-semibold cursor-pointer text-center rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all min-h-[40px]" onClick={() => navigate('/messages')}>
                     View All Messages
                   </button>
                 </div>
@@ -608,7 +608,7 @@ function HomePage() {
 
             {/* Who to Follow */}
             {user && suggestedUsers.length > 0 && (
-              <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
                 <div className="flex items-center gap-2 text-lg font-bold text-white mb-4">
                   <Users size={22} className="text-[#58a6ff]" />
                   <span>Who to Follow</span>
@@ -617,7 +617,7 @@ function HomePage() {
                   {suggestedUsers.map(suggestedUser => (
                     <div
                       key={suggestedUser.id}
-                      className="flex items-center gap-3 py-2.5 px-3 cursor-pointer hover:bg-[#161b22]/60 backdrop-blur-xl rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all group"
+                      className="flex items-center gap-3 py-2.5 px-3 cursor-pointer hover:bg-[#141414]/60 backdrop-blur-xl rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all group"
                       onClick={() => navigate(`/profile/${suggestedUser.username}`)}
                     >
                       {suggestedUser.avatar ? (
@@ -629,11 +629,11 @@ function HomePage() {
                       )}
                       <div className="flex-1">
                         <div className="font-semibold text-white text-sm group-hover:text-[#58a6ff] transition-colors">{suggestedUser.displayName || suggestedUser.username}</div>
-                        <div className="text-[#8b949e] text-xs">@{suggestedUser.username}</div>
+                        <div className="text-[#666666] text-xs">@{suggestedUser.username}</div>
                       </div>
                     </div>
                   ))}
-                  <button className="block w-full py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 text-[#58a6ff] text-sm font-semibold cursor-pointer text-center rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all min-h-[40px]" onClick={() => navigate('/users')}>
+                  <button className="block w-full py-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 text-[#58a6ff] text-sm font-semibold cursor-pointer text-center rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-[#141414]/60 backdrop-blur-xl hover:border-[#58a6ff]/30 transition-all min-h-[40px]" onClick={() => navigate('/users')}>
                     Discover More Users
                   </button>
                 </div>

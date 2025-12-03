@@ -317,7 +317,7 @@ const EnhancedAwardSystem = ({
   fontWeight: 'bold'
 }}>Give Award</h2>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Show appreciation for this post</p>
               </div>
             </div>

@@ -63,7 +63,7 @@ const getNotificationIcon = (type) => {
     case NOTIFICATION_TYPES.REPLY:
       return <MessageSquare className="w-5 h-5 text-cyan-500" />
     default:
-      return <Bell className="w-5 h-5 text-[#8b949e]" />
+      return <Bell className="w-5 h-5 text-[#666666]" />
   }
 }
 
@@ -272,23 +272,23 @@ function NotificationsPage() {
   // Memoize filter options
   const filterOptions = useMemo(() => ['all', 'unread', 'mentions', 'reactions'], [])
   return (
-    <div className="min-h-screen bg-[#0d1117]" role="main">
+    <div className="min-h-screen bg-[#0D0D0D]" role="main">
       {/* Header */}
-      <div className="bg-[#161b22]/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-10">
+      <div className="bg-[#141414]/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-10">
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate(-1)}
-                className="md:hidden p-2 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target"
+                className="md:hidden p-2 hover:bg-white/5 rounded-lg transition-all duration-200 touch-target"
                 aria-label="Go back"
               >
-                <ArrowLeft className="w-5 h-5 text-[#8b949e]" aria-hidden="true" />
+                <ArrowLeft className="w-5 h-5 text-[#666666]" aria-hidden="true" />
               </button>
               <Bell className="w-6 h-6 text-[#58a6ff]" aria-hidden="true" />
               <h1 className="text-2xl font-bold text-white">Notifications</h1>
               {unreadCount > 0 && (
-                <span className="px-2 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs rounded-full" aria-label={`${unreadCount} unread notifications`}>
+                <span className="px-2 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs font-semibold rounded-full shadow-lg" aria-label={`${unreadCount} unread notifications`}>
                   {unreadCount}
                 </span>
               )}
@@ -298,14 +298,14 @@ function NotificationsPage() {
               <button
                 onClick={handleMarkAllAsRead}
                 disabled={unreadCount === 0}
-                className="px-3 py-2 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-sm text-white flex items-center gap-2 touch-target"
+                className="px-3 py-2 bg-[#141414]/60 backdrop-blur-xl hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-sm text-white flex items-center gap-2 transition-all duration-200 touch-target"
                 aria-label="Mark all notifications as read"
               >
                 <CheckCheck className="w-4 h-4" aria-hidden="true" />
                 <span className="hidden md:inline">Mark all read</span>
               </button>
-              <button className="p-2 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target" aria-label="Notification settings">
-                <Settings className="w-5 h-5 text-[#8b949e]" aria-hidden="true" />
+              <button className="p-2 hover:bg-white/5 rounded-lg transition-all duration-200 touch-target" aria-label="Notification settings">
+                <Settings className="w-5 h-5 text-[#666666]" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -317,10 +317,10 @@ function NotificationsPage() {
                 key={filterType}
                 onClick={() => setFilter(filterType)}
                 className={`
-                  px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-colors touch-target
+                  px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 touch-target
                   ${filter === filterType
-                    ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                    : 'bg-[#161b22]/60 backdrop-blur-xl text-[#8b949e] hover:bg-[#161b22]/60 backdrop-blur-xl'
+                    ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
+                    : 'bg-[#141414]/60 backdrop-blur-xl text-[#666666] hover:bg-white/10 hover:text-[#A0A0A0]'
                   }
                 `}
                 aria-pressed={filter === filterType}
@@ -333,14 +333,14 @@ function NotificationsPage() {
 
           {/* Bulk Actions */}
           {selectedNotifications.size > 0 && (
-            <div className="mt-3 p-3 bg-[#161b22]/60 backdrop-blur-xl rounded-lg flex items-center justify-between">
-              <span className="text-sm text-[#c9d1d9]">
+            <div className="mt-3 p-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl shadow-lg flex items-center justify-between">
+              <span className="text-sm text-[#A0A0A0] font-medium">
                 {selectedNotifications.size} selected
               </span>
               <div className="flex gap-2">
                 <button
                   onClick={handleBulkMarkRead}
-                  className="px-3 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded text-sm text-white flex items-center gap-1 touch-target"
+                  className="px-3 py-1.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-sm text-white font-medium flex items-center gap-1.5 transition-all duration-200 touch-target"
                   aria-label="Mark selected notifications as read"
                 >
                   <Check className="w-4 h-4" aria-hidden="true" />
@@ -348,7 +348,7 @@ function NotificationsPage() {
                 </button>
                 <button
                   onClick={handleBulkDelete}
-                  className="px-3 py-1 bg-red-600 hover:bg-red-700 rounded text-sm text-white flex items-center gap-1 touch-target"
+                  className="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-sm text-white font-medium flex items-center gap-1.5 transition-all duration-200 touch-target"
                   aria-label="Delete selected notifications"
                 >
                   <Trash2 className="w-4 h-4" aria-hidden="true" />
@@ -368,13 +368,13 @@ function NotificationsPage() {
           <SkeletonList count={5} />
         ) : error ? (
           /* Error State */
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="alert" aria-live="assertive">
+          <div className="bg-[#141414]/60 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="alert" aria-live="assertive">
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" aria-hidden="true" />
             <h3 className="text-xl font-semibold text-white mb-2">Failed to Load Notifications</h3>
-            <p className="text-[#8b949e] mb-6">{error}</p>
+            <p className="text-[#A0A0A0] mb-6">{error}</p>
             <button
-              onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-white font-medium touch-target"
+              onClick={fetchNotifications}
+              className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg text-white font-medium transition-all duration-200 touch-target"
               aria-label="Try again to load notifications"
             >
               Try Again
@@ -382,27 +382,27 @@ function NotificationsPage() {
           </div>
         ) : !isAuthenticated ? (
           /* Not Authenticated */
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="status">
-            <Bell className="w-12 h-12 text-[#8b949e] mx-auto mb-4" aria-hidden="true" />
+          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="status">
+            <Bell className="w-12 h-12 text-[#666666] mx-auto mb-4" aria-hidden="true" />
             <h3 className="text-xl font-semibold text-white mb-2">Sign In Required</h3>
-            <p className="text-[#8b949e] mb-6">Please sign in to view your notifications</p>
+            <p className="text-[#A0A0A0] mb-6">Please sign in to view your notifications</p>
             <button
               onClick={() => navigate('/login')}
-              className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-white font-medium touch-target"
+              className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg text-white font-medium transition-all duration-200 touch-target"
               aria-label="Sign in to view notifications"
             >
               Sign In
             </button>
           </div>
         ) : filteredNotifications.length > 0 ? (
-          <div className="space-y-2">
+          <div className="space-y-3">
             {filteredNotifications.map((notification) => (
               <div
                 key={notification.id}
                 className={`
-                  bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 transition-all hover:bg-[#161b22]/80
-                  ${!notification.isRead ? 'border-l-4 border-l-[#58a6ff]' : ''}
-                  ${selectedNotifications.has(notification.id) ? 'bg-[#21262d]/80' : ''}
+                  bg-[#141414]/60 backdrop-blur-xl border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 transition-all duration-200 hover:bg-[#1c2128]/80 hover:border-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]
+                  ${!notification.isRead ? 'border-l-4 border-l-[#58a6ff] border-white/10 shadow-[0_0_20px_rgba(88,166,255,0.15)]' : 'border-white/10'}
+                  ${selectedNotifications.has(notification.id) ? 'bg-[#1A1A1A]/80 border-[#58a6ff]/30' : ''}
                 `}
               >
                 <div className="flex items-start gap-3">
@@ -411,13 +411,18 @@ function NotificationsPage() {
                     type="checkbox"
                     checked={selectedNotifications.has(notification.id)}
                     onChange={() => handleToggleSelect(notification.id)}
-                    className="mt-1 accent-blue-600"
+                    className="mt-1 w-4 h-4 rounded border-white/20 bg-transparent checked:bg-gradient-to-r checked:from-[#58a6ff] checked:to-[#a371f7] focus:ring-2 focus:ring-[#58a6ff]/50 cursor-pointer transition-all"
                     aria-label={`Select notification: ${notification.title}`}
                   />
 
                   {/* Avatar */}
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-xl flex-shrink-0" aria-hidden="true">
-                    {notification.avatar}
+                  <div className="relative flex-shrink-0">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-xl" aria-hidden="true">
+                      {notification.avatar}
+                    </div>
+                    {!notification.isRead && (
+                      <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-[#58a6ff] rounded-full border-2 border-[#0D0D0D] shadow-[0_0_8px_rgba(88,166,255,0.6)]" aria-hidden="true"></div>
+                    )}
                   </div>
 
                   {/* Content */}
@@ -425,18 +430,18 @@ function NotificationsPage() {
                     className="flex-1 cursor-pointer"
                     onClick={() => handleNotificationClick(notification)}
                   >
-                    <div className="flex items-start justify-between gap-2 mb-1">
+                    <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex items-center gap-2">
                         {getNotificationIcon(notification.type)}
-                        <span className={`font-medium ${!notification.isRead ? 'text-white' : 'text-[#c9d1d9]'}`}>
+                        <span className={`font-semibold ${!notification.isRead ? 'text-white' : 'text-[#A0A0A0]'}`}>
                           {notification.title}
                         </span>
                       </div>
-                      <span className="text-xs text-[#8b949e] whitespace-nowrap">
+                      <span className="text-xs text-[#666666] whitespace-nowrap font-medium">
                         {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
                       </span>
                     </div>
-                    <p className="text-sm text-[#c9d1d9]">{notification.content}</p>
+                    <p className={`text-sm ${!notification.isRead ? 'text-[#A0A0A0]' : 'text-[#666666]'}`}>{notification.content}</p>
                   </div>
 
                   {/* Actions */}
@@ -447,11 +452,11 @@ function NotificationsPage() {
                           e.stopPropagation()
                           handleMarkAsRead(notification.id)
                         }}
-                        className="p-1 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target"
+                        className="p-2 hover:bg-[#58a6ff]/10 rounded-lg transition-all duration-200 group touch-target"
                         aria-label="Mark as read"
                         title="Mark as read"
                       >
-                        <Check className="w-4 h-4 text-[#58a6ff]" aria-hidden="true" />
+                        <Check className="w-4 h-4 text-[#58a6ff] group-hover:scale-110 transition-transform" aria-hidden="true" />
                       </button>
                     )}
                     <button
@@ -459,11 +464,11 @@ function NotificationsPage() {
                         e.stopPropagation()
                         handleDelete(notification.id)
                       }}
-                      className="p-1 hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg touch-target"
+                      className="p-2 hover:bg-red-500/10 rounded-lg transition-all duration-200 group touch-target"
                       aria-label="Delete notification"
                       title="Delete"
                     >
-                      <Trash2 className="w-4 h-4 text-red-500" aria-hidden="true" />
+                      <Trash2 className="w-4 h-4 text-red-500 group-hover:scale-110 transition-transform" aria-hidden="true" />
                     </button>
                   </div>
                 </div>
@@ -480,7 +485,7 @@ function NotificationsPage() {
         <div className="max-w-4xl mx-auto px-4 pb-6">
           <button
             onClick={handleDeleteAll}
-            className="w-full px-4 py-3 bg-[#161b22]/60 backdrop-blur-xl border border-red-500/20 hover:border-red-500/40 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-red-500 flex items-center justify-center gap-2 transition-colors touch-target"
+            className="w-full px-4 py-3 bg-[#141414]/60 backdrop-blur-xl border border-red-500/20 hover:border-red-500/40 hover:bg-red-500/5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-red-500 font-medium flex items-center justify-center gap-2 transition-all duration-200 touch-target"
             aria-label="Delete all notifications"
           >
             <Trash2 className="w-4 h-4" aria-hidden="true" />

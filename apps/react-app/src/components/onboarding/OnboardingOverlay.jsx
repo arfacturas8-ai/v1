@@ -132,7 +132,7 @@ const OnboardingOverlay = () => {
 
         {/* Footer with navigation */}
         <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   paddingLeft: '24px',
   paddingRight: '24px',
   paddingTop: '16px',
@@ -149,7 +149,7 @@ const OnboardingOverlay = () => {
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
           >
             ← Previous
@@ -167,7 +167,7 @@ const OnboardingOverlay = () => {
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
               >
                 Skip for now

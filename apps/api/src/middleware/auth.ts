@@ -15,31 +15,12 @@ const authRedisClient = new Redis(process.env.REDIS_URL || 'redis://localhost:63
  */
 export const authMiddleware = async (request: FastifyRequest, reply: FastifyReply) => {
   const startTime = Date.now();
-  
-  // TEMPORARY DEBUG: Log JWT secret being used
-  if (process.env.NODE_ENV === 'development') {
-    request.log.debug({ 
-      jwtSecretLength: process.env.JWT_SECRET?.length,
-      jwtSecretFirst10: process.env.JWT_SECRET?.substring(0, 10) + '...'
-    }, 'JWT Secret info for debugging');
-  }
-  
+
   try {
     // Extract authorization header
     const authHeader = request.headers.authorization;
-    
+
     if (!authHeader) {
-      // In development mode, allow uploads without auth for testing
-      if (process.env.NODE_ENV === 'development' && request.url.includes('/uploads')) {
-        (request as any).user = {
-          id: 'dev-user-' + Math.random().toString(36).substring(7),
-          username: 'DevUser',
-          email: 'dev@test.com',
-          displayName: 'Development User'
-        };
-        (request as any).userId = (request as any).user.id;
-        return;
-      }
       throw new AppError('Authorization header missing', 401, 'AUTH_HEADER_MISSING');
     }
     

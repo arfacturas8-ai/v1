@@ -50,7 +50,7 @@ export const ConfirmationDialog = ({
           }}>
             <div
               style={{
-                background: 'rgba(22, 27, 34, 0.6)',
+                background: 'rgba(20, 20, 20, 0.6)',
                 backdropFilter: 'blur(12px)',
                 borderRadius: '12px',
                 width: '100%',
@@ -92,7 +92,7 @@ export const ConfirmationDialog = ({
                 <button
                   onClick={onClose}
                   style={{
-                    color: '#8b949e',
+                    color: '#666666',
                     background: 'transparent',
                     border: 'none',
                     cursor: 'pointer',
@@ -107,7 +107,7 @@ export const ConfirmationDialog = ({
                 </button>
               </div>
               <p id="dialog-description" style={{
-                color: '#c9d1d9',
+                color: '#A0A0A0',
                 fontSize: '14px',
                 lineHeight: '1.5',
                 marginBottom: '24px'
@@ -127,12 +127,12 @@ export const ConfirmationDialog = ({
                     paddingRight: '16px',
                     paddingTop: '10px',
                     paddingBottom: '10px',
-                    background: 'rgba(22, 27, 34, 0.6)',
+                    background: 'rgba(20, 20, 20, 0.6)',
                     border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '12px',
                     fontSize: '14px',
                     fontWeight: '500',
-                    color: '#8b949e',
+                    color: '#666666',
                     cursor: isLoading ? 'not-allowed' : 'pointer',
                     opacity: isLoading ? 0.5 : 1
                   }}

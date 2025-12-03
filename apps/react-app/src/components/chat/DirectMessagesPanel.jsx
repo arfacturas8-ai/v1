@@ -379,283 +379,140 @@ function DirectMessagesPanel({
 
   if (loading) {
     return (
-      <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '100%'
-}}>
-        <div style={{
-  textAlign: 'center'
-}}>
-          <div style={{
-  borderRadius: '50%',
-  height: '32px',
-  width: '32px'
-}}></div>
-          <div style={{
-  color: '#c9d1d9'
-}}>Loading conversation...</div>
+      <div className="flex items-center justify-center h-full bg-[#0D0D0D]">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="text-[#666666]">Loading conversation...</div>
         </div>
       </div>
     )
   }
 
   return (
-    <div style={{
-  display: 'flex',
-  flexDirection: 'column',
-  height: '100%',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}>
+    <div className="flex flex-col h-full bg-[#0D0D0D]">
       {/* Header */}
-      <div style={{
-  padding: '16px'
-}}>
-        <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+      <div className="px-4 py-3 bg-[#141414]/60 backdrop-blur-xl border-b border-white/10">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
             {/* Avatar/Group Icon */}
-            <div style={{
-  position: 'relative'
-}}>
+            <div className="relative">
               {conversation?.type === 'group' ? (
-                <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-                  <Users style={{
-  width: '20px',
-  height: '20px',
-  color: '#ffffff'
-}} />
+                <div className="w-10 h-10 rounded-full bg-[#141414]/60 border border-white/10 flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
                 </div>
               ) : (
-                <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
+                <div className="w-10 h-10 rounded-full bg-[#141414]/60 border border-white/10 flex items-center justify-center">
                   {participants[0]?.avatar ? (
-                    <img 
-                      src={participants[0].avatar} 
+                    <img
+                      src={participants[0].avatar}
                       alt={participants[0].username}
-                      style={{
-  width: '100%',
-  height: '100%',
-  borderRadius: '50%'
-}}
+                      className="w-full h-full rounded-full object-cover"
                     />
                   ) : (
-                    <span style={{
-  fontWeight: '500',
-  color: '#ffffff'
-}}>
+                    <span className="font-medium text-white">
                       {getConversationTitle().charAt(0).toUpperCase()}
                     </span>
                   )}
                 </div>
               )}
-              
+
               {/* Status indicator for DMs */}
               {conversation?.type === 'direct' && participants[0] && (
-                <div style={{
-  position: 'absolute',
-  width: '12px',
-  height: '12px',
-  borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
-}} />
+                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2 border-[#141414]" />
               )}
             </div>
-            
+
             <div>
-              <h2 style={{
-  fontWeight: '600',
-  color: '#ffffff'
-}}>
+              <h2 className="font-semibold text-white">
                 {getConversationTitle()}
               </h2>
-              <p style={{
-  color: '#c9d1d9'
-}}>
+              <p className="text-sm text-[#666666]">
                 {getConversationSubtitle()}
               </p>
             </div>
           </div>
-          
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+
+
+          <div className="flex items-center gap-1">
             {/* Call buttons */}
             {!inCall && (
               <>
                 <button
                   onClick={() => startCall('voice')}
-                  style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                  className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
                   title="Start voice call"
                 >
-                  <Phone style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <Phone className="w-5 h-5" />
                 </button>
                 <button
                   onClick={() => startCall('video')}
-                  style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                  className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
                   title="Start video call"
                 >
-                  <Video style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <Video className="w-5 h-5" />
                 </button>
               </>
             )}
-            
+
             {/* Add participant (group chat) */}
             {conversation?.type === 'group' && (
               <button
-                style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+                className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
                 title="Add participant"
               >
-                <UserPlus style={{
-  width: '16px',
-  height: '16px'
-}} />
+                <UserPlus className="w-5 h-5" />
               </button>
             )}
-            
+
             {/* Search */}
             <button
-              style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+              className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
               title="Search in conversation"
             >
-              <Search style={{
-  width: '16px',
-  height: '16px'
-}} />
+              <Search className="w-5 h-5" />
             </button>
-            
+
             {/* Info */}
             <button
               onClick={() => setShowConversationInfo(!showConversationInfo)}
-              style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+              className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
               title="Conversation info"
             >
-              <Info style={{
-  width: '16px',
-  height: '16px'
-}} />
+              <Info className="w-5 h-5" />
             </button>
-            
+
             {/* More options */}
-            <button style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}>
-              <MoreHorizontal style={{
-  width: '16px',
-  height: '16px'
-}} />
+            <button className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]">
+              <MoreHorizontal className="w-5 h-5" />
             </button>
-            
+
             {/* Close */}
             <button
               onClick={onClose}
-              style={{
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}
+              className="p-2 rounded-xl hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
             >
-              <X style={{
-  width: '16px',
-  height: '16px'
-}} />
+              <X className="w-5 h-5" />
             </button>
           </div>
         </div>
         
         {/* Call status */}
         {inCall && (
-          <div style={{
-  padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px'
-}}>
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-              <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+          <div className="mt-3 p-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
                 {callType === 'video' ? (
-                  <Video style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <Video className="w-5 h-5 text-[#58a6ff]" />
                 ) : (
-                  <Phone style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <Phone className="w-5 h-5 text-[#58a6ff]" />
                 )}
-                <span style={{
-  fontWeight: '500'
-}}>
+                <span className="font-medium text-white">
                   {callType === 'video' ? 'Video call' : 'Voice call'} in progress
                 </span>
               </div>
               <button
                 onClick={endCall}
-                style={{
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '4px',
-  paddingBottom: '4px',
-  color: '#ffffff',
-  borderRadius: '4px'
-}}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-colors"
               >
                 End call
               </button>
@@ -665,15 +522,8 @@ function DirectMessagesPanel({
       </div>
 
       {/* Messages */}
-      <div style={{
-  flex: '1',
-  display: 'flex'
-}}>
-        <div style={{
-  flex: '1',
-  display: 'flex',
-  flexDirection: 'column'
-}}>
+      <div className="flex-1 flex overflow-hidden">
+        <div className="flex-1 flex flex-col">
           <MessageList
             messages={messages}
             currentUserId={user?.id}
@@ -698,87 +548,41 @@ function DirectMessagesPanel({
         
         {/* Conversation Info Sidebar */}
         {showConversationInfo && (
-          <div style={{
-  width: '320px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}>
-            <div style={{
-  padding: '16px'
-}}>
-              <h3 style={{
-  fontWeight: '600',
-  color: '#ffffff'
-}}>
+          <div className="w-80 bg-[#141414]/60 backdrop-blur-xl border-l border-white/10 overflow-y-auto">
+            <div className="p-4">
+              <h3 className="text-lg font-semibold text-white mb-4">
                 Conversation Info
               </h3>
               
               {/* Participants */}
               <div className="mb-6">
-                <h4 style={{
-  fontWeight: '500',
-  color: '#c9d1d9'
-}}>
+                <h4 className="text-sm font-medium text-[#666666] mb-2">
                   Participants ({participants.length})
                 </h4>
                 <div className="space-y-2">
                   {participants.map(participant => (
-                    <div key={participant.id} style={{
-  display: 'flex',
-  alignItems: 'center',
-  padding: '8px',
-  borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
-}}>
-                      <div style={{
-  position: 'relative'
-}}>
-                        <div style={{
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
+                    <div key={participant.id} className="flex items-center gap-3 p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors">
+                      <div className="relative">
+                        <div className="w-8 h-8 rounded-full bg-[#0D0D0D] border border-white/10 flex items-center justify-center">
                           {participant.avatar ? (
-                            <img 
-                              src={participant.avatar} 
+                            <img
+                              src={participant.avatar}
                               alt={participant.username}
-                              style={{
-  width: '100%',
-  height: '100%',
-  borderRadius: '50%'
-}}
+                              className="w-full h-full rounded-full object-cover"
                             />
                           ) : (
-                            <span style={{
-  fontWeight: '500',
-  color: '#ffffff'
-}}>
+                            <span className="font-medium text-white text-sm">
                               {participant.username.charAt(0).toUpperCase()}
                             </span>
                           )}
                         </div>
-                        <div style={{
-  position: 'absolute',
-  borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  background: 'rgba(22, 27, 34, 0.6)'
-}} />
+                        <div className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#141414]" />
                       </div>
-                      <div style={{
-  flex: '1'
-}}>
-                        <div style={{
-  fontWeight: '500',
-  color: '#ffffff'
-}}>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-medium text-white truncate">
                           {participant.displayName}
                         </div>
-                        <div style={{
-  color: '#c9d1d9'
-}}>
+                        <div className="text-xs text-[#666666] truncate">
                           @{participant.username}
                         </div>
                       </div>
@@ -789,84 +593,55 @@ function DirectMessagesPanel({
               
               {/* Settings */}
               <div className="mb-6">
-                <h4 style={{
-  fontWeight: '500',
-  color: '#c9d1d9'
-}}>
+                <h4 className="text-sm font-medium text-[#666666] mb-2">
                   Settings
                 </h4>
-                <div className="space-y-3">
-                  <label style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-sm">Notifications</span>
+                <div className="space-y-2">
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
+                    <span className="text-sm text-white">Notifications</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.notifications}
                       onChange={(e) => updateSetting('notifications', e.target.checked)}
-                      style={{
-  borderRadius: '4px'
-}}
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
-                  
-                  <label style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-sm">Pin conversation</span>
+
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
+                    <span className="text-sm text-white">Pin conversation</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.pinned}
                       onChange={(e) => updateSetting('pinned', e.target.checked)}
-                      style={{
-  borderRadius: '4px'
-}}
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
-                  
-                  <label style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-sm">Star conversation</span>
+
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
+                    <span className="text-sm text-white">Star conversation</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.starred}
                       onChange={(e) => updateSetting('starred', e.target.checked)}
-                      style={{
-  borderRadius: '4px'
-}}
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
-                  
-                  <label style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-sm">Archive conversation</span>
+
+                  <label className="flex items-center justify-between p-2 rounded-xl hover:bg-[#0D0D0D] transition-colors cursor-pointer">
+                    <span className="text-sm text-white">Archive conversation</span>
                     <input
                       type="checkbox"
                       checked={conversationSettings.archived}
                       onChange={(e) => updateSetting('archived', e.target.checked)}
-                      style={{
-  borderRadius: '4px'
-}}
+                      className="w-4 h-4 rounded border-white/10 bg-[#0D0D0D] text-[#58a6ff] focus:ring-[#58a6ff]/50"
                     />
                   </label>
                 </div>
               </div>
               
               {/* Conversation details */}
-              <div style={{
-  color: '#c9d1d9'
-}}>
-                <div className="mb-1">
+              <div className="text-xs text-[#666666] space-y-1">
+                <div>
                   Created {formatTimestamp(conversation?.created)}
                 </div>
                 <div>

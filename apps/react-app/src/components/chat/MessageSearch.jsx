@@ -343,7 +343,7 @@ function MessageSearch({
           <Search style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           <h3 style={{
   fontWeight: '600',
@@ -391,7 +391,7 @@ function MessageSearch({
   position: 'absolute',
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           
           {/* Filter button */}
@@ -401,7 +401,7 @@ function MessageSearch({
   position: 'absolute',
   borderRadius: '4px',
   background: 'rgba(22, 27, 34, 0.6)',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
           >
             <Filter style={{
@@ -436,7 +436,7 @@ function MessageSearch({
 }}>
                 <div style={{
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Recent searches</div>
                 {searchHistory.map((historyQuery, index) => (
                   <button
@@ -460,7 +460,7 @@ function MessageSearch({
                       <Clock style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                       <span>{historyQuery}</span>
                     </div>
@@ -487,7 +487,7 @@ function MessageSearch({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 From Users
               </label>
@@ -519,7 +519,7 @@ function MessageSearch({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 In Channels
               </label>
@@ -551,7 +551,7 @@ function MessageSearch({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Date Range
               </label>
@@ -582,7 +582,7 @@ function MessageSearch({
               <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Sort By
               </label>
@@ -612,7 +612,7 @@ function MessageSearch({
             <label style={{
   display: 'block',
   fontWeight: '500',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Message Types
             </label>
@@ -758,14 +758,14 @@ function MessageSearch({
             <Search style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <h3 style={{
   fontWeight: '500',
   color: '#ffffff'
 }}>No results found</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Try adjusting your search terms or filters
             </p>
@@ -835,12 +835,12 @@ function MessageSearch({
                           {result.author.username}
                         </span>
                         <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                           in #{result.channelName}
                         </span>
                         <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                           {formatTimestamp(result.timestamp)}
                         </span>
@@ -852,7 +852,7 @@ function MessageSearch({
                           <Icon style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                           {result.isPinned && <Pin style={{
   width: '16px',
@@ -874,7 +874,7 @@ function MessageSearch({
                       </div>
 
                       <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         {result.highlights && result.highlights.length > 0 ? (
                           <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(result.highlights[0]) }} />
@@ -887,7 +887,7 @@ function MessageSearch({
                         <div style={{
   display: 'flex',
   alignItems: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                           <FileText style={{
   width: '16px',
@@ -962,7 +962,7 @@ function MessageSearch({
   borderRadius: '4px'
 }}>
                       <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         Message context and surrounding messages would appear here...
                       </div>
@@ -983,14 +983,14 @@ function MessageSearch({
             <Search style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             <h3 style={{
   fontWeight: '500',
   color: '#ffffff'
 }}>Search Messages</h3>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               Find messages, files, and conversations across all channels
             </p>
@@ -1011,7 +1011,7 @@ function MessageSearch({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <span>{results.length} results found</span>
             {hasMore && (

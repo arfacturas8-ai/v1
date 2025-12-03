@@ -76,7 +76,7 @@ const InfiniteScroll = ({
   textAlign: 'center',
   paddingTop: '32px',
   paddingBottom: '32px',
-  color: '#8b949e'
+  color: '#666666'
 }}>
             <p>You've reached the end</p>
           </div>

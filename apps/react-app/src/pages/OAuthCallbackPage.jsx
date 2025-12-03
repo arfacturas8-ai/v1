@@ -79,7 +79,7 @@ export default function OAuthCallbackPage() {
   return (
     <div role="main" aria-label="OAuth callback page" className={`min-h-screen flex items-center justify-center bg-gradient-to-br ${bgGradient} p-4 md:p-5 transition-all duration-500`}>
       <div className="text-center text-white max-w-md mx-auto">
-        <div className="relative inline-flex items-center justify-center w-20 md:w-[100px] h-20 md:h-[100px] bg-[#161b22]/60 backdrop-blur-xl rounded-full mb-6 md:mb-8 backdrop-blur-md">
+        <div className="relative inline-flex items-center justify-center w-20 md:w-[100px] h-20 md:h-[100px] bg-[#141414]/60 backdrop-blur-xl rounded-full mb-6 md:mb-8 backdrop-blur-md">
           {status === 'processing' && (
             <>
               <Loader className="w-9 md:w-12 h-9 md:h-12 animate-spin" />
@@ -106,16 +106,16 @@ export default function OAuthCallbackPage() {
 
         {status === 'processing' && (
           <div className="flex justify-center gap-2 mt-6">
-            <div className="w-2 h-2 rounded-full bg-[#161b22] animate-bounce" style={{ animationDelay: '0s' }} />
-            <div className="w-2 h-2 rounded-full bg-[#161b22] animate-bounce" style={{ animationDelay: '0.16s' }} />
-            <div className="w-2 h-2 rounded-full bg-[#161b22] animate-bounce" style={{ animationDelay: '0.32s' }} />
+            <div className="w-2 h-2 rounded-full bg-[#141414] animate-bounce" style={{ animationDelay: '0s' }} />
+            <div className="w-2 h-2 rounded-full bg-[#141414] animate-bounce" style={{ animationDelay: '0.16s' }} />
+            <div className="w-2 h-2 rounded-full bg-[#141414] animate-bounce" style={{ animationDelay: '0.32s' }} />
           </div>
         )}
 
         {status === 'error' && (
           <button
             onClick={() => navigate('/login')}
-            className="px-6 py-3 bg-[#161b22] text-red-500 border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition-transform hover:scale-105"
+            className="px-6 py-3 bg-[#141414] text-red-500 border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition-transform hover:scale-105"
             aria-label="Return to login"
           >
             Return to Login

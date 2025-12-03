@@ -77,12 +77,12 @@ const CompletionStep = ({ onComplete }) => {
         <div className="text-6xl mb-4">🎉</div>
         <h3 style={{
   fontWeight: 'bold',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Congratulations, {user?.username}!
         </h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           You've successfully completed the CRYB onboarding process. 
           Welcome to our amazing community!
@@ -96,7 +96,7 @@ const CompletionStep = ({ onComplete }) => {
 }}>
         <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Your Welcome Rewards</h4>
         
         <div style={{
@@ -112,7 +112,7 @@ const CompletionStep = ({ onComplete }) => {
   fontWeight: '600'
 }}>{rewards.tokens} CRYB</div>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Welcome Bonus</div>
           </div>
           
@@ -125,7 +125,7 @@ const CompletionStep = ({ onComplete }) => {
   fontWeight: '600'
 }}>{userProgress.achievements.length}</div>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Achievements Earned</div>
           </div>
           
@@ -138,13 +138,13 @@ const CompletionStep = ({ onComplete }) => {
   fontWeight: '600'
 }}>{availableTutorials.length}</div>
             <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Tutorials Available</div>
           </div>
         </div>
 
         <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Keep earning CRYB tokens by participating in communities, creating posts, and helping others!
         </div>
@@ -162,7 +162,7 @@ const CompletionStep = ({ onComplete }) => {
 }}>
           <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   display: 'flex',
   alignItems: 'center'
 }}>
@@ -170,7 +170,7 @@ const CompletionStep = ({ onComplete }) => {
             Recommended Next Steps
           </h4>
           <ul style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             <li style={{
   display: 'flex',
@@ -210,7 +210,7 @@ const CompletionStep = ({ onComplete }) => {
 }}>
           <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   display: 'flex',
   alignItems: 'center'
 }}>
@@ -225,7 +225,7 @@ const CompletionStep = ({ onComplete }) => {
   justifyContent: 'space-between'
 }}>
                 <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>{tutorial.title}</span>
                 <span style={{
   paddingLeft: '8px',
@@ -240,7 +240,7 @@ const CompletionStep = ({ onComplete }) => {
             ))}
             {availableTutorials.length > 4 && (
               <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 +{availableTutorials.length - 4} more tutorials available
               </div>
@@ -251,18 +251,18 @@ const CompletionStep = ({ onComplete }) => {
 
       {/* Community Guidelines Reminder */}
       <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '24px',
   borderRadius: '12px'
 }}>
         <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Remember Our Community Values</h4>
         <div style={{
   display: 'grid',
   gap: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           <div style={{
   textAlign: 'center'
@@ -303,7 +303,7 @@ const CompletionStep = ({ onComplete }) => {
       <div className="mb-8">
         <h4 style={{
   fontWeight: '600',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Stay Connected</h4>
         <div style={{
   display: 'flex',
@@ -402,7 +402,7 @@ const CompletionStep = ({ onComplete }) => {
         </button>
         
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Need help? Check out our <a href="/help" className="text-blue-600 hover:underline">Help Center</a> or 
           ask questions in the <a href="/communities/help" className="text-blue-600 hover:underline">Help Community</a>

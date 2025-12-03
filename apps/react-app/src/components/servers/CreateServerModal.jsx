@@ -275,7 +275,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
                         Public
                       </div>
                       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         Anyone can find and join your server
                       </p>
@@ -314,7 +314,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
                         Private
                       </div>
                       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         Only people with an invite can join
                       </p>
@@ -430,7 +430,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
   width: '32px'
 }} />
                       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         Click to upload banner
                       </p>
@@ -499,7 +499,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
                         {formData.name || 'Server Name'}
                       </h5>
                       <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                         {formData.description || 'No description'}
                       </p>

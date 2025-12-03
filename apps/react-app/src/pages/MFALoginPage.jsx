@@ -154,25 +154,25 @@ export default function MFALoginPage() {
   }
 
   return (
-    <div className="min-h-screen text-white flex items-center justify-center p-4 pb-8 md:p-4 bg-[#0d1117]" role="main" aria-label="Two-factor authentication">
+    <div className="min-h-screen text-white flex items-center justify-center p-4 pb-8 md:p-4 bg-[#0D0D0D]" role="main" aria-label="Two-factor authentication">
       <div className="w-full max-w-full md:max-w-[480px] lg:max-w-[440px]">
         <button
           onClick={() => navigate('/login')}
-          className="mb-3 md:mb-4 flex items-center gap-2 text-[#8b949e] hover:text-white bg-transparent border-0 cursor-pointer text-xs p-1 transition-colors"
+          className="mb-3 md:mb-4 flex items-center gap-2 text-[#666666] hover:text-white bg-transparent border-0 cursor-pointer text-xs p-1 transition-colors"
           aria-label="Back to login"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to login</span>
         </button>
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-[10px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 lg:p-5">
+        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-[10px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 lg:p-5">
           <div className="text-center mb-4 md:mb-5 lg:mb-4">
             <div className="inline-flex items-center justify-center w-11 h-11 bg-[#58a6ff]/10 rounded-full mb-3 md:mb-2.5 lg:mb-2">
               <Shield className="w-5.5 h-5.5 text-[#58a6ff]" />
             </div>
             <h1 className="text-xl font-bold mb-2 md:mb-1.5 text-white">Two-Factor Authentication</h1>
-            <p className="text-xs text-[#8b949e] leading-relaxed">
-              {email && <span className="block text-[11px] mb-2 md:mb-1.5 text-[#c9d1d9]">{email}</span>}
+            <p className="text-xs text-[#666666] leading-relaxed">
+              {email && <span className="block text-[11px] mb-2 md:mb-1.5 text-[#A0A0A0]">{email}</span>}
               Enter the 6-digit code from your authenticator app
             </p>
           </div>
@@ -212,13 +212,13 @@ export default function MFALoginPage() {
                   disabled={loading}
                   className="w-4 h-4 rounded border border-white/10 bg-[#202225]/60 cursor-pointer"
                 />
-                <span className="text-xs text-[#c9d1d9]">
+                <span className="text-xs text-[#A0A0A0]">
                   Remember this device for 30 days
                 </span>
               </label>
 
               {loading && (
-                <div className="flex items-center justify-center gap-2 text-[#8b949e] mb-4 md:mb-3.5 lg:mb-3 text-xs">
+                <div className="flex items-center justify-center gap-2 text-[#666666] mb-4 md:mb-3.5 lg:mb-3 text-xs">
                   <Loader2 className="w-4.5 h-4.5 animate-spin" />
                   <span>Verifying...</span>
                 </div>
@@ -239,7 +239,7 @@ export default function MFALoginPage() {
             <>
               <form onSubmit={handleBackupCodeSubmit} className="flex flex-col gap-4 md:gap-3.5 lg:gap-3">
                 <div className="flex flex-col">
-                  <label htmlFor="backupCode" className="block text-xs font-medium mb-2 md:mb-1.5 text-[#c9d1d9]">
+                  <label htmlFor="backupCode" className="block text-xs font-medium mb-2 md:mb-1.5 text-[#A0A0A0]">
                     Backup Code
                   </label>
                   <input
@@ -251,7 +251,7 @@ export default function MFALoginPage() {
                     className="w-full px-3 md:px-2.5 py-3 md:py-2.5 text-sm bg-[#202225]/60 border border-white/10 rounded-[10px] text-white outline-none transition-all disabled:opacity-50"
                     required
                   />
-                  <p className="mt-2 md:mt-1.5 text-[11px] text-[#8b949e] leading-normal">
+                  <p className="mt-2 md:mt-1.5 text-[11px] text-[#666666] leading-normal">
                     Enter one of your backup codes provided during MFA setup
                   </p>
                 </div>
@@ -271,7 +271,7 @@ export default function MFALoginPage() {
                     disabled={loading}
                     className="w-4 h-4 rounded border border-white/10 bg-[#202225]/60 cursor-pointer"
                   />
-                  <span className="text-xs text-[#c9d1d9]">
+                  <span className="text-xs text-[#A0A0A0]">
                     Remember this device for 30 days
                   </span>
                 </label>
@@ -309,7 +309,7 @@ export default function MFALoginPage() {
           )}
 
           <div className="mt-5 md:mt-4.5 lg:mt-3.5 pt-4 md:pt-3.5 lg:pt-3 border-t border-white/10 text-center">
-            <p className="text-xs text-[#8b949e]">
+            <p className="text-xs text-[#666666]">
               Lost access to your authenticator?{' '}
               <Link to="/account-recovery" className="text-[#58a6ff] no-underline transition-colors hover:text-[#79c0ff]">
                 Recover your account

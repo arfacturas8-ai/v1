@@ -88,6 +88,9 @@ function FileUpload({
         const preview = await fileUploadService.createFilePreview(file)
         fileObj.preview = preview.url
       } catch (error) {
+        // Preview generation failed - use fallback based on file type
+        console.warn('Failed to generate preview:', error.message)
+        fileObj.preview = file.type.startsWith('image/') ? URL.createObjectURL(file) : null
       }
       
       return fileObj

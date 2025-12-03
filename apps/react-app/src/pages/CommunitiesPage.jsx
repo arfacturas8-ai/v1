@@ -125,10 +125,55 @@ function CommunitiesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0d1117]">
+      <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
         <div className="max-w-7xl mx-auto p-4 sm:p-8">
-          <div className="flex justify-center items-center py-16">
-            <Loader size={40} className="animate-spin text-[#58a6ff]" />
+          {/* Header Skeleton */}
+          <div className="mb-8">
+            <div className="h-10 w-80 bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 rounded-lg mb-2 animate-pulse" />
+            <div className="h-5 w-96 bg-white/5 rounded-lg animate-pulse" />
+          </div>
+
+          {/* Search and Filters Skeleton */}
+          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="flex-1 h-12 bg-white/5 rounded-xl animate-pulse" />
+              <div className="h-12 w-full sm:w-40 bg-white/5 rounded-xl animate-pulse" />
+              <div className="h-12 w-full sm:w-40 bg-white/5 rounded-xl animate-pulse" />
+            </div>
+          </div>
+
+          {/* Tabs Skeleton */}
+          <div className="flex gap-2 mb-6">
+            {[1, 2, 3, 4].map(i => (
+              <div key={i} className="h-11 w-28 bg-[#141414]/60 border border-white/10 rounded-xl animate-pulse" />
+            ))}
+          </div>
+
+          {/* Community Cards Skeleton */}
+          <div className={`grid gap-5 ${isMobile ? 'grid-cols-1' : isTablet ? 'grid-cols-2' : 'grid-cols-3'}`}>
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div
+                key={i}
+                className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+              >
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 animate-pulse" />
+                  <div className="flex-1">
+                    <div className="h-6 w-32 bg-white/10 rounded-lg mb-2 animate-pulse" />
+                    <div className="h-6 w-20 bg-[#58a6ff]/15 rounded-lg animate-pulse" />
+                  </div>
+                </div>
+                <div className="space-y-2 mb-4">
+                  <div className="h-4 w-full bg-white/5 rounded animate-pulse" />
+                  <div className="h-4 w-3/4 bg-white/5 rounded animate-pulse" />
+                </div>
+                <div className="flex gap-4 mb-4">
+                  <div className="h-4 w-24 bg-white/5 rounded animate-pulse" />
+                  <div className="h-4 w-20 bg-white/5 rounded animate-pulse" />
+                </div>
+                <div className="h-12 w-full bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 rounded-xl animate-pulse" />
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -136,27 +181,27 @@ function CommunitiesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#c9d1d9]">
+    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
       <div className="max-w-7xl mx-auto p-4 sm:p-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
             Discover Communities
           </h1>
-          <p className="text-[#8b949e] text-base">Explore and join communities that match your interests</p>
+          <p className="text-[#666666] text-base">Explore and join communities that match your interests</p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1 relative">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#8b949e]" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]" />
               <input
                 type="text"
                 placeholder="Search communities..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-[#0d1117]/80 border border-white/10 rounded-xl text-white text-base placeholder-[#8b949e] outline-none focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
+                className="w-full pl-12 pr-4 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
               />
             </div>
 
@@ -164,7 +209,7 @@ function CommunitiesPage() {
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full px-4 pr-10 py-3 bg-[#0d1117]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>
@@ -172,21 +217,21 @@ function CommunitiesPage() {
                   </option>
                 ))}
               </select>
-              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b949e] pointer-events-none" />
+              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none" />
             </div>
 
             <div className="relative min-w-full sm:min-w-[160px]">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 pr-10 py-3 bg-[#0d1117]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
               >
                 <option value="members">Most Members</option>
                 <option value="trending">Trending</option>
                 <option value="newest">Newest</option>
                 <option value="name">Name</option>
               </select>
-              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#8b949e] pointer-events-none" />
+              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none" />
             </div>
           </div>
         </div>
@@ -204,7 +249,7 @@ function CommunitiesPage() {
                   className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
                     isActive
                       ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                      : 'bg-[#161b22]/60 border border-white/10 text-[#8b949e] hover:bg-white/5 hover:text-white'
+                      : 'bg-[#141414]/60 border border-white/10 text-[#666666] hover:bg-white/5 hover:text-white'
                   }`}
                 >
                   <Icon size={16} />
@@ -234,10 +279,10 @@ function CommunitiesPage() {
 
         {/* Communities Grid */}
         {filteredCommunities.length === 0 ? (
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 sm:p-16 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <Hash size={56} className="mx-auto mb-4 text-[#8b949e] opacity-50" />
+          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 sm:p-16 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <Hash size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
             <h3 className="text-xl font-semibold text-white mb-2">No communities found</h3>
-            <p className="text-[#8b949e] mb-6">
+            <p className="text-[#666666] mb-6">
               {searchTerm ? 'Try a different search term' : 'Be the first to create a community!'}
             </p>
             {user && (
@@ -255,7 +300,7 @@ function CommunitiesPage() {
               <div
                 key={community.id || community.name}
                 onClick={() => navigate(`/community/${community.name || community.id}`)}
-                className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] group"
+                className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] group"
               >
                 <div className="flex items-start gap-4 mb-4">
                   {community.icon ? (
@@ -294,11 +339,11 @@ function CommunitiesPage() {
                   </div>
                 </div>
 
-                <p className="text-[#8b949e] text-sm leading-relaxed mb-4 line-clamp-2">
+                <p className="text-[#666666] text-sm leading-relaxed mb-4 line-clamp-2">
                   {community.description || 'No description available'}
                 </p>
 
-                <div className="flex gap-4 mb-4 text-[#8b949e] text-sm">
+                <div className="flex gap-4 mb-4 text-[#666666] text-sm">
                   <div className="flex items-center gap-1.5">
                     <Users size={14} />
                     {formatNumber(community.members || community.memberCount || 0)} members
@@ -320,7 +365,7 @@ function CommunitiesPage() {
                   }}
                   className={`w-full py-3 rounded-xl text-sm font-semibold transition-all ${
                     community.isJoined
-                      ? 'bg-white/10 border border-white/20 text-[#c9d1d9] hover:bg-white/15'
+                      ? 'bg-white/10 border border-white/20 text-[#A0A0A0] hover:bg-white/15'
                       : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_0_20px_rgba(88,166,255,0.4)]'
                   }`}
                 >

@@ -56,7 +56,7 @@ export const SuccessState = ({
         marginBottom: '12px'
       }}>{title}</h3>
       <p style={{
-        color: '#c9d1d9',
+        color: '#A0A0A0',
         fontSize: '14px',
         lineHeight: '1.5',
         maxWidth: '400px',

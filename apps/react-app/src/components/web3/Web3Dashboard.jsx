@@ -242,7 +242,7 @@ const Web3Dashboard = () => {
         </div>
       ) : (
         <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '16px',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -252,14 +252,14 @@ const Web3Dashboard = () => {
             <Wallet style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           </div>
           <h3 style={{
   fontWeight: '600'
 }}>Connect Your Wallet</h3>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             Connect your Web3 wallet to access CRYB platform features
           </p>
@@ -295,7 +295,7 @@ const Web3Dashboard = () => {
           </div>
           <div>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>CRYB Balance</p>
             <p style={{
   fontWeight: '600'
@@ -324,7 +324,7 @@ const Web3Dashboard = () => {
           </div>
           <div>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Staked CRYB</p>
             <p style={{
   fontWeight: '600'
@@ -353,7 +353,7 @@ const Web3Dashboard = () => {
           </div>
           <div>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>NFTs Owned</p>
             <p style={{
   fontWeight: '600'
@@ -382,7 +382,7 @@ const Web3Dashboard = () => {
           </div>
           <div>
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Portfolio Value</p>
             <p style={{
   fontWeight: '600'
@@ -497,7 +497,7 @@ const Web3Dashboard = () => {
   fontWeight: 'bold'
 }}>2.5M+</div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Total CRYB Staked</div>
         </div>
         <div style={{
@@ -507,7 +507,7 @@ const Web3Dashboard = () => {
   fontWeight: 'bold'
 }}>15,847</div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>NFTs Minted</div>
         </div>
         <div style={{
@@ -517,7 +517,7 @@ const Web3Dashboard = () => {
   fontWeight: 'bold'
 }}>342</div>
           <div style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Governance Proposals</div>
         </div>
       </div>
@@ -604,7 +604,7 @@ const Web3Dashboard = () => {
   display: 'flex',
   alignItems: 'center',
   padding: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px'
 }}>
                         <div style={{
@@ -619,7 +619,7 @@ const Web3Dashboard = () => {
   fontWeight: '600'
 }}>Staked 1,000 CRYB</p>
                           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>2 hours ago</p>
                         </div>
                       </div>
@@ -627,7 +627,7 @@ const Web3Dashboard = () => {
   display: 'flex',
   alignItems: 'center',
   padding: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px'
 }}>
                         <div style={{
@@ -642,7 +642,7 @@ const Web3Dashboard = () => {
   fontWeight: '600'
 }}>Voted on Proposal #42</p>
                           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>1 day ago</p>
                         </div>
                       </div>
@@ -650,7 +650,7 @@ const Web3Dashboard = () => {
   display: 'flex',
   alignItems: 'center',
   padding: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px'
 }}>
                         <div style={{
@@ -665,7 +665,7 @@ const Web3Dashboard = () => {
   fontWeight: '600'
 }}>Minted NFT #1234</p>
                           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>3 days ago</p>
                         </div>
                       </div>
@@ -759,7 +759,7 @@ const Web3Dashboard = () => {
   fontWeight: '600'
 }}>Need Help?</h3>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                 Check out our documentation or join our community for support
               </p>

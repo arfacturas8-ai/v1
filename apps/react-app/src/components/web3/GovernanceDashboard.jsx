@@ -278,14 +278,14 @@ const GovernanceDashboard = () => {
           <Vote style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
         </div>
         <h3 style={{
   fontWeight: '600'
 }}>Connect Wallet</h3>
         <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
           Connect your wallet to participate in governance
         </p>
@@ -304,19 +304,19 @@ const GovernanceDashboard = () => {
         <div className="animate-pulse space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '16px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
               <div key={i} style={{
   height: '96px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '4px'
 }}></div>
             ))}
@@ -351,7 +351,7 @@ const GovernanceDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Voting Power</p>
               <p style={{
   fontWeight: '600'
@@ -380,7 +380,7 @@ const GovernanceDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Active Proposals</p>
               <p style={{
   fontWeight: '600'
@@ -409,7 +409,7 @@ const GovernanceDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Treasury</p>
               <p style={{
   fontWeight: '600'
@@ -438,7 +438,7 @@ const GovernanceDashboard = () => {
             </div>
             <div>
               <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Participation</p>
               <p style={{
   fontWeight: '600'
@@ -548,7 +548,7 @@ const GovernanceDashboard = () => {
                   </div>
                   
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {proposal.description}
                   </p>
@@ -556,7 +556,7 @@ const GovernanceDashboard = () => {
                   <div style={{
   display: 'flex',
   alignItems: 'center',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     <span>#{proposal.id}</span>
                     <span>By {proposal.proposer.slice(0, 6)}...{proposal.proposer.slice(-4)}</span>
@@ -632,7 +632,7 @@ const GovernanceDashboard = () => {
   justifyContent: 'space-between'
 }}>
                   <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Voting Progress</span>
                   <span style={{
   fontWeight: '600'
@@ -718,10 +718,10 @@ const GovernanceDashboard = () => {
                       <Minus style={{
   width: '16px',
   height: '16px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                       <span style={{
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   fontWeight: '600'
 }}>Abstain</span>
                     </div>
@@ -792,13 +792,13 @@ const GovernanceDashboard = () => {
           <Vote style={{
   width: '48px',
   height: '48px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           <h3 style={{
   fontWeight: '600'
 }}>No Proposals Found</h3>
           <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
             {filter === 'all' ? 'No proposals exist yet.' : `No ${filter} proposals found.`}
           </p>
@@ -932,7 +932,7 @@ const GovernanceDashboard = () => {
           {selectedProposal && (
             <div className="space-y-4 mt-4">
               <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'rgba(20, 20, 20, 0.6)',
   padding: '16px',
   borderRadius: '12px'
 }}>
@@ -940,7 +940,7 @@ const GovernanceDashboard = () => {
   fontWeight: '600'
 }}>{selectedProposal.title}</h4>
                 <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                   {selectedProposal.description}
                 </p>
@@ -1084,7 +1084,7 @@ const GovernanceDashboard = () => {
   fontWeight: '600'
 }}>Description</h4>
                   <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
                     {selectedProposal.description}
                   </p>
@@ -1098,7 +1098,7 @@ const GovernanceDashboard = () => {
 }}>
                   <div>
                     <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Proposal ID:</span>
                     <span style={{
   fontWeight: '600'
@@ -1106,7 +1106,7 @@ const GovernanceDashboard = () => {
                   </div>
                   <div>
                     <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Proposer:</span>
                     <span style={{
   fontWeight: '600'
@@ -1116,7 +1116,7 @@ const GovernanceDashboard = () => {
                   </div>
                   <div>
                     <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Start Block:</span>
                     <span style={{
   fontWeight: '600'
@@ -1124,7 +1124,7 @@ const GovernanceDashboard = () => {
                   </div>
                   <div>
                     <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>End Block:</span>
                     <span style={{
   fontWeight: '600'
@@ -1169,7 +1169,7 @@ const GovernanceDashboard = () => {
   alignItems: 'center'
 }}>
                       <span style={{
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   fontWeight: '600'
 }}>Abstain</span>
                       <span style={{
@@ -1182,7 +1182,7 @@ const GovernanceDashboard = () => {
   alignItems: 'center'
 }}>
                       <span style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>Quorum Required</span>
                       <span style={{
   fontWeight: '600'

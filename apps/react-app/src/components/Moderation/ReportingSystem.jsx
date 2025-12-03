@@ -215,8 +215,8 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] p-4" onClick={onClose}>
-      <div className="bg-[#161b22]/95 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-white/10" onClick={e => e.stopPropagation()}>
-        <div className="flex justify-between items-center p-6 border-b border-white/10 sticky top-0 bg-[#161b22]/95 z-10">
+      <div className="bg-[#141414]/95 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-white/10" onClick={e => e.stopPropagation()}>
+        <div className="flex justify-between items-center p-6 border-b border-white/10 sticky top-0 bg-[#141414]/95 z-10">
           <h2 className="text-xl font-semibold text-white m-0">Report Content</h2>
           <button
             className="bg-none border-none text-2xl text-gray-400 cursor-pointer hover:text-white transition-colors"
@@ -309,7 +309,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
               minLength={10}
               maxLength={1000}
               rows={4}
-              className="w-full px-4 py-3 bg-[#0d1117] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
+              className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
             />
             <div className="text-xs text-gray-500 mt-1 text-right">
               {reportData.description.length}/1000 characters
@@ -328,7 +328,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
                 value={newEvidenceUrl}
                 onChange={(e) => setNewEvidenceUrl(e.target.value)}
                 placeholder="https://example.com/evidence-link"
-                className="flex-1 px-4 py-2 bg-[#0d1117] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
+                className="flex-1 px-4 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
               />
               <button
                 type="button"

@@ -119,7 +119,7 @@ const ConfirmDialog = ({
           <div
             style={{
               position: 'relative',
-              background: 'rgba(22, 27, 34, 0.6)',
+              background: 'rgba(20, 20, 20, 0.6)',
               backdropFilter: 'blur(12px)',
               borderRadius: '12px',
               width: '100%',
@@ -146,7 +146,7 @@ const ConfirmDialog = ({
               }}
             >
               <X size={20} style={{
-                color: '#8b949e'
+                color: '#666666'
               }} />
             </button>
 
@@ -174,7 +174,7 @@ const ConfirmDialog = ({
               {title}
             </h3>
             <p style={{
-              color: '#8b949e',
+              color: '#666666',
               fontSize: '14px',
               lineHeight: '1.5',
               marginBottom: '24px'
@@ -196,8 +196,8 @@ const ConfirmDialog = ({
                   paddingRight: '16px',
                   paddingTop: '10px',
                   paddingBottom: '10px',
-                  color: '#8b949e',
-                  background: 'rgba(22, 27, 34, 0.6)',
+                  color: '#666666',
+                  background: 'rgba(20, 20, 20, 0.6)',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
                   borderRadius: '12px',
                   fontSize: '14px',

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import { Eye, EyeOff, KeyRound, CheckCircle, AlertTriangle } from 'lucide-react'
 import authService from '../services/authService'
 import { useResponsive } from '../hooks/useResponsive'
 
@@ -132,7 +133,7 @@ export default function PasswordResetPage() {
   }
 
   const getPasswordStrengthColor = () => {
-    if (passwordStrength <= 1) return '#ef4444'
+    if (passwordStrength <= 1) return '#FF3B3B'
     if (passwordStrength <= 3) return '#f59e0b'
     return '#10b981'
   }
@@ -145,15 +146,15 @@ export default function PasswordResetPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7] p-4 md:p-6"
+      className="min-h-screen flex items-center justify-center bg-[#0D0D0D] p-4 md:p-6"
       role="main"
       aria-label="Password reset page"
     >
-      <div className="bg-[#0A0A0B] rounded-xl p-5 md:p-6 max-w-md md:max-w-lg w-full shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)]">
+      <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 max-w-md md:max-w-lg w-full shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
         {/* Header */}
         <div className="text-center mb-5 md:mb-6">
-          <div className="w-11 h-11 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center text-white text-xl md:text-2xl font-bold mx-auto mb-2 md:mb-3" aria-hidden="true">
-            🔑
+          <div className="w-11 h-11 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center mx-auto mb-2 md:mb-3" aria-hidden="true">
+            <KeyRound className="w-5 h-5 text-white" />
           </div>
           <h1 className="text-lg md:text-xl font-semibold mb-2 text-white">
             {step === 'request' && 'Reset Password'}
@@ -161,7 +162,7 @@ export default function PasswordResetPage() {
             {step === 'success' && 'Success!'}
             {step === 'error' && 'Invalid Link'}
           </h1>
-          <p className="text-sm md:text-base text-[#8b949e]">
+          <p className="text-sm md:text-base text-[#666666]">
             {step === 'request' && "Enter your email to receive a password reset link"}
             {step === 'reset' && "Choose a strong password for your account"}
             {step === 'success' && "Your password has been updated"}
@@ -173,7 +174,7 @@ export default function PasswordResetPage() {
         {step === 'request' && (
           <form onSubmit={handleRequestReset}>
             <div className="mb-4 md:mb-5">
-              <label htmlFor="email-input" className="block text-xs md:text-sm font-medium mb-2 text-[#c9d1d9]">
+              <label htmlFor="email-input" className="block text-xs md:text-sm font-medium mb-2 text-[#A0A0A0]">
                 Email Address
               </label>
               <input
@@ -183,7 +184,7 @@ export default function PasswordResetPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 text-sm md:text-base outline-none transition-all bg-[#161b22]/60 backdrop-blur-xl text-white placeholder:text-[#8b949e] focus:border-[#58a6ff]"
+                className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 text-sm md:text-base outline-none transition-all bg-[#141414]/60 backdrop-blur-xl text-white placeholder:text-[#666666] focus:border-[#58a6ff]"
                 aria-required="true"
                 aria-invalid={error ? "true" : "false"}
                 aria-describedby={error ? "email-error" : undefined}
@@ -194,7 +195,7 @@ export default function PasswordResetPage() {
               <div
                 id="email-error"
                 role="alert"
-                className="px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(239,68,68,0.3)] rounded-lg text-[#ef4444] text-xs md:text-sm mb-4 md:mb-5"
+                className="px-3 py-2 md:px-4 md:py-3 bg-[#141414]/60 backdrop-blur-xl border border-[rgba(255,59,59,0.3)] rounded-lg text-[#FF3B3B] text-xs md:text-sm mb-4 md:mb-5"
               >
                 {error}
               </div>
@@ -221,7 +222,7 @@ export default function PasswordResetPage() {
         {step === 'reset' && (
           <form onSubmit={handleResetPassword}>
             <div className="mb-4 md:mb-5">
-              <label htmlFor="new-password" className="block text-xs md:text-sm font-medium mb-2 text-[#c9d1d9]">
+              <label htmlFor="new-password" className="block text-xs md:text-sm font-medium mb-2 text-[#A0A0A0]">
                 New Password
               </label>
               <div className="relative">
@@ -232,7 +233,7 @@ export default function PasswordResetPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter new password"
                   required
-                  className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 pr-10 md:pr-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 text-sm md:text-base outline-none transition-all bg-[#161b22]/60 backdrop-blur-xl text-white placeholder:text-[#8b949e] focus:border-[#58a6ff]"
+                  className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 pr-10 md:pr-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 text-sm md:text-base outline-none transition-all bg-[#141414]/60 backdrop-blur-xl text-white placeholder:text-[#666666] focus:border-[#58a6ff]"
                   aria-required="true"
                   aria-invalid={error ? "true" : "false"}
                   aria-describedby="password-strength"
@@ -240,16 +241,16 @@ export default function PasswordResetPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-base md:text-lg min-h-[44px]"
+                  className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 bg-transparent border-none cursor-pointer text-[#666666] hover:text-white transition-colors min-h-[44px] flex items-center justify-center"
                   aria-label={showPassword ? "Hide password" : "Show password"}
                 >
-                  {showPassword ? '🙈' : '👁️'}
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
 
               {password && (
                 <div id="password-strength" className="mt-2" role="status" aria-live="polite">
-                  <div className="h-1 bg-[#161b22]/60 backdrop-blur-xl rounded-sm overflow-hidden" aria-hidden="true">
+                  <div className="h-1 bg-[#141414]/60 backdrop-blur-xl rounded-sm overflow-hidden" aria-hidden="true">
                     <div
                       className="h-full transition-all duration-300"
                       style={{
@@ -266,7 +267,7 @@ export default function PasswordResetPage() {
             </div>
 
             <div className="mb-5 md:mb-6">
-              <label htmlFor="confirm-password" className="block text-xs md:text-sm font-medium mb-2 text-[#c9d1d9]">
+              <label htmlFor="confirm-password" className="block text-xs md:text-sm font-medium mb-2 text-[#A0A0A0]">
                 Confirm Password
               </label>
               <input
@@ -276,7 +277,7 @@ export default function PasswordResetPage() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm new password"
                 required
-                className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 text-sm md:text-base outline-none transition-all bg-[#161b22]/60 backdrop-blur-xl text-white placeholder:text-[#8b949e] focus:border-[#58a6ff]"
+                className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 text-sm md:text-base outline-none transition-all bg-[#141414]/60 backdrop-blur-xl text-white placeholder:text-[#666666] focus:border-[#58a6ff]"
                 aria-required="true"
                 aria-invalid={error && error.includes('match') ? "true" : "false"}
               />
@@ -285,7 +286,7 @@ export default function PasswordResetPage() {
             {error && (
               <div
                 role="alert"
-                className="px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(239,68,68,0.3)] rounded-lg text-[#ef4444] text-xs md:text-sm mb-4 md:mb-5"
+                className="px-3 py-2 md:px-4 md:py-3 bg-[#141414]/60 backdrop-blur-xl border border-[rgba(255,59,59,0.3)] rounded-lg text-[#FF3B3B] text-xs md:text-sm mb-4 md:mb-5"
               >
                 {error}
               </div>
@@ -305,8 +306,10 @@ export default function PasswordResetPage() {
         {/* Success State */}
         {step === 'success' && (
           <div className="text-center" role="status" aria-live="polite">
-            <div className="text-4xl md:text-5xl mb-5 md:mb-6" aria-hidden="true">✅</div>
-            <p className="text-sm md:text-base text-[#8b949e] mb-5 md:mb-6 leading-relaxed">
+            <div className="w-16 h-16 mx-auto mb-5 md:mb-6 bg-emerald-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
+              <CheckCircle className="w-8 h-8 text-emerald-500" />
+            </div>
+            <p className="text-sm md:text-base text-[#666666] mb-5 md:mb-6 leading-relaxed">
               {message}
             </p>
             <Link
@@ -321,8 +324,10 @@ export default function PasswordResetPage() {
         {/* Error State */}
         {step === 'error' && (
           <div className="text-center" role="alert">
-            <div className="text-4xl md:text-5xl mb-5 md:mb-6" aria-hidden="true">⚠️</div>
-            <p className="text-sm md:text-base text-[#8b949e] mb-5 md:mb-6 leading-relaxed">
+            <div className="w-16 h-16 mx-auto mb-5 md:mb-6 bg-amber-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
+              <AlertTriangle className="w-8 h-8 text-amber-500" />
+            </div>
+            <p className="text-sm md:text-base text-[#666666] mb-5 md:mb-6 leading-relaxed">
               {error}
             </p>
             <button

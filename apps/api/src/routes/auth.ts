@@ -385,15 +385,6 @@ export default async function authRoutes(fastify: FastifyInstance) {
       // Set httpOnly cookies
       setAuthCookies(reply, tokens);
       
-      // Debug logging
-      console.log('DEBUG: About to send registration response with tokens:', {
-        hasToken: !!tokens.accessToken,
-        hasRefresh: !!tokens.refreshToken,
-        tokenLength: tokens.accessToken?.length,
-        actualToken: tokens.accessToken?.substring(0, 20) + '...',
-        fullTokens: tokens
-      });
-      
       const responsePayload = {
         success: true,
         message: 'Registration successful',
@@ -415,9 +406,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
           }
         }
       };
-      
-      console.log('DEBUG: Response payload being sent:', JSON.stringify(responsePayload.data, null, 2));
-      
+
       reply.code(201).send(responsePayload);
     } catch (error) {
       // Comprehensive error handling

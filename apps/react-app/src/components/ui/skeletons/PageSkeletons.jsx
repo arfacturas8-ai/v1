@@ -12,7 +12,7 @@ export function HomePageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0d1117'
+      background: '#0D0D0D'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -45,7 +45,7 @@ export function HomePageSkeleton({ className = '' }) {
               <div
                 key={i}
                 style={{
-                  background: 'rgba(22, 27, 34, 0.6)',
+                  background: 'rgba(20, 20, 20, 0.6)',
                   backdropFilter: 'blur(12px)',
                   borderRadius: '12px',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -82,7 +82,7 @@ export function CommunitiesPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0d1117'
+      background: '#0D0D0D'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -133,7 +133,7 @@ export function ProfilePageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0d1117'
+      background: '#0D0D0D'
     }}>
       <div className="max-w-5xl mx-auto">
         {/* Profile Header */}
@@ -155,7 +155,7 @@ export function ProfilePageSkeleton({ className = '' }) {
               <SkeletonProfileStats />
               <div
                 style={{
-                  background: 'rgba(22, 27, 34, 0.6)',
+                  background: 'rgba(20, 20, 20, 0.6)',
                   backdropFilter: 'blur(12px)',
                   borderRadius: '12px',
                   border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -193,7 +193,7 @@ export function PostDetailPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0d1117'
+      background: '#0D0D0D'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -206,7 +206,7 @@ export function PostDetailPageSkeleton({ className = '' }) {
         {/* Post */}
         <div
           style={{
-            background: 'rgba(22, 27, 34, 0.6)',
+            background: 'rgba(20, 20, 20, 0.6)',
             backdropFilter: 'blur(12px)',
             borderRadius: '12px',
             border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -273,7 +273,7 @@ export function PostDetailPageSkeleton({ className = '' }) {
         {/* Comments */}
         <div
           style={{
-            background: 'rgba(22, 27, 34, 0.6)',
+            background: 'rgba(20, 20, 20, 0.6)',
             backdropFilter: 'blur(12px)',
             borderRadius: '12px',
             border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -316,7 +316,7 @@ export function SearchPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0d1117'
+      background: '#0D0D0D'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -356,7 +356,7 @@ export function SettingsPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0d1117'
+      background: '#0D0D0D'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -383,7 +383,7 @@ export function SettingsPageSkeleton({ className = '' }) {
             className="lg:col-span-1"
           >
             <div style={{
-              background: 'rgba(22, 27, 34, 0.6)',
+              background: 'rgba(20, 20, 20, 0.6)',
               backdropFilter: 'blur(12px)',
               borderRadius: '12px',
               border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -403,7 +403,7 @@ export function SettingsPageSkeleton({ className = '' }) {
               <div
                 key={i}
                 style={{
-                  background: 'rgba(22, 27, 34, 0.6)',
+                  background: 'rgba(20, 20, 20, 0.6)',
                   backdropFilter: 'blur(12px)',
                   borderRadius: '12px',
                   border: '1px solid rgba(255, 255, 255, 0.1)',

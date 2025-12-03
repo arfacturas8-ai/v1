@@ -104,8 +104,8 @@ export function ThemeToggle() {
   justifyContent: 'center',
   borderRadius: '12px',
   border: '1px solid rgba(255, 255, 255, 0.1)',
-  background: 'rgba(22, 27, 34, 0.6)',
-  color: '#c9d1d9'
+  background: 'rgba(20, 20, 20, 0.6)',
+  color: '#A0A0A0'
 }}
       aria-label="Toggle theme"
     >

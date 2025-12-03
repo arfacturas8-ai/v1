@@ -67,40 +67,41 @@ function ChatPage({ user, onNavigate }) {
   useLoadingAnnouncement(loading, 'Loading chat')
   useErrorAnnouncement(error)
 
-  // Load servers and channels
-  useEffect(() => {
-    const loadChatData = async () => {
-      setLoading(true)
-      setError(null)
-      try {
-        const [serversRes, dmsRes] = await Promise.all([
-          apiService.get('/chat/servers').catch(() => ({ success: false, data: [] })),
-          apiService.get('/messages/conversations').catch(() => ({ success: false, data: [] }))
-        ])
+  // Load servers and channels - extracted as callback for retry functionality
+  const loadChatData = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+    try {
+      const [serversRes, dmsRes] = await Promise.all([
+        apiService.get('/chat/servers').catch(() => ({ success: false, data: [] })),
+        apiService.get('/messages/conversations').catch(() => ({ success: false, data: [] }))
+      ])
 
-        if (serversRes.success && serversRes.data) {
-          const serversList = serversRes.data.servers || serversRes.data || []
-          setServers(serversList)
+      if (serversRes.success && serversRes.data) {
+        const serversList = serversRes.data.servers || serversRes.data || []
+        setServers(serversList)
 
-          if (serversList.length > 0 && !activeServer) {
-            setActiveServer(serversList[0].id)
-            if (serversList[0].channels?.length > 0) {
-              setActiveChannel(serversList[0].channels[0].id)
-            }
+        if (serversList.length > 0 && !activeServer) {
+          setActiveServer(serversList[0].id)
+          if (serversList[0].channels?.length > 0) {
+            setActiveChannel(serversList[0].channels[0].id)
           }
         }
-
-        if (dmsRes.success && dmsRes.data) {
-          setDirectMessages(dmsRes.data.conversations || dmsRes.data || [])
-        }
-      } catch (err) {
-        console.error('Failed to load chat data:', err)
-        setError('Failed to load chat data. Please try again.')
-      } finally {
-        setLoading(false)
       }
-    }
 
+      if (dmsRes.success && dmsRes.data) {
+        setDirectMessages(dmsRes.data.conversations || dmsRes.data || [])
+      }
+    } catch (err) {
+      console.error('Failed to load chat data:', err)
+      setError('Failed to load chat data. Please try again.')
+    } finally {
+      setLoading(false)
+    }
+  }, [activeServer])
+
+  // Initial data load
+  useEffect(() => {
     loadChatData()
   }, [])
 
@@ -240,15 +241,15 @@ function ChatPage({ user, onNavigate }) {
   // Show error state if data loading failed
   if (error) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#0d1117]" role="main" aria-label="Chat error">
-        <div className="text-center max-w-md p-8 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]" role="alert" aria-live="assertive">
+      <div className="h-screen flex items-center justify-center bg-[#0D0D0D]" role="main" aria-label="Chat error">
+        <div className="text-center max-w-md p-8 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]" role="alert" aria-live="assertive">
           <div className="text-6xl mb-4" aria-hidden="true">⚠️</div>
           <h2 className="text-2xl font-bold text-white mb-2">Something went wrong</h2>
-          <p className="text-[#c9d1d9] mb-6">{error}</p>
+          <p className="text-[#A0A0A0] mb-6">{error}</p>
           <button
-            onClick={() => window.location.reload()}
+            onClick={loadChatData}
             className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] transition-all"
-            aria-label="Try reloading the page"
+            aria-label="Try loading chat again"
           >
             Try Again
           </button>
@@ -260,10 +261,10 @@ function ChatPage({ user, onNavigate }) {
   // Show loading indicator during initial data load
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#0d1117]" role="main" aria-label="Chat loading" aria-live="polite" aria-busy="true">
+      <div className="h-screen flex items-center justify-center bg-[#0D0D0D]" role="main" aria-label="Chat loading" aria-live="polite" aria-busy="true">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" role="status" aria-hidden="true"></div>
-          <p className="text-[#c9d1d9]" aria-live="polite">Loading chat...</p>
+          <p className="text-[#A0A0A0]" aria-live="polite">Loading chat...</p>
         </div>
       </div>
     )
@@ -280,7 +281,7 @@ function ChatPage({ user, onNavigate }) {
       />
 
       <div
-        className="h-screen flex overflow-hidden bg-[#0d1117] text-gray-100"
+        className="h-screen flex overflow-hidden bg-[#0D0D0D] text-gray-100"
         role="main"
         aria-label="Chat application"
       >
@@ -301,12 +302,12 @@ function ChatPage({ user, onNavigate }) {
           {activeChannel && currentChannel ? (
             <>
               {/* Channel Header */}
-              <div className="h-14 flex items-center justify-between px-4 border-b border-white/10 bg-[#161b22]/80 backdrop-blur-xl shadow-sm">
+              <div className="h-14 flex items-center justify-between px-4 border-b border-white/10 bg-[#141414]/80 backdrop-blur-xl shadow-sm">
                 <div className="flex items-center min-w-0 flex-1">
                   {isMobile && (
                     <button
                       onClick={() => setActiveChannel(null)}
-                      className="mr-3 p-2 hover:bg-[#161b22] rounded-xl transition-colors"
+                      className="mr-3 p-2 hover:bg-[#141414] rounded-xl transition-colors"
                       aria-label="Back to channels"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -319,7 +320,7 @@ function ChatPage({ user, onNavigate }) {
                     <h2 className="text-white font-semibold truncate">{currentChannel.name}</h2>
                   </div>
                   {currentChannel.description && (
-                    <div className="hidden md:flex items-center ml-4 text-sm text-[#8b949e] border-l border-white/10 pl-4">
+                    <div className="hidden md:flex items-center ml-4 text-sm text-[#666666] border-l border-white/10 pl-4">
                       <span className="truncate">{currentChannel.description}</span>
                     </div>
                   )}
@@ -327,7 +328,7 @@ function ChatPage({ user, onNavigate }) {
                 <div className="flex items-center gap-2 ml-4">
                   <button
                     onClick={handleSearchOpen}
-                    className="p-2 hover:bg-[#161b22] rounded-xl transition-colors text-[#8b949e] hover:text-[#58a6ff]"
+                    className="p-2 hover:bg-[#141414] rounded-xl transition-colors text-[#666666] hover:text-[#58a6ff]"
                     aria-label="Search messages"
                     title="Search (Ctrl+K)"
                   >
@@ -337,7 +338,7 @@ function ChatPage({ user, onNavigate }) {
                   </button>
                   <button
                     onClick={handleNotificationOpen}
-                    className="p-2 hover:bg-[#161b22] rounded-xl transition-colors relative text-[#8b949e] hover:text-[#58a6ff]"
+                    className="p-2 hover:bg-[#141414] rounded-xl transition-colors relative text-[#666666] hover:text-[#58a6ff]"
                     aria-label={`Notifications ${notifications.length > 0 ? `(${notifications.length} unread)` : ''}`}
                     title="Notifications"
                   >
@@ -349,7 +350,7 @@ function ChatPage({ user, onNavigate }) {
                     )}
                   </button>
                   <button
-                    className="p-2 hover:bg-[#161b22] rounded-xl transition-colors hidden md:block text-[#8b949e] hover:text-[#58a6ff]"
+                    className="p-2 hover:bg-[#141414] rounded-xl transition-colors hidden md:block text-[#666666] hover:text-[#58a6ff]"
                     aria-label="Channel members"
                     title="Members"
                   >
@@ -382,22 +383,22 @@ function ChatPage({ user, onNavigate }) {
             </>
           ) : (
             /* Empty State - No Channel Selected */
-            <div className="flex-1 flex items-center justify-center bg-[#0d1117]">
+            <div className="flex-1 flex items-center justify-center bg-[#0D0D0D]">
               <div className="text-center max-w-md px-6" role="status" aria-live="polite">
                 <div className="mb-6" aria-hidden="true">
-                  <svg className="w-24 h-24 mx-auto text-[#8b949e]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-24 h-24 mx-auto text-[#666666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
                 <h2 className="text-2xl font-bold text-white mb-3">
                   Select a channel to start chatting
                 </h2>
-                <p className="text-[#8b949e] mb-6">
+                <p className="text-[#666666] mb-6">
                   Choose a channel from the sidebar to view messages and join the conversation.
                 </p>
                 {servers.length === 0 && (
-                  <div className="mt-8 p-4 bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10">
-                    <p className="text-sm text-[#c9d1d9]">
+                  <div className="mt-8 p-4 bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10">
+                    <p className="text-sm text-[#A0A0A0]">
                       No servers available. Create or join a server to get started.
                     </p>
                   </div>

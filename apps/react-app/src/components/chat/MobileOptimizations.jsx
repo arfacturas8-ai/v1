@@ -223,7 +223,7 @@ export const MobileHeader = ({
           </h1>
           {subtitle && (
             <p style={{
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}>
               {subtitle}
             </p>
@@ -285,7 +285,7 @@ export const MobileBottomNav = ({
   padding: '12px',
   borderRadius: '12px',
   flex: '1',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }}
         >
           <item.icon style={{
@@ -528,7 +528,7 @@ export const MobileInput = ({
   }
 
   return (
-    <div className={`bg-[#161b22]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
+    <div className={`bg-[#141414]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
       {/* Attachments preview */}
       {attachments.length > 0 && (
         <div style={{
@@ -569,7 +569,7 @@ export const MobileInput = ({
                       <Paperclip style={{
   width: '24px',
   height: '24px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
                     </div>
                   )}
@@ -650,7 +650,7 @@ export const MobileInput = ({
             <Paperclip style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
           </button>
         )}
@@ -732,7 +732,7 @@ export const MobileInput = ({
               <Camera style={{
   width: '20px',
   height: '20px',
-  color: '#c9d1d9'
+  color: '#A0A0A0'
 }} />
             </button>
           )}
@@ -745,7 +745,7 @@ export const MobileInput = ({
               style={{
   padding: '12px',
   borderRadius: '50%',
-  color: '#c9d1d9',
+  color: '#A0A0A0',
   background: 'rgba(22, 27, 34, 0.6)'
 }}
             >
