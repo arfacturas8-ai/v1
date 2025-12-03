@@ -24,6 +24,10 @@
      10% of palette for maximum impact
      ============================================ */
   
+  /* CRYB Brand Colors */
+  --cryb-blue: #58a6ff;
+  --cryb-purple: #a371f7;
+
   /* Electric Cyan - Innovation & CTAs */
   --accent-cyan: #00D4FF;
   --accent-cyan-hover: #00B8E6;

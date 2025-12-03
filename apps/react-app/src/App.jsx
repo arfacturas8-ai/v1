@@ -208,7 +208,7 @@ export default function App() {
           <AuthProvider>
             <ToastProvider>
               <OnboardingProvider>
-                <Web3Provider>
+                <Web3Provider autoConnect={false}>
                   <AnalyticsWrapper>
                     {/* Global UI Components */}
                     <CookieConsent />

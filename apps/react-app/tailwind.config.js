@@ -4,10 +4,10 @@ const { fontFamily } = require('tailwindcss/defaultTheme');
 module.exports = {
   darkMode: ['class'],
   content: [
-    './src/pages/**/*.{ts,tsx}',
-    './src/components/**/*.{ts,tsx}',
-    './src/app/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './src/pages/**/*.{js,jsx,ts,tsx}',
+    './src/components/**/*.{js,jsx,ts,tsx}',
+    './src/app/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     container: {
@@ -19,6 +19,9 @@ module.exports = {
     },
     extend: {
       colors: {
+        // CRYB Brand Colors
+        'cryb-blue': '#58a6ff',
+        'cryb-purple': '#a371f7',
         // OpenSea-inspired color system
         primary: {
           DEFAULT: 'var(--color-primary)',

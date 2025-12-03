@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useResponsive } from '../hooks/useResponsive'
+import { useLocation } from 'react-router-dom'
 
 const CookieConsent = () => {
   const { isMobile } = useResponsive()
+  const location = useLocation()
   const [showConsent, setShowConsent] = useState(false)
+
+  // Don't show on doc-progress page
+  if (location.pathname === '/doc-progress') {
+    return null
+  }
 
   useEffect(() => {
     const consent = localStorage.getItem('cookieConsent')
