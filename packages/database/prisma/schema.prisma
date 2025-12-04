@@ -164,6 +164,9 @@ model Comment {
   score         Int       @default(0)
   updatedAt     DateTime
   userId        String
+  likeCount     Int       @default(0)
+  replyCount    Int       @default(0)
+  depth         Int       @default(0)
   Award         Award[]
   Comment       Comment?  @relation("CommentToComment", fields: [parentId], references: [id])
   other_Comment Comment[] @relation("CommentToComment")
@@ -171,6 +174,7 @@ model Comment {
   User          User      @relation(fields: [userId], references: [id])
   Report        Report[]
   Vote          Vote[]
+  Like          Like[]
 
   @@index([postId, createdAt])
   @@index([userId])
@@ -873,31 +877,53 @@ model NotificationTemplate {
 }
 
 model Post {
-  id           String      @id
-  title        String
-  content      String
-  commentCount Int         @default(0)
-  communityId  String
-  createdAt    DateTime    @default(now())
-  editedAt     DateTime?
-  flair        String?
-  isLocked     Boolean     @default(false)
-  isPinned     Boolean     @default(false)
-  isRemoved    Boolean     @default(false)
-  nsfw         Boolean     @default(false)
-  score        Int         @default(0)
-  thumbnail    String?
-  updatedAt    DateTime
-  url          String?
-  userId       String
-  viewCount    Int         @default(0)
-  Award        Award[]
-  Comment      Comment[]
-  Community    Community   @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  User         User        @relation(fields: [userId], references: [id])
-  Report       Report[]
-  SavedPost    SavedPost[]
-  Vote         Vote[]
+  id            String      @id
+  title         String?
+  content       String
+  commentCount  Int         @default(0)
+  communityId   String?
+  createdAt     DateTime    @default(now())
+  editedAt      DateTime?
+  flair         String?
+  isLocked      Boolean     @default(false)
+  isPinned      Boolean     @default(false)
+  isRemoved     Boolean     @default(false)
+  nsfw          Boolean     @default(false)
+  score         Int         @default(0)
+  thumbnail     String?
+  updatedAt     DateTime
+  url           String?
+  userId        String
+  viewCount     Int         @default(0)
+  type          PostType    @default(TEXT)
+  metadata      Json?
+  quotedPostId  String?
+  repostOfId    String?
+  threadRootId  String?
+  isThread      Boolean     @default(false)
+  likeCount     Int         @default(0)
+  repostCount   Int         @default(0)
+  quoteCount    Int         @default(0)
+  bookmarkCount Int         @default(0)
+  replyCount    Int         @default(0)
+  Award         Award[]
+  Comment       Comment[]
+  Community     Community?  @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  User          User        @relation(fields: [userId], references: [id])
+  Report        Report[]
+  SavedPost     SavedPost[]
+  Vote          Vote[]
+  PostMedia     PostMedia[]
+  Poll          Poll?
+  Like          Like[]
+  Repost        Repost[]
+  Bookmark      Bookmark[]
+  QuotedPost    Post?       @relation("PostQuotes", fields: [quotedPostId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  QuotedBy      Post[]      @relation("PostQuotes")
+  RepostOf      Post?       @relation("PostReposts", fields: [repostOfId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  RepostedAs    Post[]      @relation("PostReposts")
+  ThreadRoot    Post?       @relation("PostThreads", fields: [threadRootId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ThreadPosts   Post[]      @relation("PostThreads")
 
   @@index([communityId, createdAt])
   @@index([score])
@@ -1441,6 +1467,15 @@ model User {
   updatedAt                                      DateTime
   walletAddress                                  String?                    @unique
   premiumType                                    String?                    @default("NONE")
+  followerCount                                  Int                        @default(0)
+  followingCount                                 Int                        @default(0)
+  postCount                                      Int                        @default(0)
+  location                                       String?
+  website                                        String?
+  socialLinks                                    Json?
+  isPrivate                                      Boolean                    @default(false)
+  showActivityStatus                             Boolean                    @default(true)
+  showWalletHoldings                             Boolean                    @default(true)
   Award_Award_giverIdToUser                      Award[]                    @relation("Award_giverIdToUser")
   Award_Award_receiverIdToUser                   Award[]                    @relation("Award_receiverIdToUser")
   Block_Block_blockedIdToUser                    Block[]                    @relation("Block_blockedIdToUser")
@@ -1488,6 +1523,15 @@ model User {
   UserStake                                      UserStake[]
   VoiceState                                     VoiceState[]
   Vote                                           Vote[]
+  Follow_UserFollowers                           Follow[]                   @relation("UserFollowers")
+  Follow_UserFollowing                           Follow[]                   @relation("UserFollowing")
+  Like                                           Like[]
+  Repost                                         Repost[]
+  PollVote                                       PollVote[]
+  Bookmark                                       Bookmark[]
+  Mute_UserMuting                                Mute[]                     @relation("UserMuting")
+  Mute_UserMuted                                 Mute[]                     @relation("UserMuted")
+  HiddenWord                                     HiddenWord[]
 
   @@unique([username, discriminator])
   @@index([bannedAt])
@@ -1790,6 +1834,16 @@ enum NotificationType {
   COMMUNITY_POST
   MAINTENANCE
   SECURITY_ALERT
+  POST_REPOST
+  POST_QUOTE
+  COMMENT_LIKE
+  COMMENT_REPLY
+  POLL_ENDED
+  MESSAGE_REQUEST
+  CALL_MISSED
+  NFT_SOLD
+  NFT_OFFER
+  NFT_BID
 }
 
 enum PaymentProvider {
@@ -1918,4 +1972,194 @@ enum VoteType {
   FOR
   AGAINST
   ABSTAIN
+}
+
+// ====================================================================================
+// SOCIAL-FIRST ADDITIONS - Master Build Prompt Implementation
+// ====================================================================================
+
+// Follow System (Twitter-style one-directional)
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String
+  followingId String
+  createdAt   DateTime @default(now())
+
+  Follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  Following User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+  @@index([createdAt])
+}
+
+// Like System (Twitter-style hearts)
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String?
+  commentId String?
+  createdAt DateTime @default(now())
+
+  User    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  Comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+  @@index([postId])
+  @@index([commentId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// Repost System (Retweets + Quote Tweets)
+model Repost {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  comment   String?
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
+  @@index([createdAt])
+}
+
+// Post Media (Images, Videos, Audio)
+model PostMedia {
+  id        String    @id @default(cuid())
+  postId    String
+  type      MediaType
+  url       String
+  thumbnail String?
+  alt       String?
+  width     Int?
+  height    Int?
+  duration  Int?
+  fileSize  Int?
+  mimeType  String?
+  position  Int       @default(0)
+  createdAt DateTime  @default(now())
+
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([type])
+}
+
+// Poll System
+model Poll {
+  id         String   @id @default(cuid())
+  postId     String   @unique
+  question   String?
+  duration   Int
+  endsAt     DateTime
+  totalVotes Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  Post       Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  PollOption PollOption[]
+  PollVote   PollVote[]
+
+  @@index([endsAt])
+  @@index([createdAt])
+}
+
+model PollOption {
+  id        String   @id @default(cuid())
+  pollId    String
+  option    String
+  votes     Int      @default(0)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  Poll     Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  PollVote PollVote[]
+
+  @@index([pollId])
+}
+
+model PollVote {
+  id        String   @id @default(cuid())
+  pollId    String
+  optionId  String
+  userId    String
+  createdAt DateTime @default(now())
+
+  Poll       Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  PollOption PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  User       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, userId])
+  @@index([pollId])
+  @@index([optionId])
+  @@index([userId])
+}
+
+// Bookmark System
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
+  @@index([createdAt])
+}
+
+// Mute System
+model Mute {
+  id        String   @id @default(cuid())
+  muterId   String
+  mutedId   String
+  createdAt DateTime @default(now())
+
+  Muter User @relation("UserMuting", fields: [muterId], references: [id], onDelete: Cascade)
+  Muted User @relation("UserMuted", fields: [mutedId], references: [id], onDelete: Cascade)
+
+  @@unique([muterId, mutedId])
+  @@index([muterId])
+  @@index([mutedId])
+}
+
+// Hidden Words Filter
+model HiddenWord {
+  id        String   @id @default(cuid())
+  userId    String
+  word      String
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// New Enums for Social Features
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  GIF
+}
+
+enum PostType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  POLL
+  LINK
+  QUOTE
+  THREAD
 }

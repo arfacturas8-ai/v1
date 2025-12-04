@@ -76,14 +76,14 @@ export default function Header() {
               Home
             </Button>
           </Link>
+          <Link to="/explore">
+            <Button variant={location.pathname === '/explore' ? 'secondary' : 'ghost'} size="sm" aria-current={location.pathname === '/explore' ? 'page' : undefined}>
+              Explore
+            </Button>
+          </Link>
           <Link to="/communities">
             <Button variant={location.pathname.startsWith('/communities') ? 'secondary' : 'ghost'} size="sm" aria-current={location.pathname.startsWith('/communities') ? 'page' : undefined}>
               Communities
-            </Button>
-          </Link>
-          <Link to="/nft">
-            <Button variant={location.pathname === '/nft' ? 'secondary' : 'ghost'} size="sm" aria-current={location.pathname === '/nft' ? 'page' : undefined}>
-              NFTs
             </Button>
           </Link>
           <Link to="/chat">

@@ -13,14 +13,14 @@ interface CrybColors {
   navy: string;
   secondary: string;
   accent: string;
-  
+
   // Innovation colors
   cyan: string;
   purple: string;
   lime: string;
   orange: string;
   pink: string;
-  
+
   // Background colors
   background: string;
   backgroundSecondary: string;
@@ -28,9 +28,10 @@ interface CrybColors {
   surfaceSecondary: string;
   surfaceVariant: string;
   card: string;
+  cardBackground: string;
   modal: string;
   overlay: string;
-  
+
   // Text colors
   text: string;
   textSecondary: string;
@@ -41,14 +42,14 @@ interface CrybColors {
   onSurface: string;
   onSurfaceVariant: string;
   onPrimary: string;
-  
+
   // Border colors
   border: string;
   borderSecondary: string;
   borderActive: string;
   outline: string;
   outlineVariant: string;
-  
+
   // Status colors
   error: string;
   warning: string;
@@ -58,14 +59,14 @@ interface CrybColors {
   onWarning: string;
   onSuccess: string;
   onInfo: string;
-  
+
   // Trading colors
   buy: string;
   sell: string;
   profit: string;
   loss: string;
   neutral: string;
-  
+
   // Social/Status colors
   online: string;
   away: string;
@@ -75,7 +76,7 @@ interface CrybColors {
   premium: string;
   staff: string;
   bot: string;
-  
+
   // Component specific
   notification: string;
   link: string;
@@ -84,10 +85,11 @@ interface CrybColors {
   codeBlock: string;
   quote: string;
   input: string;
+  inputBackground: string;
   ring: string;
   shadow: string;
   shadowDark: string;
-  
+
   // Semantic colors
   upvote: string;
   downvote: string;
@@ -177,14 +179,14 @@ const lightColors: CrybColors = {
   navy: Colors.brand.navy,
   secondary: Colors.gray[600],
   accent: Colors.innovation.cyan,
-  
+
   // Innovation colors
   cyan: Colors.innovation.cyan,
   purple: Colors.innovation.purple,
   lime: Colors.innovation.lime,
   orange: Colors.innovation.orange,
   pink: Colors.innovation.pink,
-  
+
   // Background colors
   background: Colors.light.background,
   backgroundSecondary: Colors.light.surface,
@@ -192,9 +194,10 @@ const lightColors: CrybColors = {
   surfaceSecondary: Colors.light.surfaceVariant,
   surfaceVariant: Colors.light.surfaceVariant,
   card: Colors.components.card.light,
+  cardBackground: Colors.components.card.light,
   modal: ColorUtils.withAlpha(Colors.gray[900], 0.5),
   overlay: ColorUtils.withAlpha(Colors.gray[900], 0.3),
-  
+
   // Text colors
   text: Colors.light.onBackground,
   textSecondary: Colors.light.onSurfaceVariant,
@@ -205,14 +208,14 @@ const lightColors: CrybColors = {
   onSurface: Colors.light.onSurface,
   onSurfaceVariant: Colors.light.onSurfaceVariant,
   onPrimary: Colors.light.onPrimary,
-  
+
   // Border colors
   border: Colors.light.border,
   borderSecondary: Colors.light.outline,
   borderActive: Colors.light.primary,
   outline: Colors.light.outline,
   outlineVariant: Colors.light.outlineVariant,
-  
+
   // Status colors
   error: Colors.light.error,
   warning: Colors.light.warning,
@@ -222,14 +225,14 @@ const lightColors: CrybColors = {
   onWarning: Colors.light.onWarning,
   onSuccess: Colors.light.onSuccess,
   onInfo: Colors.light.onInfo,
-  
+
   // Trading colors
   buy: Colors.trading.buy,
   sell: Colors.trading.sell,
   profit: Colors.trading.profit,
   loss: Colors.trading.loss,
   neutral: Colors.trading.neutral,
-  
+
   // Social/Status colors
   online: Colors.semantic.online,
   away: Colors.semantic.away,
@@ -239,7 +242,7 @@ const lightColors: CrybColors = {
   premium: Colors.semantic.premium,
   staff: Colors.semantic.staff,
   bot: Colors.semantic.bot,
-  
+
   // Component specific
   notification: Colors.semantic.notification,
   link: Colors.brand.primaryLight,
@@ -248,10 +251,11 @@ const lightColors: CrybColors = {
   codeBlock: Colors.light.surfaceVariant,
   quote: Colors.light.outline,
   input: Colors.light.input,
+  inputBackground: Colors.light.input,
   ring: Colors.light.ring,
   shadow: Colors.light.shadow,
   shadowDark: Colors.light.shadowDark,
-  
+
   // Semantic colors
   upvote: Colors.trading.buy,
   downvote: Colors.trading.sell,
@@ -272,14 +276,14 @@ const darkColors: CrybColors = {
   navy: Colors.brand.navy,
   secondary: Colors.dark.secondary,
   accent: Colors.innovation.cyan,
-  
+
   // Innovation colors
   cyan: Colors.innovation.cyan,
   purple: Colors.innovation.purple,
   lime: Colors.innovation.lime,
   orange: Colors.innovation.orange,
   pink: Colors.innovation.pink,
-  
+
   // Background colors
   background: Colors.dark.background,
   backgroundSecondary: Colors.dark.surface,
@@ -287,9 +291,10 @@ const darkColors: CrybColors = {
   surfaceSecondary: Colors.dark.surfaceVariant,
   surfaceVariant: Colors.dark.surfaceVariant,
   card: Colors.components.card.dark,
+  cardBackground: Colors.components.card.dark,
   modal: ColorUtils.withAlpha(Colors.gray[950], 0.8),
   overlay: ColorUtils.withAlpha(Colors.gray[950], 0.6),
-  
+
   // Text colors
   text: Colors.dark.onBackground,
   textSecondary: Colors.dark.onSurfaceVariant,
@@ -300,14 +305,14 @@ const darkColors: CrybColors = {
   onSurface: Colors.dark.onSurface,
   onSurfaceVariant: Colors.dark.onSurfaceVariant,
   onPrimary: Colors.dark.onPrimary,
-  
+
   // Border colors
   border: Colors.dark.border,
   borderSecondary: Colors.dark.outline,
   borderActive: Colors.dark.primary,
   outline: Colors.dark.outline,
   outlineVariant: Colors.dark.outlineVariant,
-  
+
   // Status colors
   error: Colors.dark.error,
   warning: Colors.dark.warning,
@@ -317,14 +322,14 @@ const darkColors: CrybColors = {
   onWarning: Colors.dark.onWarning,
   onSuccess: Colors.dark.onSuccess,
   onInfo: Colors.dark.onInfo,
-  
+
   // Trading colors
   buy: Colors.trading.buy,
   sell: Colors.trading.sell,
   profit: Colors.trading.profit,
   loss: Colors.trading.loss,
   neutral: Colors.trading.neutral,
-  
+
   // Social/Status colors
   online: Colors.semantic.online,
   away: Colors.semantic.away,
@@ -334,7 +339,7 @@ const darkColors: CrybColors = {
   premium: Colors.semantic.premium,
   staff: Colors.semantic.staff,
   bot: Colors.semantic.bot,
-  
+
   // Component specific
   notification: Colors.semantic.notification,
   link: Colors.brand.primaryLight,
@@ -343,10 +348,11 @@ const darkColors: CrybColors = {
   codeBlock: Colors.dark.surfaceVariant,
   quote: Colors.dark.outline,
   input: Colors.dark.input,
+  inputBackground: Colors.dark.input,
   ring: Colors.dark.ring,
   shadow: Colors.dark.shadow,
   shadowDark: Colors.dark.shadowDark,
-  
+
   // Semantic colors
   upvote: Colors.trading.buy,
   downvote: Colors.trading.sell,
@@ -421,14 +427,14 @@ const highContrastColors: CrybColors = {
   navy: '#000080',
   secondary: Colors.highContrast.onSurface,
   accent: Colors.highContrast.primary,
-  
+
   // Innovation colors - High contrast variants
   cyan: '#00FFFF',
   purple: '#8000FF',
   lime: '#00FF00',
   orange: '#FF8000',
   pink: '#FF00FF',
-  
+
   // Background colors
   background: Colors.highContrast.background,
   backgroundSecondary: Colors.highContrast.background,
@@ -436,9 +442,10 @@ const highContrastColors: CrybColors = {
   surfaceSecondary: Colors.highContrast.surface,
   surfaceVariant: Colors.highContrast.surface,
   card: Colors.highContrast.surface,
+  cardBackground: Colors.highContrast.surface,
   modal: 'rgba(0, 0, 0, 0.9)',
   overlay: 'rgba(0, 0, 0, 0.8)',
-  
+
   // Text colors
   text: Colors.highContrast.onBackground,
   textSecondary: Colors.highContrast.onSurface,
@@ -449,14 +456,14 @@ const highContrastColors: CrybColors = {
   onSurface: Colors.highContrast.onSurface,
   onSurfaceVariant: Colors.highContrast.onSurface,
   onPrimary: Colors.highContrast.onPrimary,
-  
+
   // Border colors
   border: Colors.highContrast.border,
   borderSecondary: Colors.highContrast.outline,
   borderActive: Colors.highContrast.primary,
   outline: Colors.highContrast.outline,
   outlineVariant: Colors.highContrast.outline,
-  
+
   // Status colors
   error: '#FF0000',
   warning: '#FFFF00',
@@ -466,14 +473,14 @@ const highContrastColors: CrybColors = {
   onWarning: '#000000',
   onSuccess: '#000000',
   onInfo: '#FFFFFF',
-  
+
   // Trading colors
   buy: '#00FF00',
   sell: '#FF0000',
   profit: '#00FF00',
   loss: '#FF0000',
   neutral: Colors.highContrast.onSurface,
-  
+
   // Social/Status colors
   online: '#00FF00',
   away: '#FFFF00',
@@ -483,7 +490,7 @@ const highContrastColors: CrybColors = {
   premium: '#8000FF',
   staff: '#FFFF00',
   bot: '#00FF00',
-  
+
   // Component specific
   notification: '#FF0000',
   link: '#0000FF',
@@ -492,10 +499,11 @@ const highContrastColors: CrybColors = {
   codeBlock: Colors.highContrast.surface,
   quote: Colors.highContrast.outline,
   input: Colors.highContrast.surface,
+  inputBackground: Colors.highContrast.surface,
   ring: '#0000FF',
   shadow: 'rgba(0, 0, 0, 1)',
   shadowDark: 'rgba(0, 0, 0, 1)',
-  
+
   // Semantic colors
   upvote: '#00FF00',
   downvote: '#FF0000',

@@ -1174,6 +1174,507 @@ const postRoutes: FastifyPluginAsync = async (fastify) => {
       });
     }
   });
+
+  /**
+   * Like a post
+   */
+  fastify.post('/:postId/like', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['posts'],
+      summary: 'Like a post',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['postId'],
+        properties: {
+          postId: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { postId } = request.params as { postId: string };
+
+    try {
+      // Check if post exists
+      const post = await prisma.post.findUnique({
+        where: { id: postId },
+        select: { id: true, userId: true, title: true }
+      });
+
+      if (!post) {
+        return reply.code(404).send({
+          success: false,
+          error: 'Post not found'
+        });
+      }
+
+      // Check if already liked
+      const existingLike = await prisma.like.findUnique({
+        where: {
+          userId_postId: {
+            userId: request.userId!,
+            postId
+          }
+        }
+      });
+
+      if (existingLike) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Post already liked'
+        });
+      }
+
+      // Create like and update count
+      await prisma.$transaction([
+        prisma.like.create({
+          data: {
+            userId: request.userId!,
+            postId
+          }
+        }),
+        prisma.post.update({
+          where: { id: postId },
+          data: { likeCount: { increment: 1 } }
+        })
+      ]);
+
+      // Send notification to post author if not liking own post
+      if (post.userId !== request.userId) {
+        const liker = await prisma.user.findUnique({
+          where: { id: request.userId! },
+          select: { username: true, avatar: true }
+        });
+
+        await prisma.notification.create({
+          data: {
+            userId: post.userId,
+            type: 'POST_LIKE',
+            title: 'New Like',
+            content: `${liker?.username} liked your post`,
+            metadata: {
+              postId,
+              likerId: request.userId!,
+              likerUsername: liker?.username
+            }
+          }
+        });
+      }
+
+      return reply.send({
+        success: true,
+        message: 'Post liked successfully'
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to like post'
+      });
+    }
+  });
+
+  /**
+   * Unlike a post
+   */
+  fastify.delete('/:postId/like', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['posts'],
+      summary: 'Unlike a post',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['postId'],
+        properties: {
+          postId: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { postId } = request.params as { postId: string };
+
+    try {
+      // Check if like exists
+      const existingLike = await prisma.like.findUnique({
+        where: {
+          userId_postId: {
+            userId: request.userId!,
+            postId
+          }
+        }
+      });
+
+      if (!existingLike) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Post not liked'
+        });
+      }
+
+      // Delete like and update count
+      await prisma.$transaction([
+        prisma.like.delete({
+          where: {
+            userId_postId: {
+              userId: request.userId!,
+              postId
+            }
+          }
+        }),
+        prisma.post.update({
+          where: { id: postId },
+          data: { likeCount: { decrement: 1 } }
+        })
+      ]);
+
+      return reply.send({
+        success: true,
+        message: 'Post unliked successfully'
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to unlike post'
+      });
+    }
+  });
+
+  /**
+   * Repost a post
+   */
+  fastify.post('/:postId/repost', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['posts'],
+      summary: 'Repost a post',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['postId'],
+        properties: {
+          postId: { type: 'string' }
+        }
+      },
+      body: {
+        type: 'object',
+        properties: {
+          comment: { type: 'string', maxLength: 500 }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { postId } = request.params as { postId: string };
+    const { comment } = request.body as { comment?: string };
+
+    try {
+      // Check if post exists
+      const post = await prisma.post.findUnique({
+        where: { id: postId },
+        select: { id: true, userId: true, title: true }
+      });
+
+      if (!post) {
+        return reply.code(404).send({
+          success: false,
+          error: 'Post not found'
+        });
+      }
+
+      // Check if already reposted
+      const existingRepost = await prisma.repost.findUnique({
+        where: {
+          userId_postId: {
+            userId: request.userId!,
+            postId
+          }
+        }
+      });
+
+      if (existingRepost) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Post already reposted'
+        });
+      }
+
+      // Create repost and update count
+      const repost = await prisma.$transaction(async (tx) => {
+        const newRepost = await tx.repost.create({
+          data: {
+            userId: request.userId!,
+            postId,
+            comment: comment || null
+          }
+        });
+
+        await tx.post.update({
+          where: { id: postId },
+          data: {
+            repostCount: { increment: 1 },
+            ...(comment ? { quoteCount: { increment: 1 } } : {})
+          }
+        });
+
+        return newRepost;
+      });
+
+      // Send notification to post author if not reposting own post
+      if (post.userId !== request.userId) {
+        const reposter = await prisma.user.findUnique({
+          where: { id: request.userId! },
+          select: { username: true, avatar: true }
+        });
+
+        await prisma.notification.create({
+          data: {
+            userId: post.userId,
+            type: comment ? 'POST_QUOTE' : 'POST_REPOST',
+            title: comment ? 'New Quote' : 'New Repost',
+            content: comment
+              ? `${reposter?.username} quoted your post: "${comment.substring(0, 50)}${comment.length > 50 ? '...' : ''}"`
+              : `${reposter?.username} reposted your post`,
+            metadata: {
+              postId,
+              repostId: repost.id,
+              reposterId: request.userId!,
+              reposterUsername: reposter?.username,
+              comment: comment || null
+            }
+          }
+        });
+      }
+
+      return reply.send({
+        success: true,
+        message: comment ? 'Post quoted successfully' : 'Post reposted successfully',
+        data: repost
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to repost'
+      });
+    }
+  });
+
+  /**
+   * Remove repost
+   */
+  fastify.delete('/:postId/repost', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['posts'],
+      summary: 'Remove repost',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['postId'],
+        properties: {
+          postId: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { postId } = request.params as { postId: string };
+
+    try {
+      // Check if repost exists
+      const existingRepost = await prisma.repost.findUnique({
+        where: {
+          userId_postId: {
+            userId: request.userId!,
+            postId
+          }
+        }
+      });
+
+      if (!existingRepost) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Post not reposted'
+        });
+      }
+
+      // Delete repost and update count
+      await prisma.$transaction([
+        prisma.repost.delete({
+          where: {
+            userId_postId: {
+              userId: request.userId!,
+              postId
+            }
+          }
+        }),
+        prisma.post.update({
+          where: { id: postId },
+          data: {
+            repostCount: { decrement: 1 },
+            ...(existingRepost.comment ? { quoteCount: { decrement: 1 } } : {})
+          }
+        })
+      ]);
+
+      return reply.send({
+        success: true,
+        message: 'Repost removed successfully'
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to remove repost'
+      });
+    }
+  });
+
+  /**
+   * Bookmark a post
+   */
+  fastify.post('/:postId/bookmark', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['posts'],
+      summary: 'Bookmark a post',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['postId'],
+        properties: {
+          postId: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { postId } = request.params as { postId: string };
+
+    try {
+      // Check if post exists
+      const post = await prisma.post.findUnique({
+        where: { id: postId },
+        select: { id: true }
+      });
+
+      if (!post) {
+        return reply.code(404).send({
+          success: false,
+          error: 'Post not found'
+        });
+      }
+
+      // Check if already bookmarked
+      const existingBookmark = await prisma.bookmark.findUnique({
+        where: {
+          userId_postId: {
+            userId: request.userId!,
+            postId
+          }
+        }
+      });
+
+      if (existingBookmark) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Post already bookmarked'
+        });
+      }
+
+      // Create bookmark and update count
+      await prisma.$transaction([
+        prisma.bookmark.create({
+          data: {
+            userId: request.userId!,
+            postId
+          }
+        }),
+        prisma.post.update({
+          where: { id: postId },
+          data: { bookmarkCount: { increment: 1 } }
+        })
+      ]);
+
+      return reply.send({
+        success: true,
+        message: 'Post bookmarked successfully'
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to bookmark post'
+      });
+    }
+  });
+
+  /**
+   * Remove bookmark
+   */
+  fastify.delete('/:postId/bookmark', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['posts'],
+      summary: 'Remove bookmark',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['postId'],
+        properties: {
+          postId: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { postId } = request.params as { postId: string };
+
+    try {
+      // Check if bookmark exists
+      const existingBookmark = await prisma.bookmark.findUnique({
+        where: {
+          userId_postId: {
+            userId: request.userId!,
+            postId
+          }
+        }
+      });
+
+      if (!existingBookmark) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Post not bookmarked'
+        });
+      }
+
+      // Delete bookmark and update count
+      await prisma.$transaction([
+        prisma.bookmark.delete({
+          where: {
+            userId_postId: {
+              userId: request.userId!,
+              postId
+            }
+          }
+        }),
+        prisma.post.update({
+          where: { id: postId },
+          data: { bookmarkCount: { decrement: 1 } }
+        })
+      ]);
+
+      return reply.send({
+        success: true,
+        message: 'Bookmark removed successfully'
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to remove bookmark'
+      });
+    }
+  });
 };
 
 export default postRoutes;

@@ -144,14 +144,9 @@ export async function buildApp(opts = {}): Promise<FastifyInstance> {
   await app.register(cors, {
     origin: (origin, cb) => {
       const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:3000,http://localhost:3002,http://localhost:3003,http://localhost:19001').split(',');
-      // In production, require origin header; in development allow same-origin requests
+      // Allow health checks and internal monitoring without origin header
       if (!origin) {
-        // Allow same-origin requests (no origin header) only in development
-        if (process.env.NODE_ENV === 'development') {
-          cb(null, true);
-        } else {
-          cb(new Error('Origin header required'), false);
-        }
+        cb(null, true);
       } else if (allowedOrigins.includes(origin)) {
         cb(null, true);
       } else {

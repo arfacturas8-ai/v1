@@ -28,24 +28,32 @@ import { DiscoverScreen } from '../screens/DiscoverScreen';
 import { HelpScreen } from '../screens/HelpScreen';
 import { PostDetailScreen } from '../screens/PostDetailScreen';
 import { NotFoundScreen } from '../screens/error/NotFoundScreen';
+import ExploreScreen from '../screens/ExploreScreen';
+import CreateHubScreen from '../screens/CreateHubScreen';
+import MarketsScreen from '../screens/MarketsScreen';
+import TradeScreen from '../screens/TradeScreen';
+import PortfolioScreen from '../screens/PortfolioScreen';
+import DeFiScreen from '../screens/DeFiScreen';
+import NFTMintScreen from '../screens/NFTMintScreen';
 
 export type MainTabParamList = {
   Home: undefined;
-  Chat: undefined;
-  Communities: undefined;
+  Explore: undefined;
+  Create: undefined;
+  Messages: undefined;
   Profile: undefined;
 };
 
 export type MainStackParamList = {
   MainTabs: undefined;
-  Search: undefined;
+  Search: { query?: string };
   ChatRoom: { roomId: string; roomName: string };
   Server: { serverId: string; serverName: string };
   CreateServer: undefined;
   Settings: undefined;
-  Messages: undefined;
   CommunityDetail: { communityId: string; communityName: string };
-  CreatePost: { communityId: string; communityName: string };
+  CreatePost: { communityId?: string; communityName?: string };
+  CreateCommunity: undefined;
   PostDetail: { postId: string };
   EditProfile: undefined;
   Notifications: undefined;
@@ -68,6 +76,15 @@ export type MainStackParamList = {
   Discover: undefined;
   Help: undefined;
   NotFound: undefined;
+  Markets: undefined;
+  Trade: undefined;
+  Portfolio: undefined;
+  DeFi: undefined;
+  NFTMint: undefined;
+  NFTCollection: undefined;
+  GoLive: undefined;
+  CreateSpace: undefined;
+  ComingSoon: { feature: string; description: string; icon: React.ReactNode };
 };
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -101,11 +118,14 @@ function MainTabs() {
             case 'Home':
               iconName = 'home';
               break;
-            case 'Chat':
-              iconName = 'message-circle';
+            case 'Explore':
+              iconName = 'compass';
               break;
-            case 'Communities':
-              iconName = 'users';
+            case 'Create':
+              iconName = 'plus-square';
+              break;
+            case 'Messages':
+              iconName = 'message-circle';
               break;
             case 'Profile':
               iconName = 'user';
@@ -137,8 +157,9 @@ function MainTabs() {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Chat" component={MessagesScreen} />
-      <Tab.Screen name="Communities" component={CommunitiesScreen} />
+      <Tab.Screen name="Explore" component={ExploreScreen} />
+      <Tab.Screen name="Create" component={CreateHubScreen} />
+      <Tab.Screen name="Messages" component={MessagesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -184,48 +205,68 @@ export function MainNavigator() {
         component={SearchScreen}
         options={{ title: 'Search' }}
       />
-      <Stack.Screen 
-        name="Settings" 
+      <Stack.Screen
+        name="Settings"
         component={SettingsScreen}
         options={{ title: 'Settings' }}
       />
-      <Stack.Screen 
-        name="Messages" 
-        component={MessagesScreen}
-        options={{ title: 'Messages' }}
-      />
-      <Stack.Screen 
-        name="CommunityDetail" 
+      <Stack.Screen
+        name="CommunityDetail"
         component={CommunityDetailScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="CreatePost" 
+      <Stack.Screen
+        name="CreatePost"
         component={CreatePostScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="EditProfile" 
+      <Stack.Screen
+        name="EditProfile"
         component={EditProfileScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="Notifications" 
+      <Stack.Screen
+        name="Notifications"
         component={NotificationScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="VoiceChannel" 
+      <Stack.Screen
+        name="VoiceChannel"
         component={VoiceChannelScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen 
-        name="VideoCall" 
+      <Stack.Screen
+        name="VideoCall"
         component={VideoCallScreen}
-        options={{ 
+        options={{
           headerShown: false,
-          gestureEnabled: false, // Prevent swipe back during video call
+          gestureEnabled: false,
         }}
+      />
+      <Stack.Screen
+        name="Markets"
+        component={MarketsScreen}
+        options={{ title: 'Markets' }}
+      />
+      <Stack.Screen
+        name="Trade"
+        component={TradeScreen}
+        options={{ title: 'Trade & Swap' }}
+      />
+      <Stack.Screen
+        name="Portfolio"
+        component={PortfolioScreen}
+        options={{ title: 'Portfolio' }}
+      />
+      <Stack.Screen
+        name="DeFi"
+        component={DeFiScreen}
+        options={{ title: 'DeFi' }}
+      />
+      <Stack.Screen
+        name="NFTMint"
+        component={NFTMintScreen}
+        options={{ title: 'Mint NFT' }}
       />
     </Stack.Navigator>
   );

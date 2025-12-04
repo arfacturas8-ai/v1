@@ -35,7 +35,7 @@ export default function MobileBottomNav() {
 
   const navItems = [
     { path: '/home', icon: Home, label: 'Home' },
-    { path: '/discover', icon: Compass, label: 'Explore' },
+    { path: '/explore', icon: Compass, label: 'Explore' },
     { path: '/messages', icon: MessageCircle, label: 'Messages', badge: unreadMessages },
     { path: `/profile/${user?.username}`, icon: User, label: 'Profile' },
   ];
@@ -70,9 +70,9 @@ export default function MobileBottomNav() {
 
         {/* Center Create Button */}
         <button
-          onClick={() => navigate('/submit')}
+          onClick={() => navigate('/create')}
           className="flex flex-col items-center justify-center"
-          aria-label="Create post"
+          aria-label="Create"
         >
           <div className="w-14 h-14 -mt-6 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center shadow-[0_4px_20px_rgba(88,166,255,0.5)] border-4 border-[#0D0D0D] hover:scale-105 transition-transform">
             <Plus className="w-6 h-6 text-white" />

@@ -1,0 +1,319 @@
+// ====================================================================================
+// CRYB PLATFORM - SOCIAL-FIRST SCHEMA ADDITIONS
+// Master Build Prompt Implementation - Backend Step 1
+// ====================================================================================
+//
+// This file contains new models and modifications to add to the main schema.prisma
+// for complete social-first functionality (Twitter/X style).
+//
+// IMPLEMENTATION NOTES:
+// 1. Add these models to the end of schema.prisma
+// 2. Update User model with new social fields
+// 3. Update Post model with new social fields
+// 4. Add new enums at the end
+// ====================================================================================
+
+// ------------------------------------------------------------------------------------
+// FOLLOW SYSTEM (Twitter-style one-directional following)
+// Replaces or augments Friendship model for social-first UX
+// ------------------------------------------------------------------------------------
+model Follow {
+  id          String   @id @default(cuid())
+  followerId  String   // User who is following
+  followingId String   // User being followed
+  createdAt   DateTime @default(now())
+
+  Follower  User @relation("UserFollowers", fields: [followerId], references: [id], onDelete: Cascade)
+  Following User @relation("UserFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  @@unique([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
+  @@index([createdAt])
+}
+
+// ------------------------------------------------------------------------------------
+// LIKE SYSTEM (Separate from Vote for social posts)
+// Vote is for Reddit-style upvote/downvote, Like is for Twitter-style hearts
+// ------------------------------------------------------------------------------------
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String?
+  commentId String?
+  createdAt DateTime @default(now())
+
+  User    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post    Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  Comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@unique([userId, commentId])
+  @@index([postId])
+  @@index([commentId])
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// ------------------------------------------------------------------------------------
+// REPOST SYSTEM (Twitter-style retweet + quote tweet)
+// ------------------------------------------------------------------------------------
+model Repost {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  comment   String?  // For quote reposts (quote tweet)
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
+  @@index([createdAt])
+}
+
+// ------------------------------------------------------------------------------------
+// POST MEDIA (Images, Videos, Audio for social posts)
+// ------------------------------------------------------------------------------------
+model PostMedia {
+  id        String    @id @default(cuid())
+  postId    String
+  type      MediaType
+  url       String
+  thumbnail String?
+  alt       String?
+  width     Int?
+  height    Int?
+  duration  Int?     // Duration in seconds for video/audio
+  fileSize  Int?     // Size in bytes
+  mimeType  String?
+  position  Int      @default(0)  // Order in post (for multiple media)
+  createdAt DateTime @default(now())
+
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([postId])
+  @@index([type])
+}
+
+// ------------------------------------------------------------------------------------
+// POLL SYSTEM (Twitter-style polls)
+// ------------------------------------------------------------------------------------
+model Poll {
+  id         String   @id @default(cuid())
+  postId     String   @unique
+  question   String?
+  duration   Int      // Duration in hours
+  endsAt     DateTime
+  totalVotes Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  Post       Post         @relation(fields: [postId], references: [id], onDelete: Cascade)
+  PollOption PollOption[]
+  PollVote   PollVote[]
+
+  @@index([endsAt])
+  @@index([createdAt])
+}
+
+model PollOption {
+  id        String   @id @default(cuid())
+  pollId    String
+  option    String
+  votes     Int      @default(0)
+  position  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  Poll     Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  PollVote PollVote[]
+
+  @@index([pollId])
+}
+
+model PollVote {
+  id        String   @id @default(cuid())
+  pollId    String
+  optionId  String
+  userId    String
+  createdAt DateTime @default(now())
+
+  Poll       Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  PollOption PollOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+  User       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([pollId, userId])  // One vote per user per poll
+  @@index([pollId])
+  @@index([optionId])
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------------
+// BOOKMARK (May augment existing SavedPost)
+// ------------------------------------------------------------------------------------
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId])
+  @@index([userId])
+  @@index([postId])
+  @@index([createdAt])
+}
+
+// ------------------------------------------------------------------------------------
+// MUTE USER (Hide posts from users without blocking)
+// ------------------------------------------------------------------------------------
+model Mute {
+  id        String   @id @default(cuid())
+  muterId   String   // User doing the muting
+  mutedId   String   // User being muted
+  createdAt DateTime @default(now())
+
+  Muter User @relation("UserMuting", fields: [muterId], references: [id], onDelete: Cascade)
+  Muted User @relation("UserMuted", fields: [mutedId], references: [id], onDelete: Cascade)
+
+  @@unique([muterId, mutedId])
+  @@index([muterId])
+  @@index([mutedId])
+}
+
+// ------------------------------------------------------------------------------------
+// HIDDEN WORDS (Filter content with specific words)
+// ------------------------------------------------------------------------------------
+model HiddenWord {
+  id        String   @id @default(cuid())
+  userId    String
+  word      String
+  createdAt DateTime @default(now())
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ------------------------------------------------------------------------------------
+// NEW ENUMS
+// ------------------------------------------------------------------------------------
+
+enum MediaType {
+  IMAGE
+  VIDEO
+  AUDIO
+  GIF
+}
+
+enum PostType {
+  TEXT
+  IMAGE
+  VIDEO
+  AUDIO
+  POLL
+  LINK
+  QUOTE
+  THREAD
+}
+
+// ------------------------------------------------------------------------------------
+// MODIFICATIONS TO EXISTING MODELS
+// ------------------------------------------------------------------------------------
+//
+// USER MODEL ADDITIONS (Add these fields to existing User model):
+// ------------------------------------------------------------------------------------
+// followerCount    Int      @default(0)
+// followingCount   Int      @default(0)
+// postCount        Int      @default(0)
+// location         String?
+// website          String?
+// socialLinks      Json?    // {twitter: '', instagram: '', linkedin: ''}
+// isPrivate        Boolean  @default(false)  // Private profile
+// showActivityStatus Boolean @default(true)   // Show online status
+// showWalletHoldings Boolean @default(true)   // Show NFT/token holdings
+// description      String?  // Augment bio
+//
+// // Relations to add:
+// Follow_UserFollowers Follow[] @relation("UserFollowers")
+// Follow_UserFollowing Follow[] @relation("UserFollowing")
+// Like                 Like[]
+// Repost               Repost[]
+// PollVote             PollVote[]
+// Bookmark             Bookmark[]
+// Mute_UserMuting      Mute[]   @relation("UserMuting")
+// Mute_UserMuted       Mute[]   @relation("UserMuted")
+// HiddenWord           HiddenWord[]
+//
+// ------------------------------------------------------------------------------------
+// POST MODEL MODIFICATIONS (Add/modify these fields in existing Post model):
+// ------------------------------------------------------------------------------------
+// // Make title optional for social posts:
+// title            String?  // Was: String (required)
+//
+// // Make communityId optional (allow posts without community):
+// communityId      String?  // Was: String (required)
+//
+// // Add new fields:
+// type             PostType  @default(TEXT)
+// media            Json?     // Deprecated if using PostMedia relation
+// metadata         Json?     // Link previews, embed data
+// quotedPostId     String?   // For quote posts
+// repostOfId       String?   // For simple reposts
+// threadRootId     String?   // For threading
+// isThread         Boolean   @default(false)
+// likeCount        Int       @default(0)
+// repostCount      Int       @default(0)
+// quoteCount       Int       @default(0)
+// bookmarkCount    Int       @default(0)
+// replyCount       Int       @default(0)  // Separate from commentCount
+//
+// // Relations to add:
+// PostMedia        PostMedia[]
+// Poll             Poll?
+// Like             Like[]
+// Repost           Repost[]
+// Bookmark         Bookmark[]
+// QuotedPost       Post?   @relation("PostQuotes", fields: [quotedPostId], references: [id])
+// QuotedBy         Post[]  @relation("PostQuotes")
+// RepostOf         Post?   @relation("PostReposts", fields: [repostOfId], references: [id])
+// RepostedAs       Post[]  @relation("PostReposts")
+// ThreadRoot       Post?   @relation("PostThreads", fields: [threadRootId], references: [id])
+// ThreadPosts      Post[]  @relation("PostThreads")
+//
+// ------------------------------------------------------------------------------------
+// COMMENT MODEL MODIFICATIONS (Add these fields):
+// ------------------------------------------------------------------------------------
+// likeCount        Int      @default(0)
+// replyCount       Int      @default(0)
+// depth            Int      @default(0)  // For nested reply depth tracking
+//
+// // Relations to add:
+// Like             Like[]
+//
+// ------------------------------------------------------------------------------------
+// NOTIFICATION MODEL - Add new notification types to enum:
+// ------------------------------------------------------------------------------------
+// NotificationType enum should include:
+// NEW_FOLLOWER
+// POST_LIKE
+// POST_COMMENT
+// POST_REPOST
+// POST_QUOTE
+// MENTION
+// COMMENT_LIKE
+// COMMENT_REPLY
+// POLL_ENDED
+// COMMUNITY_INVITE
+// COMMUNITY_POST
+// MESSAGE
+// MESSAGE_REQUEST
+// CALL_MISSED
+// NFT_SOLD
+// NFT_OFFER
+// NFT_BID
+// SYSTEM
+

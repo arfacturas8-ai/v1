@@ -983,6 +983,174 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
       });
     }
   });
+
+  /**
+   * Like a comment
+   */
+  fastify.post('/:id/like', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['comments'],
+      summary: 'Like a comment',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { id } = request.params as { id: string };
+
+    try {
+      // Check if comment exists
+      const comment = await prisma.comment.findUnique({
+        where: { id },
+        select: { id: true, userId: true, postId: true }
+      });
+
+      if (!comment) {
+        return reply.code(404).send({
+          success: false,
+          error: 'Comment not found'
+        });
+      }
+
+      // Check if already liked
+      const existingLike = await prisma.like.findUnique({
+        where: {
+          userId_commentId: {
+            userId: request.userId!,
+            commentId: id
+          }
+        }
+      });
+
+      if (existingLike) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Comment already liked'
+        });
+      }
+
+      // Create like and update count
+      await prisma.$transaction([
+        prisma.like.create({
+          data: {
+            userId: request.userId!,
+            commentId: id
+          }
+        }),
+        prisma.comment.update({
+          where: { id },
+          data: { likeCount: { increment: 1 } }
+        })
+      ]);
+
+      // Send notification if not liking own comment
+      if (comment.userId !== request.userId) {
+        const liker = await prisma.user.findUnique({
+          where: { id: request.userId! },
+          select: { username: true }
+        });
+
+        await prisma.notification.create({
+          data: {
+            userId: comment.userId,
+            type: 'COMMENT_LIKE',
+            title: 'New Like',
+            content: `${liker?.username} liked your comment`,
+            metadata: {
+              commentId: id,
+              postId: comment.postId,
+              likerId: request.userId!,
+              likerUsername: liker?.username
+            }
+          }
+        });
+      }
+
+      return reply.send({
+        success: true,
+        message: 'Comment liked successfully'
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to like comment'
+      });
+    }
+  });
+
+  /**
+   * Unlike a comment
+   */
+  fastify.delete('/:id/like', {
+    preHandler: authMiddleware,
+    schema: {
+      tags: ['comments'],
+      summary: 'Unlike a comment',
+      security: [{ Bearer: [] }],
+      params: {
+        type: 'object',
+        required: ['id'],
+        properties: {
+          id: { type: 'string' }
+        }
+      }
+    }
+  }, async (request, reply) => {
+    const { id } = request.params as { id: string };
+
+    try {
+      // Check if like exists
+      const existingLike = await prisma.like.findUnique({
+        where: {
+          userId_commentId: {
+            userId: request.userId!,
+            commentId: id
+          }
+        }
+      });
+
+      if (!existingLike) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Comment not liked'
+        });
+      }
+
+      // Delete like and update count
+      await prisma.$transaction([
+        prisma.like.delete({
+          where: {
+            userId_commentId: {
+              userId: request.userId!,
+              commentId: id
+            }
+          }
+        }),
+        prisma.comment.update({
+          where: { id },
+          data: { likeCount: { decrement: 1 } }
+        })
+      ]);
+
+      return reply.send({
+        success: true,
+        message: 'Comment unliked successfully'
+      });
+    } catch (error) {
+      fastify.log.error(error);
+      return reply.code(500).send({
+        success: false,
+        error: 'Failed to unlike comment'
+      });
+    }
+  });
 };
 
 export default commentRoutes;

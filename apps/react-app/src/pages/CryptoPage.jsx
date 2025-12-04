@@ -10,8 +10,11 @@ import WalletConnectButton from '../components/web3/WalletConnectButton'
 import TokenBalanceDisplay from '../components/web3/TokenBalanceDisplay'
 import CryptoTippingButton from '../components/web3/CryptoTippingButton'
 import NFTProfileBadge from '../components/web3/NFTProfileBadge'
+import { GatedFeature } from '../design-system/organisms/ComingSoonGate'
+import { useFeatureFlags } from '../config/features'
 
 function CryptoPage() {
+  const featureFlags = useFeatureFlags();
   const [activeFeature, setActiveFeature] = useState(0)
   const [activeSection, setActiveSection] = useState('overview')
   const [isVisible, setIsVisible] = useState(false)

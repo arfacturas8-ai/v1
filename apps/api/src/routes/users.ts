@@ -2190,7 +2190,7 @@ export default async function userRoutes(fastify: FastifyInstance) {
     }
 
     // Check if already following
-    const existingFollow = await prisma.userFollow.findUnique({
+    const existingFollow = await prisma.follow.findUnique({
       where: {
         followerId_followingId: {
           followerId: request.userId!,
@@ -2203,13 +2203,23 @@ export default async function userRoutes(fastify: FastifyInstance) {
       throwBadRequest('Already following this user');
     }
 
-    // Create follow relationship
-    await prisma.userFollow.create({
-      data: {
-        followerId: request.userId!,
-        followingId: targetUser.id
-      }
-    });
+    // Create follow relationship and update counts
+    await prisma.$transaction([
+      prisma.follow.create({
+        data: {
+          followerId: request.userId!,
+          followingId: targetUser.id
+        }
+      }),
+      prisma.user.update({
+        where: { id: request.userId! },
+        data: { followingCount: { increment: 1 } }
+      }),
+      prisma.user.update({
+        where: { id: targetUser.id },
+        data: { followerCount: { increment: 1 } }
+      })
+    ]);
 
     // Send notification to the followed user
     await prisma.notification.create({
@@ -2263,17 +2273,38 @@ export default async function userRoutes(fastify: FastifyInstance) {
       throwNotFound('User not found');
     }
 
-    // Delete follow relationship
-    const result = await prisma.userFollow.deleteMany({
+    // Delete follow relationship and update counts
+    const existingFollow = await prisma.follow.findUnique({
       where: {
-        followerId: request.userId!,
-        followingId: targetUser.id
+        followerId_followingId: {
+          followerId: request.userId!,
+          followingId: targetUser.id
+        }
       }
     });
 
-    if (result.count === 0) {
+    if (!existingFollow) {
       throwBadRequest('Not following this user');
     }
+
+    await prisma.$transaction([
+      prisma.follow.delete({
+        where: {
+          followerId_followingId: {
+            followerId: request.userId!,
+            followingId: targetUser.id
+          }
+        }
+      }),
+      prisma.user.update({
+        where: { id: request.userId! },
+        data: { followingCount: { decrement: 1 } }
+      }),
+      prisma.user.update({
+        where: { id: targetUser.id },
+        data: { followerCount: { decrement: 1 } }
+      })
+    ]);
 
     reply.send({
       success: true,
@@ -2305,11 +2336,9 @@ export default async function userRoutes(fastify: FastifyInstance) {
       include: {
         _count: {
           select: {
-            posts: { where: { isRemoved: false } },
-            comments: { where: { isRemoved: false } },
-            followers: true,
-            following: true,
-            awardsReceived: true
+            Post: { where: { isRemoved: false } },
+            Comment: true,
+            Award_Award_receiverIdToUser: true
           }
         }
       }
@@ -2319,26 +2348,20 @@ export default async function userRoutes(fastify: FastifyInstance) {
       throwNotFound('User not found');
     }
 
-    // Calculate total upvotes
-    const [postUpvotes, commentUpvotes] = await Promise.all([
-      prisma.postVote.count({
-        where: {
-          post: { userId: user.id },
-          value: 1
-        }
-      }),
-      prisma.commentVote.count({
-        where: {
-          comment: { userId: user.id },
-          value: 1
-        }
-      })
-    ]);
+    // Calculate total upvotes from Vote model
+    const totalUpvotes = await prisma.vote.count({
+      where: {
+        OR: [
+          { Post: { userId: user.id }, voteType: 'UP' },
+          { Comment: { userId: user.id }, voteType: 'UP' }
+        ]
+      }
+    });
 
     // Check if current user is following
     let isFollowing = false;
     if (request.userId) {
-      const follow = await prisma.userFollow.findUnique({
+      const follow = await prisma.follow.findUnique({
         where: {
           followerId_followingId: {
             followerId: request.userId,
@@ -2358,14 +2381,15 @@ export default async function userRoutes(fastify: FastifyInstance) {
       bio: user.bio,
       location: user.location,
       website: user.website,
+      socialLinks: user.socialLinks,
       joinedAt: user.createdAt,
       isFollowing,
-      followersCount: user._count.followers,
-      followingCount: user._count.following,
-      postsCount: user._count.posts,
-      commentsCount: user._count.comments,
-      awardsReceived: user._count.awardsReceived,
-      totalUpvotes: postUpvotes + commentUpvotes,
+      followersCount: user.followerCount,
+      followingCount: user.followingCount,
+      postsCount: user.postCount || user._count.Post,
+      commentsCount: user._count.Comment,
+      awardsReceived: user._count.Award_Award_receiverIdToUser,
+      totalUpvotes,
       isPremium: user.premiumType !== 'NONE',
       isModerator: user.role === 'MODERATOR',
       isAdmin: user.role === 'ADMIN',

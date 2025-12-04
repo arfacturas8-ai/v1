@@ -69,6 +69,7 @@
     "expo-status-bar": "~1.12.1",
     "expo-updates": "~0.25.28",
     "expo-web-browser": "~13.0.3",
+    "lucide-react-native": "^0.555.0",
     "react": "18.2.0",
     "react-error-boundary": "^4.0.13",
     "react-native": "0.74.5",
@@ -83,10 +84,12 @@
     "react-native-uuid": "^2.0.2",
     "react-native-webrtc": "^124.0.0",
     "socket.io-client": "^4.8.1",
+    "tslib": "^2.8.1",
     "zustand": "^5.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
+    "@react-native-community/cli-server-api": "^20.0.2",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^29.5.14",
     "@types/react": "~18.2.79",

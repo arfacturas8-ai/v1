@@ -72,8 +72,10 @@ const EmailVerificationPage = lazy(() => import('./pages/EmailVerificationPage')
 const PasswordResetPage = lazy(() => import('./pages/PasswordResetPage'))
 const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'))
 const OnboardingPage = lazy(() => import('./pages/OnboardingPage'))
+const OnboardingFlowPage = lazy(() => import('./pages/OnboardingFlowPage'))
 const MFASetupPage = lazy(() => import('./pages/MFASetupPage'))
 const DiscoverPage = lazy(() => import('./pages/DiscoverPage'))
+const ExplorePage = lazy(() => import('./pages/ExplorePage'))
 const ServerErrorPage = lazy(() => import('./pages/ServerErrorPage'))
 const ForbiddenPage = lazy(() => import('./pages/ForbiddenPage'))
 const RateLimitedPage = lazy(() => import('./pages/RateLimitedPage'))
@@ -82,11 +84,23 @@ const NFTGalleryPage = lazy(() => import('./pages/NFTGalleryPage'))
 const WalletConnectionPage = lazy(() => import('./pages/WalletConnectionPage'))
 const OAuthCallbackPage = lazy(() => import('./pages/OAuthCallbackPage'))
 
+// Create Hub
+const CreateHubPage = lazy(() => import('./pages/CreateHubPage'))
+
+// COMING SOON - Crypto Features
+const MarketsPage = lazy(() => import('./pages/MarketsPage'))
+const TradePage = lazy(() => import('./pages/TradePage'))
+const PortfolioPage = lazy(() => import('./pages/PortfolioPage'))
+const NFTMintPage = lazy(() => import('./pages/NFTMintPage'))
+const DeFiPage = lazy(() => import('./pages/DeFiPage'))
+
 // NEW SCREENS - Messaging & DMs
 const NewMessageModal = lazy(() => import('./pages/NewMessageModal'))
 const MessageRequestsPage = lazy(() => import('./pages/MessageRequestsPage'))
 const VoiceMessagesPage = lazy(() => import('./pages/VoiceMessagesPage'))
 const CallScreenPage = lazy(() => import('./pages/CallScreenPage'))
+const CallsPage = lazy(() => import('./pages/CallsPage'))
+const ActiveCallPage = lazy(() => import('./pages/ActiveCallPage'))
 const GroupDMSettingsPage = lazy(() => import('./pages/GroupDMSettingsPage'))
 const SharedMediaGalleryPage = lazy(() => import('./pages/SharedMediaGalleryPage'))
 
@@ -435,6 +449,18 @@ export default function App() {
                     }
                   />
 
+                  {/* Create Hub */}
+                  <Route
+                    path="/create"
+                    element={
+                      <ProtectedRoute>
+                        <AppLayout>
+                          <LazyRoute component={CreateHubPage} name="CreateHubPage" />
+                        </AppLayout>
+                      </ProtectedRoute>
+                    }
+                  />
+
                   {/* Create Post */}
                   <Route
                     path="/submit"
@@ -549,10 +575,29 @@ export default function App() {
                   />
 
                   <Route
+                    path="/explore"
+                    element={
+                      <ProtectedRoute>
+                        <AppLayout>
+                          <LazyRoute component={ExplorePage} name="ExplorePage" />
+                        </AppLayout>
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  <Route
                     path="/onboarding"
                     element={
                       <ProtectedRoute>
                         <LazyRoute component={OnboardingPage} name="OnboardingPage" />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/onboarding/flow"
+                    element={
+                      <ProtectedRoute>
+                        <LazyRoute component={OnboardingFlowPage} name="OnboardingFlowPage" />
                       </ProtectedRoute>
                     }
                   />
@@ -691,6 +736,10 @@ export default function App() {
                   <Route path="/messages/:conversationId/media" element={<ProtectedRoute><AppLayout><LazyRoute component={SharedMediaGalleryPage} name="SharedMediaGalleryPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/files" element={<ProtectedRoute><AppLayout><LazyRoute component={SharedMediaGalleryPage} name="SharedMediaGalleryPage" /></AppLayout></ProtectedRoute>} />
 
+                  {/* Calls */}
+                  <Route path="/calls" element={<ProtectedRoute><AppLayout><LazyRoute component={CallsPage} name="CallsPage" /></AppLayout></ProtectedRoute>} />
+                  <Route path="/calls/:callId" element={<ProtectedRoute><LazyRoute component={ActiveCallPage} name="ActiveCallPage" /></ProtectedRoute>} />
+
                   {/* ========== NEW ROUTES - SEARCH & DISCOVERY ========== */}
                   <Route path="/tag/:tag" element={<ProtectedRoute><AppLayout><LazyRoute component={TagPage} name="TagPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/categories" element={<ProtectedRoute><AppLayout><LazyRoute component={CategoryBrowsePage} name="CategoryBrowsePage" /></AppLayout></ProtectedRoute>} />
@@ -737,6 +786,15 @@ export default function App() {
                   <Route path="/settings/billing" element={<ProtectedRoute><AppLayout><LazyRoute component={BillingPage} name="BillingPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/settings/language" element={<ProtectedRoute><AppLayout><LazyRoute component={LanguageRegionPage} name="LanguageRegionPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/settings/data-privacy" element={<ProtectedRoute><AppLayout><LazyRoute component={DataPrivacyPage} name="DataPrivacyPage" /></AppLayout></ProtectedRoute>} />
+
+                  {/* ========== COMING SOON ROUTES - CRYPTO FEATURES ========== */}
+                  <Route path="/markets" element={<ProtectedRoute><LazyRoute component={MarketsPage} name="MarketsPage" /></ProtectedRoute>} />
+                  <Route path="/trade" element={<ProtectedRoute><LazyRoute component={TradePage} name="TradePage" /></ProtectedRoute>} />
+                  <Route path="/swap" element={<ProtectedRoute><LazyRoute component={TradePage} name="TradePage" /></ProtectedRoute>} />
+                  <Route path="/portfolio" element={<ProtectedRoute><LazyRoute component={PortfolioPage} name="PortfolioPage" /></ProtectedRoute>} />
+                  <Route path="/defi" element={<ProtectedRoute><LazyRoute component={DeFiPage} name="DeFiPage" /></ProtectedRoute>} />
+                  <Route path="/mint-nft" element={<ProtectedRoute><LazyRoute component={NFTMintPage} name="NFTMintPage" /></ProtectedRoute>} />
+                  <Route path="/create-nft" element={<ProtectedRoute><LazyRoute component={NFTMintPage} name="NFTMintPage" /></ProtectedRoute>} />
 
                   {/* ========== NEW ROUTES - MOBILE SPECIFIC ========== */}
                   <Route path="/mobile/drawer" element={<ProtectedRoute><LazyRoute component={MobileCommunityDrawer} name="MobileCommunityDrawer" isOpen={true} /></ProtectedRoute>} />
