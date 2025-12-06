@@ -289,14 +289,14 @@ export default function LoginPage() {
                 />
 
                 <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center cursor-pointer">
+                  <label className="flex items-center cursor-pointer group">
                     <input
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-4 h-4 rounded border-white/20 bg-transparent text-blue-500 focus:ring-blue-500 focus:ring-offset-0"
+                      className="w-4 h-4 flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
                     />
-                    <span className="ml-2 text-gray-400">Remember me</span>
+                    <span className="ml-2 text-gray-400 group-hover:text-gray-300 transition-colors">Remember me</span>
                   </label>
                   <Link to="/auth/forgot-password" className="text-blue-400 hover:text-blue-300 transition-colors">
                     Forgot password?
@@ -371,14 +371,14 @@ export default function LoginPage() {
 
           {/* Terms checkbox */}
           <div className="mb-6">
-            <label className="flex items-start cursor-pointer">
+            <label className="flex items-start cursor-pointer group">
               <input
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="w-4 h-4 mt-0.5 rounded border-white/20 bg-transparent text-blue-500 focus:ring-blue-500 focus:ring-offset-0"
+                className="w-4 h-4 mt-0.5 flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
               />
-              <span className="ml-2 text-sm text-gray-400">
+              <span className="ml-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                 I agree to the{' '}
                 <Link to="/terms" className="text-blue-400 hover:text-blue-300">
                   Terms of Service

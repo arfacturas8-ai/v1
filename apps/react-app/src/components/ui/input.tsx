@@ -125,32 +125,6 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 }} />
     ) : null;
 
-    const LoadingSpinner = () => (
-      <svg
-        style={{
-  height: '16px',
-  width: '16px'
-}}
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-      >
-        <circle
-          className="opacity-25"
-          cx="12"
-          cy="12"
-          r="10"
-          stroke="currentColor"
-          strokeWidth="4"
-        />
-        <path
-          className="opacity-75"
-          fill="currentColor"
-          d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        />
-      </svg>
-    );
 
     return (
       <div className="space-y-2">
@@ -191,11 +165,11 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className={cn(
               inputVariants({ variant: actualVariant, size, fullWidth }),
               leftIcon && 'pl-10',
-              (rightIcon || isPassword || loading) && 'pr-10',
+              (rightIcon || isPassword) && 'pr-10',
               className
             )}
             ref={ref}
-            disabled={disabled || loading}
+            disabled={disabled}
             aria-invalid={!!error}
             aria-describedby={
               statusMessage ? `${inputId}-message` : undefined
@@ -210,11 +184,8 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
   alignItems: 'center',
   gap: '8px'
 }}>
-            {/* Loading Spinner */}
-            {loading && <LoadingSpinner />}
-            
             {/* Password Toggle */}
-            {isPassword && !loading && (
+            {isPassword && (
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
@@ -234,9 +205,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 }} />}
               </button>
             )}
-            
+
             {/* Right Icon */}
-            {rightIcon && !loading && !isPassword && (
+            {rightIcon && !isPassword && (
               <div className="text-muted-foreground">{rightIcon}</div>
             )}
           </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import { colors, spacing, typography } from '../../design-system/tokens';
-import Spinner from '../atoms/Spinner';
 
 interface LoadingScreenProps {
   message?: string;
@@ -24,11 +23,9 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
         textAlign: 'center',
       }}
     >
-      <Spinner size="lg" variant="primary" />
       {message && (
         <p
           style={{
-            marginTop: spacing[4],
             fontSize: typography.fontSize.base,
             color: colors.text.secondary,
             margin: 0,
