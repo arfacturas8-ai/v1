@@ -111,12 +111,9 @@ const Progress: React.FC<ProgressProps> = (props) => {
               fill="none"
               strokeLinecap="round"
               strokeDasharray={circumference}
-              strokeDashoffset={indeterminate ? 0 : offset}
+              strokeDashoffset={offset}
               style={{
-                transition: indeterminate
-                  ? 'none'
-                  : `stroke-dashoffset ${animation.duration.normal} ${animation.easing.easeOut}`,
-                animation: indeterminate ? 'circularProgress 1.5s ease-in-out infinite' : 'none',
+                transition: `stroke-dashoffset ${animation.duration.normal} ${animation.easing.easeOut}`,
               }}
             />
           </svg>
@@ -239,12 +236,10 @@ const Progress: React.FC<ProgressProps> = (props) => {
         <div
           style={{
             height: '100%',
-            width: indeterminate ? '40%' : `${percentage}%`,
+            width: `${percentage}%`,
             backgroundColor: color,
             borderRadius: radii.full,
-            transition: indeterminate
-              ? 'none'
-              : `width ${animation.duration.normal} ${animation.easing.easeOut}`,
+            transition: `width ${animation.duration.normal} ${animation.easing.easeOut}`,
             backgroundImage:
               striped
                 ? `linear-gradient(
@@ -259,12 +254,6 @@ const Progress: React.FC<ProgressProps> = (props) => {
                   )`
                 : 'none',
             backgroundSize: striped ? `${styles.height} ${styles.height}` : 'auto',
-            animation:
-              indeterminate
-                ? 'barProgress 1.5s ease-in-out infinite'
-                : animated && striped
-                ? 'barStripe 1s linear infinite'
-                : 'none',
           }}
         />
       </div>

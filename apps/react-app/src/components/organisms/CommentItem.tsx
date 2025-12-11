@@ -142,45 +142,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
   const displayReplyCount = replyCount || replies.length;
 
   if (loading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          gap: spacing[3],
-          padding: spacing[3],
-          opacity: 0.5,
-        }}
-      >
-        <div
-          style={{
-            width: isCompact ? '28px' : '36px',
-            height: isCompact ? '28px' : '36px',
-            borderRadius: radii.full,
-            backgroundColor: colors.bg.tertiary,
-            flexShrink: 0,
-          }}
-        />
-        <div style={{ flex: 1 }}>
-          <div
-            style={{
-              width: '40%',
-              height: '14px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-              marginBottom: spacing[2],
-            }}
-          />
-          <div
-            style={{
-              width: '100%',
-              height: '40px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (isDeleted) {

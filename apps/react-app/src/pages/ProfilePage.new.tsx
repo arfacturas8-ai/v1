@@ -372,9 +372,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
 
       {/* Tab Content */}
       <div style={{ padding: spacing[4] }}>
-        {isLoading ? (
-          <LoadingSkeleton tab={activeTab} />
-        ) : activeTab === 'posts' ? (
+        {activeTab === 'posts' && !isLoading ? (
           posts.length === 0 ? (
             <EmptyState
               icon={<span style={{ fontSize: '48px' }}>📝</span>}
@@ -401,7 +399,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
               ))}
             </div>
           )
-        ) : activeTab === 'nfts' ? (
+        ) : activeTab === 'nfts' && !isLoading ? (
           nfts.length === 0 ? (
             <EmptyState
               icon={<span style={{ fontSize: '48px' }}>🖼️</span>}
@@ -434,7 +432,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
               ))}
             </div>
           )
-        ) : activeTab === 'collections' ? (
+        ) : activeTab === 'collections' && !isLoading ? (
           collections.length === 0 ? (
             <EmptyState
               icon={<span style={{ fontSize: '48px' }}>📁</span>}
@@ -460,55 +458,19 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
               ))}
             </div>
           )
-        ) : (
+        ) : !isLoading ? (
           // Activity
           <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
             {activities.map((activity) => (
               <ActivityItem key={activity.id} activity={activity} />
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </AppLayout>
   );
 };
 
-// Loading Skeleton Component
-const LoadingSkeleton: React.FC<{ tab: string }> = ({ tab }) => {
-  if (tab === 'posts') {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-        {Array.from({ length: 3 }).map((_, i) => (
-          <div
-            key={i}
-            style={{
-              backgroundColor: colors.bg.secondary,
-              borderRadius: radii.lg,
-              padding: spacing[4],
-            }}
-          >
-            <Skeleton width="100%" height={100} />
-          </div>
-        ))}
-      </div>
-    );
-  } else if (tab === 'nfts') {
-    return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-          gap: spacing[3],
-        }}
-      >
-        {Array.from({ length: 6 }).map((_, i) => (
-          <Skeleton key={i} width="100%" height={200} />
-        ))}
-      </div>
-    );
-  }
-  return <Skeleton width="100%" height={200} />;
-};
 
 // Activity Item Component
 const ActivityItem: React.FC<{ activity: any }> = ({ activity }) => {

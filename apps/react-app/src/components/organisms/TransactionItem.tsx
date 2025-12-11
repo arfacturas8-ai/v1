@@ -269,48 +269,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
   const isCompact = variant === 'compact';
 
   if (loading) {
-    return (
-      <div
-        style={{
-          backgroundColor: colors.bg.secondary,
-          border: `1px solid ${colors.border.default}`,
-          borderRadius: radii.lg,
-          padding: isCompact ? spacing[3] : spacing[4],
-          opacity: 0.5,
-        }}
-      >
-        <div style={{ display: 'flex', gap: spacing[3] }}>
-          <div
-            style={{
-              width: '40px',
-              height: '40px',
-              borderRadius: radii.full,
-              backgroundColor: colors.bg.tertiary,
-              flexShrink: 0,
-            }}
-          />
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                width: '50%',
-                height: '16px',
-                borderRadius: radii.sm,
-                backgroundColor: colors.bg.tertiary,
-                marginBottom: spacing[2],
-              }}
-            />
-            <div
-              style={{
-                width: '70%',
-                height: '14px',
-                borderRadius: radii.sm,
-                backgroundColor: colors.bg.tertiary,
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (error) {

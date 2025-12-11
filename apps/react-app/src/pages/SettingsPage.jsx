@@ -817,7 +817,7 @@ function SettingsPage() {
                     disabled={loading}
                     className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
-                    {loading ? 'Saving...' : 'Save Profile'}
+                    Save Profile
                   </button>
                 </form>
               </div>
@@ -944,7 +944,7 @@ function SettingsPage() {
                       disabled={passwordLoading}
                       className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                     >
-                      {passwordLoading ? 'Updating...' : 'Update Password'}
+                      Update Password
                     </button>
                   </form>
                 </div>
@@ -1042,7 +1042,7 @@ function SettingsPage() {
                     disabled={loading}
                     className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
-                    {loading ? 'Saving...' : 'Save Privacy Settings'}
+                    Save Privacy Settings
                   </button>
                 </form>
 
@@ -1258,7 +1258,7 @@ function SettingsPage() {
                     disabled={notificationLoading}
                     className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
-                    {notificationLoading ? 'Saving...' : 'Save Notification Settings'}
+                    Save Notification Settings
                   </button>
                 </form>
               </div>
@@ -1325,7 +1325,7 @@ function SettingsPage() {
                     disabled={appearanceLoading}
                     className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
-                    {appearanceLoading ? 'Saving...' : 'Save Appearance Settings'}
+                    Save Appearance Settings
                   </button>
                 </form>
               </div>

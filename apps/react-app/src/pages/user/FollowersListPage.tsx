@@ -386,13 +386,7 @@ export const FollowersListPage: React.FC = () => {
 
       {/* Followers List */}
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        {isLoading ? (
-          <div style={{ padding: spacing[4] }}>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <FollowerCardSkeleton key={i} />
-            ))}
-          </div>
-        ) : filteredFollowers.length > 0 ? (
+        {filteredFollowers.length > 0 && !isLoading ? (
           <>
             {filteredFollowers.map((follower, index) => (
               <div
@@ -402,14 +396,6 @@ export const FollowersListPage: React.FC = () => {
                 <FollowerCard follower={follower} onFollow={handleFollow} navigate={navigate} />
               </div>
             ))}
-
-            {isLoadingMore && (
-              <div style={{ padding: spacing[4] }}>
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <FollowerCardSkeleton key={i} />
-                ))}
-              </div>
-            )}
 
             {!hasMore && filteredFollowers.length > 0 && (
               <div

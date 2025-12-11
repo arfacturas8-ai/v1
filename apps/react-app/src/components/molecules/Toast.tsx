@@ -265,25 +265,6 @@ const Toast: React.FC<ToastProps> = ({
         </div>
       </div>
 
-      {/* Progress Bar */}
-      {showProgress && duration > 0 && (
-        <div
-          style={{
-            height: '3px',
-            backgroundColor: colors.bg.tertiary,
-          }}
-        >
-          <div
-            style={{
-              height: '100%',
-              width: `${progress}%`,
-              backgroundColor: variantStyles.border,
-              transition: `width ${animation.duration.fast} linear`,
-            }}
-          />
-        </div>
-      )}
-
       {/* Animations */}
       <style>
         {`

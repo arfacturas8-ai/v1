@@ -131,24 +131,11 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled || loading}
       {...props}
     >
-      {loading && (
-        <div
-          style={{
-            position: 'absolute',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Spinner size={size} />
-        </div>
-      )}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
           gap: sizeStyles[size].gap,
-          opacity: loading ? 0 : 1,
         }}
       >
         {leftIcon && <span style={{ display: 'flex' }}>{leftIcon}</span>}
@@ -156,40 +143,6 @@ export const Button: React.FC<ButtonProps> = ({
         {rightIcon && <span style={{ display: 'flex' }}>{rightIcon}</span>}
       </div>
     </button>
-  );
-};
-
-/**
- * Spinner for loading state
- */
-const Spinner: React.FC<{ size: string }> = ({ size }) => {
-  const spinnerSizes = {
-    xs: 12,
-    sm: 14,
-    md: 16,
-    lg: 18,
-    xl: 20,
-  };
-
-  const spinnerSize = spinnerSizes[size as keyof typeof spinnerSizes];
-
-  return (
-    <div
-      style={{
-        width: spinnerSize,
-        height: spinnerSize,
-        border: '2px solid rgba(255, 255, 255, 0.3)',
-        borderTopColor: colors['text-primary'],
-        borderRadius: '50%',
-        animation: 'spin 0.6s linear infinite',
-      }}
-    >
-      <style>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-    </div>
   );
 };
 

@@ -154,55 +154,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
   };
 
   if (loading) {
-    return (
-      <div
-        style={{
-          backgroundColor: colors.bg.secondary,
-          border: `1px solid ${colors.border.default}`,
-          borderRadius: radii.xl,
-          overflow: 'hidden',
-        }}
-      >
-        {/* Cover skeleton */}
-        <div
-          style={{
-            width: '100%',
-            height: '160px',
-            backgroundColor: colors.bg.tertiary,
-          }}
-        />
-        {/* Content skeleton */}
-        <div style={{ padding: spacing[4] }}>
-          <div
-            style={{
-              width: '64px',
-              height: '64px',
-              borderRadius: radii.lg,
-              backgroundColor: colors.bg.tertiary,
-              marginTop: '-32px',
-              marginBottom: spacing[3],
-            }}
-          />
-          <div
-            style={{
-              width: '60%',
-              height: '20px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-              marginBottom: spacing[2],
-            }}
-          />
-          <div
-            style={{
-              width: '100%',
-              height: '40px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (error) {

@@ -102,11 +102,7 @@ export const Feed: React.FC<FeedProps> = ({
   };
 
   if (isLoading && posts.length === 0) {
-    return (
-      <div style={loadingStyle}>
-        <Spinner size="lg" />
-      </div>
-    );
+    return null;
   }
 
   if (!isLoading && posts.length === 0) {
@@ -136,9 +132,7 @@ export const Feed: React.FC<FeedProps> = ({
 
       {/* Infinite scroll trigger */}
       {hasMore && (
-        <div ref={observerTarget} style={loadingStyle}>
-          <Spinner size="md" />
-        </div>
+        <div ref={observerTarget} style={loadingStyle} />
       )}
 
       {!hasMore && posts.length > 0 && (

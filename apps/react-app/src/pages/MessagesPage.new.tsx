@@ -232,28 +232,7 @@ export const MessagesPage: React.FC<MessagesPageProps> = ({ onNavigate }) => {
 
       {/* Conversations List */}
       <div>
-        {isLoading ? (
-          // Loading Skeletons
-          <div>
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  padding: spacing[4],
-                  borderBottom: `1px solid ${colors.border.subtle}`,
-                  display: 'flex',
-                  gap: spacing[3],
-                }}
-              >
-                <Skeleton circle width={56} height={56} />
-                <div style={{ flex: 1 }}>
-                  <Skeleton width="60%" height={16} style={{ marginBottom: spacing[2] }} />
-                  <Skeleton width="80%" height={14} />
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : filteredConversations.length === 0 ? (
+        {filteredConversations.length === 0 && !isLoading ? (
           <EmptyState
             icon={<Edit size={64} />}
             title={searchQuery ? 'No messages found' : activeTab === 'primary' ? 'No messages yet' : 'No message requests'}
@@ -273,7 +252,7 @@ export const MessagesPage: React.FC<MessagesPageProps> = ({ onNavigate }) => {
                 : undefined
             }
           />
-        ) : (
+        ) : !isLoading ? (
           filteredConversations.map((conversation) => (
             <ConversationItem
               key={conversation.id}
@@ -281,7 +260,7 @@ export const MessagesPage: React.FC<MessagesPageProps> = ({ onNavigate }) => {
               onClick={() => handleConversationClick(conversation)}
             />
           ))
-        )}
+        ) : null}
       </div>
     </AppLayout>
   );

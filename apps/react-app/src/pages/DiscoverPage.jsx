@@ -173,11 +173,7 @@ export default function DiscoverPage() {
         </div>
 
         {/* Content */}
-        {isLoading ? (
-          <div role="status" aria-live="polite" aria-label="Loading discover content">
-            <PageSkeleton type="grid" />
-          </div>
-        ) : (
+        {!isLoading && (
           <>
             {/* Trending Tab */}
             {activeTab === 'trending' && (

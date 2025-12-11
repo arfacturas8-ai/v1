@@ -220,7 +220,7 @@ export default function MFALoginPage() {
               {loading && (
                 <div className="flex items-center justify-center gap-2 text-[#666666] mb-4 md:mb-3.5 lg:mb-3 text-xs">
                   <Loader2 className="w-4.5 h-4.5 " />
-                  <span>Verifying...</span>
+                  <span>Verify</span>
                 </div>
               )}
 
@@ -281,14 +281,7 @@ export default function MFALoginPage() {
                   disabled={loading}
                   className="w-full px-3 py-2.5 md:py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-0 rounded-[10px] text-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-4.5 h-4.5 " />
-                      Verifying...
-                    </>
-                  ) : (
-                    'Verify Backup Code'
-                  )}
+                  Verify Backup Code
                 </button>
 
                 <div className="text-center">

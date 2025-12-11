@@ -113,22 +113,9 @@ export const IconButton: React.FC<IconButtonProps> = ({
       }}
       {...props}
     >
-      {loading ? (
-        <span
-          style={{
-            width: size === 'sm' ? '14px' : size === 'md' ? '16px' : '18px',
-            height: size === 'sm' ? '14px' : size === 'md' ? '16px' : '18px',
-            border: '2px solid currentColor',
-            borderTopColor: 'transparent',
-            borderRadius: radii.full,
-            animation: 'spin 0.6s linear infinite',
-          }}
-        />
-      ) : (
-        <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          {icon}
-        </span>
-      )}
+      <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        {icon}
+      </span>
     </button>
   );
 };

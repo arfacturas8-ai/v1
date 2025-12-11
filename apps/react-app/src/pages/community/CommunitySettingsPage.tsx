@@ -361,17 +361,8 @@ const CommunitySettingsPage: React.FC = () => {
               disabled={saving}
               className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {saving ? (
-                <>
-                  <Loader className="" size={18} />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save size={18} />
-                  Save Changes
-                </>
-              )}
+              <Save size={18} />
+              Save Changes
             </button>
           </div>
         </div>

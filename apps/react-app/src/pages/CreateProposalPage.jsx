@@ -184,14 +184,7 @@ const CreateProposalPage = () => {
               className="w-full px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-0 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white text-base font-semibold cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               aria-label={loading ? 'Submitting proposal' : 'Submit proposal'}
             >
-              {loading ? (
-                <>
-                  <Loader size={20} className="" aria-hidden="true" />
-                  Submitting...
-                </>
-              ) : (
-                'Submit Proposal'
-              )}
+              Submit Proposal
             </button>
           </form>
         </motion.div>

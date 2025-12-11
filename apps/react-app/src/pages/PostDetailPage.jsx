@@ -497,7 +497,7 @@ export default function PostDetailPage() {
                           size="sm"
                           className="touch-target bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white"
                         >
-                          {submittingComment ? 'Posting...' : 'Comment'}
+                          Comment
                         </Button>
                       </div>
                     </form>

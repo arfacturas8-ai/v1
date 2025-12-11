@@ -158,55 +158,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
   const isDetailed = variant === 'detailed';
 
   if (loading) {
-    return (
-      <div
-        style={{
-          backgroundColor: colors.bg.secondary,
-          border: `1px solid ${colors.border.default}`,
-          borderRadius: radii.xl,
-          overflow: 'hidden',
-        }}
-      >
-        {showBanner && !isCompact && (
-          <div
-            style={{
-              width: '100%',
-              height: isDetailed ? '140px' : '100px',
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-        )}
-        <div style={{ padding: isCompact ? spacing[3] : spacing[4] }}>
-          <div
-            style={{
-              width: isCompact ? '48px' : '64px',
-              height: isCompact ? '48px' : '64px',
-              borderRadius: radii.lg,
-              backgroundColor: colors.bg.tertiary,
-              marginTop: showBanner && !isCompact ? '-32px' : '0',
-              marginBottom: spacing[3],
-            }}
-          />
-          <div
-            style={{
-              width: '60%',
-              height: '20px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-              marginBottom: spacing[2],
-            }}
-          />
-          <div
-            style={{
-              width: '100%',
-              height: '40px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (error) {

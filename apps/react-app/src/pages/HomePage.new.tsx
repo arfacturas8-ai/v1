@@ -187,33 +187,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       {/* Feed Content */}
       <div style={{ padding: spacing[4] }}>
-        {isLoading && posts.length === 0 ? (
-          // Loading Skeletons
-          <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  backgroundColor: colors.bg.secondary,
-                  borderRadius: radii.lg,
-                  padding: spacing[4],
-                  border: `1px solid ${colors.border.subtle}`,
-                }}
-              >
-                <div style={{ display: 'flex', gap: spacing[3], marginBottom: spacing[3] }}>
-                  <Skeleton circle width={48} height={48} />
-                  <div style={{ flex: 1 }}>
-                    <Skeleton width="40%" height={16} style={{ marginBottom: spacing[2] }} />
-                    <Skeleton width="60%" height={14} />
-                  </div>
-                </div>
-                <Skeleton width="100%" height={14} style={{ marginBottom: spacing[2] }} />
-                <Skeleton width="80%" height={14} style={{ marginBottom: spacing[2] }} />
-                <Skeleton width="90%" height={14} />
-              </div>
-            ))}
-          </div>
-        ) : posts.length === 0 ? (
+        {posts.length === 0 && !isLoading ? (
           <EmptyState
             icon={<Edit3 size={64} />}
             title="No posts yet"
@@ -227,7 +201,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
               onClick: () => onNavigate?.('/explore'),
             }}
           />
-        ) : (
+        ) : !isLoading ? (
           <Feed
             posts={posts}
             isLoading={isLoading}
@@ -237,7 +211,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
             onUserClick={handleUserClick}
             onReplyClick={handleReplyClick}
           />
-        )}
+        ) : null}
       </div>
 
       {/* Floating Compose Button */}

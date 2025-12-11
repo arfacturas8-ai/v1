@@ -186,55 +186,7 @@ const PostCard: React.FC<PostCardProps> = ({
   const displayContent = !showFullContent && shouldTruncate ? truncate(content, 280) : content;
 
   if (loading) {
-    return (
-      <div
-        style={{
-          backgroundColor: colors.bg.secondary,
-          border: `1px solid ${colors.border.default}`,
-          borderRadius: radii.lg,
-          padding: spacing[4],
-        }}
-      >
-        {/* Loading skeleton */}
-        <div style={{ display: 'flex', gap: spacing[3], marginBottom: spacing[3] }}>
-          <div
-            style={{
-              width: '48px',
-              height: '48px',
-              borderRadius: radii.full,
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                width: '40%',
-                height: '16px',
-                borderRadius: radii.sm,
-                backgroundColor: colors.bg.tertiary,
-                marginBottom: spacing[2],
-              }}
-            />
-            <div
-              style={{
-                width: '25%',
-                height: '14px',
-                borderRadius: radii.sm,
-                backgroundColor: colors.bg.tertiary,
-              }}
-            />
-          </div>
-        </div>
-        <div
-          style={{
-            width: '100%',
-            height: '100px',
-            borderRadius: radii.sm,
-            backgroundColor: colors.bg.tertiary,
-          }}
-        />
-      </div>
-    );
+    return null;
   }
 
   if (error) {

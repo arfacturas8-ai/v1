@@ -286,17 +286,8 @@ export default function AuditLogPage() {
                 disabled={exporting || filteredLogs.length === 0}
                 className="px-3 sm:px-4 py-2 sm:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 text-sm sm:text-base whitespace-nowrap"
               >
-                {exporting ? (
-                  <>
-                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 " />
-                    <span className="hidden sm:inline">Exporting...</span>
-                  </>
-                ) : (
-                  <>
-                    <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-                    <span className="hidden sm:inline">Export</span>
-                  </>
-                )}
+                <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="hidden sm:inline">Export</span>
               </button>
             </div>
           </div>

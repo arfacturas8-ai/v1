@@ -143,7 +143,7 @@ export default function ForgotPasswordPage() {
             className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer transition-all hover:opacity-90 shadow-[0_4px_12px_rgba(88,166,255,0.4)] mb-4 md:mb-5 disabled:opacity-50 disabled:cursor-not-allowed"
             aria-label={isLoading ? 'Sending reset email...' : 'Send reset email'}
           >
-            {isLoading ? 'Sending...' : 'Send Reset Link'}
+            Send Reset Link
           </button>
 
           <div className="text-center">

@@ -207,7 +207,7 @@ export default function PasswordResetPage() {
               className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-[#4b5563] disabled:shadow-none"
               aria-label={loading ? "Sending reset email" : "Send reset link"}
             >
-              {loading ? 'Sending...' : 'Send Reset Link'}
+              Send Reset Link
             </button>
 
             <div className="text-center mt-5 md:mt-6">
@@ -298,7 +298,7 @@ export default function PasswordResetPage() {
               className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white border-none rounded-xl text-sm md:text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:bg-[#4b5563] disabled:shadow-none"
               aria-label={loading ? "Resetting password" : "Reset password"}
             >
-              {loading ? 'Resetting...' : 'Reset Password'}
+              Reset Password
             </button>
           </form>
         )}

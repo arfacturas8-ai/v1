@@ -91,9 +91,7 @@ export default function MessageRequestsPage() {
         </div>
 
         {/* Content */}
-        {isLoading ? (
-          <PageSkeleton type="feed" />
-        ) : requests.length === 0 ? (
+        {requests.length === 0 && !isLoading ? (
           <div className="text-center py-12 md:py-20 px-4 md:px-5 bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10">
             <MessageCircle size={isMobile ? 48 : 64} color="#8b949e" className="mx-auto mb-4 md:mb-6" />
             <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">
@@ -103,7 +101,7 @@ export default function MessageRequestsPage() {
               When people send you messages, they'll appear here
             </p>
           </div>
-        ) : (
+        ) : !isLoading ? (
           <div className="flex flex-col gap-3">
             {requests.map((request, index) => (
               <MessageRequestCard
@@ -115,7 +113,7 @@ export default function MessageRequestsPage() {
               />
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </div>
   )

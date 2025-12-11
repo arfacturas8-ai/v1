@@ -482,13 +482,7 @@ export const FollowingListPage: React.FC = () => {
 
       {/* Following List */}
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        {isLoading ? (
-          <div style={{ padding: spacing[4] }}>
-            {Array.from({ length: 5 }).map((_, i) => (
-              <FollowingCardSkeleton key={i} />
-            ))}
-          </div>
-        ) : filteredFollowing.length > 0 ? (
+        {filteredFollowing.length > 0 && !isLoading ? (
           <>
             {filteredFollowing.map((user, index) => (
               <div
@@ -498,14 +492,6 @@ export const FollowingListPage: React.FC = () => {
                 <FollowingCard user={user} onUnfollow={handleUnfollow} navigate={navigate} />
               </div>
             ))}
-
-            {isLoadingMore && (
-              <div style={{ padding: spacing[4] }}>
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <FollowingCardSkeleton key={i} />
-                ))}
-              </div>
-            )}
 
             {!hasMore && filteredFollowing.length > 0 && (
               <div

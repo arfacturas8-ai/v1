@@ -374,8 +374,7 @@ export const EditProfilePage: React.FC = () => {
               gap: spacing[2],
             }}
           >
-            {isSaving && <Loader size={16} className="spin" />}
-            {isSaving ? 'Saving...' : 'Save'}
+            Save
           </button>
         </div>
       </header>

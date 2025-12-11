@@ -138,9 +138,7 @@ export default function NFTGalleryPage() {
         </div>
 
         {/* Content */}
-        {isLoading ? (
-          <PageSkeleton type="grid" />
-        ) : filteredNFTs.length === 0 ? (
+        {!isLoading && filteredNFTs.length === 0 ? (
           <div className="text-center py-16 md:py-20 px-5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
             <Image size={64} className="text-[#8b949e] mx-auto mb-5" />
             <h3 className="text-lg md:text-xl font-semibold text-white mb-3">
@@ -156,7 +154,7 @@ export default function NFTGalleryPage() {
               Browse Marketplace
             </Link>
           </div>
-        ) : (
+        ) : !isLoading ? (
           <>
             {viewMode === 'grid' ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -172,7 +170,7 @@ export default function NFTGalleryPage() {
               </div>
             )}
           </>
-        )}
+        ) : null}
       </div>
     </div>
   )

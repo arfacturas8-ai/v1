@@ -240,7 +240,7 @@ export default function MFASetupPage() {
                   className={`flex-[2] px-4 py-3.5 ${isLoading || verificationCode.length !== 6 ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)]'} text-white border-0 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base font-semibold`}
                   aria-label={isLoading ? 'Verifying...' : 'Verify code'}
                 >
-                  {isLoading ? 'Verifying...' : 'Verify & Continue'}
+                  Verify & Continue
                 </button>
               </div>
             </form>

@@ -189,7 +189,7 @@ export default function BlockReportPage() {
               transition: 'all 150ms ease-out',
             }}
           >
-            {isSubmitting ? 'Submitting...' : isReport ? 'Report' : 'Block'}
+            {isReport ? 'Report' : 'Block'}
           </button>
         </div>
       </header>

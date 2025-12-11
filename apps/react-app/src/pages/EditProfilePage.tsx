@@ -127,7 +127,7 @@ export default function EditProfilePage() {
               transition: 'all 150ms ease-out',
             }}
           >
-            {isSaving ? 'Saving...' : 'Save'}
+            Save
           </button>
         </div>
       </header>

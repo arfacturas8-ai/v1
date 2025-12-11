@@ -155,7 +155,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
               height: '44px',
               paddingLeft: `calc(${spacing[3]} + 28px)`,
               paddingRight:
-                loading || (value && !disabled) || showVoice
+                (value && !disabled) || showVoice
                   ? `calc(${spacing[3]} + 36px)`
                   : spacing[3],
               backgroundColor: colors.bg.secondary,
@@ -170,37 +170,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
             }}
           />
 
-          {/* Loading Indicator */}
-          {loading && (
-            <div
-              style={{
-                position: 'absolute',
-                right: spacing[3],
-                color: colors.text.tertiary,
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 18 18"
-                fill="none"
-                style={{ animation: 'spin 1s linear infinite' }}
-              >
-                <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" opacity="0.25" />
-                <path
-                  d="M9 2a7 7 0 0 1 7 7"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </div>
-          )}
-
           {/* Clear Button */}
-          {!loading && value && !disabled && (
+          {value && !disabled && (
             <button
               type="button"
               onClick={handleClear}
@@ -240,7 +211,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
           )}
 
           {/* Voice Input Button */}
-          {!loading && showVoice && !value && (
+          {showVoice && !value && (
             <button
               type="button"
               onClick={onVoiceInput}

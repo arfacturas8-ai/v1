@@ -251,14 +251,7 @@ export default function AccountRecoveryPage() {
                     disabled={loading}
                     className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    {loading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 md:w-6 md:h-6 " />
-                        Sending...
-                      </>
-                    ) : (
-                      'Send Code'
-                    )}
+                    Send Code
                   </button>
                 </form>
               )}
@@ -289,14 +282,7 @@ export default function AccountRecoveryPage() {
                     disabled={loading}
                     className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    {loading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 md:w-6 md:h-6 " />
-                        Sending...
-                      </>
-                    ) : (
-                      'Send Code'
-                    )}
+                    Send Code
                   </button>
                 </form>
               )}
@@ -331,14 +317,7 @@ export default function AccountRecoveryPage() {
                     disabled={loading}
                     className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    {loading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 md:w-6 md:h-6 " />
-                        Verifying...
-                      </>
-                    ) : (
-                      'Verify Answers'
-                    )}
+                    Verify Answers
                   </button>
                 </form>
               )}
@@ -369,14 +348,7 @@ export default function AccountRecoveryPage() {
                     disabled={loading}
                     className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    {loading ? (
-                      <>
-                        <Loader2 className="w-5 h-5 md:w-6 md:h-6 " />
-                        Verifying...
-                      </>
-                    ) : (
-                      'Verify Code'
-                    )}
+                    Verify Code
                   </button>
                 </form>
               )}
@@ -421,14 +393,7 @@ export default function AccountRecoveryPage() {
                   disabled={loading || verificationCode.length !== 6}
                   className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 md:w-6 md:h-6 " />
-                      Verifying...
-                    </>
-                  ) : (
-                    'Verify Code'
-                  )}
+                  Verify Code
                 </button>
                 <div className="text-center mt-4">
                   <button
@@ -494,14 +459,7 @@ export default function AccountRecoveryPage() {
                   disabled={loading}
                   className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 md:w-6 md:h-6 " />
-                      Resetting...
-                    </>
-                  ) : (
-                    'Reset Password'
-                  )}
+                  Reset Password
                 </button>
               </form>
             </>

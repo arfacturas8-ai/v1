@@ -622,11 +622,6 @@ function ProfilePage() {
               {/* Posts Tab */}
               {activeTab === 'posts' && (
                 <div className="space-y-4">
-                  {isRefreshing && (
-                    <div className="mb-4">
-                      <SkeletonPost />
-                    </div>
-                  )}
                   {sortedPosts.length > 0 ? (
                     sortedPosts.map((post) => (
                       <Link
@@ -1010,7 +1005,7 @@ function ProfilePage() {
                   disabled={saveLoading}
                   className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] disabled:opacity-50 text-white rounded-xl font-medium transition-all"
                 >
-                  {saveLoading ? 'Saving...' : 'Save Changes'}
+                  Save Changes
                 </button>
                 <button
                   onClick={handleCloseEditModal}

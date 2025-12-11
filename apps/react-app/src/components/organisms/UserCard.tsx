@@ -127,55 +127,7 @@ const UserCard: React.FC<UserCardProps> = ({
   };
 
   if (loading) {
-    return (
-      <div
-        style={{
-          backgroundColor: colors.bg.secondary,
-          border: `1px solid ${colors.border.default}`,
-          borderRadius: radii.xl,
-          overflow: 'hidden',
-        }}
-      >
-        {showCover && variant !== 'compact' && (
-          <div
-            style={{
-              width: '100%',
-              height: '120px',
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-        )}
-        <div style={{ padding: spacing[4] }}>
-          <div
-            style={{
-              width: '80px',
-              height: '80px',
-              borderRadius: radii.full,
-              backgroundColor: colors.bg.tertiary,
-              marginTop: showCover && variant !== 'compact' ? '-40px' : '0',
-              marginBottom: spacing[3],
-            }}
-          />
-          <div
-            style={{
-              width: '60%',
-              height: '20px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-              marginBottom: spacing[2],
-            }}
-          />
-          <div
-            style={{
-              width: '40%',
-              height: '16px',
-              borderRadius: radii.sm,
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (error) {

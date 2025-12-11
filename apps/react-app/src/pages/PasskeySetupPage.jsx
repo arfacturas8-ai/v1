@@ -322,14 +322,7 @@ export default function PasskeySetupPage() {
                   disabled={loading || !deviceName.trim()}
                   className="flex-1 px-6 py-3 bg-[#58a6ff] hover:bg-[#1a6fc7] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
                 >
-                  {loading ? (
-                    <>
-                      <Loader2 className="w-5 h-5 " />
-                      Setting up...
-                    </>
-                  ) : (
-                    'Create Passkey'
-                  )}
+                  Create Passkey
                 </button>
               </div>
             </>

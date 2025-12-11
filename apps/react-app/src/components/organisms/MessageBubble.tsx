@@ -136,34 +136,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   const textColor = isMine ? '#FFFFFF' : colors.text.primary;
 
   if (loading) {
-    return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: isMine ? 'flex-end' : 'flex-start',
-          marginBottom: spacing[2],
-        }}
-      >
-        <div
-          style={{
-            maxWidth: '70%',
-            backgroundColor: colors.bg.tertiary,
-            borderRadius: radii.lg,
-            padding: spacing[3],
-            opacity: 0.5,
-          }}
-        >
-          <div
-            style={{
-              width: '200px',
-              height: '16px',
-              backgroundColor: colors.bg.elevated,
-              borderRadius: radii.sm,
-            }}
-          />
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (isDeleted) {

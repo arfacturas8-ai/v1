@@ -308,8 +308,8 @@ export default function RegisterPage() {
               className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-xl px-4 py-2.5 sm:py-2.5 text-white font-semibold text-base sm:text-sm cursor-pointer flex items-center justify-center gap-1.5 transition-opacity w-full hover:opacity-90 min-h-[44px]"
               aria-label="Create your account"
             >
-              {loading ? 'Creating account...' : 'Create account'}
-              {!loading && <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />}
+              Create account
+              <ArrowRight className="ml-1 h-4 w-4" aria-hidden="true" />
             </Button>
           </form>
 

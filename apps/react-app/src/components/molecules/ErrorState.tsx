@@ -177,44 +177,21 @@ const ErrorState: React.FC<ErrorStateProps> = ({
               opacity: retrying ? 0.7 : 1,
             }}
           >
-            {retrying ? (
-              <>
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="none"
-                  style={{ animation: 'spin 1s linear infinite' }}
-                >
-                  <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="2" opacity="0.25" />
-                  <path
-                    d="M9 2a7 7 0 0 1 7 7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                Retrying...
-              </>
-            ) : (
-              <>
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-                  <path
-                    d="M2 9a7 7 0 0 1 7-7M16 9a7 7 0 0 1-7 7"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M9 2V6M13 9h-4"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  />
-                </svg>
-                {retryLabel}
-              </>
-            )}
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+              <path
+                d="M2 9a7 7 0 0 1 7-7M16 9a7 7 0 0 1-7 7"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+              <path
+                d="M9 2V6M13 9h-4"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            {retryLabel}
           </button>
         )}
 
@@ -307,15 +284,6 @@ const ErrorState: React.FC<ErrorStateProps> = ({
         </details>
       )}
 
-      {/* Animation Styles */}
-      <style>
-        {`
-          @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-          }
-        `}
-      </style>
     </div>
   );
 };

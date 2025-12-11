@@ -331,8 +331,7 @@ function CreateCommunityPage() {
                 : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer text-white'
             }`}
           >
-            {creating && <Loader className="" size={20} />}
-            {creating ? 'Creating...' : success ? 'Created!' : 'Create Community'}
+            {success ? 'Created!' : 'Create Community'}
           </button>
         </form>
       </div>

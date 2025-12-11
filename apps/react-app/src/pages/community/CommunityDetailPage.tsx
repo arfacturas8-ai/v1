@@ -524,7 +524,7 @@ const CommunityDetailPage: React.FC = () => {
                             disabled={postSubmitting}
                             className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            {postSubmitting ? 'Posting...' : 'Post'}
+                            Post
                           </button>
                           <button
                             type="button"

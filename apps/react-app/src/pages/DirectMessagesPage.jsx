@@ -1581,13 +1581,7 @@ function DirectMessagesPage() {
         </div>
 
         <div className="conversations-list">
-          {loading ? (
-            <div className="loading-container">
-              {[...Array(5)].map((_, i) => (
-                <SkeletonCard key={i} className="h-20 mb-2" />
-              ))}
-            </div>
-          ) : filteredConversations.length > 0 ? (
+          {filteredConversations.length > 0 && !loading ? (
             filteredConversations.map(conv => (
               <ConversationItem
                 key={conv.id}
@@ -1596,9 +1590,9 @@ function DirectMessagesPage() {
                 onClick={() => handleConversationSelect(conv.id)}
               />
             ))
-          ) : (
+          ) : !loading ? (
             <EmptyMessages onAction={() => setShowNewConversation(true)} />
-          )}
+          ) : null}
         </div>
       </div>
 

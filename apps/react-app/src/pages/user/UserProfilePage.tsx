@@ -290,16 +290,6 @@ export const UserProfilePage: React.FC = () => {
     return num.toString();
   };
 
-  if (isLoading) {
-    return (
-      <AppLayout>
-        <div style={{ padding: spacing[4] }}>
-          <LoadingSkeleton />
-        </div>
-      </AppLayout>
-    );
-  }
-
   if (error || !profile) {
     return (
       <AppLayout>
@@ -850,15 +840,13 @@ export const UserProfilePage: React.FC = () => {
               Follow this account to see their posts
             </p>
           </div>
-        ) : contentLoading ? (
-          <ContentLoadingSkeleton />
-        ) : posts.length === 0 ? (
+        ) : posts.length === 0 && !contentLoading ? (
           <EmptyState
             icon={<span style={{ fontSize: '48px' }}>📭</span>}
             title={`No ${activeTab} yet`}
             description={`This user hasn't ${activeTab === 'posts' ? 'posted' : activeTab === 'likes' ? 'liked' : 'shared'} anything yet`}
           />
-        ) : (
+        ) : !contentLoading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
             {posts.map((post) => (
               <PostCard
@@ -869,75 +857,10 @@ export const UserProfilePage: React.FC = () => {
               />
             ))}
           </div>
-        )}
+        ) : null}
       </div>
     </AppLayout>
   );
 };
-
-const LoadingSkeleton: React.FC = () => (
-  <div>
-    <div
-      style={{
-        width: '100%',
-        height: '200px',
-        backgroundColor: colors.bg.tertiary,
-        marginBottom: spacing[4],
-      }}
-    />
-    <div style={{ padding: spacing[4] }}>
-      <div
-        style={{
-          width: '96px',
-          height: '96px',
-          borderRadius: radii.full,
-          backgroundColor: colors.bg.tertiary,
-          marginBottom: spacing[4],
-        }}
-      />
-      <div
-        style={{
-          width: '60%',
-          height: '24px',
-          backgroundColor: colors.bg.tertiary,
-          borderRadius: radii.sm,
-          marginBottom: spacing[2],
-        }}
-      />
-      <div
-        style={{
-          width: '40%',
-          height: '16px',
-          backgroundColor: colors.bg.tertiary,
-          borderRadius: radii.sm,
-        }}
-      />
-    </div>
-  </div>
-);
-
-const ContentLoadingSkeleton: React.FC = () => (
-  <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-    {Array.from({ length: 3 }).map((_, i) => (
-      <div
-        key={i}
-        style={{
-          backgroundColor: colors.bg.secondary,
-          borderRadius: radii.lg,
-          padding: spacing[4],
-        }}
-      >
-        <div
-          style={{
-            width: '100%',
-            height: '100px',
-            backgroundColor: colors.bg.tertiary,
-            borderRadius: radii.md,
-          }}
-        />
-      </div>
-    ))}
-  </div>
-);
 
 export default UserProfilePage;

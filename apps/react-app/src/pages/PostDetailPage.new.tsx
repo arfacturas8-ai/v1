@@ -688,7 +688,7 @@ export default function PostDetailPage() {
                           {submittingComment ? (
                             <>
                               <Loader2 className="w-4 h-4 " />
-                              <span>Posting...</span>
+                              <span>Post</span>
                             </>
                           ) : (
                             <>

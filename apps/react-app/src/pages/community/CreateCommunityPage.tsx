@@ -812,7 +812,7 @@ const CreateCommunityPage: React.FC = () => {
                 {creating ? (
                   <>
                     <Loader className="" size={18} />
-                    Creating...
+                    Create
                   </>
                 ) : success ? (
                   <>

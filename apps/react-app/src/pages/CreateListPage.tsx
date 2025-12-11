@@ -110,7 +110,7 @@ export default function CreateListPage() {
               transition: 'all 150ms ease-out',
             }}
           >
-            {isCreating ? 'Creating...' : 'Create'}
+            Create
           </button>
         </div>
       </header>

@@ -201,19 +201,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
           actionLabel="View All"
           onAction={() => onNavigate?.('/explore/creators')}
         >
-          {isLoading ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} style={{ display: 'flex', gap: spacing[3], padding: spacing[3] }}>
-                  <Skeleton circle width={56} height={56} />
-                  <div style={{ flex: 1 }}>
-                    <Skeleton width="60%" height={16} style={{ marginBottom: spacing[2] }} />
-                    <Skeleton width="40%" height={14} />
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
+          {!isLoading && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
               {trendingCreators.map((creator) => (
                 <UserCard
@@ -235,15 +223,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
           actionLabel="View All"
           onAction={() => onNavigate?.('/explore/collections')}
         >
-          {isLoading ? (
-            <div style={{ display: 'flex', gap: spacing[3], overflowX: 'auto' }}>
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div key={i} style={{ minWidth: '280px' }}>
-                  <Skeleton width="100%" height={200} />
-                </div>
-              ))}
-            </div>
-          ) : (
+          {!isLoading && (
             <div
               style={{
                 display: 'flex',
@@ -273,22 +253,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
           actionLabel="View All"
           onAction={() => onNavigate?.('/trending')}
         >
-          {isLoading ? (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-              {Array.from({ length: 3 }).map((_, i) => (
-                <div
-                  key={i}
-                  style={{
-                    backgroundColor: colors.bg.secondary,
-                    borderRadius: radii.lg,
-                    padding: spacing[4],
-                  }}
-                >
-                  <Skeleton width="100%" height={80} />
-                </div>
-              ))}
-            </div>
-          ) : (
+          {!isLoading && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
               {trendingPosts.map((post) => (
                 <PostCard
@@ -309,19 +274,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
           actionLabel="View All"
           onAction={() => onNavigate?.('/explore/nfts')}
         >
-          {isLoading ? (
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-                gap: spacing[3],
-              }}
-            >
-              {Array.from({ length: 4 }).map((_, i) => (
-                <Skeleton key={i} width="100%" height={200} />
-              ))}
-            </div>
-          ) : (
+          {!isLoading && (
             <div
               style={{
                 display: 'grid',

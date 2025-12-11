@@ -186,46 +186,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
   const isDetailed = variant === 'detailed';
 
   if (loading) {
-    return (
-      <div
-        style={{
-          backgroundColor: colors.bg.secondary,
-          border: `1px solid ${colors.border.default}`,
-          borderRadius: radii.xl,
-          padding: isCompact ? spacing[3] : spacing[4],
-        }}
-      >
-        <div style={{ display: 'flex', gap: spacing[3], alignItems: 'center', marginBottom: spacing[3] }}>
-          <div
-            style={{
-              width: isCompact ? '40px' : '48px',
-              height: isCompact ? '40px' : '48px',
-              borderRadius: radii.full,
-              backgroundColor: colors.bg.tertiary,
-            }}
-          />
-          <div style={{ flex: 1 }}>
-            <div
-              style={{
-                width: '50%',
-                height: '16px',
-                borderRadius: radii.sm,
-                backgroundColor: colors.bg.tertiary,
-                marginBottom: spacing[2],
-              }}
-            />
-            <div
-              style={{
-                width: '70%',
-                height: '20px',
-                borderRadius: radii.sm,
-                backgroundColor: colors.bg.tertiary,
-              }}
-            />
-          </div>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   if (error) {
