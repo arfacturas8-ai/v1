@@ -45,16 +45,16 @@ function ServersPage() {
         const filters = selectedCategory !== 'all' ? { category: selectedCategory } : {}
         const result = await serverService.searchPublicServers(searchQuery, filters)
 
-        if (result.success) {
-          setPublicServers(result.servers)
+        if (result?.success) {
+          setPublicServers(result?.servers || [])
         } else {
           setError('Failed to load servers. Please try again.')
         }
       } else {
         const result = await serverService.getServers()
 
-        if (result.success) {
-          setMyServers(result.servers)
+        if (result?.success) {
+          setMyServers(result?.servers || [])
         } else {
           setError('Failed to load servers. Please try again.')
         }
@@ -76,7 +76,7 @@ function ServersPage() {
     try {
       const result = await serverService.joinServer(serverId)
 
-      if (result.success) {
+      if (result?.success) {
         setMessage({ type: 'success', text: 'Successfully joined server!' })
         loadServers()
 
@@ -85,11 +85,11 @@ function ServersPage() {
           navigate('/chat')
         }, 1000)
       } else {
-        setMessage({ type: 'error', text: result.error || 'Failed to join server' })
+        setMessage({ type: 'error', text: result?.error || 'Failed to join server' })
       }
     } catch (error) {
       console.error('Failed to join server:', error)
-      setMessage({ type: 'error', text: 'Failed to join server' })
+      setMessage({ type: 'error', text: error?.message || 'Failed to join server' })
     }
   }
 
@@ -101,7 +101,7 @@ function ServersPage() {
   }
 
   const handleInviteJoin = (server) => {
-    setMessage({ type: 'success', text: `Joined ${server.name}!` })
+    setMessage({ type: 'success', text: `Joined ${server?.name || 'server'}!` })
     setShowInviteModal(false)
     loadServers()
   }
@@ -113,17 +113,17 @@ function ServersPage() {
       <div className="flex items-start gap-3 md:gap-4">
         {/* Server Icon */}
         <div className="flex-shrink-0">
-          {server.icon ? (
+          {server?.icon ? (
             <img
-              src={server.icon}
-              alt={server.name}
+              src={server?.icon}
+              alt={server?.name || 'Server'}
               className="w-12 h-12 md:w-16 md:h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] object-cover"
             />
           ) : (
             <div
               className="w-12 h-12 md:w-16 md:h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center text-white text-xl md:text-2xl font-bold bg-gradient-to-br from-[#58a6ff] to-[#a371f7]"
             >
-              {server.name.charAt(0).toUpperCase()}
+              {server?.name?.charAt(0)?.toUpperCase() || 'S'}
             </div>
           )}
         </div>
@@ -134,17 +134,17 @@ function ServersPage() {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="text-base md:text-lg font-bold text-white truncate">
-                  {server.name}
+                  {server?.name || 'Unnamed Server'}
                 </h3>
-                {server.isPublic ? (
+                {server?.isPublic ? (
                   <Globe className="h-4 w-4 text-[#58a6ff] flex-shrink-0" />
                 ) : (
                   <Lock className="h-4 w-4 text-[#8b949e] flex-shrink-0" />
                 )}
               </div>
-              {server.description && (
+              {server?.description && (
                 <p className="text-sm text-[#8b949e] line-clamp-2">
-                  {server.description}
+                  {server?.description}
                 </p>
               )}
             </div>
@@ -152,7 +152,7 @@ function ServersPage() {
             {!isMember && (
               <Button
                 size="sm"
-                onClick={() => handleJoinServer(server.id)}
+                onClick={() => handleJoinServer(server?.id)}
                 className="min-h-[44px] flex-shrink-0"
               >
                 Join
@@ -176,12 +176,12 @@ function ServersPage() {
           <div className="flex items-center gap-3 md:gap-4 text-sm text-[#8b949e]">
             <div className="flex items-center gap-1">
               <Users className="h-4 w-4 flex-shrink-0" />
-              <span className="text-xs md:text-sm">{server.memberCount || 0} members</span>
+              <span className="text-xs md:text-sm">{server?.memberCount || 0} members</span>
             </div>
-            {server.onlineCount !== undefined && (
+            {server?.onlineCount !== undefined && (
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 rounded-full bg-[#10b981] flex-shrink-0"></div>
-                <span className="text-xs md:text-sm">{server.onlineCount} online</span>
+                <span className="text-xs md:text-sm">{server?.onlineCount || 0} online</span>
               </div>
             )}
           </div>
@@ -238,11 +238,11 @@ function ServersPage() {
           {/* Message */}
           {message && (
             <div className={`mb-6 md:mb-8 p-3 md:p-4 rounded-lg border ${
-              message.type === 'error'
+              message?.type === 'error'
                 ? 'bg-error/10 border-error/20 text-rgb(var(--color-error-600))'
                 : 'bg-success/10 border-success/20 text-rgb(var(--color-primary-500))'
             }`}>
-              <p className="text-sm md:text-base">{message.text}</p>
+              <p className="text-sm md:text-base">{message?.text || ''}</p>
             </div>
           )}
 
@@ -312,7 +312,7 @@ function ServersPage() {
           </div>
         ) : (
           <div className="grid gap-4 md:gap-5 lg:gap-6">
-            {activeTab === 'discover' && publicServers.length === 0 && (
+            {activeTab === 'discover' && (publicServers?.length || 0) === 0 && (
               <div className="text-center py-12 md:py-16 lg:py-20">
                 <Globe className="h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 text-rgb(var(--color-neutral-300)) mx-auto mb-3 md:mb-4" />
                 <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">
@@ -324,7 +324,7 @@ function ServersPage() {
               </div>
             )}
 
-            {activeTab === 'myServers' && myServers.length === 0 && (
+            {activeTab === 'myServers' && (myServers?.length || 0) === 0 && (
               <div className="text-center py-12 md:py-16 lg:py-20">
                 <Users className="h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 text-rgb(var(--color-neutral-300)) mx-auto mb-3 md:mb-4" />
                 <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">
@@ -339,12 +339,12 @@ function ServersPage() {
               </div>
             )}
 
-            {activeTab === 'discover' && publicServers.map((server) => (
-              <ServerCard key={server.id} server={server} />
+            {activeTab === 'discover' && (publicServers || []).map((server) => (
+              <ServerCard key={server?.id || Math.random()} server={server} />
             ))}
 
-            {activeTab === 'myServers' && myServers.map((server) => (
-              <ServerCard key={server.id} server={server} isMember={true} />
+            {activeTab === 'myServers' && (myServers || []).map((server) => (
+              <ServerCard key={server?.id || Math.random()} server={server} isMember={true} />
             ))}
           </div>
         )}

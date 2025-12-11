@@ -203,7 +203,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
         >
           {!isLoading && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-              {trendingCreators.map((creator) => (
+              {trendingCreators?.map((creator) => (
                 <UserCard
                   key={creator.id}
                   {...creator}
@@ -233,7 +233,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
                 scrollbarWidth: 'none',
               }}
             >
-              {hotCollections.map((collection) => (
+              {hotCollections?.map((collection) => (
                 <div key={collection.id} style={{ minWidth: '280px' }}>
                   <CollectionCard
                     {...collection}
@@ -255,7 +255,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
         >
           {!isLoading && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-              {trendingPosts.map((post) => (
+              {trendingPosts?.map((post) => (
                 <PostCard
                   key={post.id}
                   post={post}
@@ -282,7 +282,7 @@ export const ExplorePage: React.FC<ExplorePageProps> = ({ onNavigate }) => {
                 gap: spacing[3],
               }}
             >
-              {newNFTs.map((nft) => (
+              {newNFTs?.map((nft) => (
                 <NFTCard
                   key={nft.id}
                   {...nft}

@@ -97,7 +97,7 @@ export default function MFALoginPage() {
         navigate(redirectTo, { replace: true })
       } else {
         const data = await response.json()
-        setError(data.message || 'Invalid verification code')
+        setError(data?.message || 'Invalid verification code')
         setCode(['', '', '', '', '', ''])
         inputRefs.current[0]?.focus()
       }
@@ -143,7 +143,7 @@ export default function MFALoginPage() {
         navigate(redirectTo, { replace: true })
       } else {
         const data = await response.json()
-        setError(data.message || 'Invalid backup code')
+        setError(data?.message || 'Invalid backup code')
       }
     } catch (err) {
       console.error('Backup code verification error:', err)

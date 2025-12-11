@@ -53,10 +53,10 @@ export default function FollowersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [followers, setFollowers] = useState<Follower[]>(mockFollowers);
 
-  const filteredFollowers = followers.filter(
+  const filteredFollowers = (followers || []).filter(
     (follower) =>
-      follower.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      follower.username.toLowerCase().includes(searchQuery.toLowerCase())
+      follower?.displayName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      follower?.username?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleFollow = (followerId: string) => {
@@ -127,7 +127,7 @@ export default function FollowersPage() {
               {username ? `@${username}'s followers` : 'Followers'}
             </h1>
             <p style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary, margin: 0 }}>
-              {followers.length} {followers.length === 1 ? 'follower' : 'followers'}
+              {followers?.length || 0} {(followers?.length || 0) === 1 ? 'follower' : 'followers'}
             </p>
           </div>
         </div>
@@ -178,10 +178,10 @@ export default function FollowersPage() {
 
       {/* Followers list */}
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        {filteredFollowers.length > 0 ? (
-          filteredFollowers.map((follower) => (
+        {(filteredFollowers?.length || 0) > 0 ? (
+          (filteredFollowers || []).map((follower) => (
             <div
-              key={follower.id}
+              key={follower?.id}
               style={{
                 padding: spacing[4],
                 borderBottom: `1px solid ${colors.border.default}`,
@@ -190,7 +190,7 @@ export default function FollowersPage() {
                 transition: 'background-color 150ms ease-out',
                 cursor: 'pointer',
               }}
-              onClick={() => navigate(`/user/${follower.username}`)}
+              onClick={() => navigate(`/user/${follower?.username}`)}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = colors.bg.hover;
               }}
@@ -200,8 +200,8 @@ export default function FollowersPage() {
             >
               {/* Avatar */}
               <img
-                src={follower.avatar || `https://api.dicebear.com/7.x/avataaars/png?seed=${follower.username}`}
-                alt={follower.displayName}
+                src={follower?.avatar || `https://api.dicebear.com/7.x/avataaars/png?seed=${follower?.username}`}
+                alt={follower?.displayName}
                 style={{
                   width: '48px',
                   height: '48px',
@@ -224,9 +224,9 @@ export default function FollowersPage() {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {follower.displayName}
+                    {follower?.displayName}
                   </span>
-                  {follower.isVerified && (
+                  {follower?.isVerified && (
                     <span
                       style={{
                         display: 'inline-flex',
@@ -243,9 +243,9 @@ export default function FollowersPage() {
                   )}
                 </div>
                 <div style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary, marginBottom: spacing[1] }}>
-                  @{follower.username}
+                  @{follower?.username}
                 </div>
-                {follower.bio && (
+                {follower?.bio && (
                   <p
                     style={{
                       fontSize: typography.fontSize.sm,
@@ -263,7 +263,7 @@ export default function FollowersPage() {
                   </p>
                 )}
                 <div style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary }}>
-                  {formatNumber(follower.followerCount)} followers
+                  {formatNumber(follower?.followerCount || 0)} followers
                 </div>
               </div>
 
@@ -271,14 +271,14 @@ export default function FollowersPage() {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleFollow(follower.id);
+                  handleFollow(follower?.id || '');
                 }}
                 style={{
                   padding: `${spacing[2]} ${spacing[4]}`,
                   borderRadius: '24px',
-                  border: follower.isFollowing ? `1px solid ${colors.border.default}` : 'none',
-                  backgroundColor: follower.isFollowing ? 'transparent' : colors.brand.primary,
-                  color: follower.isFollowing ? colors.text.primary : 'white',
+                  border: follower?.isFollowing ? `1px solid ${colors.border.default}` : 'none',
+                  backgroundColor: follower?.isFollowing ? 'transparent' : colors.brand.primary,
+                  color: follower?.isFollowing ? colors.text.primary : 'white',
                   fontSize: typography.fontSize.sm,
                   fontWeight: typography.fontWeight.semibold,
                   cursor: 'pointer',
@@ -287,7 +287,7 @@ export default function FollowersPage() {
                   height: 'fit-content',
                 }}
                 onMouseEnter={(e) => {
-                  if (follower.isFollowing) {
+                  if (follower?.isFollowing) {
                     e.currentTarget.style.backgroundColor = colors.semantic.error + '20';
                     e.currentTarget.style.borderColor = colors.semantic.error;
                     e.currentTarget.style.color = colors.semantic.error;
@@ -295,7 +295,7 @@ export default function FollowersPage() {
                   }
                 }}
                 onMouseLeave={(e) => {
-                  if (follower.isFollowing) {
+                  if (follower?.isFollowing) {
                     e.currentTarget.style.backgroundColor = 'transparent';
                     e.currentTarget.style.borderColor = colors.border.default;
                     e.currentTarget.style.color = colors.text.primary;
@@ -303,7 +303,7 @@ export default function FollowersPage() {
                   }
                 }}
               >
-                {follower.isFollowing ? 'Following' : 'Follow'}
+                {follower?.isFollowing ? 'Following' : 'Follow'}
               </button>
             </div>
           ))

@@ -45,51 +45,51 @@ const BotManagementPage = () => {
     setError(null)
     try {
       const response = await botService.getBots()
-      if (response.success) {
-        setBots(response.data.items || [])
+      if (response?.success) {
+        setBots(response?.data?.items || [])
       } else {
         setError('Failed to load bots. Please try again.')
       }
     } catch (err) {
       console.error('Failed to load bots:', err)
-      setError('Failed to load bots. Please try again.')
+      setError(err?.message || 'Failed to load bots. Please try again.')
     } finally {
       setLoading(false)
     }
   }
 
   const updateStats = () => {
-    const totalBots = bots.length
-    const activeBots = bots.filter(bot => bot.enabled).length
-    const commandsToday = bots.reduce((sum, bot) => sum + (bot.commandsToday || 0), 0)
+    const totalBots = bots?.length || 0
+    const activeBots = (bots || []).filter(bot => bot?.enabled).length
+    const commandsToday = (bots || []).reduce((sum, bot) => sum + (bot?.commandsToday || 0), 0)
 
     setStats({ totalBots, activeBots, commandsToday })
   }
 
   const handleCreateBot = async () => {
-    if (!newBotData.name.trim()) {
+    if (!newBotData?.name?.trim()) {
       showMessage('Please enter a bot name', 'error')
       return
     }
 
-    if (newBotData.permissions.length === 0) {
+    if ((newBotData?.permissions?.length || 0) === 0) {
       showMessage('Please select at least one permission', 'error')
       return
     }
 
     try {
       const response = await botService.createBot(newBotData)
-      if (response.success) {
+      if (response?.success) {
         showMessage('Bot created successfully!', 'success')
         setNewBotData({ name: '', description: '', type: 'custom', prefix: '!', permissions: [], avatarUrl: '' })
         setShowCreateModal(false)
         loadBots()
       } else {
-        showMessage(response.error || 'Failed to create bot', 'error')
+        showMessage(response?.error || 'Failed to create bot', 'error')
       }
     } catch (error) {
       console.error('Bot creation error:', error)
-      showMessage(error.message || 'Failed to create bot', 'error')
+      showMessage(error?.message || 'Failed to create bot', 'error')
     }
   }
 
@@ -100,15 +100,15 @@ const BotManagementPage = () => {
 
     try {
       const response = await botService.deleteBot(botId)
-      if (response.success) {
+      if (response?.success) {
         showMessage('Bot deleted successfully', 'success')
         loadBots()
       } else {
-        showMessage(response.error || 'Failed to delete bot', 'error')
+        showMessage(response?.error || 'Failed to delete bot', 'error')
       }
     } catch (error) {
       console.error('Bot deletion error:', error)
-      showMessage(error.message || 'Failed to delete bot', 'error')
+      showMessage(error?.message || 'Failed to delete bot', 'error')
     }
   }
 
@@ -119,30 +119,30 @@ const BotManagementPage = () => {
 
     try {
       const response = await botService.regenerateToken(botId)
-      if (response.success) {
+      if (response?.success) {
         showMessage('Token regenerated successfully', 'success')
         loadBots()
       } else {
-        showMessage(response.error || 'Failed to regenerate token', 'error')
+        showMessage(response?.error || 'Failed to regenerate token', 'error')
       }
     } catch (error) {
       console.error('Token regeneration error:', error)
-      showMessage(error.message || 'Failed to regenerate token', 'error')
+      showMessage(error?.message || 'Failed to regenerate token', 'error')
     }
   }
 
   const handleToggleBot = async (botId, currentStatus) => {
     try {
       const response = await botService.toggleBot(botId, !currentStatus)
-      if (response.success) {
+      if (response?.success) {
         showMessage(`Bot ${!currentStatus ? 'enabled' : 'disabled'} successfully`, 'success')
         loadBots()
       } else {
-        showMessage(response.error || 'Failed to toggle bot status', 'error')
+        showMessage(response?.error || 'Failed to toggle bot status', 'error')
       }
     } catch (error) {
       console.error('Bot toggle error:', error)
-      showMessage(error.message || 'Failed to toggle bot status', 'error')
+      showMessage(error?.message || 'Failed to toggle bot status', 'error')
     }
   }
 
@@ -150,11 +150,11 @@ const BotManagementPage = () => {
     setSelectedBot(bot)
     setShowActivityModal(true)
     try {
-      const response = await botService.getActivityLogs(bot.id)
-      if (response.success) {
-        setActivityLogs(response.data || [])
+      const response = await botService.getActivityLogs(bot?.id)
+      if (response?.success) {
+        setActivityLogs(response?.data || [])
       } else {
-        console.error('Failed to load activity logs:', response.error)
+        console.error('Failed to load activity logs:', response?.error)
         setActivityLogs([])
       }
     } catch (error) {
@@ -169,7 +169,7 @@ const BotManagementPage = () => {
       showMessage('Copied to clipboard!', 'success')
     } catch (error) {
       console.error('Clipboard error:', error)
-      showMessage(error.message || 'Failed to copy', 'error')
+      showMessage(error?.message || 'Failed to copy', 'error')
     }
   }
 
@@ -209,12 +209,12 @@ const BotManagementPage = () => {
     })
   }
 
-  const filteredBots = bots.filter(bot => {
-    const matchesSearch = bot.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         bot.description?.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredBots = (bots || []).filter(bot => {
+    const matchesSearch = bot?.name?.toLowerCase()?.includes(searchQuery?.toLowerCase()) ||
+                         bot?.description?.toLowerCase()?.includes(searchQuery?.toLowerCase())
     const matchesFilter = filterStatus === 'all' ||
-                         (filterStatus === 'active' && bot.enabled) ||
-                         (filterStatus === 'inactive' && !bot.enabled)
+                         (filterStatus === 'active' && bot?.enabled) ||
+                         (filterStatus === 'inactive' && !bot?.enabled)
     return matchesSearch && matchesFilter
   })
 
@@ -239,11 +239,11 @@ const BotManagementPage = () => {
       {/* Message Toast */}
       {message && (
         <div className={`fixed top-6 right-6 px-6 py-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium z-[1000] animate-slide-in ${
-          message.type === 'success'
+          message?.type === 'success'
             ? 'bg-emerald-500/20 border border-emerald-500 text-emerald-400'
             : 'bg-red-500/20 border border-red-500 text-red-400'
         }`}>
-          {message.text}
+          {message?.text || ''}
         </div>
       )}
 
@@ -321,7 +321,7 @@ const BotManagementPage = () => {
         <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">Error Loading Bots</h3>
-          <p className="text-[#666666] mb-6">{error}</p>
+          <p className="text-[#666666] mb-6">{error || 'An error occurred'}</p>
           <button
             className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={loadBots}
@@ -333,7 +333,7 @@ const BotManagementPage = () => {
       )}
 
       {/* Empty State */}
-      {!loading && !error && filteredBots.length === 0 && searchQuery === '' && (
+      {!loading && !error && (filteredBots?.length || 0) === 0 && searchQuery === '' && (
         <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">No Bots Yet</h3>
@@ -350,7 +350,7 @@ const BotManagementPage = () => {
       )}
 
       {/* No Results */}
-      {!loading && !error && filteredBots.length === 0 && searchQuery !== '' && (
+      {!loading && !error && (filteredBots?.length || 0) === 0 && searchQuery !== '' && (
         <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Search size={48} className="mx-auto mb-4 text-[#58a6ff]" />
           <h3 className="text-xl text-white mb-2">No Results Found</h3>
@@ -359,52 +359,52 @@ const BotManagementPage = () => {
       )}
 
       {/* Bots Grid */}
-      {!loading && !error && filteredBots.length > 0 && (
+      {!loading && !error && (filteredBots?.length || 0) > 0 && (
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {filteredBots.map((bot) => (
-            <div key={bot.id} className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-black/30 transition-all">
+          {(filteredBots || []).map((bot) => (
+            <div key={bot?.id || Math.random()} className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg hover:shadow-black/30 transition-all">
               {/* Bot Header */}
               <div className="flex items-start gap-4 pb-4 mb-4 border-b border-white/10">
                 <div className="w-16 h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white flex-shrink-0">
-                  {bot.avatarUrl ? (
-                    <img src={bot.avatarUrl} alt={bot.name} className="w-full h-full object-cover rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]" />
+                  {bot?.avatarUrl ? (
+                    <img src={bot?.avatarUrl} alt={bot?.name || 'Bot'} className="w-full h-full object-cover rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]" />
                   ) : (
                     <Bot size={32} />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-semibold text-white truncate mb-2">{bot.name}</h3>
+                  <h3 className="text-lg font-semibold text-white truncate mb-2">{bot?.name || 'Unnamed Bot'}</h3>
                   <div className="inline-block px-3 py-1 bg-[#58a6ff]/20 text-[#58a6ff] rounded-md text-xs font-semibold">
-                    {bot.type || 'Custom Bot'}
+                    {bot?.type || 'Custom Bot'}
                   </div>
                 </div>
                 <button
                   className={`w-12 h-7 rounded-full relative transition-all flex-shrink-0 ${
-                    bot.enabled ? 'bg-gradient-to-r from-emerald-500 to-cyan-500' : 'bg-[#1A1A1A]'
+                    bot?.enabled ? 'bg-gradient-to-r from-emerald-500 to-cyan-500' : 'bg-[#1A1A1A]'
                   }`}
-                  onClick={() => handleToggleBot(bot.id, bot.enabled)}
-                  aria-label={bot.enabled ? 'Disable bot' : 'Enable bot'}
+                  onClick={() => handleToggleBot(bot?.id, bot?.enabled)}
+                  aria-label={bot?.enabled ? 'Disable bot' : 'Enable bot'}
                 >
                   <div className={`w-[22px] h-[22px] bg-[#141414]/95 rounded-full absolute top-0.5 transition-all shadow-sm ${
-                    bot.enabled ? 'left-[22px]' : 'left-0.5'
+                    bot?.enabled ? 'left-[22px]' : 'left-0.5'
                   }`}></div>
                 </button>
               </div>
 
               {/* Bot Description */}
-              {bot.description && (
-                <p className="text-sm text-[#666666] leading-relaxed mb-4">{bot.description}</p>
+              {bot?.description && (
+                <p className="text-sm text-[#666666] leading-relaxed mb-4">{bot?.description}</p>
               )}
 
               {/* Bot Stats */}
               <div className="flex gap-6 mb-4">
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-[#666666]">
                   <Activity size={16} className="text-[#58a6ff] flex-shrink-0" />
-                  <span>{bot.commandsToday || 0} commands today</span>
+                  <span>{bot?.commandsToday || 0} commands today</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-[#666666]">
                   <Zap size={16} className="text-[#58a6ff] flex-shrink-0" />
-                  <span>Prefix: {bot.prefix || '!'}</span>
+                  <span>Prefix: {bot?.prefix || '!'}</span>
                 </div>
               </div>
 
@@ -413,19 +413,19 @@ const BotManagementPage = () => {
                 <label className="block text-xs sm:text-sm font-semibold text-[#666666] uppercase tracking-wider mb-2">API Token</label>
                 <div className="bg-[#0D0D0D] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-3 flex justify-between items-center gap-3">
                   <code className="font-mono text-xs sm:text-sm text-emerald-400 flex-1 overflow-hidden text-ellipsis">
-                    {visibleTokens[bot.id] ? bot.token : maskToken(bot.token)}
+                    {visibleTokens?.[bot?.id] ? bot?.token : maskToken(bot?.token)}
                   </code>
                   <div className="flex gap-2">
                     <button
                       className="p-1.5 rounded-md hover:bg-[#1A1A1A] text-[#666666] hover:text-white transition-all"
-                      onClick={() => toggleTokenVisibility(bot.id)}
-                      aria-label={visibleTokens[bot.id] ? 'Hide token' : 'Show token'}
+                      onClick={() => toggleTokenVisibility(bot?.id)}
+                      aria-label={visibleTokens?.[bot?.id] ? 'Hide token' : 'Show token'}
                     >
-                      {visibleTokens[bot.id] ? <EyeOff size={16} /> : <Eye size={16} />}
+                      {visibleTokens?.[bot?.id] ? <EyeOff size={16} /> : <Eye size={16} />}
                     </button>
                     <button
                       className="p-1.5 rounded-md hover:bg-[#1A1A1A] text-[#666666] hover:text-white transition-all"
-                      onClick={() => copyToClipboard(bot.token)}
+                      onClick={() => copyToClipboard(bot?.token)}
                       aria-label="Copy token"
                     >
                       <Copy size={16} />
@@ -438,16 +438,16 @@ const BotManagementPage = () => {
               <div className="mb-4">
                 <label className="block text-xs sm:text-sm font-semibold text-[#666666] uppercase tracking-wider mb-2">Permissions</label>
                 <div className="flex flex-wrap gap-2">
-                  {bot.permissions && bot.permissions.length > 0 ? (
+                  {bot?.permissions && (bot?.permissions?.length || 0) > 0 ? (
                     <>
-                      {bot.permissions.slice(0, 3).map((perm, idx) => (
+                      {(bot?.permissions || []).slice(0, 3).map((perm, idx) => (
                         <span key={idx} className="bg-[#58a6ff]/20 text-[#58a6ff] px-3 py-1.5 rounded-lg text-xs font-medium">
                           {perm}
                         </span>
                       ))}
-                      {bot.permissions.length > 3 && (
+                      {(bot?.permissions?.length || 0) > 3 && (
                         <span className="bg-[#58a6ff]/20 text-[#58a6ff] px-3 py-1.5 rounded-lg text-xs font-medium">
-                          +{bot.permissions.length - 3} more
+                          +{(bot?.permissions?.length || 0) - 3} more
                         </span>
                       )}
                     </>
@@ -462,23 +462,23 @@ const BotManagementPage = () => {
                 <button
                   className="flex-1 bg-[#141414] text-[#A0A0A0] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#1A1A1A] hover:border-[#58a6ff] transition-all"
                   onClick={() => viewActivityLogs(bot)}
-                  aria-label={`View activity logs for ${bot.name}`}
+                  aria-label={`View activity logs for ${bot?.name || 'bot'}`}
                 >
                   <Activity size={16} aria-hidden="true" />
                   Activity
                 </button>
                 <button
                   className="flex-1 bg-[#141414] text-[#A0A0A0] border border-white/10 px-3 py-2.5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-[#1A1A1A] hover:border-[#58a6ff] transition-all"
-                  onClick={() => handleRegenerateToken(bot.id, bot.name)}
-                  aria-label={`Regenerate token for ${bot.name}`}
+                  onClick={() => handleRegenerateToken(bot?.id, bot?.name)}
+                  aria-label={`Regenerate token for ${bot?.name || 'bot'}`}
                 >
                   <RefreshCw size={16} aria-hidden="true" />
                   Regenerate
                 </button>
                 <button
                   className="p-2.5 bg-red-500/10 border border-red-500/30 text-red-400 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-red-500/20 hover:border-red-500/50 transition-all"
-                  onClick={() => handleDeleteBot(bot.id, bot.name)}
-                  aria-label={`Delete ${bot.name}`}
+                  onClick={() => handleDeleteBot(bot?.id, bot?.name)}
+                  aria-label={`Delete ${bot?.name || 'bot'}`}
                 >
                   <Trash2 size={16} aria-hidden="true" />
                 </button>
@@ -608,7 +608,7 @@ const BotManagementPage = () => {
         <div className="fixed inset-0 bg-[#0D0D0D]/90 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowActivityModal(false)}>
           <div className="bg-[#141414]/95 backdrop-blur-sm border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl animate-slide-up" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-5 border-b border-white/10 flex justify-between items-center">
-              <h2 className="text-xl font-semibold text-white">Activity Logs - {selectedBot?.name}</h2>
+              <h2 className="text-xl font-semibold text-white">Activity Logs - {selectedBot?.name || 'Bot'}</h2>
               <button
                 className="text-[#666666] hover:bg-[#1A1A1A] hover:text-white w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
                 onClick={() => setShowActivityModal(false)}
@@ -620,7 +620,7 @@ const BotManagementPage = () => {
 
             <div className="p-6">
               <div className="overflow-x-auto">
-                {activityLogs.length > 0 ? (
+                {(activityLogs?.length || 0) > 0 ? (
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b border-white/10">
@@ -631,18 +631,18 @@ const BotManagementPage = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {activityLogs.map((log, idx) => (
+                      {(activityLogs || []).map((log, idx) => (
                         <tr key={idx} className="border-b border-white/10 hover:bg-[#0D0D0D] transition-colors">
-                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{formatDate(log.timestamp)}</td>
-                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{log.event || 'Activity'}</td>
-                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{log.message}</td>
+                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{formatDate(log?.timestamp)}</td>
+                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{log?.event || 'Activity'}</td>
+                          <td className="px-3 py-4 text-[#A0A0A0] text-sm">{log?.message || ''}</td>
                           <td className="px-3 py-4">
                             <span className={`px-2.5 py-1 rounded-md text-xs font-semibold uppercase ${
-                              log.status === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
-                              log.status === 'error' ? 'bg-red-500/20 text-red-400' :
+                              log?.status === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
+                              log?.status === 'error' ? 'bg-red-500/20 text-red-400' :
                               'bg-[#58a6ff]/20 text-[#58a6ff]'
                             }`}>
-                              {log.status || 'info'}
+                              {log?.status || 'info'}
                             </span>
                           </td>
                         </tr>

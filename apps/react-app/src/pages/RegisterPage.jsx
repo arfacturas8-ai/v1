@@ -84,7 +84,7 @@ export default function RegisterPage() {
         setError(result.error || 'Registration failed. Please try again.');
       }
     } catch (err) {
-      setError(err.message || 'Registration failed. Please try again.');
+      setError(err?.message || 'Registration failed. Please try again.');
     } finally {
       setLoading(false);
     }

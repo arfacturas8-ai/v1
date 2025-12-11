@@ -158,7 +158,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
   };
 
   const tabs = [
-    { id: 'posts', label: 'Posts', badge: profile.stats.posts },
+    { id: 'posts', label: 'Posts', badge: profile?.stats?.posts },
     { id: 'nfts', label: 'NFTs' },
     { id: 'collections', label: 'Collections' },
     { id: 'activity', label: 'Activity' },
@@ -176,7 +176,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
       <div
         style={{
           height: '200px',
-          backgroundImage: `url(${profile.banner})`,
+          backgroundImage: `url(${profile?.banner})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           position: 'relative',
@@ -204,10 +204,10 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
           }}
         >
           <Avatar
-            src={profile.avatar}
-            alt={profile.displayName}
+            src={profile?.avatar}
+            alt={profile?.displayName}
             size="xl"
-            fallback={profile.displayName[0]}
+            fallback={profile?.displayName?.[0]}
             style={{
               border: `4px solid ${colors.bg.primary}`,
               boxShadow: shadows.lg,
@@ -244,17 +244,17 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
         <div style={{ marginBottom: spacing[2] }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2], marginBottom: spacing[1] }}>
             <Text size="2xl" weight="bold">
-              {profile.displayName}
+              {profile?.displayName}
             </Text>
-            {profile.isVerified && <Badge variant="success" size="md">✓ Verified</Badge>}
+            {profile?.isVerified && <Badge variant="success" size="md">✓ Verified</Badge>}
           </div>
           <Text variant="secondary" size="base">
-            @{profile.username}
+            @{profile?.username}
           </Text>
         </div>
 
         {/* Bio */}
-        {profile.bio && (
+        {profile?.bio && (
           <Text
             size="base"
             style={{
@@ -275,7 +275,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
             marginBottom: spacing[4],
           }}
         >
-          {profile.location && (
+          {profile?.location && (
             <div style={{ display: 'flex', alignItems: 'center', gap: spacing[1] }}>
               <MapPin size={16} color={colors.text.tertiary} />
               <Text variant="secondary" size="sm">
@@ -283,7 +283,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
               </Text>
             </div>
           )}
-          {profile.website && (
+          {profile?.website && (
             <div style={{ display: 'flex', alignItems: 'center', gap: spacing[1] }}>
               <LinkIcon size={16} color={colors.text.tertiary} />
               <a
@@ -303,7 +303,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
           <div style={{ display: 'flex', alignItems: 'center', gap: spacing[1] }}>
             <Calendar size={16} color={colors.text.tertiary} />
             <Text variant="secondary" size="sm">
-              Joined {profile.joinDate}
+              Joined {profile?.joinDate}
             </Text>
           </div>
         </div>
@@ -317,7 +317,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
           }}
         >
           <button
-            onClick={() => onNavigate?.(`/user/${profile.username}/posts`)}
+            onClick={() => onNavigate?.(`/user/${profile?.username}/posts`)}
             style={{
               background: 'none',
               border: 'none',
@@ -327,13 +327,13 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
           >
             <Text size="base">
               <span style={{ fontWeight: typography.fontWeight.bold }}>
-                {formatNumber(profile.stats.posts)}
+                {formatNumber(profile?.stats?.posts || 0)}
               </span>
               <span style={{ color: colors.text.secondary, marginLeft: spacing[1] }}>Posts</span>
             </Text>
           </button>
           <button
-            onClick={() => onNavigate?.(`/user/${profile.username}/followers`)}
+            onClick={() => onNavigate?.(`/user/${profile?.username}/followers`)}
             style={{
               background: 'none',
               border: 'none',
@@ -343,13 +343,13 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
           >
             <Text size="base">
               <span style={{ fontWeight: typography.fontWeight.bold }}>
-                {formatNumber(profile.stats.followers)}
+                {formatNumber(profile?.stats?.followers || 0)}
               </span>
               <span style={{ color: colors.text.secondary, marginLeft: spacing[1] }}>Followers</span>
             </Text>
           </button>
           <button
-            onClick={() => onNavigate?.(`/user/${profile.username}/following`)}
+            onClick={() => onNavigate?.(`/user/${profile?.username}/following`)}
             style={{
               background: 'none',
               border: 'none',
@@ -359,7 +359,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
           >
             <Text size="base">
               <span style={{ fontWeight: typography.fontWeight.bold }}>
-                {formatNumber(profile.stats.following)}
+                {formatNumber(profile?.stats?.following || 0)}
               </span>
               <span style={{ color: colors.text.secondary, marginLeft: spacing[1] }}>Following</span>
             </Text>
@@ -373,7 +373,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
       {/* Tab Content */}
       <div style={{ padding: spacing[4] }}>
         {activeTab === 'posts' && !isLoading ? (
-          posts.length === 0 ? (
+          (posts?.length || 0) === 0 ? (
             <EmptyState
               icon={<span style={{ fontSize: '48px' }}>📝</span>}
               title="No posts yet"
@@ -389,18 +389,18 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
             />
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-              {posts.map((post) => (
+              {(posts || []).map((post) => (
                 <PostCard
-                  key={post.id}
+                  key={post?.id}
                   post={post}
-                  onPostClick={() => onNavigate?.(`/post/${post.id}`)}
-                  onUserClick={() => onNavigate?.(`/user/${post.author.username}`)}
+                  onPostClick={() => onNavigate?.(`/post/${post?.id}`)}
+                  onUserClick={() => onNavigate?.(`/user/${post?.author?.username}`)}
                 />
               ))}
             </div>
           )
         ) : activeTab === 'nfts' && !isLoading ? (
-          nfts.length === 0 ? (
+          (nfts?.length || 0) === 0 ? (
             <EmptyState
               icon={<span style={{ fontSize: '48px' }}>🖼️</span>}
               title="No NFTs yet"
@@ -422,18 +422,18 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
                 gap: spacing[3],
               }}
             >
-              {nfts.map((nft) => (
+              {(nfts || []).map((nft) => (
                 <NFTCard
-                  key={nft.id}
+                  key={nft?.id}
                   {...nft}
                   variant="compact"
-                  onClick={() => onNavigate?.(`/nft/${nft.id}`)}
+                  onClick={() => onNavigate?.(`/nft/${nft?.id}`)}
                 />
               ))}
             </div>
           )
         ) : activeTab === 'collections' && !isLoading ? (
-          collections.length === 0 ? (
+          (collections?.length || 0) === 0 ? (
             <EmptyState
               icon={<span style={{ fontSize: '48px' }}>📁</span>}
               title="No collections yet"
@@ -449,11 +449,11 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
             />
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-              {collections.map((collection) => (
+              {(collections || []).map((collection) => (
                 <CollectionCard
-                  key={collection.id}
+                  key={collection?.id}
                   {...collection}
-                  onClick={() => onNavigate?.(`/collection/${collection.id}`)}
+                  onClick={() => onNavigate?.(`/collection/${collection?.id}`)}
                 />
               ))}
             </div>
@@ -461,8 +461,8 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ onNavigate, username }
         ) : !isLoading ? (
           // Activity
           <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[2] }}>
-            {activities.map((activity) => (
-              <ActivityItem key={activity.id} activity={activity} />
+            {(activities || []).map((activity) => (
+              <ActivityItem key={activity?.id} activity={activity} />
             ))}
           </div>
         ) : null}
@@ -502,23 +502,23 @@ const ActivityItem: React.FC<{ activity: any }> = ({ activity }) => {
           fontSize: typography.fontSize.xl,
         }}
       >
-        {activity.type === 'post'
+        {activity?.type === 'post'
           ? '📝'
-          : activity.type === 'like'
+          : activity?.type === 'like'
           ? '❤️'
-          : activity.type === 'repost'
+          : activity?.type === 'repost'
           ? '🔁'
-          : activity.type === 'nft_mint'
+          : activity?.type === 'nft_mint'
           ? '🎨'
-          : activity.type === 'nft_sale'
+          : activity?.type === 'nft_sale'
           ? '💰'
           : '👤'}
       </div>
       <div style={{ flex: 1 }}>
-        <Text size="sm">{activity.description}</Text>
+        <Text size="sm">{activity?.description}</Text>
       </div>
       <Text size="xs" variant="tertiary">
-        {formatTime(activity.timestamp)}
+        {formatTime(activity?.timestamp)}
       </Text>
     </div>
   );

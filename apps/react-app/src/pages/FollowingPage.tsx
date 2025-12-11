@@ -49,10 +49,10 @@ export default function FollowingPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [following, setFollowing] = useState<Following[]>(mockFollowing);
 
-  const filteredFollowing = following.filter(
+  const filteredFollowing = (following || []).filter(
     (user) =>
-      user.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.username.toLowerCase().includes(searchQuery.toLowerCase())
+      user?.displayName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user?.username?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleUnfollow = (userId: string) => {
@@ -121,7 +121,7 @@ export default function FollowingPage() {
               {username ? `@${username}'s following` : 'Following'}
             </h1>
             <p style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary, margin: 0 }}>
-              {following.length} following
+              {following?.length || 0} following
             </p>
           </div>
         </div>
@@ -172,10 +172,10 @@ export default function FollowingPage() {
 
       {/* Following list */}
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        {filteredFollowing.length > 0 ? (
-          filteredFollowing.map((user) => (
+        {(filteredFollowing?.length || 0) > 0 ? (
+          (filteredFollowing || []).map((user) => (
             <div
-              key={user.id}
+              key={user?.id}
               style={{
                 padding: spacing[4],
                 borderBottom: `1px solid ${colors.border.default}`,
@@ -184,7 +184,7 @@ export default function FollowingPage() {
                 transition: 'background-color 150ms ease-out',
                 cursor: 'pointer',
               }}
-              onClick={() => navigate(`/user/${user.username}`)}
+              onClick={() => navigate(`/user/${user?.username}`)}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = colors.bg.hover;
               }}
@@ -194,8 +194,8 @@ export default function FollowingPage() {
             >
               {/* Avatar */}
               <img
-                src={user.avatar || `https://api.dicebear.com/7.x/avataaars/png?seed=${user.username}`}
-                alt={user.displayName}
+                src={user?.avatar || `https://api.dicebear.com/7.x/avataaars/png?seed=${user?.username}`}
+                alt={user?.displayName}
                 style={{
                   width: '48px',
                   height: '48px',
@@ -218,9 +218,9 @@ export default function FollowingPage() {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    {user.displayName}
+                    {user?.displayName}
                   </span>
-                  {user.isVerified && (
+                  {user?.isVerified && (
                     <span
                       style={{
                         display: 'inline-flex',
@@ -237,9 +237,9 @@ export default function FollowingPage() {
                   )}
                 </div>
                 <div style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary, marginBottom: spacing[1] }}>
-                  @{user.username}
+                  @{user?.username}
                 </div>
-                {user.bio && (
+                {user?.bio && (
                   <p
                     style={{
                       fontSize: typography.fontSize.sm,
@@ -257,7 +257,7 @@ export default function FollowingPage() {
                   </p>
                 )}
                 <div style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary }}>
-                  {formatNumber(user.followerCount)} followers
+                  {formatNumber(user?.followerCount || 0)} followers
                 </div>
               </div>
 
@@ -265,7 +265,7 @@ export default function FollowingPage() {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleUnfollow(user.id);
+                  handleUnfollow(user?.id || '');
                 }}
                 style={{
                   padding: `${spacing[2]} ${spacing[4]}`,

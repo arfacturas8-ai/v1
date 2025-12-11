@@ -127,11 +127,11 @@ function SearchPage() {
       // Update results
       setResults(prev => ({
         ...prev,
-        communities: prev.communities.map(community => 
-          community.name === communityName 
-            ? { ...community, isJoined: true, memberCount: community.memberCount + 1 }
+        communities: prev?.communities?.map(community =>
+          community?.name === communityName
+            ? { ...community, isJoined: true, memberCount: (community?.memberCount || 0) + 1 }
             : community
-        )
+        ) || []
       }))
     } catch (error) {
       console.error('Failed to join community:', error)
@@ -145,11 +145,11 @@ function SearchPage() {
       // Update results
       setResults(prev => ({
         ...prev,
-        communities: prev.communities.map(community => 
-          community.name === communityName 
-            ? { ...community, isJoined: false, memberCount: community.memberCount - 1 }
+        communities: prev?.communities?.map(community =>
+          community?.name === communityName
+            ? { ...community, isJoined: false, memberCount: Math.max(0, (community?.memberCount || 0) - 1) }
             : community
-        )
+        ) || []
       }))
     } catch (error) {
       console.error('Failed to leave community:', error)
@@ -163,11 +163,11 @@ function SearchPage() {
       // Update results
       setResults(prev => ({
         ...prev,
-        posts: prev.posts.map(post =>
-          post.id === postId
-            ? { ...post, userVote: newVote, score: post.score + (newVote === 'upvote' ? 1 : -1) }
+        posts: prev?.posts?.map(post =>
+          post?.id === postId
+            ? { ...post, userVote: newVote, score: (post?.score || 0) + (newVote === 'upvote' ? 1 : -1) }
             : post
-        )
+        ) || []
       }))
     } catch (error) {
       console.error('Vote failed:', error)
@@ -179,16 +179,16 @@ function SearchPage() {
 
   const handlePostShare = useCallback(async (postId) => {
     try {
-      const post = results.posts.find(p => p.id === postId)
+      const post = results?.posts?.find(p => p?.id === postId)
       if (!post) return
 
-      const shareUrl = `${window.location.origin}/c/${post.community}/posts/${postId}`
+      const shareUrl = `${window.location.origin}/c/${post?.community}/posts/${postId}`
 
       // Try to use Web Share API if available
       if (navigator.share) {
         await navigator.share({
-          title: post.title,
-          text: post.content ? `${post.title}\n\n${post.content.substring(0, 100)}...` : post.title,
+          title: post?.title || 'Post',
+          text: post?.content ? `${post?.title}\n\n${post?.content.substring(0, 100)}...` : post?.title,
           url: shareUrl
         })
         showSuccess('Post shared successfully')
@@ -204,23 +204,23 @@ function SearchPage() {
         showError('Failed to share post')
       }
     }
-  }, [results.posts, showSuccess, showError])
+  }, [results?.posts, showSuccess, showError])
 
   const handlePostSave = useCallback(async (postId) => {
     try {
-      const post = results.posts.find(p => p.id === postId)
+      const post = results?.posts?.find(p => p?.id === postId)
       if (!post) return
 
-      const newSavedStatus = !post.isSaved
+      const newSavedStatus = !post?.isSaved
 
       // Optimistic update
       setResults(prev => ({
         ...prev,
-        posts: prev.posts.map(p =>
-          p.id === postId
+        posts: prev?.posts?.map(p =>
+          p?.id === postId
             ? { ...p, isSaved: newSavedStatus }
             : p
-        )
+        ) || []
       }))
 
       await postsService.savePost(postId, newSavedStatus)
@@ -231,19 +231,19 @@ function SearchPage() {
       // Revert optimistic update on error
       setResults(prev => ({
         ...prev,
-        posts: prev.posts.map(p =>
-          p.id === postId
-            ? { ...p, isSaved: !p.isSaved }
+        posts: prev?.posts?.map(p =>
+          p?.id === postId
+            ? { ...p, isSaved: !p?.isSaved }
             : p
-        )
+        ) || []
       }))
 
       showError('Failed to save post')
     }
-  }, [results.posts, showSuccess, showError])
+  }, [results?.posts, showSuccess, showError])
 
   const handlePostReport = useCallback((postId) => {
-    const post = results.posts.find(p => p.id === postId)
+    const post = results?.posts?.find(p => p?.id === postId)
     if (!post) return
 
     setReportModal({
@@ -251,12 +251,12 @@ function SearchPage() {
       contentType: 'post',
       contentId: postId,
       contentData: {
-        author: post.author,
-        text: post.title + (post.content ? `\n\n${post.content}` : ''),
-        image: post.imageUrl || post.media?.url
+        author: post?.author,
+        text: (post?.title || '') + (post?.content ? `\n\n${post?.content}` : ''),
+        image: post?.imageUrl || post?.media?.url
       }
     })
-  }, [results.posts])
+  }, [results?.posts])
 
   const handleReportSubmit = useCallback(async (reportData) => {
     try {
@@ -274,14 +274,14 @@ function SearchPage() {
   }, [showSuccess, showError])
 
   const handlePostAward = useCallback((postId) => {
-    const post = results.posts.find(p => p.id === postId)
+    const post = results?.posts?.find(p => p?.id === postId)
     if (!post) return
 
     setAwardModal({
       isOpen: true,
       post: post
     })
-  }, [results.posts])
+  }, [results?.posts])
 
   const handleAwardSubmit = useCallback(async (postId, awardId) => {
     try {
@@ -294,11 +294,11 @@ function SearchPage() {
       // Update post awards count if needed
       setResults(prev => ({
         ...prev,
-        posts: prev.posts.map(p =>
-          p.id === postId
-            ? { ...p, awardCount: (p.awardCount || 0) + 1 }
+        posts: prev?.posts?.map(p =>
+          p?.id === postId
+            ? { ...p, awardCount: (p?.awardCount || 0) + 1 }
             : p
-        )
+        ) || []
       }))
     } catch (error) {
       console.error('Award submission failed:', error)
@@ -313,11 +313,11 @@ function SearchPage() {
       // Optimistic update
       setResults(prev => ({
         ...prev,
-        users: prev.users.map(u =>
-          u.username === username
-            ? { ...u, isFollowing: true, followerCount: (u.followerCount || 0) + 1 }
+        users: prev?.users?.map(u =>
+          u?.username === username
+            ? { ...u, isFollowing: true, followerCount: (u?.followerCount || 0) + 1 }
             : u
-        )
+        ) || []
       }))
 
       await userService.followUser(username)
@@ -328,11 +328,11 @@ function SearchPage() {
       // Revert optimistic update on error
       setResults(prev => ({
         ...prev,
-        users: prev.users.map(u =>
-          u.username === username
-            ? { ...u, isFollowing: false, followerCount: Math.max(0, (u.followerCount || 0) - 1) }
+        users: prev?.users?.map(u =>
+          u?.username === username
+            ? { ...u, isFollowing: false, followerCount: Math.max(0, (u?.followerCount || 0) - 1) }
             : u
-        )
+        ) || []
       }))
 
       showError('Failed to follow user')
@@ -344,11 +344,11 @@ function SearchPage() {
       // Optimistic update
       setResults(prev => ({
         ...prev,
-        users: prev.users.map(u =>
-          u.username === username
-            ? { ...u, isFollowing: false, followerCount: Math.max(0, (u.followerCount || 0) - 1) }
+        users: prev?.users?.map(u =>
+          u?.username === username
+            ? { ...u, isFollowing: false, followerCount: Math.max(0, (u?.followerCount || 0) - 1) }
             : u
-        )
+        ) || []
       }))
 
       await userService.unfollowUser(username)
@@ -359,11 +359,11 @@ function SearchPage() {
       // Revert optimistic update on error
       setResults(prev => ({
         ...prev,
-        users: prev.users.map(u =>
-          u.username === username
-            ? { ...u, isFollowing: true, followerCount: (u.followerCount || 0) + 1 }
+        users: prev?.users?.map(u =>
+          u?.username === username
+            ? { ...u, isFollowing: true, followerCount: (u?.followerCount || 0) + 1 }
             : u
-        )
+        ) || []
       }))
 
       showError('Failed to unfollow user')
@@ -372,37 +372,37 @@ function SearchPage() {
 
   const handleUserMessage = useCallback((username) => {
     try {
-      const user = results.users.find(u => u.username === username)
+      const user = results?.users?.find(u => u?.username === username)
       if (!user) return
 
       // Navigate to messages page with user ID
-      navigate(`/messages/${user.id || username}`)
+      navigate(`/messages/${user?.id || username}`)
     } catch (error) {
       console.error('Navigate to messages failed:', error)
       showError('Failed to open messages')
     }
-  }, [results.users, navigate, showError])
+  }, [results?.users, navigate, showError])
 
   // Memoize tabs with counts
   const tabs = useMemo(() => [
-    { id: 'all', label: 'All', count: results.communities.length + results.posts.length + results.users.length },
-    { id: 'communities', label: 'Communities', count: results.communities.length },
-    { id: 'posts', label: 'Posts', count: results.posts.length },
-    { id: 'users', label: 'Users', count: results.users.length }
+    { id: 'all', label: 'All', count: (results?.communities?.length || 0) + (results?.posts?.length || 0) + (results?.users?.length || 0) },
+    { id: 'communities', label: 'Communities', count: results?.communities?.length || 0 },
+    { id: 'posts', label: 'Posts', count: results?.posts?.length || 0 },
+    { id: 'users', label: 'Users', count: results?.users?.length || 0 }
   ], [results])
 
   // Memoize total result count
   const totalResults = useMemo(() =>
-    results.communities.length + results.posts.length + results.users.length,
+    (results?.communities?.length || 0) + (results?.posts?.length || 0) + (results?.users?.length || 0),
     [results]
   )
 
   // Memoize filtered results based on active tab
   const filteredResults = useMemo(() => {
     return {
-      communities: activeTab === 'all' || activeTab === 'communities' ? results.communities : [],
-      posts: activeTab === 'all' || activeTab === 'posts' ? results.posts : [],
-      users: activeTab === 'all' || activeTab === 'users' ? results.users : []
+      communities: activeTab === 'all' || activeTab === 'communities' ? (results?.communities || []) : [],
+      posts: activeTab === 'all' || activeTab === 'posts' ? (results?.posts || []) : [],
+      users: activeTab === 'all' || activeTab === 'users' ? (results?.users || []) : []
     }
   }, [results, activeTab])
 
@@ -569,9 +569,9 @@ function SearchPage() {
         {query && (
           <div style={{ marginBottom: `${spacing.md}px`, color: '#666666' }}>
             {totalResults > 0 ? (
-              <p>{totalResults} result{totalResults !== 1 ? 's' : ''} for "{query}"</p>
+              <p>{totalResults} result{totalResults !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;</p>
             ) : !loading && (
-              <p>No results found for "{query}"</p>
+              <p>No results found for &ldquo;{query}&rdquo;</p>
             )}
           </div>
         )}
@@ -585,7 +585,7 @@ function SearchPage() {
       ) : (
         <>
           {/* Communities */}
-          {filteredResults.communities.length > 0 && (
+          {filteredResults?.communities?.length > 0 && (
             <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="communities-heading">
               <h2 id="communities-heading" style={{
                 fontSize: `${fontSize.xl}px`,
@@ -605,7 +605,7 @@ function SearchPage() {
                   background: 'linear-gradient(to right, #58a6ff, #a371f7)',
                   color: '#ffffff'
                 }}>
-                  {filteredResults.communities.length}
+                  {filteredResults?.communities?.length || 0}
                 </span>
               </h2>
               <div style={{
@@ -613,12 +613,12 @@ function SearchPage() {
                 gap: `${spacing.md}px`,
                 gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))'
               }}>
-                {filteredResults.communities.map(community => (
+                {filteredResults?.communities?.map(community => (
                   <MemoizedCommunityCard
-                    key={community.id || community.name}
+                    key={community?.id || community?.name}
                     community={community}
-                    onJoin={() => handleCommunityJoin(community.name)}
-                    onLeave={() => handleCommunityLeave(community.name)}
+                    onJoin={() => handleCommunityJoin(community?.name)}
+                    onLeave={() => handleCommunityLeave(community?.name)}
                   />
                 ))}
               </div>
@@ -626,7 +626,7 @@ function SearchPage() {
           )}
 
           {/* Posts */}
-          {filteredResults.posts.length > 0 && (
+          {filteredResults?.posts?.length > 0 && (
             <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="posts-heading">
               <h2 id="posts-heading" style={{
                 fontSize: `${fontSize.xl}px`,
@@ -646,19 +646,19 @@ function SearchPage() {
                   background: 'linear-gradient(to right, #58a6ff, #a371f7)',
                   color: '#ffffff'
                 }}>
-                  {filteredResults.posts.length}
+                  {filteredResults?.posts?.length || 0}
                 </span>
               </h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: `${spacing.md}px` }}>
-                {filteredResults.posts.map(post => (
+                {filteredResults?.posts?.map(post => (
                   <MemoizedPost
-                    key={post.id}
+                    key={post?.id}
                     post={post}
-                    onVote={(voteType, newVote) => handlePostVote(post.id, voteType, newVote)}
-                    onShare={() => handlePostShare(post.id)}
-                    onSave={() => handlePostSave(post.id)}
-                    onReport={() => handlePostReport(post.id)}
-                    onAward={() => handlePostAward(post.id)}
+                    onVote={(voteType, newVote) => handlePostVote(post?.id, voteType, newVote)}
+                    onShare={() => handlePostShare(post?.id)}
+                    onSave={() => handlePostSave(post?.id)}
+                    onReport={() => handlePostReport(post?.id)}
+                    onAward={() => handlePostAward(post?.id)}
                   />
                 ))}
               </div>
@@ -666,7 +666,7 @@ function SearchPage() {
           )}
 
           {/* Users */}
-          {filteredResults.users.length > 0 && (
+          {filteredResults?.users?.length > 0 && (
             <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="users-heading">
               <h2 id="users-heading" style={{
                 fontSize: `${fontSize.xl}px`,
@@ -686,7 +686,7 @@ function SearchPage() {
                   background: 'linear-gradient(to right, #58a6ff, #a371f7)',
                   color: '#ffffff'
                 }}>
-                  {filteredResults.users.length}
+                  {filteredResults?.users?.length || 0}
                 </span>
               </h2>
               <div style={{
@@ -694,13 +694,13 @@ function SearchPage() {
                 gap: `${spacing.md}px`,
                 gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))'
               }}>
-                {filteredResults.users.map(user => (
+                {filteredResults?.users?.map(user => (
                   <MemoizedUserProfile
-                    key={user.id || user.username}
+                    key={user?.id || user?.username}
                     user={user}
-                    onFollow={() => handleUserFollow(user.username)}
-                    onUnfollow={() => handleUserUnfollow(user.username)}
-                    onMessage={() => handleUserMessage(user.username)}
+                    onFollow={() => handleUserFollow(user?.username)}
+                    onUnfollow={() => handleUserUnfollow(user?.username)}
+                    onMessage={() => handleUserMessage(user?.username)}
                   />
                 ))}
               </div>

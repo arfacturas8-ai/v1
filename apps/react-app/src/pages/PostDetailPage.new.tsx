@@ -170,12 +170,12 @@ export default function PostDetailPage() {
   // Handle interactions
   const handleLike = async () => {
     setLiked(!liked);
-    setPost({ ...post, likes: post.likes + (liked ? -1 : 1) });
+    setPost({ ...post, likes: (post?.likes || 0) + (liked ? -1 : 1) });
   };
 
   const handleRepost = async () => {
     setReposted(!reposted);
-    setPost({ ...post, reposts: post.reposts + (reposted ? -1 : 1) });
+    setPost({ ...post, reposts: (post?.reposts || 0) + (reposted ? -1 : 1) });
     showSuccess(reposted ? 'Repost removed' : 'Reposted!');
   };
 
@@ -239,7 +239,7 @@ export default function PostDetailPage() {
       } else {
         // Add as top-level comment
         setComments(prev => [newComment, ...prev]);
-        setPost({ ...post, comments: post.comments + 1 });
+        setPost({ ...post, comments: (post?.comments || 0) + 1 });
       }
 
       setCommentText('');
@@ -254,15 +254,15 @@ export default function PostDetailPage() {
 
   const handleCommentLike = (commentId: string) => {
     const updateLikes = (comments: Comment[]): Comment[] => {
-      return comments.map(comment => {
-        if (comment.id === commentId) {
+      return (comments || []).map(comment => {
+        if (comment?.id === commentId) {
           return {
             ...comment,
             userLiked: !comment.userLiked,
-            likes: comment.likes + (comment.userLiked ? -1 : 1)
+            likes: (comment?.likes || 0) + (comment.userLiked ? -1 : 1)
           };
         }
-        if (comment.replies.length > 0) {
+        if ((comment?.replies?.length || 0) > 0) {
           return {
             ...comment,
             replies: updateLikes(comment.replies)
@@ -294,54 +294,54 @@ export default function PostDetailPage() {
   };
 
   // Sort comments
-  const sortedComments = [...comments].sort((a, b) => {
+  const sortedComments = [...(comments || [])].sort((a, b) => {
     if (sortBy === 'top') {
-      return b.likes - a.likes;
+      return (b?.likes || 0) - (a?.likes || 0);
     }
-    return b.timestamp.getTime() - a.timestamp.getTime();
+    return (b?.timestamp?.getTime() || 0) - (a?.timestamp?.getTime() || 0);
   });
 
   // Render comment
   const renderComment = (comment: Comment, depth: number = 0) => {
-    const isExpanded = expandedComments.has(comment.id);
-    const hasReplies = comment.replies.length > 0;
+    const isExpanded = expandedComments.has(comment?.id || '');
+    const hasReplies = (comment?.replies?.length || 0) > 0;
 
     return (
-      <div key={comment.id} className={cn(depth > 0 && "ml-12 mt-3")}>
+      <div key={comment?.id} className={cn(depth > 0 && "ml-12 mt-3")}>
         <div className="flex gap-3">
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
-            {comment.author.username[0].toUpperCase()}
+            {comment?.author?.username?.[0]?.toUpperCase() || 'U'}
           </div>
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-semibold text-white">{comment.author.username}</span>
-              {comment.author.verified && (
+              <span className="font-semibold text-white">{comment?.author?.username}</span>
+              {comment?.author?.verified && (
                 <CheckCircle className="w-4 h-4 text-[#58a6ff] fill-[#58a6ff]" />
               )}
               <span className="text-xs text-[#666666]">
-                {formatRelativeTime(comment.timestamp)}
+                {formatRelativeTime(comment?.timestamp)}
               </span>
             </div>
 
             <p className="text-[#A0A0A0] text-sm mb-2 whitespace-pre-wrap break-words">
-              {comment.content}
+              {comment?.content}
             </p>
 
             <div className="flex items-center gap-4">
               <button
-                onClick={() => handleCommentLike(comment.id)}
+                onClick={() => handleCommentLike(comment?.id || '')}
                 className={cn(
                   "flex items-center gap-1 text-xs transition-colors",
-                  comment.userLiked ? "text-red-500" : "text-[#666666] hover:text-red-500"
+                  comment?.userLiked ? "text-red-500" : "text-[#666666] hover:text-red-500"
                 )}
               >
-                <Heart className={cn("w-4 h-4", comment.userLiked && "fill-current")} />
-                {comment.likes > 0 && <span>{formatNumber(comment.likes)}</span>}
+                <Heart className={cn("w-4 h-4", comment?.userLiked && "fill-current")} />
+                {(comment?.likes || 0) > 0 && <span>{formatNumber(comment?.likes || 0)}</span>}
               </button>
 
               <button
-                onClick={() => handleReply(comment.id, comment.author.username)}
+                onClick={() => handleReply(comment?.id || '', comment?.author?.username || '')}
                 className="text-xs text-[#666666] hover:text-[#58a6ff] transition-colors"
               >
                 Reply
@@ -349,14 +349,14 @@ export default function PostDetailPage() {
 
               {hasReplies && (
                 <button
-                  onClick={() => toggleCommentExpansion(comment.id)}
+                  onClick={() => toggleCommentExpansion(comment?.id || '')}
                   className="text-xs text-[#58a6ff] hover:text-[#a371f7] transition-colors flex items-center gap-1"
                 >
                   <ChevronDown className={cn(
                     "w-3 h-3 transition-transform",
                     isExpanded && "rotate-180"
                   )} />
-                  {comment.replies.length} {comment.replies.length === 1 ? 'reply' : 'replies'}
+                  {comment?.replies?.length || 0} {(comment?.replies?.length || 0) === 1 ? 'reply' : 'replies'}
                 </button>
               )}
             </div>
@@ -370,7 +370,7 @@ export default function PostDetailPage() {
                   exit={{ opacity: 0, height: 0 }}
                   className="mt-3"
                 >
-                  {comment.replies.map(reply => renderComment(reply, depth + 1))}
+                  {(comment?.replies || []).map(reply => renderComment(reply, depth + 1))}
                 </motion.div>
               )}
             </AnimatePresence>
@@ -438,29 +438,29 @@ export default function PostDetailPage() {
               <div className="p-6 border-b border-white/10">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-3">
-                    <Link to={`/u/${post.author.username}`}>
+                    <Link to={`/u/${post?.author?.username}`}>
                       <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
-                        {post.author.username[0].toUpperCase()}
+                        {post?.author?.username?.[0]?.toUpperCase() || 'U'}
                       </div>
                     </Link>
 
                     <div>
                       <div className="flex items-center gap-2">
                         <Link
-                          to={`/u/${post.author.username}`}
+                          to={`/u/${post?.author?.username}`}
                           className="font-bold text-white hover:underline"
                         >
-                          {post.author.displayName}
+                          {post?.author?.displayName}
                         </Link>
-                        {post.author.verified && (
+                        {post?.author?.verified && (
                           <CheckCircle className="w-5 h-5 text-[#58a6ff] fill-[#58a6ff]" />
                         )}
                       </div>
                       <Link
-                        to={`/u/${post.author.username}`}
+                        to={`/u/${post?.author?.username}`}
                         className="text-sm text-[#666666] hover:underline"
                       >
-                        @{post.author.username}
+                        @{post?.author?.username}
                       </Link>
                     </div>
                   </div>
@@ -497,7 +497,7 @@ export default function PostDetailPage() {
                             className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#141414] transition-colors text-left"
                           >
                             <UserX className="w-4 h-4 text-red-500" />
-                            <span className="text-sm text-white">Block @{post.author.username}</span>
+                            <span className="text-sm text-white">Block @{post?.author?.username}</span>
                           </button>
                         </motion.div>
                       )}
@@ -508,15 +508,15 @@ export default function PostDetailPage() {
                 {/* Post content */}
                 <div className="mb-4">
                   <p className="text-lg text-white whitespace-pre-wrap break-words leading-relaxed">
-                    {post.content}
+                    {post?.content}
                   </p>
                 </div>
 
                 {/* Post timestamp */}
                 <div className="flex items-center gap-2 text-sm text-[#666666]">
                   <Clock className="w-4 h-4" />
-                  <time dateTime={post.timestamp.toISOString()}>
-                    {post.timestamp.toLocaleString('en-US', {
+                  <time dateTime={post?.timestamp?.toISOString()}>
+                    {post?.timestamp?.toLocaleString('en-US', {
                       hour: 'numeric',
                       minute: 'numeric',
                       month: 'short',
@@ -528,12 +528,12 @@ export default function PostDetailPage() {
               </div>
 
               {/* Media */}
-              {post.media && post.media.length > 0 && (
+              {post?.media && (post?.media?.length || 0) > 0 && (
                 <div className="border-b border-white/10">
-                  {post.media[0].type === 'image' && (
+                  {post?.media?.[0]?.type === 'image' && (
                     <img
-                      src={post.media[0].url}
-                      alt={post.media[0].alt}
+                      src={post?.media?.[0]?.url}
+                      alt={post?.media?.[0]?.alt}
                       className="w-full h-auto max-h-[600px] object-contain bg-[#0D0D0D]"
                     />
                   )}
@@ -545,19 +545,19 @@ export default function PostDetailPage() {
                 <div className="flex items-center gap-6 flex-wrap">
                   <div className="flex items-center gap-2 text-sm">
                     <Eye className="w-4 h-4 text-[#666666]" />
-                    <span className="font-semibold text-white">{formatNumber(post.views)}</span>
+                    <span className="font-semibold text-white">{formatNumber(post?.views || 0)}</span>
                     <span className="text-[#666666]">views</span>
                   </div>
                   <button className="flex items-center gap-2 text-sm hover:underline">
-                    <span className="font-semibold text-white">{formatNumber(post.likes)}</span>
+                    <span className="font-semibold text-white">{formatNumber(post?.likes || 0)}</span>
                     <span className="text-[#666666]">likes</span>
                   </button>
                   <button className="flex items-center gap-2 text-sm hover:underline">
-                    <span className="font-semibold text-white">{formatNumber(post.reposts)}</span>
+                    <span className="font-semibold text-white">{formatNumber(post?.reposts || 0)}</span>
                     <span className="text-[#666666]">reposts</span>
                   </button>
                   <button className="flex items-center gap-2 text-sm hover:underline">
-                    <span className="font-semibold text-white">{formatNumber(post.bookmarks)}</span>
+                    <span className="font-semibold text-white">{formatNumber(post?.bookmarks || 0)}</span>
                     <span className="text-[#666666]">bookmarks</span>
                   </button>
                 </div>
@@ -649,7 +649,7 @@ export default function PostDetailPage() {
                     <div className="flex-1">
                       {replyingTo && (
                         <div className="mb-2 flex items-center gap-2 text-sm text-[#666666]">
-                          <span>Replying to @{post.author.username}</span>
+                          <span>Replying to @{post?.author?.username}</span>
                           <button
                             onClick={() => {
                               setReplyingTo(null);
@@ -714,7 +714,7 @@ export default function PostDetailPage() {
               <div className="p-6 border-b border-white/10">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-bold text-white">
-                    Comments ({formatNumber(post.comments)})
+                    Comments ({formatNumber(post?.comments || 0)})
                   </h2>
 
                   <div className="flex items-center gap-2">
@@ -745,9 +745,9 @@ export default function PostDetailPage() {
               </div>
 
               <div className="p-6">
-                {sortedComments.length > 0 ? (
+                {(sortedComments?.length || 0) > 0 ? (
                   <div className="space-y-6">
-                    {sortedComments.map(comment => renderComment(comment))}
+                    {(sortedComments || []).map(comment => renderComment(comment))}
                   </div>
                 ) : (
                   <div className="text-center py-12">
@@ -770,23 +770,23 @@ export default function PostDetailPage() {
             >
               <h3 className="text-sm font-semibold text-white mb-4">About the author</h3>
 
-              <Link to={`/u/${post.author.username}`} className="flex items-start gap-3 mb-4">
+              <Link to={`/u/${post?.author?.username}`} className="flex items-start gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
-                  {post.author.username[0].toUpperCase()}
+                  {post?.author?.username?.[0]?.toUpperCase() || 'U'}
                 </div>
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-white">{post.author.displayName}</span>
-                    {post.author.verified && (
+                    <span className="font-bold text-white">{post?.author?.displayName}</span>
+                    {post?.author?.verified && (
                       <CheckCircle className="w-4 h-4 text-[#58a6ff] fill-[#58a6ff]" />
                     )}
                   </div>
-                  <span className="text-sm text-[#666666]">@{post.author.username}</span>
+                  <span className="text-sm text-[#666666]">@{post?.author?.username}</span>
                 </div>
               </Link>
 
-              <p className="text-sm text-[#A0A0A0] mb-4">{post.author.bio}</p>
+              <p className="text-sm text-[#A0A0A0] mb-4">{post?.author?.bio}</p>
 
               <button className="w-full px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl font-medium hover:opacity-90 transition-opacity">
                 Follow
@@ -829,7 +829,7 @@ export default function PostDetailPage() {
               className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
             >
               <h3 className="text-sm font-semibold text-white mb-4">
-                More from @{post.author.username}
+                More from @{post?.author?.username}
               </h3>
 
               <div className="space-y-4">

@@ -106,7 +106,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
     setPage((prev) => prev + 1);
 
     // Stop loading more after 50 posts
-    if (posts.length >= 50) {
+    if (posts?.length >= 50) {
       setHasMore(false);
     }
   };
@@ -187,7 +187,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onNavigate }) => {
 
       {/* Feed Content */}
       <div style={{ padding: spacing[4] }}>
-        {posts.length === 0 && !isLoading ? (
+        {posts?.length === 0 && !isLoading ? (
           <EmptyState
             icon={<Edit3 size={64} />}
             title="No posts yet"

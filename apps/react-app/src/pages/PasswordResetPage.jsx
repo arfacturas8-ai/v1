@@ -59,11 +59,11 @@ export default function PasswordResetPage() {
     try {
       const result = await authService.resetPassword(email)
 
-      if (result.success) {
-        setMessage(result.message || `Password reset email sent to ${email}. Check your inbox!`)
+      if (result?.success) {
+        setMessage(result?.message || `Password reset email sent to ${email}. Check your inbox!`)
         setStep('success')
       } else {
-        setError(result.error || 'Failed to send reset email. Please try again.')
+        setError(result?.error || 'Failed to send reset email. Please try again.')
       }
     } catch (err) {
       console.error('Password reset request error:', err)
@@ -113,8 +113,8 @@ export default function PasswordResetPage() {
 
       const data = await response.json()
 
-      if (response.ok && data.success) {
-        setMessage(data.message || 'Password reset successfully! Redirecting to login...')
+      if (response.ok && data?.success) {
+        setMessage(data?.message || 'Password reset successfully! Redirecting to login...')
         setStep('success')
 
         // Redirect to login after 3 seconds
@@ -122,7 +122,7 @@ export default function PasswordResetPage() {
           navigate('/login')
         }, 3000)
       } else {
-        setError(data.error || 'Failed to reset password. Please try again or request a new link.')
+        setError(data?.error || 'Failed to reset password. Please try again or request a new link.')
       }
     } catch (err) {
       console.error('Password reset error:', err)

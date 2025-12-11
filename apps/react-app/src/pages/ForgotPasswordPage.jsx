@@ -39,10 +39,10 @@ export default function ForgotPasswordPage() {
 
       const data = await response.json()
 
-      if (response.ok && data.success) {
+      if (response.ok && data?.success) {
         setIsSubmitted(true)
       } else {
-        setError(data.error || data.message || 'Failed to send reset email')
+        setError(data?.error || data?.message || 'Failed to send reset email')
       }
     } catch (err) {
       console.error('Forgot password error:', err)

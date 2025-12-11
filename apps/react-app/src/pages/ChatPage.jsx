@@ -127,12 +127,12 @@ function ChatPage({ user, onNavigate }) {
   
   // Memoize current server and channel data
   const currentServer = useMemo(() =>
-    servers.find(s => s.id === activeServer) || servers[0],
+    servers?.find(s => s?.id === activeServer) || servers?.[0],
     [servers, activeServer]
   )
 
   const currentChannel = useMemo(() =>
-    currentServer?.channels.find(c => c.id === activeChannel) || currentServer?.channels[0],
+    currentServer?.channels?.find(c => c?.id === activeChannel) || currentServer?.channels?.[0],
     [currentServer, activeChannel]
   )
 
@@ -150,9 +150,9 @@ function ChatPage({ user, onNavigate }) {
   // Event handlers
   const handleServerChange = useCallback((serverId) => {
     setActiveServer(serverId)
-    const server = servers.find(s => s.id === serverId)
-    if (server?.channels.length > 0) {
-      setActiveChannel(server.channels[0].id)
+    const server = servers?.find(s => s?.id === serverId)
+    if (server?.channels?.length > 0) {
+      setActiveChannel(server?.channels?.[0]?.id)
     }
   }, [servers])
   
@@ -210,23 +210,23 @@ function ChatPage({ user, onNavigate }) {
         setMessages(prev => [...prev, data.message])
         
         // Add notification
-        setNotifications(prev => [...prev, {
+        setNotifications(prev => [...(prev || []), {
           id: Date.now().toString(),
           type: 'message',
-          title: `New message from ${data.message.author.displayName}`,
-          content: data.message.content,
+          title: `New message from ${data?.message?.author?.displayName || 'Unknown'}`,
+          content: data?.message?.content || '',
           timestamp: Date.now(),
-          channelId: data.channelId
+          channelId: data?.channelId
         }])
       }
     })
     
     socketService.on('user_joined', (data) => {
-      setNotifications(prev => [...prev, {
+      setNotifications(prev => [...(prev || []), {
         id: Date.now().toString(),
         type: 'system',
         title: 'User joined',
-        content: `${data.user.displayName} joined the server`,
+        content: `${data?.user?.displayName || 'Someone'} joined the server`,
         timestamp: Date.now()
       }])
     })
@@ -317,11 +317,11 @@ function ChatPage({ user, onNavigate }) {
                   )}
                   <div className="flex items-center min-w-0">
                     <span className="text-[#58a6ff] mr-2" aria-hidden="true">#</span>
-                    <h2 className="text-white font-semibold truncate">{currentChannel.name}</h2>
+                    <h2 className="text-white font-semibold truncate">{currentChannel?.name || 'Channel'}</h2>
                   </div>
-                  {currentChannel.description && (
+                  {currentChannel?.description && (
                     <div className="hidden md:flex items-center ml-4 text-sm text-[#666666] border-l border-white/10 pl-4">
-                      <span className="truncate">{currentChannel.description}</span>
+                      <span className="truncate">{currentChannel?.description}</span>
                     </div>
                   )}
                 </div>
@@ -345,7 +345,7 @@ function ChatPage({ user, onNavigate }) {
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
-                    {notifications.length > 0 && (
+                    {(notifications?.length || 0) > 0 && (
                       <span className="absolute top-1 right-1 w-2 h-2 bg-[#58a6ff] rounded-full shadow-lg" aria-hidden="true"></span>
                     )}
                   </button>
@@ -369,16 +369,16 @@ function ChatPage({ user, onNavigate }) {
                 onThreadOpen={handleThreadOpen}
                 activeThread={activeThread}
                 channelId={activeChannel}
-                channelName={currentChannel.name}
+                channelName={currentChannel?.name || ''}
                 className="flex-1"
               />
 
               {/* Message Composer */}
               <MessageComposer
                 onSend={handleMessageSend}
-                channelName={currentChannel.name}
+                channelName={currentChannel?.name || ''}
                 disabled={!activeChannel}
-                placeholder={`Message #${currentChannel.name}`}
+                placeholder={`Message #${currentChannel?.name || 'channel'}`}
               />
             </>
           ) : (
@@ -396,7 +396,7 @@ function ChatPage({ user, onNavigate }) {
                 <p className="text-[#666666] mb-6">
                   Choose a channel from the sidebar to view messages and join the conversation.
                 </p>
-                {servers.length === 0 && (
+                {(servers?.length || 0) === 0 && (
                   <div className="mt-8 p-4 bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10">
                     <p className="text-sm text-[#A0A0A0]">
                       No servers available. Create or join a server to get started.

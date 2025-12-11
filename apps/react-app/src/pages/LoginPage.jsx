@@ -54,7 +54,7 @@ export default function LoginPage() {
         setError(result.error || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
-      setError(err.message || 'Login failed. Please check your credentials.');
+      setError(err?.message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }

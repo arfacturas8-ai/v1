@@ -216,7 +216,9 @@ export default function NotificationsPage() {
         navigate('/post/123');
         break;
       case 'follow':
-        navigate(`/user/${notification.actors[0].username}`);
+        if (notification?.actors?.[0]?.username) {
+          navigate(`/user/${notification.actors[0].username}`);
+        }
         break;
       case 'mention':
         navigate('/post/456');
@@ -228,7 +230,7 @@ export default function NotificationsPage() {
   };
 
   const handleAction = (notification: Notification) => {
-    if (notification.type === 'follow') {
+    if (notification?.type === 'follow' && notification?.actors?.[0]?.id) {
       console.log('Follow back:', notification.actors[0].id);
     }
   };
@@ -245,9 +247,9 @@ export default function NotificationsPage() {
   const filteredNotifications =
     activeFilter === 'all'
       ? notifications
-      : notifications.filter((n) => n.filter === activeFilter);
+      : notifications?.filter((n) => n?.filter === activeFilter) || [];
 
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
+  const unreadCount = notifications?.filter((n) => !n?.isRead)?.length || 0;
 
   return (
     <div style={{ minHeight: '100vh', backgroundColor: colors.bg.primary }}>
@@ -366,8 +368,8 @@ export default function NotificationsPage() {
             const isActive = activeFilter === filter.id;
             const count =
               filter.id === 'all'
-                ? notifications.length
-                : notifications.filter((n) => n.filter === filter.id).length;
+                ? notifications?.length || 0
+                : notifications?.filter((n) => n?.filter === filter.id)?.length || 0;
 
             return (
               <button
@@ -417,7 +419,7 @@ export default function NotificationsPage() {
       {/* Notifications List */}
       <div style={{ maxWidth: '600px', margin: '0 auto', padding: spacing[4] }}>
         {/* Loading - Initial */}
-        {isLoading && notifications.length === 0 && (
+        {isLoading && notifications?.length === 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
             {Array.from({ length: 5 }).map((_, i) => (
               <NotificationItem key={i} id={`loading-${i}`} type="like" actors={[]} content="" timestamp={new Date()} loading />
@@ -426,9 +428,9 @@ export default function NotificationsPage() {
         )}
 
         {/* Notifications */}
-        {!isLoading && filteredNotifications.length > 0 && (
+        {!isLoading && filteredNotifications?.length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: spacing[3] }}>
-            {filteredNotifications.map((notification) => (
+            {filteredNotifications?.map((notification) => (
               <NotificationItem
                 key={notification.id}
                 {...notification}
@@ -442,7 +444,7 @@ export default function NotificationsPage() {
         )}
 
         {/* Empty State */}
-        {!isLoading && filteredNotifications.length === 0 && (
+        {!isLoading && filteredNotifications?.length === 0 && (
           <div style={{ textAlign: 'center', padding: spacing[8] }}>
             <div
               style={{
@@ -485,7 +487,7 @@ export default function NotificationsPage() {
         )}
 
         {/* Infinite Scroll Trigger */}
-        {hasMore && filteredNotifications.length > 0 && (
+        {hasMore && filteredNotifications?.length > 0 && (
           <div ref={observerTarget} style={{ padding: spacing[4], textAlign: 'center' }}>
             {isLoading && (
               <div
@@ -511,7 +513,7 @@ export default function NotificationsPage() {
         )}
 
         {/* End of List */}
-        {!hasMore && filteredNotifications.length > 0 && (
+        {!hasMore && filteredNotifications?.length > 0 && (
           <div
             style={{
               textAlign: 'center',
