@@ -41,7 +41,7 @@ function Skeleton({
             }}
           />
         ))}
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only"></span>
       </div>
     )
   }
@@ -54,7 +54,7 @@ function Skeleton({
       aria-label="Loading content"
       {...props}
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   )
 }

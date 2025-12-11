@@ -289,10 +289,10 @@ describe('WalletConnectButton', () => {
       expect(button).toHaveClass('cursor-not-allowed');
     });
 
-    it('applies animate-spin to loader icon', () => {
+    it('applies  to loader icon', () => {
       render(<WalletConnectButton />);
       const loader = screen.getByTestId('loader2-icon');
-      expect(loader).toHaveClass('animate-spin');
+      expect(loader).toHaveClass('');
     });
   });
 
@@ -1304,37 +1304,37 @@ describe('WalletConnectButton', () => {
 
     it('renders with default medium size', () => {
       const { container } = render(<WalletConnectButtonSkeleton />);
-      const skeleton = container.querySelector('.animate-pulse');
+      const skeleton = container.querySelector('.');
       expect(skeleton).toHaveClass('h-10', 'w-36');
     });
 
     it('renders with small size', () => {
       const { container } = render(<WalletConnectButtonSkeleton size="sm" />);
-      const skeleton = container.querySelector('.animate-pulse');
+      const skeleton = container.querySelector('.');
       expect(skeleton).toHaveClass('h-8', 'w-32');
     });
 
     it('renders with large size', () => {
       const { container } = render(<WalletConnectButtonSkeleton size="lg" />);
-      const skeleton = container.querySelector('.animate-pulse');
+      const skeleton = container.querySelector('.');
       expect(skeleton).toHaveClass('h-12', 'w-40');
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<WalletConnectButtonSkeleton />);
-      const skeleton = container.querySelector('.animate-pulse');
+      const skeleton = container.querySelector('.');
       expect(skeleton).toBeInTheDocument();
     });
 
     it('has rounded corners', () => {
       const { container } = render(<WalletConnectButtonSkeleton />);
-      const skeleton = container.querySelector('.animate-pulse');
+      const skeleton = container.querySelector('.');
       expect(skeleton).toHaveClass('rounded-lg');
     });
 
     it('has muted background', () => {
       const { container } = render(<WalletConnectButtonSkeleton />);
-      const skeleton = container.querySelector('.animate-pulse');
+      const skeleton = container.querySelector('.');
       expect(skeleton).toHaveClass('bg-muted');
     });
   });

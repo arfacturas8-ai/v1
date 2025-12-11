@@ -380,7 +380,7 @@ describe('FloatingActionButton', () => {
   describe('Visual Effects', () => {
     it('should render sparkle effect element', () => {
       const { container } = render(<FloatingActionButton />)
-      const sparkleEffect = container.querySelector('.animate-pulse')
+      const sparkleEffect = container.querySelector('.')
       expect(sparkleEffect).toBeInTheDocument()
     })
 

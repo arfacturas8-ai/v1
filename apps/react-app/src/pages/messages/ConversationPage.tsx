@@ -492,7 +492,6 @@ const ConversationPage: React.FC = () => {
         background: colors.bg.primary,
         color: colors.text.primary,
       }}>
-        Loading...
       </div>
     );
   }

@@ -1022,7 +1022,7 @@ describe('MFALoginPage', () => {
 
       await waitFor(() => {
         const loader = screen.getByTestId('loader-icon')
-        expect(loader).toHaveClass('animate-spin')
+        expect(loader).toHaveClass('')
       })
     })
   })

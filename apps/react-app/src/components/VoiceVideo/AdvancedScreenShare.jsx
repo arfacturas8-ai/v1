@@ -224,7 +224,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
         <div className="flex items-center gap-2 pr-4 border-r border-[#334155]/50">
           <button
             onClick={toggleRecording}
-            className={`border-none rounded-lg text-white cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 ${isRecording ? 'bg-[#dc2626] animate-pulse' : 'bg-[#334155]/60 hover:bg-[#475569]/80'}`}
+            className={`border-none rounded-lg text-white cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 ${isRecording ? 'bg-[#dc2626] ' : 'bg-[#334155]/60 hover:bg-[#475569]/80'}`}
           >
             {isRecording ? <StopCircle size={14} /> : <Play size={14} />}
             {isRecording ? formatRecordingTime() : 'Record'}

@@ -324,7 +324,7 @@ export default function PasskeySetupPage() {
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-5 h-5 " />
                       Setting up...
                     </>
                   ) : (

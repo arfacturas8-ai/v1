@@ -170,7 +170,6 @@ export default function MFASetupPage() {
                 />
               ) : (
                 <div className="w-[200px] h-[200px] flex items-center justify-center bg-[#161b22]/60 backdrop-blur-xl rounded-lg text-[#8b949e]">
-                  Loading...
                 </div>
               )}
             </div>

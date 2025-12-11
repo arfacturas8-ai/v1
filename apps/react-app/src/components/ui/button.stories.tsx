@@ -138,7 +138,7 @@ export const WithIcons: Story = {
 export const Loading: Story = {
   args: {
     loading: true,
-    children: 'Loading...',
+    children: '',
   },
 };
 

@@ -7,7 +7,7 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({
-  message = 'Loading...',
+  message = '',
   fullScreen = true,
 }) => {
   return (

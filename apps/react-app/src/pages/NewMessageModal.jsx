@@ -208,7 +208,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
           <div className="overflow-y-auto max-h-96">
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
-                <div className="w-8 h-8 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin" />
+                <div className="w-8 h-8 border-4 border-[#58a6ff] border-t-transparent rounded-full " />
               </div>
             ) : error ? (
               <div className="p-6 text-center text-red-400" role="alert">
@@ -287,7 +287,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
               }}
             >
               {isLoading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full " />
               ) : (
                 <>
                   {isGroupDM ? <Users className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}

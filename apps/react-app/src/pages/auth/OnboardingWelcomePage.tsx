@@ -121,7 +121,7 @@ export default function OnboardingWelcomePage() {
                         </div>
                       </div>
                       {isConnecting ? (
-                        <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full " />
                       ) : (
                         <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
                       )}

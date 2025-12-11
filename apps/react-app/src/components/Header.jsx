@@ -184,11 +184,7 @@ function Header() {
                           <h3 className="font-semibold text-white">Notifications</h3>
                         </div>
                         <div className="max-h-80 overflow-y-auto">
-                          {loadingNotifications ? (
-                            <div className="px-4 py-8 text-center text-[#666666] text-sm">
-                              Loading...
-                            </div>
-                          ) : notifications.length === 0 ? (
+                          {notifications.length === 0 ? (
                             <div className="px-4 py-8 text-center text-[#666666] text-sm">
                               No notifications yet
                             </div>

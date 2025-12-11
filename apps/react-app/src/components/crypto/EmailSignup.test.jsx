@@ -267,7 +267,7 @@ describe('EmailSignup Component', () => {
 
       await waitFor(() => {
         const button = screen.getByRole('button', { name: /joining.../i })
-        const spinner = button.querySelector('.animate-spin')
+        const spinner = button.querySelector('.')
         expect(spinner).toBeInTheDocument()
       })
     })

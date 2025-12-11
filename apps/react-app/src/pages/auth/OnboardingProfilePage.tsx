@@ -190,7 +190,7 @@ export default function OnboardingProfilePage() {
                 leftIcon={<User className="w-4 h-4" />}
                 rightIcon={
                   usernameStatus === 'checking' ? (
-                    <Loader2 className="w-4 h-4 text-gray-400 animate-spin" />
+                    <Loader2 className="w-4 h-4 text-gray-400 " />
                   ) : usernameStatus === 'available' ? (
                     <CheckCircle2 className="w-4 h-4 text-green-500" />
                   ) : usernameStatus === 'taken' ? (

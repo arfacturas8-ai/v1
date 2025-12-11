@@ -284,7 +284,7 @@ describe('Button Component', () => {
   describe('Loading State', () => {
     it('shows loading spinner when loading', () => {
       const { container } = render(<Button loading>Loading</Button>);
-      const spinner = container.querySelector('svg.animate-spin');
+      const spinner = container.querySelector('svg.');
       expect(spinner).toBeInTheDocument();
     });
 
@@ -329,7 +329,7 @@ describe('Button Component', () => {
           Loading
         </Button>
       );
-      const spinner = container.querySelector('svg.animate-spin');
+      const spinner = container.querySelector('svg.');
       expect(spinner.className).toContain('w-3');
       expect(spinner.className).toContain('h-3');
     });
@@ -340,7 +340,7 @@ describe('Button Component', () => {
           Loading
         </Button>
       );
-      const spinner = container.querySelector('svg.animate-spin');
+      const spinner = container.querySelector('svg.');
       expect(spinner.className).toContain('w-4');
       expect(spinner.className).toContain('h-4');
     });
@@ -351,7 +351,7 @@ describe('Button Component', () => {
           Loading
         </Button>
       );
-      const spinner = container.querySelector('svg.animate-spin');
+      const spinner = container.querySelector('svg.');
       expect(spinner.className).toContain('w-5');
       expect(spinner.className).toContain('h-5');
     });
@@ -362,7 +362,7 @@ describe('Button Component', () => {
           Loading
         </Button>
       );
-      const spinner = container.querySelector('svg.animate-spin');
+      const spinner = container.querySelector('svg.');
       expect(spinner.className).toContain('w-6');
       expect(spinner.className).toContain('h-6');
     });

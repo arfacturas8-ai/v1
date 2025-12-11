@@ -480,7 +480,7 @@ const CryptoPaymentModal = ({
         >
           {isProcessing ? (
             <>
-              <RefreshCw className="w-4 h-4 animate-spin mr-2" />
+              <RefreshCw className="w-4 h-4  mr-2" />
               Processing...
             </>
           ) : (
@@ -498,7 +498,7 @@ const CryptoPaymentModal = ({
   const ProcessingStep = () => (
     <div className="text-center space-y-6 py-4">
       <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-blue-500/10 flex items-center justify-center">
-        <RefreshCw className="w-8 h-8 sm:w-10 sm:h-10 text-blue-500 animate-spin" />
+        <RefreshCw className="w-8 h-8 sm:w-10 sm:h-10 text-blue-500 " />
       </div>
 
       <div className="space-y-2">

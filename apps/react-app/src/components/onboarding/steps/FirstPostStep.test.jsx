@@ -443,7 +443,7 @@ describe('FirstPostStep', () => {
       const submitButton = screen.getByText('Publish Post & Continue');
       await user.click(submitButton);
 
-      const spinner = document.querySelector('.animate-spin');
+      const spinner = document.querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 

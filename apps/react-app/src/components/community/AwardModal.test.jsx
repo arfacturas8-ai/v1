@@ -490,7 +490,7 @@ describe('AwardModal', () => {
       fireEvent.click(giveButton)
 
       await waitFor(() => {
-        const spinner = container.querySelector('.animate-spin')
+        const spinner = container.querySelector('.')
         expect(spinner).toBeInTheDocument()
       })
     })

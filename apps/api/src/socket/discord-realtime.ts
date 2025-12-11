@@ -786,9 +786,9 @@ export class DiscordRealtimeHandler {
     const memberships = await prisma.serverMember.findMany({
       where: { userId },
       include: {
-        server: {
+        Server: {
           include: {
-            channels: {
+            Channel: {
               orderBy: { position: 'asc' },
               select: {
                 id: true,
@@ -802,23 +802,23 @@ export class DiscordRealtimeHandler {
             },
             _count: {
               select: {
-                members: true
+                ServerMember: true
               }
             }
           }
         },
-        roles: {
+        MemberRole: {
           include: {
-            role: true
+            Role: true
           }
         }
       }
     });
 
     return memberships.map(membership => ({
-      ...membership.server,
+      ...membership.Server,
       member: {
-        roles: membership.roles.map(r => r.role),
+        roles: membership.MemberRole.map(r => r.role),
         joinedAt: membership.joinedAt,
         nickname: membership.nickname,
       }

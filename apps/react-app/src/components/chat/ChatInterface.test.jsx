@@ -15,7 +15,7 @@ vi.mock('./MessageList', () => ({
           {msg.content}
         </div>
       ))}
-      {isLoading && <div data-testid="loading-indicator">Loading...</div>}
+      {isLoading && <div data-testid="loading-indicator"></div>}
       {typingUsers.length > 0 && <div data-testid="typing-indicator">Typing...</div>}
     </div>
   )

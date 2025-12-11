@@ -384,7 +384,7 @@ const CommunityBrowser = () => {
                     onClick={loadMoreCommunities}
                     disabled={loading}
                   >
-                    {loading ? 'Loading...' : 'Load More Communities'}
+                    {loading ? '' : 'Load More Communities'}
                   </button>
                 </div>
               )}

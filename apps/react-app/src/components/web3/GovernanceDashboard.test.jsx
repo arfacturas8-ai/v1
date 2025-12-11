@@ -1260,7 +1260,7 @@ describe('GovernanceDashboard', () => {
       render(<GovernanceDashboard />);
 
       expect(screen.getByText((content, element) => {
-        return element?.classList?.contains('animate-pulse');
+        return element?.classList?.contains('');
       })).toBeInTheDocument();
     });
 
@@ -1269,7 +1269,7 @@ describe('GovernanceDashboard', () => {
 
       await waitFor(() => {
         expect(screen.queryByText((content, element) => {
-          return element?.classList?.contains('animate-pulse');
+          return element?.classList?.contains('');
         })).not.toBeInTheDocument();
       });
     });

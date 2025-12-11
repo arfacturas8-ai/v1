@@ -179,7 +179,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto text-center">
           {/* Badge */}
           <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-full">
-            <span className="w-2 h-2 bg-[#58a6ff] rounded-full animate-pulse"></span>
+            <span className="w-2 h-2 bg-[#58a6ff] rounded-full "></span>
             <span className="text-[#666666] text-sm font-medium">Decentralized Social, Reimagined</span>
           </div>
 

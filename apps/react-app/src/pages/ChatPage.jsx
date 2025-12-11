@@ -263,7 +263,7 @@ function ChatPage({ user, onNavigate }) {
     return (
       <div className="h-screen flex items-center justify-center bg-[#0D0D0D]" role="main" aria-label="Chat loading" aria-live="polite" aria-busy="true">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" role="status" aria-hidden="true"></div>
+          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full  mx-auto mb-4" role="status" aria-hidden="true"></div>
           <p className="text-[#A0A0A0]" aria-live="polite">Loading chat...</p>
         </div>
       </div>

@@ -216,7 +216,7 @@ const FollowButton = ({
   const getButtonText = () => {
     if (optimisticUpdate === 'following') return 'Following...'
     if (optimisticUpdate === 'unfollowing') return 'Unfollowing...'
-    if (relationshipState.loading) return 'Loading...'
+    if (relationshipState.loading) return ''
     if (relationshipState.isFriend) return 'Friends'
     if (relationshipState.hasPendingRequest) return 'Pending'
     if (relationshipState.isFollowing) return 'Following'

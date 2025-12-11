@@ -229,7 +229,7 @@ export default function AuditLogPage() {
     return (
       <div className="min-h-screen bg-[#0d1117] text-white flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 animate-spin text-[#58a6ff] mx-auto mb-4" />
+          <Loader2 className="w-12 h-12  text-[#58a6ff] mx-auto mb-4" />
           <p className="text-[#8b949e]">Loading audit logs...</p>
         </div>
       </div>
@@ -279,7 +279,7 @@ export default function AuditLogPage() {
                 className="px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border border-white/10 rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50"
                 title="Refresh"
               >
-                <RefreshCw className={`w-4 h-4 sm:w-5 sm:h-5 ${loading ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`w-4 h-4 sm:w-5 sm:h-5 ${loading ? '' : ''}`} />
               </button>
               <button
                 onClick={handleExport}
@@ -288,7 +288,7 @@ export default function AuditLogPage() {
               >
                 {exporting ? (
                   <>
-                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 animate-spin" />
+                    <Loader2 className="w-4 h-4 sm:w-5 sm:h-5 " />
                     <span className="hidden sm:inline">Exporting...</span>
                   </>
                 ) : (

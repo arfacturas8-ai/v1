@@ -271,7 +271,6 @@ const NFTCard: React.FC<NFTCardProps> = ({
                   color: colors.text.tertiary,
                 }}
               >
-                Loading...
               </div>
             )}
             <img

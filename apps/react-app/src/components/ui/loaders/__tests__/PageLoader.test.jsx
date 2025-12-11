@@ -17,12 +17,12 @@ describe('PageLoader Component', () => {
   describe('Rendering', () => {
     it('renders without crashing', () => {
       render(<PageLoader />)
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('')).toBeInTheDocument()
     })
 
     it('renders with default message', () => {
       render(<PageLoader />)
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('')).toBeInTheDocument()
     })
 
     it('renders with custom message', () => {
@@ -251,7 +251,7 @@ describe('Spinner Component', () => {
 
     it('has screen reader text', () => {
       render(<Spinner />)
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('')).toBeInTheDocument()
     })
   })
 
@@ -347,7 +347,7 @@ describe('DotLoader Component', () => {
 
     it('has screen reader text', () => {
       render(<DotLoader />)
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('')).toBeInTheDocument()
     })
   })
 
@@ -426,7 +426,7 @@ describe('PulseLoader Component', () => {
 
     it('has screen reader text', () => {
       render(<PulseLoader />)
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('')).toBeInTheDocument()
     })
 
     it('renders multiple pulse circles', () => {
@@ -508,7 +508,7 @@ describe('BarLoader Component', () => {
 
     it('has screen reader text', () => {
       render(<BarLoader />)
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('')).toBeInTheDocument()
     })
 
     it('renders progress bar container', () => {

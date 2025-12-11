@@ -307,7 +307,7 @@ function ServersPage() {
           </div>
         ) : loading ? (
           <div className="text-center py-12 md:py-16 lg:py-20">
-            <div className="inline-block animate-spin rounded-full h-10 w-10 md:h-12 md:w-12 border-4 border-primary border-t-transparent"></div>
+            <div className="inline-block  rounded-full h-10 w-10 md:h-12 md:w-12 border-4 border-primary border-t-transparent"></div>
             <p className="text-sm md:text-base text-secondary mt-3 md:mt-4">Loading servers...</p>
           </div>
         ) : (

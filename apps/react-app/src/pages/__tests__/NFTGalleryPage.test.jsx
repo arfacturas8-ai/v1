@@ -9,7 +9,7 @@ import NFTGalleryPage from '../NFTGalleryPage'
 
 // Mock PageSkeleton
 jest.mock('../../components/LoadingSkeleton', () => ({
-  PageSkeleton: ({ type }) => <div data-testid="page-skeleton" data-type={type}>Loading...</div>
+  PageSkeleton: ({ type }) => <div data-testid="page-skeleton" data-type={type}></div>
 }))
 
 // Mock NFTCard component

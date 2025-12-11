@@ -273,24 +273,24 @@ describe('Button', () => {
   describe('Loading State', () => {
     it('shows loading state', () => {
       render(<Button loading>Submit</Button>);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('hides children when loading', () => {
       render(<Button loading>Submit Form</Button>);
       expect(screen.queryByText('Submit Form')).not.toBeInTheDocument();
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('renders spinner element when loading', () => {
       const { container } = render(<Button loading>Submit</Button>);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 
     it('spinner has correct classes', () => {
       const { container } = render(<Button loading>Submit</Button>);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner.className).toContain('rounded-full');
       expect(spinner.className).toContain('h-4');
       expect(spinner.className).toContain('w-4');
@@ -316,15 +316,15 @@ describe('Button', () => {
     it('shows children when loading is false', () => {
       render(<Button loading={false}>Submit</Button>);
       expect(screen.getByText('Submit')).toBeInTheDocument();
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+      expect(screen.queryByText('')).not.toBeInTheDocument();
     });
 
     it('transitions from loading to normal state', () => {
       const { rerender } = render(<Button loading>Submit</Button>);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
 
       rerender(<Button loading={false}>Submit</Button>);
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+      expect(screen.queryByText('')).not.toBeInTheDocument();
       expect(screen.getByText('Submit')).toBeInTheDocument();
     });
   });
@@ -774,7 +774,7 @@ describe('Button', () => {
 
     it('announces loading state properly', () => {
       render(<Button loading>Loading</Button>);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('maintains accessibility when disabled', () => {
@@ -822,7 +822,7 @@ describe('Button', () => {
 
       rerender(<Button loading={true}>Submit</Button>);
       expect(screen.queryByText('Submit')).not.toBeInTheDocument();
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('updates disabled state on rerender', () => {
@@ -958,9 +958,9 @@ describe('Button', () => {
 
     it('works with loading indicator and custom spinner', () => {
       const { container } = render(<Button loading>Loading</Button>);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toBeInTheDocument();
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
   });
 

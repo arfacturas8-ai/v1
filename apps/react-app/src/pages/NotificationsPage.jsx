@@ -363,10 +363,7 @@ function NotificationsPage() {
       {/* Notifications List */}
       <div className="max-w-4xl mx-auto px-4 py-6" ref={containerRef}>
         {indicator}
-        {/* Loading State */}
-        {loading ? (
-          <SkeletonList count={5} />
-        ) : error ? (
+        {error ? (
           /* Error State */
           <div className="bg-[#141414]/60 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="alert" aria-live="assertive">
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" aria-hidden="true" />

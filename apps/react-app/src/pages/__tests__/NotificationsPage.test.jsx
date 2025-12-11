@@ -56,7 +56,7 @@ describe('NotificationsPage', () => {
 
   it('shows loading state initially', () => {
     renderWithRouter(<NotificationsPage />);
-    expect(screen.getByTestId('loading-spinner') || document.querySelector('.animate-pulse')).toBeTruthy();
+    expect(screen.getByTestId('loading-spinner') || document.querySelector('.')).toBeTruthy();
   });
 
   it('displays notifications after loading', async () => {

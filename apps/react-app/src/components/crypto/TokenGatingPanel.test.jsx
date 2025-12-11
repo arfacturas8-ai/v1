@@ -106,7 +106,7 @@ describe('TokenGatingPanel', () => {
 
       render(<TokenGatingPanel />);
 
-      const spinner = document.querySelector('.animate-spin');
+      const spinner = document.querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 
@@ -705,7 +705,7 @@ describe('TokenGatingPanel', () => {
         fireEvent.click(refreshButton);
       });
 
-      const settingsIcon = document.querySelector('.lucide-settings.animate-spin');
+      const settingsIcon = document.querySelector('.lucide-settings.');
       expect(settingsIcon).toBeInTheDocument();
     });
 

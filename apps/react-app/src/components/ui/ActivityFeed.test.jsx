@@ -58,7 +58,7 @@ describe('ActivityFeed', () => {
 
     it('renders the live indicator pulse', () => {
       const { container } = render(<ActivityFeed />);
-      const pulseIndicator = container.querySelector('.bg-success.rounded-full.animate-pulse');
+      const pulseIndicator = container.querySelector('.bg-success.rounded-full.');
       expect(pulseIndicator).toBeInTheDocument();
     });
 
@@ -659,7 +659,7 @@ describe('ActivityFeed', () => {
   describe('Animation', () => {
     it('applies pulse animation to live indicator', () => {
       const { container } = render(<ActivityFeed />);
-      const pulseElement = container.querySelector('.animate-pulse');
+      const pulseElement = container.querySelector('.');
       expect(pulseElement).toBeInTheDocument();
     });
 

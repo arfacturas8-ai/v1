@@ -446,7 +446,7 @@ function EnhancedWalletConnectButton({
   height: '16px',
   width: '16px'
 }} />
-          {state.isConnecting ? 'Connecting...' : 'Loading...'}
+          {state.isConnecting ? 'Connecting...' : ''}
         </button>
       );
     }

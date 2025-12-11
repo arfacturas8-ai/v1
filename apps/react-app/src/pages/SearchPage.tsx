@@ -523,30 +523,6 @@ export default function SearchPage() {
           </div>
         )}
 
-        {/* Loading State */}
-        {isLoading && (
-          <div style={{ textAlign: 'center', padding: spacing[8] }}>
-            <div
-              style={{
-                width: '40px',
-                height: '40px',
-                border: `3px solid ${colors.bg.elevated}`,
-                borderTopColor: colors.brand.primary,
-                borderRadius: radii.full,
-                margin: '0 auto',
-                animation: 'spin 0.8s linear infinite',
-              }}
-            />
-            <style>
-              {`
-                @keyframes spin {
-                  to { transform: rotate(360deg); }
-                }
-              `}
-            </style>
-          </div>
-        )}
-
         {/* Results */}
         {!isLoading && query && results.length > 0 && (
           <div>

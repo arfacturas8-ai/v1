@@ -239,17 +239,17 @@ describe('AccessibleButton', () => {
 
     it('shows loading spinner', () => {
       const { container } = render(<AccessibleButton loading>Loading</AccessibleButton>);
-      expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('shows loading text for screen readers', () => {
       render(<AccessibleButton loading>Loading</AccessibleButton>);
-      expect(screen.getByText('Loading...', { selector: '.sr-only' })).toBeInTheDocument();
+      expect(screen.getByText('', { selector: '.sr-only' })).toBeInTheDocument();
     });
 
     it('hides loading spinner with aria-hidden', () => {
       const { container } = render(<AccessibleButton loading>Loading</AccessibleButton>);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toHaveAttribute('aria-hidden', 'true');
     });
 
@@ -649,7 +649,7 @@ describe('AccessibleButton', () => {
           Email
         </AccessibleButton>
       );
-      expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('shows icon when not loading', () => {
@@ -733,7 +733,7 @@ describe('AccessibleButton', () => {
     it('provides screen reader accessible loading state', () => {
       render(<AccessibleButton loading>Processing</AccessibleButton>);
 
-      const srOnly = screen.getByText('Loading...', { selector: '.sr-only' });
+      const srOnly = screen.getByText('', { selector: '.sr-only' });
       expect(srOnly).toBeInTheDocument();
     });
 

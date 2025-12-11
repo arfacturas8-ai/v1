@@ -250,7 +250,7 @@ describe('IconButton', () => {
       const { container } = render(
         <IconButton icon={<Home />} loading aria-label="Home" />
       );
-      expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('hides original icon when loading', () => {
@@ -274,12 +274,12 @@ describe('IconButton', () => {
       expect(screen.getByTestId('loader-icon')).toBeInTheDocument();
     });
 
-    it('loader has animate-spin class', () => {
+    it('loader has  class', () => {
       const { container } = render(
         <IconButton icon={<Home />} loading aria-label="Loading" />
       );
       const loader = container.querySelector('[data-testid="loader-icon"]');
-      expect(loader).toHaveClass('animate-spin');
+      expect(loader).toHaveClass('');
     });
 
     it('loader has aria-hidden attribute', () => {

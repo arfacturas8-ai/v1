@@ -76,7 +76,7 @@ const MediaPreview = ({
   const containerClasses = `
     relative overflow-hidden rounded-lg bg-bg-tertiary
     ${compact ? 'flex-shrink-0' : 'w-full'}
-    ${!isLoaded && !hasError ? 'animate-pulse' : ''}
+    ${!isLoaded && !hasError ? '' : ''}
   `
 
   if (media.type === 'image') {

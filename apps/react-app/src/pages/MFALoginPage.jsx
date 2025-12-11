@@ -219,7 +219,7 @@ export default function MFALoginPage() {
 
               {loading && (
                 <div className="flex items-center justify-center gap-2 text-[#666666] mb-4 md:mb-3.5 lg:mb-3 text-xs">
-                  <Loader2 className="w-4.5 h-4.5 animate-spin" />
+                  <Loader2 className="w-4.5 h-4.5 " />
                   <span>Verifying...</span>
                 </div>
               )}
@@ -283,7 +283,7 @@ export default function MFALoginPage() {
                 >
                   {loading ? (
                     <>
-                      <Loader2 className="w-4.5 h-4.5 animate-spin" />
+                      <Loader2 className="w-4.5 h-4.5 " />
                       Verifying...
                     </>
                   ) : (

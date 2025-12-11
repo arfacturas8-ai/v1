@@ -1030,7 +1030,7 @@ describe('CommunityWikiPage', () => {
 
     it('does not show skeleton loaders', () => {
       const { container } = renderWithProviders(<CommunityWikiPage />);
-      expect(container.querySelector('.animate-pulse')).not.toBeInTheDocument();
+      expect(container.querySelector('.')).not.toBeInTheDocument();
     });
 
     it('shows content synchronously', () => {

@@ -1065,7 +1065,7 @@ describe('RichTextEditor', () => {
         />
       );
 
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('shows no users message when list is empty', () => {

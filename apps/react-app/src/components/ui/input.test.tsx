@@ -312,7 +312,7 @@ describe('Input Component', () => {
   describe('Loading State', () => {
     it('should render loading spinner', () => {
       render(<Input loading />);
-      const spinner = document.querySelector('.animate-spin');
+      const spinner = document.querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 

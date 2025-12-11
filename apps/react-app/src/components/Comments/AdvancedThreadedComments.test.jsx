@@ -381,7 +381,7 @@ describe('AdvancedThreadedComments', () => {
           {...mockHandlers}
         />
       )
-      expect(container.querySelector('.animate-spin')).toBeInTheDocument()
+      expect(container.querySelector('.')).toBeInTheDocument()
     })
 
     it('should not render comments when loading', () => {

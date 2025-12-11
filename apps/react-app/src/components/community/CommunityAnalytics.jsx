@@ -93,7 +93,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <div className="w-8 h-8 border-3 border-gray-700 border-t-sky-500 rounded-full animate-spin mb-4"></div>
+          <div className="w-8 h-8 border-3 border-gray-700 border-t-sky-500 rounded-full  mb-4"></div>
           <p>Loading analytics...</p>
         </div>
       </div>

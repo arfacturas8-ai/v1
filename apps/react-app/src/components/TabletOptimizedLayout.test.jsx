@@ -362,7 +362,7 @@ describe('TabletOptimizedLayout', () => {
       });
 
       await waitFor(() => {
-        const spinner = container.querySelector('.animate-spin');
+        const spinner = container.querySelector('.');
         expect(spinner).toBeInTheDocument();
       });
     });
@@ -742,7 +742,7 @@ describe('TabletCardGrid', () => {
       />
     );
 
-    const skeletons = container.querySelectorAll('.animate-pulse');
+    const skeletons = container.querySelectorAll('.');
     expect(skeletons).toHaveLength(4);
   });
 

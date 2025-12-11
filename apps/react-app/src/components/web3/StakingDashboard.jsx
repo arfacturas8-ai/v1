@@ -270,7 +270,7 @@ const StakingDashboard = () => {
       <Card style={{
   padding: '24px'
 }}>
-        <div className="animate-pulse space-y-4">
+        <div className=" space-y-4">
           <div style={{
   height: '24px',
   background: 'rgba(20, 20, 20, 0.6)',

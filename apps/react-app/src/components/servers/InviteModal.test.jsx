@@ -17,7 +17,7 @@ jest.mock('../ui', () => ({
       data-loading={loading}
       data-variant={variant}
     >
-      {loading ? 'Loading...' : children}
+      {loading ? '' : children}
     </button>
   ),
   Input: ({ value, onChange, onKeyPress, disabled, autoFocus, placeholder, className }) => (

@@ -456,7 +456,7 @@ describe('EmojiPicker', () => {
 
       await user.click(screen.getByTitle('Add emoji'));
 
-      const pulseElement = container.querySelector('.animate-pulse');
+      const pulseElement = container.querySelector('.');
       expect(pulseElement).toBeInTheDocument();
     });
 

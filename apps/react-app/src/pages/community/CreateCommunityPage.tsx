@@ -811,7 +811,7 @@ const CreateCommunityPage: React.FC = () => {
               >
                 {creating ? (
                   <>
-                    <Loader className="animate-spin" size={18} />
+                    <Loader className="" size={18} />
                     Creating...
                   </>
                 ) : success ? (

@@ -516,7 +516,7 @@ const PullToRefresh: React.FC<PullToRefreshProps> = ({
               <div
                 className={cn(
                   'w-6 h-6 border-2 border-current border-t-transparent rounded-full',
-                  isRefreshing ? 'animate-spin' : ''
+                  isRefreshing ? '' : ''
                 )}
                 style={{
                   transform: `rotate(${progress * 360}deg)`,

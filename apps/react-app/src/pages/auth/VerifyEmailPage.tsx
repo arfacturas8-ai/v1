@@ -89,14 +89,14 @@ export default function VerifyEmailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 animate-pulse" />
-          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 animate-pulse" />
+          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
+          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
         <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-blue-500/20 flex items-center justify-center">
-              <RefreshCw className="w-8 h-8 text-blue-500 animate-spin" />
+              <RefreshCw className="w-8 h-8 text-blue-500 " />
             </div>
             <h1 className="text-2xl font-bold mb-2 text-white">Verifying your email</h1>
             <p className="text-gray-400">Please wait while we verify your email address...</p>
@@ -111,8 +111,8 @@ export default function VerifyEmailPage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 animate-pulse" />
-          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 animate-pulse" />
+          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
+          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
         <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">

@@ -864,7 +864,7 @@ describe('CommunityStorePage', () => {
   describe('Loading States', () => {
     it('shows loading skeleton for items grid', () => {
       renderWithProviders(<CommunityStorePage />);
-      const skeletons = document.querySelectorAll('.animate-pulse');
+      const skeletons = document.querySelectorAll('.');
       // Loading skeletons could be present
     });
 

@@ -139,7 +139,7 @@ function CallQualityIndicator({
       >
         <IconComponent 
           size={16} 
-          className={`${qualityInfo.color} ${connectionQuality === 'disconnected' ? 'animate-pulse' : ''}`} 
+          className={`${qualityInfo.color} ${connectionQuality === 'disconnected' ? '' : ''}`} 
         />
         <div style={{
   display: 'flex',

@@ -273,8 +273,8 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
     <ModalBody>
       <div className="flex flex-col items-center justify-center py-12">
         <div className="relative mb-6">
-          <div className="w-20 h-20 rounded-full border-4 border-primary/20 animate-pulse" />
-          <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-transparent border-t-primary animate-spin" />
+          <div className="w-20 h-20 rounded-full border-4 border-primary/20 " />
+          <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-transparent border-t-primary " />
         </div>
         <h3 className="text-lg font-semibold mb-2">Waiting for Signature</h3>
         <p className="text-sm text-muted-foreground text-center">
@@ -290,7 +290,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
       <div className="flex flex-col items-center justify-center py-12">
         <div className="relative mb-6">
           <div className="w-20 h-20 rounded-full border-4 border-blue-500/20" />
-          <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-transparent border-t-blue-500 animate-spin" />
+          <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-transparent border-t-blue-500 " />
         </div>
         <h3 className="text-lg font-semibold mb-2">Transaction Pending</h3>
         <p className="text-sm text-muted-foreground text-center mb-6">

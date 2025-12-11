@@ -133,7 +133,7 @@ export default function CommunitySettings({
     return (
       <div className="bg-background-primary p-4">
         <div className="flex flex-col items-center justify-center py-16 text-text-secondary">
-          <div className="w-8 h-8 border-3 border-border-primary border-t-accent-primary rounded-full animate-spin mb-4"></div>
+          <div className="w-8 h-8 border-3 border-border-primary border-t-accent-primary rounded-full  mb-4"></div>
           <p>Loading settings...</p>
         </div>
       </div>

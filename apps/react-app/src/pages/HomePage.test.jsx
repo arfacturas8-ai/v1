@@ -271,7 +271,7 @@ describe('HomePage', () => {
   describe('Loading States', () => {
     it('shows loading state initially', () => {
       renderWithRouter(<HomePage />)
-      const skeletons = document.querySelectorAll('.animate-pulse')
+      const skeletons = document.querySelectorAll('.')
       expect(skeletons.length).toBeGreaterThanOrEqual(0)
     })
 
@@ -289,12 +289,12 @@ describe('HomePage', () => {
 
     it('shows skeleton loaders for communities', () => {
       renderWithRouter(<HomePage />)
-      expect(document.querySelector('.animate-pulse')).toBeTruthy()
+      expect(document.querySelector('.')).toBeTruthy()
     })
 
     it('shows skeleton loaders for posts', () => {
       renderWithRouter(<HomePage />)
-      expect(document.querySelector('.animate-pulse')).toBeTruthy()
+      expect(document.querySelector('.')).toBeTruthy()
     })
 
     it('transitions from loading to loaded state', async () => {

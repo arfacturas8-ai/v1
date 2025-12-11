@@ -237,7 +237,7 @@ describe('Sidebar', () => {
 
       renderWithRouter(<Sidebar />);
       const homeLink = screen.getByText('Home').closest('a');
-      const pulseIndicator = homeLink.querySelector('.animate-pulse');
+      const pulseIndicator = homeLink.querySelector('.');
       expect(pulseIndicator).toBeInTheDocument();
     });
 
@@ -247,7 +247,7 @@ describe('Sidebar', () => {
 
       renderWithRouter(<Sidebar />);
       const exploreLink = screen.getByText('Explore').closest('a');
-      const pulseIndicator = exploreLink.querySelector('.animate-pulse');
+      const pulseIndicator = exploreLink.querySelector('.');
       expect(pulseIndicator).not.toBeInTheDocument();
     });
 
@@ -738,8 +738,8 @@ describe('Sidebar', () => {
 
       renderWithRouter(<Sidebar />);
       const homeLink = screen.getByText('Home').closest('a');
-      const pulseIndicator = homeLink.querySelector('.animate-pulse');
-      expect(pulseIndicator).toHaveClass('animate-pulse');
+      const pulseIndicator = homeLink.querySelector('.');
+      expect(pulseIndicator).toHaveClass('');
     });
   });
 

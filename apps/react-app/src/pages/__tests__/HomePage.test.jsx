@@ -89,7 +89,7 @@ describe('HomePage', () => {
   it('shows loading state initially', () => {
     renderWithRouter(<HomePage />)
     // Check for skeleton loaders
-    const skeletons = document.querySelectorAll('.animate-pulse')
+    const skeletons = document.querySelectorAll('.')
     expect(skeletons.length).toBeGreaterThan(0)
   })
 

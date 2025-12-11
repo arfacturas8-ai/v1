@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react';
 
 export const LoadingState = ({
   type = 'default',
-  message = 'Loading...',
+  message = '',
   size = 'md'
 }) => {
   const sizeClasses = {
@@ -21,7 +21,7 @@ export const LoadingState = ({
   justifyContent: 'center',
   padding: '32px'
 }} role="status" aria-live="polite">
-        <Loader2 className={`${sizeClasses[size]} animate-spin text-blue-500`} aria-hidden="true" />
+        <Loader2 className={`${sizeClasses[size]}  text-blue-500`} aria-hidden="true" />
         <p style={{
   color: '#A0A0A0'
 }}>{message}</p>

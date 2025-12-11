@@ -360,14 +360,15 @@ export default function SignupPage() {
 
           {/* Terms checkbox */}
           <div className="mb-6">
-            <label className="flex items-start cursor-pointer group">
+            <label className="flex items-start gap-2 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="w-4 h-4 mt-0.5 flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
+                style={{ width: '16px', height: '16px', minWidth: '16px', minHeight: '16px', marginTop: '2px' }}
+                className="flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
               />
-              <span className="ml-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+              <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                 I agree to the{' '}
                 <Link to="/terms" className="text-blue-400 hover:text-blue-300">
                   Terms of Service

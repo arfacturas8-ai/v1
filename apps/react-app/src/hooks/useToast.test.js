@@ -171,7 +171,7 @@ describe('useToast', () => {
 
     await act(async () => {
       await result.current.promise(mockPromise, {
-        loading: 'Loading...',
+        loading: '',
         success: 'Done!',
         error: 'Failed!'
       });
@@ -189,7 +189,7 @@ describe('useToast', () => {
     await act(async () => {
       try {
         await result.current.promise(mockPromise, {
-          loading: 'Loading...',
+          loading: '',
           success: 'Done!',
           error: 'Failed!'
         });
@@ -209,7 +209,7 @@ describe('useToast', () => {
 
     await act(async () => {
       await result.current.promise(mockPromise, {
-        loading: 'Loading...',
+        loading: '',
         success: (data) => `Got ${data.value}`,
         error: (err) => `Error: ${err.message}`
       });

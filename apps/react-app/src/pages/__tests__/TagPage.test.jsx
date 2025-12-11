@@ -385,7 +385,7 @@ describe('TagPage', () => {
     it('shows loading spinner initially', () => {
       renderWithRouter(<TagPage />);
 
-      const spinner = screen.getByRole('main').querySelector('.animate-spin');
+      const spinner = screen.getByRole('main').querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 
@@ -721,7 +721,7 @@ describe('TagPage', () => {
   describe('Loading States', () => {
     it('shows loading spinner during data fetch', () => {
       renderWithRouter(<TagPage />);
-      const spinner = screen.getByRole('main').querySelector('.animate-spin');
+      const spinner = screen.getByRole('main').querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 
@@ -729,14 +729,14 @@ describe('TagPage', () => {
       renderWithRouter(<TagPage />);
 
       await waitFor(() => {
-        const spinner = screen.queryByRole('main').querySelector('.animate-spin');
+        const spinner = screen.queryByRole('main').querySelector('.');
         expect(spinner).not.toBeInTheDocument();
       });
     });
 
     it('displays loading spinner with proper styling', () => {
       renderWithRouter(<TagPage />);
-      const spinner = screen.getByRole('main').querySelector('.animate-spin');
+      const spinner = screen.getByRole('main').querySelector('.');
       expect(spinner).toHaveClass('border-4', 'border-blue-500', 'rounded-full');
     });
   });

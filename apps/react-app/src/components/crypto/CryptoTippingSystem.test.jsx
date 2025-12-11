@@ -765,7 +765,7 @@ describe('CryptoTippingSystem', () => {
       fireEvent.click(quickTipButton);
 
       await waitFor(() => {
-        expect(quickTipButton).toHaveClass('animate-pulse');
+        expect(quickTipButton).toHaveClass('');
       });
     });
 
@@ -780,13 +780,13 @@ describe('CryptoTippingSystem', () => {
       fireEvent.click(quickTipButton);
 
       await waitFor(() => {
-        expect(quickTipButton).toHaveClass('animate-pulse');
+        expect(quickTipButton).toHaveClass('');
       });
 
       jest.advanceTimersByTime(2000);
 
       await waitFor(() => {
-        expect(quickTipButton).not.toHaveClass('animate-pulse');
+        expect(quickTipButton).not.toHaveClass('');
       });
 
       jest.useRealTimers();
@@ -864,7 +864,7 @@ describe('CryptoTippingSystem', () => {
       });
 
       await waitFor(() => {
-        const spinner = document.querySelector('.animate-spin');
+        const spinner = document.querySelector('.');
         expect(spinner).toBeInTheDocument();
       });
     });

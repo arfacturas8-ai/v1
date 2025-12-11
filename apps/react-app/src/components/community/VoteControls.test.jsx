@@ -325,7 +325,7 @@ describe('VoteControls', () => {
 
       fireEvent.click(screen.getByLabelText('Upvote'))
 
-      expect(screen.getByLabelText('Upvote')).toHaveClass('animate-pulse')
+      expect(screen.getByLabelText('Upvote')).toHaveClass('')
     })
 
     it('should remove animation class after vote completes', async () => {
@@ -338,7 +338,7 @@ describe('VoteControls', () => {
       jest.advanceTimersByTime(300)
 
       await waitFor(() => {
-        expect(screen.getByLabelText('Upvote')).not.toHaveClass('animate-pulse')
+        expect(screen.getByLabelText('Upvote')).not.toHaveClass('')
       })
 
       jest.useRealTimers()
@@ -652,7 +652,7 @@ describe('VoteControls', () => {
         <VoteControls postId="1" initialScore={10} showControvery={true} controversyScore={0.9} />
       )
       const svg = container.querySelector('.text-orange-500')
-      expect(svg).toHaveClass('animate-pulse')
+      expect(svg).toHaveClass('')
     })
   })
 
@@ -708,7 +708,7 @@ describe('VoteControls', () => {
       jest.advanceTimersByTime(300)
 
       await waitFor(() => {
-        expect(screen.getByLabelText('Upvote')).not.toHaveClass('animate-pulse')
+        expect(screen.getByLabelText('Upvote')).not.toHaveClass('')
       })
 
       jest.useRealTimers()

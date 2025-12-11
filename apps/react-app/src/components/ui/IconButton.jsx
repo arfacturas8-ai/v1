@@ -112,7 +112,7 @@ const IconButton = forwardRef(({
 
   const IconElement = loading ? (
     <Loader2 
-      className="animate-spin" 
+      className="" 
       size={iconSize[size]} 
       aria-hidden="true"
     />

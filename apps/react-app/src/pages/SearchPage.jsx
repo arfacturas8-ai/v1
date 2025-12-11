@@ -510,11 +510,6 @@ function SearchPage() {
               e.target.style.boxShadow = 'none'
             }}
           />
-          {loading && (
-            <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)' }}>
-              <LoadingSpinner size="small" />
-            </div>
-          )}
         </div>
 
         {/* Tabs */}
@@ -585,107 +580,6 @@ function SearchPage() {
       {/* Results */}
       {!query ? (
         <EmptySearch />
-      ) : loading ? (
-        <>
-          {/* Loading Skeletons */}
-          {(activeTab === 'all' || activeTab === 'communities') && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="communities-heading-loading">
-              <h2 id="communities-heading-loading" style={{
-                fontSize: `${fontSize.xl}px`,
-                fontWeight: '600',
-                marginBottom: `${spacing.md}px`,
-                color: '#A0A0A0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                Communities
-                <span style={{
-                  display: 'inline-block',
-                  width: '20px',
-                  height: '20px',
-                  border: '2px solid rgba(88, 166, 255, 0.2)',
-                  borderTopColor: '#58a6ff',
-                  borderRadius: '50%',
-                  animation: 'spin 0.8s linear infinite'
-                }} />
-              </h2>
-              <div style={{
-                display: 'grid',
-                gap: `${spacing.md}px`,
-                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))'
-              }}>
-                {[...Array(3)].map((_, i) => (
-                  <SkeletonCard key={i} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {(activeTab === 'all' || activeTab === 'posts') && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="posts-heading-loading">
-              <h2 id="posts-heading-loading" style={{
-                fontSize: `${fontSize.xl}px`,
-                fontWeight: '600',
-                marginBottom: `${spacing.md}px`,
-                color: '#A0A0A0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                Posts
-                <span style={{
-                  display: 'inline-block',
-                  width: '20px',
-                  height: '20px',
-                  border: '2px solid rgba(88, 166, 255, 0.2)',
-                  borderTopColor: '#58a6ff',
-                  borderRadius: '50%',
-                  animation: 'spin 0.8s linear infinite'
-                }} />
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: `${spacing.md}px` }}>
-                {[...Array(3)].map((_, i) => (
-                  <SkeletonPost key={i} />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {(activeTab === 'all' || activeTab === 'users') && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="users-heading-loading">
-              <h2 id="users-heading-loading" style={{
-                fontSize: `${fontSize.xl}px`,
-                fontWeight: '600',
-                marginBottom: `${spacing.md}px`,
-                color: '#A0A0A0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px'
-              }}>
-                Users
-                <span style={{
-                  display: 'inline-block',
-                  width: '20px',
-                  height: '20px',
-                  border: '2px solid rgba(88, 166, 255, 0.2)',
-                  borderTopColor: '#58a6ff',
-                  borderRadius: '50%',
-                  animation: 'spin 0.8s linear infinite'
-                }} />
-              </h2>
-              <div style={{
-                display: 'grid',
-                gap: `${spacing.md}px`,
-                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))'
-              }}>
-                {[...Array(3)].map((_, i) => (
-                  <SkeletonCard key={i} />
-                ))}
-              </div>
-            </section>
-          )}
-        </>
       ) : totalResults === 0 ? (
         <EmptySearch query={query} />
       ) : (

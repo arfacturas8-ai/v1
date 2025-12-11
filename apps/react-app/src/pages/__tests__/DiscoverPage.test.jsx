@@ -96,7 +96,7 @@ describe('DiscoverPage', () => {
 
   it('shows loading state', () => {
     renderWithRouter(<DiscoverPage />);
-    expect(document.querySelector('.animate-pulse') || screen.queryByTestId('loading')).toBeTruthy();
+    expect(document.querySelector('.') || screen.queryByTestId('loading')).toBeTruthy();
   });
 
   it('displays tab navigation', async () => {

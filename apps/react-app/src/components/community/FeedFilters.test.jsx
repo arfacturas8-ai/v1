@@ -212,24 +212,24 @@ describe('FeedFilters', () => {
       expect(refreshButton).not.toBeDisabled();
     });
 
-    it('has animate-pulse class when refreshing', () => {
+    it('has  class when refreshing', () => {
       const { container } = render(<FeedFilters {...defaultProps} refreshing={true} />);
       const refreshButton = screen.getByRole('button', { name: /refresh feed/i });
-      expect(refreshButton.classList.contains('animate-pulse')).toBe(true);
+      expect(refreshButton.classList.contains('')).toBe(true);
     });
 
-    it('has animate-spin class on SVG when refreshing', () => {
+    it('has  class on SVG when refreshing', () => {
       const { container } = render(<FeedFilters {...defaultProps} refreshing={true} />);
       const refreshButton = screen.getByRole('button', { name: /refresh feed/i });
       const svg = refreshButton.querySelector('svg');
-      expect(svg.classList.contains('animate-spin')).toBe(true);
+      expect(svg.classList.contains('')).toBe(true);
     });
 
-    it('does not have animate-spin class on SVG when not refreshing', () => {
+    it('does not have  class on SVG when not refreshing', () => {
       const { container } = render(<FeedFilters {...defaultProps} refreshing={false} />);
       const refreshButton = screen.getByRole('button', { name: /refresh feed/i });
       const svg = refreshButton.querySelector('svg');
-      expect(svg.classList.contains('animate-spin')).toBe(false);
+      expect(svg.classList.contains('')).toBe(false);
     });
   });
 
@@ -390,7 +390,7 @@ describe('FeedFilters', () => {
       const { container } = render(
         <FeedFilters {...defaultProps} feedType="community" communityName="gaming" />
       );
-      const onlineIndicator = container.querySelector('.animate-pulse');
+      const onlineIndicator = container.querySelector('.');
       expect(onlineIndicator).toBeInTheDocument();
       expect(onlineIndicator.classList.contains('bg-success')).toBe(true);
     });

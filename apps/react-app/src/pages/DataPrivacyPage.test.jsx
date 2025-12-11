@@ -715,7 +715,7 @@ describe('DataPrivacyPage', () => {
 
     it('does not show skeleton loaders', () => {
       const { container } = renderWithProviders(<DataPrivacyPage />);
-      expect(container.querySelector('.animate-pulse')).not.toBeInTheDocument();
+      expect(container.querySelector('.')).not.toBeInTheDocument();
     });
 
     it('content is visible on first render', () => {

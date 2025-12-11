@@ -233,7 +233,7 @@ export default function UserSearch({
         <div className="max-h-[60vh] overflow-y-auto p-4">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-[60px] px-5 gap-4 text-secondary">
-              <Loader className="animate-spin" size={24} />
+              <Loader className="" size={24} />
               <span>Searching users...</span>
             </div>
           ) : hasSearched ? (
@@ -401,7 +401,7 @@ export default function UserSearch({
       <div className="p-5 min-h-[300px]">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-[60px] px-5 gap-4 text-secondary">
-            <Loader className="animate-spin" size={32} />
+            <Loader className="" size={32} />
             <span>Searching users...</span>
           </div>
         ) : hasSearched ? (

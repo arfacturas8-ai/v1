@@ -135,7 +135,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
           {participants.map((participant, idx) => (
             <div
               key={participant.id || idx}
-              className={`flex flex-col items-center px-3 py-4 bg-white/5 rounded-2xl transition-all duration-300 relative min-h-[120px] ${speakingParticipants.has(participant.id) ? 'bg-[#00d2d3]/15 border-2 border-[#00d2d3] shadow-[0_0_20px_rgba(0,210,211,0.3)] animate-pulse' : ''}`}
+              className={`flex flex-col items-center px-3 py-4 bg-white/5 rounded-2xl transition-all duration-300 relative min-h-[120px] ${speakingParticipants.has(participant.id) ? 'bg-[#00d2d3]/15 border-2 border-[#00d2d3] shadow-[0_0_20px_rgba(0,210,211,0.3)] ' : ''}`}
             >
               <div className="w-16 h-16 rounded-full overflow-hidden relative mb-3 bg-[#5865f2]">
                 {participant.avatar ? (

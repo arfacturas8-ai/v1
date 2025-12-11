@@ -539,7 +539,7 @@ export function withAuth(Component) {
     if (loading) {
       return (
         <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--bg-primary)' }}>
-          <div className="text-brand text-2xl font-bold">Loading...</div>
+          <div className="text-brand text-2xl font-bold"></div>
         </div>
       )
     }

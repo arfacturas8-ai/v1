@@ -436,7 +436,7 @@ export function NFTGalleryPage() {
     return (
       <div className="min-h-screen bg-background p-4">
         <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse space-y-4">
+          <div className=" space-y-4">
             <div className="h-8 bg-muted rounded w-48" />
             <div className="h-12 bg-muted rounded" />
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

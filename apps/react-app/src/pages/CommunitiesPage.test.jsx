@@ -58,7 +58,7 @@ jest.mock('../components/community/CommunityCard', () => {
 // Mock LoadingSpinner component
 jest.mock('../components/community/LoadingSpinner', () => {
   return function LoadingSpinner() {
-    return <div data-testid="loading-spinner">Loading...</div>
+    return <div data-testid="loading-spinner"></div>
   }
 })
 

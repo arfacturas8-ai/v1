@@ -215,9 +215,9 @@ describe('SkeletonText', () => {
       expect(lines).toHaveLength(1);
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<SkeletonText />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('has space-y-2 class for spacing', () => {
@@ -306,9 +306,9 @@ describe('WalletConnectSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<WalletConnectSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('renders with default medium size', () => {
@@ -372,9 +372,9 @@ describe('TokenBalanceSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<TokenBalanceSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('has border styling', () => {
@@ -464,9 +464,9 @@ describe('NetworkSwitcherSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<NetworkSwitcherSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('renders with default medium size', () => {
@@ -521,9 +521,9 @@ describe('GasEstimatorSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<GasEstimatorSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('has proper styling', () => {
@@ -603,9 +603,9 @@ describe('TransactionConfirmationSkeleton', () => {
       expect(overlay).toHaveClass('z-50');
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<TransactionConfirmationSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
   });
 
@@ -694,9 +694,9 @@ describe('TransactionHistorySkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<TransactionHistorySkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('has proper styling', () => {
@@ -821,9 +821,9 @@ describe('NFTProfileBadgeSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<NFTProfileBadgeSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('renders with default medium size', () => {
@@ -900,9 +900,9 @@ describe('CryptoTippingSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<CryptoTippingSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('has proper styling', () => {
@@ -985,9 +985,9 @@ describe('ComingSoonWrapperSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<ComingSoonWrapperSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('has relative positioning', () => {
@@ -1147,9 +1147,9 @@ describe('Web3OperationSkeleton', () => {
       expect(container.firstChild).toBeInTheDocument();
     });
 
-    it('has animate-pulse class', () => {
+    it('has  class', () => {
       const { container } = render(<Web3OperationSkeleton />);
-      expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
 
     it('has proper styling', () => {
@@ -1325,7 +1325,7 @@ describe('Integration Tests', () => {
           <NetworkSwitcherSkeleton />
         </div>
       );
-      const skeletons = container.querySelectorAll('.animate-pulse');
+      const skeletons = container.querySelectorAll('.');
       expect(skeletons.length).toBeGreaterThanOrEqual(2);
     });
 

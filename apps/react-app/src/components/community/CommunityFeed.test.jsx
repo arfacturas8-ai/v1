@@ -729,7 +729,7 @@ describe('CommunityFeed', () => {
       const loadMoreButton = screen.getByText('Load More Posts')
       await user.click(loadMoreButton)
 
-      expect(screen.getByText('Loading...')).toBeInTheDocument()
+      expect(screen.getByText('')).toBeInTheDocument()
     })
 
     it('should not load more if already loading', async () => {
@@ -926,7 +926,7 @@ describe('CommunityFeed', () => {
       await user.click(loadMoreButton)
 
       await waitFor(() => {
-        expect(screen.getByText('Loading...')).toBeInTheDocument()
+        expect(screen.getByText('')).toBeInTheDocument()
       })
     })
   })

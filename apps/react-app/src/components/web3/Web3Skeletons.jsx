@@ -4,7 +4,7 @@ import React from 'react';
 function SkeletonBase({ className = '', children, ...props }) {
   return (
     <div 
-      className={`animate-pulse ${className}`} 
+      className={` ${className}`} 
       {...props}
     >
       {children}
@@ -640,7 +640,7 @@ export const Web3LoadingStates = {
 
 // Generic Web3 operation skeleton
 export function Web3OperationSkeleton({ 
-  operation = 'Loading...', 
+  operation = '', 
   showProgress = false, 
   progress = 0,
   className = '' 

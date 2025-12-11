@@ -42,7 +42,7 @@ vi.mock('./SkeletonBase', () => ({
       aria-label="Loading"
       {...props}
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   ),
   SkeletonText: ({ lines, spacing, className, lastLineWidth }) => (
@@ -66,7 +66,7 @@ vi.mock('./SkeletonBase', () => ({
       role="status"
       aria-label="Loading"
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   ),
   SkeletonButton: ({ size, className }) => (
@@ -77,7 +77,7 @@ vi.mock('./SkeletonBase', () => ({
       role="status"
       aria-label="Loading"
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   ),
   SkeletonImage: ({ aspectRatio, rounded, className }) => (
@@ -89,7 +89,7 @@ vi.mock('./SkeletonBase', () => ({
       role="status"
       aria-label="Loading"
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   ),
 }));

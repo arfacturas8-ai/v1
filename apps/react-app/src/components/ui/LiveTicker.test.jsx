@@ -123,13 +123,13 @@ describe('LiveTicker', () => {
 
     it('live indicator has pulse animation', () => {
       const { container } = render(<LiveTicker />);
-      const pulseElement = container.querySelector('.animate-pulse');
+      const pulseElement = container.querySelector('.');
       expect(pulseElement).toBeInTheDocument();
     });
 
     it('live indicator has correct styling', () => {
       const { container } = render(<LiveTicker />);
-      const pulseElement = container.querySelector('.animate-pulse');
+      const pulseElement = container.querySelector('.');
       expect(pulseElement).toHaveClass('w-2', 'h-2', 'bg-success', 'rounded-full');
     });
 

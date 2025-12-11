@@ -25,7 +25,7 @@ describe('LoadingState Component', () => {
 
     it('should display default loading message', () => {
       render(<LoadingState />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('should display custom message for default type', () => {
@@ -35,7 +35,7 @@ describe('LoadingState Component', () => {
 
     it('should render spinner element for default type', () => {
       const { container } = render(<LoadingState />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 
@@ -46,7 +46,7 @@ describe('LoadingState Component', () => {
 
     it('should have aria-hidden on spinner element', () => {
       const { container } = render(<LoadingState />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toHaveAttribute('aria-hidden', 'true');
     });
 
@@ -65,7 +65,7 @@ describe('LoadingState Component', () => {
     it('should render message with correct styling', () => {
       const { container } = render(<LoadingState />);
       const message = container.querySelector('.ml-3.text-gray-400');
-      expect(message).toHaveTextContent('Loading...');
+      expect(message).toHaveTextContent('');
     });
   });
 
@@ -109,10 +109,10 @@ describe('LoadingState Component', () => {
       expect(icon).toHaveClass('h-8', 'w-8');
     });
 
-    it('should apply animate-spin class to Loader2', () => {
+    it('should apply  class to Loader2', () => {
       render(<LoadingState type="spinner" />);
       const icon = screen.getByTestId('loader2-icon');
-      expect(icon).toHaveClass('animate-spin');
+      expect(icon).toHaveClass('');
     });
 
     it('should apply blue color to spinner', () => {
@@ -148,7 +148,7 @@ describe('LoadingState Component', () => {
 
     it('should render 5 skeleton items', () => {
       const { container } = render(<LoadingState type="skeleton-list" />);
-      const skeletonItems = container.querySelectorAll('.animate-pulse');
+      const skeletonItems = container.querySelectorAll('.');
       expect(skeletonItems).toHaveLength(5);
     });
 
@@ -171,7 +171,7 @@ describe('LoadingState Component', () => {
 
     it('should render two content lines per skeleton item', () => {
       const { container } = render(<LoadingState type="skeleton-list" />);
-      const firstItem = container.querySelector('.animate-pulse');
+      const firstItem = container.querySelector('.');
       const contentLines = within(firstItem).getAllByRole('generic').filter(
         el => el.className.includes('h-4 bg-gray-700 rounded')
       );
@@ -186,11 +186,11 @@ describe('LoadingState Component', () => {
       expect(secondLine).toBeInTheDocument();
     });
 
-    it('should apply animate-pulse to each skeleton item', () => {
+    it('should apply  to each skeleton item', () => {
       const { container } = render(<LoadingState type="skeleton-list" />);
-      const items = container.querySelectorAll('.animate-pulse');
+      const items = container.querySelectorAll('.');
       items.forEach(item => {
-        expect(item).toHaveClass('animate-pulse');
+        expect(item).toHaveClass('');
       });
     });
 
@@ -202,7 +202,7 @@ describe('LoadingState Component', () => {
 
     it('should have flex layout for each skeleton item', () => {
       const { container } = render(<LoadingState type="skeleton-list" />);
-      const items = container.querySelectorAll('.animate-pulse.flex.space-x-4');
+      const items = container.querySelectorAll('..flex.space-x-4');
       expect(items).toHaveLength(5);
     });
   });
@@ -240,7 +240,7 @@ describe('LoadingState Component', () => {
 
     it('should hide decorative spinner from screen readers in default type', () => {
       const { container } = render(<LoadingState />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toHaveAttribute('aria-hidden', 'true');
     });
 
@@ -280,7 +280,7 @@ describe('LoadingState Component', () => {
     it('should handle invalid type by using default', () => {
       render(<LoadingState type="invalid-type" />);
       const { container } = render(<LoadingState />);
-      expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
   });
 });

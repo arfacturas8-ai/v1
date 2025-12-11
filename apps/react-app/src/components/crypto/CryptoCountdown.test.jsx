@@ -455,7 +455,7 @@ describe('CryptoCountdown', () => {
       })
 
       await waitFor(() => {
-        const pulsingDot = container.querySelector('.animate-pulse')
+        const pulsingDot = container.querySelector('.')
         expect(pulsingDot).toBeInTheDocument()
       })
     })
@@ -470,7 +470,7 @@ describe('CryptoCountdown', () => {
       })
 
       await waitFor(() => {
-        const clockIcon = container.querySelector('.animate-pulse')
+        const clockIcon = container.querySelector('.')
         expect(clockIcon).toBeInTheDocument()
       })
     })

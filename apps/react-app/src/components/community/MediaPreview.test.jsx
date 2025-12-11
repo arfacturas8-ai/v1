@@ -36,7 +36,7 @@ describe('MediaPreview Component', () => {
       const media = { type: 'image', url: 'https://example.com/image.jpg' }
       render(<MediaPreview media={media} />)
 
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).toBeInTheDocument()
     })
 
@@ -47,7 +47,7 @@ describe('MediaPreview Component', () => {
       const img = screen.getByAltText('Post image')
       fireEvent.load(img)
 
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).not.toBeInTheDocument()
     })
 
@@ -504,7 +504,7 @@ describe('MediaPreview Component', () => {
       const media = { type: 'image', url: 'https://example.com/image.jpg' }
       render(<MediaPreview media={media} />)
 
-      const container = document.querySelector('.animate-pulse')
+      const container = document.querySelector('.')
       expect(container).toBeInTheDocument()
     })
 
@@ -515,7 +515,7 @@ describe('MediaPreview Component', () => {
       const img = screen.getByAltText('Post image')
       fireEvent.load(img)
 
-      const container = document.querySelector('.animate-pulse')
+      const container = document.querySelector('.')
       expect(container).not.toBeInTheDocument()
     })
 
@@ -526,7 +526,7 @@ describe('MediaPreview Component', () => {
       const img = screen.getByAltText('Post image')
       fireEvent.error(img)
 
-      const container = document.querySelector('.animate-pulse')
+      const container = document.querySelector('.')
       expect(container).not.toBeInTheDocument()
     })
   })

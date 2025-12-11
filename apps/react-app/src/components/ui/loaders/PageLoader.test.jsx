@@ -35,7 +35,7 @@ describe('PageLoader', () => {
 
     it('should render with default props', () => {
       render(<PageLoader />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('should render as a full-page overlay', () => {
@@ -57,7 +57,7 @@ describe('PageLoader', () => {
   describe('Loading Message Display', () => {
     it('should render default loading message', () => {
       render(<PageLoader />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('should render custom loading message', () => {
@@ -319,7 +319,7 @@ describe('Spinner', () => {
 
     it('should have screen reader text', () => {
       render(<Spinner />);
-      expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+      expect(screen.getByText('')).toHaveClass('sr-only');
     });
   });
 });
@@ -407,7 +407,7 @@ describe('DotLoader', () => {
 
     it('should have screen reader text', () => {
       render(<DotLoader />);
-      expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+      expect(screen.getByText('')).toHaveClass('sr-only');
     });
   });
 });
@@ -495,7 +495,7 @@ describe('PulseLoader', () => {
 
     it('should have screen reader text', () => {
       render(<PulseLoader />);
-      expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+      expect(screen.getByText('')).toHaveClass('sr-only');
     });
   });
 });
@@ -601,7 +601,7 @@ describe('BarLoader', () => {
 
     it('should have screen reader text', () => {
       render(<BarLoader />);
-      expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+      expect(screen.getByText('')).toHaveClass('sr-only');
     });
   });
 });

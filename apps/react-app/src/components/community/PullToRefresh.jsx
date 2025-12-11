@@ -81,7 +81,7 @@ const PullToRefresh = ({
   }, [refreshing])
 
   const getIconRotation = () => {
-    if (refreshing) return 'animate-spin'
+    if (refreshing) return ''
     if (canRefresh) return 'rotate-180'
     return ''
   }

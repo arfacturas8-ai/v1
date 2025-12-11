@@ -290,7 +290,7 @@ describe('LoadingSkeleton', () => {
   describe('FullPageLoader', () => {
     it('renders without crashing', () => {
       render(<FullPageLoader />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('renders custom message', () => {
@@ -300,7 +300,7 @@ describe('LoadingSkeleton', () => {
 
     it('does not render message when empty', () => {
       render(<FullPageLoader message="" />);
-      expect(screen.queryByText('Loading...')).not.toBeInTheDocument();
+      expect(screen.queryByText('')).not.toBeInTheDocument();
     });
 
     it('renders loading spinner', () => {

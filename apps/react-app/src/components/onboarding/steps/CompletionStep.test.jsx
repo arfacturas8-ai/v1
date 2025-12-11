@@ -121,7 +121,7 @@ describe('CompletionStep', () => {
 
     it('renders 50 confetti elements', () => {
       const { container } = render(<CompletionStep onComplete={mockOnComplete} />);
-      const confettiElements = container.querySelectorAll('.absolute.animate-pulse');
+      const confettiElements = container.querySelectorAll('.absolute.');
       expect(confettiElements).toHaveLength(50);
     });
 

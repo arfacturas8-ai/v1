@@ -156,7 +156,7 @@ describe('AwardNotificationSystem', () => {
       setupFetchMock()
       render(<AwardNotificationSystem userId="user-123" onClose={jest.fn()} />)
 
-      expect(screen.getByRole('generic', { hidden: true })).toHaveClass('animate-spin')
+      expect(screen.getByRole('generic', { hidden: true })).toHaveClass('')
     })
 
     test('renders all notifications after loading', async () => {
@@ -1088,7 +1088,7 @@ describe('AwardNotificationSystem', () => {
       render(<AwardNotificationSystem userId="user-123" onClose={jest.fn()} />)
 
       await waitFor(() => {
-        expect(screen.queryByRole('generic', { hidden: true })).not.toHaveClass('animate-spin')
+        expect(screen.queryByRole('generic', { hidden: true })).not.toHaveClass('')
       })
     })
   })

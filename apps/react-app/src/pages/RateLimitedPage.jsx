@@ -35,7 +35,7 @@ export default function RateLimitedPage() {
       <div className="text-center text-white max-w-2xl w-full">
         <div className="inline-flex items-center justify-center w-24 h-24 md:w-30 md:h-30 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full mb-6 md:mb-8 backdrop-blur-sm relative" aria-hidden="true">
           <Clock size={64} aria-hidden="true" className="w-12 h-12 md:w-16 md:h-16 text-[#58a6ff]" />
-          <div className="absolute inset-0 rounded-full border-4 border-[#58a6ff]/30 border-t-[#58a6ff] animate-spin" aria-hidden="true" />
+          <div className="absolute inset-0 rounded-full border-4 border-[#58a6ff]/30 border-t-[#58a6ff] " aria-hidden="true" />
         </div>
 
         <div className="text-7xl md:text-9xl font-bold leading-none mb-5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" aria-hidden="true">

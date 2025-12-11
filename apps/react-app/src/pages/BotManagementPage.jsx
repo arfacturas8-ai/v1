@@ -311,7 +311,7 @@ const BotManagementPage = () => {
       {/* Loading State */}
       {loading && (
         <div className="text-center py-20 bg-[#141414]/60 backdrop-blur-xl border-2 border-dashed border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-          <RefreshCw size={48} className="mx-auto mb-4 text-[#58a6ff] animate-spin" />
+          <RefreshCw size={48} className="mx-auto mb-4 text-[#58a6ff] " />
           <p className="text-[#666666]">Loading bots...</p>
         </div>
       )}

@@ -142,7 +142,7 @@ export const SkeletonPost = ({ className = '' }) => (
 )
 
 export const SkeletonProfile = ({ className = '' }) => (
-  <div className={`animate-pulse ${className}`}>
+  <div className={` ${className}`}>
     {/* Banner */}
     <div style={{
   height: '192px',
@@ -222,7 +222,7 @@ export const SkeletonList = ({ count = 3, className = '' }) => (
 )
 
 export const SkeletonTable = ({ rows = 5, cols = 4, className = '' }) => (
-  <div className={`animate-pulse ${className}`}>
+  <div className={` ${className}`}>
     {/* Header */}
     <div style={{
   display: 'flex',
@@ -259,7 +259,7 @@ export const SkeletonTable = ({ rows = 5, cols = 4, className = '' }) => (
 )
 
 export const SkeletonText = ({ lines = 3, className = '' }) => (
-  <div className={`animate-pulse space-y-3 ${className}`}>
+  <div className={` space-y-3 ${className}`}>
     {Array.from({ length: lines }).map((_, i) => (
       <div
         key={i}

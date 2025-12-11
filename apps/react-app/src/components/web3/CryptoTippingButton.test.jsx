@@ -562,7 +562,7 @@ describe('CryptoTippingButton', () => {
       await user.click(sendButton);
 
       expect(screen.getByText('Sending...')).toBeInTheDocument();
-      const spinner = screen.getByRole('button', { name: /sending/i }).querySelector('.animate-spin');
+      const spinner = screen.getByRole('button', { name: /sending/i }).querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 

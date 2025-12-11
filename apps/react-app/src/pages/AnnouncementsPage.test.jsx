@@ -773,13 +773,13 @@ describe('AnnouncementsPage', () => {
     it('shows loading indicator initially', () => {
       renderWithRouter(<AnnouncementsPage />);
       const loadingElement = screen.queryByTestId('loading-spinner') ||
-                           document.querySelector('.animate-pulse');
+                           document.querySelector('.');
       // Loading should appear on initial render
     });
 
     it('displays skeleton loaders', () => {
       renderWithRouter(<AnnouncementsPage />);
-      const skeletons = document.querySelectorAll('[class*="animate-pulse"]');
+      const skeletons = document.querySelectorAll('[class*=""]');
       // Skeleton loaders for announcements
     });
 

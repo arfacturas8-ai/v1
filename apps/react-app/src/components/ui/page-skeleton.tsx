@@ -6,7 +6,7 @@ interface PageSkeletonProps {
 
 export function PageSkeleton({ className }: PageSkeletonProps) {
   return (
-    <div className={cn('animate-pulse space-y-4 p-4', className)}>
+    <div className={cn(' space-y-4 p-4', className)}>
       {/* Header skeleton */}
       <div className='space-y-2'>
         <div className='h-8 bg-muted rounded w-1/3'></div>
@@ -29,7 +29,7 @@ export function PageSkeleton({ className }: PageSkeletonProps) {
       {/* Loading text */}
       <div className='text-center text-muted-foreground'>
         <div className='inline-flex items-center space-x-2'>
-          <svg className='animate-spin h-4 w-4' viewBox='0 0 24 24'>
+          <svg className=' h-4 w-4' viewBox='0 0 24 24'>
             <circle 
               className='opacity-25' 
               cx='12' 
@@ -45,7 +45,7 @@ export function PageSkeleton({ className }: PageSkeletonProps) {
               d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
             />
           </svg>
-          <span>Loading...</span>
+          <span></span>
         </div>
       </div>
     </div>

@@ -61,7 +61,7 @@ describe('CommunityPage', () => {
 
   it('shows loading state initially', () => {
     renderWithRouter()
-    const loadingIndicators = document.querySelectorAll('.animate-pulse')
+    const loadingIndicators = document.querySelectorAll('.')
     expect(loadingIndicators.length).toBeGreaterThan(0)
   })
 

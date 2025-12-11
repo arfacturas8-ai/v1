@@ -215,7 +215,7 @@ export default function ModerationQueue({
     return (
       <div className="max-w-4xl mx-auto p-4 md:p-6">
         <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <div className="w-8 h-8 border-2 border-gray-600 border-t-blue-500 rounded-full animate-spin mb-4"></div>
+          <div className="w-8 h-8 border-2 border-gray-600 border-t-blue-500 rounded-full  mb-4"></div>
           <p>Loading moderation queue...</p>
         </div>
       </div>

@@ -82,8 +82,8 @@ export default function OAuthCallbackPage() {
         <div className="relative inline-flex items-center justify-center w-20 md:w-[100px] h-20 md:h-[100px] bg-[#141414]/60 backdrop-blur-xl rounded-full mb-6 md:mb-8 backdrop-blur-md">
           {status === 'processing' && (
             <>
-              <Loader className="w-9 md:w-12 h-9 md:h-12 animate-spin" />
-              <div className="absolute inset-0 rounded-full border-4 border-white/10 border-t-white animate-spin" style={{ animationDuration: '2s' }} />
+              <Loader className="w-9 md:w-12 h-9 md:h-12 " />
+              <div className="absolute inset-0 rounded-full border-4 border-white/10 border-t-white " style={{ animationDuration: '2s' }} />
             </>
           )}
           {status === 'success' && (

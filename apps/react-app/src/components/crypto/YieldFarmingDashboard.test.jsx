@@ -294,7 +294,7 @@ describe('YieldFarmingDashboard', () => {
 
       const spinner = screen.getByTestId('icon-refresh-cw');
       expect(spinner).toBeInTheDocument();
-      expect(spinner).toHaveClass('animate-spin');
+      expect(spinner).toHaveClass('');
     });
 
     it('should hide loading state after data is loaded', async () => {
@@ -1627,7 +1627,7 @@ describe('YieldFarmingDashboard', () => {
       fireEvent.click(confirmButton);
 
       await waitFor(() => {
-        const spinner = document.querySelector('.animate-spin');
+        const spinner = document.querySelector('.');
         expect(spinner).toBeInTheDocument();
       });
     });

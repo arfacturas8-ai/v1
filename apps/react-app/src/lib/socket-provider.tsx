@@ -30,7 +30,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
       setIsConnecting(true);
       
       // Initialize socket connection
-      const newSocket = io(import.meta.env.VITE_SOCKET_URL || 'ws://localhost:3001', {
+      const newSocket = io(import.meta.env.VITE_SOCKET_URL || 'wss://api.cryb.ai', {
         auth: {
           token,
           userId: user?.id,

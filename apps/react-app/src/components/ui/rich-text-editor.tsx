@@ -472,7 +472,6 @@ const MentionPicker: React.FC<{
   padding: '16px',
   textAlign: 'center'
 }}>
-          Loading...
         </div>
       ) : users.length > 0 ? (
         <div className="max-h-48 overflow-y-auto">

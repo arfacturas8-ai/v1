@@ -343,7 +343,7 @@ function DirectMessagesPanel({
 
   // Get conversation title
   const getConversationTitle = () => {
-    if (!conversation) return 'Loading...'
+    if (!conversation) return ''
     
     if (conversation.type === 'group') {
       return conversation.name || `Group chat (${participants.length})`
@@ -381,7 +381,7 @@ function DirectMessagesPanel({
     return (
       <div className="flex items-center justify-center h-full bg-[#0D0D0D]">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full  mx-auto mb-4"></div>
           <div className="text-[#666666]">Loading conversation...</div>
         </div>
       </div>

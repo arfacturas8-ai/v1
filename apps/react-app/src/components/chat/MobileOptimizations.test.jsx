@@ -625,7 +625,7 @@ describe('MobileOptimizations - PullToRefresh Component', () => {
       </PullToRefresh>
     )
 
-    expect(container.querySelector('.animate-spin')).toBeInTheDocument()
+    expect(container.querySelector('.')).toBeInTheDocument()
   })
 
   test('respects custom threshold', () => {
@@ -666,7 +666,7 @@ describe('MobileOptimizations - PullToRefresh Component', () => {
       </PullToRefresh>
     )
 
-    expect(container.querySelector('.animate-spin')).toBeInTheDocument()
+    expect(container.querySelector('.')).toBeInTheDocument()
 
     rerender(
       <PullToRefresh isRefreshing={false}>
@@ -674,7 +674,7 @@ describe('MobileOptimizations - PullToRefresh Component', () => {
       </PullToRefresh>
     )
 
-    expect(container.querySelector('.animate-spin')).not.toBeInTheDocument()
+    expect(container.querySelector('.')).not.toBeInTheDocument()
   })
 
   test('applies custom className', () => {

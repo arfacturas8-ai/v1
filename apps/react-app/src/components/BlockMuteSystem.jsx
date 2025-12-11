@@ -274,8 +274,8 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
         <div className="flex-1 overflow-y-auto p-6">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-              <div className="w-10 h-10 border-3 border-gray-600 border-t-blue-500 rounded-full animate-spin mb-4" />
-              <p>Loading...</p>
+              <div className="w-10 h-10 border-3 border-gray-600 border-t-blue-500 rounded-full  mb-4" />
+              <p></p>
             </div>
           ) : activeTab === 'keywords' ? (
             keywords.length > 0 ? (

@@ -320,7 +320,7 @@ export function Web3Provider({
       <Web3Context.Provider value={contextValue}>
         <div className="min-h-screen flex items-center justify-center bg-primary">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-accent-primary mx-auto mb-4"></div>
+            <div className=" rounded-full h-12 w-12 border-b-2 border-accent-primary mx-auto mb-4"></div>
             <p className="text-muted">Initializing Web3...</p>
           </div>
         </div>

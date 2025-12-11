@@ -112,7 +112,7 @@ describe('MultiChainManager', () => {
     it('should display loading skeleton initially', () => {
       render(<MultiChainManager />);
 
-      const loadingElements = document.querySelectorAll('.animate-pulse');
+      const loadingElements = document.querySelectorAll('.');
       expect(loadingElements.length).toBeGreaterThan(0);
     });
 

@@ -261,7 +261,7 @@ const CommunitiesListPage: React.FC = () => {
         <div className="max-w-7xl mx-auto p-4 sm:p-8">
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
-              <Loader className="w-12 h-12 text-[#58a6ff] animate-spin mx-auto mb-4" />
+              <Loader className="w-12 h-12 text-[#58a6ff]  mx-auto mb-4" />
               <p className="text-[#666666]">Loading communities...</p>
             </div>
           </div>

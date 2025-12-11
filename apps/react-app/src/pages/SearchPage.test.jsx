@@ -83,7 +83,7 @@ jest.mock('../components/community/UserProfile', () => {
 
 jest.mock('../components/community/LoadingSpinner', () => {
   return function MockLoadingSpinner() {
-    return <div data-testid="loading-spinner">Loading...</div>
+    return <div data-testid="loading-spinner"></div>
   }
 })
 

@@ -44,8 +44,8 @@ describe('ProgressIndicator', () => {
     });
 
     it('should render with label', () => {
-      render(<ProgressIndicator label="Loading..." />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      render(<ProgressIndicator label="" />);
+      expect(screen.getByText('')).toBeInTheDocument();
     });
   });
 

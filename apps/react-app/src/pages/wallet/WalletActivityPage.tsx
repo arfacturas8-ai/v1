@@ -300,7 +300,7 @@ export function WalletActivityPage() {
       case 'confirmed':
         return <CheckCircle2 className="h-4 w-4 text-green-500" />;
       case 'pending':
-        return <Loader2 className="h-4 w-4 text-yellow-500 animate-spin" />;
+        return <Loader2 className="h-4 w-4 text-yellow-500 " />;
       case 'failed':
         return <XCircle className="h-4 w-4 text-red-500" />;
     }
@@ -309,7 +309,6 @@ export function WalletActivityPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -484,8 +483,7 @@ export function WalletActivityPage() {
                   >
                     {loadingMore ? (
                       <>
-                        <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        Loading...
+                        <Loader2 className="h-4 w-4 mr-2 " />
                       </>
                     ) : (
                       'Load More'

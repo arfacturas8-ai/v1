@@ -240,7 +240,7 @@ export default function WalletConnectionPage() {
                 </div>
               </div>
               {selectedWallet === wallet.id && isConnecting && (
-                <div className="w-6 h-6 rounded-full border-3 animate-spin" style={{ borderColor: `${wallet.color}30`, borderTopColor: wallet.color }} role="status" aria-label="Connecting..." />
+                <div className="w-6 h-6 rounded-full border-3 " style={{ borderColor: `${wallet.color}30`, borderTopColor: wallet.color }} role="status" aria-label="Connecting..." />
               )}
             </button>
           ))}

@@ -36,7 +36,7 @@ const LoadingSpinner = memo(({
   }
 
   const getSpinnerContent = () => {
-    const baseClasses = `${sizeClasses[size]} ${colorClasses[color]} animate-spin`
+    const baseClasses = `${sizeClasses[size]} ${colorClasses[color]} `
     
     switch (variant) {
       case 'dots':
@@ -138,7 +138,7 @@ const LoadingSpinner = memo(({
                 strokeDashoffset="60"
                 fill="none"
                 strokeLinecap="round"
-                className="animate-spin"
+                className=""
                 style={{ transformOrigin: 'center' }}
               />
             </svg>

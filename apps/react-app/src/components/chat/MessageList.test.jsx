@@ -677,14 +677,14 @@ describe('MessageList', () => {
     it('should display loading indicator when loading', () => {
       render(<MessageList messages={[]} currentUserId="user-1" isLoading={true} />)
 
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).toBeInTheDocument()
     })
 
     it('should not display loading indicator when not loading', () => {
       render(<MessageList messages={[]} currentUserId="user-1" isLoading={false} />)
 
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).not.toBeInTheDocument()
     })
 
@@ -699,7 +699,7 @@ describe('MessageList', () => {
       )
 
       expect(screen.getByText('Test message 1')).toBeInTheDocument()
-      expect(document.querySelector('.animate-spin')).toBeInTheDocument()
+      expect(document.querySelector('.')).toBeInTheDocument()
     })
   })
 

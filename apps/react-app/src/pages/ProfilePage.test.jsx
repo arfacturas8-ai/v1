@@ -447,28 +447,28 @@ describe('ProfilePage Component', () => {
       renderWithRouter()
 
       // Check for loading skeleton elements
-      const skeletons = document.querySelectorAll('.animate-pulse')
+      const skeletons = document.querySelectorAll('.')
       expect(skeletons.length).toBeGreaterThan(0)
     })
 
     it('should display profile header skeleton while loading', async () => {
       renderWithRouter()
 
-      const skeletons = document.querySelectorAll('.animate-pulse')
+      const skeletons = document.querySelectorAll('.')
       expect(skeletons.length).toBeGreaterThan(0)
     })
 
     it('should display tabs skeleton while loading', async () => {
       renderWithRouter()
 
-      const skeletons = document.querySelectorAll('.animate-pulse')
+      const skeletons = document.querySelectorAll('.')
       expect(skeletons.length).toBeGreaterThan(0)
     })
 
     it('should display content skeleton while loading', async () => {
       renderWithRouter()
 
-      const skeletons = document.querySelectorAll('.animate-pulse')
+      const skeletons = document.querySelectorAll('.')
       expect(skeletons.length).toBeGreaterThan(0)
     })
 

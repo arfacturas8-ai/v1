@@ -54,18 +54,7 @@ const Button = React.forwardRef(({
       disabled={disabled || loading}
       {...props}
     >
-      {loading ? (
-        <>
-          <div style={{
-  borderRadius: '50%',
-  height: '16px',
-  width: '16px'
-}} />
-          Loading...
-        </>
-      ) : (
-        children
-      )}
+      {children}
     </Comp>
   )
 })

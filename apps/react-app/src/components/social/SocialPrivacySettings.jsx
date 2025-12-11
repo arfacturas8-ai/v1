@@ -169,7 +169,7 @@ const SocialPrivacySettings = ({ onClose }) => {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-16 px-5 text-white/60">
-        <div className="w-8 h-8 border-[3px] border-white/10 border-t-green-400 rounded-full animate-spin mb-4" />
+        <div className="w-8 h-8 border-[3px] border-white/10 border-t-green-400 rounded-full  mb-4" />
         <p>Loading privacy settings...</p>
       </div>
     )

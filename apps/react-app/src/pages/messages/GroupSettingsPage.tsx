@@ -345,7 +345,6 @@ const GroupSettingsPage: React.FC = () => {
           color: colors.text.primary,
         }}
       >
-        Loading...
       </div>
     );
   }

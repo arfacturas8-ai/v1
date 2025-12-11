@@ -502,7 +502,7 @@ const SocialActivityFeed = ({
                 onClick={handleLoadMore}
                 disabled={loading}
               >
-                {loading ? 'Loading...' : 'Load More Activity'}
+                {loading ? '' : 'Load More Activity'}
               </button>
             )}
           </>

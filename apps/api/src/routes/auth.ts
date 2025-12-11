@@ -277,14 +277,18 @@ export default async function authRoutes(fastify: FastifyInstance) {
       let user;
       try {
         user = await executeWithDatabaseRetry(async () => {
+          const userId = randomUUID(); // Generate unique user ID
+          const now = new Date();
           return await prisma.user.create({
             data: {
+              id: userId,
               username,
               displayName,
               email: email || null,
               passwordHash: hashedPassword || null,
               walletAddress: walletAddress ? walletAddress.toLowerCase() : null,
-              isVerified: isWalletVerified || false
+              isVerified: isWalletVerified || false,
+              updatedAt: now
             },
             select: {
               id: true,

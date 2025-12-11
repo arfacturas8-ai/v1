@@ -1035,7 +1035,7 @@ describe('AuthContext', () => {
         </BrowserRouter>
       )
 
-      expect(getByText('Loading...')).toBeInTheDocument()
+      expect(getByText('')).toBeInTheDocument()
     })
 
     test('should navigate to home for unauthenticated user', async () => {

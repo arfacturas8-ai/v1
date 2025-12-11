@@ -12,7 +12,7 @@ describe('PageLoader', () => {
 
     it('renders loading text', () => {
       render(<PageLoader />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('renders logo with "C"', () => {
@@ -106,7 +106,7 @@ describe('PageLoader', () => {
 
       // Logo, Spinner, and Text
       expect(screen.getByText('C')).toBeInTheDocument();
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
 
       const spinners = container.querySelectorAll('div[style*="animation"]');
       expect(spinners.length).toBeGreaterThanOrEqual(2);
@@ -134,7 +134,7 @@ describe('PageLoader', () => {
   describe('Accessibility', () => {
     it('loading text is visible and readable', () => {
       render(<PageLoader />);
-      const loadingText = screen.getByText('Loading...');
+      const loadingText = screen.getByText('');
 
       expect(loadingText).toBeVisible();
     });

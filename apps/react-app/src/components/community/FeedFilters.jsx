@@ -77,7 +77,7 @@ const FeedFilters = ({
               height="16" 
               viewBox="0 0 16 16" 
               fill="currentColor"
-              className={refreshing ? 'animate-spin' : ''}
+              className={refreshing ? '' : ''}
             >
               <path d="M8 2a6 6 0 016 6h-1.5a4.5 4.5 0 10-.945 2.52l1.06 1.06A6 6 0 018 2z"/>
             </svg>

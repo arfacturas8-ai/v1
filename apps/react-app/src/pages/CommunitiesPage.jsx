@@ -129,23 +129,23 @@ function CommunitiesPage() {
         <div className="max-w-7xl mx-auto p-4 sm:p-8">
           {/* Header Skeleton */}
           <div className="mb-8">
-            <div className="h-10 w-80 bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 rounded-lg mb-2 animate-pulse" />
-            <div className="h-5 w-96 bg-white/5 rounded-lg animate-pulse" />
+            <div className="h-10 w-80 bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 rounded-lg mb-2 " />
+            <div className="h-5 w-96 bg-white/5 rounded-lg " />
           </div>
 
           {/* Search and Filters Skeleton */}
           <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
             <div className="flex flex-col sm:flex-row gap-3">
-              <div className="flex-1 h-12 bg-white/5 rounded-xl animate-pulse" />
-              <div className="h-12 w-full sm:w-40 bg-white/5 rounded-xl animate-pulse" />
-              <div className="h-12 w-full sm:w-40 bg-white/5 rounded-xl animate-pulse" />
+              <div className="flex-1 h-12 bg-white/5 rounded-xl " />
+              <div className="h-12 w-full sm:w-40 bg-white/5 rounded-xl " />
+              <div className="h-12 w-full sm:w-40 bg-white/5 rounded-xl " />
             </div>
           </div>
 
           {/* Tabs Skeleton */}
           <div className="flex gap-2 mb-6">
             {[1, 2, 3, 4].map(i => (
-              <div key={i} className="h-11 w-28 bg-[#141414]/60 border border-white/10 rounded-xl animate-pulse" />
+              <div key={i} className="h-11 w-28 bg-[#141414]/60 border border-white/10 rounded-xl " />
             ))}
           </div>
 
@@ -157,21 +157,21 @@ function CommunitiesPage() {
                 className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
               >
                 <div className="flex items-start gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 animate-pulse" />
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 " />
                   <div className="flex-1">
-                    <div className="h-6 w-32 bg-white/10 rounded-lg mb-2 animate-pulse" />
-                    <div className="h-6 w-20 bg-[#58a6ff]/15 rounded-lg animate-pulse" />
+                    <div className="h-6 w-32 bg-white/10 rounded-lg mb-2 " />
+                    <div className="h-6 w-20 bg-[#58a6ff]/15 rounded-lg " />
                   </div>
                 </div>
                 <div className="space-y-2 mb-4">
-                  <div className="h-4 w-full bg-white/5 rounded animate-pulse" />
-                  <div className="h-4 w-3/4 bg-white/5 rounded animate-pulse" />
+                  <div className="h-4 w-full bg-white/5 rounded " />
+                  <div className="h-4 w-3/4 bg-white/5 rounded " />
                 </div>
                 <div className="flex gap-4 mb-4">
-                  <div className="h-4 w-24 bg-white/5 rounded animate-pulse" />
-                  <div className="h-4 w-20 bg-white/5 rounded animate-pulse" />
+                  <div className="h-4 w-24 bg-white/5 rounded " />
+                  <div className="h-4 w-20 bg-white/5 rounded " />
                 </div>
-                <div className="h-12 w-full bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 rounded-xl animate-pulse" />
+                <div className="h-12 w-full bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 rounded-xl " />
               </div>
             ))}
           </div>

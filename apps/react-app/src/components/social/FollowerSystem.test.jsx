@@ -328,7 +328,7 @@ describe('FollowerSystem', () => {
     it('should display loading spinner initially', () => {
       render(<FollowerSystem userId="user123" type="followers" onClose={vi.fn()} />)
 
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).toBeInTheDocument()
     })
 
@@ -336,7 +336,7 @@ describe('FollowerSystem', () => {
       render(<FollowerSystem userId="user123" type="followers" onClose={vi.fn()} />)
 
       await waitFor(() => {
-        const spinner = document.querySelector('.animate-spin')
+        const spinner = document.querySelector('.')
         expect(spinner).not.toBeInTheDocument()
       })
     })

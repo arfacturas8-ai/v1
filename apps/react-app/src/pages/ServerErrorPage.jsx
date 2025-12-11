@@ -45,7 +45,7 @@ export default function ServerErrorPage() {
           }`}
         >
           {/* Error Icon */}
-          <div className={`inline-flex items-center justify-center w-[120px] h-[120px] rounded-full bg-red-500/10 border-2 border-red-500/30 mb-6 sm:mb-8 ${isVisible ? 'animate-pulse-slow' : ''}`}>
+          <div className={`inline-flex items-center justify-center w-[120px] h-[120px] rounded-full bg-red-500/10 border-2 border-red-500/30 mb-6 sm:mb-8 ${isVisible ? '-slow' : ''}`}>
             <AlertTriangle
               size={56}
               className="text-red-500 drop-shadow-[0_0_20px_rgba(239,68,68,0.5)]"
@@ -106,7 +106,7 @@ export default function ServerErrorPage() {
               opacity: 0.8;
             }
           }
-          .animate-pulse-slow {
+          .-slow {
             animation: pulse-slow 2s ease-in-out infinite;
           }
         `}</style>

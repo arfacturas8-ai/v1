@@ -39,7 +39,7 @@ describe('SkeletonLoader', () => {
     it('should apply default text variant classes', () => {
       render(<SkeletonLoader />);
       const skeleton = screen.getByTestId('motion-div');
-      expect(skeleton).toHaveClass('bg-gray-700', 'h-4', 'w-full', 'rounded', 'animate-pulse');
+      expect(skeleton).toHaveClass('bg-gray-700', 'h-4', 'w-full', 'rounded', '');
     });
 
     it('should apply custom className to container', () => {
@@ -90,12 +90,12 @@ describe('SkeletonLoader', () => {
       });
     });
 
-    it('should apply animate-pulse to all variants', () => {
+    it('should apply  to all variants', () => {
       const variants = ['text', 'title', 'avatar', 'thumbnail', 'card'];
       variants.forEach(variant => {
         const { unmount } = render(<SkeletonLoader variant={variant} />);
         const skeleton = screen.getByTestId('motion-div');
-        expect(skeleton).toHaveClass('animate-pulse');
+        expect(skeleton).toHaveClass('');
         unmount();
       });
     });

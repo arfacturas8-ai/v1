@@ -247,7 +247,7 @@ export function CardLoader({
   padding: '24px'
 }}
         >
-          <div className="animate-pulse space-y-4">
+          <div className=" space-y-4">
             <div style={{
   display: 'flex',
   alignItems: 'center',

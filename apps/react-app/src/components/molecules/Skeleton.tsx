@@ -117,7 +117,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
       }}
       aria-busy="true"
       aria-live="polite"
-      aria-label="Loading..."
+      aria-label=""
     >
       {animate && <div style={shimmerStyles} />}
     </div>

@@ -261,7 +261,7 @@ describe('Badge Component', () => {
       render(<Badge dot>Animated Dot</Badge>);
       const badge = screen.getByText('Animated Dot');
       const dot = badge.querySelector('.h-2.w-2.rounded-full');
-      expect(dot).toHaveClass('animate-pulse');
+      expect(dot).toHaveClass('');
     });
 
     it('should mark dot as aria-hidden', () => {

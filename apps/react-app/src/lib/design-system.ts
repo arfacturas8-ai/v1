@@ -405,7 +405,7 @@ export const animations = {
   zoomIn: 'animate-zoom-in',
   zoomOut: 'animate-zoom-out',
   shimmer: 'animate-shimmer',
-  pulseRing: 'animate-pulse-ring',
+  pulseRing: '-ring',
   bounceIn: 'animate-bounce-in',
   slideUpFade: 'animate-slide-up-fade',
   slideDownFade: 'animate-slide-down-fade',

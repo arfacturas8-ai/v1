@@ -316,7 +316,7 @@ export default function ThreadPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0D0D0D] pt-16 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#58a6ff] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#58a6ff] " />
       </div>
     );
   }

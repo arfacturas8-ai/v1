@@ -186,7 +186,7 @@ const CreateProposalPage = () => {
             >
               {loading ? (
                 <>
-                  <Loader size={20} className="animate-spin" aria-hidden="true" />
+                  <Loader size={20} className="" aria-hidden="true" />
                   Submitting...
                 </>
               ) : (

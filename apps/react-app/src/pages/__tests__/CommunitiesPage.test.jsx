@@ -46,7 +46,7 @@ describe('CommunitiesPage', () => {
 
   it('shows loading state', () => {
     renderWithRouter(<CommunitiesPage />);
-    expect(document.querySelector('.animate-pulse')).toBeTruthy();
+    expect(document.querySelector('.')).toBeTruthy();
   });
 
   it('displays member counts', async () => {

@@ -231,7 +231,7 @@ function VoiceChatPage() {
                 </div>
               ) : (
                 <div className="text-center py-12 text-[#8b949e]">
-                  <Phone className="w-12 h-12 mx-auto mb-3 animate-pulse" />
+                  <Phone className="w-12 h-12 mx-auto mb-3 " />
                   <p>Connecting to voice channel...</p>
                 </div>
               )}

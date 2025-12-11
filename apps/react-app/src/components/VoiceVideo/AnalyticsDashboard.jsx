@@ -410,7 +410,7 @@ const AnalyticsDashboard = ({
   if (isLoading) {
     return (
       <div className="flex flex-col justify-center items-center h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white gap-5">
-        <div className="w-10 h-10 border-3 border-white/30 border-t-[#5865f2] rounded-full animate-spin"></div>
+        <div className="w-10 h-10 border-3 border-white/30 border-t-[#5865f2] rounded-full "></div>
         <p>Loading analytics...</p>
       </div>
     );

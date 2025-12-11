@@ -186,7 +186,7 @@ describe('WalletConnectionPreview', () => {
       render(<WalletConnectionPreview />)
       const metamaskButton = screen.getByText('MetaMask').closest('button')
       fireEvent.click(metamaskButton)
-      const loadingAnimation = document.querySelector('.animate-pulse')
+      const loadingAnimation = document.querySelector('.')
       expect(within(loadingAnimation).getByText('🦊')).toBeInTheDocument()
     })
 

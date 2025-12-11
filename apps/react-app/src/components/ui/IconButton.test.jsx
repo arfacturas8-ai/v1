@@ -341,10 +341,10 @@ describe('IconButton', () => {
       expect(button).toHaveAttribute('aria-busy', 'false')
     })
 
-    it('should apply animate-spin to loader', () => {
+    it('should apply  to loader', () => {
       render(<IconButton icon={<MockIcon />} loading aria-label="Test" />)
       const loader = screen.getByTestId('loader-icon')
-      expect(loader).toHaveClass('animate-spin')
+      expect(loader).toHaveClass('')
     })
 
     it('should set aria-hidden on loader icon', () => {

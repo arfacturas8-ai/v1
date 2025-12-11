@@ -44,7 +44,7 @@ jest.mock('./SortControls', () => {
 
 jest.mock('./LoadingSpinner', () => {
   return jest.fn(({ size }) => (
-    <div data-testid="loading-spinner" data-size={size}>Loading...</div>
+    <div data-testid="loading-spinner" data-size={size}></div>
   ))
 })
 

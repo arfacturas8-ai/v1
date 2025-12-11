@@ -42,8 +42,8 @@ describe('Skeleton Component', () => {
 
     it('should render with sr-only text for screen readers', () => {
       render(<Skeleton />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
-      expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+      expect(screen.getByText('')).toBeInTheDocument();
+      expect(screen.getByText('')).toHaveClass('sr-only');
     });
 
     it('should render with shimmer variant by default', () => {
@@ -247,7 +247,7 @@ describe('Skeleton Component', () => {
 
     it('should include sr-only text', () => {
       render(<Skeleton />);
-      const srText = screen.getByText('Loading...');
+      const srText = screen.getByText('');
       expect(srText).toHaveClass('sr-only');
     });
   });

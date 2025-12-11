@@ -385,7 +385,7 @@ export function NFTDetailViewPage() {
     return (
       <div className="min-h-screen bg-background p-4">
         <div className="max-w-7xl mx-auto">
-          <div className="animate-pulse space-y-4">
+          <div className=" space-y-4">
             <div className="h-8 bg-muted rounded w-32" />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="aspect-square bg-muted rounded-lg" />

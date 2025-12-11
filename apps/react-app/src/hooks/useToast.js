@@ -109,7 +109,7 @@ export const useToast = (options = {}) => {
   // Promise toast (for async operations)
   const promise = useCallback(async (promiseOrFn, options = {}) => {
     const {
-      loading = 'Loading...',
+      loading = '',
       success: successMessage = 'Success!',
       error: errorMessage = 'Error occurred',
     } = options;

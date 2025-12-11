@@ -9,7 +9,7 @@ export default function EmailVerificationPage() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const [status, setStatus] = useState('verifying')
-  const [message, setMessage] = useState('Verifying your email address...')
+  const [message, setMessage] = useState('')
   const token = searchParams.get('token')
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export default function EmailVerificationPage() {
       case 'verifying':
         return (
           <div
-            className="w-20 h-20 rounded-full border-4 border-[#58a6ff] border-t-transparent animate-spin"
+            className="w-20 h-20 rounded-full border-4 border-[#58a6ff] border-t-transparent "
             role="status"
             aria-label="Verifying email"
           />

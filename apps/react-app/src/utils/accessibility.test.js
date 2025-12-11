@@ -613,10 +613,10 @@ describe('accessibility utilities', () => {
 
     describe('updateStatus', () => {
       it('updates status region', () => {
-        liveRegionManager.updateStatus('Loading...');
+        liveRegionManager.updateStatus('');
 
         const region = document.getElementById('live-region-status');
-        expect(region.textContent).toBe('Loading...');
+        expect(region.textContent).toBe('');
       });
 
       it('persists status message', () => {

@@ -223,7 +223,7 @@ function TabletCardGrid({
         {Array(loadingCount).fill(0).map((_, index) => (
           <div 
             key={index} 
-            className="card animate-pulse"
+            className="card "
             style={{ 
               height: '200px',
               background: 'var(--bg-tertiary)',

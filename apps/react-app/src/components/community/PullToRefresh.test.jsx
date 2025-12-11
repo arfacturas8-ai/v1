@@ -375,7 +375,7 @@ describe('PullToRefresh', () => {
     test('shows loading spinner icon when refreshing', () => {
       render(<PullToRefresh onRefresh={mockOnRefresh} refreshing={true} />)
 
-      const spinner = container.querySelector('.animate-spin')
+      const spinner = container.querySelector('.')
       expect(spinner).toBeInTheDocument()
     })
 
@@ -507,11 +507,11 @@ describe('PullToRefresh', () => {
       expect(progressFill).toHaveStyle({ width: '100%' })
     })
 
-    test('progress bar has animate-pulse when refreshing', () => {
+    test('progress bar has  when refreshing', () => {
       render(<PullToRefresh onRefresh={mockOnRefresh} refreshing={true} />)
 
       const progressFill = container.querySelector('.h-full.bg-accent')
-      expect(progressFill).toHaveClass('animate-pulse')
+      expect(progressFill).toHaveClass('')
     })
 
     test('progress bar caps at 100%', () => {

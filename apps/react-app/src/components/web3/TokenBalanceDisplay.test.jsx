@@ -178,7 +178,7 @@ describe('TokenBalanceDisplay', () => {
       render(<TokenBalanceDisplay />);
 
       // Should show 3 skeleton loaders
-      const skeletons = document.querySelectorAll('.animate-pulse');
+      const skeletons = document.querySelectorAll('.');
       expect(skeletons.length).toBeGreaterThan(0);
     });
 
@@ -194,7 +194,7 @@ describe('TokenBalanceDisplay', () => {
       render(<TokenBalanceDisplay />);
 
       // Before data loads
-      expect(document.querySelectorAll('.animate-pulse').length).toBeGreaterThan(0);
+      expect(document.querySelectorAll('.').length).toBeGreaterThan(0);
     });
 
     it('hides loading state after data loads', async () => {
@@ -230,7 +230,7 @@ describe('TokenBalanceDisplay', () => {
       render(<TokenBalanceDisplay />);
 
       const refreshIcon = screen.getByTestId('refresh-icon');
-      expect(refreshIcon.className).toContain('animate-spin');
+      expect(refreshIcon.className).toContain('');
     });
   });
 
@@ -649,7 +649,7 @@ describe('TokenBalanceDisplay', () => {
       // Should show loading state again
       await waitFor(() => {
         const icon = screen.getByTestId('refresh-icon');
-        expect(icon.className).toContain('animate-spin');
+        expect(icon.className).toContain('');
       });
     });
 

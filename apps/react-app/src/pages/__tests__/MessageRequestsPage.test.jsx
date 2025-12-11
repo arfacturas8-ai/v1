@@ -10,7 +10,7 @@ import MessageRequestsPage from '../MessageRequestsPage'
 
 // Mock PageSkeleton component
 jest.mock('../../components/LoadingSkeleton', () => ({
-  PageSkeleton: ({ type }) => <div data-testid="loading-skeleton" data-type={type}>Loading...</div>
+  PageSkeleton: ({ type }) => <div data-testid="loading-skeleton" data-type={type}></div>
 }))
 
 // Mock lucide-react icons

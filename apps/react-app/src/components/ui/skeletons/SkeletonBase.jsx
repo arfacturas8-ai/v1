@@ -54,7 +54,7 @@ export function Skeleton({
         aria-label="Loading"
         {...props}
       >
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only"></span>
       </div>
     );
   }
@@ -68,7 +68,7 @@ export function Skeleton({
       aria-label="Loading"
       {...props}
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   );
 }

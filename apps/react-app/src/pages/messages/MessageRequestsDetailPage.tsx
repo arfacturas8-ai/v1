@@ -191,7 +191,6 @@ const MessageRequestsDetailPage: React.FC = () => {
           color: colors.text.primary,
         }}
       >
-        Loading...
       </div>
     );
   }

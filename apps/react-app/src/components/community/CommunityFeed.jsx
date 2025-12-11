@@ -522,7 +522,7 @@ export default function CommunityFeed({
               onClick={loadMore}
               disabled={loading}
             >
-              {loading ? 'Loading...' : 'Load More Posts'}
+              {loading ? '' : 'Load More Posts'}
             </button>
           </div>
         )}

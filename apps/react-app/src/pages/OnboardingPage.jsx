@@ -147,14 +147,19 @@ export default function OnboardingPage() {
 
   const handleComplete = async () => {
     try {
-      await fetch('/api/users/onboarding', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://api.cryb.ai/api/v1'}/users/onboarding`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(preferences),
       })
-      navigate('/home')
+      if (response.ok) {
+        navigate('/home')
+      } else {
+        console.error('Onboarding failed:', response.status)
+        navigate('/home')
+      }
     } catch (error) {
       console.error('Onboarding error:', error)
       navigate('/home')

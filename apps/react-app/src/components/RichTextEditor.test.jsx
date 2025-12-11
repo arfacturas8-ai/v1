@@ -643,7 +643,7 @@ describe('RichTextEditor', () => {
       render(<RichTextEditor {...defaultProps} onVoiceRecord={jest.fn()} isRecording={true} isMobile={true} />);
 
       const voiceButton = screen.getByTestId('mic-icon').closest('button');
-      expect(voiceButton).toHaveClass('animate-pulse');
+      expect(voiceButton).toHaveClass('');
     });
   });
 

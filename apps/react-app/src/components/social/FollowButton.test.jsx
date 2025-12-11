@@ -199,7 +199,7 @@ describe('FollowButton', () => {
       expect(screen.getByRole('button', { name: /pending/i })).toBeInTheDocument()
     })
 
-    it('should show "Loading..." during initial fetch', () => {
+    it('should show "" during initial fetch', () => {
       render(
         <FollowButton
           userId={mockTargetUserId}

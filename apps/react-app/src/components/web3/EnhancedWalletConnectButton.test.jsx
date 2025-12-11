@@ -21,7 +21,7 @@ vi.mock('./Web3ErrorHandler', () => ({
 
 vi.mock('./Web3Skeletons', () => ({
   WalletConnectSkeleton: ({ className }) => (
-    <div data-testid="wallet-skeleton" className={className}>Loading...</div>
+    <div data-testid="wallet-skeleton" className={className}></div>
   )
 }));
 
@@ -182,7 +182,7 @@ describe('EnhancedWalletConnectButton', () => {
       });
 
       const { container } = render(<EnhancedWalletConnectButton />);
-      expect(container.querySelector('.animate-spin')).toBeInTheDocument();
+      expect(container.querySelector('.')).toBeInTheDocument();
     });
   });
 

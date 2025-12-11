@@ -221,7 +221,7 @@ const CryptoTippingSystem = ({
               onClick={() => handleQuickTip(reaction)}
               disabled={isProcessing}
               className={`hover:bg-yellow-50 ${
-                quickTipSent === reaction.emoji ? 'bg-yellow-100 animate-pulse' : ''
+                quickTipSent === reaction.emoji ? 'bg-yellow-100 ' : ''
               }`}
             >
               <span className="text-lg">{reaction.emoji}</span>

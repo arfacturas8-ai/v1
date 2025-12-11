@@ -15,7 +15,7 @@ const skeletonVariants = cva(
   {
     variants: {
       animation: {
-        pulse: 'animate-pulse',
+        pulse: '',
         wave: 'animate-shimmer bg-gradient-to-r from-muted via-muted/50 to-muted bg-[length:200%_100%]',
         none: '',
       },
@@ -100,7 +100,7 @@ const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>(
         aria-label="Loading"
         {...props}
       >
-        <span className="sr-only">Loading...</span>
+        <span className="sr-only"></span>
       </div>
     );
   }

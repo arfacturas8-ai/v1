@@ -369,7 +369,7 @@ export function CollectionDetailViewPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <div className="animate-pulse">
+        <div className="">
           <div className="h-64 bg-muted" />
           <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="h-32 bg-muted rounded-lg mb-8" />

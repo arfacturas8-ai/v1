@@ -196,32 +196,6 @@ export default function PostDetailPage() {
     }
   }
 
-  if (loading) {
-    return (
-      <>
-        <SkipToContent targetId="main-content" />
-        <div className="min-h-screen pt-16">
-          <main
-            id="main-content"
-            role="main"
-            aria-label="Post detail page"
-            className="max-w-5xl mx-auto px-4 py-6"
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="lg:col-span-2 space-y-6">
-                <SkeletonPost />
-                <SkeletonCard />
-              </div>
-              <div className="lg:col-span-1 space-y-4">
-                <SkeletonCard />
-                <SkeletonCard />
-              </div>
-            </div>
-          </main>
-        </div>
-      </>
-    )
-  }
 
   if (error) {
     return (
@@ -404,17 +378,23 @@ export default function PostDetailPage() {
                     )}
 
                     {/* External link */}
-                    {post.url && (
-                      <a
-                        href={post.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 text-[#58a6ff] hover:text-[#a371f7] hover:underline mb-4"
-                      >
-                        <ExternalLink className="w-4 h-4" />
-                        {new URL(post.url).hostname}
-                      </a>
-                    )}
+                    {post.url && (() => {
+                      try {
+                        return (
+                          <a
+                            href={post.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 text-[#58a6ff] hover:text-[#a371f7] hover:underline mb-4"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                            {new URL(post.url).hostname}
+                          </a>
+                        )
+                      } catch {
+                        return null
+                      }
+                    })()}
 
                     {/* Text content */}
                     {post.content && (
@@ -594,14 +574,14 @@ export default function PostDetailPage() {
                           c/{post.community.name}
                         </CardTitle>
                         <CardDescription className="text-xs text-[#666666]">
-                          {formatNumber(post.community.memberCount || 0)} members
+                          {formatNumber(post?.community?.memberCount || 0)} members
                         </CardDescription>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
                     <p className="text-sm text-[#666666] mb-4">
-                      {post.community.description || 'No description available.'}
+                      {post?.community?.description || 'No description available.'}
                     </p>
                     <Link to={`/c/${post.community.name}`}>
                       <Button variant="primary" size="sm" className="w-full touch-target bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white">

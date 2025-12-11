@@ -5,7 +5,7 @@ import React from 'react';
  */
 
 export function PageLoader({
-  message = 'Loading...',
+  message = '',
   logo = true,
   progress = null,
   className = '',
@@ -155,7 +155,7 @@ export function Spinner({
       role="status"
       aria-label="Loading"
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   );
 }
@@ -192,7 +192,7 @@ export function DotLoader({
 }}
         />
       ))}
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   );
 }
@@ -231,7 +231,7 @@ export function PulseLoader({
   borderRadius: '50%'
 }}
       />
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   );
 }
@@ -269,7 +269,7 @@ export function BarLoader({
   width: '50%'
 }}
       />
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   );
 }

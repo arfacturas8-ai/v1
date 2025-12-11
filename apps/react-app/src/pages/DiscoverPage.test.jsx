@@ -26,7 +26,7 @@ jest.mock('framer-motion', () => ({
 
 // Mock PageSkeleton component
 jest.mock('../components/LoadingSkeleton', () => ({
-  PageSkeleton: ({ type }) => <div data-testid="page-skeleton" data-type={type}>Loading...</div>,
+  PageSkeleton: ({ type }) => <div data-testid="page-skeleton" data-type={type}></div>,
 }))
 
 // Mock fetch globally

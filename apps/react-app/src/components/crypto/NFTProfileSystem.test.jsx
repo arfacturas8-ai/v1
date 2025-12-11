@@ -1019,7 +1019,7 @@ describe('NFTProfileSystem', () => {
       render(<NFTProfileSystem />);
 
       await waitFor(() => {
-        const spinner = document.querySelector('.animate-spin');
+        const spinner = document.querySelector('.');
         expect(spinner).toBeInTheDocument();
       });
     });

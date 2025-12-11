@@ -885,7 +885,7 @@ describe('MessageSearch Component', () => {
       // Loading spinner should appear briefly
       // Note: May be transient on fast systems
       const spinner = screen.queryByRole('progressbar') ||
-                      document.querySelector('.animate-spin');
+                      document.querySelector('.');
       // Check that spinner element exists (even if briefly)
       expect(spinner !== undefined).toBe(true);
     });

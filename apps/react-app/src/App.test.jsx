@@ -71,7 +71,7 @@ jest.mock('./components/TermsAcceptanceModal', () => ({
 
 jest.mock('./components/PageLoader', () => ({
   __esModule: true,
-  default: () => <div data-testid="page-loader">Loading...</div>
+  default: () => <div data-testid="page-loader"></div>
 }));
 
 jest.mock('./components/onboarding/OnboardingOverlay', () => ({

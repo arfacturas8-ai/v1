@@ -520,7 +520,7 @@ export default function CreatePostPage() {
                     {file.status === 'uploading' && (
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
                         <div className="text-center">
-                          <Loader2 className="w-8 h-8 text-white animate-spin mx-auto mb-2" />
+                          <Loader2 className="w-8 h-8 text-white  mx-auto mb-2" />
                           <span className="text-white text-sm">{file.progress}%</span>
                         </div>
                       </div>
@@ -782,7 +782,7 @@ export default function CreatePostPage() {
               >
                 {isPosting ? (
                   <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="w-4 h-4 " />
                     <span>Posting...</span>
                   </>
                 ) : (

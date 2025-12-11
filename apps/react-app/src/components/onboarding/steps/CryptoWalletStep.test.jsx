@@ -149,7 +149,7 @@ describe('CryptoWalletStep', () => {
       fireEvent.click(metaMaskButton)
 
       await waitFor(() => {
-        const spinner = document.querySelector('.animate-spin')
+        const spinner = document.querySelector('.')
         expect(spinner).toBeInTheDocument()
       })
     })

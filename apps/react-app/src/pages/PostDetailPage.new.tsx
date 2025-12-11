@@ -385,7 +385,7 @@ export default function PostDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-[#0D0D0D] pt-16 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#58a6ff] animate-spin" />
+        <Loader2 className="w-8 h-8 text-[#58a6ff] " />
       </div>
     );
   }
@@ -687,7 +687,7 @@ export default function PostDetailPage() {
                         >
                           {submittingComment ? (
                             <>
-                              <Loader2 className="w-4 h-4 animate-spin" />
+                              <Loader2 className="w-4 h-4 " />
                               <span>Posting...</span>
                             </>
                           ) : (

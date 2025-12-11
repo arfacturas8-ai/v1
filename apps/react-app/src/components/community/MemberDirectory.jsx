@@ -229,7 +229,7 @@ export default function MemberDirectory({
     return (
       <div className="max-w-screen-xl mx-auto p-6">
         <div className="flex flex-col items-center justify-center py-16 text-text-secondary">
-          <div className="w-8 h-8 border-3 border-border-primary border-t-accent-primary rounded-full animate-spin mb-4"></div>
+          <div className="w-8 h-8 border-3 border-border-primary border-t-accent-primary rounded-full  mb-4"></div>
           <p>Loading members...</p>
         </div>
       </div>
@@ -409,7 +409,7 @@ export default function MemberDirectory({
             onClick={() => loadMembers()}
             disabled={loading}
           >
-            {loading ? 'Loading...' : 'Load More Members'}
+            {loading ? '' : 'Load More Members'}
           </button>
         </div>
       )}

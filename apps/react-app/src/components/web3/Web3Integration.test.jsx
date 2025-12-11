@@ -249,7 +249,7 @@ jest.mock('./Web3ErrorHandler', () => ({
 
 // Mock Skeletons
 jest.mock('./Web3Skeletons', () => ({
-  WalletConnectSkeleton: () => <div data-testid="wallet-connect-skeleton">Loading...</div>,
+  WalletConnectSkeleton: () => <div data-testid="wallet-connect-skeleton"></div>,
   TokenBalanceSkeleton: () => <div data-testid="token-balance-skeleton">Loading balances...</div>,
   TransactionHistorySkeleton: ({ itemCount }) => (
     <div data-testid="transaction-history-skeleton">Loading {itemCount} items...</div>

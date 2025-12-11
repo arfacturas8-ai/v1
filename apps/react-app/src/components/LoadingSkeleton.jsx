@@ -184,7 +184,7 @@ export const LoadingSpinner = ({ size = 40, color = '#58a6ff' }) => (
 );
 
 // Full Page Loader
-export const FullPageLoader = ({ message = 'Loading...' }) => (
+export const FullPageLoader = ({ message = '' }) => (
   <div style={{
     position: 'fixed',
     top: 0,

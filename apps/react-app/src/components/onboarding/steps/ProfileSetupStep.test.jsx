@@ -790,7 +790,7 @@ describe('ProfileSetupStep', () => {
 
       await waitFor(() => {
         const spinner = screen.getByText('Saving...').previousElementSibling
-        expect(spinner).toHaveClass('animate-spin')
+        expect(spinner).toHaveClass('')
       })
     })
 

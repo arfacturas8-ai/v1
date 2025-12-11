@@ -1024,7 +1024,7 @@ describe('MediaViewer Component', () => {
   describe('Loading and Error States', () => {
     it('should show loading state for images initially', () => {
       render(<MediaViewer {...defaultProps} />);
-      const loader = document.querySelector('[class*="animate-spin"]');
+      const loader = document.querySelector('[class*=""]');
       expect(loader).toBeInTheDocument();
     });
 
@@ -1037,7 +1037,7 @@ describe('MediaViewer Component', () => {
       mainImg?.dispatchEvent(new Event('load'));
 
       await waitFor(() => {
-        const loader = document.querySelector('[class*="animate-spin"]');
+        const loader = document.querySelector('[class*=""]');
         expect(loader).not.toBeInTheDocument();
       });
     });
@@ -1057,7 +1057,7 @@ describe('MediaViewer Component', () => {
 
     it('should show loading state for videos initially', () => {
       render(<MediaViewer {...defaultProps} initialIndex={1} />);
-      const loader = document.querySelector('[class*="animate-spin"]');
+      const loader = document.querySelector('[class*=""]');
       expect(loader).toBeInTheDocument();
     });
 

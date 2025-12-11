@@ -75,7 +75,7 @@ describe('ProfilePage', () => {
 
   it('shows loading state initially', () => {
     renderWithRouter()
-    const loadingIndicator = screen.getByText(/Loading/i) || document.querySelector('.animate-pulse')
+    const loadingIndicator = screen.getByText(/Loading/i) || document.querySelector('.')
     expect(loadingIndicator).toBeInTheDocument()
   })
 

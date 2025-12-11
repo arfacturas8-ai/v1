@@ -211,19 +211,19 @@ describe('ConfirmationDialog', () => {
 
     it('shows loading spinner when loading', () => {
       const { container } = render(<ConfirmationDialog {...defaultProps} isLoading={true} />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 
     it('does not show loading spinner when not loading', () => {
       const { container } = render(<ConfirmationDialog {...defaultProps} isLoading={false} />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).not.toBeInTheDocument();
     });
 
     it('loading spinner has correct styling', () => {
       const { container } = render(<ConfirmationDialog {...defaultProps} isLoading={true} />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner?.className).toContain('rounded-full');
       expect(spinner?.className).toContain('border-b-2');
       expect(spinner?.className).toContain('border-white');
@@ -345,7 +345,7 @@ describe('ConfirmationDialog', () => {
 
     it('loading spinner has aria-hidden attribute', () => {
       const { container } = render(<ConfirmationDialog {...defaultProps} isLoading={true} />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toHaveAttribute('aria-hidden', 'true');
     });
 

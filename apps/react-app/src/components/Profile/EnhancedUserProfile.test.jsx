@@ -146,13 +146,13 @@ describe('EnhancedUserProfile', () => {
   describe('Loading State', () => {
     test('should show loading spinner initially', () => {
       render(<EnhancedUserProfile userId="user123" />)
-      expect(screen.getByRole('generic', { hidden: true })).toHaveClass('animate-spin')
+      expect(screen.getByRole('generic', { hidden: true })).toHaveClass('')
     })
 
     test('should hide loading spinner after data loads', async () => {
       render(<EnhancedUserProfile userId="user123" />)
       await waitFor(() => {
-        expect(screen.queryByRole('generic', { hidden: true })).not.toHaveClass('animate-spin')
+        expect(screen.queryByRole('generic', { hidden: true })).not.toHaveClass('')
       })
     })
   })

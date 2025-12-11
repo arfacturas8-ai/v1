@@ -27,7 +27,7 @@ describe('Skeleton', () => {
 
     it('renders sr-only loading text', () => {
       render(<Skeleton />);
-      expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+      expect(screen.getByText('')).toHaveClass('sr-only');
     });
 
     it('applies base skeleton class', () => {
@@ -317,7 +317,7 @@ describe('Skeleton', () => {
 
     it('renders sr-only text for multiple lines', () => {
       render(<Skeleton variant="text" lines={3} />);
-      expect(screen.getByText('Loading...')).toHaveClass('sr-only');
+      expect(screen.getByText('')).toHaveClass('sr-only');
     });
 
     it('applies custom width to all lines', () => {
@@ -410,7 +410,7 @@ describe('Skeleton', () => {
 
     it('includes screen reader only text', () => {
       render(<Skeleton />);
-      const srText = screen.getByText('Loading...');
+      const srText = screen.getByText('');
       expect(srText).toHaveClass('sr-only');
     });
 
@@ -426,7 +426,7 @@ describe('Skeleton', () => {
 
     it('provides loading context for screen readers', () => {
       render(<Skeleton />);
-      expect(screen.getByText('Loading...')).toBeInTheDocument();
+      expect(screen.getByText('')).toBeInTheDocument();
     });
 
     it('allows custom aria-busy attribute', () => {

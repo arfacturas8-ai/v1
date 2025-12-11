@@ -47,10 +47,10 @@ export const AccessibleButton = React.forwardRef(
       >
         {loading ? (
           <>
-            <span className="animate-spin mr-2" aria-hidden="true">
+            <span className=" mr-2" aria-hidden="true">
               ⏳
             </span>
-            <span className="sr-only">Loading...</span>
+            <span className="sr-only"></span>
             {children}
           </>
         ) : (

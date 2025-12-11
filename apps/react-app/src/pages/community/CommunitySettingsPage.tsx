@@ -312,7 +312,7 @@ const CommunitySettingsPage: React.FC = () => {
     return (
       <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
         <div className="text-center">
-          <Loader className="w-12 h-12 text-[#58a6ff] animate-spin mx-auto mb-4" />
+          <Loader className="w-12 h-12 text-[#58a6ff]  mx-auto mb-4" />
           <p className="text-[#666666]">Loading settings...</p>
         </div>
       </div>
@@ -363,7 +363,7 @@ const CommunitySettingsPage: React.FC = () => {
             >
               {saving ? (
                 <>
-                  <Loader className="animate-spin" size={18} />
+                  <Loader className="" size={18} />
                   Saving...
                 </>
               ) : (

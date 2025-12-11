@@ -168,7 +168,7 @@ describe('DirectMessagesPanel', () => {
         />
       )
 
-      const spinner = container.querySelector('.animate-spin')
+      const spinner = container.querySelector('.')
       expect(spinner).toBeInTheDocument()
     })
   })
@@ -1376,7 +1376,7 @@ describe('DirectMessagesPanel', () => {
       })
     })
 
-    it('should display "Loading..." when conversation not loaded', () => {
+    it('should display "" when conversation not loaded', () => {
       global.fetch.mockImplementation(() => new Promise(() => {})) // Never resolves
 
       render(

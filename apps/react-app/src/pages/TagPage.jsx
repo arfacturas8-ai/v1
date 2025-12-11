@@ -169,7 +169,7 @@ const TagPage = () => {
       <div className={`max-w-7xl mx-auto ${isMobile ? 'p-4' : 'p-8'}`}>
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin" />
+            <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full " />
           </div>
         ) : (
           <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>

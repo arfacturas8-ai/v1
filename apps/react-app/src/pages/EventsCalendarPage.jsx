@@ -194,7 +194,7 @@ const EventsCalendarPage = () => {
     return (
       <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center" role="main" aria-label="Events calendar page">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#58a6ff] mx-auto mb-4"></div>
+          <div className=" rounded-full h-12 w-12 border-t-2 border-b-2 border-[#58a6ff] mx-auto mb-4"></div>
           <p className="text-[#666666]">Loading calendar...</p>
         </div>
       </div>

@@ -955,7 +955,7 @@ describe('MemberDirectory Component', () => {
       await user.click(loadMoreBtn)
 
       await waitFor(() => {
-        expect(screen.getByText('Loading...')).toBeInTheDocument()
+        expect(screen.getByText('')).toBeInTheDocument()
       })
     })
   })

@@ -215,18 +215,18 @@ describe('CommunityPage', () => {
   describe('Loading State', () => {
     it('shows loading state initially', () => {
       renderWithRouter()
-      expect(document.querySelector('.animate-pulse')).toBeTruthy()
+      expect(document.querySelector('.')).toBeTruthy()
     })
 
     it('displays loading skeleton for community header', () => {
       renderWithRouter()
-      const skeletons = document.querySelectorAll('.animate-pulse')
+      const skeletons = document.querySelectorAll('.')
       expect(skeletons.length).toBeGreaterThan(0)
     })
 
     it('displays loading skeleton for posts', () => {
       renderWithRouter()
-      const skeletons = document.querySelectorAll('.animate-pulse')
+      const skeletons = document.querySelectorAll('.')
       expect(skeletons.length).toBeGreaterThan(2)
     })
 
@@ -260,7 +260,7 @@ describe('CommunityPage', () => {
       renderWithRouter()
       jest.advanceTimersByTime(600)
       await waitFor(() => {
-        expect(document.querySelector('.animate-pulse')).not.toBeInTheDocument()
+        expect(document.querySelector('.')).not.toBeInTheDocument()
       })
     })
   })

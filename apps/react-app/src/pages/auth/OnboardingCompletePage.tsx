@@ -62,8 +62,8 @@ export default function OnboardingCompletePage() {
     <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
       {/* Background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 animate-pulse" />
-        <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 animate-pulse" />
+        <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
+        <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
       </div>
 
       {/* Progress indicator */}
@@ -86,7 +86,7 @@ export default function OnboardingCompletePage() {
               <div className="w-24 h-24 mx-auto mb-8 relative">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] opacity-20 animate-ping" />
                 <div className="relative w-full h-full rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-                  <Sparkles className="w-12 h-12 text-white animate-pulse" />
+                  <Sparkles className="w-12 h-12 text-white " />
                 </div>
               </div>
               <h2 className="text-2xl font-bold text-white mb-2">Setting up your profile...</h2>

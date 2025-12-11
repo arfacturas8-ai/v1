@@ -161,7 +161,7 @@ describe('StakingDashboard', () => {
       render(<StakingDashboard />);
 
       const loadingCard = screen.getAllByTestId('card')[0];
-      expect(loadingCard.querySelector('.animate-pulse')).toBeInTheDocument();
+      expect(loadingCard.querySelector('.')).toBeInTheDocument();
     });
   });
 

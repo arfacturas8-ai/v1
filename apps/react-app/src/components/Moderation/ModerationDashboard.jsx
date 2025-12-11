@@ -177,7 +177,7 @@ const ModerationDashboard = () => {
           <div className={`flex items-center gap-2 px-3 py-1 rounded-[20px] text-sm font-medium ${
             isConnected ? 'bg-green-500/10 text-[#38a169]' : 'bg-red-500/10 text-[#e53e3e]'
           }`}>
-            <span className={`w-2 h-2 rounded-full animate-pulse ${
+            <span className={`w-2 h-2 rounded-full  ${
               isConnected ? 'bg-[#38a169]' : 'bg-[#e53e3e]'
             }`}></span>
             {isConnected ? 'Connected' : 'Disconnected'}

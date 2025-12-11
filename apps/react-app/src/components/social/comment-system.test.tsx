@@ -69,7 +69,7 @@ jest.mock('../ui/button', () => {
   return {
     Button: mockReact.forwardRef(({ children, onClick, disabled, loading, loadingText, ...props }: any, ref: any) => (
       <button ref={ref} onClick={onClick} disabled={disabled || loading} {...props}>
-        {loading ? loadingText || 'Loading...' : children}
+        {loading ? loadingText || '' : children}
       </button>
     )),
     IconButton: mockReact.forwardRef(({ icon, onClick, ...props }: any, ref: any) => (
@@ -164,7 +164,7 @@ describe('CommentSystem Component', () => {
     it('should render loading skeleton when loading', () => {
       render(<CommentSystem comments={[]} postId="post-1" loading />);
 
-      const skeletons = document.querySelectorAll('.animate-pulse');
+      const skeletons = document.querySelectorAll('.');
       expect(skeletons.length).toBeGreaterThan(0);
     });
 

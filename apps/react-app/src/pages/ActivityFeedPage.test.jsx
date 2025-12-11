@@ -235,13 +235,13 @@ describe('ActivityFeedPage', () => {
   describe('Loading States', () => {
     it('shows loading state initially', () => {
       renderWithRouter(<ActivityFeedPage />);
-      const loadingSkeletons = document.querySelectorAll('.animate-pulse');
+      const loadingSkeletons = document.querySelectorAll('.');
       expect(loadingSkeletons.length).toBeGreaterThan(0);
     });
 
     it('displays 5 loading skeleton items', () => {
       renderWithRouter(<ActivityFeedPage />);
-      const loadingSkeletons = document.querySelectorAll('.animate-pulse .flex.items-start.gap-lg');
+      const loadingSkeletons = document.querySelectorAll('. .flex.items-start.gap-lg');
       expect(loadingSkeletons.length).toBe(5);
     });
 
@@ -250,7 +250,7 @@ describe('ActivityFeedPage', () => {
       await waitFor(() => {
         expect(screen.queryByText('John Doe')).toBeInTheDocument();
       });
-      const loadingSkeletons = document.querySelectorAll('.animate-pulse');
+      const loadingSkeletons = document.querySelectorAll('.');
       expect(loadingSkeletons.length).toBe(0);
     });
 

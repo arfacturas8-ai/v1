@@ -319,7 +319,7 @@ export function CallStateIndicator({ compact = false, showDetails = false }) {
           bgColor: 'bg-[#58a6ff]/20',
           label: 'Connecting...',
           description: 'Establishing connection',
-          animate: 'animate-spin'
+          animate: ''
         }
       case CALL_STATES.CONNECTED:
         return {
@@ -336,7 +336,7 @@ export function CallStateIndicator({ compact = false, showDetails = false }) {
           bgColor: 'bg-yellow-500/20',
           label: 'Reconnecting...',
           description: `Attempt ${callState.reconnectionAttempts}/${callState.maxReconnectionAttempts}`,
-          animate: 'animate-pulse'
+          animate: ''
         }
       case CALL_STATES.DISCONNECTING:
         return {

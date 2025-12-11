@@ -518,7 +518,7 @@ const MediaUploader = ({
                           <AlertCircle size={14} className="text-error sm:w-4 sm:h-4" aria-label="Upload failed" />
                         )}
                         {fileObj.status === 'uploading' && (
-                          <Loader size={14} className="text-accent animate-spin sm:w-4 sm:h-4" aria-label="Uploading" />
+                          <Loader size={14} className="text-accent  sm:w-4 sm:h-4" aria-label="Uploading" />
                         )}
                       </div>
                     </div>

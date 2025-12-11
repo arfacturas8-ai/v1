@@ -151,7 +151,7 @@ const WalletModal = ({ isOpen, onClose }) => {
                   Install
                 </button>
               ) : selectedWallet === wallet.id && isConnecting ? (
-                <div className="absolute top-4 right-4 w-5 h-5 border-2 border-blue-300 border-t-blue-600 rounded-full animate-spin"></div>
+                <div className="absolute top-4 right-4 w-5 h-5 border-2 border-blue-300 border-t-blue-600 rounded-full "></div>
               ) : (
                 <div className={`w-2 h-2 rounded-full ${wallet.installed ? 'bg-green-500' : 'bg-gray-500'}`}></div>
               )}

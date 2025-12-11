@@ -51,7 +51,7 @@ describe('JoinCommunitiesStep', () => {
       render(<JoinCommunitiesStep onComplete={onComplete} onSkip={onSkip} />)
 
       const spinner = screen.getByRole('status', { hidden: true })
-      expect(spinner).toHaveClass('animate-spin', 'rounded-full', 'h-12', 'w-12', 'border-b-2', 'border-blue-600')
+      expect(spinner).toHaveClass('', 'rounded-full', 'h-12', 'w-12', 'border-b-2', 'border-blue-600')
     })
 
     test('should render main heading after loading', async () => {

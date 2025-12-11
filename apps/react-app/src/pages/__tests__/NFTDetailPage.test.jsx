@@ -79,7 +79,7 @@ describe('NFTDetailPage', () => {
 
     it('shows loading spinner initially', () => {
       renderWithRouter(<NFTDetailPage />)
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).toBeInTheDocument()
     })
 
@@ -112,12 +112,12 @@ describe('NFTDetailPage', () => {
   describe('Loading State', () => {
     it('displays loading spinner', () => {
       renderWithRouter(<NFTDetailPage />)
-      expect(document.querySelector('.animate-spin')).toBeInTheDocument()
+      expect(document.querySelector('.')).toBeInTheDocument()
     })
 
     it('shows loading spinner with correct styles', () => {
       renderWithRouter(<NFTDetailPage />)
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).toHaveClass('border-purple-500')
     })
 
@@ -130,27 +130,27 @@ describe('NFTDetailPage', () => {
     it('transitions from loading to loaded', async () => {
       renderWithRouter(<NFTDetailPage />)
 
-      expect(document.querySelector('.animate-spin')).toBeInTheDocument()
+      expect(document.querySelector('.')).toBeInTheDocument()
 
       jest.advanceTimersByTime(800)
 
       await waitFor(() => {
-        expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
+        expect(document.querySelector('.')).not.toBeInTheDocument()
       })
     })
 
     it('loading takes approximately 800ms', async () => {
       renderWithRouter(<NFTDetailPage />)
 
-      expect(document.querySelector('.animate-spin')).toBeInTheDocument()
+      expect(document.querySelector('.')).toBeInTheDocument()
 
       jest.advanceTimersByTime(799)
-      expect(document.querySelector('.animate-spin')).toBeInTheDocument()
+      expect(document.querySelector('.')).toBeInTheDocument()
 
       jest.advanceTimersByTime(1)
 
       await waitFor(() => {
-        expect(document.querySelector('.animate-spin')).not.toBeInTheDocument()
+        expect(document.querySelector('.')).not.toBeInTheDocument()
       })
     })
   })

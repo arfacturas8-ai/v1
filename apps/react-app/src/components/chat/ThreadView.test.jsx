@@ -1327,7 +1327,7 @@ describe('ThreadView', () => {
       )
 
       expect(screen.getByText('Loading thread...')).toBeInTheDocument()
-      const spinner = document.querySelector('.animate-spin')
+      const spinner = document.querySelector('.')
       expect(spinner).toBeInTheDocument()
     })
 

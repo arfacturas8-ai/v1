@@ -146,8 +146,8 @@ export default function LoginPage() {
       <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
         {/* Background gradient blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 animate-pulse" />
-          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 animate-pulse" />
+          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
+          <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
         <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
@@ -289,14 +289,15 @@ export default function LoginPage() {
                 />
 
                 <div className="flex items-center justify-between text-sm">
-                  <label className="flex items-center cursor-pointer group">
+                  <label className="flex items-center gap-2 cursor-pointer group">
                     <input
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="w-4 h-4 flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
+                      style={{ width: '16px', height: '16px', minWidth: '16px', minHeight: '16px' }}
+                      className="flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
                     />
-                    <span className="ml-2 text-gray-400 group-hover:text-gray-300 transition-colors">Remember me</span>
+                    <span className="text-gray-400 group-hover:text-gray-300 transition-colors">Remember me</span>
                   </label>
                   <Link to="/auth/forgot-password" className="text-blue-400 hover:text-blue-300 transition-colors">
                     Forgot password?
@@ -371,14 +372,15 @@ export default function LoginPage() {
 
           {/* Terms checkbox */}
           <div className="mb-6">
-            <label className="flex items-start cursor-pointer group">
+            <label className="flex items-start gap-2 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                className="w-4 h-4 mt-0.5 flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
+                style={{ width: '16px', height: '16px', minWidth: '16px', minHeight: '16px', marginTop: '2px' }}
+                className="flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
               />
-              <span className="ml-2 text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+              <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                 I agree to the{' '}
                 <Link to="/terms" className="text-blue-400 hover:text-blue-300">
                   Terms of Service

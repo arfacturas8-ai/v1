@@ -307,7 +307,7 @@ function ActivityFeedPage() {
         {loading ? (
           <div className="space-y-4">
             {[...Array(5)].map((_, index) => (
-              <div key={index} className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 animate-pulse">
+              <div key={index} className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 ">
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-[#21262d] rounded-full"></div>
                   <div className="flex-1">

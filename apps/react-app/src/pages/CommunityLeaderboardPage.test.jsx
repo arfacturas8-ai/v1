@@ -226,7 +226,7 @@ describe('CommunityLeaderboardPage', () => {
     it('displays loading spinner', () => {
       global.fetch.mockImplementationOnce(() => new Promise(() => {}))
       renderWithRouter(<CommunityLeaderboardPage />)
-      const loadingIndicator = screen.getByText(/Loading/i) || document.querySelector('.animate-pulse')
+      const loadingIndicator = screen.getByText(/Loading/i) || document.querySelector('.')
       expect(loadingIndicator).toBeInTheDocument()
     })
 

@@ -91,7 +91,7 @@ const NFTDetailPage = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center" role="status" aria-live="polite">
-        <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin" />
+        <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full " />
         <span className="sr-only">Loading NFT details...</span>
       </div>
     )

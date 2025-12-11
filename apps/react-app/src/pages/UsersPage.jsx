@@ -369,7 +369,7 @@ function UsersPage() {
       {/* Users Table */}
       {loading ? (
         <div className="text-center py-20 text-white/60">
-          <div className="w-12 h-12 border-4 border-white/10 border-t-[#a371f7] rounded-full animate-spin mx-auto mb-4"></div>
+          <div className="w-12 h-12 border-4 border-white/10 border-t-[#a371f7] rounded-full  mx-auto mb-4"></div>
           <p>Loading users...</p>
         </div>
       ) : users.length === 0 ? (

@@ -257,7 +257,7 @@ function CommunityPage() {
               {/* Main Content Skeleton */}
               <div className="lg:col-span-3">
                 {/* Header skeleton */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 animate-pulse">
+                <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 ">
                   <div className="p-6">
                     <div className="flex items-start justify-between">
                       <div className="flex items-center gap-4 flex-1">
@@ -274,7 +274,7 @@ function CommunityPage() {
                 </div>
 
                 {/* Sort Controls skeleton */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 animate-pulse">
+                <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 mb-6 ">
                   <div className="p-4">
                     <div className="flex gap-4">
                       {[...Array(4)].map((_, i) => (
@@ -287,7 +287,7 @@ function CommunityPage() {
                 {/* Posts skeleton */}
                 <div className="space-y-4">
                   {[...Array(3)].map((_, i) => (
-                    <div key={i} className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 animate-pulse">
+                    <div key={i} className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 ">
                       <div className="flex gap-4">
                         <div className="flex flex-col items-center gap-2">
                           <div className="h-6 w-6 bg-[#0D0D0D] rounded"></div>
@@ -313,7 +313,7 @@ function CommunityPage() {
               {/* Sidebar Skeleton */}
               <div className="lg:col-span-1">
                 <div className="space-y-6">
-                  <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 animate-pulse">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 ">
                     <div className="p-6">
                       <div className="h-6 w-32 bg-[#0D0D0D] rounded mb-4"></div>
                       <div className="space-y-3">
@@ -327,7 +327,7 @@ function CommunityPage() {
                     </div>
                   </div>
 
-                  <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 animate-pulse">
+                  <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 ">
                     <div className="p-6">
                       <div className="h-6 w-24 bg-[#0D0D0D] rounded mb-4"></div>
                       <div className="space-y-2">

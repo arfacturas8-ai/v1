@@ -254,8 +254,8 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
     <ModalBody>
       <div className="flex flex-col items-center justify-center py-12">
         <div className="relative mb-6">
-          <div className="w-20 h-20 rounded-full border-4 border-primary/20 animate-pulse" />
-          <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-transparent border-t-primary animate-spin" />
+          <div className="w-20 h-20 rounded-full border-4 border-primary/20 " />
+          <div className="absolute inset-0 w-20 h-20 rounded-full border-4 border-transparent border-t-primary " />
         </div>
         <h3 className="text-lg font-semibold mb-2">Waiting for Signature</h3>
         <p className="text-sm text-muted-foreground text-center">

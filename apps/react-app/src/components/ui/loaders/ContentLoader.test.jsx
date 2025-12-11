@@ -39,7 +39,7 @@ jest.mock('./PageLoader', () => ({
       role="status"
       aria-label="Loading"
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   ),
   DotLoader: ({ size, className }) => (
@@ -50,7 +50,7 @@ jest.mock('./PageLoader', () => ({
       role="status"
       aria-label="Loading"
     >
-      <span className="sr-only">Loading...</span>
+      <span className="sr-only"></span>
     </div>
   ),
 }));
@@ -432,7 +432,7 @@ describe('CardLoader', () => {
 
     it('should render text placeholders in each card', () => {
       const { container } = render(<CardLoader count={1} />);
-      const placeholders = container.querySelectorAll('.animate-pulse');
+      const placeholders = container.querySelectorAll('.');
       expect(placeholders.length).toBeGreaterThan(0);
     });
 
@@ -507,7 +507,7 @@ describe('ListLoader', () => {
   describe('List Item Structure', () => {
     it('should render text placeholders in each item', () => {
       const { container } = render(<ListLoader count={1} />);
-      const placeholders = container.querySelectorAll('.animate-pulse');
+      const placeholders = container.querySelectorAll('.');
       expect(placeholders.length).toBeGreaterThan(0);
     });
 

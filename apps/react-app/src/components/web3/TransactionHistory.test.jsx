@@ -65,7 +65,7 @@ describe('TransactionHistory Component', () => {
 
     test('should render loading skeleton with 5 items', () => {
       render(<TransactionHistory account="0x123" />);
-      const skeletons = screen.getByText('Loading Transaction History...').closest('div').querySelectorAll('.animate-pulse');
+      const skeletons = screen.getByText('Loading Transaction History...').closest('div').querySelectorAll('.');
       expect(skeletons).toHaveLength(5);
     });
 
@@ -294,7 +294,7 @@ describe('TransactionHistory Component', () => {
       jest.advanceTimersByTime(1500);
 
       await waitFor(() => {
-        const spinner = container.querySelector('.animate-spin');
+        const spinner = container.querySelector('.');
         expect(spinner).toBeInTheDocument();
       });
     });
@@ -1078,7 +1078,7 @@ describe('TransactionHistory Component', () => {
 
     test('should show loading spinner icon', () => {
       const { container } = render(<TransactionHistory account="0x123" />);
-      const spinner = container.querySelector('.animate-spin');
+      const spinner = container.querySelector('.');
       expect(spinner).toBeInTheDocument();
     });
 

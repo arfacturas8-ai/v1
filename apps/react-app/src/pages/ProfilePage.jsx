@@ -177,7 +177,7 @@ function ProfilePage() {
     setIsFollowing(!isFollowing)
     setUser({
       ...user,
-      followerCount: isFollowing ? user.followerCount - 1 : user.followerCount + 1
+      followerCount: isFollowing ? (user?.followerCount || 0) - 1 : (user?.followerCount || 0) + 1
     })
   }, [isFollowing, user])
 
@@ -305,11 +305,11 @@ function ProfilePage() {
   const userStatsData = useMemo(() => {
     if (!user) return []
     return [
-      { label: 'Posts', value: user.stats.totalPosts, icon: MessageSquare, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'Karma', value: user.karma.toLocaleString(), icon: Zap, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'Followers', value: user.followerCount.toLocaleString(), icon: Users, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'NFTs', value: user.nftCount, icon: Image, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'Awards', value: user.stats.totalAwards, icon: Trophy, color: 'from-[#58a6ff] to-[#a371f7]' }
+      { label: 'Posts', value: user?.stats?.totalPosts || 0, icon: MessageSquare, color: 'from-[#58a6ff] to-[#a371f7]' },
+      { label: 'Karma', value: (user?.karma || 0).toLocaleString(), icon: Zap, color: 'from-[#58a6ff] to-[#a371f7]' },
+      { label: 'Followers', value: (user?.followerCount || 0).toLocaleString(), icon: Users, color: 'from-[#58a6ff] to-[#a371f7]' },
+      { label: 'NFTs', value: user?.nftCount || 0, icon: Image, color: 'from-[#58a6ff] to-[#a371f7]' },
+      { label: 'Awards', value: user?.stats?.totalAwards || 0, icon: Trophy, color: 'from-[#58a6ff] to-[#a371f7]' }
     ]
   }, [user])
 
@@ -366,22 +366,6 @@ function ProfilePage() {
     }
   }, [user])
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-[#0D0D0D]">
-        <div className="container mx-auto px-4 py-8">
-          <div className="max-w-6xl mx-auto">
-            <SkeletonProfile />
-            <div className="grid grid-cols-1 gap-4 mt-6">
-              {[...Array(3)].map((_, i) => (
-                <SkeletonPost key={i} />
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
 
   if (error) {
     return (
@@ -755,7 +739,7 @@ function ProfilePage() {
                       About
                     </h3>
                     <p className="text-[#A0A0A0]">
-                      {user.bio || 'No bio provided.'}
+                      {user?.bio || 'No bio provided.'}
                     </p>
                   </div>
 

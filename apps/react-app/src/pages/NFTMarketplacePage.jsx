@@ -612,7 +612,7 @@ const NFTMarketplacePage = () => {
           {loading && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden animate-pulse">
+                <div key={i} className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden ">
                   <div className="aspect-square bg-[#1A1A1A]" />
                   <div className="p-4 space-y-3">
                     <SkeletonBox width="w-3/4" height="h-4" className="mb-2" />
