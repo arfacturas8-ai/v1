@@ -326,24 +326,13 @@ export default function PostFeed({
 
   // Render loading footer
   const renderFooter = () => {
-    if (!loadingMore) return null;
-    return (
-      <View style={styles.loadingFooter}>
-        <ActivityIndicator size="small" color="#007AFF" />
-        <Text style={styles.loadingText}>Loading more posts...</Text>
-      </View>
-    );
+    return null;
   };
 
   // Render empty state
   const renderEmpty = () => {
     if (loading) {
-      return (
-        <View style={styles.centerContainer}>
-          <ActivityIndicator size="large" color="#007AFF" />
-          <Text style={styles.loadingText}>Loading posts...</Text>
-        </View>
-      );
+      return null;
     }
 
     if (error) {

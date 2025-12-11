@@ -214,12 +214,7 @@ const SecuritySettingsScreen = () => {
   };
 
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#4F46E5" />
-        <Text style={styles.loadingText}>Loading security settings...</Text>
-      </View>
-    );
+    return null;
   }
 
   return (

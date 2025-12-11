@@ -248,11 +248,7 @@ const TransactionHistoryScreen = () => {
   );
 
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#4F46E5" />
-      </View>
-    );
+    return null;
   }
 
   return (

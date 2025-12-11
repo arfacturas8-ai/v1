@@ -223,18 +223,14 @@ export function CommunitiesScreen() {
             onPress={() => handleJoinCommunity(item.id)}
             disabled={loading}
           >
-            {loading ? (
-              <ActivityIndicator size="small" color={colors.primary} />
-            ) : (
-              <Text
-                style={[
-                  styles.joinButtonText,
-                  { color: item.isJoined ? colors.primary : '#ffffff' }
-                ]}
-              >
-                {item.isJoined ? 'Joined' : 'Join'}
-              </Text>
-            )}
+            <Text
+              style={[
+                styles.joinButtonText,
+                { color: item.isJoined ? colors.primary : '#ffffff' }
+              ]}
+            >
+              {item.isJoined ? 'Joined' : 'Join'}
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -308,17 +304,7 @@ export function CommunitiesScreen() {
   );
 
   if (initialLoading) {
-    return (
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
-        {renderHeader()}
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Loading communities...
-          </Text>
-        </View>
-      </View>
-    );
+    return null;
   }
 
   return (

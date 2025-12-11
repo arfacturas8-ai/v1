@@ -277,17 +277,7 @@ export function HomeScreen() {
   );
 
   if (loading) {
-    return (
-      <View style={[styles.container, { backgroundColor: colors.background }]}>
-        {renderHeader()}
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={colors.primary} />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Loading your feed...
-          </Text>
-        </View>
-      </View>
-    );
+    return null;
   }
 
   return (

@@ -344,11 +344,7 @@ export function RegisterScreen() {
               onPress={handleRegister}
               disabled={!isFormValid}
             >
-              {isLoading ? (
-                <ActivityIndicator color="#6366f1" size="small" />
-              ) : (
-                <Text style={styles.registerButtonText}>Create Account</Text>
-              )}
+              <Text style={styles.registerButtonText}>Create Account</Text>
             </TouchableOpacity>
 
             <View style={styles.footer}>

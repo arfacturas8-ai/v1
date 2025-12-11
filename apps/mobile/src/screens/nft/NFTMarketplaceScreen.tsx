@@ -186,11 +186,7 @@ export default function NFTMarketplaceScreen() {
       {renderHeader()}
       {renderCategories()}
 
-      {loading && !refreshing ? (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      ) : (
+      {loading && !refreshing ? null : (
         <FlatList
           data={nfts}
           keyExtractor={(item) => item.id}

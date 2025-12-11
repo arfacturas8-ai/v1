@@ -394,11 +394,7 @@ export function CreateServerScreen() {
           onPress={handleCreateServer}
           disabled={isLoading}
         >
-          {isLoading ? (
-            <ActivityIndicator color="#ffffff" size="small" />
-          ) : (
-            <Text style={styles.createButtonText}>Create Server</Text>
-          )}
+          <Text style={styles.createButtonText}>Create Server</Text>
         </TouchableOpacity>
       </ScrollView>
     </KeyboardAvoidingView>

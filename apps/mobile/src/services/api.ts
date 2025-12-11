@@ -1,6 +1,14 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
-const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3002';
+const getApiUrl = () => {
+  if (__DEV__) {
+    return Platform.OS === 'android' ? 'http://10.0.2.2:3002' : 'http://localhost:3002';
+  }
+  return process.env.EXPO_PUBLIC_API_URL || 'https://api.cryb.ai/api/v1';
+};
+
+const API_BASE_URL = getApiUrl();
 
 class ApiService {
   private token: string | null = null;

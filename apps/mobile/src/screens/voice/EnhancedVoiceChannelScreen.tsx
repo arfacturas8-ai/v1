@@ -569,17 +569,7 @@ const EnhancedVoiceChannelScreen: React.FC = () => {
   ];
 
   if (isLoading) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style="auto" />
-        <View style={styles.loadingContainer}>
-          <LoadingSpinner size="large" />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Loading voice channel...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (
@@ -636,15 +626,7 @@ const EnhancedVoiceChannelScreen: React.FC = () => {
             </View>
           ) : (
             <>
-              {/* Connecting State */}
-              {liveKit.isConnecting && (
-                <View style={styles.connectingContainer}>
-                  <LoadingSpinner size="large" />
-                  <Text style={[styles.connectingText, { color: colors.textSecondary }]}>
-                    Connecting to voice channel...
-                  </Text>
-                </View>
-              )}
+              {/* Connecting State removed */}
 
               {/* Participants List */}
               {liveKit.isConnected && (

@@ -553,17 +553,7 @@ const CreatePostScreen: React.FC = () => {
   }, [community, showFlairPicker, getSelectedFlair, colors, handleFlairSelect]);
 
   if (isLoadingCommunity) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style="auto" />
-        <View style={styles.loadingContainer}>
-          <LoadingSpinner size="large" />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Loading community...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (

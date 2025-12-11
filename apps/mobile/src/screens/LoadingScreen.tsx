@@ -153,21 +153,14 @@ export function LoadingScreen({
         </Text>
       </Animated.View>
 
-      {/* Loading text and spinner */}
+      {/* Loading text and spinner removed */}
       <Animated.View
         style={[
           styles.loadingContainer,
           { opacity: textOpacity },
         ]}
       >
-        <LoadingSpinner
-          size="small"
-          color={colors.primary}
-          style={{ marginBottom: spacing.sm }}
-        />
-        <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-          {text}
-        </Text>
+        {/* Removed loading spinner and text */}
       </Animated.View>
 
       {/* Progress bar */}

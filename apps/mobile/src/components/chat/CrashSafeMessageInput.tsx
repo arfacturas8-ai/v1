@@ -458,11 +458,7 @@ export const CrashSafeMessageInput: React.FC<CrashSafeMessageInputProps> = ({
           onPress={handleSend}
           disabled={!canSend}
         >
-          {isSending ? (
-            <ActivityIndicator size="small" color="#ffffff" />
-          ) : (
-            <Ionicons name="send" size={20} color={canSend ? "#ffffff" : "#666"} />
-          )}
+          <Ionicons name="send" size={20} color={canSend ? "#ffffff" : "#666"} />
         </TouchableOpacity>
       </View>
 

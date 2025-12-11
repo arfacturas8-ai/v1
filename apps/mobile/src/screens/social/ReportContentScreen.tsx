@@ -232,11 +232,7 @@ const ReportContentScreen = () => {
           onPress={handleSubmitReport}
           disabled={!selectedReason || submitting}
         >
-          {submitting ? (
-            <ActivityIndicator color="#FFFFFF" />
-          ) : (
-            <Text style={styles.submitButtonText}>Submit Report</Text>
-          )}
+          <Text style={styles.submitButtonText}>Submit Report</Text>
         </TouchableOpacity>
 
         <TouchableOpacity

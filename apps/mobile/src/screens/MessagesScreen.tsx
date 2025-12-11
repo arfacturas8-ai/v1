@@ -577,17 +577,7 @@ const MessagesScreen: React.FC = () => {
     </View>
   ), [colors, searchQuery, handleNewMessage, spacing]);
 
-  const renderLoadingState = useCallback(() => (
-    <View style={{ padding: spacing.md }}>
-      {Array.from({ length: 8 }).map((_, index) => (
-        <SkeletonLoader
-          key={index}
-          height={72}
-          style={{ marginBottom: spacing.sm, borderRadius: 12 }}
-        />
-      ))}
-    </View>
-  ), [spacing]);
+  const renderLoadingState = useCallback(() => null, [spacing]);
 
   if (isLoading && !conversations.length) {
     return (

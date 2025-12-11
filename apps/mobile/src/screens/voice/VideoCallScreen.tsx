@@ -625,17 +625,7 @@ const VideoCallScreen: React.FC = () => {
   ]);
 
   if (isLoading) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style="light" hidden />
-        <View style={styles.loadingContainer}>
-          <LoadingSpinner size="large" />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Connecting to video call...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (

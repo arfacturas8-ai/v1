@@ -27,6 +27,7 @@ import { CrashDetector } from '../../utils/CrashDetector';
 import { useSocketStore } from '../../stores/socketStore';
 import { useAuthStore } from '../../stores/authStore';
 import { deviceInfo, spacing, typography, scale } from '../../utils/responsive';
+import { apiService } from '../../services/ApiService';
 
 const { height } = Dimensions.get('window');
 
@@ -103,20 +104,16 @@ export const CrashSafeChatArea: React.FC<CrashSafeChatAreaProps> = ({
     initialPageParam: null,
     queryFn: async ({ pageParam = null }) => {
       try {
-        const url = new URL(`http://localhost:3002/api/channels/${channelId}/messages`);
-        if (pageParam) url.searchParams.set('before', pageParam);
-        url.searchParams.set('limit', MESSAGES_PER_PAGE.toString());
+        const response = await apiService.getMessages(channelId, MESSAGES_PER_PAGE, pageParam || undefined);
 
-        const response = await fetch(url.toString());
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        if (!response.success) {
+          throw new Error(response.error || 'Failed to fetch messages');
         }
 
-        const data = await response.json();
         return {
-          messages: data.messages || [],
-          hasMore: data.hasMore || false,
-          nextCursor: data.nextCursor,
+          messages: response.data || [],
+          hasMore: false,
+          nextCursor: null,
         };
       } catch (error) {
         await CrashDetector.reportNetworkError(error, `FETCH_MESSAGES_${channelId}`);
@@ -451,11 +448,7 @@ export const CrashSafeChatArea: React.FC<CrashSafeChatAreaProps> = ({
 
   // Loading state
   if (isLoading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#4a9eff" />
-      </View>
-    );
+    return null;
   }
 
   // Error state
@@ -495,13 +488,7 @@ export const CrashSafeChatArea: React.FC<CrashSafeChatAreaProps> = ({
               colors={['#4a9eff']}
             />
           }
-          ListHeaderComponent={
-            isFetchingNextPage ? (
-              <View style={styles.loadingMore}>
-                <ActivityIndicator size="small" color="#4a9eff" />
-              </View>
-            ) : null
-          }
+          ListHeaderComponent={null}
           getItemLayout={(data, index) => ({
             length: MESSAGE_HEIGHT_ESTIMATE,
             offset: MESSAGE_HEIGHT_ESTIMATE * index,

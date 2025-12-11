@@ -546,22 +546,7 @@ const CommunityDetailScreen: React.FC = () => {
   ), [navigation, spacing]);
 
   if (isLoading && !community) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style="auto" />
-        <View style={styles.loadingContainer}>
-          <SkeletonLoader height={200} style={{ marginBottom: spacing.md }} />
-          <SkeletonLoader height={120} style={{ marginBottom: spacing.md }} />
-          {Array.from({ length: 5 }).map((_, index) => (
-            <SkeletonLoader
-              key={index}
-              height={100}
-              style={{ marginBottom: spacing.sm }}
-            />
-          ))}
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (

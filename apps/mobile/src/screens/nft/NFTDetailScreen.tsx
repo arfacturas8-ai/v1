@@ -157,13 +157,7 @@ export default function NFTDetailScreen() {
   };
 
   if (loading || !nft) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <View style={styles.loadingContainer}>
-          <Text style={{ color: colors.text }}>Loading...</Text>
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (

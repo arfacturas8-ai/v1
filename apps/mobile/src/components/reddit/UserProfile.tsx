@@ -544,12 +544,7 @@ export default function UserProfile({ userId, onClose }: UserProfileProps) {
   // Render content based on type
   const renderContent = () => {
     if (loadingContent) {
-      return (
-        <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#007AFF" />
-          <Text style={styles.loadingText}>Loading content...</Text>
-        </View>
-      );
+      return null;
     }
 
     switch (contentType) {
@@ -629,12 +624,7 @@ export default function UserProfile({ userId, onClose }: UserProfileProps) {
   };
 
   if (loading) {
-    return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#007AFF" />
-        <Text style={styles.loadingText}>Loading profile...</Text>
-      </View>
-    );
+    return null;
   }
 
   return (

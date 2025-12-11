@@ -247,11 +247,7 @@ export function PostDetailScreen({ route, navigation }: PostDetailScreenProps) {
   );
 
   if (loading && !post) {
-    return (
-      <View style={[styles.loadingContainer, { backgroundColor: colors.background }]}>
-        <ActivityIndicator size="large" color={colors.primary} />
-      </View>
-    );
+    return null;
   }
 
   if (!post) {
@@ -392,11 +388,7 @@ export function PostDetailScreen({ route, navigation }: PostDetailScreenProps) {
                 { backgroundColor: commentText.trim() ? colors.primary : colors.border }
               ]}
             >
-              {submitting ? (
-                <ActivityIndicator size="small" color="#fff" />
-              ) : (
-                <Feather name="send" size={18} color="#fff" />
-              )}
+              <Feather name="send" size={18} color="#fff" />
             </TouchableOpacity>
           </View>
         </View>

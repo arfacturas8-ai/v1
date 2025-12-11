@@ -669,17 +669,7 @@ const NotificationScreen: React.FC = () => {
   ), [colors, spacing, settings, isSaving, handleSettingChange, handleQuietHoursChange, handleSaveSettings, handleTestNotification]);
 
   if (isLoading) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style="auto" />
-        <View style={styles.loadingContainer}>
-          <LoadingSpinner size="large" />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Loading notifications...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (

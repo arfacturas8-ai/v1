@@ -214,11 +214,7 @@ export function SearchResults({
 
   const renderFooter = () => {
     if (loading) {
-      return (
-        <View style={styles.footer(spacing)}>
-          <LoadingSpinner size="small" color={colors.primary} />
-        </View>
-      );
+      return null;
     }
 
     if (hasMore && results.length > 0) {
@@ -239,14 +235,7 @@ export function SearchResults({
 
   const renderEmpty = () => {
     if (loading) {
-      return (
-        <View style={styles.emptyContainer(spacing)}>
-          <LoadingSpinner size="large" color={colors.primary} />
-          <Text style={styles.loadingText(colors, typography)}>
-            Searching...
-          </Text>
-        </View>
-      );
+      return null;
     }
 
     return (

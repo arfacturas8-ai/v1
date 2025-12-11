@@ -442,11 +442,7 @@ const EditProfileScreen: React.FC = () => {
           />
           
           <View style={[styles.avatarOverlay, { backgroundColor: colors.background + 'CC' }]}>
-            {isUploadingAvatar ? (
-              <LoadingSpinner size="sm" />
-            ) : (
-              <Ionicons name="camera" size={24} color={colors.text} />
-            )}
+            <Ionicons name="camera" size={24} color={colors.text} />
           </View>
         </TouchableOpacity>
         
@@ -629,17 +625,7 @@ const EditProfileScreen: React.FC = () => {
   ), [spacing, colors, settings, isSaving, handleSettingChange]);
 
   if (isLoading) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style="auto" />
-        <View style={styles.loadingContainer}>
-          <LoadingSpinner size="large" />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Loading profile...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (

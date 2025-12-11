@@ -672,17 +672,7 @@ const VoiceChannelScreen: React.FC = () => {
   ), [colors, voiceState, handleToggleMute, handleToggleDeafen, handleVideoCall, handleDisconnect, showSettings]);
 
   if (isLoading) {
-    return (
-      <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
-        <StatusBar style="auto" />
-        <View style={styles.loadingContainer}>
-          <LoadingSpinner size="large" />
-          <Text style={[styles.loadingText, { color: colors.textSecondary }]}>
-            Loading voice channel...
-          </Text>
-        </View>
-      </SafeAreaView>
-    );
+    return null;
   }
 
   return (

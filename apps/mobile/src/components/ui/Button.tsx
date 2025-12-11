@@ -150,13 +150,7 @@ export function Button({
       disabled={disabled || loading}
       activeOpacity={0.7}
     >
-      {loading && (
-        <ActivityIndicator
-          size="small"
-          color={variant === 'primary' || variant === 'destructive' ? colors.textInverse : colors.primary}
-          style={{ marginRight: icon || title ? spacing.sm : 0 }}
-        />
-      )}
+      {/* Removed loading ActivityIndicator */}
       {icon && !loading && (
         <View style={{ marginRight: title ? spacing.sm : 0 }}>
           {icon}
