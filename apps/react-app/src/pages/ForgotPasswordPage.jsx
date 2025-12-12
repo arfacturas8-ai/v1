@@ -132,7 +132,7 @@ export default function ForgotPasswordPage() {
             </div>
             {error && (
               <p id="email-error" role="alert" className="mt-2 text-xs md:text-sm text-[#FF3B3B]">
-                {error}
+                {typeof error === 'string' ? error : 'An error occurred'}
               </p>
             )}
           </div>

@@ -196,7 +196,7 @@ const VoiceMessagesPage = () => {
                 className="mb-6 p-4 bg-red-900/30 text-red-400 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-red-700/50"
                 role="alert"
               >
-                {error}
+                {typeof error === 'string' ? error : 'An error occurred'}
               </motion.div>
             )}
 

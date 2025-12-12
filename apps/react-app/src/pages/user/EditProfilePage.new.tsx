@@ -863,7 +863,7 @@ const FormField: React.FC<{
           }}
         >
           <AlertCircle size={12} />
-          {error}
+          {typeof error === 'string' ? error : 'An error occurred'}
         </div>
       )}
       {helperText && !error && (

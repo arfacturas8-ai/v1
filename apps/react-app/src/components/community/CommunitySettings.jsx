@@ -205,7 +205,7 @@ export default function CommunitySettings({
             {error && (
               <div className="flex items-center gap-2 bg-error/10 border border-error/30 rounded-lg p-3 mb-5 text-error-dark text-sm">
                 <AlertTriangle size={16} />
-                {error}
+                {typeof error === 'string' ? error : 'An error occurred'}
               </div>
             )}
 

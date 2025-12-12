@@ -191,7 +191,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
             {/* Messages */}
             {error && (
               <div className="mb-4 p-3 sm:p-4 bg-error/10 border border-error/30 rounded-xl text-error text-sm">
-                {error}
+                {typeof error === 'string' ? error : 'An error occurred'}
               </div>
             )}
 

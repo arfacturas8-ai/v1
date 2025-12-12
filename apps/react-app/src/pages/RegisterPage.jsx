@@ -134,7 +134,7 @@ export default function RegisterPage() {
               role="alert"
               aria-live="assertive"
             >
-              {error}
+              {typeof error === 'string' ? error : 'An error occurred'}
             </div>
           )}
 

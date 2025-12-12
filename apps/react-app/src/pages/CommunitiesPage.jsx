@@ -220,7 +220,7 @@ function CommunitiesPage() {
         {/* Error */}
         {error && (
           <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4 mb-6 text-red-500 text-center">
-            {error}
+            {typeof error === 'string' ? error : 'An error occurred'}
           </div>
         )}
 

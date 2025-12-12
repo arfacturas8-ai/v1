@@ -219,7 +219,7 @@ export default function MFASetupPage() {
                     role="alert"
                     className="mt-2 text-sm text-red-500"
                   >
-                    {error}
+                    {typeof error === 'string' ? error : 'An error occurred'}
                   </p>
                 )}
               </div>

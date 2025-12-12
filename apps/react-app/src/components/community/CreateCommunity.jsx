@@ -521,7 +521,7 @@ export default function CreateCommunity({ onClose, onCreate }) {
         <div className={`modal-footer ${isMobile ? 'flex-col gap-3 p-4' : 'flex-row gap-0 p-6'}`}>
           {error && (
             <div className="error-message">
-              {error}
+              {typeof error === 'string' ? error : 'An error occurred'}
             </div>
           )}
 

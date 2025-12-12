@@ -325,7 +325,7 @@ export default function ModerationQueue({
       {error && (
         <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-lg p-3 mb-4 text-red-500 text-sm">
           <AlertTriangle size={16} />
-          {error}
+          {typeof error === 'string' ? error : 'An error occurred'}
         </div>
       )}
 

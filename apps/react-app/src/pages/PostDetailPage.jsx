@@ -206,7 +206,7 @@ export default function PostDetailPage() {
           <EmptyState
             icon="alert"
             title="Error Loading Post"
-            description={error}
+            description={typeof error === 'string' ? error : 'An error occurred'}
             action={{
               label: "Try Again",
               onClick: loadPostAndComments

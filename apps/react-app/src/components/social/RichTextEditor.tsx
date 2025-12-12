@@ -473,7 +473,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
         <p
           className="text-sm text-destructive mt-2"
         >
-          {error}
+          {typeof error === 'string' ? error : 'An error occurred'}
         </p>
       )}
     </div>

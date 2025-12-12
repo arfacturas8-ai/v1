@@ -197,7 +197,7 @@ export default function PasswordResetPage() {
                 role="alert"
                 className="px-3 py-2 md:px-4 md:py-3 bg-[#141414]/60 backdrop-blur-xl border border-[rgba(255,59,59,0.3)] rounded-lg text-[#FF3B3B] text-xs md:text-sm mb-4 md:mb-5"
               >
-                {error}
+                {typeof error === 'string' ? error : 'An error occurred'}
               </div>
             )}
 
@@ -288,7 +288,7 @@ export default function PasswordResetPage() {
                 role="alert"
                 className="px-3 py-2 md:px-4 md:py-3 bg-[#141414]/60 backdrop-blur-xl border border-[rgba(255,59,59,0.3)] rounded-lg text-[#FF3B3B] text-xs md:text-sm mb-4 md:mb-5"
               >
-                {error}
+                {typeof error === 'string' ? error : 'An error occurred'}
               </div>
             )}
 
@@ -328,7 +328,7 @@ export default function PasswordResetPage() {
               <AlertTriangle className="w-8 h-8 text-amber-500" />
             </div>
             <p className="text-sm md:text-base text-[#666666] mb-5 md:mb-6 leading-relaxed">
-              {error}
+              {typeof error === 'string' ? error : 'An error occurred'}
             </p>
             <button
               onClick={() => setStep('request')}

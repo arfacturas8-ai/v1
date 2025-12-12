@@ -212,7 +212,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
               </div>
             ) : error ? (
               <div className="p-6 text-center text-red-400" role="alert">
-                {error}
+                {typeof error === 'string' ? error : 'An error occurred'}
               </div>
             ) : filteredUsers.length === 0 ? (
               <div className="p-6 text-center text-[#8b949e]">
