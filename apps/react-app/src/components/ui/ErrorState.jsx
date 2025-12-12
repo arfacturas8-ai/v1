@@ -3,6 +3,7 @@ import { AlertCircle, RefreshCw, HelpCircle } from 'lucide-react'
 import { Button } from './button'
 import { cn } from '../../lib/utils'
 import { useResponsive } from '../../hooks/useResponsive'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 /**
  * ErrorState Component
@@ -32,7 +33,7 @@ export function ErrorState({
   className,
 }) {
   const { isMobile, isTablet } = useResponsive()
-  const errorMessage = typeof error === 'string' ? error : error?.message || 'Unknown error';
+  const errorMessage = getErrorMessage(error, 'Unknown error');
   const friendlyMessage = getFriendlyErrorMessage(errorMessage);
 
   return (
