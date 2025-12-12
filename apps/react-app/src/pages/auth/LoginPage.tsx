@@ -62,7 +62,7 @@ export default function LoginPage() {
       const from = location.state?.from?.pathname || '/auth/onboarding-welcome';
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.message || 'Failed to connect wallet. Please try again.');
+      setError(getErrorMessage(err, 'Failed to connect wallet. Please try again.'));
     } finally {
       setWalletConnecting(null);
     }
@@ -85,7 +85,7 @@ export default function LoginPage() {
       const from = location.state?.from?.pathname || '/home';
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.message || `Failed to login with ${provider}`);
+      setError(getErrorMessage(err, `Failed to login with ${provider}`));
     } finally {
       setLoading(false);
     }
@@ -112,7 +112,7 @@ export default function LoginPage() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       setMagicLinkSent(true);
     } catch (err: any) {
-      setError(err.message || 'Failed to send magic link');
+      setError(getErrorMessage(err, 'Failed to send magic link'));
     } finally {
       setLoading(false);
     }
@@ -136,7 +136,7 @@ export default function LoginPage() {
       const from = location.state?.from?.pathname || '/home';
       navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.message || 'Invalid email or password');
+      setError(getErrorMessage(err, 'Invalid email or password'));
     } finally {
       setLoading(false);
     }

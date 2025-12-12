@@ -12,6 +12,7 @@ import {
   CreateConversationData,
 } from '../../services/api/messagesService';
 import { toast } from '../../stores/uiStore';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 /**
  * Get all conversations (infinite scroll)
@@ -118,7 +119,7 @@ export const useCreateConversation = () => {
       toast.success('Conversation created!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to create conversation');
+      toast.error(getErrorMessage(error, 'Failed to create conversation'));
     },
   });
 };
@@ -165,7 +166,7 @@ export const useSendMessage = () => {
       queryClient.invalidateQueries({ queryKey: ['messages', 'conversations'] });
     },
     onError: (error: any, data, context) => {
-      toast.error(error?.message || 'Failed to send message');
+      toast.error(getErrorMessage(error, 'Failed to send message'));
     },
   });
 };
@@ -187,7 +188,7 @@ export const useDeleteMessage = () => {
       toast.success('Message deleted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to delete message');
+      toast.error(getErrorMessage(error, 'Failed to delete message'));
     },
   });
 };
@@ -209,7 +210,7 @@ export const useEditMessage = () => {
       toast.success('Message edited');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to edit message');
+      toast.error(getErrorMessage(error, 'Failed to edit message'));
     },
   });
 };
@@ -250,7 +251,7 @@ export const useReactToMessage = () => {
       });
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to add reaction');
+      toast.error(getErrorMessage(error, 'Failed to add reaction'));
     },
   });
 };
@@ -270,7 +271,7 @@ export const useRemoveReaction = () => {
       });
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to remove reaction');
+      toast.error(getErrorMessage(error, 'Failed to remove reaction'));
     },
   });
 };
@@ -290,7 +291,7 @@ export const useDeleteConversation = () => {
       toast.success('Conversation deleted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to delete conversation');
+      toast.error(getErrorMessage(error, 'Failed to delete conversation'));
     },
   });
 };
@@ -310,7 +311,7 @@ export const useLeaveConversation = () => {
       toast.success('Left conversation');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to leave conversation');
+      toast.error(getErrorMessage(error, 'Failed to leave conversation'));
     },
   });
 };
@@ -330,7 +331,7 @@ export const useAddParticipants = () => {
       toast.success('Participants added');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to add participants');
+      toast.error(getErrorMessage(error, 'Failed to add participants'));
     },
   });
 };
@@ -350,7 +351,7 @@ export const useRemoveParticipant = () => {
       toast.success('Participant removed');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to remove participant');
+      toast.error(getErrorMessage(error, 'Failed to remove participant'));
     },
   });
 };
@@ -371,7 +372,7 @@ export const useUpdateConversation = () => {
       toast.success('Conversation updated');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update conversation');
+      toast.error(getErrorMessage(error, 'Failed to update conversation'));
     },
   });
 };
@@ -391,7 +392,7 @@ export const useMuteConversation = () => {
       toast.success('Conversation muted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to mute conversation');
+      toast.error(getErrorMessage(error, 'Failed to mute conversation'));
     },
   });
 };
@@ -410,7 +411,7 @@ export const useUnmuteConversation = () => {
       toast.success('Conversation unmuted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to unmute conversation');
+      toast.error(getErrorMessage(error, 'Failed to unmute conversation'));
     },
   });
 };
@@ -429,7 +430,7 @@ export const usePinConversation = () => {
       toast.success('Conversation pinned');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to pin conversation');
+      toast.error(getErrorMessage(error, 'Failed to pin conversation'));
     },
   });
 };
@@ -448,7 +449,7 @@ export const useUnpinConversation = () => {
       toast.success('Conversation unpinned');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to unpin conversation');
+      toast.error(getErrorMessage(error, 'Failed to unpin conversation'));
     },
   });
 };
@@ -468,7 +469,7 @@ export const useAcceptMessageRequest = () => {
       toast.success('Request accepted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to accept request');
+      toast.error(getErrorMessage(error, 'Failed to accept request'));
     },
   });
 };
@@ -487,7 +488,7 @@ export const useDeclineMessageRequest = () => {
       toast.success('Request declined');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to decline request');
+      toast.error(getErrorMessage(error, 'Failed to decline request'));
     },
   });
 };
@@ -499,7 +500,7 @@ export const useUploadMessageMedia = () => {
   return useMutation({
     mutationFn: (file: File) => messagesService.uploadMedia(file),
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to upload media');
+      toast.error(getErrorMessage(error, 'Failed to upload media'));
     },
   });
 };

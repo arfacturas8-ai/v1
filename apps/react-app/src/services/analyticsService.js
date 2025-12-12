@@ -14,6 +14,7 @@
  */
 
 import apiService from './api.js';
+import { getErrorMessage } from '../utils/errorUtils.js';
 
 class AnalyticsService {
   constructor() {
@@ -227,7 +228,7 @@ class AnalyticsService {
       return {
         success: false,
         data: null,
-        error: err.message || 'Failed to track error'
+        error: getErrorMessage(err, 'Failed to track error')
       };
     }
   }

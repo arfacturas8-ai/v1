@@ -127,7 +127,7 @@ const CommunityDetailPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error loading community:', err)
-      setError(err.message || 'Failed to load community')
+      setError(getErrorMessage(err, 'Failed to load community'))
     } finally {
       setLoading(false)
     }

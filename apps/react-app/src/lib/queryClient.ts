@@ -6,6 +6,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { toast } from '../stores/uiStore';
 import { APP_CONSTANTS } from '../config/constants';
+import { getErrorMessage } from '../utils/errorUtils';
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -51,8 +52,7 @@ export const queryClient = new QueryClient({
       // Error handling
       onError: (error: any) => {
         console.error('Mutation error:', error);
-        const message = error?.response?.data?.message || error?.message || 'Something went wrong';
-        toast.error(message);
+        toast.error(getErrorMessage(error, 'Something went wrong'));
       },
     },
   },

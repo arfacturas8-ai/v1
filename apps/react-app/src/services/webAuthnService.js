@@ -4,6 +4,7 @@
  */
 
 import api from './api';
+import { getErrorMessage } from '../utils/errorUtils';
 
 class WebAuthnService {
   /**
@@ -44,7 +45,7 @@ class WebAuthnService {
       });
 
       if (!optionsResponse.success) {
-        throw new Error(optionsResponse.error || 'Failed to initialize registration');
+        throw new Error(getErrorMessage(optionsResponse.error, 'Failed to initialize registration'));
       }
 
       const options = optionsResponse.data.options;
@@ -108,7 +109,7 @@ class WebAuthnService {
       const optionsResponse = await api.post('/auth/webauthn/login/init');
 
       if (!optionsResponse.success) {
-        throw new Error(optionsResponse.error || 'Failed to initialize authentication');
+        throw new Error(getErrorMessage(optionsResponse.error, 'Failed to initialize authentication'));
       }
 
       const options = optionsResponse.data.options;

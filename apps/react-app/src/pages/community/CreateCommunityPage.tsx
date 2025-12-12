@@ -278,7 +278,7 @@ const CreateCommunityPage: React.FC = () => {
       }
     } catch (error: any) {
       console.error('Error creating community:', error)
-      setErrorMessage(error.message || 'An unexpected error occurred. Please try again.')
+      setErrorMessage(getErrorMessage(error, 'An unexpected error occurred. Please try again.'))
       setCreating(false)
     }
   }

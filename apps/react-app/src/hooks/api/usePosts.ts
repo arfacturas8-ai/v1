@@ -7,6 +7,7 @@ import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tansta
 import { postsService, Post, CreatePostData, UpdatePostData, PostFilters, Comment } from '../../services/api/postsService';
 import { queryKeys } from '../../lib/queryClient';
 import { toast } from '../../stores/uiStore';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 /**
  * Get posts feed with filters
@@ -103,7 +104,7 @@ export const useCreatePost = () => {
       toast.success('Post created successfully!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to create post');
+      toast.error(getErrorMessage(error, 'Failed to create post'));
     },
   });
 };
@@ -126,7 +127,7 @@ export const useUpdatePost = () => {
       toast.success('Post updated successfully!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update post');
+      toast.error(getErrorMessage(error, 'Failed to update post'));
     },
   });
 };
@@ -149,7 +150,7 @@ export const useDeletePost = () => {
       toast.success('Post deleted successfully!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to delete post');
+      toast.error(getErrorMessage(error, 'Failed to delete post'));
     },
   });
 };
@@ -193,7 +194,7 @@ export const useLikePost = () => {
       if (context?.previousPost) {
         queryClient.setQueryData(queryKeys.posts.detail(postId), context.previousPost);
       }
-      toast.error(error?.message || 'Failed to like post');
+      toast.error(getErrorMessage(error, 'Failed to like post'));
     },
     onSettled: (data, error, postId) => {
       // Refetch to ensure consistency
@@ -237,7 +238,7 @@ export const useRepost = () => {
       if (context?.previousPost) {
         queryClient.setQueryData(queryKeys.posts.detail(postId), context.previousPost);
       }
-      toast.error(error?.message || 'Failed to repost');
+      toast.error(getErrorMessage(error, 'Failed to repost'));
     },
     onSettled: (data, error, postId) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.posts.detail(postId) });
@@ -277,7 +278,7 @@ export const useBookmarkPost = () => {
       if (context?.previousPost) {
         queryClient.setQueryData(queryKeys.posts.detail(postId), context.previousPost);
       }
-      toast.error(error?.message || 'Failed to bookmark post');
+      toast.error(getErrorMessage(error, 'Failed to bookmark post'));
     },
     onSettled: (data, error, postId) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.posts.detail(postId) });
@@ -318,7 +319,7 @@ export const useCreateComment = () => {
       toast.success('Comment added!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to add comment');
+      toast.error(getErrorMessage(error, 'Failed to add comment'));
     },
   });
 };
@@ -339,7 +340,7 @@ export const useDeleteComment = () => {
       toast.success('Comment deleted!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to delete comment');
+      toast.error(getErrorMessage(error, 'Failed to delete comment'));
     },
   });
 };
@@ -357,7 +358,7 @@ export const useLikeComment = () => {
       queryClient.invalidateQueries({ queryKey: ['posts', postId, 'comments'] });
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to like comment');
+      toast.error(getErrorMessage(error, 'Failed to like comment'));
     },
   });
 };

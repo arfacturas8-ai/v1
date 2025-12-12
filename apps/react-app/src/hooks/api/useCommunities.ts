@@ -11,6 +11,7 @@ import {
   UpdateCommunityData,
 } from '../../services/api/communitiesService';
 import { toast } from '../../stores/uiStore';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 /**
  * Get all communities (infinite scroll)
@@ -204,7 +205,7 @@ export const useCreateCommunity = () => {
       toast.success('Community created successfully!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to create community');
+      toast.error(getErrorMessage(error, 'Failed to create community'));
     },
   });
 };
@@ -229,7 +230,7 @@ export const useUpdateCommunity = () => {
       toast.success('Community updated!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update community');
+      toast.error(getErrorMessage(error, 'Failed to update community'));
     },
   });
 };
@@ -253,7 +254,7 @@ export const useDeleteCommunity = () => {
       toast.success('Community deleted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to delete community');
+      toast.error(getErrorMessage(error, 'Failed to delete community'));
     },
   });
 };
@@ -302,7 +303,7 @@ export const useJoinCommunity = () => {
       if (context?.previousCommunity) {
         queryClient.setQueryData(['communities', communityId], context.previousCommunity);
       }
-      toast.error(error?.message || 'Failed to join community');
+      toast.error(getErrorMessage(error, 'Failed to join community'));
     },
     onSettled: (_, __, communityId) => {
       queryClient.invalidateQueries({ queryKey: ['communities', communityId] });
@@ -325,7 +326,7 @@ export const useLeaveCommunity = () => {
       toast.success('Left community');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to leave community');
+      toast.error(getErrorMessage(error, 'Failed to leave community'));
     },
   });
 };
@@ -345,7 +346,7 @@ export const useInviteMember = () => {
       toast.success('Invitation sent!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to send invitation');
+      toast.error(getErrorMessage(error, 'Failed to send invitation'));
     },
   });
 };
@@ -366,7 +367,7 @@ export const useRemoveMember = () => {
       toast.success('Member removed');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to remove member');
+      toast.error(getErrorMessage(error, 'Failed to remove member'));
     },
   });
 };
@@ -386,7 +387,7 @@ export const useUpdateMemberRole = () => {
       toast.success('Role updated');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update role');
+      toast.error(getErrorMessage(error, 'Failed to update role'));
     },
   });
 };
@@ -406,7 +407,7 @@ export const useCreateChannel = () => {
       toast.success('Channel created!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to create channel');
+      toast.error(getErrorMessage(error, 'Failed to create channel'));
     },
   });
 };
@@ -426,7 +427,7 @@ export const useUpdateChannel = () => {
       toast.success('Channel updated!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update channel');
+      toast.error(getErrorMessage(error, 'Failed to update channel'));
     },
   });
 };
@@ -446,7 +447,7 @@ export const useDeleteChannel = () => {
       toast.success('Channel deleted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to delete channel');
+      toast.error(getErrorMessage(error, 'Failed to delete channel'));
     },
   });
 };
@@ -466,7 +467,7 @@ export const useUpdateRules = () => {
       toast.success('Rules updated!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update rules');
+      toast.error(getErrorMessage(error, 'Failed to update rules'));
     },
   });
 };
@@ -487,7 +488,7 @@ export const useBanMember = () => {
       toast.success('Member banned');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to ban member');
+      toast.error(getErrorMessage(error, 'Failed to ban member'));
     },
   });
 };
@@ -507,7 +508,7 @@ export const useUnbanMember = () => {
       toast.success('Member unbanned');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to unban member');
+      toast.error(getErrorMessage(error, 'Failed to unban member'));
     },
   });
 };
@@ -523,7 +524,7 @@ export const useReportCommunity = () => {
       toast.success('Report submitted. Thank you for helping keep our community safe.');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to submit report');
+      toast.error(getErrorMessage(error, 'Failed to submit report'));
     },
   });
 };
@@ -543,7 +544,7 @@ export const useUploadCommunityAvatar = () => {
       toast.success('Avatar updated!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to upload avatar');
+      toast.error(getErrorMessage(error, 'Failed to upload avatar'));
     },
   });
 };
@@ -563,7 +564,7 @@ export const useUploadCommunityBanner = () => {
       toast.success('Banner updated!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to upload banner');
+      toast.error(getErrorMessage(error, 'Failed to upload banner'));
     },
   });
 };
@@ -583,7 +584,7 @@ export const useCreateEvent = () => {
       toast.success('Event created!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to create event');
+      toast.error(getErrorMessage(error, 'Failed to create event'));
     },
   });
 };
@@ -604,7 +605,7 @@ export const useTransferOwnership = () => {
       toast.success('Ownership transferred');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to transfer ownership');
+      toast.error(getErrorMessage(error, 'Failed to transfer ownership'));
     },
   });
 };

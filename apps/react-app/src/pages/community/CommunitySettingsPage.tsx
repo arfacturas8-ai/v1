@@ -129,7 +129,7 @@ const CommunitySettingsPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error loading community:', err)
-      setErrorMessage(err.message || 'Failed to load community')
+      setErrorMessage(getErrorMessage(err, 'Failed to load community'))
     } finally {
       setLoading(false)
     }
@@ -180,7 +180,7 @@ const CommunitySettingsPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error saving settings:', err)
-      setErrorMessage(err.message || 'Failed to save settings')
+      setErrorMessage(getErrorMessage(err, 'Failed to save settings'))
     } finally {
       setSaving(false)
     }
@@ -299,7 +299,7 @@ const CommunitySettingsPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error deleting community:', err)
-      setErrorMessage(err.message || 'Failed to delete community')
+      setErrorMessage(getErrorMessage(err, 'Failed to delete community'))
     }
   }
 

@@ -132,7 +132,7 @@ const CommunitiesListPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error loading communities:', err)
-      setError(err.message || 'Failed to load communities')
+      setError(getErrorMessage(err, 'Failed to load communities'))
       setCommunities([])
       setYourCommunities([])
     } finally {

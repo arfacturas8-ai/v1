@@ -95,7 +95,7 @@ const CommunityMembersDetailPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error loading members:', err)
-      setErrorMessage(err.message || 'Failed to load members')
+      setErrorMessage(getErrorMessage(err, 'Failed to load members'))
     } finally {
       setLoading(false)
     }
@@ -116,7 +116,7 @@ const CommunityMembersDetailPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error promoting member:', err)
-      setErrorMessage(err.message || 'Failed to promote member')
+      setErrorMessage(getErrorMessage(err, 'Failed to promote member'))
     } finally {
       setActionLoading(false)
       setShowMemberMenu(null)
@@ -140,7 +140,7 @@ const CommunityMembersDetailPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error demoting moderator:', err)
-      setErrorMessage(err.message || 'Failed to demote moderator')
+      setErrorMessage(getErrorMessage(err, 'Failed to demote moderator'))
     } finally {
       setActionLoading(false)
       setShowMemberMenu(null)
@@ -164,7 +164,7 @@ const CommunityMembersDetailPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error kicking member:', err)
-      setErrorMessage(err.message || 'Failed to kick member')
+      setErrorMessage(getErrorMessage(err, 'Failed to kick member'))
     } finally {
       setActionLoading(false)
       setShowMemberMenu(null)
@@ -188,7 +188,7 @@ const CommunityMembersDetailPage: React.FC = () => {
       }
     } catch (err: any) {
       console.error('Error banning member:', err)
-      setErrorMessage(err.message || 'Failed to ban member')
+      setErrorMessage(getErrorMessage(err, 'Failed to ban member'))
     } finally {
       setActionLoading(false)
       setShowMemberMenu(null)

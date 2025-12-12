@@ -59,7 +59,7 @@ export default function VerifyEmailPage() {
         navigate('/auth/onboarding-welcome');
       }, 2000);
     } catch (err: any) {
-      setError(err.message || 'Failed to verify email. The link may be expired or invalid.');
+      setError(getErrorMessage(err, 'Failed to verify email. The link may be expired or invalid.'));
     } finally {
       setVerifying(false);
     }
@@ -79,7 +79,7 @@ export default function VerifyEmailPage() {
       await new Promise(resolve => setTimeout(resolve, 1000));
       setResent(true);
     } catch (err: any) {
-      setError(err.message || 'Failed to resend verification email');
+      setError(getErrorMessage(err, 'Failed to resend verification email'));
     } finally {
       setResending(false);
     }

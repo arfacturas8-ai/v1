@@ -3,10 +3,10 @@
  * React Query hooks for notifications API
  */
 
-import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tantml:invoke>
-<invoke name="@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { notificationsService, Notification } from '../../services/api/notificationsService';
 import { toast } from '../../stores/uiStore';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 /**
  * Get notifications (infinite scroll)
@@ -74,7 +74,7 @@ export const useMarkAllNotificationsAsRead = () => {
       toast.success('All notifications marked as read');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to mark all as read');
+      toast.error(getErrorMessage(error, 'Failed to mark all as read'));
     },
   });
 };
@@ -93,7 +93,7 @@ export const useDeleteNotification = () => {
       toast.success('Notification deleted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to delete notification');
+      toast.error(getErrorMessage(error, 'Failed to delete notification'));
     },
   });
 };
@@ -112,7 +112,7 @@ export const useClearAllNotifications = () => {
       toast.success('All notifications cleared');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to clear notifications');
+      toast.error(getErrorMessage(error, 'Failed to clear notifications'));
     },
   });
 };
@@ -131,7 +131,7 @@ export const useUpdateNotificationSettings = () => {
       toast.success('Notification settings updated');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update settings');
+      toast.error(getErrorMessage(error, 'Failed to update settings'));
     },
   });
 };
@@ -147,7 +147,7 @@ export const useRegisterPushToken = () => {
       toast.success('Push notifications enabled');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to enable push notifications');
+      toast.error(getErrorMessage(error, 'Failed to enable push notifications'));
     },
   });
 };
@@ -162,7 +162,7 @@ export const useUnregisterPushToken = () => {
       toast.success('Push notifications disabled');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to disable push notifications');
+      toast.error(getErrorMessage(error, 'Failed to disable push notifications'));
     },
   });
 };

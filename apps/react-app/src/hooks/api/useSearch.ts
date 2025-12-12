@@ -6,6 +6,7 @@
 import { useQuery, useMutation, useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { searchService, SearchFilters } from '../../services/api/searchService';
 import { toast } from '../../stores/uiStore';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 /**
  * Universal search (infinite scroll)
@@ -156,7 +157,7 @@ export const useClearSearchHistory = () => {
       toast.success('Search history cleared');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to clear search history');
+      toast.error(getErrorMessage(error, 'Failed to clear search history'));
     },
   });
 };

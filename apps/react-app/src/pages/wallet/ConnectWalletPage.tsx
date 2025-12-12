@@ -23,6 +23,7 @@ import { Button } from '../../components/ui/button';
 import { Badge } from '../../components/ui/badge';
 import { cn } from '../../lib/utils';
 import { ethers } from 'ethers';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 interface WalletProvider {
   id: string;
@@ -145,7 +146,7 @@ export function ConnectWalletPage() {
     } catch (error: any) {
       console.error('Connection error:', error);
       setConnectionStatus('error');
-      setErrorMessage(error.message || 'Failed to connect wallet');
+      setErrorMessage(getErrorMessage(error, 'Failed to connect wallet'));
     }
   };
 

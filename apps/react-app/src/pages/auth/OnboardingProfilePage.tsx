@@ -93,7 +93,7 @@ export default function OnboardingProfilePage() {
       // Proceed to next step
       navigate('/auth/onboarding-interests');
     } catch (err: any) {
-      setError(err.message || 'Failed to save profile. Please try again.');
+      setError(getErrorMessage(err, 'Failed to save profile. Please try again.'));
     } finally {
       setLoading(false);
     }

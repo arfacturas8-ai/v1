@@ -27,7 +27,7 @@ export default function ForgotPasswordPage() {
       await new Promise(resolve => setTimeout(resolve, 1500));
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message || 'Failed to send reset link. Please try again.');
+      setError(getErrorMessage(err, 'Failed to send reset link. Please try again.'));
     } finally {
       setLoading(false);
     }

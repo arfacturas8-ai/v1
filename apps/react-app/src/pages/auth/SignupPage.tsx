@@ -73,7 +73,7 @@ export default function SignupPage() {
       // Navigate to onboarding
       navigate('/auth/onboarding-welcome', { replace: true });
     } catch (err: any) {
-      setError(err.message || 'Failed to connect wallet. Please try again.');
+      setError(getErrorMessage(err, 'Failed to connect wallet. Please try again.'));
     } finally {
       setWalletConnecting(null);
     }
@@ -95,7 +95,7 @@ export default function SignupPage() {
 
       navigate('/auth/onboarding-welcome', { replace: true });
     } catch (err: any) {
-      setError(err.message || `Failed to sign up with ${provider}`);
+      setError(getErrorMessage(err, `Failed to sign up with ${provider}`));
     } finally {
       setLoading(false);
     }
@@ -129,7 +129,7 @@ export default function SignupPage() {
       // Navigate to email verification
       navigate('/auth/verify-email', { state: { email: formData.email } });
     } catch (err: any) {
-      setError(err.message || 'Failed to create account. Please try again.');
+      setError(getErrorMessage(err, 'Failed to create account. Please try again.'));
     } finally {
       setLoading(false);
     }

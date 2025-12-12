@@ -70,7 +70,7 @@ export default function ResetPasswordPage() {
         navigate('/auth/login', { state: { message: 'Password reset successfully. Please log in.' } });
       }, 2000);
     } catch (err: any) {
-      setError(err.message || 'Failed to reset password. Please try again.');
+      setError(getErrorMessage(err, 'Failed to reset password. Please try again.'));
     } finally {
       setLoading(false);
     }

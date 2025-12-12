@@ -44,6 +44,7 @@ import VoiceEffectsProcessor from './voiceEffectsProcessor'
 import AdaptiveBitrateManager from './adaptiveBitrateManager'
 import RecordingManager from './recordingManager'
 import MobileCallManager from './mobileCallManager'
+import { getErrorMessage } from '../utils/errorUtils'
 
 class WebRTCService {
   constructor() {
@@ -1171,7 +1172,7 @@ class WebRTCService {
         return response.data.token
       }
 
-      throw new Error(response.error || 'Failed to generate access token')
+      throw new Error(getErrorMessage(response.error, 'Failed to generate access token'))
     } catch (error) {
       console.error('Failed to generate voice access token:', error)
 

@@ -8,6 +8,7 @@ import { usersService, User, UpdateProfileData } from '../../services/api/usersS
 import { queryKeys } from '../../lib/queryClient';
 import { toast } from '../../stores/uiStore';
 import { useAuthStore } from '../../stores/authStore';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 /**
  * Get current user
@@ -187,7 +188,7 @@ export const useUpdateProfile = () => {
       toast.success('Profile updated successfully!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to update profile');
+      toast.error(getErrorMessage(error, 'Failed to update profile'));
     },
   });
 };
@@ -207,7 +208,7 @@ export const useUploadAvatar = () => {
       toast.success('Avatar updated!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to upload avatar');
+      toast.error(getErrorMessage(error, 'Failed to upload avatar'));
     },
   });
 };
@@ -227,7 +228,7 @@ export const useUploadBanner = () => {
       toast.success('Banner updated!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to upload banner');
+      toast.error(getErrorMessage(error, 'Failed to upload banner'));
     },
   });
 };
@@ -272,7 +273,7 @@ export const useFollowUser = () => {
       if (context?.previousUser) {
         queryClient.setQueryData(queryKeys.users.detail(userId), context.previousUser);
       }
-      toast.error(error?.message || 'Failed to follow user');
+      toast.error(getErrorMessage(error, 'Failed to follow user'));
     },
     onSettled: (data, error, userId) => {
       // Refetch to ensure consistency
@@ -318,7 +319,7 @@ export const useUnfollowUser = () => {
       if (context?.previousUser) {
         queryClient.setQueryData(queryKeys.users.detail(userId), context.previousUser);
       }
-      toast.error(error?.message || 'Failed to unfollow user');
+      toast.error(getErrorMessage(error, 'Failed to unfollow user'));
     },
     onSettled: (data, error, userId) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.users.detail(userId) });
@@ -341,7 +342,7 @@ export const useBlockUser = () => {
       toast.success('User blocked');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to block user');
+      toast.error(getErrorMessage(error, 'Failed to block user'));
     },
   });
 };
@@ -361,7 +362,7 @@ export const useUnblockUser = () => {
       toast.success('User unblocked');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to unblock user');
+      toast.error(getErrorMessage(error, 'Failed to unblock user'));
     },
   });
 };
@@ -381,7 +382,7 @@ export const useMuteUser = () => {
       toast.success('User muted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to mute user');
+      toast.error(getErrorMessage(error, 'Failed to mute user'));
     },
   });
 };
@@ -401,7 +402,7 @@ export const useUnmuteUser = () => {
       toast.success('User unmuted');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to unmute user');
+      toast.error(getErrorMessage(error, 'Failed to unmute user'));
     },
   });
 };
@@ -417,7 +418,7 @@ export const useReportUser = () => {
       toast.success('Report submitted. Thank you for helping keep our community safe.');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to submit report');
+      toast.error(getErrorMessage(error, 'Failed to submit report'));
     },
   });
 };
@@ -439,7 +440,7 @@ export const useConnectWallet = () => {
       toast.success('Wallet connected!');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to connect wallet');
+      toast.error(getErrorMessage(error, 'Failed to connect wallet'));
     },
   });
 };
@@ -458,7 +459,7 @@ export const useDisconnectWallet = () => {
       toast.success('Wallet disconnected');
     },
     onError: (error: any) => {
-      toast.error(error?.message || 'Failed to disconnect wallet');
+      toast.error(getErrorMessage(error, 'Failed to disconnect wallet'));
     },
   });
 };
