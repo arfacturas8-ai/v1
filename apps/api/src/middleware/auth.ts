@@ -165,17 +165,7 @@ async function loadUserSecurely(userId: string, request: FastifyRequest): Promis
   try {
     const user = await executeWithDatabaseRetry(async () => {
       return await prisma.user.findUnique({
-        where: { id: userId },
-        include: {
-          servers: {
-            select: {
-              id: true,
-              serverId: true,
-              userId: true,
-              joinedAt: true
-            }
-          }
-        }
+        where: { id: userId }
       });
     });
 
@@ -306,7 +296,7 @@ export const serverContextMiddleware = (options: {
         }
       },
       include: {
-        server: true,
+        Server: true,
         roles: {
           include: {
             role: true
@@ -323,17 +313,17 @@ export const serverContextMiddleware = (options: {
     const member = serverMember as NonNullable<typeof serverMember>;
 
     // Check ownership requirement
-    if (requireOwner && member.server.ownerId !== request.userId) {
+    if (requireOwner && member.Server.ownerId !== request.userId) {
       throwForbidden('Server owner privileges required');
     }
 
     // Check moderator requirement
     if (requireModerator) {
-      const isModerator = member.roles.some(memberRole => 
+      const isModerator = member.roles.some(memberRole =>
         memberRole.role.permissions & BigInt(0x8) // MANAGE_CHANNELS permission
       );
-      
-      if (!isModerator && member.server.ownerId !== request.userId) {
+
+      if (!isModerator && member.Server.ownerId !== request.userId) {
         throwForbidden('Moderator privileges required');
       }
     }
