@@ -1,5 +1,6 @@
 import React from 'react';
 import { colors, radii, spacing, typography, animation } from '../tokens';
+import { getErrorMessage } from '../../utils/errorUtils';
 
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'search' | 'url' | 'tel';
 
@@ -164,7 +165,7 @@ export const Input: React.FC<InputProps> = ({
 
       {(helperText || error || showCharCount) && (
         <div style={helperTextStyle}>
-          <span>{error || helperText || ''}</span>
+          <span>{typeof error === 'string' ? error : (error ? getErrorMessage(error, '') : (helperText || ''))}</span>
           {showCharCount && maxLength && (
             <span>{charCount}/{maxLength}</span>
           )}
