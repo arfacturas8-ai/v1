@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Upload, X, AlertCircle, CheckCircle, Loader } from 'lucide-react'
 import communityService from '../services/communityService'
 import fileUploadService from '../services/fileUploadService'
+import { getErrorMessage } from '../utils/errorUtils'
 
 function CreateCommunityPage() {
   const navigate = useNavigate()
@@ -195,7 +196,7 @@ function CreateCommunityPage() {
           navigate(`/c/${formData.name}`)
         }, 1000)
       } else {
-        setErrorMessage(result.error || 'Failed to create community. Please try again.')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to create community. Please try again.'))
         setCreating(false)
       }
     } catch (error) {

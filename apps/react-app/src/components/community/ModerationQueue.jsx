@@ -6,6 +6,7 @@ import {
 } from 'lucide-react'
 import communityService, { MODERATION_ACTIONS } from '../../services/communityService'
 import socketService from '../../services/socket'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 export default function ModerationQueue({
   communityId,
@@ -60,7 +61,7 @@ export default function ModerationQueue({
       if (result.success) {
         setQueue(result.queue)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to load moderation queue'))
       }
     } catch (error) {
       console.error('Failed to load moderation queue:', error)
@@ -94,7 +95,7 @@ export default function ModerationQueue({
           return newSet
         })
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to moderate content'))
       }
     } catch (error) {
       console.error('Failed to moderate content:', error)
@@ -325,7 +326,7 @@ export default function ModerationQueue({
       {error && (
         <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/30 rounded-lg p-3 mb-4 text-red-500 text-sm">
           <AlertTriangle size={16} />
-          {typeof error === 'string' ? error : 'An error occurred'}
+          {typeof error === 'string' ? error : getErrorMessage(error, 'An error occurred')}
         </div>
       )}
 

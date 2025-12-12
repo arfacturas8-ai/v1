@@ -80,7 +80,7 @@ export default function MemberDirectory({
           }))
         }
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to load members'))
       }
     } catch (error) {
       console.error('Failed to load members:', error)
@@ -128,7 +128,7 @@ export default function MemberDirectory({
         ))
         setActionMenuOpen(null)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to update member role'))
       }
     } catch (error) {
       console.error('Failed to update role:', error)
@@ -153,7 +153,7 @@ export default function MemberDirectory({
         setMembers(prev => prev.filter(m => m.id !== userId))
         setActionMenuOpen(null)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to ban member'))
       }
     } catch (error) {
       console.error('Failed to ban member:', error)
@@ -178,7 +178,7 @@ export default function MemberDirectory({
         setMembers(prev => prev.filter(m => m.id !== userId))
         setActionMenuOpen(null)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to remove member'))
       }
     } catch (error) {
       console.error('Failed to remove member:', error)

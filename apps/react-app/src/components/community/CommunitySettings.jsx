@@ -5,6 +5,7 @@ import {
   Save, AlertTriangle, Plus, Trash2
 } from 'lucide-react'
 import communityService from '../../services/communityService'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 export default function CommunitySettings({ 
   communityId, 
@@ -44,7 +45,7 @@ export default function CommunitySettings({
       if (result.success) {
         setCommunity(result.community)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to load community settings'))
       }
     } catch (error) {
       console.error('Failed to load community:', error)
@@ -85,7 +86,7 @@ export default function CommunitySettings({
         setChanges({})
         setHasUnsavedChanges(false)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to save changes'))
       }
     } catch (error) {
       console.error('Failed to save changes:', error)
@@ -107,7 +108,7 @@ export default function CommunitySettings({
       if (result.success) {
         setCommunity(result.community)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to upload image'))
       }
     } catch (error) {
       console.error('Failed to upload image:', error)
@@ -205,7 +206,7 @@ export default function CommunitySettings({
             {error && (
               <div className="flex items-center gap-2 bg-error/10 border border-error/30 rounded-lg p-3 mb-5 text-error-dark text-sm">
                 <AlertTriangle size={16} />
-                {typeof error === 'string' ? error : 'An error occurred'}
+                {typeof error === 'string' ? error : getErrorMessage(error, 'An error occurred')}
               </div>
             )}
 

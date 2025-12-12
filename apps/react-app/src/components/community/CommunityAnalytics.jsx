@@ -43,7 +43,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
       if (result.success) {
         setAnalytics(result.analytics)
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to load analytics data'))
       }
     } catch (error) {
       console.error('Failed to load analytics:', error)

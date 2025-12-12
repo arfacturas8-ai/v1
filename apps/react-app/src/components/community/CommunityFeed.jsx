@@ -84,7 +84,7 @@ export default function CommunityFeed({
           }))
         }
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to load posts'))
       }
     } catch (error) {
       console.error('Failed to load posts:', error)
@@ -167,10 +167,10 @@ export default function CommunityFeed({
       
       if (!result.success) {
         // Revert on error
-        setPosts(prev => prev.map(p => 
+        setPosts(prev => prev.map(p =>
           p.id === postId ? post : p
         ))
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to vote on post'))
       }
     } catch (error) {
       console.error('Failed to vote:', error)
@@ -184,11 +184,11 @@ export default function CommunityFeed({
       const result = await communityService.savePost(postId, !post.isSaved)
       
       if (result.success) {
-        setPosts(prev => prev.map(p => 
+        setPosts(prev => prev.map(p =>
           p.id === postId ? { ...p, isSaved: !p.isSaved } : p
         ))
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to save post'))
       }
     } catch (error) {
       console.error('Failed to save post:', error)
@@ -213,7 +213,7 @@ export default function CommunityFeed({
       if (result.success) {
         setPosts(prev => prev.filter(p => p.id !== postId))
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to delete post'))
       }
     } catch (error) {
       console.error('Failed to delete post:', error)
@@ -226,11 +226,11 @@ export default function CommunityFeed({
       const result = await communityService.updatePost(postId, { isPinned: pin })
       
       if (result.success) {
-        setPosts(prev => prev.map(p => 
+        setPosts(prev => prev.map(p =>
           p.id === postId ? { ...p, isPinned: pin } : p
         ))
       } else {
-        setError(result.error)
+        setError(getErrorMessage(result.error, 'Failed to pin post'))
       }
     } catch (error) {
       console.error('Failed to pin post:', error)
