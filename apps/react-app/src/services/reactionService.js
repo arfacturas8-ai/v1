@@ -1,5 +1,6 @@
 import apiService from './api';
 import { socket } from './socket';
+import { getErrorMessage } from '../utils/errorUtils';
 
 class ReactionService {
   constructor() {
@@ -126,7 +127,7 @@ class ReactionService {
 
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to add reaction');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to add reaction'));
       }
     } catch (error) {
       console.error('Error adding reaction:', error);
@@ -165,7 +166,7 @@ class ReactionService {
 
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to remove reaction');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to remove reaction'));
       }
     } catch (error) {
       console.error('Error removing reaction:', error);
@@ -212,7 +213,7 @@ class ReactionService {
 
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to get reactions');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to get reactions'));
       }
     } catch (error) {
       console.error('Error getting reactions:', error);
@@ -248,7 +249,7 @@ class ReactionService {
 
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to get trending reactions');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to get trending reactions'));
       }
     } catch (error) {
       console.error('Error getting trending reactions:', error);
@@ -270,7 +271,7 @@ class ReactionService {
       if (response.data.success) {
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to get user analytics');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to get user analytics'));
       }
     } catch (error) {
       console.error('Error getting user analytics:', error);
@@ -292,7 +293,7 @@ class ReactionService {
       if (response.data.success) {
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to get notifications');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to get notifications'));
       }
     } catch (error) {
       console.error('Error getting notifications:', error);
@@ -311,7 +312,7 @@ class ReactionService {
       if (response.data.success) {
         return true;
       } else {
-        throw new Error(response.data.error || 'Failed to mark notifications as read');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to mark notifications as read'));
       }
     } catch (error) {
       console.error('Error marking notifications as read:', error);
@@ -332,7 +333,7 @@ class ReactionService {
       if (response.data.success) {
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to get emojis');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to get emojis'));
       }
     } catch (error) {
       console.error('Error getting emojis:', error);
@@ -348,7 +349,7 @@ class ReactionService {
       if (response.data.success) {
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to create custom emoji');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to create custom emoji'));
       }
     } catch (error) {
       console.error('Error creating custom emoji:', error);
@@ -369,7 +370,7 @@ class ReactionService {
       if (response.data.success) {
         return response.data.data;
       } else {
-        throw new Error(response.data.error || 'Failed to get leaderboard');
+        throw new Error(getErrorMessage(response.data.error, 'Failed to get leaderboard'));
       }
     } catch (error) {
       console.error('Error getting leaderboard:', error);

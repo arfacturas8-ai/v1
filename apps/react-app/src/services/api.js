@@ -54,7 +54,7 @@ class APIService {
   async handleResponse(response) {
     let data;
     const contentType = response.headers.get('content-type');
-    
+
     if (contentType && contentType.includes('application/json')) {
       data = await response.json();
     } else {
@@ -62,7 +62,22 @@ class APIService {
     }
 
     if (!response.ok) {
-      const error = new Error(data.message || data.error || `HTTP ${response.status}: ${response.statusText}`);
+      // Extract error message safely - prevent object rendering in React
+      let errorMessage;
+      if (typeof data === 'string') {
+        errorMessage = data;
+      } else if (data?.message && typeof data.message === 'string') {
+        errorMessage = data.message;
+      } else if (data?.error) {
+        // Handle error field that might be object or string
+        errorMessage = typeof data.error === 'string'
+          ? data.error
+          : (data.error?.message || JSON.stringify(data.error));
+      } else {
+        errorMessage = `HTTP ${response.status}: ${response.statusText}`;
+      }
+
+      const error = new Error(errorMessage);
       error.status = response.status;
       error.data = data;
       throw error;
