@@ -55,21 +55,6 @@ export function getErrorMessage(error, fallback = 'An error occurred') {
   return fallback;
 }
 
-/**
- * React component wrapper for safe error rendering
- * Usage: <ErrorMessage error={error} />
- */
-export function ErrorMessage({ error, fallback, className, ...props }) {
-  const message = getErrorMessage(error, fallback);
-
-  return message ? (
-    <div className={className} {...props}>
-      {message}
-    </div>
-  ) : null;
-}
-
 export default {
   getErrorMessage,
-  ErrorMessage,
 };

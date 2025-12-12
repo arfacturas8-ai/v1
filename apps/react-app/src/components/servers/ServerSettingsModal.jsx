@@ -105,7 +105,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
           onClose()
         }, 1500)
       } else {
-        setError(getErrorMessage(result.error, 'Failed to update server')
+        setError(getErrorMessage(result.error, 'Failed to update server'))
       }
     } catch (err) {
       console.error('Failed to update server:', err)
@@ -130,7 +130,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
         onUpdate(null) // Signal deletion
         onClose()
       } else {
-        setError(getErrorMessage(result.error, 'Failed to delete server')
+        setError(getErrorMessage(result.error, 'Failed to delete server'))
       }
     } catch (err) {
       console.error('Failed to delete server:', err)
@@ -391,7 +391,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                                       // Refresh server data
                                       setTimeout(() => window.location.reload(), 1500)
                                     } else {
-                                      setError(getErrorMessage(result.error, 'Failed to remove member')
+                                      setError(getErrorMessage(result.error, 'Failed to remove member'))
                                     }
                                   } catch (err) {
                                     setError('Failed to remove member')

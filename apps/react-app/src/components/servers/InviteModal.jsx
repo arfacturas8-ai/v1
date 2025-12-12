@@ -35,7 +35,7 @@ function InviteModal({ onClose, onJoin }) {
       if (result.success && result.invite) {
         setInviteData(result.invite)
       } else {
-        setError(getErrorMessage(result.error, 'Invalid or expired invite code')
+        setError(getErrorMessage(result.error, 'Invalid or expired invite code'))
       }
     } catch (err) {
       console.error('Failed to validate invite:', err)
@@ -60,7 +60,7 @@ function InviteModal({ onClose, onJoin }) {
       if (result.success && result.server) {
         onJoin(result.server)
       } else {
-        setError(getErrorMessage(result.error, 'Failed to join server')
+        setError(getErrorMessage(result.error, 'Failed to join server'))
       }
     } catch (err) {
       console.error('Failed to join server:', err)
