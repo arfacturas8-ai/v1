@@ -1,9 +1,10 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
-import { 
-  Upload, Image, FileText, Video, Music, Archive, X, 
+import {
+  Upload, Image, FileText, Video, Music, Archive, X,
   Check, AlertCircle, Loader, Download, Eye, Trash2,
   Paperclip, Camera, Mic, Film, File
 } from 'lucide-react'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // File type configurations
 const FILE_TYPES = {
@@ -377,7 +378,7 @@ function FileUpload({ onFilesUploaded, maxFiles = 10, className = '', compact = 
           </div>
           <ul className="error-list">
             {errors.map((error, index) => (
-              <li key={index}>{error}</li>
+              <li key={index}>{getErrorMessage(error, 'Upload error')}</li>
             ))}
           </ul>
         </BentoCard>
