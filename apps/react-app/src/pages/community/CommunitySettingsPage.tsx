@@ -26,6 +26,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext'
 import communityService from '../../services/communityService'
 import fileUploadService from '../../services/fileUploadService'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 interface Community {
   id: string
@@ -175,7 +176,7 @@ const CommunitySettingsPage: React.FC = () => {
         setTimeout(() => setSuccessMessage(''), 3000)
         loadCommunity()
       } else {
-        setErrorMessage(result.error || 'Failed to save settings')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to save settings'))
       }
     } catch (err: any) {
       console.error('Error saving settings:', err)
@@ -294,7 +295,7 @@ const CommunitySettingsPage: React.FC = () => {
       if (result.success) {
         navigate('/communities')
       } else {
-        setErrorMessage(result.error || 'Failed to delete community')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to delete community'))
       }
     } catch (err: any) {
       console.error('Error deleting community:', err)

@@ -20,6 +20,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext'
 import communityService from '../../services/communityService'
 import fileUploadService from '../../services/fileUploadService'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 interface FormData {
   name: string
@@ -272,7 +273,7 @@ const CreateCommunityPage: React.FC = () => {
           navigate(`/community/${formData.name}`)
         }, 1500)
       } else {
-        setErrorMessage(result.error || 'Failed to create community. Please try again.')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to create community. Please try again.'))
         setCreating(false)
       }
     } catch (error: any) {

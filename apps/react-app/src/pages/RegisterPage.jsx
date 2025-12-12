@@ -9,6 +9,7 @@ import { Mail, Lock, Eye, EyeOff, User, ArrowRight, Sparkles } from 'lucide-reac
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
 import { useResponsive } from '../hooks/useResponsive';
+import { getErrorMessage } from '../utils/errorUtils';
 
 export default function RegisterPage() {
   const { isMobile, isTablet } = useResponsive();
@@ -81,7 +82,7 @@ export default function RegisterPage() {
       if (result.success) {
         navigate('/home', { replace: true });
       } else {
-        setError(result.error || 'Registration failed. Please try again.');
+        setError(getErrorMessage(result.error, 'Registration failed. Please try again.'));
       }
     } catch (err) {
       setError(err?.message || 'Registration failed. Please try again.');

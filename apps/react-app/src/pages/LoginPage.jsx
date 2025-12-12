@@ -9,6 +9,7 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { Button } from '../components/ui/Button';
 import { useResponsive } from '../hooks/useResponsive';
+import { getErrorMessage } from '../utils/errorUtils';
 
 export default function LoginPage() {
   const { isMobile, isTablet } = useResponsive();
@@ -51,7 +52,7 @@ export default function LoginPage() {
         const from = location.state?.from?.pathname || '/home';
         navigate(from, { replace: true });
       } else {
-        setError(result.error || 'Login failed. Please check your credentials.');
+        setError(getErrorMessage(result.error, 'Login failed. Please check your credentials.'));
       }
     } catch (err) {
       setError(err?.message || 'Login failed. Please check your credentials.');

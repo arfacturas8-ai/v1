@@ -24,6 +24,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import communityService from '../../services/communityService'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 interface Member {
   id: string
@@ -111,7 +112,7 @@ const CommunityMembersDetailPage: React.FC = () => {
         setTimeout(() => setSuccessMessage(''), 3000)
         loadCommunityAndMembers()
       } else {
-        setErrorMessage(result.error || 'Failed to promote member')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to promote member'))
       }
     } catch (err: any) {
       console.error('Error promoting member:', err)
@@ -135,7 +136,7 @@ const CommunityMembersDetailPage: React.FC = () => {
         setTimeout(() => setSuccessMessage(''), 3000)
         loadCommunityAndMembers()
       } else {
-        setErrorMessage(result.error || 'Failed to demote moderator')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to demote moderator'))
       }
     } catch (err: any) {
       console.error('Error demoting moderator:', err)
@@ -159,7 +160,7 @@ const CommunityMembersDetailPage: React.FC = () => {
         setTimeout(() => setSuccessMessage(''), 3000)
         loadCommunityAndMembers()
       } else {
-        setErrorMessage(result.error || 'Failed to kick member')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to kick member'))
       }
     } catch (err: any) {
       console.error('Error kicking member:', err)
@@ -183,7 +184,7 @@ const CommunityMembersDetailPage: React.FC = () => {
         setTimeout(() => setSuccessMessage(''), 3000)
         loadCommunityAndMembers()
       } else {
-        setErrorMessage(result.error || 'Failed to ban member')
+        setErrorMessage(getErrorMessage(result.error, 'Failed to ban member'))
       }
     } catch (err: any) {
       console.error('Error banning member:', err)

@@ -5,6 +5,7 @@ import {
 } from 'lucide-react'
 import communityService from '../../services/communityService'
 import { useResponsive } from '../../hooks/useResponsive'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 
 export default function CreateCommunity({ onClose, onCreate }) {
@@ -165,7 +166,7 @@ export default function CreateCommunity({ onClose, onCreate }) {
         onCreate(result.community)
         onClose()
       } else {
-        setError(result.error || 'Failed to create community')
+        setError(getErrorMessage(result.error, 'Failed to create community'))
       }
     } catch (error) {
       console.error('Failed to create community:', error)
