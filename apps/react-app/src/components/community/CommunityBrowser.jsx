@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getErrorMessage } from "../../utils/errorUtils";
 import { Search, Users, TrendingUp, Filter, Grid, List, Star } from 'lucide-react'
 import CommunityCard from './CommunityCard'
 const CommunityBrowser = () => {
@@ -417,7 +418,7 @@ const CommunityBrowser = () => {
         {/* Error Display */}
         {error && (
           <div className="error-message">
-            <p>{error}</p>
+            <p>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <button onClick={() => loadCommunities(true)}>Retry</button>
           </div>
         )}

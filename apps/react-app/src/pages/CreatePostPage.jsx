@@ -10,6 +10,7 @@ import { cn } from '../lib/utils'
 import { motion } from 'framer-motion'
 import { useResponsive } from '../hooks/useResponsive'
 import { useAuth } from '../contexts/AuthContext'
+import { getErrorMessage } from '../utils/errorUtils';
 
 function CreatePostPage() {
   const navigate = useNavigate()
@@ -130,7 +131,7 @@ function CreatePostPage() {
           navigate(formData.community ? `/c/${formData.community}` : '/home')
         }
       } else {
-        throw new Error(result.error || 'Failed to create post')
+        throw new Error(getErrorMessage(result.error, 'Failed to create post'))
       }
     } catch (error) {
       console.error('Error creating post:', error)

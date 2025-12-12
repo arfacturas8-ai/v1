@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Upload, X, Image, Video, FileText, Music, Archive, AlertCircle, CheckCircle, Loader, Eye, Trash2, RotateCcw, ZoomIn } from 'lucide-react'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const MediaUploader = ({
   onUpload = () => {},
@@ -556,7 +557,7 @@ const MediaUploader = ({
   gap: '4px'
 }}>
                             <AlertCircle size={12} className="flex-shrink-0 mt-0.5 sm:w-3.5 sm:h-3.5" aria-hidden="true" />
-                            <span>{error}</span>
+                            <span>{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
                           </div>
                         ))}
                       </div>

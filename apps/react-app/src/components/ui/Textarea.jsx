@@ -1,5 +1,6 @@
 import React, { forwardRef, useState, useCallback, useEffect, useRef } from 'react'
 import { AlertCircle, CheckCircle } from 'lucide-react'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const Textarea = forwardRef(({
   variant = 'default',
@@ -279,7 +280,7 @@ const Textarea = forwardRef(({
               role="alert"
             >
               <AlertCircle size={12} aria-hidden="true" />
-              {error}
+              {typeof error === "string" ? error : getErrorMessage(error, "")}
             </p>
           )}
 

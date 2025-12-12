@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, memo } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import socketService from '../services/socket'
@@ -368,7 +369,7 @@ function NotificationsPage() {
           <div className="bg-[#141414]/60 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="alert" aria-live="assertive">
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" aria-hidden="true" />
             <h3 className="text-xl font-semibold text-white mb-2">Failed to Load Notifications</h3>
-            <p className="text-[#A0A0A0] mb-6">{error}</p>
+            <p className="text-[#A0A0A0] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <button
               onClick={fetchNotifications}
               className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg text-white font-medium transition-all duration-200 touch-target"

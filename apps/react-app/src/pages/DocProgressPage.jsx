@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import '../styles/doc-progress.css'
 
 // PlantUML encoder functions
@@ -168,7 +169,7 @@ function PlantUMLDiagram({ code, title }) {
       <div className="diagram-container">
         {title && <h4 style={{fontSize: '1.25rem', fontWeight: 'bold', color: 'white', marginBottom: '1rem'}}>{title}</h4>}
         <div className="diagram-error">
-          <div className="error-message">{error}</div>
+          <div className="error-message">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</div>
           <button
             onClick={() => { setError(null); setRetryCount(c => c + 1) }}
             className="retry-button"

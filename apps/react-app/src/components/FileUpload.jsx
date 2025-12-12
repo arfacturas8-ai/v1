@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Upload, X, File, Image, Video, FileText, Download, Eye, Camera, Mic, CheckCircle, AlertCircle } from 'lucide-react'
 import fileUploadService from '../services/fileUploadService'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 function FileUpload({ 
   onFilesSelected, 
@@ -148,7 +149,7 @@ function FileUpload({
         )
         
       } else {
-        throw new Error(result.error || 'Upload failed')
+        throw new Error(getErrorMessage(result.error, 'Upload failed'))
       }
     } catch (error) {
       console.error('Upload error:', error)
@@ -543,7 +544,7 @@ function FileUpload({
           </h5>
           {Object.entries(uploadErrors).map(([filename, error]) => (
             <p key={filename} className="text-sm text-red-700">
-              <strong>{filename}:</strong> {error}
+              <strong>{filename}:</strong> {typeof error === "string" ? error : getErrorMessage(error, "")}
             </p>
           ))}
         </div>

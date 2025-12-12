@@ -8,6 +8,7 @@ import {
 import { cryptoPaymentService, SUBSCRIPTION_TIERS, PAYMENT_TYPES } from '../../services/cryptoPaymentService.js';
 import { walletManager } from '../../lib/web3/WalletManager.js';
 import { useResponsive } from '../../hooks/useResponsive';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const CryptoPaymentModal = ({
   isOpen,
@@ -461,7 +462,7 @@ const CryptoPaymentModal = ({
       {error && (
         <div className="flex items-center gap-2 p-3 sm:p-4 border border-red-500/30 bg-red-500/10 rounded-xl sm:rounded-2xl">
           <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
-          <span className="text-xs sm:text-sm text-red-200">{error}</span>
+          <span className="text-xs sm:text-sm text-red-200">{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
         </div>
       )}
 

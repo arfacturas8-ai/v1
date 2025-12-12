@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { getErrorMessage } from "../../utils/errorUtils";
 import {
   Plus, Filter, TrendingUp, Clock, MessageSquare,
   Pin, Eye, ArrowUp, ArrowDown, Share, Bookmark,
@@ -356,7 +357,7 @@ export default function CommunityFeed({
       {/* Error Message */}
       {error && (
         <div className=\"error-message\">
-          <p>{error}</p>
+          <p>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <button onClick={() => setError(null)}>Dismiss</button>
         </div>
       )}

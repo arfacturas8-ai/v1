@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import PropTypes from 'prop-types'
 import { ShoppingBag, Grid, List, DollarSign, Heart, Search, TrendingUp, Filter, ChevronDown, Wallet, Sparkles, ArrowUpDown, X, CheckCircle, Flame, Clock, Activity, Users } from 'lucide-react'
 import { Button, Input } from '../components/ui'
@@ -632,7 +633,7 @@ const NFTMarketplacePage = () => {
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="text-6xl mb-4">⚠️</div>
               <h3 className="text-2xl font-bold text-white mb-2">Failed to Load NFTs</h3>
-              <p className="text-[#666666] mb-6 max-w-md">{error}</p>
+              <p className="text-[#666666] mb-6 max-w-md">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <Button
                 onClick={loadListings}
                 className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-2xl font-semibold hover:opacity-90 transition-opacity"

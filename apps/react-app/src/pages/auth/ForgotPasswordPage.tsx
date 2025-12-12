@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { getErrorMessage } from "../../utils/errorUtils";
 import { Link } from 'react-router-dom';
 import { Mail, ArrowLeft, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '../../components/ui/button';
@@ -98,7 +99,7 @@ export default function ForgotPasswordPage() {
           {error && (
             <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-start gap-3">
               <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-              <p className="text-sm text-red-500">{error}</p>
+              <p className="text-sm text-red-500">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             </div>
           )}
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate } from 'react-router-dom'
 import { Search, Plus, Users, TrendingUp, Globe, Lock, Hash, Volume2, ArrowRight } from 'lucide-react'
 import { Button, Input } from '../components/ui'
@@ -299,7 +300,7 @@ function ServersPage() {
               <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">
                 Something went wrong
               </h3>
-              <p className="text-sm md:text-base text-rgb(var(--color-neutral-600)) mb-4 md:mb-6 lg:mb-8">{error}</p>
+              <p className="text-sm md:text-base text-rgb(var(--color-neutral-600)) mb-4 md:mb-6 lg:mb-8">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <Button onClick={loadServers} className="min-h-[44px]">
                 Try Again
               </Button>

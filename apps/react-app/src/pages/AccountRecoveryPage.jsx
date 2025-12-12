@@ -4,6 +4,7 @@
  * Redesigned with glassmorphism Help page design system
  */
 import React, { useState } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate, Link } from 'react-router-dom'
 import { Shield, Mail, Smartphone, Key, Check, AlertCircle, Loader2, ArrowLeft, HelpCircle } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
@@ -243,7 +244,7 @@ export default function AccountRecoveryPage() {
                   {error && (
                     <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
-                      <p className="text-sm md:text-base text-[#f85149]">{error}</p>
+                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
@@ -274,7 +275,7 @@ export default function AccountRecoveryPage() {
                   {error && (
                     <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
-                      <p className="text-sm md:text-base text-[#f85149]">{error}</p>
+                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
@@ -309,7 +310,7 @@ export default function AccountRecoveryPage() {
                   {error && (
                     <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
-                      <p className="text-sm md:text-base text-[#f85149]">{error}</p>
+                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
@@ -340,7 +341,7 @@ export default function AccountRecoveryPage() {
                   {error && (
                     <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
-                      <p className="text-sm md:text-base text-[#f85149]">{error}</p>
+                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
@@ -385,7 +386,7 @@ export default function AccountRecoveryPage() {
                 {error && (
                   <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                     <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
-                    <p className="text-sm md:text-base text-[#f85149]">{error}</p>
+                    <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
                 <button
@@ -451,7 +452,7 @@ export default function AccountRecoveryPage() {
                 {error && (
                   <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                     <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
-                    <p className="text-sm md:text-base text-[#f85149]">{error}</p>
+                    <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
                 <button

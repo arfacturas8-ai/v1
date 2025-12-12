@@ -1,4 +1,5 @@
 import React, { useState, useEffect, memo } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import PropTypes from 'prop-types'
 import { motion } from 'framer-motion'
 import { useParams, useNavigate } from 'react-router-dom'
@@ -103,7 +104,7 @@ const NFTDetailPage = () => {
         <div className="text-center max-w-md">
           <div className="text-6xl mb-4">⚠️</div>
           <h2 className="text-2xl font-bold mb-2 text-white">Failed to Load NFT</h2>
-          <p className="text-[#666666] mb-6">{error}</p>
+          <p className="text-[#666666] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <div className="flex gap-3 justify-center">
             <button
               onClick={loadNFTData}

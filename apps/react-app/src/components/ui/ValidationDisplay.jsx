@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AlertTriangle, AlertCircle, CheckCircle, Info, ChevronDown, ChevronUp, HelpCircle } from 'lucide-react'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const ValidationDisplay = ({
   validation = null,
@@ -79,7 +80,7 @@ const ValidationDisplay = ({
   gap: '8px'
 }}>
             <AlertTriangle size={14} className="flex-shrink-0 mt-0.5" />
-            <span>{error}</span>
+            <span>{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
           </div>
         ))}
         {fieldWarnings.map((warning, index) => (
@@ -223,7 +224,7 @@ const ValidationDisplay = ({
   height: '4px',
   borderRadius: '50%'
 }} />
-                    <span className="text-secondary">{error}</span>
+                    <span className="text-secondary">{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
                   </div>
                 ))}
               </div>

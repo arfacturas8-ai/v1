@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import {
   User, Users, MessageSquare, Star, Trophy, Calendar, MapPin,
@@ -376,7 +377,7 @@ function ProfilePage() {
               <X className="w-8 h-8 text-red-400" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-3">Error Loading Profile</h2>
-            <p className="text-[#666666] mb-6">{error}</p>
+            <p className="text-[#666666] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <div className="flex gap-3 justify-center">
               <Button variant="primary" onClick={loadProfileData} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Try Again</Button>
               <Link to="/">

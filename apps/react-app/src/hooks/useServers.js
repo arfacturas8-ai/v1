@@ -6,6 +6,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import serverService from '../services/serverService';
 import websocketService from '../services/websocketService';
+import { getErrorMessage } from '../utils/errorUtils';
 
 export const useServers = () => {
   const [servers, setServers] = useState([]);
@@ -24,7 +25,7 @@ export const useServers = () => {
       if (result.success) {
         setServers(result.servers);
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to load servers:', error);
@@ -50,7 +51,7 @@ export const useServers = () => {
         
         return result.server;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to create server:', error);
@@ -81,7 +82,7 @@ export const useServers = () => {
         
         return result.server;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to join server:', error);
@@ -110,7 +111,7 @@ export const useServers = () => {
         
         return result.server;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to join server by invite:', error);
@@ -142,7 +143,7 @@ export const useServers = () => {
         
         return true;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to leave server:', error);
@@ -172,7 +173,7 @@ export const useServers = () => {
         
         return result.server;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to update server:', error);
@@ -201,7 +202,7 @@ export const useServers = () => {
         
         return true;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to delete server:', error);
@@ -242,7 +243,7 @@ export const useServers = () => {
       if (result.success) {
         return result.servers;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to search servers:', error);

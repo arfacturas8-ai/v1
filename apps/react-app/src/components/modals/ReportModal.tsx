@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { getErrorMessage } from "../../utils/errorUtils";
 import {
   Modal,
   ModalHeader,
@@ -247,7 +248,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
           {/* Error Message */}
           {error && (
             <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3">
-              <p className="text-sm text-destructive">{error}</p>
+              <p className="text-sm text-destructive">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             </div>
           )}
         </div>

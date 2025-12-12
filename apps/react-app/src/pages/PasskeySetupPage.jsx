@@ -3,6 +3,7 @@
  * WebAuthn/Passkey registration screen for passwordless authentication
  */
 import React, { useState, useEffect } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate, Link } from 'react-router-dom'
 import { Fingerprint, Smartphone, Key, Check, AlertCircle, Loader2, QrCode, ArrowLeft, Shield } from 'lucide-react'
 
@@ -164,7 +165,7 @@ export default function PasskeySetupPage() {
                 <AlertCircle className="w-8 h-8 text-red-500" />
               </div>
               <h1 className="text-2xl font-bold mb-2">Browser Not Supported</h1>
-              <p className="text-[#8b949e] mb-6">{error}</p>
+              <p className="text-[#8b949e] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <button
                 onClick={() => navigate(-1)}
                 className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
@@ -305,7 +306,7 @@ export default function PasskeySetupPage() {
               {error && (
                 <div className="mb-6 p-3 bg-red-500/10 border border-red-500/50 rounded-lg flex items-start gap-2">
                   <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-red-400 text-sm">{error}</p>
+                  <p className="text-red-400 text-sm">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                 </div>
               )}
 

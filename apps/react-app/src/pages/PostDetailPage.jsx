@@ -21,6 +21,7 @@ import {
   useErrorAnnouncement
 } from '../utils/accessibility.jsx'
 import { useResponsive } from '../hooks/useResponsive'
+import { getErrorMessage } from '../utils/errorUtils';
 
 export default function PostDetailPage() {
   const { communityName, postId } = useParams()
@@ -127,7 +128,7 @@ export default function PostDetailPage() {
           showSuccess('Comment posted successfully')
           loadPostAndComments() // Reload to show new comment
         } else {
-          throw new Error(result.error || 'Failed to post comment')
+          throw new Error(getErrorMessage(result.error, 'Failed to post comment'))
         }
       } else {
         throw new Error('Failed to post comment')
@@ -161,7 +162,7 @@ export default function PostDetailPage() {
           showSuccess('Reply posted successfully')
           loadPostAndComments() // Reload to show new reply
         } else {
-          throw new Error(result.error || 'Failed to post reply')
+          throw new Error(getErrorMessage(result.error, 'Failed to post reply'))
         }
       } else {
         throw new Error('Failed to post reply')

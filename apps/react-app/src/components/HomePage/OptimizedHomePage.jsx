@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import { getErrorMessage } from "../../utils/errorUtils";
 import { Link, useNavigate } from 'react-router-dom'
 import {
   TrendingUp,
@@ -453,7 +454,7 @@ function OptimizedHomePage() {
   padding: '16px'
 }}
           >
-            <p className="text-red-800">{error}</p>
+            <p className="text-red-800">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           </div>
         )}
 

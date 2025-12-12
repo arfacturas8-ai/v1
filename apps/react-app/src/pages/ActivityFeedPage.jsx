@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { Link } from 'react-router-dom'
 import apiService from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
@@ -256,7 +257,7 @@ function ActivityFeedPage() {
               </svg>
             </div>
             <h2 className="text-xl font-bold text-white mb-2">Error Loading Activity Feed</h2>
-            <p className="text-rgb(var(--color-neutral-600)) mb-6">{error}</p>
+            <p className="text-rgb(var(--color-neutral-600)) mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <button
               onClick={loadActivityFeed}
               className="btn btn-primary"

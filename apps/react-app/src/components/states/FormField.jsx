@@ -1,6 +1,7 @@
 import React from 'react';
 import { AlertCircle, Check } from 'lucide-react';
 import { useResponsive } from '../../hooks/useResponsive';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 export const FormField = ({
   label,
@@ -74,7 +75,7 @@ export const FormField = ({
       </div>
       {showError && (
         <p id={name + '-error'} className="mt-2 text-sm text-red-500" role="alert">
-          {error}
+          {typeof error === "string" ? error : getErrorMessage(error, "")}
         </p>
       )}
       {!showError && helperText && (

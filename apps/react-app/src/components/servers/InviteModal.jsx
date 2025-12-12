@@ -138,7 +138,7 @@ function InviteModal({ onClose, onJoin }) {
           {error && (
             <div className="p-3 sm:p-4 border border-red-500/20 bg-red-500/10 rounded-xl flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <p className="text-sm sm:text-base text-red-300 flex-1">{error}</p>
+              <p className="text-sm sm:text-base text-red-300 flex-1">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             </div>
           )}
 

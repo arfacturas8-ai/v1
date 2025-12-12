@@ -1,6 +1,7 @@
 import React, { forwardRef, useState, useCallback } from 'react'
 import { Eye, EyeOff, AlertCircle, CheckCircle, X } from 'lucide-react'
 import { useResponsive } from '../../hooks/useResponsive'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const Input = forwardRef(({
   type = 'text',
@@ -318,7 +319,7 @@ const Input = forwardRef(({
           role="alert"
         >
           <AlertCircle size={12} aria-hidden="true" />
-          {error}
+          {typeof error === "string" ? error : getErrorMessage(error, "")}
         </p>
       )}
 

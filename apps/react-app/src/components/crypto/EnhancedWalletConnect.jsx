@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { walletManager } from '../../lib/web3/WalletManager.js';
 import { CHAIN_IDS, NETWORK_CONFIGS } from '../../lib/contracts/cryb-contracts.js';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // Supported wallet providers
 const WALLET_PROVIDERS = {
@@ -496,7 +497,7 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
   width: '16px',
   height: '16px'
 }} />
-              <span className="text-sm">{error}</span>
+              <span className="text-sm">{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
             </div>
           </div>
         )}

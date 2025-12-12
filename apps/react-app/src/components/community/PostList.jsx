@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { getErrorMessage } from "../../utils/errorUtils";
 import Post from './Post'
 import SortControls from './SortControls'
 import LoadingSpinner from './LoadingSpinner'
@@ -111,7 +112,7 @@ const PostList = ({
             </svg>
             <div className="text-center">
               <h3 className="font-semibold text-base sm:text-lg mb-2">Something went wrong</h3>
-              <p className="text-secondary text-xs sm:text-sm mb-4">{error}</p>
+              <p className="text-secondary text-xs sm:text-sm mb-4">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <button
                 onClick={() => window.location.reload()}
                 className="btn btn-primary w-full sm:w-auto"

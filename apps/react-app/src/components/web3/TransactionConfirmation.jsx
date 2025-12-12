@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import Button from '../ui/Button';
 import { formatTokenAmount, formatUSDValue, generateTxHash } from '../../utils/web3Utils';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const TRANSACTION_STATES = {
   PREPARING: 'preparing',
@@ -438,7 +439,7 @@ function TransactionConfirmation({
   fontWeight: '500'
 }}>Transaction Failed</span>
               </div>
-              <p className="text-sm text-error/80">{error}</p>
+              <p className="text-sm text-error/80">{typeof error === "string" ? error : getErrorMessage(error, "")}</p>
               {retryCount < 3 && (
                 <Button
                   onClick={handleRetry}

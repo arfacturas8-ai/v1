@@ -1,4 +1,5 @@
 import React from 'react';
+import { getErrorMessage } from "../../utils/errorUtils";
 import { AlertCircle, RefreshCw, HelpCircle } from 'lucide-react';
 
 export const ErrorState = ({
@@ -26,7 +27,7 @@ export const ErrorState = ({
 }}>Oops! Something went wrong</h3>
       <p style={{
   color: '#A0A0A0'
-}}>{error}</p>
+}}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
 
       <div style={{
   display: 'flex',

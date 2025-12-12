@@ -1,5 +1,6 @@
 import React, { useState, forwardRef } from 'react';
 import { useResponsive } from '../../hooks/useResponsive';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const ModernInput = forwardRef(({
   label,
@@ -113,7 +114,7 @@ const ModernInput = forwardRef(({
       
       {error && (
         <div className="mt-2 text-sm text-error animate-fade-in">
-          {error}
+          {typeof error === "string" ? error : getErrorMessage(error, "")}
         </div>
       )}
       
@@ -203,7 +204,7 @@ const ModernTextarea = forwardRef(({
       
       {error && (
         <div className="mt-2 text-sm text-error animate-fade-in">
-          {error}
+          {typeof error === "string" ? error : getErrorMessage(error, "")}
         </div>
       )}
       

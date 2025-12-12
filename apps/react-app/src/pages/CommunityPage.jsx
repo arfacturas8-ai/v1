@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import {
   Users, Plus, TrendingUp, MessageSquare, ChevronUp, ChevronDown,
@@ -262,7 +263,7 @@ function CommunityPage() {
               <Shield className="w-8 h-8 text-red-500" />
             </div>
             <h2 className="text-2xl font-bold text-white mb-3">Error Loading Community</h2>
-            <p className="text-[#666666] mb-6">{error}</p>
+            <p className="text-[#666666] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <Button
               onClick={loadCommunity}
               variant="primary"

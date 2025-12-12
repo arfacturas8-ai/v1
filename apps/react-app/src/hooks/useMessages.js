@@ -6,6 +6,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import channelService from '../services/channelService';
 import websocketService from '../services/websocketService';
+import { getErrorMessage } from '../utils/errorUtils';
 
 export const useMessages = (channelId = null) => {
   const [messages, setMessages] = useState([]);
@@ -52,7 +53,7 @@ export const useMessages = (channelId = null) => {
           lastMessageRef.current = newMessages[newMessages.length - 1].id;
         }
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to load messages:', error);
@@ -88,7 +89,7 @@ export const useMessages = (channelId = null) => {
         // The message will be added via WebSocket event
         return result.message;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to send message:', error);
@@ -109,7 +110,7 @@ export const useMessages = (channelId = null) => {
       if (result.success) {
         return result.message;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to send message with files:', error);
@@ -130,7 +131,7 @@ export const useMessages = (channelId = null) => {
         );
         return result.message;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to update message:', error);
@@ -149,7 +150,7 @@ export const useMessages = (channelId = null) => {
         setMessages(prev => prev.filter(m => m.id !== messageId));
         return true;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to delete message:', error);
@@ -187,7 +188,7 @@ export const useMessages = (channelId = null) => {
         );
         return result.reaction;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to add reaction:', error);
@@ -230,7 +231,7 @@ export const useMessages = (channelId = null) => {
         );
         return true;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to remove reaction:', error);
@@ -280,7 +281,7 @@ export const useMessages = (channelId = null) => {
           total: result.total || 0
         };
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to search messages:', error);
@@ -298,7 +299,7 @@ export const useMessages = (channelId = null) => {
       if (result.success) {
         return result.messages || [];
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to get pinned messages:', error);
@@ -321,7 +322,7 @@ export const useMessages = (channelId = null) => {
         );
         return true;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to toggle pin:', error);

@@ -6,6 +6,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import channelService from '../services/channelService';
 import websocketService from '../services/websocketService';
+import { getErrorMessage } from '../utils/errorUtils';
 
 export const useChannels = (serverId = null) => {
   const [channels, setChannels] = useState([]);
@@ -28,7 +29,7 @@ export const useChannels = (serverId = null) => {
       if (result.success) {
         setChannels(result.channels);
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to load channels:', error);
@@ -46,7 +47,7 @@ export const useChannels = (serverId = null) => {
       if (result.success) {
         return result.channel;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to get channel:', error);
@@ -70,7 +71,7 @@ export const useChannels = (serverId = null) => {
         setChannels(prev => [...prev, result.channel]);
         return result.channel;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to create channel:', error);
@@ -100,7 +101,7 @@ export const useChannels = (serverId = null) => {
         
         return result.channel;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to update channel:', error);
@@ -131,7 +132,7 @@ export const useChannels = (serverId = null) => {
         
         return true;
       } else {
-        throw new Error(result.error);
+        throw new Error(getErrorMessage(result.error, 'Operation failed'));
       }
     } catch (error) {
       console.error('Failed to delete channel:', error);

@@ -3,6 +3,7 @@
  * Two-factor authentication login screen with 6-digit code input
  */
 import React, { useState, useEffect, useRef } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { Shield, ArrowLeft, Key, AlertCircle, Loader2 } from 'lucide-react'
 
@@ -200,7 +201,7 @@ export default function MFALoginPage() {
               {error && (
                 <div className="mb-4 md:mb-3.5 lg:mb-3 p-4 md:p-3.5 lg:p-3 bg-red-500/10 border border-red-500/30 rounded-[10px] flex items-start gap-2">
                   <AlertCircle className="w-4.5 h-4.5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-red-500 text-xs m-0">{error}</p>
+                  <p className="text-red-500 text-xs m-0">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                 </div>
               )}
 
@@ -259,7 +260,7 @@ export default function MFALoginPage() {
                 {error && (
                   <div className="p-4 md:p-3.5 lg:p-3 bg-red-500/10 border border-red-500/30 rounded-[10px] flex items-start gap-2">
                     <AlertCircle className="w-4.5 h-4.5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-red-500 text-xs m-0">{error}</p>
+                    <p className="text-red-500 text-xs m-0">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
 

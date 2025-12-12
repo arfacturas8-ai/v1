@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Shield, Key, Copy, Check, AlertCircle, QrCode, Lock } from 'lucide-react'
+import { getErrorMessage } from '../../utils/errorUtils'
 const TwoFactorAuth = ({ user, onClose, onUpdate }) => {
   const [step, setStep] = useState('setup') // setup, verify, disable
   const [qrCode, setQrCode] = useState('')
@@ -221,7 +222,7 @@ const TwoFactorAuth = ({ user, onClose, onUpdate }) => {
       {error && (
         <div className="error-message">
           <AlertCircle size={16} />
-          {error}
+          {typeof error === "string" ? error : getErrorMessage(error, "")}
         </div>
       )}
 
@@ -266,7 +267,7 @@ const TwoFactorAuth = ({ user, onClose, onUpdate }) => {
         {error && (
           <div className="error-message">
             <AlertCircle size={16} />
-            {error}
+            {typeof error === "string" ? error : getErrorMessage(error, "")}
           </div>
         )}
       </div>
@@ -381,7 +382,7 @@ const TwoFactorAuth = ({ user, onClose, onUpdate }) => {
         {error && (
           <div className="error-message">
             <AlertCircle size={16} />
-            {error}
+            {typeof error === "string" ? error : getErrorMessage(error, "")}
           </div>
         )}
       </div>

@@ -1,4 +1,5 @@
 import React, { useState, memo } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
@@ -109,7 +110,7 @@ const CreateProposalPage = () => {
             <div className="mb-6 p-4 bg-red-500/20 border border-red-500 text-red-400 rounded-xl flex items-start gap-3" role="alert">
               <AlertCircle size={20} className="flex-shrink-0 mt-0.5" aria-hidden="true" />
               <div className="flex-1">
-                <p>{error}</p>
+                <p>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               </div>
               <button
                 onClick={() => setError(null)}

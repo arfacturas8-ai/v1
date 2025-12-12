@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getErrorMessage } from "../../utils/errorUtils";
 import {
   BarChart3, Users, MessageSquare, TrendingUp,
   Calendar, Clock, Activity, Heart, Eye,
@@ -104,7 +105,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <p className="mb-3">{error}</p>
+          <p className="mb-3">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <button
             onClick={loadAnalytics}
             className="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"

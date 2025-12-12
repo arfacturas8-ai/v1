@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useWeb3 } from '../Web3Provider'
 import { useResponsive } from '../hooks/useResponsive'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const WalletModal = ({ isOpen, onClose }) => {
   const { isMobile, isTablet } = useResponsive()
@@ -118,7 +119,7 @@ const WalletModal = ({ isOpen, onClose }) => {
 
         {error && (
           <div className="bg-red-900/30 text-red-200 px-4 py-3 rounded-xl border border-red-500/30 mb-4 text-sm sm:text-base">
-            {error}
+            {typeof error === "string" ? error : getErrorMessage(error, "")}
           </div>
         )}
 

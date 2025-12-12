@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { getErrorMessage } from "../../utils/errorUtils";
 import {
   Users, Search, Filter, Crown, Star, Shield,
   UserPlus, Ban, MoreVertical, User, Calendar,
@@ -416,7 +417,7 @@ export default function MemberDirectory({
 
       {error && (
         <div className="bg-error/10 border border-error/30 rounded-lg p-4 my-5 text-center">
-          <p>{error}</p>
+          <p>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <button onClick={() => loadMembers(true)}>Retry</button>
         </div>
       )}

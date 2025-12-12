@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import ChatInterface from '../components/chat/ChatInterface'
 import ChannelSidebar from '../components/chat/ChannelSidebar'
 import MessageComposer from '../components/chat/MessageComposer'
@@ -245,7 +246,7 @@ function ChatPage({ user, onNavigate }) {
         <div className="text-center max-w-md p-8 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]" role="alert" aria-live="assertive">
           <div className="text-6xl mb-4" aria-hidden="true">⚠️</div>
           <h2 className="text-2xl font-bold text-white mb-2">Something went wrong</h2>
-          <p className="text-[#A0A0A0] mb-6">{error}</p>
+          <p className="text-[#A0A0A0] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <button
             onClick={loadChatData}
             className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] transition-all"

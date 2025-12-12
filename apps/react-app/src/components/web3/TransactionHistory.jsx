@@ -22,6 +22,7 @@ import {
 import Button from '../ui/Button';
 import { formatTokenAmount, formatUSDValue, formatWalletAddress } from '../../utils/web3Utils';
 import { TransactionStatusIndicator } from './TransactionConfirmation';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const TRANSACTION_TYPES = {
   SEND: 'send',
@@ -383,7 +384,7 @@ function TransactionHistory({
           <h3 style={{
   fontWeight: '600'
 }}>Failed to Load Transactions</h3>
-          <p className="text-sm text-muted mb-4">{error}</p>
+          <p className="text-sm text-muted mb-4">{typeof error === "string" ? error : getErrorMessage(error, "")}</p>
           <Button onClick={loadTransactions} size="sm">
             <RefreshCw style={{
   height: '16px',

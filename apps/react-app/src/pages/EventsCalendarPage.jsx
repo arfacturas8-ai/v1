@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { getErrorMessage } from "../utils/errorUtils";
 import PropTypes from 'prop-types'
 import { Calendar, Clock, MapPin, Users, Plus, ChevronLeft, ChevronRight, X } from 'lucide-react'
 import apiService from '../services/api'
@@ -222,7 +223,7 @@ const EventsCalendarPage = () => {
       {/* Error Message */}
       {error && (
         <div className="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded-xl mb-4" role="alert">
-          <p>{error}</p>
+          <p>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <button
             onClick={() => setError(null)}
             className="mt-2 text-sm underline hover:no-underline"

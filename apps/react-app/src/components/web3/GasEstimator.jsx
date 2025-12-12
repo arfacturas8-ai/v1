@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import Button from '../ui/Button';
 import { formatTokenAmount, formatUSDValue } from '../../utils/web3Utils';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const GAS_PRESETS = {
   SLOW: {
@@ -290,7 +291,7 @@ function GasEstimator({
   fontWeight: '600'
 }}>Gas Estimation Failed</h4>
         </div>
-        <p className="text-sm text-error/80 mb-4">{error}</p>
+        <p className="text-sm text-error/80 mb-4">{typeof error === "string" ? error : getErrorMessage(error, "")}</p>
         <Button onClick={refreshGasEstimate} size="sm" variant="secondary">
           <RefreshCw style={{
   height: '12px',
