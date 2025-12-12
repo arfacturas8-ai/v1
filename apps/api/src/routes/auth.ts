@@ -1232,14 +1232,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
         avatar: true,
         bio: true,
         isVerified: true,
-        createdAt: true,
-        _count: {
-          select: {
-            servers: true,
-            posts: true,
-            comments: true
-          }
-        }
+        createdAt: true
       }
     });
 
