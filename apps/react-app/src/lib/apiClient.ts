@@ -7,6 +7,7 @@ import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig } from 'ax
 import { environment } from '../config/environment';
 import { useAuthStore } from '../stores/authStore';
 import { toast } from '../stores/uiStore';
+import { getErrorMessage } from '../utils/errorUtils';
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -69,7 +70,8 @@ function handleApiError(error: AxiosError<any>) {
   }
 
   const status = error.response.status;
-  const message = error.response.data?.message || error.message;
+  const rawMessage = error.response.data?.message || error.response.data?.error || error.message;
+  const message = getErrorMessage(rawMessage, 'An error occurred');
 
   switch (status) {
     case 400:
