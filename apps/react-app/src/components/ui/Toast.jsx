@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react'
 import { createPortal } from 'react-dom'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 const Toast = ({
   id,
@@ -188,7 +189,7 @@ const Toast = ({
               )}
               {message && (
                 <p className="text-secondary text-sm leading-relaxed">
-                  {message}
+                  {typeof message === 'string' ? message : getErrorMessage(message, 'An error occurred')}
                 </p>
               )}
 
