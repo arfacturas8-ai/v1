@@ -3,6 +3,7 @@ import { X, Upload, Globe, Lock } from 'lucide-react'
 import { Button, Input } from '../ui'
 import serverService from '../../services/serverService'
 import { useResponsive } from '../../hooks/useResponsive'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 function CreateServerModal({ onClose, onServerCreated }) {
   const { isMobile } = useResponsive();
@@ -108,11 +109,11 @@ function CreateServerModal({ onClose, onServerCreated }) {
       if (result.success) {
         onServerCreated(result.server)
       } else {
-        setError(result.error || 'Failed to create server')
+        setError(getErrorMessage(result.error, 'Failed to create server'))
       }
     } catch (err) {
       console.error('Failed to create server:', err)
-      setError('Failed to create server')
+      setError(getErrorMessage(err, 'Failed to create server'))
     } finally {
       setLoading(false)
     }

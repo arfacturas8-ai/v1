@@ -3,6 +3,7 @@ import { X, Upload, Trash2, Users, Settings, Shield, Image as ImageIcon } from '
 import { Button, Input } from '../ui'
 import serverService from '../../services/serverService'
 import { useResponsive } from '../../hooks/useResponsive'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 function ServerSettingsModal({ server, onClose, onUpdate }) {
   const { isMobile, isTablet } = useResponsive()
@@ -104,7 +105,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
           onClose()
         }, 1500)
       } else {
-        setError(result.error || 'Failed to update server')
+        setError(getErrorMessage(result.error, 'Failed to update server')
       }
     } catch (err) {
       console.error('Failed to update server:', err)
@@ -129,7 +130,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
         onUpdate(null) // Signal deletion
         onClose()
       } else {
-        setError(result.error || 'Failed to delete server')
+        setError(getErrorMessage(result.error, 'Failed to delete server')
       }
     } catch (err) {
       console.error('Failed to delete server:', err)
@@ -390,7 +391,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                                       // Refresh server data
                                       setTimeout(() => window.location.reload(), 1500)
                                     } else {
-                                      setError(result.error || 'Failed to remove member')
+                                      setError(getErrorMessage(result.error, 'Failed to remove member')
                                     }
                                   } catch (err) {
                                     setError('Failed to remove member')

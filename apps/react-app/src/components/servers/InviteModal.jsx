@@ -3,6 +3,7 @@ import { X, Users, Globe, Lock, CheckCircle, AlertCircle } from 'lucide-react'
 import { Button, Input } from '../ui'
 import serverService from '../../services/serverService'
 import { useResponsive } from '../../hooks/useResponsive'
+import { getErrorMessage } from '../../utils/errorUtils'
 
 function InviteModal({ onClose, onJoin }) {
   const { isMobile, isTablet } = useResponsive()
@@ -34,7 +35,7 @@ function InviteModal({ onClose, onJoin }) {
       if (result.success && result.invite) {
         setInviteData(result.invite)
       } else {
-        setError(result.error || 'Invalid or expired invite code')
+        setError(getErrorMessage(result.error, 'Invalid or expired invite code')
       }
     } catch (err) {
       console.error('Failed to validate invite:', err)
@@ -59,7 +60,7 @@ function InviteModal({ onClose, onJoin }) {
       if (result.success && result.server) {
         onJoin(result.server)
       } else {
-        setError(result.error || 'Failed to join server')
+        setError(getErrorMessage(result.error, 'Failed to join server')
       }
     } catch (err) {
       console.error('Failed to join server:', err)
