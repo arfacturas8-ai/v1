@@ -17,6 +17,7 @@ import { randomUUID } from 'crypto';
 import { validate, validationSchemas } from '../middleware/validation';
 import { throwBadRequest, throwUnauthorized, throwConflict, throwNotFound, AppError } from '../middleware/errorHandler';
 import { authMiddleware } from '../middleware/auth';
+import { getErrorMessage } from '../utils/errorUtils';
 
 // Store nonces temporarily (in production, use Redis)
 const nonceStore = new Map<string, { nonce: string; expiresAt: number }>();
@@ -230,8 +231,8 @@ export default async function authRoutes(fastify: FastifyInstance) {
           
           if (!walletAuth.success) {
             throw new AppError(
-              walletAuth.error || 'Wallet verification failed', 
-              400, 
+              getErrorMessage(walletAuth.error, 'Wallet verification failed'),
+              400,
               'WALLET_VERIFICATION_FAILED'
             );
           }
@@ -524,7 +525,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
           
           if (!authResult.success) {
             throw new AppError(
-              authResult.error || 'Wallet authentication failed',
+              getErrorMessage(authResult.error, 'Wallet authentication failed'),
               401,
               'WALLET_AUTH_FAILED'
             );
@@ -561,7 +562,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
             }
             
             throw new AppError(
-              authResult.error || 'Invalid credentials',
+              getErrorMessage(authResult.error, 'Invalid credentials'),
               401,
               'INVALID_CREDENTIALS'
             );
@@ -805,7 +806,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
       );
       
       if (!verificationResult.success) {
-        throw new AppError(verificationResult.error || 'Invalid 2FA code', 400, '2FA_VERIFICATION_FAILED');
+        throw new AppError(getErrorMessage(verificationResult.error, 'Invalid 2FA code'), 400, '2FA_VERIFICATION_FAILED');
       }
       
       // Get user data
@@ -1500,7 +1501,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
       
       if (!oauthResult.success || !oauthResult.user) {
         throw new AppError(
-          oauthResult.error || 'OAuth authentication failed',
+          getErrorMessage(oauthResult.error, 'OAuth authentication failed'),
           400,
           'OAUTH_AUTH_FAILED'
         );
