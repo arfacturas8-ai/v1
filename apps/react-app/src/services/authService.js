@@ -75,19 +75,22 @@ class AuthService {
         return { success: true, user, tokens };
       }
 
-      return { success: false, error: response.error || 'Registration failed' };
+      return {
+        success: false,
+        error: typeof response.error === 'string' ? response.error : (response.error?.message || response.message || 'Registration failed')
+      };
     } catch (error) {
       console.error('Registration error:', error);
       // Check if error.data has the API error response structure
       if (error.data && error.data.error) {
-        return { 
-          success: false, 
-          error: error.data.error 
+        return {
+          success: false,
+          error: typeof error.data.error === 'string' ? error.data.error : (error.data.error?.message || error.data.message || 'Registration failed')
         };
       }
-      return { 
-        success: false, 
-        error: error.data?.message || error.message || 'Registration failed' 
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Registration failed'
       };
     }
   }
@@ -113,19 +116,22 @@ class AuthService {
         return { success: true, user, tokens };
       }
 
-      return { success: false, error: response.error || 'Login failed' };
+      return {
+        success: false,
+        error: typeof response.error === 'string' ? response.error : (response.error?.message || response.message || 'Login failed')
+      };
     } catch (error) {
       console.error('Login error:', error);
       // Check if error.data has the API error response structure
       if (error.data && error.data.error) {
-        return { 
-          success: false, 
-          error: error.data.error 
+        return {
+          success: false,
+          error: typeof error.data.error === 'string' ? error.data.error : (error.data.error?.message || error.data.message || 'Invalid credentials')
         };
       }
-      return { 
-        success: false, 
-        error: error.data?.message || error.message || 'Invalid credentials' 
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Invalid credentials'
       };
     }
   }
