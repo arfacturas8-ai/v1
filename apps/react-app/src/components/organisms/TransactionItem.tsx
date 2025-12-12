@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { colors, spacing, typography, radii, animation } from '../../design-system/tokens';
 import { formatRelativeTime, formatNumber } from '../../lib/utils';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // Icons
 const SendIcon: React.FC<{ size?: number }> = ({ size = 20 }) => (
@@ -284,7 +285,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
           fontSize: typography.fontSize.sm,
         }}
       >
-        {error}
+        {getErrorMessage(error, "An error occurred")}
       </div>
     );
   }

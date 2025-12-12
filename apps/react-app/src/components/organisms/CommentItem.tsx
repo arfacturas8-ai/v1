@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { colors, spacing, typography, radii, animation } from '../../design-system/tokens';
 import { formatRelativeTime, formatNumber } from '../../lib/utils';
 import Button from '../atoms/Button';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // Icons
 const HeartIcon: React.FC<{ filled?: boolean; size?: number }> = ({ filled = false, size = 16 }) => (
@@ -172,7 +173,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
           fontSize: typography.fontSize.sm,
         }}
       >
-        {error}
+        {getErrorMessage(error, "An error occurred")}
       </div>
     );
   }

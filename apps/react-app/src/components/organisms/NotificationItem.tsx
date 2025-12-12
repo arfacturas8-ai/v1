@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { colors, spacing, typography, radii, animation } from '../../design-system/tokens';
 import { formatRelativeTime } from '../../lib/utils';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // Icons
 const HeartIcon: React.FC<{ size?: number }> = ({ size = 20 }) => (
@@ -240,7 +241,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
           fontSize: typography.fontSize.sm,
         }}
       >
-        {error}
+        {getErrorMessage(error, "An error occurred")}
       </div>
     );
   }

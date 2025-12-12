@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { colors, spacing, typography, radii, animation, shadows } from '../../design-system/tokens';
 import { formatRelativeTime, formatNumber, truncate } from '../../lib/utils';
 import Button from '../atoms/Button';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // Icons (inline SVG for no external dependencies)
 const HeartIcon: React.FC<{ filled?: boolean; size?: number }> = ({ filled = false, size = 20 }) => (
@@ -201,7 +202,7 @@ const PostCard: React.FC<PostCardProps> = ({
           textAlign: 'center',
         }}
       >
-        {error}
+        {getErrorMessage(error, "An error occurred")}
       </div>
     );
   }

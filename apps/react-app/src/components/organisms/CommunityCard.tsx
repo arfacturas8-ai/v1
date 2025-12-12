@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { colors, spacing, typography, radii, animation, shadows } from '../../design-system/tokens';
 import { formatNumber } from '../../lib/utils';
 import Button from '../atoms/Button';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // Icons
 const UsersIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
@@ -173,7 +174,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
           textAlign: 'center',
         }}
       >
-        {error}
+        {getErrorMessage(error, "An error occurred")}
       </div>
     );
   }

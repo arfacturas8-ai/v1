@@ -7,6 +7,7 @@ import React, { useState } from 'react';
 import { colors, spacing, typography, radii, animation, shadows } from '../../design-system/tokens';
 import { formatNumber, copyToClipboard } from '../../lib/utils';
 import Button from '../atoms/Button';
+import { getErrorMessage } from '../../utils/errorUtils'
 
 // Icons
 const WalletIcon: React.FC<{ size?: number }> = ({ size = 20 }) => (
@@ -207,7 +208,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
             marginBottom: spacing[3],
           }}
         >
-          {error}
+          {getErrorMessage(error, "An error occurred")}
         </div>
         {onConnect && (
           <Button variant="primary" size="md" onClick={onConnect}>
