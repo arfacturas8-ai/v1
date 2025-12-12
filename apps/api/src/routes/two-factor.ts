@@ -3,6 +3,7 @@ import { authMiddleware } from '../middleware/auth';
 import { validate, validationSchemas } from '../middleware/validation';
 import { AppError } from '../middleware/errorHandler';
 import { createTwoFactorAuthService } from '../services/two-factor-auth';
+import { getErrorMessage } from '../utils/errorUtils';
 import Redis from 'ioredis';
 import { z } from 'zod';
 
@@ -212,7 +213,7 @@ export default async function twoFactorRoutes(fastify: FastifyInstance) {
       const result = await twoFactorService.enableTwoFactor(request.userId, verificationCode);
 
       if (!result.success) {
-        throw new AppError(result.error || '2FA enable failed', 400, '2FA_ENABLE_FAILED');
+        throw new AppError(getErrorMessage(result.error, '2FA enable failed'), 400, '2FA_ENABLE_FAILED');
       }
 
       reply.send({
@@ -279,7 +280,7 @@ export default async function twoFactorRoutes(fastify: FastifyInstance) {
       );
 
       if (!result.success) {
-        throw new AppError(result.error || '2FA disable failed', 400, '2FA_DISABLE_FAILED');
+        throw new AppError(getErrorMessage(result.error, '2FA disable failed'), 400, '2FA_DISABLE_FAILED');
       }
 
       reply.send({
@@ -347,7 +348,7 @@ export default async function twoFactorRoutes(fastify: FastifyInstance) {
       );
 
       if (!result.success) {
-        throw new AppError(result.error || 'Invalid verification code', 400, '2FA_VERIFY_FAILED');
+        throw new AppError(getErrorMessage(result.error, 'Invalid verification code'), 400, '2FA_VERIFY_FAILED');
       }
 
       let message = '2FA verification successful';
@@ -426,7 +427,7 @@ export default async function twoFactorRoutes(fastify: FastifyInstance) {
       const result = await twoFactorService.regenerateBackupCodes(request.userId, verificationCode);
 
       if (!result.success) {
-        throw new AppError(result.error || 'Backup code regeneration failed', 400, 'BACKUP_CODE_REGEN_FAILED');
+        throw new AppError(getErrorMessage(result.error, 'Backup code regeneration failed'), 400, 'BACKUP_CODE_REGEN_FAILED');
       }
 
       reply.send({
