@@ -2,6 +2,7 @@ import React, { createContext, useContext, useReducer, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import authService from '../services/authService'
 import websocketService from '../services/websocketService'
+import { getErrorMessage } from '../utils/errorUtils'
 // import { useWeb3Auth } from '../lib/hooks/useWeb3Auth'
 
 // Auth action types
@@ -336,7 +337,7 @@ export function AuthProvider({ children }) {
 
         return { success: true, user }
       } else {
-        throw new Error(result.error || 'Login failed')
+        throw new Error(getErrorMessage(result.error, 'Login failed'))
       }
     } catch (error) {
       dispatch({
@@ -370,7 +371,7 @@ export function AuthProvider({ children }) {
 
         return { success: true, user }
       } else {
-        throw new Error(result.error || 'Registration failed')
+        throw new Error(getErrorMessage(result.error, 'Registration failed'))
       }
     } catch (error) {
       dispatch({
@@ -393,7 +394,7 @@ export function AuthProvider({ children }) {
         dispatch({ type: AUTH_ACTIONS.PASSWORD_RESET_SUCCESS })
         return { success: true, message: result.message || 'Password reset email sent! Check your inbox.' }
       } else {
-        throw new Error(result.error || 'Failed to send reset email')
+        throw new Error(getErrorMessage(result.error, 'Failed to send reset email'))
       }
     } catch (error) {
       dispatch({
