@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  Coins, 
-  RefreshCw, 
-  Eye, 
-  EyeOff, 
-  TrendingUp, 
+import {
+  Coins,
+  RefreshCw,
+  Eye,
+  EyeOff,
+  TrendingUp,
   TrendingDown,
   AlertCircle
 } from 'lucide-react';
@@ -64,12 +64,12 @@ function TokenBalanceDisplay({
   useEffect(() => {
     if (state.isConnected && state.account) {
       loadBalances();
-      
+
       // Set up auto-refresh
       const interval = setInterval(() => {
         loadBalances();
       }, refreshInterval);
-      
+
       return () => clearInterval(interval);
     }
   }, [state.isConnected, state.account, refreshInterval]);
@@ -77,15 +77,15 @@ function TokenBalanceDisplay({
   const loadBalances = async () => {
     try {
       setIsLoading(true);
-      
+
       // Simulate API call delay
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // In a real implementation, this would fetch actual token balances
       const mockData = mockBalances.slice(0, maxTokens);
       setBalances(mockData);
       setLastUpdate(new Date());
-      
+
       if (onBalanceUpdate) {
         onBalanceUpdate(mockData);
       }
@@ -111,21 +111,18 @@ function TokenBalanceDisplay({
     const isPositive = change > 0;
     return (
       <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-1)',
+        fontSize: 'var(--text-xs)',
+        color: isPositive ? 'var(--color-success)' : 'var(--color-error)'
+      }}>
         {isPositive ? (
-          <TrendingUp style={{
-  height: '12px',
-  width: '12px'
-}} />
+          <TrendingUp style={{ height: '12px', width: '12px' }} />
         ) : change < 0 ? (
-          <TrendingDown style={{
-  height: '12px',
-  width: '12px'
-}} />
+          <TrendingDown style={{ height: '12px', width: '12px' }} />
         ) : null}
-        {Math.abs(change).toFixed(2)}%
+        <span>{Math.abs(change).toFixed(2)}%</span>
       </div>
     );
   };
@@ -135,203 +132,221 @@ function TokenBalanceDisplay({
     <Card className={`${className}`}>
       {/* Header */}
       <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-        <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-          <Coins style={{
-  height: '20px',
-  width: '20px'
-}} />
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 'var(--space-4)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+          <Coins style={{ height: 'var(--icon-md)', width: 'var(--icon-md)', color: 'var(--brand-primary)' }} />
           <h3 style={{
-  fontWeight: '500'
-}}>Token Balances</h3>
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)',
+            margin: 0
+          }}>Token Balances</h3>
           {state.isConnected && (
-            <span style={{
-  borderRadius: '4px'
-}}>
+            <span className="badge badge-beginner">
               Connected
             </span>
           )}
         </div>
-        
-        <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           <button
             onClick={() => setIsVisible(!isVisible)}
+            className="btn-ghost btn-sm"
             style={{
-  borderRadius: '12px'
-}}
+              width: '32px',
+              height: '32px',
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
           >
             {isVisible ? (
-              <Eye style={{
-  height: '16px',
-  width: '16px'
-}} />
+              <Eye style={{ height: 'var(--icon-sm)', width: 'var(--icon-sm)' }} />
             ) : (
-              <EyeOff style={{
-  height: '16px',
-  width: '16px'
-}} />
+              <EyeOff style={{ height: 'var(--icon-sm)', width: 'var(--icon-sm)' }} />
             )}
           </button>
-          
+
           <Button
             onClick={refreshBalances}
             disabled={isLoading}
-            className="btn-secondary p-sm"
+            className="btn-secondary btn-sm"
+            style={{
+              width: '32px',
+              height: '32px',
+              padding: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
           >
-            <RefreshCw style={{
-  height: '16px',
-  width: '16px'
-}} />
+            <RefreshCw
+              style={{
+                height: 'var(--icon-sm)',
+                width: 'var(--icon-sm)',
+                animation: isLoading ? 'spin 1s linear infinite' : 'none'
+              }}
+            />
           </Button>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-lg">
+      <div style={{ padding: 'var(--space-4)' }}>
         {!state.isConnected ? (
           <div style={{
-  textAlign: 'center'
-}}>
+            textAlign: 'center',
+            padding: 'var(--space-8) var(--space-4)',
+            color: 'var(--text-secondary)'
+          }}>
             <AlertCircle style={{
-  height: '32px',
-  width: '32px'
-}} />
-            <p className="text-secondary">Connect your wallet to view token balances</p>
+              height: 'var(--icon-xl)',
+              width: 'var(--icon-xl)',
+              color: 'var(--text-tertiary)',
+              margin: '0 auto var(--space-3)'
+            }} />
+            <p style={{ fontSize: 'var(--text-base)', margin: 0 }}>Connect your wallet to view token balances</p>
           </div>
         ) : isLoading && balances.length === 0 ? (
-          <div className="space-y-md">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {[1, 2, 3].map((i) => (
               <div key={i} style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  borderRadius: '12px'
-}}>
-                <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-                  <div style={{
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%'
-}}></div>
-                  <div className="space-y-sm">
-                    <div style={{
-  width: '64px',
-  height: '16px',
-  borderRadius: '4px'
-}}></div>
-                    <div style={{
-  width: '48px',
-  height: '12px',
-  borderRadius: '4px'
-}}></div>
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: 'var(--space-3)',
+                borderRadius: 'var(--radius-lg)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                  <div className="skeleton" style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: 'var(--radius-full)'
+                  }}></div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+                    <div className="skeleton" style={{
+                      width: '80px',
+                      height: '16px',
+                      borderRadius: 'var(--radius-sm)'
+                    }}></div>
+                    <div className="skeleton" style={{
+                      width: '60px',
+                      height: '12px',
+                      borderRadius: 'var(--radius-sm)'
+                    }}></div>
                   </div>
                 </div>
-                <div style={{
-  textAlign: 'right'
-}}>
-                  <div style={{
-  width: '80px',
-  height: '16px',
-  borderRadius: '4px'
-}}></div>
-                  <div style={{
-  width: '64px',
-  height: '12px',
-  borderRadius: '4px'
-}}></div>
+                <div style={{ textAlign: 'right', display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
+                  <div className="skeleton" style={{
+                    width: '100px',
+                    height: '16px',
+                    borderRadius: 'var(--radius-sm)'
+                  }}></div>
+                  <div className="skeleton" style={{
+                    width: '80px',
+                    height: '12px',
+                    borderRadius: 'var(--radius-sm)',
+                    marginLeft: 'auto'
+                  }}></div>
                 </div>
               </div>
             ))}
           </div>
         ) : balances.length === 0 ? (
           <div style={{
-  textAlign: 'center'
-}}>
+            textAlign: 'center',
+            padding: 'var(--space-8) var(--space-4)',
+            color: 'var(--text-secondary)'
+          }}>
             <Coins style={{
-  height: '32px',
-  width: '32px'
-}} />
-            <p className="text-secondary">No tokens found</p>
+              height: 'var(--icon-xl)',
+              width: 'var(--icon-xl)',
+              color: 'var(--text-tertiary)',
+              margin: '0 auto var(--space-3)'
+            }} />
+            <p style={{ fontSize: 'var(--text-base)', margin: 0 }}>No tokens found</p>
           </div>
         ) : (
-          <div className="space-y-sm">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
             {balances.map((token) => (
               <div
                 key={token.address}
+                className="card-interactive"
                 style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  borderRadius: '12px'
-}}
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: 'var(--space-3)',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-subtle)',
+                  transition: 'all var(--transition-normal)'
+                }}
               >
-                <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                   {token.logo ? (
                     <img
                       src={token.logo}
                       alt={token.symbol}
                       style={{
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%'
-}}
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: 'var(--radius-full)',
+                        display: 'block'
+                      }}
                       onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.nextElementSibling.style.display = 'flex';
                       }}
                     />
                   ) : null}
-                  <div style={{
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
+                  <div className="avatar avatar-md" style={{
+                    background: 'var(--bg-tertiary)',
+                    color: 'var(--text-secondary)',
+                    fontSize: 'var(--text-sm)',
+                    fontWeight: 'var(--font-bold)',
+                    display: token.logo ? 'none' : 'flex'
+                  }}>
                     {token.symbol.slice(0, 2)}
                   </div>
-                  
+
                   <div>
                     <div style={{
-  fontWeight: '500'
-}}>{token.symbol}</div>
-                    <div className="text-sm text-muted">{token.name}</div>
+                      fontWeight: 'var(--font-medium)',
+                      fontSize: 'var(--text-base)',
+                      color: 'var(--text-primary)'
+                    }}>{token.symbol}</div>
+                    <div style={{
+                      fontSize: 'var(--text-sm)',
+                      color: 'var(--text-tertiary)'
+                    }}>{token.name}</div>
                   </div>
                 </div>
-                
-                <div style={{
-  textAlign: 'right'
-}}>
+
+                <div style={{ textAlign: 'right' }}>
                   <div style={{
-  fontWeight: '500'
-}}>
+                    fontWeight: 'var(--font-medium)',
+                    fontSize: 'var(--text-base)',
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-mono)'
+                  }}>
                     {isVisible ? token.balance : '***'}
                   </div>
                   {showUsdValues && token.usdValue && (
-                    <div className="text-sm text-muted">
+                    <div style={{
+                      fontSize: 'var(--text-sm)',
+                      color: 'var(--text-secondary)'
+                    }}>
                       {isVisible ? formatUsdValue(token.usdValue) : '***'}
                     </div>
                   )}
                   {showPriceChanges && token.change24h !== undefined && (
-                    <div className="mt-xs">
+                    <div style={{ marginTop: 'var(--space-1)' }}>
                       {formatChange(token.change24h)}
                     </div>
                   )}
@@ -340,11 +355,15 @@ function TokenBalanceDisplay({
             ))}
           </div>
         )}
-        
+
         {lastUpdate && (
           <div style={{
-  textAlign: 'center'
-}}>
+            textAlign: 'center',
+            fontSize: 'var(--text-xs)',
+            color: 'var(--text-tertiary)',
+            marginTop: 'var(--space-4)',
+            padding: 'var(--space-2)'
+          }}>
             Last updated: {lastUpdate.toLocaleTimeString()}
           </div>
         )}

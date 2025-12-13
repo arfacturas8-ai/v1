@@ -380,30 +380,35 @@ Once launched, CRYB will transition to community governance where CRYB token hol
   }
 
   return (
-    <div className="card p-2xl">
+    <div className="card" style={{ padding: 'var(--space-8)' }}>
       {/* Header */}
-      <div style={{
-  textAlign: 'center'
-}}>
+      <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
         <div style={{
-  display: 'inline-flex',
-  alignItems: 'center',
-  borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}>
-          <Book style={{
-  height: '16px',
-  width: '16px'
-}} />
-          <span style={{
-  fontWeight: '500'
-}}>Learn Web3</span>
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 'var(--space-2)',
+          padding: 'var(--space-2) var(--space-4)',
+          background: 'var(--bg-tertiary)',
+          borderRadius: 'var(--radius-full)',
+          border: '1px solid var(--border-subtle)',
+          marginBottom: 'var(--space-4)'
+        }}>
+          <Book style={{ height: 'var(--icon-sm)', width: 'var(--icon-sm)', color: 'var(--brand-primary)' }} />
+          <span style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)', fontSize: 'var(--text-sm)' }}>Learn Web3</span>
         </div>
-        
+
         <h2 style={{
-  fontWeight: 'bold'
-}}>Web3 Education Center</h2>
-        <p className="text-lg text-secondary max-w-2xl mx-auto">
+          fontSize: 'var(--text-3xl)',
+          fontWeight: 'var(--font-bold)',
+          color: 'var(--text-primary)',
+          marginBottom: 'var(--space-3)'
+        }}>Web3 Education Center</h2>
+        <p style={{
+          fontSize: 'var(--text-lg)',
+          color: 'var(--text-secondary)',
+          maxWidth: '672px',
+          margin: '0 auto'
+        }}>
           Master the fundamentals of Web3, cryptocurrency, and decentralized technology with our beginner-friendly guides.
         </p>
       </div>

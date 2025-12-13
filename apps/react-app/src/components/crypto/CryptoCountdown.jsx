@@ -17,7 +17,7 @@ function CryptoCountdown() {
 
   useEffect(() => {
     setIsClient(true)
-    
+
     const calculateTimeLeft = () => {
       const now = new Date().getTime()
       const distance = launchDate.getTime() - now
@@ -71,27 +71,13 @@ function CryptoCountdown() {
 
   if (!isClient) {
     return (
-      <div style={{
-  borderRadius: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}>
-        <div style={{
-  textAlign: 'center'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-            <Clock style={{
-  height: '20px',
-  width: '20px'
-}} />
-            <span style={{
-  fontWeight: '600'
-}}>Launch Timeline</span>
+      <div className="card" style={{ borderRadius: 'var(--radius-2xl)', border: `1px solid var(--border-subtle)`, padding: 'var(--space-6)' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
+            <Clock style={{ height: 'var(--icon-sm)', width: 'var(--icon-sm)', color: 'var(--brand-primary)' }} />
+            <span style={{ fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)' }}>Launch Timeline</span>
           </div>
-          <div className="text-muted">Loading countdown...</div>
+          <div style={{ color: 'var(--text-secondary)' }}>Loading countdown...</div>
         </div>
       </div>
     )
@@ -105,97 +91,49 @@ function CryptoCountdown() {
   ]
 
   return (
-    <div style={{
-  borderRadius: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}>
+    <div className="card" style={{ borderRadius: 'var(--radius-2xl)', border: `1px solid var(--border-subtle)`, padding: 'var(--space-6)' }}>
       {/* Countdown Timer */}
-      <div style={{
-  textAlign: 'center'
-}}>
-        <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-          <Clock style={{
-  height: '20px',
-  width: '20px'
-}} />
-          <span style={{
-  fontWeight: '600'
-}}>Launch Countdown</span>
+      <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+          <Clock style={{ height: 'var(--icon-sm)', width: 'var(--icon-sm)', color: 'var(--brand-primary)' }} />
+          <span style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>Launch Countdown</span>
         </div>
 
-        <div style={{
-  display: 'grid'
-}}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-4)', marginBottom: 'var(--space-4)' }}>
           {timeBlocks.map((block, index) => (
-            <div key={block.label} style={{
-  borderRadius: '12px'
-}}>
-              <div style={{
-  fontWeight: 'bold'
-}}>
+            <div key={block.label} className="card-elevated" style={{ borderRadius: 'var(--radius-lg)', padding: 'var(--space-4)', background: 'var(--bg-gradient-subtle)' }}>
+              <div style={{ fontWeight: 'var(--font-bold)', fontSize: 'var(--text-3xl)', color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>
                 {block.value.toString().padStart(2, '0')}
               </div>
-              <div className="text-xs sm:text-sm text-muted uppercase tracking-wide">
+              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 {block.label}
               </div>
             </div>
           ))}
         </div>
 
-        <p className="text-sm text-secondary mt-lg">
+        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
           Until Web3 features launch
         </p>
       </div>
 
       {/* Launch Milestones - Mobile */}
-      <div className="md:hidden">
-        <h3 style={{
-  fontWeight: '600',
-  textAlign: 'center'
-}}>Roadmap</h3>
-        <div className="space-y-md">
+      <div className="show-mobile-only" style={{ marginBottom: 'var(--space-6)' }}>
+        <h3 style={{ fontWeight: 'var(--font-semibold)', textAlign: 'center', marginBottom: 'var(--space-4)', color: 'var(--text-primary)' }}>Roadmap</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
           {milestones.map((milestone, index) => (
-            <div key={index} style={{
-  borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}>
-              <div style={{
-  display: 'flex',
-  alignItems: 'flex-start'
-}}>
-                <div style={{
-  width: '32px',
-  height: '32px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-                  <Zap style={{
-  height: '16px',
-  width: '16px'
-}} />
+            <div key={index} className="card" style={{ borderRadius: 'var(--radius-lg)', border: `1px solid var(--border-subtle)`, padding: 'var(--space-3)' }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-3)' }}>
+                <div style={{ width: 'var(--icon-lg)', height: 'var(--icon-lg)', borderRadius: 'var(--radius-full)', background: 'var(--bg-gradient-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Zap style={{ height: 'var(--icon-xs)', width: 'var(--icon-xs)', color: 'var(--brand-primary)' }} />
                 </div>
-                <div style={{
-  flex: '1'
-}}>
-                  <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-                    <span style={{
-  fontWeight: '500'
-}}>{milestone.phase}</span>
-                    <span className="text-xs text-muted">• {milestone.date}</span>
+                <div style={{ flex: '1' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-1)' }}>
+                    <span style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)', fontSize: 'var(--text-sm)' }}>{milestone.phase}</span>
+                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>• {milestone.date}</span>
                   </div>
-                  <h4 style={{
-  fontWeight: '600'
-}}>{milestone.title}</h4>
-                  <p className="text-xs text-secondary">{milestone.description}</p>
+                  <h4 style={{ fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)', marginBottom: 'var(--space-1)' }}>{milestone.title}</h4>
+                  <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>{milestone.description}</p>
                 </div>
               </div>
             </div>
@@ -204,81 +142,41 @@ function CryptoCountdown() {
       </div>
 
       {/* Launch Milestones - Desktop & Tablet */}
-      <div style={{
-  display: 'none'
-}}>
-        <h3 style={{
-  fontWeight: '600',
-  textAlign: 'center'
-}}>Development Roadmap</h3>
-        
-        <div style={{
-  position: 'relative'
-}}>
+      <div className="hide-mobile" style={{ marginBottom: 'var(--space-6)' }}>
+        <h3 style={{ fontWeight: 'var(--font-semibold)', textAlign: 'center', marginBottom: 'var(--space-6)', color: 'var(--text-primary)' }}>Development Roadmap</h3>
+
+        <div style={{ position: 'relative', paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-4)' }}>
           {/* Timeline Line */}
-          <div style={{
-  position: 'absolute'
-}}></div>
-          
-          <div style={{
-  display: 'grid',
-  position: 'relative'
-}}>
+          <div style={{ position: 'absolute', top: 'var(--space-8)', left: '0', right: '0', height: '2px', background: 'var(--border-subtle)' }}></div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--space-4)', position: 'relative' }}>
             {milestones.map((milestone, index) => (
-              <div key={index} style={{
-  position: 'relative'
-}}>
+              <div key={index} style={{ position: 'relative' }}>
                 {/* Timeline Node */}
-                <div style={{
-  position: 'absolute',
-  width: '12px',
-  height: '12px',
-  borderRadius: '50%'
-}}></div>
-                
+                <div style={{ position: 'absolute', top: '-var(--space-2)', left: '50%', transform: 'translateX(-50%)', width: '12px', height: '12px', borderRadius: 'var(--radius-full)', background: 'var(--brand-gradient)', border: `2px solid var(--bg-secondary)` }}></div>
+
                 {/* Milestone Card */}
-                <div style={{
-  borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}>
-                  <div style={{
-  textAlign: 'center'
-}}>
-                    <div style={{
-  display: 'inline-flex',
-  borderRadius: '12px'
-}}>
-                      <Zap style={{
-  height: '20px',
-  width: '20px'
-}} />
+                <div className="card" style={{ borderRadius: 'var(--radius-lg)', border: `1px solid var(--border-subtle)`, padding: 'var(--space-4)', marginTop: 'var(--space-6)' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ display: 'inline-flex', background: 'var(--bg-gradient-subtle)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
+                      <Zap style={{ height: 'var(--icon-sm)', width: 'var(--icon-sm)', color: 'var(--brand-primary)' }} />
                     </div>
-                    
-                    <div style={{
-  fontWeight: '500'
-}}>
+
+                    <div style={{ fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-1)' }}>
                       {milestone.phase}
                     </div>
-                    
-                    <h4 style={{
-  fontWeight: '600'
-}}>
+
+                    <h4 style={{ fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>
                       {milestone.title}
                     </h4>
-                    
-                    <p className="text-sm text-secondary mb-md">
+
+                    <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
                       {milestone.description}
                     </p>
-                    
-                    <div style={{
-  display: 'inline-flex',
-  borderRadius: '50%'
-}}>
-                      <Calendar style={{
-  height: '12px',
-  width: '12px'
-}} />
-                      <span className="text-xs text-accent-light">{milestone.date}</span>
+
+                    <div style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-1)', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-full)', padding: 'var(--space-1) var(--space-3)' }}>
+                      <Calendar style={{ height: 'var(--icon-xs)', width: 'var(--icon-xs)', color: 'var(--brand-primary)' }} />
+                      <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>{milestone.date}</span>
                     </div>
                   </div>
                 </div>
@@ -289,20 +187,10 @@ function CryptoCountdown() {
       </div>
 
       {/* Progress Indicator */}
-      <div style={{
-  textAlign: 'center'
-}}>
-        <div style={{
-  display: 'inline-flex',
-  alignItems: 'center',
-  borderRadius: '50%'
-}}>
-          <div style={{
-  width: '8px',
-  height: '8px',
-  borderRadius: '50%'
-}}></div>
-          <span className="text-sm text-secondary">Development in progress</span>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-2)', background: 'var(--bg-tertiary)', borderRadius: 'var(--radius-full)', padding: 'var(--space-2) var(--space-4)' }}>
+          <div className="spinner" style={{ width: '8px', height: '8px', borderWidth: '2px' }}></div>
+          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>Development in progress</span>
         </div>
       </div>
     </div>

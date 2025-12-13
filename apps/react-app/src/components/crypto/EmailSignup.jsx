@@ -8,7 +8,7 @@ function EmailSignup({ variant = 'default' }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     // Basic email validation
     if (!email || !email.includes('@')) {
       setStatus('error')
@@ -22,22 +22,22 @@ function EmailSignup({ variant = 'default' }) {
     try {
       // Simulate API call - In production, this would connect to your backend
       await new Promise(resolve => setTimeout(resolve, 1000))
-      
+
       // For demo purposes, we'll always show success
       setStatus('success')
       setMessage('Thanks! You\'ll be notified when Web3 features launch.')
       setEmail('')
-      
+
       // Reset status after 3 seconds
       setTimeout(() => {
         setStatus('idle')
         setMessage('')
       }, 3000)
-      
+
     } catch (error) {
       setStatus('error')
       setMessage('Something went wrong. Please try again.')
-      
+
       setTimeout(() => {
         setStatus('idle')
         setMessage('')
@@ -46,32 +46,35 @@ function EmailSignup({ variant = 'default' }) {
   }
 
   const isLarge = variant === 'large'
-  const inputClasses = isLarge 
-    ? 'input text-lg px-lg py-md' 
-    : 'input px-md py-sm'
-  const buttonClasses = isLarge
-    ? 'btn btn-primary text-lg px-lg py-md'
-    : 'btn btn-primary px-md py-sm'
 
   if (status === 'success') {
     return (
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  display: 'flex',
-  alignItems: 'center'
-}}>
+        background: 'var(--color-success-light)',
+        border: '1px solid var(--color-success)',
+        borderRadius: 'var(--radius-lg)',
+        padding: 'var(--space-4)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--space-3)'
+      }}>
         <Check style={{
-  height: '20px',
-  width: '20px'
-}} />
+          height: 'var(--icon-sm)',
+          width: 'var(--icon-sm)',
+          color: 'var(--color-success-dark)'
+        }} />
         <div>
           <div style={{
-  fontWeight: '500'
-}}>
+            fontWeight: 'var(--font-medium)',
+            color: 'var(--color-success-dark)',
+            marginBottom: 'var(--space-1)'
+          }}>
             Welcome to early access!
           </div>
-          <div className="text-success/80 text-xs">
+          <div style={{
+            color: 'var(--color-success-dark)',
+            fontSize: 'var(--text-xs)'
+          }}>
             {message}
           </div>
         </div>
@@ -80,23 +83,34 @@ function EmailSignup({ variant = 'default' }) {
   }
 
   return (
-    <div className={isLarge ? 'w-full max-w-md' : 'w-full max-w-sm'}>
-      <form onSubmit={handleSubmit} className="space-y-md">
+    <div style={{ width: '100%', maxWidth: isLarge ? '28rem' : '24rem' }}>
+      <form onSubmit={handleSubmit} style={{ marginBottom: 'var(--space-4)' }}>
         {/* Email Input */}
         <div style={{
-  position: 'relative'
-}}>
+          position: 'relative',
+          marginBottom: 'var(--space-3)'
+        }}>
           <Mail style={{
-  position: 'absolute'
-}} />
+            position: 'absolute',
+            left: 'var(--space-4)',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            height: 'var(--icon-sm)',
+            width: 'var(--icon-sm)',
+            color: 'var(--text-tertiary)'
+          }} />
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email for early access"
+            className="input"
             style={{
-  width: '100%'
-}}
+              width: '100%',
+              paddingLeft: '44px',
+              fontSize: isLarge ? 'var(--text-lg)' : 'var(--text-base)',
+              padding: isLarge ? 'var(--space-4) var(--space-4) var(--space-4) 44px' : 'var(--space-3) var(--space-3) var(--space-3) 44px'
+            }}
             disabled={status === 'loading'}
           />
         </div>
@@ -104,25 +118,29 @@ function EmailSignup({ variant = 'default' }) {
         {/* Submit Button */}
         <button
           type="submit"
+          className="btn btn-primary"
           disabled={status === 'loading' || !email}
           style={{
-  width: '100%'
-}}
+            width: '100%',
+            fontSize: isLarge ? 'var(--text-lg)' : 'var(--text-base)',
+            padding: isLarge ? 'var(--space-4) var(--space-6)' : 'var(--space-3) var(--space-6)'
+          }}
         >
           {status === 'loading' ? (
             <>
               <Loader style={{
-  height: '16px',
-  width: '16px'
-}} />
+                height: 'var(--icon-sm)',
+                width: 'var(--icon-sm)',
+                animation: 'spin 1s linear infinite'
+              }} />
               <span>Joining...</span>
             </>
           ) : (
             <>
               <Mail style={{
-  height: '16px',
-  width: '16px'
-}} />
+                height: 'var(--icon-sm)',
+                width: 'var(--icon-sm)'
+              }} />
               <span>Get Early Access</span>
             </>
           )}
@@ -131,13 +149,17 @@ function EmailSignup({ variant = 'default' }) {
         {/* Status Message */}
         {message && status === 'error' && (
           <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)',
+            marginTop: 'var(--space-3)',
+            color: 'var(--color-error)',
+            fontSize: 'var(--text-sm)'
+          }}>
             <AlertCircle style={{
-  height: '16px',
-  width: '16px'
-}} />
+              height: 'var(--icon-sm)',
+              width: 'var(--icon-sm)'
+            }} />
             <span>{message}</span>
           </div>
         )}
@@ -146,59 +168,54 @@ function EmailSignup({ variant = 'default' }) {
       {/* Benefits List - Only shown for large variant */}
       {isLarge && (
         <div style={{
-  borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}>
+          background: 'var(--bg-tertiary)',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid var(--border-subtle)',
+          padding: 'var(--space-4)',
+          marginBottom: 'var(--space-4)'
+        }}>
           <h4 style={{
-  fontWeight: '600'
-}}>
+            fontWeight: 'var(--font-semibold)',
+            color: 'var(--text-primary)',
+            fontSize: 'var(--text-base)',
+            marginBottom: 'var(--space-3)'
+          }}>
             Early Access Benefits:
           </h4>
-          <ul className="space-y-xs text-sm text-secondary">
-            <li style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-              <div style={{
-  borderRadius: '50%'
-}}></div>
-              <span>First access to Web3 features</span>
-            </li>
-            <li style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-              <div style={{
-  borderRadius: '50%'
-}}></div>
-              <span>Exclusive beta testing opportunities</span>
-            </li>
-            <li style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-              <div style={{
-  borderRadius: '50%'
-}}></div>
-              <span>Priority support and feedback</span>
-            </li>
-            <li style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-              <div style={{
-  borderRadius: '50%'
-}}></div>
-              <span>Special launch rewards and NFTs</span>
-            </li>
+          <ul style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+            {[
+              'First access to Web3 features',
+              'Exclusive beta testing opportunities',
+              'Priority support and feedback',
+              'Special launch rewards and NFTs'
+            ].map((benefit, index) => (
+              <li key={index} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)'
+              }}>
+                <div style={{
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: 'var(--radius-full)',
+                  background: 'var(--brand-primary)',
+                  flexShrink: 0
+                }}></div>
+                <span>{benefit}</span>
+              </li>
+            ))}
           </ul>
         </div>
       )}
 
       {/* Privacy Note */}
       <div style={{
-  textAlign: 'center'
-}}>
+        textAlign: 'center',
+        fontSize: 'var(--text-xs)',
+        color: 'var(--text-tertiary)'
+      }}>
         We respect your privacy. No spam, unsubscribe anytime.
       </div>
     </div>
