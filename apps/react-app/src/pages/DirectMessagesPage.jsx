@@ -49,7 +49,7 @@ import { useResponsive } from '../hooks/useResponsive'
  */
 
 // Memoized conversation item component
-const ConversationItem = memo(({ conversation, isActive, onClick }) => {
+const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'online': return '#10B981'
@@ -58,6 +58,11 @@ const ConversationItem = memo(({ conversation, isActive, onClick }) => {
       default: return '#6B7280'
     }
   }
+
+  const handleAvatarClick = (e) => {
+    e.stopPropagation();
+    navigate(`/profile/${conversation.user.username || conversation.user.id}`);
+  };
 
   return (
     <div
@@ -68,7 +73,18 @@ const ConversationItem = memo(({ conversation, isActive, onClick }) => {
       onKeyPress={(e) => e.key === 'Enter' && onClick()}
       aria-label={`Conversation with ${conversation.user.displayName}`}
     >
-      <div className="conversation-avatar-wrapper">
+      <div
+        className="conversation-avatar-wrapper"
+        onClick={handleAvatarClick}
+        style={{ cursor: 'pointer' }}
+        role="button"
+        tabIndex={0}
+        onKeyPress={(e) => {
+          e.stopPropagation();
+          if (e.key === 'Enter') handleAvatarClick(e);
+        }}
+        aria-label={`View ${conversation.user.displayName}'s profile`}
+      >
         <img
           src={conversation.user.avatar || '/default-avatar.png'}
           alt={`${conversation.user.displayName}'s avatar`}
@@ -97,6 +113,8 @@ const ConversationItem = memo(({ conversation, isActive, onClick }) => {
             <span className="last-message">
               {conversation.lastMessage.type === 'image' ? (
                 <><ImageIcon size={14} /> Image</>
+              ) : conversation.lastMessage.type === 'video' ? (
+                <><Video size={14} /> Video</>
               ) : conversation.lastMessage.type === 'file' ? (
                 <><File size={14} /> File</>
               ) : (
@@ -133,7 +151,8 @@ ConversationItem.propTypes = {
     unreadCount: PropTypes.number
   }).isRequired,
   isActive: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired
 }
 
 // Memoized message component
@@ -168,6 +187,12 @@ const Message = memo(({ message, isOwn, user }) => {
           {message.type === 'image' && (
             <div className="message-image-container">
               <img src={message.content} alt="Shared image" className="message-image" />
+            </div>
+          )}
+
+          {message.type === 'video' && (
+            <div className="message-video-container">
+              <video src={message.content} controls className="message-video" style={{maxWidth: '100%', borderRadius: '8px'}} />
             </div>
           )}
 
@@ -590,10 +615,17 @@ function DirectMessagesPage() {
     // Create preview
     const reader = new FileReader()
     reader.onload = (event) => {
+      let fileType = 'file'
+      if (file.type.startsWith('image/')) {
+        fileType = 'image'
+      } else if (file.type.startsWith('video/')) {
+        fileType = 'video'
+      }
+
       setFilePreview({
         file,
         preview: event.target.result,
-        type: file.type.startsWith('image/') ? 'image' : 'file'
+        type: fileType
       })
     }
     reader.onerror = (error) => {
@@ -665,17 +697,17 @@ function DirectMessagesPage() {
 
   const handleVoiceCall = useCallback(() => {
     if (currentConversation) {
-      alert(`Starting voice call with ${currentConversation.user.displayName}`)
-      // Voice call logic would go here
+      // Navigate to call screen with audio only
+      navigate(`/call/${currentConversation.id}?type=audio&user=${currentConversation.user.displayName}`)
     }
-  }, [currentConversation])
+  }, [currentConversation, navigate])
 
   const handleVideoCall = useCallback(() => {
     if (currentConversation) {
-      alert(`Starting video call with ${currentConversation.user.displayName}`)
-      // Video call logic would go here
+      // Navigate to call screen with video
+      navigate(`/call/${currentConversation.id}?type=video&user=${currentConversation.user.displayName}`)
     }
-  }, [currentConversation])
+  }, [currentConversation, navigate])
 
   // Memoize filtered conversations
   const filteredConversations = useMemo(() =>
@@ -957,6 +989,13 @@ function DirectMessagesPage() {
           display: flex;
           align-items: center;
           gap: 12px;
+          padding: 8px;
+          border-radius: 8px;
+          transition: background-color 0.2s;
+        }
+
+        .chat-user-info:hover {
+          background: rgba(255, 255, 255, 0.05);
         }
 
         .chat-avatar-wrapper {
@@ -1588,6 +1627,7 @@ function DirectMessagesPage() {
                 conversation={conv}
                 isActive={conv.id === activeConversation}
                 onClick={() => handleConversationSelect(conv.id)}
+                navigate={navigate}
               />
             ))
           ) : !loading ? (
@@ -1610,7 +1650,15 @@ function DirectMessagesPage() {
                   <ArrowLeft size={20} />
                 </button>
 
-                <div className="chat-user-info">
+                <div
+                  className="chat-user-info"
+                  onClick={() => navigate(`/profile/${currentConversation.user.username || currentConversation.user.id}`)}
+                  style={{ cursor: 'pointer' }}
+                  role="button"
+                  tabIndex={0}
+                  onKeyPress={(e) => e.key === 'Enter' && navigate(`/profile/${currentConversation.user.username || currentConversation.user.id}`)}
+                  aria-label={`View ${currentConversation.user.displayName}'s profile`}
+                >
                   <div className="chat-avatar-wrapper">
                     <img
                       src={currentConversation.user.avatar || '/default-avatar.png'}
@@ -1700,6 +1748,8 @@ function DirectMessagesPage() {
                 <div className="file-preview-container">
                   {filePreview.type === 'image' ? (
                     <img src={filePreview.preview} alt="Preview" className="file-preview-image" />
+                  ) : filePreview.type === 'video' ? (
+                    <video src={filePreview.preview} controls className="file-preview-video" style={{maxWidth: '200px', maxHeight: '200px', borderRadius: '8px'}} />
                   ) : (
                     <File size={32} />
                   )}

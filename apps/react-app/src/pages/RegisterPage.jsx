@@ -80,6 +80,8 @@ export default function RegisterPage() {
     try {
       const result = await signup(formData);
       if (result.success) {
+        // Mark user as new to trigger onboarding tour
+        localStorage.setItem('show_onboarding_tour', 'true');
         navigate('/home', { replace: true });
       } else {
         setError(getErrorMessage(result.error, 'Registration failed. Please try again.'));
@@ -276,14 +278,15 @@ export default function RegisterPage() {
             </div>
 
             <div>
-              <label className="flex items-start cursor-pointer">
+              <label className="flex items-center cursor-pointer gap-2">
                 <input
                   type="checkbox"
                   id="accept-terms"
                   checked={acceptTerms}
                   onChange={(e) => setAcceptTerms(e.target.checked)}
                   required
-                  className="w-3 h-3 min-w-[12px] min-h-[12px] rounded-sm border border-white/20 bg-transparent mt-0.5 mr-1.5 cursor-pointer accent-blue-500"
+                  className="flex-shrink-0 cursor-pointer"
+                  style={{ width: '16px !important', height: '16px', minWidth: '5px', minHeight: '16px' }}
                   aria-required="true"
                   aria-invalid={error && error.includes('Terms') ? "true" : "false"}
                 />

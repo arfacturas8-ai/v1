@@ -149,14 +149,15 @@ export default function LoginPage() {
             </div>
 
             <div className="flex items-center justify-between text-xs flex-wrap gap-1.5 sm:gap-0 sm:flex-nowrap">
-              <label className="flex items-center cursor-pointer">
+              <label className="flex items-center cursor-pointer gap-2">
                 <input
                   type="checkbox"
                   id="remember-me"
                   name="remember-me"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-3 h-3 min-w-[12px] min-h-[12px] rounded-sm border border-white/20 bg-transparent mr-1.5 cursor-pointer accent-blue-500"
+                  className="flex-shrink-0 cursor-pointer"
+                  style={{ width: '16px !important', height: '16px', minWidth: '5px', minHeight: '16px' }}
                   aria-label="Remember me"
                 />
                 <span className="text-[#666666] text-xs">Remember me</span>

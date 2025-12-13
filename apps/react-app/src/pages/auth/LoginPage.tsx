@@ -295,8 +295,8 @@ export default function LoginPage() {
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      style={{ width: '16px', height: '16px', minWidth: '16px', minHeight: '16px' }}
-                      className="flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
+                      className="flex-shrink-0 cursor-pointer"
+                      style={{ width: '16px !important', height: '16px', minWidth: '5px', minHeight: '16px' }}
                     />
                     <span className="text-gray-400 group-hover:text-gray-300 transition-colors">Remember me</span>
                   </label>
@@ -373,13 +373,13 @@ export default function LoginPage() {
 
           {/* Terms checkbox */}
           <div className="mb-6">
-            <label className="flex items-start gap-2 cursor-pointer group">
+            <label className="flex items-center gap-2 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                style={{ width: '16px', height: '16px', minWidth: '16px', minHeight: '16px', marginTop: '2px' }}
-                className="flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
+                className="flex-shrink-0 cursor-pointer"
+                style={{ width: '16px !important', height: '16px', minWidth: '5px', minHeight: '16px' }}
               />
               <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                 I agree to the{' '}

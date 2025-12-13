@@ -15,63 +15,63 @@ export default defineConfig({
       brotliSize: true,
     }),
 
-    // PWA for caching and offline support
-    VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
-      manifest: {
-        name: 'CRYB Platform',
-        short_name: 'CRYB',
-        description: 'Next-generation crypto-native social platform',
-        theme_color: '#000000',
-        icons: [
-          {
-            src: 'pwa-192x192.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: 'pwa-512x512.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
-        maximumFileSizeToCacheInBytes: 5000000, // 5MB limit
-        cleanupOutdatedCaches: true,
-        skipWaiting: true,
-        clientsClaim: true,
-        // Add cache name with timestamp for forced invalidation
-        cacheId: `cryb-v${Date.now()}`,
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365
-              }
-            }
-          },
-          {
-            urlPattern: /^https:\/\/api\.cryb\.(io|ai)\/.*/i,
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'api-cache',
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 5
-              },
-              networkTimeoutSeconds: 10
-            }
-          }
-        ]
-      }
-    })
+    // PWA temporarily disabled to fix caching issues
+    // VitePWA({
+    //   registerType: 'autoUpdate',
+    //   includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+    //   manifest: {
+    //     name: 'CRYB Platform',
+    //     short_name: 'CRYB',
+    //     description: 'Next-generation crypto-native social platform',
+    //     theme_color: '#000000',
+    //     icons: [
+    //       {
+    //         src: 'pwa-192x192.png',
+    //         sizes: '192x192',
+    //         type: 'image/png'
+    //       },
+    //       {
+    //         src: 'pwa-512x512.png',
+    //         sizes: '512x512',
+    //         type: 'image/png'
+    //       }
+    //     ]
+    //   },
+    //   workbox: {
+    //     globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
+    //     maximumFileSizeToCacheInBytes: 5000000, // 5MB limit
+    //     cleanupOutdatedCaches: true,
+    //     skipWaiting: true,
+    //     clientsClaim: true,
+    //     // Add cache name with timestamp for forced invalidation
+    //     cacheId: `cryb-v${Date.now()}`,
+    //     runtimeCaching: [
+    //       {
+    //         urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+    //         handler: 'CacheFirst',
+    //         options: {
+    //           cacheName: 'google-fonts-cache',
+    //           expiration: {
+    //             maxEntries: 10,
+    //             maxAgeSeconds: 60 * 60 * 24 * 365
+    //           }
+    //         }
+    //       },
+    //       {
+    //         urlPattern: /^https:\/\/api\.cryb\.(io|ai)\/.*/i,
+    //         handler: 'NetworkFirst',
+    //         options: {
+    //           cacheName: 'api-cache',
+    //           expiration: {
+    //             maxEntries: 100,
+    //             maxAgeSeconds: 60 * 5
+    //           },
+    //           networkTimeoutSeconds: 10
+    //         }
+    //       }
+    //     ]
+    //   }
+    // })
   ],
   
   // Mobile-optimized build configuration

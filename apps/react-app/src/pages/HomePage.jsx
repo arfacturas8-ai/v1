@@ -1,15 +1,29 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useFeedQuery, useCreatePost } from '../hooks/api/usePosts';
 import { Feed, Composer } from '../design-system/organisms';
 import { colors, spacing } from '../design-system/tokens';
 import { Text } from '../design-system/atoms';
+import { useOnboardingTour } from '../hooks/useOnboardingTour';
 
 function HomePageContent() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('algorithmic');
+  const { startTour } = useOnboardingTour();
+
+  // Auto-start tour for new users
+  useEffect(() => {
+    const shouldShowTour = localStorage.getItem('show_onboarding_tour');
+    if (shouldShowTour === 'true') {
+      // Small delay to let the page fully render
+      setTimeout(() => {
+        startTour();
+        localStorage.removeItem('show_onboarding_tour');
+      }, 1500);
+    }
+  }, [startTour]);
 
   // Fetch feed using React Query with infinite scroll
   const {
@@ -111,9 +125,9 @@ function HomePageContent() {
   } : null;
 
   return (
-    <div style={containerStyle}>
+    <div id="home-feed" style={containerStyle}>
       <div style={maxWidthContainerStyle}>
-        <div style={headerStyle}>
+        <div id="feed-tabs" style={headerStyle}>
           <Text size="xl" weight="bold">
             CRYB.AI
           </Text>
@@ -138,7 +152,7 @@ function HomePageContent() {
         </div>
 
         {currentUser && (
-          <div style={composerWrapperStyle}>
+          <div id="create-post-button" style={composerWrapperStyle}>
             <Composer
               currentUser={currentUser}
               onPost={handleCreatePost}

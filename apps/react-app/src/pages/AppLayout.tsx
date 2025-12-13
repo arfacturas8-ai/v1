@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Home, Compass, PlusSquare, MessageCircle, User, Search, Bell, Wallet } from 'lucide-react';
+import { Home, Compass, Plus, MessageCircle, User, Search, Bell, Wallet, Coins, UserPlus } from 'lucide-react';
 import { colors, spacing, radii, typography, shadows, zIndex } from '../design-system/tokens';
+import { InviteFriendsModal } from '../components/InviteFriendsModal';
 
 interface AppLayoutProps {
   children: React.ReactNode;
-  activeTab?: 'home' | 'explore' | 'create' | 'messages' | 'profile';
-  onTabChange?: (tab: 'home' | 'explore' | 'create' | 'messages' | 'profile') => void;
+  activeTab?: 'home' | 'explore' | 'create' | 'crypto' | 'profile';
+  onTabChange?: (tab: 'home' | 'explore' | 'create' | 'crypto' | 'profile') => void;
   onSearch?: () => void;
   onNotifications?: () => void;
   onWallet?: () => void;
@@ -22,6 +23,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   notificationCount = 0,
 }) => {
   const [scrolled, setScrolled] = useState(false);
+  const [inviteModalOpen, setInviteModalOpen] = useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {
@@ -34,8 +36,8 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
   const tabs = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'explore', label: 'Explore', icon: Compass },
-    { id: 'create', label: 'Create', icon: PlusSquare },
-    { id: 'messages', label: 'Messages', icon: MessageCircle },
+    { id: 'create', label: 'Create', icon: Plus },
+    { id: 'crypto', label: 'Crypto', icon: Coins },
     { id: 'profile', label: 'Profile', icon: User },
   ] as const;
 
@@ -46,7 +48,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         backgroundColor: colors.bg.primary,
         color: colors.text.primary,
         fontFamily: typography.fontFamily.sans,
-        paddingBottom: '70px',
+        paddingBottom: '60px',
       }}
     >
       {/* Header */}
@@ -65,7 +67,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           style={{
             maxWidth: '640px',
             margin: '0 auto',
-            padding: spacing[4],
+            padding: `${spacing[2]} ${spacing[4]}`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
@@ -74,6 +76,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         >
           {/* Logo */}
           <div
+            id="app-logo"
             style={{
               fontSize: typography.fontSize['2xl'],
               fontWeight: typography.fontWeight.bold,
@@ -91,6 +94,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2] }}>
             {/* Search */}
             <button
+              id="search-button"
               onClick={onSearch}
               aria-label="Search"
               style={{
@@ -115,11 +119,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                 e.currentTarget.style.color = colors.text.secondary;
               }}
             >
-              <Search size={20} />
+              <Search size={24} />
             </button>
 
             {/* Notifications */}
             <button
+              id="notifications-button"
               onClick={onNotifications}
               aria-label="Notifications"
               style={{
@@ -145,7 +150,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                 e.currentTarget.style.color = colors.text.secondary;
               }}
             >
-              <Bell size={20} />
+              <Bell size={24} />
               {notificationCount > 0 && (
                 <span
                   style={{
@@ -169,8 +174,39 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
               )}
             </button>
 
+            {/* Invite Friends */}
+            <button
+              id="invite-button"
+              onClick={() => setInviteModalOpen(true)}
+              aria-label="Invite Friends"
+              style={{
+                width: '40px',
+                height: '40px',
+                borderRadius: radii.full,
+                border: 'none',
+                backgroundColor: 'transparent',
+                color: colors.text.secondary,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all 150ms ease-out',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = colors.bg.hover;
+                e.currentTarget.style.color = colors.text.primary;
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = colors.text.secondary;
+              }}
+            >
+              <UserPlus size={24} />
+            </button>
+
             {/* Wallet */}
             <button
+              id="wallet-button"
               onClick={onWallet}
               aria-label="Wallet"
               style={{
@@ -196,7 +232,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                 e.currentTarget.style.boxShadow = shadows.sm;
               }}
             >
-              <Wallet size={18} />
+              <Wallet size={22} />
             </button>
           </div>
         </div>
@@ -207,6 +243,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
         style={{
           maxWidth: '640px',
           margin: '0 auto',
+          padding: `${spacing[2]} ${spacing[3]}`,
         }}
       >
         {children}
@@ -214,6 +251,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
 
       {/* Bottom Tab Bar */}
       <nav
+        id="bottom-navigation"
         style={{
           position: 'fixed',
           bottom: 0,
@@ -232,7 +270,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-around',
-            padding: `${spacing[2]} ${spacing[4]}`,
+            padding: `${spacing[1]} ${spacing[3]}`,
           }}
         >
           {tabs.map((tab) => {
@@ -242,6 +280,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
             return (
               <button
                 key={tab.id}
+                id={`${tab.id}-tab`}
                 onClick={() => onTabChange?.(tab.id as typeof activeTab)}
                 aria-label={tab.label}
                 aria-current={isActive ? 'page' : undefined}
@@ -251,7 +290,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                   flexDirection: 'column',
                   alignItems: 'center',
                   gap: spacing[1],
-                  padding: spacing[2],
+                  padding: `${spacing[1]} ${spacing[2]}`,
                   border: 'none',
                   backgroundColor: 'transparent',
                   color: isActive ? colors.brand.primary : colors.text.tertiary,
@@ -270,7 +309,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                 }}
               >
                 <Icon
-                  size={24}
+                  size={26}
                   strokeWidth={isActive ? 2.5 : 2}
                   style={{
                     transition: 'transform 150ms ease-out',
@@ -300,6 +339,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
           })}
         </div>
       </nav>
+
+      {/* Invite Friends Modal */}
+      <InviteFriendsModal
+        isOpen={inviteModalOpen}
+        onClose={() => setInviteModalOpen(false)}
+      />
     </div>
   );
 };

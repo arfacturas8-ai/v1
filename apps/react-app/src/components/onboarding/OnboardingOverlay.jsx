@@ -194,7 +194,4 @@ const OnboardingOverlay = () => {
   )
 }
 
-
-
-
-export default STEP_COMPONENTS
+export default OnboardingOverlay

@@ -3,12 +3,12 @@
  * Complete signup page with wallet connect, email, and OAuth
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getErrorMessage } from "../../utils/errorUtils";
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import {
   Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles, Wallet,
-  Chrome, Apple, Twitter, AlertCircle, User, CheckCircle2
+  Chrome, Apple, Twitter, AlertCircle, User, CheckCircle2, Gift
 } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
@@ -30,12 +30,16 @@ const SocialProviders = [
 
 export default function SignupPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const inviteCode = searchParams.get('invite');
+
   const [activeTab, setActiveTab] = useState<'wallet' | 'email'>('wallet');
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
     confirmPassword: '',
+    inviteCode: inviteCode || '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -43,6 +47,20 @@ export default function SignupPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [walletConnecting, setWalletConnecting] = useState<string | null>(null);
+  const [inviterName, setInviterName] = useState<string | null>(null);
+
+  // Load invitation details
+  useEffect(() => {
+    if (inviteCode) {
+      // Mock API call to get inviter details
+      // In production, this would call /api/invitations/{code}
+      const mockInviters = [
+        'Johnny', 'Sarah', 'Mike', 'Emily', 'David'
+      ];
+      setInviterName(mockInviters[Math.floor(Math.random() * mockInviters.length)]);
+      setFormData(prev => ({ ...prev, inviteCode }));
+    }
+  }, [inviteCode]);
 
   // Password validation
   const passwordRequirements = [
@@ -153,6 +171,26 @@ export default function SignupPage() {
             <h1 className="text-2xl font-bold mb-2 text-white">Create your account</h1>
             <p className="text-gray-400">Join the CRYB community</p>
           </div>
+
+          {/* Invitation banner */}
+          {inviteCode && inviterName && (
+            <div className="mb-6 p-4 bg-gradient-to-r from-[#58a6ff]/10 to-[#a371f7]/10 border border-[#58a6ff]/30 rounded-lg">
+              <div className="flex items-start gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center flex-shrink-0">
+                  <Gift className="w-5 h-5 text-white" />
+                </div>
+                <div className="flex-1">
+                  <p className="text-sm font-semibold text-white mb-1">
+                    You've been invited! 🎉
+                  </p>
+                  <p className="text-sm text-gray-300">
+                    <strong className="text-[#58a6ff]">{inviterName}</strong> invited you to join CRYB.
+                    Create your account to connect with them and explore the platform.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Error message */}
           {error && (
@@ -361,13 +399,13 @@ export default function SignupPage() {
 
           {/* Terms checkbox */}
           <div className="mb-6">
-            <label className="flex items-start gap-2 cursor-pointer group">
+            <label className="flex items-center gap-2 cursor-pointer group">
               <input
                 type="checkbox"
                 checked={acceptTerms}
                 onChange={(e) => setAcceptTerms(e.target.checked)}
-                style={{ width: '16px', height: '16px', minWidth: '16px', minHeight: '16px', marginTop: '2px' }}
-                className="flex-shrink-0 rounded border-2 border-white/20 bg-[#0D0D0D] text-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-offset-0 focus:ring-offset-[#141414] cursor-pointer transition-colors hover:border-white/40"
+                className="flex-shrink-0 cursor-pointer"
+                style={{ width: '16px !important', height: '16px', minWidth: '5px', minHeight: '16px' }}
               />
               <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
                 I agree to the{' '}

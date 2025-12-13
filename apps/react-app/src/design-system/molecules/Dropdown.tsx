@@ -96,7 +96,6 @@ export const Dropdown: React.FC<DropdownProps> = ({
         <div key={item.id} style={{ position: 'relative' }}>
           <button
             onClick={() => handleItemClick(item)}
-            onMouseEnter={() => hasSubmenu && setSubmenuOpen(item.id)}
             disabled={item.disabled}
             style={{
               width: '100%',
@@ -115,6 +114,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
               textAlign: 'left',
             }}
             onMouseEnter={(e) => {
+              if (hasSubmenu) setSubmenuOpen(item.id);
               if (!item.disabled) {
                 e.currentTarget.style.backgroundColor = colors.bg.hover;
               }

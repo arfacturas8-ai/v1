@@ -231,17 +231,18 @@ export function OnboardingProvider({ children }) {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       })
-      
+
       if (response.ok) {
         const data = await response.json()
         setOnboardingState(data.onboarding || onboardingState)
         setTutorialState(data.tutorials || tutorialState)
         setUserProgress(data.progress || userProgress)
       } else {
-        // Fallback to localStorage
+        // Fallback to localStorage (API endpoint not implemented yet)
         loadFromLocalStorage()
       }
     } catch (error) {
+      // Silently fail and use localStorage
       loadFromLocalStorage()
     }
   }
@@ -263,8 +264,15 @@ export function OnboardingProvider({ children }) {
   }
 
   const saveState = async (newOnboardingState, newTutorialState, newProgress) => {
+    // Always save to localStorage as primary storage (API not implemented yet)
+    if (user?.id) {
+      localStorage.setItem(`onboarding_${user.id}`, JSON.stringify(newOnboardingState))
+      localStorage.setItem(`tutorials_${user.id}`, JSON.stringify(newTutorialState))
+      localStorage.setItem(`progress_${user.id}`, JSON.stringify(newProgress))
+    }
+
+    // Try to save to API in background (fail silently if endpoint doesn't exist)
     try {
-      // Save to API
       await fetch('/api/user/onboarding-progress', {
         method: 'PUT',
         headers: {
@@ -278,13 +286,7 @@ export function OnboardingProvider({ children }) {
         })
       })
     } catch (error) {
-    }
-
-    // Always save to localStorage as backup
-    if (user?.id) {
-      localStorage.setItem(`onboarding_${user.id}`, JSON.stringify(newOnboardingState))
-      localStorage.setItem(`tutorials_${user.id}`, JSON.stringify(newTutorialState))
-      localStorage.setItem(`progress_${user.id}`, JSON.stringify(newProgress))
+      // Silently fail - localStorage is primary storage
     }
   }
 
@@ -461,7 +463,7 @@ export function OnboardingProvider({ children }) {
         body: JSON.stringify({ amount, reason })
       })
     } catch (error) {
-      console.error('Failed to award tokens:', error)
+      // Silently fail - API not implemented yet
     }
   }
 

@@ -1,0 +1,32 @@
+/**
+ * CRYB Platform - Button Styles v.1
+ * Pill-shaped buttons matching design spec
+ */
+
+/* Base button styles from design-system.css are imported via global styles */
+
+.full-width {
+  width: 100%;
+}
+
+.btn-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Spinner for loading state */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: var(--radius-full);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

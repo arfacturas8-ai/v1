@@ -134,7 +134,7 @@ class ErrorBoundary extends React.Component {
   borderRadius: '12px'
 }}>
                   <div className="text-sm font-mono text-red-400 mb-2">
-                    {error?.message || String(error)}
+                    {typeof error === 'string' ? error : (error?.message || 'An unexpected error occurred')}
                   </div>
                   {errorInfo && (
                     <details className="mt-2">
