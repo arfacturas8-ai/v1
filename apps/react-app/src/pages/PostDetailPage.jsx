@@ -267,7 +267,7 @@ export default function PostDetailPage() {
   return (
     <>
       <SkipToContent targetId="main-content" />
-      <div className="min-h-screen pt-16 bg-[#0D0D0D]">
+      <div className="min-h-screen pt-16" style={{ background: 'var(--bg-primary)' }}>
         <main
           id="main-content"
           role="main"
@@ -279,7 +279,8 @@ export default function PostDetailPage() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-3 flex items-center gap-2 text-amber-400"
+              className="mb-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 flex items-center gap-2 text-amber-600"
+              style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}
             >
               <WifiOff className="w-4 h-4" />
               <span className="text-sm font-medium">You are offline. Some features may be limited.</span>
@@ -290,7 +291,8 @@ export default function PostDetailPage() {
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
-            className="mb-4 -ml-2 text-[#A0A0A0] hover:text-white hover:bg-[#141414]/60 backdrop-blur-xl"
+            className="mb-4 -ml-2"
+            style={{ color: 'var(--text-secondary)' }}
             aria-label="Go back to previous page"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -302,19 +304,20 @@ export default function PostDetailPage() {
             {/* Left column - Post */}
             <div className="lg:col-span-2 space-y-6">
               {/* Post card */}
-              <Card className="overflow-hidden bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <Card className="overflow-hidden rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardContent className="p-0">
                   {/* Post header */}
-                  <div className="p-4 border-b border-white/10">
+                  <div className="p-4" style={{ borderBottom: '1px solid var(--border-primary)' }}>
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex-1 min-w-0">
                         {/* Community and author info */}
-                        <div className="flex items-center gap-2 text-sm text-[#666666] mb-2">
+                        <div className="flex items-center gap-2 text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
                           {post.community && (
                             <>
                               <Link
                                 to={`/c/${post.community.name}`}
-                                className="font-semibold text-[#58a6ff] hover:text-[#a371f7] hover:underline"
+                                className="font-semibold hover:underline"
+                                style={{ color: 'var(--color-primary)' }}
                               >
                                 c/{post.community.name}
                               </Link>
@@ -325,7 +328,8 @@ export default function PostDetailPage() {
                             Posted by{' '}
                             <Link
                               to={`/u/${post.author?.username || 'unknown'}`}
-                              className="hover:underline text-[#A0A0A0] hover:text-white"
+                              className="hover:underline"
+                              style={{ color: 'var(--text-secondary)' }}
                             >
                               u/{post.author?.username || 'unknown'}
                             </Link>
@@ -338,7 +342,7 @@ export default function PostDetailPage() {
                         </div>
 
                         {/* Post title */}
-                        <h1 className="text-2xl font-bold text-white mb-3 break-words">
+                        <h1 className="text-2xl font-bold mb-3 break-words" style={{ color: 'var(--text-primary)' }}>
                           {post.title}
                         </h1>
 
@@ -356,7 +360,7 @@ export default function PostDetailPage() {
                   <div className="p-4">
                     {/* Media content */}
                     {post.mediaUrl && (
-                      <div className="mb-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden bg-[#1A1A1A]">
+                      <div className="mb-4 rounded-2xl overflow-hidden" style={{ background: 'var(--bg-tertiary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                         {post.mediaType === 'image' ? (
                           <img
                             src={post.mediaUrl}
@@ -386,7 +390,8 @@ export default function PostDetailPage() {
                             href={post.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-[#58a6ff] hover:text-[#a371f7] hover:underline mb-4"
+                            className="inline-flex items-center gap-2 hover:underline mb-4"
+                            style={{ color: 'var(--color-primary)' }}
                           >
                             <ExternalLink className="w-4 h-4" />
                             {new URL(post.url).hostname}
@@ -399,14 +404,14 @@ export default function PostDetailPage() {
 
                     {/* Text content */}
                     {post.content && (
-                      <div className="prose prose-sm max-w-none text-[#A0A0A0] whitespace-pre-wrap break-words">
+                      <div className="prose prose-sm max-w-none whitespace-pre-wrap break-words" style={{ color: 'var(--text-secondary)' }}>
                         {post.content}
                       </div>
                     )}
                   </div>
 
                   {/* Post actions */}
-                  <div className="px-4 pb-4 border-t border-white/10 pt-3">
+                  <div className="px-4 pb-4 pt-3" style={{ borderTop: '1px solid var(--border-primary)' }}>
                     <div className="flex items-center gap-4 flex-wrap">
                       {/* Vote buttons */}
                       <VoteButtons
@@ -417,7 +422,7 @@ export default function PostDetailPage() {
                       />
 
                       {/* Comment count */}
-                      <div className="flex items-center gap-1.5 text-[#666666]">
+                      <div className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
                         <MessageSquare className="w-4 h-4" />
                         <span className="text-sm font-medium">
                           {formatNumber(post.commentCount || comments.length)} comments
@@ -428,7 +433,8 @@ export default function PostDetailPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target text-[#666666] hover:text-white hover:bg-[#141414]/60"
+                        className="gap-1.5 touch-target"
+                        style={{ color: 'var(--text-secondary)' }}
                         onClick={() => {
                           navigator.clipboard.writeText(window.location.href)
                           announce('Link copied to clipboard')
@@ -442,7 +448,8 @@ export default function PostDetailPage() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target text-[#666666] hover:text-white hover:bg-[#141414]/60"
+                        className="gap-1.5 touch-target"
+                        style={{ color: 'var(--text-secondary)' }}
                         onClick={() => {
                           // Save logic would go here
                           announce('Post saved')
@@ -455,7 +462,7 @@ export default function PostDetailPage() {
 
                       {/* View count */}
                       {post.viewCount && (
-                        <div className="flex items-center gap-1.5 text-[#666666] ml-auto">
+                        <div className="flex items-center gap-1.5 ml-auto" style={{ color: 'var(--text-secondary)' }}>
                           <Eye className="w-4 h-4" />
                           <span className="text-sm">{formatNumber(post.viewCount)} views</span>
                         </div>
@@ -464,7 +471,7 @@ export default function PostDetailPage() {
 
                     {/* Awards display */}
                     {post.awards && post.awards.length > 0 && (
-                      <div className="mt-3 pt-3 border-t border-white/10">
+                      <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--border-primary)' }}>
                         <AwardDisplay awards={post.awards} />
                       </div>
                     )}
@@ -474,7 +481,7 @@ export default function PostDetailPage() {
 
               {/* Comment composer */}
               {user ? (
-                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                   <CardContent className="p-4 safe-area-bottom">
                     <form onSubmit={handleCommentSubmit} className="space-y-3">
                       <div>
@@ -488,7 +495,13 @@ export default function PostDetailPage() {
                           placeholder="What are your thoughts?"
                           rows={4}
                           disabled={submittingComment}
-                          className="w-full px-3 py-2 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-[#1A1A1A]/60 backdrop-blur-xl text-white placeholder:text-[#666666] focus:ring-2 focus:ring-[#58a6ff] focus:border-transparent resize-none text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full px-3 py-2 rounded-2xl resize-none text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+                          style={{
+                            border: '1px solid var(--border-primary)',
+                            background: 'var(--bg-tertiary)',
+                            color: 'var(--text-primary)',
+                            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                          }}
                         />
                       </div>
                       <div className="flex justify-end">
@@ -496,7 +509,8 @@ export default function PostDetailPage() {
                           type="submit"
                           disabled={!newComment.trim() || submittingComment}
                           size="sm"
-                          className="touch-target bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white"
+                          className="touch-target"
+                          style={{ background: 'var(--color-primary)', color: 'white' }}
                         >
                           Comment
                         </Button>
@@ -505,16 +519,17 @@ export default function PostDetailPage() {
                   </CardContent>
                 </Card>
               ) : (
-                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 border-dashed rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="rounded-2xl border-dashed" style={{ background: 'var(--bg-secondary)', border: '1px dashed var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                   <CardContent className="p-6 text-center">
-                    <p className="text-[#666666] mb-4">
+                    <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>
                       Sign in to join the discussion
                     </p>
                     <Button
                       variant="primary"
                       onClick={() => navigate('/login')}
                       size="sm"
-                      className="touch-target bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white"
+                      className="touch-target"
+                      style={{ background: 'var(--color-primary)', color: 'white' }}
                     >
                       Sign In
                     </Button>
@@ -523,10 +538,10 @@ export default function PostDetailPage() {
               )}
 
               {/* Comments section */}
-              <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <CardHeader className="border-b border-white/10">
+              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+                <CardHeader style={{ borderBottom: '1px solid var(--border-primary)' }}>
                   <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg text-white">
+                    <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>
                       Comments ({comments.length})
                     </CardTitle>
                     {/* Sort options can be added here */}
@@ -555,7 +570,7 @@ export default function PostDetailPage() {
             <div className="lg:col-span-1 space-y-4">
               {/* Community info */}
               {post.community && (
-                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                   <CardHeader className="pb-3">
                     <div className="flex items-center gap-3">
                       {post.community.icon ? (
@@ -571,21 +586,21 @@ export default function PostDetailPage() {
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <CardTitle className="text-base truncate text-white">
+                        <CardTitle className="text-base truncate" style={{ color: 'var(--text-primary)' }}>
                           c/{post.community.name}
                         </CardTitle>
-                        <CardDescription className="text-xs text-[#666666]">
+                        <CardDescription className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                           {formatNumber(post?.community?.memberCount || 0)} members
                         </CardDescription>
                       </div>
                     </div>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <p className="text-sm text-[#666666] mb-4">
+                    <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>
                       {post?.community?.description || 'No description available.'}
                     </p>
                     <Link to={`/c/${post.community.name}`}>
-                      <Button variant="primary" size="sm" className="w-full touch-target bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white">
+                      <Button variant="primary" size="sm" className="w-full touch-target" style={{ background: 'var(--color-primary)', color: 'white' }}>
                         View Community
                       </Button>
                     </Link>
@@ -595,9 +610,9 @@ export default function PostDetailPage() {
 
               {/* Author info */}
               {post.author && (
-                <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base text-white">About the Author</CardTitle>
+                    <CardTitle className="text-base" style={{ color: 'var(--text-primary)' }}>About the Author</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex items-center gap-3 mb-3">
@@ -616,19 +631,20 @@ export default function PostDetailPage() {
                       <div className="flex-1 min-w-0">
                         <Link
                           to={`/u/${post.author.username}`}
-                          className="font-semibold text-white hover:underline truncate block"
+                          className="font-semibold hover:underline truncate block"
+                          style={{ color: 'var(--text-primary)' }}
                         >
                           u/{post.author.username}
                         </Link>
                         {post.author.karma && (
-                          <p className="text-xs text-[#666666]">
+                          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                             {formatNumber(post.author.karma)} karma
                           </p>
                         )}
                       </div>
                     </div>
                     <Link to={`/u/${post.author.username}`}>
-                      <Button variant="outline" size="sm" className="w-full touch-target border-white/10 text-[#A0A0A0] hover:text-white hover:bg-[#141414]/60 backdrop-blur-xl">
+                      <Button variant="outline" size="sm" className="w-full touch-target" style={{ borderColor: 'var(--border-primary)', color: 'var(--text-secondary)' }}>
                         View Profile
                       </Button>
                     </Link>
@@ -637,14 +653,14 @@ export default function PostDetailPage() {
               )}
 
               {/* Post metadata */}
-              <Card className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-base text-white">Post Info</CardTitle>
+                  <CardTitle className="text-base" style={{ color: 'var(--text-primary)' }}>Post Info</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-[#666666]">Posted</span>
-                    <time dateTime={post.createdAt} className="font-medium text-white">
+                    <span style={{ color: 'var(--text-secondary)' }}>Posted</span>
+                    <time dateTime={post.createdAt} className="font-medium" style={{ color: 'var(--text-primary)' }}>
                       {new Date(post.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'long',
@@ -654,27 +670,27 @@ export default function PostDetailPage() {
                   </div>
                   {post.updatedAt && post.updatedAt !== post.createdAt && (
                     <div className="flex justify-between">
-                      <span className="text-[#666666]">Last edited</span>
-                      <time dateTime={post.updatedAt} className="font-medium text-white">
+                      <span style={{ color: 'var(--text-secondary)' }}>Last edited</span>
+                      <time dateTime={post.updatedAt} className="font-medium" style={{ color: 'var(--text-primary)' }}>
                         {formatTimeAgo(post.updatedAt)}
                       </time>
                     </div>
                   )}
                   <div className="flex justify-between">
-                    <span className="text-[#666666]">Comments</span>
-                    <span className="font-medium text-white">{comments.length}</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>Comments</span>
+                    <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{comments.length}</span>
                   </div>
                   {post.viewCount && (
                     <div className="flex justify-between">
-                      <span className="text-[#666666]">Views</span>
-                      <span className="font-medium text-white">{formatNumber(post.viewCount)}</span>
+                      <span style={{ color: 'var(--text-secondary)' }}>Views</span>
+                      <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{formatNumber(post.viewCount)}</span>
                     </div>
                   )}
                 </CardContent>
               </Card>
 
               {/* Report option */}
-              <Card className="border border-red-500/30 bg-red-500/10 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <Card className="rounded-2xl" style={{ border: '1px solid rgba(239, 68, 68, 0.3)', background: 'rgba(239, 68, 68, 0.1)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardContent className="p-4">
                   <Button
                     variant="ghost"

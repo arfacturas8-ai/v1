@@ -16,10 +16,10 @@ const EditProfilePage = () => {
   }
 
   return (
-    <div className={`min-h-screen ${isMobile ? 'p-3' : 'p-4'} bg-[#0d1117] pt-20`} role="main" aria-label="Edit profile page">
+    <div className={`min-h-screen ${isMobile ? 'p-3' : 'p-4'} pt-20`} style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Edit profile page">
       <div className="max-w-7xl mx-auto">
         <div className={`bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl ${isMobile ? 'p-5' : 'p-6'} shadow-2xl`}>
-          <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold mb-6 text-white`}>Edit Profile</h1>
+          <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold mb-6`} style={{ color: 'var(--text-primary)' }}>Edit Profile</h1>
           <p className="text-base leading-relaxed text-[#c9d1d9]">This is the EditProfilePage page. Content will be implemented here.</p>
         </div>
       </div>

@@ -256,14 +256,14 @@ function CommunityPage() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
+        <div className="backdrop-blur-xl rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
               <Shield className="w-8 h-8 text-red-500" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-3">Error Loading Community</h2>
-            <p className="text-[#666666] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Error Loading Community</h2>
+            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <Button
               onClick={loadCommunity}
               variant="primary"
@@ -280,14 +280,14 @@ function CommunityPage() {
   // Community not found state
   if (!community) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
+        <div className="backdrop-blur-xl rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
           <div className="p-8 text-center">
-            <div className="p-4 rounded-full bg-[#666666]/10 border border-[#666666]/20 inline-flex mb-6">
-              <Users className="w-8 h-8 text-[#666666]" />
+            <div className="p-4 rounded-full inline-flex mb-6" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
+              <Users className="w-8 h-8" style={{ color: 'var(--text-tertiary)' }} />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-3">Community Not Found</h2>
-            <p className="text-[#666666] mb-6">c/{communityName} doesn't exist yet.</p>
+            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Community Not Found</h2>
+            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>c/{communityName} doesn't exist yet.</p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Link to="/create-community">
                 <Button variant="primary" className="w-full sm:w-auto bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">
@@ -295,7 +295,7 @@ function CommunityPage() {
                 </Button>
               </Link>
               <Link to="/communities">
-                <Button variant="secondary" className="w-full sm:w-auto bg-[#141414]/60 border border-white/10 text-[#A0A0A0]">
+                <Button variant="secondary" className="w-full sm:w-auto" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}>
                   Browse Communities
                 </Button>
               </Link>
@@ -357,7 +357,7 @@ function CommunityPage() {
     <>
       <SkipToContent targetId="community-main-content" />
 
-      <div className="min-h-screen bg-[#0D0D0D]">
+      <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
         {/* Offline indicator */}
         {isOffline && (
           <div className="bg-yellow-900/50 border-b border-yellow-700/50 px-4 py-2 text-center">
@@ -369,21 +369,21 @@ function CommunityPage() {
         )}
 
         {/* Community Header */}
-        <div className="bg-[#141414]/60 backdrop-blur-xl border-b border-white/10">
+        <div className="backdrop-blur-xl" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-subtle)' }}>
           <div className="container mx-auto px-4 py-6 max-w-6xl">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-4">
                 {/* Community Icon */}
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl flex items-center justify-center text-white font-bold text-2xl flex-shrink-0 shadow-lg">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl flex items-center justify-center font-bold text-2xl flex-shrink-0 shadow-lg" style={{ color: 'var(--text-inverse)' }}>
                   {community?.displayName?.[0]?.toUpperCase() || 'C'}
                 </div>
 
                 {/* Community Info */}
                 <div className="flex-1">
-                  <h1 className="text-2xl md:text-3xl font-bold text-white mb-1">
+                  <h1 className="text-2xl md:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
                     c/{community?.displayName}
                   </h1>
-                  <div className="flex items-center gap-4 text-sm text-[#666666]">
+                  <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span className="flex items-center gap-1">
                       <Users className="w-4 h-4" />
                       {community?.memberCount?.toLocaleString()} members
@@ -408,9 +408,10 @@ function CommunityPage() {
                 variant={isJoined ? 'secondary' : 'primary'}
                 className={`flex items-center gap-2 ${
                   isJoined
-                    ? 'bg-[#141414]/60 border border-white/10 text-[#A0A0A0] hover:bg-[#141414]'
-                    : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]'
+                    ? 'hover:opacity-80'
+                    : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]'
                 }`}
+                style={isJoined ? { background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' } : { color: 'var(--text-inverse)' }}
                 aria-label={isJoined ? `Leave ${community?.displayName}` : `Join ${community?.displayName}`}
               >
                 {isJoined ? (
@@ -429,7 +430,7 @@ function CommunityPage() {
 
             {/* Community Description */}
             {community?.description && (
-              <p className="mt-4 text-[#A0A0A0] max-w-3xl">{community.description}</p>
+              <p className="mt-4 max-w-3xl" style={{ color: 'var(--text-secondary)' }}>{community.description}</p>
             )}
           </div>
         </div>
@@ -441,11 +442,12 @@ function CommunityPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Create Post Button/Form */}
               {isJoined && (
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+                <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                   {!showPostForm ? (
                     <button
                       onClick={handleTogglePostForm}
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-left text-[#666666] hover:text-white hover:bg-[#141414] hover:border-[#58a6ff]/30 transition-all flex items-center gap-3"
+                      className="w-full px-4 py-3 rounded-xl text-left hover:opacity-80 transition-all flex items-center gap-3"
+                      style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
                     >
                       <Plus className="w-5 h-5" />
                       Create a post
@@ -463,7 +465,8 @@ function CommunityPage() {
                           value={newPost.title}
                           onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
                           placeholder="Enter post title..."
-                          className="w-full bg-[#0D0D0D] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[#666666] focus:border-[#58a6ff]/50 focus:outline-none"
+                          className="w-full rounded-xl px-4 py-3 focus:border-[#58a6ff]/50 focus:outline-none"
+                          style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                           required
                         />
                       </AccessibleFormField>
@@ -478,7 +481,8 @@ function CommunityPage() {
                           value={newPost.content}
                           onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                           placeholder="Share your thoughts..."
-                          className="w-full bg-[#0D0D0D] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-[#666666] min-h-32 focus:border-[#58a6ff]/50 focus:outline-none"
+                          className="w-full rounded-xl px-4 py-3 min-h-32 focus:border-[#58a6ff]/50 focus:outline-none"
+                          style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                           required
                         />
                       </AccessibleFormField>
@@ -487,7 +491,7 @@ function CommunityPage() {
                         <Button type="submit" variant="primary" className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]">
                           Post
                         </Button>
-                        <Button type="button" variant="secondary" onClick={handleCancelPost} className="bg-[#141414]/60 border border-white/10 text-[#A0A0A0]">
+                        <Button type="button" variant="secondary" onClick={handleCancelPost} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}>
                           Cancel
                         </Button>
                       </div>
@@ -497,7 +501,7 @@ function CommunityPage() {
               )}
 
               {/* Sort Controls */}
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4">
+              <div className="backdrop-blur-xl rounded-2xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                 <div className="flex gap-2 overflow-x-auto pb-2">
                   {sortOptions.map((option) => {
                     const Icon = option.icon
@@ -508,9 +512,10 @@ function CommunityPage() {
                         onClick={() => handleSortChange(option.id)}
                         className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all whitespace-nowrap ${
                           isActive
-                            ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                            : 'bg-[#0D0D0D] border border-white/10 text-[#666666] hover:text-white hover:border-[#58a6ff]/30'
+                            ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7]'
+                            : 'hover:opacity-80'
                         }`}
+                        style={isActive ? { color: 'var(--text-inverse)' } : { background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
                         aria-pressed={isActive}
                       >
                         <Icon className="w-4 h-4" />
@@ -524,16 +529,17 @@ function CommunityPage() {
               {/* Posts List */}
               <div className="space-y-4">
                 {sortedPosts.length === 0 ? (
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
-                    <MessageSquare className="w-12 h-12 text-[#666666] mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-white mb-2">No posts yet</h3>
-                    <p className="text-[#666666]">Be the first to post in this community!</p>
+                  <div className="backdrop-blur-xl rounded-2xl p-12 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                    <MessageSquare className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-tertiary)' }} />
+                    <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No posts yet</h3>
+                    <p style={{ color: 'var(--text-secondary)' }}>Be the first to post in this community!</p>
                   </div>
                 ) : (
                   sortedPosts.map((post) => (
                     <article
                       key={post.id}
-                      className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all overflow-hidden group"
+                      className="backdrop-blur-xl rounded-2xl hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all overflow-hidden group"
+                      style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}
                     >
                       <div className="p-6">
                         <div className="flex gap-4">
@@ -541,23 +547,26 @@ function CommunityPage() {
                           <div className="flex flex-col items-center gap-1">
                             <button
                               onClick={() => handleVote(post.id, 'up')}
-                              className={`p-1 rounded hover:bg-[#141414] transition-colors ${
-                                userVotes[post.id] === 'up' ? 'text-[#58a6ff]' : 'text-[#666666]'
+                              className={`p-1 rounded transition-colors ${
+                                userVotes[post.id] === 'up' ? 'text-[#58a6ff]' : ''
                               }`}
+                              style={userVotes[post.id] !== 'up' ? { color: 'var(--text-tertiary)' } : {}}
                               aria-label={`Upvote post: ${post.title}`}
                             >
                               <ChevronUp className="w-6 h-6" />
                             </button>
                             <span className={`text-sm font-bold ${
-                              post.score > 0 ? 'text-[#58a6ff]' : post.score < 0 ? 'text-[#a371f7]' : 'text-[#666666]'
-                            }`}>
+                              post.score > 0 ? 'text-[#58a6ff]' : post.score < 0 ? 'text-[#a371f7]' : ''
+                            }`}
+                            style={post.score === 0 ? { color: 'var(--text-tertiary)' } : {}}>
                               {post.score}
                             </span>
                             <button
                               onClick={() => handleVote(post.id, 'down')}
-                              className={`p-1 rounded hover:bg-[#141414] transition-colors ${
-                                userVotes[post.id] === 'down' ? 'text-[#a371f7]' : 'text-[#666666]'
+                              className={`p-1 rounded transition-colors ${
+                                userVotes[post.id] === 'down' ? 'text-[#a371f7]' : ''
                               }`}
+                              style={userVotes[post.id] !== 'down' ? { color: 'var(--text-tertiary)' } : {}}
                               aria-label={`Downvote post: ${post.title}`}
                             >
                               <ChevronDown className="w-6 h-6" />
@@ -577,11 +586,11 @@ function CommunityPage() {
                                   to={`/posts/${post.id}`}
                                   className="block group"
                                 >
-                                  <h3 className="text-xl font-semibold text-white group-hover:text-[#58a6ff] transition-colors mb-2">
+                                  <h3 className="text-xl font-semibold group-hover:text-[#58a6ff] transition-colors mb-2" style={{ color: 'var(--text-primary)' }}>
                                     {post.title}
                                   </h3>
                                 </Link>
-                                <div className="flex items-center gap-2 text-sm text-[#666666] mb-3">
+                                <div className="flex items-center gap-2 text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
                                   <span>Posted by u/{post.author}</span>
                                   <span>•</span>
                                   <span>{formatTimeAgo(post.created)}</span>
@@ -590,23 +599,24 @@ function CommunityPage() {
                             </div>
 
                             {post.content && (
-                              <p className="text-[#A0A0A0] mb-4 line-clamp-3">{post.content}</p>
+                              <p className="mb-4 line-clamp-3" style={{ color: 'var(--text-secondary)' }}>{post.content}</p>
                             )}
 
                             {/* Post Actions */}
                             <div className="flex items-center gap-4 text-sm">
                               <Link
                                 to={`/posts/${post.id}`}
-                                className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors"
+                                className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors"
+                                style={{ color: 'var(--text-secondary)' }}
                               >
                                 <MessageSquare className="w-4 h-4" />
                                 <span>{post.comments} comments</span>
                               </Link>
-                              <button className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors">
+                              <button className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors" style={{ color: 'var(--text-secondary)' }}>
                                 <Share2 className="w-4 h-4" />
                                 <span>Share</span>
                               </button>
-                              <button className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors">
+                              <button className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors" style={{ color: 'var(--text-secondary)' }}>
                                 <Bookmark className="w-4 h-4" />
                                 <span>Save</span>
                               </button>
@@ -623,28 +633,28 @@ function CommunityPage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* About Community */}
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                <h2 className="text-lg font-bold text-white mb-4">About Community</h2>
+              <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>About Community</h2>
                 <div className="space-y-4">
                   {communityStats.map((stat, index) => {
                     const Icon = stat.icon
                     return (
                       <div key={index} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2 text-[#666666]">
+                        <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                           <Icon className="w-4 h-4" />
                           <span>{stat.label}</span>
                         </div>
-                        <span className="text-white font-semibold">{stat.value}</span>
+                        <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{stat.value}</span>
                       </div>
                     )
                   })}
                   {community?.createdAt && (
-                    <div className="flex items-center justify-between pt-3 border-t border-white/10">
-                      <div className="flex items-center gap-2 text-[#666666]">
+                    <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--border-subtle)' }}>
+                      <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                         <Calendar className="w-4 h-4" />
                         <span>Created</span>
                       </div>
-                      <span className="text-white font-semibold">
+                      <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
                         {new Date(community.createdAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -654,15 +664,15 @@ function CommunityPage() {
 
               {/* Community Rules */}
               {displayRules.length > 0 && (
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                  <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                  <h2 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                     <Shield className="w-5 h-5 text-[#58a6ff]" />
                     Rules
                   </h2>
                   <ol className="space-y-3">
                     {displayRules.map((rule, index) => (
-                      <li key={index} className="text-sm text-[#A0A0A0] flex gap-3">
-                        <span className="text-[#666666] font-semibold">{index + 1}.</span>
+                      <li key={index} className="text-sm flex gap-3" style={{ color: 'var(--text-secondary)' }}>
+                        <span className="font-semibold" style={{ color: 'var(--text-tertiary)' }}>{index + 1}.</span>
                         <span>{rule}</span>
                       </li>
                     ))}
@@ -672,16 +682,17 @@ function CommunityPage() {
 
               {/* Moderators */}
               {displayModerators.length > 0 && (
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                  <h2 className="text-lg font-bold text-white mb-4">Moderators</h2>
+                <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                  <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Moderators</h2>
                   <div className="space-y-2">
                     {displayModerators.map((mod, index) => (
                       <Link
                         key={index}
                         to={`/user/${mod}`}
-                        className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors"
+                        className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors"
+                        style={{ color: 'var(--text-secondary)' }}
                       >
-                        <div className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
+                        <div className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-xs font-bold shadow-lg" style={{ color: 'var(--text-inverse)' }}>
                           {mod[0].toUpperCase()}
                         </div>
                         <span>u/{mod}</span>

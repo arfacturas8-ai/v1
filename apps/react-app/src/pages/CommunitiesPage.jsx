@@ -128,27 +128,28 @@ function CommunitiesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)', color: 'var(--text-secondary)' }}>
       <div className="max-w-7xl mx-auto p-4 sm:p-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
             Discover Communities
           </h1>
-          <p className="text-[#666666] text-base">Explore and join communities that match your interests</p>
+          <p style={{ color: 'var(--text-secondary)' }} className="text-base">Explore and join communities that match your interests</p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="backdrop-blur-xl rounded-2xl p-4 sm:p-5 mb-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1 relative">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-tertiary)' }} />
               <input
                 type="text"
                 placeholder="Search communities..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
+                className="w-full pl-12 pr-4 py-3 rounded-xl text-base outline-none focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
+                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-primary)' }}
               />
             </div>
 
@@ -156,7 +157,8 @@ function CommunitiesPage() {
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 rounded-xl text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-primary)' }}
               >
                 {categories.map(cat => (
                   <option key={cat} value={cat}>
@@ -164,21 +166,22 @@ function CommunitiesPage() {
                   </option>
                 ))}
               </select>
-              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none" />
+              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--text-tertiary)' }} />
             </div>
 
             <div className="relative min-w-full sm:min-w-[160px]">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 rounded-xl text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-primary)' }}
               >
                 <option value="members">Most Members</option>
                 <option value="trending">Trending</option>
                 <option value="newest">Newest</option>
                 <option value="name">Name</option>
               </select>
-              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none" />
+              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--text-tertiary)' }} />
             </div>
           </div>
         </div>
@@ -195,9 +198,10 @@ function CommunitiesPage() {
                   onClick={() => setSelectedTab(tab.id)}
                   className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
                     isActive
-                      ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                      : 'bg-[#141414]/60 border border-white/10 text-[#666666] hover:bg-white/5 hover:text-white'
+                      ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] shadow-lg'
+                      : 'hover:bg-opacity-80'
                   }`}
+                  style={isActive ? { color: 'var(--text-inverse)' } : { background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
                 >
                   <Icon size={16} />
                   {tab.label}
@@ -209,7 +213,8 @@ function CommunitiesPage() {
           {user && (
             <button
               onClick={() => navigate('/communities/create')}
-              className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white text-sm font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+              className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-sm font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+              style={{ color: 'var(--text-inverse)' }}
             >
               <Plus size={18} />
               Create
@@ -226,16 +231,17 @@ function CommunitiesPage() {
 
         {/* Communities Grid */}
         {filteredCommunities.length === 0 ? (
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 sm:p-16 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <Hash size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
-            <h3 className="text-xl font-semibold text-white mb-2">No communities found</h3>
-            <p className="text-[#666666] mb-6">
+          <div className="backdrop-blur-xl rounded-2xl p-12 sm:p-16 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+            <Hash size={56} className="mx-auto mb-4 opacity-50" style={{ color: 'var(--text-tertiary)' }} />
+            <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No communities found</h3>
+            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
               {searchTerm ? 'Try a different search term' : 'Be the first to create a community!'}
             </p>
             {user && (
               <button
                 onClick={() => navigate('/communities/create')}
-                className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+                className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+                style={{ color: 'var(--text-inverse)' }}
               >
                 Create Community
               </button>
@@ -247,22 +253,24 @@ function CommunitiesPage() {
               <div
                 key={community.id || community.name}
                 onClick={() => navigate(`/community/${community.name || community.id}`)}
-                className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] group"
+                className="backdrop-blur-xl rounded-2xl p-5 cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] group"
+                style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}
               >
                 <div className="flex items-start gap-4 mb-4">
                   {community.icon ? (
                     <img
                       src={community.icon}
                       alt=""
-                      className="w-14 h-14 rounded-xl object-cover border border-white/10"
+                      className="w-14 h-14 rounded-xl object-cover"
+                      style={{ border: '1px solid var(--border-subtle)' }}
                     />
                   ) : (
-                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-xl font-bold shadow-lg" style={{ color: 'var(--text-inverse)' }}>
                       {getInitials(community.displayName || community.name)}
                     </div>
                   )}
                   <div className="flex-1 min-w-0">
-                    <div className="text-lg font-bold text-white mb-1 truncate group-hover:text-[#58a6ff] transition-colors">
+                    <div className="text-lg font-bold mb-1 truncate group-hover:text-[#58a6ff] transition-colors" style={{ color: 'var(--text-primary)' }}>
                       {community.displayName || community.name}
                     </div>
                     <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#58a6ff]/15 rounded-lg text-xs text-[#58a6ff] font-medium">
@@ -286,11 +294,11 @@ function CommunitiesPage() {
                   </div>
                 </div>
 
-                <p className="text-[#666666] text-sm leading-relaxed mb-4 line-clamp-2">
+                <p className="text-sm leading-relaxed mb-4 line-clamp-2" style={{ color: 'var(--text-secondary)' }}>
                   {community.description || 'No description available'}
                 </p>
 
-                <div className="flex gap-4 mb-4 text-[#666666] text-sm">
+                <div className="flex gap-4 mb-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                   <div className="flex items-center gap-1.5">
                     <Users size={14} />
                     {formatNumber(community.members || community.memberCount || 0)} members
@@ -312,9 +320,10 @@ function CommunitiesPage() {
                   }}
                   className={`w-full py-3 rounded-xl text-sm font-semibold transition-all ${
                     community.isJoined
-                      ? 'bg-white/10 border border-white/20 text-[#A0A0A0] hover:bg-white/15'
-                      : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_0_20px_rgba(88,166,255,0.4)]'
+                      ? 'hover:opacity-80'
+                      : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_0_20px_rgba(88,166,255,0.4)]'
                   }`}
+                  style={community.isJoined ? { background: 'var(--bg-hover)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' } : { color: 'var(--text-inverse)' }}
                 >
                   {community.isJoined ? 'Joined' : 'Join Community'}
                 </button>

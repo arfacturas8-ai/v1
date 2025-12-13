@@ -151,7 +151,8 @@ function CreatePostPage() {
     <div
       role="main"
       aria-label="Create post page"
-      className="min-h-screen bg-[#0D0D0D] py-8 px-4"
+      className="min-h-screen py-8 px-4"
+      style={{ background: 'var(--bg-primary)' }}
     >
       <div className="max-w-4xl mx-auto">
         <motion.div
@@ -161,20 +162,20 @@ function CreatePostPage() {
         >
           {/* Header */}
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-white mb-2">
+            <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
               Create a Post
             </h1>
-            <p className="text-[#666666]">
+            <p style={{ color: 'var(--text-secondary)' }}>
               Share your thoughts, links, or images with the community
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Community Selector */}
-            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
+            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
               <CardHeader>
-                <CardTitle className="text-lg text-white">Choose a Community</CardTitle>
-                <CardDescription className="text-[#666666]">
+                <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Choose a Community</CardTitle>
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
                   Select the community where you want to post
                 </CardDescription>
               </CardHeader>
@@ -184,18 +185,21 @@ function CreatePostPage() {
                   value={formData.community}
                   onChange={handleInputChange}
                   className={cn(
-                    "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
-                    "text-white border-white/10",
-                    "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
-                    "transition-all duration-200",
+                    "w-full px-4 py-3 rounded-xl border",
+                    "focus:outline-none transition-all duration-200",
                     errors.community && "border-red-500"
                   )}
+                  style={{
+                    background: 'var(--bg-tertiary)',
+                    color: 'var(--text-primary)',
+                    borderColor: errors.community ? '#ef4444' : 'var(--border-primary)'
+                  }}
                   aria-label="Select community"
                   aria-invalid={!!errors.community}
                 >
-                  <option value="" className="bg-[#0D0D0D]">Select a community...</option>
+                  <option value="">Select a community...</option>
                   {communities.map((community) => (
-                    <option key={community.id} value={community.name} className="bg-[#0D0D0D]">
+                    <option key={community.id} value={community.name}>
                       c/{community.displayName || community.name}
                     </option>
                   ))}
@@ -210,10 +214,10 @@ function CreatePostPage() {
             </Card>
 
             {/* Post Type Selection */}
-            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
+            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
               <CardHeader>
-                <CardTitle className="text-lg text-white">Post Type</CardTitle>
-                <CardDescription className="text-[#666666]">
+                <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Post Type</CardTitle>
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
                   Choose the type of content you want to share
                 </CardDescription>
               </CardHeader>
@@ -229,25 +233,20 @@ function CreatePostPage() {
                         onClick={() => setFormData(prev => ({ ...prev, type: type.id }))}
                         className={cn(
                           "p-4 rounded-xl border-2 transition-all duration-200",
-                          "flex flex-col items-center gap-2 text-center",
-                          "hover:border-[#58a6ff]/30",
-                          isSelected
-                            ? "border-[#58a6ff] bg-gradient-to-r from-[#58a6ff]/20 to-[#a371f7]/20 shadow-[0_0_0_3px_rgba(88,166,255,0.1)]"
-                            : "border-white/10 bg-[#0D0D0D] hover:bg-[#141414]/40"
+                          "flex flex-col items-center gap-2 text-center"
                         )}
+                        style={{
+                          borderColor: isSelected ? 'var(--color-primary)' : 'var(--border-primary)',
+                          background: isSelected ? 'rgba(88, 166, 255, 0.1)' : 'var(--bg-tertiary)',
+                          boxShadow: isSelected ? '0 0 0 3px rgba(88, 166, 255, 0.1)' : 'none'
+                        }}
                         aria-pressed={isSelected}
                       >
-                        <Icon className={cn(
-                          "w-6 h-6",
-                          isSelected ? "text-[#58a6ff]" : "text-[#666666]"
-                        )} />
-                        <span className={cn(
-                          "font-medium",
-                          isSelected ? "text-[#58a6ff]" : "text-white"
-                        )}>
+                        <Icon className="w-6 h-6" style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)' }} />
+                        <span className="font-medium" style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-primary)' }}>
                           {type.label}
                         </span>
-                        <span className="text-xs text-[#666666]">
+                        <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                           {type.description}
                         </span>
                       </button>
@@ -258,10 +257,10 @@ function CreatePostPage() {
             </Card>
 
             {/* Title Input */}
-            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
+            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
               <CardHeader>
-                <CardTitle className="text-lg text-white">Title</CardTitle>
-                <CardDescription className="text-[#666666]">
+                <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Title</CardTitle>
+                <CardDescription style={{ color: 'var(--text-secondary)' }}>
                   Create an engaging title for your post (max 300 characters)
                 </CardDescription>
               </CardHeader>
@@ -274,12 +273,15 @@ function CreatePostPage() {
                   placeholder="Enter your post title..."
                   maxLength={300}
                   className={cn(
-                    "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
-                    "text-white placeholder:text-[#666666] border-white/10",
-                    "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
-                    "transition-all duration-200",
+                    "w-full px-4 py-3 rounded-xl border",
+                    "focus:outline-none transition-all duration-200",
                     errors.title && "border-red-500"
                   )}
+                  style={{
+                    background: 'var(--bg-tertiary)',
+                    color: 'var(--text-primary)',
+                    borderColor: errors.title ? '#ef4444' : 'var(--border-primary)'
+                  }}
                   aria-label="Post title"
                   aria-invalid={!!errors.title}
                 />
@@ -290,7 +292,7 @@ function CreatePostPage() {
                       <span>{errors.title}</span>
                     </div>
                   ) : (
-                    <div className="text-sm text-[#666666]">
+                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                       {formData.title.length}/300 characters
                     </div>
                   )}
@@ -300,10 +302,10 @@ function CreatePostPage() {
 
             {/* Content Based on Post Type */}
             {formData.type === 'text' && (
-              <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
+              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardHeader>
-                  <CardTitle className="text-lg text-white">Content</CardTitle>
-                  <CardDescription className="text-[#666666]">
+                  <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Content</CardTitle>
+                  <CardDescription style={{ color: 'var(--text-secondary)' }}>
                     Write your post content with rich text formatting
                   </CardDescription>
                 </CardHeader>
@@ -318,9 +320,14 @@ function CreatePostPage() {
                     }}
                     placeholder="Share your thoughts..."
                     className={cn(
-                      "bg-[#0D0D0D] border-white/10 text-white rounded-xl",
+                      "rounded-xl",
                       errors.content && "border-red-500"
                     )}
+                    style={{
+                      background: 'var(--bg-tertiary)',
+                      borderColor: errors.content ? '#ef4444' : 'var(--border-primary)',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                   {errors.content && (
                     <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
@@ -333,10 +340,10 @@ function CreatePostPage() {
             )}
 
             {formData.type === 'link' && (
-              <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
+              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardHeader>
-                  <CardTitle className="text-lg text-white">Link URL</CardTitle>
-                  <CardDescription className="text-[#666666]">
+                  <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Link URL</CardTitle>
+                  <CardDescription style={{ color: 'var(--text-secondary)' }}>
                     Enter the URL you want to share
                   </CardDescription>
                 </CardHeader>
@@ -348,12 +355,15 @@ function CreatePostPage() {
                     onChange={handleInputChange}
                     placeholder="https://example.com"
                     className={cn(
-                      "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
-                      "text-white placeholder:text-[#666666] border-white/10",
-                      "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
-                      "transition-all duration-200",
+                      "w-full px-4 py-3 rounded-xl border",
+                      "focus:outline-none transition-all duration-200",
                       errors.url && "border-red-500"
                     )}
+                    style={{
+                      background: 'var(--bg-tertiary)',
+                      color: 'var(--text-primary)',
+                      borderColor: errors.url ? '#ef4444' : 'var(--border-primary)'
+                    }}
                     aria-label="Link URL"
                     aria-invalid={!!errors.url}
                   />
@@ -366,7 +376,7 @@ function CreatePostPage() {
 
                   {/* Optional description for link posts */}
                   <div className="mt-4">
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                       Description (optional)
                     </label>
                     <textarea
@@ -375,12 +385,12 @@ function CreatePostPage() {
                       onChange={handleInputChange}
                       placeholder="Add a description or your thoughts about this link..."
                       rows={4}
-                      className={cn(
-                        "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
-                        "text-white placeholder:text-[#666666] border-white/10",
-                        "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
-                        "transition-all duration-200 resize-y"
-                      )}
+                      className="w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-200 resize-y"
+                      style={{
+                        background: 'var(--bg-tertiary)',
+                        color: 'var(--text-primary)',
+                        borderColor: 'var(--border-primary)'
+                      }}
                     />
                   </div>
                 </CardContent>
@@ -388,10 +398,10 @@ function CreatePostPage() {
             )}
 
             {formData.type === 'image' && (
-              <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
+              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardHeader>
-                  <CardTitle className="text-lg text-white">Image Upload</CardTitle>
-                  <CardDescription className="text-[#666666]">
+                  <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Image Upload</CardTitle>
+                  <CardDescription style={{ color: 'var(--text-secondary)' }}>
                     Upload an image to share with the community
                   </CardDescription>
                 </CardHeader>
@@ -401,12 +411,15 @@ function CreatePostPage() {
                       className={cn(
                         "border-2 border-dashed rounded-xl p-8",
                         "flex flex-col items-center justify-center",
-                        "transition-all duration-200",
-                        errors.image ? "border-red-500 bg-red-500/5" : "border-white/10",
-                        "hover:border-[#58a6ff]/50 hover:bg-[#58a6ff]/5 cursor-pointer bg-[#0D0D0D]"
+                        "transition-all duration-200 cursor-pointer",
+                        errors.image && "border-red-500 bg-red-500/5"
                       )}
+                      style={{
+                        borderColor: errors.image ? '#ef4444' : 'var(--border-primary)',
+                        background: errors.image ? 'rgba(239, 68, 68, 0.05)' : 'var(--bg-tertiary)'
+                      }}
                     >
-                      <ImageIcon className="w-12 h-12 text-[#666666] mb-4" />
+                      <ImageIcon className="w-12 h-12 mb-4" style={{ color: 'var(--text-secondary)' }} />
                       <label className="cursor-pointer">
                         <input
                           type="file"
@@ -416,20 +429,20 @@ function CreatePostPage() {
                           className="hidden"
                           aria-label="Upload image"
                         />
-                        <span className="text-[#58a6ff] hover:text-[#a371f7] font-medium transition-colors">
+                        <span className="font-medium transition-colors" style={{ color: 'var(--color-primary)' }}>
                           Choose an image
                         </span>
                       </label>
-                      <p className="text-sm text-[#666666] mt-2">
+                      <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>
                         or drag and drop
                       </p>
-                      <p className="text-xs text-[#666666]/70 mt-1">
+                      <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)', opacity: 0.7 }}>
                         PNG, JPG, GIF up to 10MB
                       </p>
                     </div>
 
                     {formData.image && (
-                      <div className="relative bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl p-4">
+                      <div className="relative rounded-xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                         <img
                           src={URL.createObjectURL(formData.image)}
                           alt="Preview"
@@ -443,7 +456,7 @@ function CreatePostPage() {
                         >
                           ×
                         </button>
-                        <div className="mt-3 text-sm text-[#A0A0A0] flex items-center gap-2">
+                        <div className="mt-3 text-sm flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                           <CheckCircle className="w-4 h-4 text-green-500" />
                           {formData.image.name}
                         </div>
@@ -459,7 +472,7 @@ function CreatePostPage() {
 
                     {/* Optional caption for images */}
                     <div>
-                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                         Caption (optional)
                       </label>
                       <textarea
@@ -468,12 +481,12 @@ function CreatePostPage() {
                         onChange={handleInputChange}
                         placeholder="Add a caption or description for your image..."
                         rows={3}
-                        className={cn(
-                          "w-full px-4 py-3 rounded-xl border bg-[#0D0D0D]",
-                          "text-white placeholder:text-[#666666] border-white/10",
-                          "focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] focus:outline-none",
-                          "transition-all duration-200 resize-y"
-                        )}
+                        className="w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-200 resize-y"
+                        style={{
+                          background: 'var(--bg-tertiary)',
+                          color: 'var(--text-primary)',
+                          borderColor: 'var(--border-primary)'
+                        }}
                       />
                     </div>
                   </div>
@@ -483,7 +496,7 @@ function CreatePostPage() {
 
             {/* Submit Error */}
             {errors.submit && (
-              <Card className="border-red-500/50 bg-red-500/10 backdrop-blur-xl">
+              <Card className="rounded-2xl" style={{ border: '1px solid rgba(239, 68, 68, 0.5)', background: 'rgba(239, 68, 68, 0.1)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-2 text-red-500">
                     <AlertCircle className="w-5 h-5" />
@@ -494,7 +507,7 @@ function CreatePostPage() {
             )}
 
             {/* Action Buttons */}
-            <Card className="bg-[#141414]/60 backdrop-blur-xl border-white/10">
+            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
               <CardContent className="pt-6">
                 <div className="flex items-center gap-4">
                   <Button
@@ -528,23 +541,26 @@ function CreatePostPage() {
                     variant="outline"
                     className={cn(
                       "px-6 py-3 rounded-xl font-medium",
-                      "border border-white/10 text-[#A0A0A0] bg-[#0D0D0D]",
-                      "hover:bg-[#141414]/60 hover:border-white/20",
-                      "transition-all duration-200",
+                      "border transition-all duration-200",
                       "disabled:opacity-50 disabled:cursor-not-allowed"
                     )}
+                    style={{
+                      borderColor: 'var(--border-primary)',
+                      color: 'var(--text-secondary)',
+                      background: 'var(--bg-tertiary)'
+                    }}
                   >
                     Cancel
                   </Button>
                 </div>
 
                 {/* Tips */}
-                <div className="mt-6 p-4 bg-[#58a6ff]/10 rounded-xl border border-[#58a6ff]/30">
-                  <h4 className="font-medium text-[#58a6ff] mb-2 flex items-center gap-2">
+                <div className="mt-6 p-4 rounded-xl" style={{ background: 'rgba(88, 166, 255, 0.1)', border: '1px solid rgba(88, 166, 255, 0.3)' }}>
+                  <h4 className="font-medium mb-2 flex items-center gap-2" style={{ color: 'var(--color-primary)' }}>
                     <AlertCircle className="w-4 h-4" />
                     Posting Tips
                   </h4>
-                  <ul className="text-sm text-[#A0A0A0] space-y-1 ml-6 list-disc">
+                  <ul className="text-sm space-y-1 ml-6 list-disc" style={{ color: 'var(--text-secondary)' }}>
                     <li>Choose a clear and descriptive title</li>
                     <li>Select the most relevant community for your content</li>
                     <li>Follow community guidelines and be respectful</li>

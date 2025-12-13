@@ -19,11 +19,11 @@ export default function ModerationQueuePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117]" role="main" aria-label="Moderation queue page">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Moderation queue page">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" style={{ color: 'var(--text-primary)' }}>
             Moderation Queue
           </h1>
           <p className="text-[#8b949e] text-base sm:text-lg">

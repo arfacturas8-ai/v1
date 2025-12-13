@@ -370,13 +370,13 @@ function ProfilePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
         <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
               <X className="w-8 h-8 text-red-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-3">Error Loading Profile</h2>
+            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Error Loading Profile</h2>
             <p className="text-[#666666] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <div className="flex gap-3 justify-center">
               <Button variant="primary" onClick={loadProfileData} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Try Again</Button>
@@ -410,7 +410,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D]" role="main" aria-label="Profile page">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Profile page">
       <SkipToContent />
 
       {/* Header Section with Banner */}
@@ -425,7 +425,7 @@ function ProfilePage() {
             backgroundPosition: 'center'
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0D0D0D] to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t to-transparent" style={{ backgroundImage: 'linear-gradient(to top, var(--bg-primary), transparent)' }}></div>
         </div>
 
         {/* Profile Content */}
@@ -435,7 +435,7 @@ function ProfilePage() {
               <div className="flex flex-col md:flex-row gap-6 items-start">
                 {/* Avatar */}
                 <div className="relative group">
-                  <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 border-[#0D0D0D] shadow-xl">
+                  <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 shadow-xl" style={{ borderColor: 'var(--bg-primary)' }}>
                     {user.avatar ? (
                       <img
                         src={user.avatar}
@@ -450,7 +450,7 @@ function ProfilePage() {
                     )}
                   </div>
                   {user.isVerified && (
-                    <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 border-[#0D0D0D] shadow-lg">
+                    <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 shadow-lg" style={{ borderColor: 'var(--bg-primary)' }}>
                       <CheckCircle className="w-5 h-5 text-white" />
                     </div>
                   )}
@@ -460,7 +460,7 @@ function ProfilePage() {
                 <div className="flex-1">
                   <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                     <div>
-                      <h1 className="text-3xl font-bold text-white mb-1 flex items-center gap-2">
+                      <h1 className="text-3xl font-bold mb-1 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                         {user.displayName || user.username}
                         {displayedBadges.map((badge, idx) => {
                           const BadgeIcon = getBadgeIcon(badge.icon)

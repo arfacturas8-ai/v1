@@ -228,7 +228,7 @@ export default function AuditLogPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0d1117] text-white flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
         <div className="text-center">
           <Loader2 className="w-12 h-12  text-[#58a6ff] mx-auto mb-4" />
           <p className="text-[#8b949e]">Loading audit logs...</p>
@@ -238,7 +238,7 @@ export default function AuditLogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-white p-4 sm:p-6" role="main" aria-label="Audit log">
+    <div className="min-h-screen p-4 sm:p-6" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }} role="main" aria-label="Audit log">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-6 sm:mb-8">

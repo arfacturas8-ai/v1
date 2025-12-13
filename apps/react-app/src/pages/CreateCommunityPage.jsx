@@ -210,13 +210,14 @@ function CreateCommunityPage() {
     <div
       role="main"
       aria-label="Create community page"
-      className="min-h-screen bg-[#0d1117] py-6 px-4 sm:py-10 sm:px-5"
+      className="min-h-screen py-6 px-4 sm:py-10 sm:px-5"
+      style={{ background: 'var(--bg-primary)' }}
     >
-      <div className="max-w-3xl mx-auto bg-[#161b22]/60 backdrop-blur-xl rounded-2xl p-6 sm:p-10 border border-white/10 shadow-2xl">
+      <div className="max-w-3xl mx-auto backdrop-blur-xl rounded-2xl p-6 sm:p-10 shadow-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
         <h1 className="text-2xl sm:text-3xl mb-2.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent font-bold">
           Create Community
         </h1>
-        <p className="text-[#8b949e] mb-6 sm:mb-8">Build your own community on CRYB</p>
+        <p className="mb-6 sm:mb-8" style={{ color: 'var(--text-secondary)' }}>Build your own community on CRYB</p>
 
         {success && (
           <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-5 flex items-center gap-2.5">
@@ -235,7 +236,7 @@ function CreateCommunityPage() {
         <form onSubmit={handleSubmit}>
           {/* Community Name */}
           <div className="mb-5">
-            <label className="block font-semibold mb-2 text-white">
+            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
               Community Name *
             </label>
             <input
@@ -243,16 +244,17 @@ function CreateCommunityPage() {
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
               placeholder="mycommunity"
-              className={`w-full p-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base bg-[#21262d]/60 text-white outline-none transition-colors ${
-                errors.name ? 'border-2 border-red-500' : 'border border-white/10'
+              className={`w-full p-3 rounded-2xl text-base outline-none transition-colors ${
+                errors.name ? 'border-2 border-red-500' : ''
               }`}
+              style={!errors.name ? { background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' } : { background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
             />
             {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
           </div>
 
           {/* Display Name */}
           <div className="mb-5">
-            <label className="block font-semibold mb-2 text-white">
+            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
               Display Name *
             </label>
             <input
@@ -260,16 +262,17 @@ function CreateCommunityPage() {
               value={formData.displayName}
               onChange={(e) => handleInputChange('displayName', e.target.value)}
               placeholder="My Awesome Community"
-              className={`w-full p-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base bg-[#21262d]/60 text-white outline-none transition-colors ${
-                errors.displayName ? 'border-2 border-red-500' : 'border border-white/10'
+              className={`w-full p-3 rounded-2xl text-base outline-none transition-colors ${
+                errors.displayName ? 'border-2 border-red-500' : ''
               }`}
+              style={!errors.displayName ? { background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' } : { background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
             />
             {errors.displayName && <p className="text-red-500 text-sm mt-1">{errors.displayName}</p>}
           </div>
 
           {/* Description */}
           <div className="mb-5">
-            <label className="block font-semibold mb-2 text-white">
+            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
               Description *
             </label>
             <textarea
@@ -277,22 +280,24 @@ function CreateCommunityPage() {
               onChange={(e) => handleInputChange('description', e.target.value)}
               placeholder="Describe what your community is about..."
               rows={4}
-              className={`w-full p-3 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base resize-y bg-[#21262d]/60 text-white outline-none transition-colors ${
-                errors.description ? 'border-2 border-red-500' : 'border border-white/10'
+              className={`w-full p-3 rounded-2xl text-base resize-y outline-none transition-colors ${
+                errors.description ? 'border-2 border-red-500' : ''
               }`}
+              style={!errors.description ? { background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' } : { background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
             />
             {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
           </div>
 
           {/* Category */}
           <div className="mb-5">
-            <label className="block font-semibold mb-2 text-white">
+            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
               Category
             </label>
             <select
               value={formData.category}
               onChange={(e) => handleInputChange('category', e.target.value)}
-              className="w-full p-3 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base bg-[#21262d]/60 text-white outline-none"
+              className="w-full p-3 rounded-2xl text-base outline-none"
+              style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' }}
             >
               <option value="general">General</option>
               <option value="gaming">Gaming</option>
@@ -315,9 +320,9 @@ function CreateCommunityPage() {
                 onChange={(e) => handleInputChange('isPrivate', e.target.checked)}
                 className="w-[18px] h-[18px] cursor-pointer accent-[#58a6ff]"
               />
-              <span className="font-semibold text-white">Private Community</span>
+              <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>Private Community</span>
             </label>
-            <p className="text-[#8b949e] text-sm mt-1 ml-7">
+            <p className="text-sm mt-1 ml-7" style={{ color: 'var(--text-secondary)' }}>
               Only approved members can view and post
             </p>
           </div>
@@ -326,11 +331,12 @@ function CreateCommunityPage() {
           <button
             type="submit"
             disabled={creating || success}
-            className={`w-full p-3.5 border-none rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base font-semibold flex items-center justify-center gap-2.5 transition-opacity ${
+            className={`w-full p-3.5 border-none rounded-2xl text-base font-semibold flex items-center justify-center gap-2.5 transition-opacity ${
               creating || success
-                ? 'bg-[#161b22]/60 backdrop-blur-xl cursor-not-allowed text-white'
-                : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer text-white'
+                ? 'cursor-not-allowed'
+                : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer'
             }`}
+            style={creating || success ? { background: 'var(--bg-secondary)', backdropFilter: 'blur(10px)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-md)' } : { color: 'var(--text-inverse)', boxShadow: 'var(--shadow-md)' }}
           >
             {success ? 'Created!' : 'Create Community'}
           </button>

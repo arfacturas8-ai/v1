@@ -141,7 +141,7 @@ export default function ModerationPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center" role="main" aria-label="Moderation page">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Moderation page">
         <div className="text-center">
           <div className=" rounded-full h-12 w-12 border-t-2 border-b-2 border-[#58a6ff] mx-auto mb-4"></div>
           <p className="text-[#666666]">Loading moderation dashboard...</p>
@@ -152,7 +152,7 @@ export default function ModerationPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D]" role="main" aria-label="Moderation page">
+      <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Moderation page">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
           <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
             <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -174,11 +174,11 @@ export default function ModerationPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D]" role="main" aria-label="Moderation page">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Moderation page">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" style={{ color: 'var(--text-primary)' }}>
             Moderation Dashboard
           </h1>
           <p className="text-[#666666] text-lg">

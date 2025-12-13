@@ -19,11 +19,11 @@ export default function ReportsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117]" role="main" aria-label="Reports page">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Reports page">
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" style={{ color: 'var(--text-primary)' }}>
             Reports Dashboard
           </h1>
           <p className="text-[#8b949e] text-lg">

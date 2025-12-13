@@ -582,7 +582,7 @@ function SettingsPage() {
 
   if (dataLoading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full  mx-auto mb-4"></div>
           <p className="text-[#A0A0A0] text-lg">Loading settings...</p>
@@ -592,7 +592,7 @@ function SettingsPage() {
   }
 
   return (
-    <div role="main" aria-label="Settings page" className="min-h-screen bg-[#0D0D0D]">
+    <div role="main" aria-label="Settings page" className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
       {/* Global Message */}
       {message && (
         <div className={`safe-area-top fixed top-0 left-0 right-0 z-50 px-4 py-3 text-center font-medium ${
@@ -606,8 +606,8 @@ function SettingsPage() {
 
       <div className="flex min-h-screen">
         {/* Left Sidebar Navigation */}
-        <aside className="safe-area-top w-64 border-r border-white/10 bg-[#0D0D0D] fixed left-0 top-0 bottom-0 overflow-y-auto lg:block hidden">
-          <h1 className="text-2xl font-bold text-white px-6 py-8">Settings</h1>
+        <aside className="safe-area-top w-64 border-r border-white/10 fixed left-0 top-0 bottom-0 overflow-y-auto lg:block hidden" style={{ background: 'var(--bg-primary)' }}>
+          <h1 className="text-2xl font-bold px-6 py-8" style={{ color: 'var(--text-primary)' }}>Settings</h1>
           <nav className="flex flex-col gap-1 px-3">
             {tabs.map(tab => (
               <button
@@ -629,7 +629,7 @@ function SettingsPage() {
         </aside>
 
         {/* Mobile Bottom Navigation */}
-        <aside className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 bg-[#0D0D0D] border-t border-white/10 lg:hidden">
+        <aside className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 lg:hidden" style={{ background: 'var(--bg-primary)' }}>
           <nav className="flex overflow-x-auto gap-2 px-3 py-3 hide-scrollbar">
             {tabs.map(tab => (
               <button
@@ -657,7 +657,7 @@ function SettingsPage() {
             {activeTab === 'profile' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Profile Settings</h2>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Profile Settings</h2>
                   <p className="text-[#666666]">Customize your public profile and personal information</p>
                 </div>
 
