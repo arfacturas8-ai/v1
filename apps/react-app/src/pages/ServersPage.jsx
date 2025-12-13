@@ -109,7 +109,7 @@ function ServersPage() {
 
   const ServerCard = ({ server, isMember = false }) => (
     <div
-      className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 hover:border-[#58a6ff]/30 transition-all"
+      className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-5 md:p-6 hover:border-primary/30 transition-all"
     >
       <div className="flex items-start gap-3 md:gap-4">
         {/* Server Icon */}
@@ -282,7 +282,7 @@ function ServersPage() {
                 className={`flex items-center gap-2 px-4 md:px-5 lg:px-6 py-2 md:py-3 rounded-full border transition-colors min-h-[44px] ${
                   selectedCategory === category.id
                     ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-transparent'
-                    : 'bg-[#21262d] text-[#c9d1d9] border-white/10 hover:border-[#58a6ff]/50'
+                    : 'bg-rgb(var(--color-neutral-50)) text-secondary border-rgb(var(--color-neutral-200)) hover:border-[#58a6ff]/50'
                 }`}
               >
                 {category.icon}

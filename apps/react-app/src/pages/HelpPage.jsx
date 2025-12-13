@@ -200,11 +200,11 @@ function HelpPage() {
   const filteredFaqs = filterFaqs()
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-[#0d1117] text-[#c9d1d9] relative">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)] relative">
       {/* Sidebar Table of Contents */}
-      <aside className="hidden md:block md:w-[280px] md:sticky md:top-[80px] md:h-[calc(100vh-80px)] md:overflow-y-auto md:p-10 md:border-r md:border-white/10">
+      <aside className="hidden md:block md:w-[280px] md:sticky md:top-[80px] md:h-[calc(100vh-80px)] md:overflow-y-auto md:p-10 md:border-r md:border-black/10">
         <div className="sticky top-5">
-          <h2 className="text-xs font-semibold text-[#8b949e] uppercase tracking-wide mb-5">Topics</h2>
+          <h2 className="text-xs font-semibold text-[var(--color-text-tertiary)] uppercase tracking-wide mb-5">Topics</h2>
           <nav className="flex flex-col gap-1">
             {sections.map((section) => (
               <button
@@ -213,7 +213,7 @@ function HelpPage() {
                 className={`bg-transparent border-none text-sm p-2 px-3 text-left cursor-pointer rounded-md transition-all duration-200 font-inherit outline-none ${
                   activeSection === section.id
                     ? 'text-[#58a6ff] bg-[#58a6ff]/10 font-medium border-l-2 border-[#58a6ff] pl-2.5'
-                    : 'text-[#8b949e] hover:text-[#c9d1d9] hover:bg-[#161b22]/60 backdrop-blur-xl'
+                    : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 backdrop-blur-xl'
                 }`}
               >
                 {section.title}
@@ -226,10 +226,10 @@ function HelpPage() {
       {/* Main Content */}
       <main className="flex-1 max-w-3xl mx-auto px-4 py-10 pb-20 md:px-5 md:py-10 md:pb-20">
         <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-text-primary)] mb-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
             Help Center
           </h1>
-          <p className="text-lg text-[#8b949e] mb-6">Find answers to common questions and get support</p>
+          <p className="text-lg text-[var(--color-text-secondary)] mb-6">Find answers to common questions and get support</p>
 
           {/* Search Bar */}
           <div className="relative max-w-2xl mx-auto">
@@ -238,29 +238,29 @@ function HelpPage() {
               placeholder="Search for help..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 md:px-5 md:py-3.5 pr-11 md:pr-12 bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-[#c9d1d9] text-base outline-none transition-all duration-200 font-inherit placeholder:text-[#8b949e] focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50"
+              className="w-full px-4 py-3 md:px-5 md:py-3.5 pr-11 md:pr-12 bg-[var(--color-bg-secondary)]/60 border border-black/10 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] text-[var(--color-text-primary)] text-base outline-none transition-all duration-200 font-inherit placeholder:text-[var(--color-text-tertiary)] focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50"
             />
             <svg className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 pointer-events-none" width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4-4" stroke="#8b949e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M9 17A8 8 0 1 0 9 1a8 8 0 0 0 0 16zM18 18l-4-4" stroke="var(--color-text-tertiary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
         </div>
 
         {/* Getting Started */}
         <section id="getting-started" className="mb-6">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Getting Started</h2>
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Getting Started</h2>
             {filteredFaqs['getting-started'] && filteredFaqs['getting-started'].map((faq, index) => (
-              <div key={index} className="border-b border-white/10 last:border-0">
+              <div key={index} className="border-b border-black/10 last:border-0">
                 <button
                   onClick={() => toggleFaq('getting-started', index)}
-                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-white text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
+                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-[var(--color-text-primary)] text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
                 >
                   <span>{faq.question}</span>
                   <span className="text-xl md:text-2xl text-[#58a6ff] ml-4 flex-shrink-0">{expandedItems[`getting-started-${index}`] ? '−' : '+'}</span>
                 </button>
                 {expandedItems[`getting-started-${index}`] && (
-                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[#8b949e]">
+                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {faq.answer}
                   </div>
                 )}
@@ -271,19 +271,19 @@ function HelpPage() {
 
         {/* Account & Profile */}
         <section id="account" className="mb-6">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Account & Profile</h2>
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Account & Profile</h2>
             {filteredFaqs['account'] && filteredFaqs['account'].map((faq, index) => (
-              <div key={index} className="border-b border-white/10 last:border-0">
+              <div key={index} className="border-b border-black/10 last:border-0">
                 <button
                   onClick={() => toggleFaq('account', index)}
-                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-white text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
+                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-[var(--color-text-primary)] text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
                 >
                   <span>{faq.question}</span>
                   <span className="text-xl md:text-2xl text-[#58a6ff] ml-4 flex-shrink-0">{expandedItems[`account-${index}`] ? '−' : '+'}</span>
                 </button>
                 {expandedItems[`account-${index}`] && (
-                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[#8b949e]">
+                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {faq.answer}
                   </div>
                 )}
@@ -294,19 +294,19 @@ function HelpPage() {
 
         {/* Communities & Posts */}
         <section id="communities" className="mb-6">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Communities & Posts</h2>
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Communities & Posts</h2>
             {filteredFaqs['communities'] && filteredFaqs['communities'].map((faq, index) => (
-              <div key={index} className="border-b border-white/10 last:border-0">
+              <div key={index} className="border-b border-black/10 last:border-0">
                 <button
                   onClick={() => toggleFaq('communities', index)}
-                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-white text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
+                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-[var(--color-text-primary)] text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
                 >
                   <span>{faq.question}</span>
                   <span className="text-xl md:text-2xl text-[#58a6ff] ml-4 flex-shrink-0">{expandedItems[`communities-${index}`] ? '−' : '+'}</span>
                 </button>
                 {expandedItems[`communities-${index}`] && (
-                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[#8b949e]">
+                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {faq.answer}
                   </div>
                 )}
@@ -317,19 +317,19 @@ function HelpPage() {
 
         {/* Messaging */}
         <section id="messaging" className="mb-6">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Messaging</h2>
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Messaging</h2>
             {filteredFaqs['messaging'] && filteredFaqs['messaging'].map((faq, index) => (
-              <div key={index} className="border-b border-white/10 last:border-0">
+              <div key={index} className="border-b border-black/10 last:border-0">
                 <button
                   onClick={() => toggleFaq('messaging', index)}
-                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-white text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
+                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-[var(--color-text-primary)] text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
                 >
                   <span>{faq.question}</span>
                   <span className="text-xl md:text-2xl text-[#58a6ff] ml-4 flex-shrink-0">{expandedItems[`messaging-${index}`] ? '−' : '+'}</span>
                 </button>
                 {expandedItems[`messaging-${index}`] && (
-                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[#8b949e]">
+                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {faq.answer}
                   </div>
                 )}
@@ -340,19 +340,19 @@ function HelpPage() {
 
         {/* Web3/Crypto */}
         <section id="web3" className="mb-6">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Web3/Crypto</h2>
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Web3/Crypto</h2>
             {filteredFaqs['web3'] && filteredFaqs['web3'].map((faq, index) => (
-              <div key={index} className="border-b border-white/10 last:border-0">
+              <div key={index} className="border-b border-black/10 last:border-0">
                 <button
                   onClick={() => toggleFaq('web3', index)}
-                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-white text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
+                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-[var(--color-text-primary)] text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
                 >
                   <span>{faq.question}</span>
                   <span className="text-xl md:text-2xl text-[#58a6ff] ml-4 flex-shrink-0">{expandedItems[`web3-${index}`] ? '−' : '+'}</span>
                 </button>
                 {expandedItems[`web3-${index}`] && (
-                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[#8b949e]">
+                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {faq.answer}
                   </div>
                 )}
@@ -363,19 +363,19 @@ function HelpPage() {
 
         {/* Troubleshooting */}
         <section id="troubleshooting" className="mb-6">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Troubleshooting</h2>
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Troubleshooting</h2>
             {filteredFaqs['troubleshooting'] && filteredFaqs['troubleshooting'].map((faq, index) => (
-              <div key={index} className="border-b border-white/10 last:border-0">
+              <div key={index} className="border-b border-black/10 last:border-0">
                 <button
                   onClick={() => toggleFaq('troubleshooting', index)}
-                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-white text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
+                  className="w-full flex justify-between items-center py-3.5 md:py-4.5 bg-transparent border-none text-[var(--color-text-primary)] text-base font-medium cursor-pointer text-left font-inherit transition-colors duration-200 outline-none hover:text-[#58a6ff]"
                 >
                   <span>{faq.question}</span>
                   <span className="text-xl md:text-2xl text-[#58a6ff] ml-4 flex-shrink-0">{expandedItems[`troubleshooting-${index}`] ? '−' : '+'}</span>
                 </button>
                 {expandedItems[`troubleshooting-${index}`] && (
-                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[#8b949e]">
+                  <div className="pb-4 md:pb-5 text-sm leading-relaxed text-[var(--color-text-secondary)]">
                     {faq.answer}
                   </div>
                 )}
@@ -386,25 +386,25 @@ function HelpPage() {
 
         {/* Contact Support */}
         <section id="contact" className="mb-6">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h2 className="text-2xl font-semibold text-white mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Contact Support</h2>
-            <p className="text-base leading-relaxed text-[#c9d1d9] mb-4">
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Contact Support</h2>
+            <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               Can't find what you're looking for? Our support team is here to help.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-              <div className="p-6 bg-[#58a6ff]/5 border border-[#58a6ff]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <h3 className="text-lg font-semibold text-white mb-2">Email Support</h3>
-                <p className="text-base leading-relaxed text-[#c9d1d9] mb-2">support@cryb.com</p>
-                <p className="text-sm text-[#8b949e]">Response within 24 hours</p>
+              <div className="p-6 bg-[#58a6ff]/5 border border-[#58a6ff]/20 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+                <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Email Support</h3>
+                <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-2">support@cryb.com</p>
+                <p className="text-sm text-[var(--color-text-secondary)]">Response within 24 hours</p>
               </div>
-              <div className="p-6 bg-[#58a6ff]/5 border border-[#58a6ff]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <h3 className="text-lg font-semibold text-white mb-2">Community Forum</h3>
-                <p className="text-base leading-relaxed text-[#c9d1d9] mb-2">Join our community discussions</p>
+              <div className="p-6 bg-[#58a6ff]/5 border border-[#58a6ff]/20 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+                <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Community Forum</h3>
+                <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-2">Join our community discussions</p>
                 <Link to="/communities" className="inline-block mt-2 text-[#58a6ff] no-underline text-sm font-medium transition-colors duration-200 hover:text-[#1a6bc0]">Visit Forum</Link>
               </div>
-              <div className="p-6 bg-[#58a6ff]/5 border border-[#58a6ff]/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <h3 className="text-lg font-semibold text-white mb-2">Report a Bug</h3>
-                <p className="text-base leading-relaxed text-[#c9d1d9] mb-2">Help us improve Cryb.ai</p>
+              <div className="p-6 bg-[#58a6ff]/5 border border-[#58a6ff]/20 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+                <h3 className="text-lg font-semibold text-[var(--color-text-primary)] mb-2">Report a Bug</h3>
+                <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-2">Help us improve Cryb.ai</p>
                 <a href="mailto:bugs@cryb.com" className="inline-block mt-2 text-[#58a6ff] no-underline text-sm font-medium transition-colors duration-200 hover:text-[#1a6bc0]">Report Issue</a>
               </div>
             </div>

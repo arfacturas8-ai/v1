@@ -213,7 +213,7 @@ export default function OnboardingPage() {
   const progress = ((currentStep + 1) / ONBOARDING_STEPS.length) * 100
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#e5e8eb] flex flex-col relative overflow-hidden" role="main" aria-label="Onboarding page">
+    <div className="min-h-screen flex flex-col relative overflow-hidden" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }} role="main" aria-label="Onboarding page">
       {/* Confetti Effect */}
       {showConfetti && (
         <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-[1000]">
@@ -242,7 +242,7 @@ export default function OnboardingPage() {
       )}
 
       {/* Progress Bar */}
-      <div className="px-5 py-5 md:px-10 md:py-5 border-b border-white/10">
+      <div className="px-5 py-5 md:px-10 md:py-5 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
         <div className="w-full h-1 bg-[#161b22]/60 backdrop-blur-xl rounded-sm overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-sm"
@@ -292,17 +292,17 @@ export default function OnboardingPage() {
                   govern with DAOs, and build the web3-native future.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-6 md:mt-8">
-                  <div className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all hover:border-white/10">
+                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
                     <Users size={isMobile ? 20 : 24} color="#58a6ff" />
-                    <span className="text-xs md:text-sm text-[#e5e8eb] font-medium">Join Communities</span>
+                    <span className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Join Communities</span>
                   </div>
-                  <div className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all hover:border-white/10">
+                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
                     <Sparkles size={isMobile ? 20 : 24} color="#58a6ff" />
-                    <span className="text-xs md:text-sm text-[#e5e8eb] font-medium">Create Content</span>
+                    <span className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Create Content</span>
                   </div>
-                  <div className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all hover:border-white/10">
+                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
                     <Wallet size={isMobile ? 20 : 24} color="#58a6ff" />
-                    <span className="text-xs md:text-sm text-[#e5e8eb] font-medium">Web3 Ready</span>
+                    <span className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Web3 Ready</span>
                   </div>
                 </div>
               </div>
@@ -313,7 +313,7 @@ export default function OnboardingPage() {
               <div className="max-w-[500px] mx-auto">
                 <div className="text-center mb-8 md:mb-10">
                   <Camera size={isMobile ? 40 : 48} color="#58a6ff" strokeWidth={1.5} className="inline-block" />
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2 text-[#e5e8eb]">{step.title}</h2>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>{step.title}</h2>
                   <p className="text-sm md:text-base text-[#8a939b]">{step.description}</p>
                 </div>
 
@@ -338,35 +338,38 @@ export default function OnboardingPage() {
                 </div>
 
                 <div className="mb-5 md:mb-6">
-                  <label className="block text-xs md:text-sm font-semibold text-[#e5e8eb] mb-1.5 md:mb-2">Username</label>
+                  <label className="block text-xs md:text-sm font-semibold mb-1.5 md:mb-2" style={{ color: 'var(--text-primary)' }}>Username</label>
                   <input
                     type="text"
                     value={preferences.username}
                     onChange={(e) => setPreferences(prev => ({ ...prev, username: e.target.value }))}
                     placeholder="@yourusername"
-                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base text-white outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
+                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   />
                 </div>
 
                 <div className="mb-5 md:mb-6">
-                  <label className="block text-xs md:text-sm font-semibold text-[#e5e8eb] mb-1.5 md:mb-2">Display Name</label>
+                  <label className="block text-xs md:text-sm font-semibold mb-1.5 md:mb-2" style={{ color: 'var(--text-primary)' }}>Display Name</label>
                   <input
                     type="text"
                     value={preferences.displayName}
                     onChange={(e) => setPreferences(prev => ({ ...prev, displayName: e.target.value }))}
                     placeholder="Your Name"
-                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base text-white outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
+                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   />
                 </div>
 
                 <div className="mb-5 md:mb-6">
-                  <label className="block text-xs md:text-sm font-semibold text-[#e5e8eb] mb-1.5 md:mb-2">Bio</label>
+                  <label className="block text-xs md:text-sm font-semibold mb-1.5 md:mb-2" style={{ color: 'var(--text-primary)' }}>Bio</label>
                   <textarea
                     value={preferences.bio}
                     onChange={(e) => setPreferences(prev => ({ ...prev, bio: e.target.value }))}
                     placeholder="Tell us about yourself..."
                     rows={4}
-                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base text-white outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 resize-y font-inherit"
+                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 resize-y font-inherit"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   />
                 </div>
               </div>
@@ -377,7 +380,7 @@ export default function OnboardingPage() {
               <div>
                 <div className="text-center mb-8 md:mb-10">
                   <Heart size={isMobile ? 40 : 48} color="#58a6ff" strokeWidth={1.5} className="inline-block" />
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2 text-[#e5e8eb]">{step.title}</h2>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>{step.title}</h2>
                   <p className="text-sm md:text-base text-[#8a939b]">Select at least 3 topics you're interested in</p>
                 </div>
 
@@ -390,8 +393,9 @@ export default function OnboardingPage() {
                         className={`bg-[#161b22]/60 border-2 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex flex-col items-center gap-2 cursor-pointer transition-all relative ${
                           isSelected
                             ? 'bg-gradient-to-br from-[#58a6ff]/10 to-[#a371f7]/10 border-[#58a6ff]'
-                            : 'border-white/10 hover:border-white/10'
+                            : ''
                         }`}
+                        style={!isSelected ? { borderColor: 'var(--border-subtle)' } : {}}
                         onClick={() => toggleInterest(interest.id)}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
@@ -402,7 +406,7 @@ export default function OnboardingPage() {
                           </div>
                         )}
                         <div className="text-2xl md:text-3xl">{interest.emoji}</div>
-                        <div className="text-xs md:text-sm font-semibold text-[#e5e8eb]">{interest.name}</div>
+                        <div className="text-xs md:text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{interest.name}</div>
                       </motion.div>
                     )
                   })}
@@ -418,7 +422,7 @@ export default function OnboardingPage() {
               <div>
                 <div className="text-center mb-8 md:mb-10">
                   <Users size={isMobile ? 40 : 48} color="#58a6ff" strokeWidth={1.5} className="inline-block" />
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2 text-[#e5e8eb]">{step.title}</h2>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>{step.title}</h2>
                   <p className="text-sm md:text-base text-[#8a939b]">Based on your interests</p>
                 </div>
 
@@ -428,14 +432,15 @@ export default function OnboardingPage() {
                     return (
                       <motion.div
                         key={community.id}
-                        className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all hover:border-white/10"
+                        className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all"
+                        style={{ border: '1px solid var(--border-subtle)' }}
                         whileHover={{ scale: 1.02 }}
                       >
                         <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-[#2a2a2a] flex items-center justify-center text-2xl md:text-3xl shrink-0">
                           {community.avatar}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-sm md:text-base font-semibold text-[#e5e8eb] mb-0.5 md:mb-1">{community.name}</div>
+                          <div className="text-sm md:text-base font-semibold mb-0.5 md:mb-1" style={{ color: 'var(--text-primary)' }}>{community.name}</div>
                           <div className="text-xs md:text-sm text-[#8a939b] mb-0.5 md:mb-1">{community.description}</div>
                           <div className="text-xs text-[#8a939b]">{community.members} members</div>
                         </div>
@@ -467,7 +472,7 @@ export default function OnboardingPage() {
               <div>
                 <div className="text-center mb-8 md:mb-10">
                   <UserCheck size={isMobile ? 40 : 48} color="#58a6ff" strokeWidth={1.5} className="inline-block" />
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2 text-[#e5e8eb]">{step.title}</h2>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>{step.title}</h2>
                   <p className="text-sm md:text-base text-[#8a939b]">Popular creators in your interests</p>
                 </div>
 
@@ -477,7 +482,8 @@ export default function OnboardingPage() {
                     return (
                       <motion.div
                         key={user.id}
-                        className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all hover:border-white/10"
+                        className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all"
+                        style={{ border: '1px solid var(--border-subtle)' }}
                         whileHover={{ scale: 1.02 }}
                       >
                         <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#2a2a2a] flex items-center justify-center text-2xl md:text-3xl shrink-0">
@@ -485,7 +491,7 @@ export default function OnboardingPage() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
-                            <span className="text-sm md:text-base font-semibold text-[#e5e8eb]">{user.name}</span>
+                            <span className="text-sm md:text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{user.name}</span>
                             {user.verified && (
                               <div className="w-4 h-4 md:w-[18px] md:h-[18px] rounded-full bg-[#58a6ff] flex items-center justify-center shrink-0">
                                 <Check size={isMobile ? 10 : 12} color="#fff" strokeWidth={3} />
@@ -517,16 +523,16 @@ export default function OnboardingPage() {
               <div>
                 <div className="text-center mb-8 md:mb-10">
                   <Bell size={isMobile ? 40 : 48} color="#58a6ff" strokeWidth={1.5} className="inline-block" />
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2 text-[#e5e8eb]">{step.title}</h2>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>{step.title}</h2>
                   <p className="text-sm md:text-base text-[#8a939b]">Never miss important updates</p>
                 </div>
 
                 <div className="flex flex-col gap-3 md:gap-4 mt-5 md:mt-6">
-                  <div className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4">
+                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
                     <div className="flex gap-3 md:gap-4 items-start flex-1">
                       <Zap size={isMobile ? 20 : 24} color="#58a6ff" className="shrink-0 mt-0.5" />
                       <div>
-                        <div className="text-sm md:text-base font-semibold text-[#e5e8eb] mb-0.5 md:mb-1">Push Notifications</div>
+                        <div className="text-sm md:text-base font-semibold mb-0.5 md:mb-1" style={{ color: 'var(--text-primary)' }}>Push Notifications</div>
                         <div className="text-xs md:text-sm text-[#8a939b]">
                           Get notified about mentions, likes, and comments
                         </div>
@@ -546,11 +552,11 @@ export default function OnboardingPage() {
                     </label>
                   </div>
 
-                  <div className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4">
+                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
                     <div className="flex gap-3 md:gap-4 items-start flex-1">
                       <Bell size={isMobile ? 20 : 24} color="#58a6ff" className="shrink-0 mt-0.5" />
                       <div>
-                        <div className="text-sm md:text-base font-semibold text-[#e5e8eb] mb-0.5 md:mb-1">Email Notifications</div>
+                        <div className="text-sm md:text-base font-semibold mb-0.5 md:mb-1" style={{ color: 'var(--text-primary)' }}>Email Notifications</div>
                         <div className="text-xs md:text-sm text-[#8a939b]">
                           Receive weekly digests and important updates
                         </div>
@@ -578,11 +584,11 @@ export default function OnboardingPage() {
               <div>
                 <div className="text-center mb-8 md:mb-10">
                   <Wallet size={isMobile ? 40 : 48} color="#58a6ff" strokeWidth={1.5} className="inline-block" />
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2 text-[#e5e8eb]">{step.title}</h2>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mt-3 md:mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>{step.title}</h2>
                   <p className="text-sm md:text-base text-[#8a939b]">Connect your Web3 wallet to unlock features</p>
                 </div>
 
-                <div className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 text-center mt-5 md:mt-6 mb-6 md:mb-8">
+                <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 text-center mt-5 md:mt-6 mb-6 md:mb-8" style={{ border: '1px solid var(--border-subtle)' }}>
                   <Shield size={isMobile ? 28 : 32} color="#8a939b" className="inline-block" />
                   <p className="text-xs md:text-sm text-[#8a939b] leading-relaxed mt-3 md:mt-4">
                     Connecting your wallet allows you to collect NFTs, participate in token-gated
@@ -592,7 +598,8 @@ export default function OnboardingPage() {
 
                 <div className="flex flex-col gap-2 md:gap-3">
                   <motion.button
-                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold text-white transition-all flex items-center justify-center gap-2 md:gap-3 hover:border-white/10 min-h-[44px]"
+                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setPreferences(prev => ({ ...prev, walletConnected: true }))}
@@ -606,7 +613,8 @@ export default function OnboardingPage() {
                   </motion.button>
 
                   <motion.button
-                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold text-white transition-all flex items-center justify-center gap-2 md:gap-3 hover:border-white/10 min-h-[44px]"
+                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setPreferences(prev => ({ ...prev, walletConnected: true }))}
@@ -620,7 +628,8 @@ export default function OnboardingPage() {
                   </motion.button>
 
                   <motion.button
-                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold text-white transition-all flex items-center justify-center gap-2 md:gap-3 hover:border-white/10 min-h-[44px]"
+                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setPreferences(prev => ({ ...prev, walletConnected: true }))}
@@ -667,21 +676,21 @@ export default function OnboardingPage() {
                   Welcome to the Cryb.ai community. You're ready to explore, create, and own your space.
                 </p>
 
-                <div className="bg-[#161b22]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 md:p-8 flex flex-col gap-3 md:gap-4">
-                  <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base text-[#e5e8eb]">
+                <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 md:p-8 flex flex-col gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
                     <Heart size={isMobile ? 18 : 20} color="#58a6ff" />
                     <span>{preferences.interests.length} interests selected</span>
                   </div>
-                  <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base text-[#e5e8eb]">
+                  <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
                     <Users size={isMobile ? 18 : 20} color="#58a6ff" />
                     <span>{preferences.communities.length} communities joined</span>
                   </div>
-                  <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base text-[#e5e8eb]">
+                  <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
                     <UserCheck size={isMobile ? 18 : 20} color="#58a6ff" />
                     <span>{preferences.following.length} creators followed</span>
                   </div>
                   {preferences.walletConnected && (
-                    <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base text-[#e5e8eb]">
+                    <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
                       <Wallet size={isMobile ? 18 : 20} color="#58a6ff" />
                       <span>Wallet connected</span>
                     </div>
@@ -694,15 +703,16 @@ export default function OnboardingPage() {
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex justify-between items-center px-5 py-5 md:px-10 md:py-6 border-t border-white/10 gap-3 md:gap-4">
+      <div className="flex justify-between items-center px-5 py-5 md:px-10 md:py-6 border-t gap-3 md:gap-4" style={{ borderColor: 'var(--border-subtle)' }}>
         <button
           onClick={handleBack}
           disabled={currentStep === 0}
-          className={`px-4 py-3 md:px-6 md:py-3 bg-[#161b22]/60 border border-white/10 rounded-lg text-xs md:text-sm font-semibold text-white transition-all flex items-center gap-1.5 min-h-[44px] ${
+          className={`px-4 py-3 md:px-6 md:py-3 bg-[#161b22]/60 rounded-lg text-xs md:text-sm font-semibold transition-all flex items-center gap-1.5 min-h-[44px] ${
             currentStep === 0
               ? 'opacity-30 cursor-not-allowed'
-              : 'hover:border-white/10 hover:bg-[#161b22]/80'
+              : 'hover:bg-[#161b22]/80'
           }`}
+          style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
         >
           <ChevronLeft size={20} />
           Back

@@ -171,15 +171,15 @@ function VoiceChatPage() {
           }}
         />
       ) : (
-        <div className="min-h-screen text-white">
+        <div className="min-h-screen text-gray-900">
           {/* Header */}
-          <div className="bg-[#141416] border-b border-[#202225] p-3 md:p-4 lg:p-6">
+          <div className="bg-white border-b border-gray-200 p-3 md:p-4 lg:p-6">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
               <div className="flex items-center gap-3 md:gap-4">
                 <Phone className="w-5 h-5 md:w-6 md:h-6 text-[#58a6ff]" aria-hidden="true" />
                 <div>
-                  <h1 className="font-bold text-lg md:text-xl">{currentChannel?.name}</h1>
-                  <p className="text-[#8b949e] text-xs md:text-sm">{currentChannel?.description}</p>
+                  <h1 className="font-bold text-lg md:text-xl text-gray-900">{currentChannel?.name}</h1>
+                  <p className="text-gray-600 text-xs md:text-sm">{currentChannel?.description}</p>
                 </div>
               </div>
             </div>
@@ -191,8 +191,8 @@ function VoiceChatPage() {
 
           {/* Participants Panel */}
           <div className="lg:col-span-2">
-            <div className="bg-[#141416] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-[#202225] p-4 md:p-6">
-              <h2 className="font-semibold flex items-center text-base md:text-lg mb-4 gap-2">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 md:p-6">
+              <h2 className="font-semibold flex items-center text-base md:text-lg mb-4 gap-2 text-gray-900">
                 <Users className="w-5 h-5" aria-hidden="true" />
                 Participants ({participants.length})
               </h2>
@@ -203,7 +203,7 @@ function VoiceChatPage() {
                     <div
                       key={participant.id}
                       className={`
-                        bg-[#202225] rounded-lg p-4 border-2 transition-all
+                        bg-gray-50 rounded-lg p-4 border-2 transition-all
                         ${participant.isSpeaking
                           ? 'border-green-500 shadow-lg shadow-green-500/20'
                           : 'border-transparent'
@@ -213,7 +213,7 @@ function VoiceChatPage() {
                       <div className="flex items-center gap-3">
                         <div className="text-3xl">{participant.avatar}</div>
                         <div className="flex-1">
-                          <div className="font-medium">{participant.username}</div>
+                          <div className="font-medium text-gray-900">{participant.username}</div>
                           <div className="flex items-center gap-2 text-sm">
                             {participant.isMuted ? (
                               <MicOff className="w-4 h-4 text-red-500" />
@@ -230,7 +230,7 @@ function VoiceChatPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12 text-[#8b949e]">
+                <div className="text-center py-12 text-gray-600">
                   <Phone className="w-12 h-12 mx-auto mb-3 " />
                   <p>Connecting to voice channel...</p>
                 </div>
@@ -238,16 +238,16 @@ function VoiceChatPage() {
             </div>
 
             {/* Voice Controls */}
-            <div className="bg-[#141416] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-[#202225] p-4 md:p-6 mt-6">
-              <h3 className="text-base md:text-lg font-semibold mb-4">Voice Controls</h3>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 md:p-6 mt-6">
+              <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900">Voice Controls</h3>
               <div className="flex flex-wrap gap-3">
                 <button
                   onClick={handleMuteToggle}
                   className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2
+                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
                     ${isMuted
                       ? 'bg-red-600 hover:bg-red-700'
-                      : 'bg-[#202225] hover:bg-[#2a2d31]'
+                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
                     }
                   `}
                   aria-label={isMuted ? 'Unmute microphone' : 'Mute microphone'}
@@ -260,10 +260,10 @@ function VoiceChatPage() {
                 <button
                   onClick={handleDeafenToggle}
                   className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2
+                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
                     ${isDeafened
                       ? 'bg-red-600 hover:bg-red-700'
-                      : 'bg-[#202225] hover:bg-[#2a2d31]'
+                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
                     }
                   `}
                   aria-label={isDeafened ? 'Undeafen audio' : 'Deafen audio'}
@@ -276,10 +276,10 @@ function VoiceChatPage() {
                 <button
                   onClick={handleVideoToggle}
                   className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2
+                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
                     ${isVideoEnabled
                       ? 'bg-[#58a6ff] hover:bg-blue-700'
-                      : 'bg-[#202225] hover:bg-[#2a2d31]'
+                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
                     }
                   `}
                   aria-label={isVideoEnabled ? 'Turn off video' : 'Turn on video'}
@@ -292,10 +292,10 @@ function VoiceChatPage() {
                 <button
                   onClick={handleScreenShareToggle}
                   className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2
+                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
                     ${isScreenSharing
                       ? 'bg-[#a371f7] hover:bg-purple-700'
-                      : 'bg-[#202225] hover:bg-[#2a2d31]'
+                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
                     }
                   `}
                   aria-label={isScreenSharing ? 'Stop screen sharing' : 'Start screen sharing'}
@@ -308,7 +308,7 @@ function VoiceChatPage() {
 
               {/* Volume Control */}
               <div className="mt-6">
-                <label className="flex items-center gap-2 text-sm font-medium mb-2">
+                <label className="flex items-center gap-2 text-sm font-medium mb-2 text-gray-900">
                   {volume > 0 ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
                   Volume: {volume}%
                 </label>
@@ -326,8 +326,8 @@ function VoiceChatPage() {
 
           {/* Available Channels Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-[#141416] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-[#202225] p-6">
-              <h3 className="text-lg font-semibold mb-4">Voice Channels</h3>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold mb-4 text-gray-900">Voice Channels</h3>
               <div className="space-y-2">
                 {channels.map((channel) => (
                   <button
@@ -337,7 +337,7 @@ function VoiceChatPage() {
                       w-full text-left p-3 rounded-lg transition-all
                       ${channel.id === activeChannel
                         ? 'bg-[#58a6ff] text-white'
-                        : 'bg-[#202225] hover:bg-[#2a2d31] text-[#c9d1d9]'
+                        : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
                       }
                     `}
                   >
@@ -350,15 +350,15 @@ function VoiceChatPage() {
               </div>
 
               {/* Quick Actions */}
-              <div className="mt-6 pt-6 border-t border-[#202225]">
-                <h4 className="text-sm font-semibold mb-3 text-[#8b949e]">Quick Actions</h4>
-                <button className="w-full px-4 py-2 bg-[#202225] hover:bg-[#2a2d31] rounded-lg text-sm flex items-center gap-2 mb-2">
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <h4 className="text-sm font-semibold mb-3 text-gray-600">Quick Actions</h4>
+                <button className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm flex items-center gap-2 mb-2 text-gray-900">
                   <Settings className="w-4 h-4" />
                   Voice Settings
                 </button>
                 <button
                   onClick={() => navigate('/chat')}
-                  className="w-full px-4 py-2 bg-[#202225] hover:bg-[#2a2d31] rounded-lg text-sm"
+                  className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-900"
                 >
                   Back to Chat
                 </button>

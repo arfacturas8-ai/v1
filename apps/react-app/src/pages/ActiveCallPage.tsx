@@ -52,13 +52,13 @@ export default function ActiveCallPage() {
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: '#0D0D0D',
+        backgroundColor: '#FFFFFF',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '48px 24px',
-        color: '#FFFFFF',
+        color: '#111827',
       }}
     >
       {/* Participant info */}
@@ -79,10 +79,10 @@ export default function ActiveCallPage() {
           size="xl"
           fallback={callData.user?.displayName?.[0] || 'U'}
         />
-        <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '24px', marginBottom: '8px' }}>
+        <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '24px', marginBottom: '8px', color: '#111827' }}>
           {callData.user?.displayName || 'Unknown'}
         </h1>
-        <div style={{ fontSize: '16px', color: '#A0A0A0' }}>
+        <div style={{ fontSize: '16px', color: '#6B7280' }}>
           @{callData.user?.username || 'unknown'}
         </div>
       </div>
@@ -97,15 +97,15 @@ export default function ActiveCallPage() {
             width: '160px',
             height: '120px',
             borderRadius: '12px',
-            backgroundColor: '#1A1A1A',
-            border: '2px solid #2A2A2A',
+            backgroundColor: '#F3F4F6',
+            border: '2px solid #E5E7EB',
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <div style={{ fontSize: '14px', color: '#666666' }}>Your video</div>
+          <div style={{ fontSize: '14px', color: '#9CA3AF' }}>Your video</div>
         </div>
       )}
 
@@ -125,9 +125,10 @@ export default function ActiveCallPage() {
             width: '56px',
             height: '56px',
             borderRadius: '50%',
-            border: 'none',
-            backgroundColor: isMuted ? '#FF3B3B' : '#2A2A2A',
-            color: '#FFFFFF',
+            border: '2px solid',
+            borderColor: isMuted ? '#FF3B3B' : '#E5E7EB',
+            backgroundColor: isMuted ? '#FF3B3B' : '#FFFFFF',
+            color: isMuted ? '#FFFFFF' : '#111827',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
@@ -135,10 +136,10 @@ export default function ActiveCallPage() {
             transition: 'all 150ms ease-out',
           }}
           onMouseEnter={(e) => {
-            if (!isMuted) e.currentTarget.style.backgroundColor = '#333333';
+            if (!isMuted) e.currentTarget.style.backgroundColor = '#F9FAFB';
           }}
           onMouseLeave={(e) => {
-            if (!isMuted) e.currentTarget.style.backgroundColor = '#2A2A2A';
+            if (!isMuted) e.currentTarget.style.backgroundColor = '#FFFFFF';
           }}
         >
           {isMuted ? <MicOff size={24} /> : <Mic size={24} />}
@@ -151,9 +152,10 @@ export default function ActiveCallPage() {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              border: 'none',
-              backgroundColor: isVideoOn ? '#2A2A2A' : '#FF3B3B',
-              color: '#FFFFFF',
+              border: '2px solid',
+              borderColor: isVideoOn ? '#E5E7EB' : '#FF3B3B',
+              backgroundColor: isVideoOn ? '#FFFFFF' : '#FF3B3B',
+              color: isVideoOn ? '#111827' : '#FFFFFF',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -161,10 +163,10 @@ export default function ActiveCallPage() {
               transition: 'all 150ms ease-out',
             }}
             onMouseEnter={(e) => {
-              if (isVideoOn) e.currentTarget.style.backgroundColor = '#333333';
+              if (isVideoOn) e.currentTarget.style.backgroundColor = '#F9FAFB';
             }}
             onMouseLeave={(e) => {
-              if (isVideoOn) e.currentTarget.style.backgroundColor = '#2A2A2A';
+              if (isVideoOn) e.currentTarget.style.backgroundColor = '#FFFFFF';
             }}
           >
             {isVideoOn ? <Video size={24} /> : <VideoOff size={24} />}
@@ -177,9 +179,9 @@ export default function ActiveCallPage() {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              border: 'none',
-              backgroundColor: '#2A2A2A',
-              color: '#FFFFFF',
+              border: '2px solid #E5E7EB',
+              backgroundColor: '#FFFFFF',
+              color: '#111827',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -187,10 +189,10 @@ export default function ActiveCallPage() {
               transition: 'all 150ms ease-out',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#333333';
+              e.currentTarget.style.backgroundColor = '#F9FAFB';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#2A2A2A';
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
             }}
           >
             <Camera size={24} />

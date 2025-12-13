@@ -131,7 +131,7 @@ const CallScreenPage = () => {
   }
 
   return (
-    <div role="main" aria-label="Video call screen" className="fixed inset-0 bg-[#161b22] z-50">
+    <div role="main" aria-label="Video call screen" className="fixed inset-0 bg-white z-50">
       {/* Remote Video */}
       <div className="absolute inset-0">
         {callStatus === 'active' ? (
@@ -150,10 +150,10 @@ const CallScreenPage = () => {
               className="text-center px-4"
             >
               <div className="text-6xl md:text-8xl mb-4 md:mb-6">📞</div>
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
                 {callStatus === 'connecting' ? 'Connecting...' : 'Call Ended'}
               </h2>
-              <p className="text-sm md:text-base text-[#8b949e]">
+              <p className="text-sm md:text-base text-gray-600">
                 {callStatus === 'connecting' ? 'Please wait' : 'Thank you for calling'}
               </p>
             </motion.div>
@@ -166,7 +166,7 @@ const CallScreenPage = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="absolute top-4 right-4 md:top-6 md:right-6 w-32 h-24 md:w-48 md:h-36 bg-[#161b22] rounded-xl md:rounded-2xl overflow-hidden shadow-2xl border-2 border-white/10"
+          className="absolute top-4 right-4 md:top-6 md:right-6 w-32 h-24 md:w-48 md:h-36 bg-gray-100 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl border-2 border-gray-300"
           drag
           dragConstraints={{ top: 0, left: 0, right: 0, bottom: 0 }}
         >
@@ -185,51 +185,51 @@ const CallScreenPage = () => {
       )}
 
       {/* Top Bar */}
-      <div className="absolute top-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-b from-black/60 to-transparent">
+      <div className="absolute top-0 left-0 right-0 p-4 md:p-6 bg-gradient-to-b from-white/90 to-transparent">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="text-white text-lg md:text-xl font-semibold">
+            <h3 className="text-gray-900 text-lg md:text-xl font-semibold">
               {participants[0]?.name || 'Call'}
             </h3>
             {callStatus === 'active' && (
-              <p className="text-[#c9d1d9] text-xs md:text-sm">{formatDuration(callDuration)}</p>
+              <p className="text-gray-600 text-xs md:text-sm">{formatDuration(callDuration)}</p>
             )}
           </div>
           <div className="flex gap-2 md:gap-3">
             <button
-              className="p-2 md:p-3 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-sm transition-colors"
+              className="p-2 md:p-3 bg-white/90 hover:bg-white rounded-lg md:rounded-2xl shadow-lg backdrop-blur-sm transition-colors border border-gray-200"
               aria-label="Participants"
             >
-              <Users className="w-4 h-4 md:w-5 md:h-5 text-white" />
+              <Users className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
             </button>
             <button
-              className="p-2 md:p-3 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] backdrop-blur-sm transition-colors"
+              className="p-2 md:p-3 bg-white/90 hover:bg-white rounded-lg md:rounded-2xl shadow-lg backdrop-blur-sm transition-colors border border-gray-200"
               aria-label="More options"
             >
-              <MoreVertical className="w-4 h-4 md:w-5 md:h-5 text-white" />
+              <MoreVertical className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
             </button>
           </div>
         </div>
       </div>
 
       {/* Bottom Controls */}
-      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-black/80 via-black/60 to-transparent">
+      <div className="absolute bottom-0 left-0 right-0 p-4 md:p-8 bg-gradient-to-t from-white/95 via-white/80 to-transparent">
         <div className="max-w-2xl mx-auto flex items-center justify-center gap-3 md:gap-6">
           {/* Audio Toggle */}
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleAudio}
-            className={`p-4 md:p-6 rounded-full transition-all ${
+            className={`p-4 md:p-6 rounded-full transition-all border ${
               isAudioEnabled
-                ? 'bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl'
-                : 'bg-red-500 hover:bg-red-600'
+                ? 'bg-white hover:bg-gray-50 border-gray-300'
+                : 'bg-red-500 hover:bg-red-600 border-red-600'
             }`}
             aria-label={isAudioEnabled ? 'Mute microphone' : 'Unmute microphone'}
             aria-pressed={!isAudioEnabled}
           >
             {isAudioEnabled ? (
-              <Mic className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <Mic className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
             ) : (
               <MicOff className="w-5 h-5 md:w-6 md:h-6 text-white" />
             )}
@@ -240,16 +240,16 @@ const CallScreenPage = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleVideo}
-            className={`p-4 md:p-6 rounded-full transition-all ${
+            className={`p-4 md:p-6 rounded-full transition-all border ${
               isVideoEnabled
-                ? 'bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl'
-                : 'bg-red-500 hover:bg-red-600'
+                ? 'bg-white hover:bg-gray-50 border-gray-300'
+                : 'bg-red-500 hover:bg-red-600 border-red-600'
             }`}
             aria-label={isVideoEnabled ? 'Turn off camera' : 'Turn on camera'}
             aria-pressed={!isVideoEnabled}
           >
             {isVideoEnabled ? (
-              <Video className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <Video className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
             ) : (
               <VideoOff className="w-5 h-5 md:w-6 md:h-6 text-white" />
             )}
@@ -271,15 +271,15 @@ const CallScreenPage = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={toggleScreenShare}
-            className={`p-4 md:p-6 rounded-full transition-all ${
+            className={`p-4 md:p-6 rounded-full transition-all border ${
               isScreenSharing
-                ? 'bg-[#58a6ff] hover:bg-[#1a6fc7]'
-                : 'bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl'
+                ? 'bg-[#58a6ff] hover:bg-[#1a6fc7] border-[#58a6ff]'
+                : 'bg-white hover:bg-gray-50 border-gray-300'
             }`}
             aria-label={isScreenSharing ? 'Stop sharing' : 'Share screen'}
             aria-pressed={isScreenSharing}
           >
-            <Monitor className="w-5 h-5 md:w-6 md:h-6 text-white" />
+            <Monitor className={`w-5 h-5 md:w-6 md:h-6 ${isScreenSharing ? 'text-white' : 'text-gray-900'}`} />
           </motion.button>
 
           {/* Speaker Toggle */}
@@ -287,14 +287,14 @@ const CallScreenPage = () => {
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => setIsSpeakerOn(prev => !prev)}
-            className="p-4 md:p-6 bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl rounded-full transition-all"
+            className="p-4 md:p-6 bg-white hover:bg-gray-50 rounded-full transition-all border border-gray-300"
             aria-label={isSpeakerOn ? 'Mute speaker' : 'Unmute speaker'}
             aria-pressed={!isSpeakerOn}
           >
             {isSpeakerOn ? (
-              <Volume2 className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <Volume2 className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
             ) : (
-              <VolumeX className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <VolumeX className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
             )}
           </motion.button>
         </div>

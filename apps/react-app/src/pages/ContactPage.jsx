@@ -94,16 +94,16 @@ function ContactPage() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] px-5 py-10">
+      <div className="min-h-screen bg-[var(--color-bg-primary)] px-5 py-10">
         <main id="main-content" className="max-w-2xl mx-auto text-center" role="main" aria-label="Page content">
-          <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 px-8 py-12">
+          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-black/10 px-8 py-12">
             <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg className="w-10 h-10 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-white mb-3">Message Sent!</h1>
-            <p className="text-[#666666] mb-8 leading-relaxed">
+            <h1 className="text-3xl font-bold text-[var(--color-text-primary)] mb-3">Message Sent!</h1>
+            <p className="text-[var(--color-text-secondary)] mb-8 leading-relaxed">
               Thank you for contacting us. We'll get back to you within 24 hours.
             </p>
             <div className="flex flex-col gap-3">
@@ -120,7 +120,7 @@ function ContactPage() {
                   setErrors({})
                   setSubmitError('')
                 }}
-                className="px-6 py-3.5 bg-[#141414]/60 text-[#58a6ff] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold cursor-pointer hover:bg-[#141414]/60 backdrop-blur-xl transition-colors"
+                className="px-6 py-3.5 bg-[var(--color-bg-secondary)]/60 text-[#58a6ff] border border-black/10 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] font-semibold cursor-pointer hover:bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl transition-colors"
                 aria-label="Send another message"
               >
                 Send Another Message
@@ -133,30 +133,30 @@ function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] px-5 py-10" role="main" aria-label="Contact page">
+    <div className="min-h-screen bg-[var(--color-bg-primary)] px-5 py-10" role="main" aria-label="Contact page">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-10">
           <h1 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
             Contact Us
           </h1>
-          <p className="text-lg text-[#666666] leading-relaxed">
+          <p className="text-lg text-[var(--color-text-secondary)] leading-relaxed">
             Have a question or need help? We'd love to hear from you.
           </p>
         </div>
 
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 md:p-8">
+        <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-black/10 p-6 md:p-8">
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
                   Your Name <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value)}
-                  className={`w-full px-4 py-3 bg-[#1A1A1A]/60 border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white text-base outline-none transition-all ${
-                    errors.name ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-white/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
+                  className={`w-full px-4 py-3 bg-[var(--color-bg-tertiary)]/60 border rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] text-[var(--color-text-primary)] text-base outline-none transition-all ${
+                    errors.name ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-black/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
                   }`}
                   placeholder="Enter your name"
                   disabled={isLoading}
@@ -169,15 +169,15 @@ function ContactPage() {
                 )}
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium text-[var(--color-text-primary)] mb-2">
                   Email Address <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 bg-[#1A1A1A]/60 border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white text-base outline-none transition-all ${
-                    errors.email ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-white/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
+                  className={`w-full px-4 py-3 bg-[var(--color-bg-tertiary)]/60 border rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] text-[var(--color-text-primary)] text-base outline-none transition-all ${
+                    errors.email ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-black/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
                   }`}
                   placeholder="your@email.com"
                   disabled={isLoading}
@@ -198,8 +198,8 @@ function ContactPage() {
               <select
                 value={formData.subject}
                 onChange={(e) => handleInputChange('subject', e.target.value)}
-                className={`w-full px-4 py-3 bg-[#1A1A1A]/60 border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white text-base outline-none transition-all ${
-                  errors.subject ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-white/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
+                className={`w-full px-4 py-3 bg-[var(--color-bg-tertiary)]/60 border rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] text-[var(--color-text-primary)] text-base outline-none transition-all ${
+                  errors.subject ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-black/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
                 }`}
                 disabled={isLoading}
                 aria-label="Subject"
@@ -227,8 +227,8 @@ function ContactPage() {
                 value={formData.message}
                 onChange={(e) => handleInputChange('message', e.target.value)}
                 rows={6}
-                className={`w-full px-4 py-3 bg-[#1A1A1A]/60 border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white text-base resize-vertical outline-none transition-all ${
-                  errors.message ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-white/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
+                className={`w-full px-4 py-3 bg-[var(--color-bg-tertiary)]/60 border rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] text-[var(--color-text-primary)] text-base resize-vertical outline-none transition-all ${
+                  errors.message ? 'border-red-500 focus:border-red-500 focus:ring-1 focus:ring-red-500' : 'border-black/10 focus:border-[#58a6ff]/50 focus:ring-1 focus:ring-[#58a6ff]/50'
                 }`}
                 placeholder="Tell us how we can help... (minimum 10 characters)"
                 disabled={isLoading}
@@ -240,7 +240,7 @@ function ContactPage() {
                 {errors.message ? (
                   <p id="message-error" className="text-red-500 text-sm" role="alert">{errors.message}</p>
                 ) : (
-                  <p className="text-[#666666] text-sm" aria-live="polite">
+                  <p className="text-[var(--color-text-tertiary)] text-sm" aria-live="polite">
                     {formData.message.length}/1000 characters
                   </p>
                 )}
@@ -248,7 +248,7 @@ function ContactPage() {
             </div>
 
             {submitError && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 mb-5 flex items-start gap-3">
+              <div className="bg-red-500/10 border border-red-500/30 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] p-4 mb-5 flex items-start gap-3">
                 <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
@@ -263,15 +263,15 @@ function ContactPage() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full px-6 py-3.5 text-white border-none rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold text-base flex items-center justify-center gap-2 transition-opacity ${
-                  isLoading ? 'bg-[#141414]/60 backdrop-blur-xl cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer hover:opacity-90'
+                className={`w-full px-6 py-3.5 text-white border-none rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] font-semibold text-base flex items-center justify-center gap-2 transition-opacity ${
+                  isLoading ? 'bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer hover:opacity-90'
                 }`}
               >
                 Send Message
               </button>
               <Link
                 to="/help"
-                className={`block text-center px-6 py-3.5 bg-[#141414]/60 text-[#58a6ff] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline font-semibold hover:bg-[#141414]/60 backdrop-blur-xl transition-colors ${
+                className={`block text-center px-6 py-3.5 bg-[var(--color-bg-secondary)]/60 text-[#58a6ff] border border-black/10 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] no-underline font-semibold hover:bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl transition-colors ${
                   isLoading ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 aria-label="Visit help center"
@@ -285,7 +285,7 @@ function ContactPage() {
         <div className="text-center mt-8">
           <Link
             to="/home"
-            className="text-[#666666] no-underline font-medium hover:text-[#A0A0A0] transition-colors"
+            className="text-[var(--color-text-tertiary)] no-underline font-medium hover:text-[var(--color-text-primary)] transition-colors"
             aria-label="Back to home page"
           >
             ← Back to Home

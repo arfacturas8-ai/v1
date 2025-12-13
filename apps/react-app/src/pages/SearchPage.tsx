@@ -226,15 +226,15 @@ export default function SearchPage() {
     activeTab === 'all' ? results : results.filter((r) => r.type === activeTab);
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: colors.bg.primary }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'rgb(var(--color-neutral-50))' }}>
       {/* Header */}
       <header
         style={{
           position: 'sticky',
           top: 0,
           zIndex: 100,
-          backgroundColor: colors.bg.primary,
-          borderBottom: `1px solid ${colors.border.default}`,
+          backgroundColor: 'rgb(var(--color-neutral-50))',
+          borderBottom: `1px solid rgb(var(--color-neutral-200))`,
           padding: spacing[4],
         }}
       >
@@ -262,10 +262,10 @@ export default function SearchPage() {
               style={{
                 width: '100%',
                 padding: `${spacing[3]} ${spacing[12]} ${spacing[3]} ${spacing[12]}`,
-                backgroundColor: colors.bg.secondary,
-                border: `1px solid ${colors.border.default}`,
+                backgroundColor: 'white',
+                border: `1px solid rgb(var(--color-neutral-200))`,
                 borderRadius: radii.full,
-                color: colors.text.primary,
+                color: 'rgb(var(--color-neutral-900))',
                 fontSize: typography.fontSize.base,
                 outline: 'none',
                 transition: `all ${animation.duration.fast} ${animation.easing.easeOut}`,
@@ -328,8 +328,8 @@ export default function SearchPage() {
                     padding: `${spacing[2]} ${spacing[4]}`,
                     borderRadius: radii.full,
                     border: 'none',
-                    backgroundColor: isActive ? colors.brand.primary : colors.bg.elevated,
-                    color: isActive ? colors.text.primary : colors.text.secondary,
+                    backgroundColor: isActive ? colors.brand.primary : 'white',
+                    color: isActive ? 'white' : 'rgb(var(--color-neutral-600))',
                     fontSize: typography.fontSize.sm,
                     fontWeight: typography.fontWeight.medium,
                     whiteSpace: 'nowrap',
@@ -338,12 +338,12 @@ export default function SearchPage() {
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.backgroundColor = colors.bg.hover;
+                      e.currentTarget.style.backgroundColor = 'rgb(var(--color-neutral-100))';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.currentTarget.style.backgroundColor = colors.bg.elevated;
+                      e.currentTarget.style.backgroundColor = 'white';
                     }
                   }}
                 >
@@ -418,7 +418,7 @@ export default function SearchPage() {
                         alignItems: 'center',
                         gap: spacing[3],
                         padding: spacing[3],
-                        backgroundColor: colors.bg.secondary,
+                        backgroundColor: 'white',
                         border: 'none',
                         borderRadius: radii.lg,
                         cursor: 'pointer',
@@ -426,10 +426,10 @@ export default function SearchPage() {
                         transition: `all ${animation.duration.fast} ${animation.easing.easeOut}`,
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.bg.hover;
+                        e.currentTarget.style.backgroundColor = 'rgb(var(--color-neutral-100))';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = colors.bg.secondary;
+                        e.currentTarget.style.backgroundColor = 'white';
                       }}
                     >
                       <Clock size={18} color={colors.text.tertiary} />
@@ -471,7 +471,7 @@ export default function SearchPage() {
                       alignItems: 'center',
                       gap: spacing[3],
                       padding: spacing[3],
-                      backgroundColor: colors.bg.secondary,
+                      backgroundColor: 'white',
                       border: 'none',
                       borderRadius: radii.lg,
                       cursor: 'pointer',
@@ -479,10 +479,10 @@ export default function SearchPage() {
                       transition: `all ${animation.duration.fast} ${animation.easing.easeOut}`,
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = colors.bg.hover;
+                      e.currentTarget.style.backgroundColor = 'rgb(var(--color-neutral-100))';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = colors.bg.secondary;
+                      e.currentTarget.style.backgroundColor = 'white';
                     }}
                   >
                     <div
@@ -545,7 +545,7 @@ export default function SearchPage() {
                     display: 'flex',
                     gap: spacing[3],
                     padding: spacing[4],
-                    backgroundColor: colors.bg.secondary,
+                    backgroundColor: 'white',
                     border: 'none',
                     borderRadius: radii.lg,
                     cursor: 'pointer',
@@ -553,10 +553,10 @@ export default function SearchPage() {
                     transition: `all ${animation.duration.fast} ${animation.easing.easeOut}`,
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = colors.bg.hover;
+                    e.currentTarget.style.backgroundColor = 'rgb(var(--color-neutral-100))';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = colors.bg.secondary;
+                    e.currentTarget.style.backgroundColor = 'white';
                   }}
                 >
                   {/* Avatar/Thumbnail */}
@@ -628,7 +628,7 @@ export default function SearchPage() {
                 width: '80px',
                 height: '80px',
                 borderRadius: radii.full,
-                backgroundColor: colors.bg.secondary,
+                backgroundColor: 'rgb(var(--color-neutral-100))',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -678,21 +678,21 @@ export default function SearchPage() {
                     onClick={() => handleRecentClick(trend.query)}
                     style={{
                       padding: `${spacing[2]} ${spacing[4]}`,
-                      backgroundColor: colors.bg.elevated,
+                      backgroundColor: 'white',
                       border: 'none',
                       borderRadius: radii.full,
-                      color: colors.text.secondary,
+                      color: 'rgb(var(--color-neutral-600))',
                       fontSize: typography.fontSize.sm,
                       cursor: 'pointer',
                       transition: `all ${animation.duration.fast} ${animation.easing.easeOut}`,
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = colors.bg.hover;
-                      e.currentTarget.style.color = colors.text.primary;
+                      e.currentTarget.style.backgroundColor = 'rgb(var(--color-neutral-100))';
+                      e.currentTarget.style.color = 'rgb(var(--color-neutral-900))';
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = colors.bg.elevated;
-                      e.currentTarget.style.color = colors.text.secondary;
+                      e.currentTarget.style.backgroundColor = 'white';
+                      e.currentTarget.style.color = 'rgb(var(--color-neutral-600))';
                     }}
                   >
                     {trend.query}

@@ -39,7 +39,7 @@ const CategoryBrowsePage = () => {
   ]
 
   return (
-    <div className="min-h-screen bg-[#0d1117] pt-20" role="main" aria-label="Category browse page">
+    <div className="min-h-screen bg-rgb(var(--color-neutral-50)) pt-20" role="main" aria-label="Category browse page">
       <div className={`max-w-7xl mx-auto ${isMobile ? 'px-4 py-8' : 'px-6 py-12'}`}>
         {/* Header */}
         <motion.div
@@ -50,7 +50,7 @@ const CategoryBrowsePage = () => {
           <h1 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-bold mb-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent`}>
             Browse Categories
           </h1>
-          <p className={`${isMobile ? 'text-base' : 'text-xl'} text-[#8b949e]`}>
+          <p className={`${isMobile ? 'text-base' : 'text-xl'} text-secondary`}>
             Discover content that interests you
           </p>
         </motion.div>
@@ -63,7 +63,7 @@ const CategoryBrowsePage = () => {
         >
           <div className="flex items-center gap-3 mb-6">
             <TrendingUp className="w-6 h-6 text-[#58a6ff]" />
-            <h2 className="text-2xl font-bold text-white">Trending Topics</h2>
+            <h2 className="text-2xl font-bold text-primary">Trending Topics</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {trendingTopics.map((topic, index) => (
@@ -73,13 +73,13 @@ const CategoryBrowsePage = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => navigate(`/tag/${topic.name.toLowerCase().replace(/\s+/g, '-')}`)}
-                className="p-6 bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 hover:border-[#58a6ff]/50 transition-all cursor-pointer"
+                className="p-6 bg-white rounded-2xl shadow-sm border border-rgb(var(--color-neutral-200)) hover:border-[#58a6ff]/50 transition-all cursor-pointer"
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-semibold text-white">{topic.name}</h3>
+                  <h3 className="font-semibold text-primary">{topic.name}</h3>
                   <span className="text-[#58a6ff] font-bold">#{index + 1}</span>
                 </div>
-                <p className="text-sm text-[#8b949e]">{topic.posts.toLocaleString()} posts</p>
+                <p className="text-sm text-secondary">{topic.posts.toLocaleString()} posts</p>
               </motion.div>
             ))}
           </div>
@@ -125,7 +125,7 @@ const CategoryBrowsePage = () => {
           transition={{ delay: 0.5 }}
           className="mt-16"
         >
-          <h2 className="text-2xl font-bold mb-6 text-white">
+          <h2 className="text-2xl font-bold mb-6 text-primary">
             Popular Communities
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -142,17 +142,17 @@ const CategoryBrowsePage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 + index * 0.1 }}
-                className={`${isMobile ? 'p-4' : 'p-6'} bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 hover:border-[#58a6ff]/50 transition-all cursor-pointer`}
+                className={`${isMobile ? 'p-4' : 'p-6'} bg-white rounded-2xl shadow-sm border border-rgb(var(--color-neutral-200)) hover:border-[#58a6ff]/50 transition-all cursor-pointer`}
               >
                 <div className="flex items-center gap-4 mb-3">
                   <div className={`${isMobile ? 'text-3xl' : 'text-4xl'}`}>{community.icon}</div>
                   <div className="flex-1">
-                    <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-semibold text-white`}>{community.name}</h3>
-                    <p className="text-xs text-[#8b949e]">{community.category}</p>
+                    <h3 className={`${isMobile ? 'text-sm' : 'text-base'} font-semibold text-primary`}>{community.name}</h3>
+                    <p className="text-xs text-secondary">{community.category}</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm text-[#8b949e]">{community.members} members</span>
+                  <span className="text-sm text-secondary">{community.members} members</span>
                   <button className={`${isMobile ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'} bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg transition-colors`}>
                     Join
                   </button>

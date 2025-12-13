@@ -239,14 +239,14 @@ function UsersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0a0b0d] to-[#1a1b1f] text-white p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-rgb(var(--color-neutral-50)) text-primary p-4 sm:p-6 lg:p-8">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b border-white/10">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8 pb-6 border-b border-rgb(var(--color-neutral-200))">
         <div>
           <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
             User Management
           </h1>
-          <p className="text-sm text-white/60">Manage and monitor platform users</p>
+          <p className="text-sm text-secondary">Manage and monitor platform users</p>
         </div>
         <button
           className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"
@@ -270,40 +270,40 @@ function UsersPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
+        <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
+          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
             <Users size={24} />
           </div>
           <div>
             <div className="text-2xl font-bold">{stats.totalUsers}</div>
-            <div className="text-sm text-white/60">Total Users</div>
+            <div className="text-sm text-secondary">Total Users</div>
           </div>
         </div>
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
+        <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
+          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
             <UserCheck size={24} />
           </div>
           <div>
             <div className="text-2xl font-bold">{stats.activeToday}</div>
-            <div className="text-sm text-white/60">Active Today</div>
+            <div className="text-sm text-secondary">Active Today</div>
           </div>
         </div>
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center">
+        <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
+          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center">
             <UserPlus size={24} />
           </div>
           <div>
             <div className="text-2xl font-bold">{stats.newThisWeek}</div>
-            <div className="text-sm text-white/60">New This Week</div>
+            <div className="text-sm text-secondary">New This Week</div>
           </div>
         </div>
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+        <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
+          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
             <Ban size={24} />
           </div>
           <div>
             <div className="text-2xl font-bold">{stats.banned}</div>
-            <div className="text-sm text-white/60">Banned</div>
+            <div className="text-sm text-secondary">Banned</div>
           </div>
         </div>
       </div>
@@ -311,19 +311,19 @@ function UsersPage() {
       {/* Search and Filters */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <div className="flex-1 relative">
-          <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
+          <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-rgb(var(--color-neutral-400))" />
           <input
             type="text"
             placeholder="Search by username or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            className="w-full pl-12 pr-4 py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white placeholder:text-white/40 focus:outline-none focus:border-[#a371f7] transition-colors"
+            className="w-full pl-12 pr-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#a371f7] transition-colors"
           />
         </div>
         <div className="flex gap-3">
           <select
-            className="px-4 py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white text-sm cursor-pointer focus:outline-none focus:border-[#a371f7] transition-colors"
+            className="px-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm cursor-pointer focus:outline-none focus:border-[#a371f7] transition-colors"
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
           >
@@ -334,7 +334,7 @@ function UsersPage() {
             <option value="user">User</option>
           </select>
           <select
-            className="px-4 py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white text-sm cursor-pointer focus:outline-none focus:border-[#a371f7] transition-colors"
+            className="px-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm cursor-pointer focus:outline-none focus:border-[#a371f7] transition-colors"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
@@ -348,18 +348,18 @@ function UsersPage() {
 
       {/* Bulk Actions */}
       {selectedUsers.length > 0 && (
-        <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+        <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-2xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <span className="font-semibold text-[#a371f7]">{selectedUsers.length} users selected</span>
           <div className="flex flex-wrap gap-3">
-            <button className="px-4 py-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-white text-sm font-semibold flex items-center gap-2 hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors" onClick={() => handleBulkAction('ban')}>
+            <button className="px-4 py-2 bg-white border border-rgb(var(--color-neutral-200)) rounded-lg text-primary text-sm font-semibold flex items-center gap-2 hover:bg-rgb(var(--color-neutral-50)) transition-colors" onClick={() => handleBulkAction('ban')}>
               <Ban size={16} />
               Ban Selected
             </button>
-            <button className="px-4 py-2 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-sm font-semibold flex items-center gap-2 hover:bg-red-500/30 transition-colors" onClick={() => handleBulkAction('delete')}>
+            <button className="px-4 py-2 bg-red-500/20 border border-red-500/50 rounded-lg text-red-600 text-sm font-semibold flex items-center gap-2 hover:bg-red-500/30 transition-colors" onClick={() => handleBulkAction('delete')}>
               <Trash2 size={16} />
               Delete Selected
             </button>
-            <button className="px-4 py-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-white text-sm font-semibold hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors" onClick={() => setSelectedUsers([])}>
+            <button className="px-4 py-2 bg-white border border-rgb(var(--color-neutral-200)) rounded-lg text-primary text-sm font-semibold hover:bg-rgb(var(--color-neutral-50)) transition-colors" onClick={() => setSelectedUsers([])}>
               Clear Selection
             </button>
           </div>
@@ -368,22 +368,22 @@ function UsersPage() {
 
       {/* Users Table */}
       {loading ? (
-        <div className="text-center py-20 text-white/60">
-          <div className="w-12 h-12 border-4 border-white/10 border-t-[#a371f7] rounded-full  mx-auto mb-4"></div>
+        <div className="text-center py-20 text-secondary">
+          <div className="w-12 h-12 border-4 border-rgb(var(--color-neutral-200)) border-t-[#a371f7] rounded-full  mx-auto mb-4"></div>
           <p>Loading users...</p>
         </div>
       ) : users.length === 0 ? (
-        <div className="text-center py-20 text-white/60">
+        <div className="text-center py-20 text-secondary">
           <Users size={48} className="mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">No Users Found</h3>
+          <h3 className="text-xl font-semibold text-primary mb-2">No Users Found</h3>
           <p>Try adjusting your filters or search query</p>
         </div>
       ) : (
         <>
-          <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden mb-6">
+          <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm overflow-hidden mb-6">
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-[#161b22]/60 backdrop-blur-xl">
+                <thead className="bg-rgb(var(--color-neutral-50))">
                   <tr>
                     <th className="px-4 py-4 text-left">
                       <input
@@ -393,18 +393,18 @@ function UsersPage() {
                         className="accent-[#a371f7]"
                       />
                     </th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-white/80 uppercase tracking-wide">User</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-white/80 uppercase tracking-wide hidden md:table-cell">Email</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-white/80 uppercase tracking-wide">Role</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-white/80 uppercase tracking-wide hidden lg:table-cell">Join Date</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-white/80 uppercase tracking-wide hidden xl:table-cell">Last Active</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-white/80 uppercase tracking-wide">Status</th>
-                    <th className="px-4 py-4 text-left text-sm font-semibold text-white/80 uppercase tracking-wide">Actions</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide">User</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide hidden md:table-cell">Email</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide">Role</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide hidden lg:table-cell">Join Date</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide hidden xl:table-cell">Last Active</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide">Status</th>
+                    <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {users.map((user) => (
-                    <tr key={user.id} className="border-t border-white/10 hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors">
+                    <tr key={user.id} className="border-t border-rgb(var(--color-neutral-200)) hover:bg-rgb(var(--color-neutral-50)) transition-colors">
                       <td className="px-4 py-4">
                         <input
                           type="checkbox"
@@ -424,11 +424,11 @@ function UsersPage() {
                           </div>
                           <div>
                             <div className="font-semibold">{user.username}</div>
-                            <div className="text-xs text-white/50">#{user.id}</div>
+                            <div className="text-xs text-rgb(var(--color-neutral-400))">#{user.id}</div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-4 hidden md:table-cell text-white/80">{user.email}</td>
+                      <td className="px-4 py-4 hidden md:table-cell text-secondary">{user.email}</td>
                       <td className="px-4 py-4">
                         <select
                           className={`px-3 py-1 rounded-md text-xs font-semibold border-0 ${getRoleBadgeClass(user.role)}`}
@@ -441,9 +441,9 @@ function UsersPage() {
                           <option value="admin">Admin</option>
                         </select>
                       </td>
-                      <td className="px-4 py-4 hidden lg:table-cell text-white/80 text-sm">{formatDate(user.createdAt)}</td>
+                      <td className="px-4 py-4 hidden lg:table-cell text-secondary text-sm">{formatDate(user.createdAt)}</td>
                       <td className="px-4 py-4 hidden xl:table-cell">
-                        <div className="flex items-center gap-2 text-white/80 text-sm">
+                        <div className="flex items-center gap-2 text-secondary text-sm">
                           <Clock size={14} />
                           {formatDate(user.lastActive || user.updatedAt)}
                         </div>
@@ -456,21 +456,21 @@ function UsersPage() {
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-2">
                           <button
-                            className="p-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg hover:bg-[#161b22]/60 backdrop-blur-xl hover:-translate-y-0.5 transition-all"
+                            className="p-2 bg-white border border-rgb(var(--color-neutral-200)) rounded-lg hover:bg-rgb(var(--color-neutral-50)) hover:-translate-y-0.5 transition-all"
                             onClick={() => handleViewUser(user)}
                             title="View Profile"
                           >
                             <Eye size={16} />
                           </button>
                           <button
-                            className={`p-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg hover:bg-[#161b22]/60 backdrop-blur-xl hover:-translate-y-0.5 transition-all ${user.status === 'banned' ? 'text-emerald-400' : 'text-red-400'}`}
+                            className={`p-2 bg-white border border-rgb(var(--color-neutral-200)) rounded-lg hover:bg-rgb(var(--color-neutral-50)) hover:-translate-y-0.5 transition-all ${user.status === 'banned' ? 'text-emerald-500' : 'text-red-600'}`}
                             onClick={() => handleBanUser(user.id, user.status)}
                             title={user.status === 'banned' ? 'Unban' : 'Ban'}
                           >
                             <Ban size={16} />
                           </button>
                           <button
-                            className="p-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-red-400 hover:bg-[#161b22]/60 backdrop-blur-xl hover:-translate-y-0.5 transition-all"
+                            className="p-2 bg-white border border-rgb(var(--color-neutral-200)) rounded-lg text-red-600 hover:bg-rgb(var(--color-neutral-50)) hover:-translate-y-0.5 transition-all"
                             onClick={() => handleDeleteUser(user.id, user.username)}
                             title="Delete User"
                           >
@@ -488,18 +488,18 @@ function UsersPage() {
           {/* Pagination */}
           <div className="flex justify-center items-center gap-6">
             <button
-              className="px-5 py-2.5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#a371f7] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#a371f7] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
               <ChevronLeft size={20} />
               Previous
             </button>
-            <div className="text-white/80">
+            <div className="text-secondary">
               Page {currentPage} of {totalPages}
             </div>
             <button
-              className="px-5 py-2.5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-white flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#a371f7] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#a371f7] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >
@@ -512,17 +512,17 @@ function UsersPage() {
 
       {/* User Detail Modal */}
       {showUserModal && selectedUser && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4" onClick={() => setShowUserModal(false)}>
-          <div className="bg-[#1a1b1f] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="px-6 py-5 border-b border-white/10 flex justify-between items-center sticky top-0 bg-[#1a1b1f]">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowUserModal(false)}>
+          <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="px-6 py-5 border-b border-rgb(var(--color-neutral-200)) flex justify-between items-center sticky top-0 bg-white">
               <h2 className="text-xl font-bold">User Profile</h2>
-              <button className="text-3xl leading-none hover:bg-[#161b22]/60 backdrop-blur-xl rounded-lg w-8 h-8 flex items-center justify-center transition-colors" onClick={() => setShowUserModal(false)}>
+              <button className="text-3xl leading-none hover:bg-rgb(var(--color-neutral-50)) rounded-lg w-8 h-8 flex items-center justify-center transition-colors" onClick={() => setShowUserModal(false)}>
                 &times;
               </button>
             </div>
 
             <div className="p-6">
-              <div className="flex items-start gap-6 mb-8 pb-6 border-b border-white/10">
+              <div className="flex items-start gap-6 mb-8 pb-6 border-b border-rgb(var(--color-neutral-200))">
                 <div className="w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
                   {selectedUser.avatarUrl ? (
                     <img src={selectedUser.avatarUrl} alt={selectedUser.username} className="w-full h-full object-cover" />
@@ -532,7 +532,7 @@ function UsersPage() {
                 </div>
                 <div className="flex-1">
                   <h3 className="text-xl font-bold mb-1">{selectedUser.username}</h3>
-                  <p className="text-white/60 mb-3">{selectedUser.email}</p>
+                  <p className="text-secondary mb-3">{selectedUser.email}</p>
                   <div className="flex flex-wrap gap-2">
                     <span className={`px-3 py-1 rounded-md text-xs font-semibold ${getRoleBadgeClass(selectedUser.role)}`}>
                       {selectedUser.role || 'user'}
@@ -545,33 +545,33 @@ function UsersPage() {
               </div>
 
               <div className="space-y-3">
-                <div className="flex justify-between items-center p-3 bg-[#161b22]/60 backdrop-blur-xl rounded-lg">
-                  <span className="text-white/60 font-semibold">User ID:</span>
-                  <span className="text-white">#{selectedUser.id}</span>
+                <div className="flex justify-between items-center p-3 bg-rgb(var(--color-neutral-50)) rounded-lg">
+                  <span className="text-secondary font-semibold">User ID:</span>
+                  <span className="text-primary">#{selectedUser.id}</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-[#161b22]/60 backdrop-blur-xl rounded-lg">
-                  <span className="text-white/60 font-semibold">Joined:</span>
-                  <span className="text-white">{formatDate(selectedUser.createdAt)}</span>
+                <div className="flex justify-between items-center p-3 bg-rgb(var(--color-neutral-50)) rounded-lg">
+                  <span className="text-secondary font-semibold">Joined:</span>
+                  <span className="text-primary">{formatDate(selectedUser.createdAt)}</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-[#161b22]/60 backdrop-blur-xl rounded-lg">
-                  <span className="text-white/60 font-semibold">Last Active:</span>
-                  <span className="text-white">{formatDate(selectedUser.lastActive || selectedUser.updatedAt)}</span>
+                <div className="flex justify-between items-center p-3 bg-rgb(var(--color-neutral-50)) rounded-lg">
+                  <span className="text-secondary font-semibold">Last Active:</span>
+                  <span className="text-primary">{formatDate(selectedUser.lastActive || selectedUser.updatedAt)}</span>
                 </div>
                 {selectedUser.bio && (
-                  <div className="flex justify-between items-center p-3 bg-[#161b22]/60 backdrop-blur-xl rounded-lg">
-                    <span className="text-white/60 font-semibold">Bio:</span>
-                    <span className="text-white">{selectedUser.bio}</span>
+                  <div className="flex justify-between items-center p-3 bg-rgb(var(--color-neutral-50)) rounded-lg">
+                    <span className="text-secondary font-semibold">Bio:</span>
+                    <span className="text-primary">{selectedUser.bio}</span>
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="px-6 py-4 border-t border-white/10 flex justify-end gap-3">
-              <button className="px-4 py-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-white font-semibold hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors" onClick={() => setShowUserModal(false)}>
+            <div className="px-6 py-4 border-t border-rgb(var(--color-neutral-200)) flex justify-end gap-3">
+              <button className="px-4 py-2 bg-white border border-rgb(var(--color-neutral-200)) rounded-lg text-primary font-semibold hover:bg-rgb(var(--color-neutral-50)) transition-colors" onClick={() => setShowUserModal(false)}>
                 Close
               </button>
               <button
-                className="px-4 py-2 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 font-semibold flex items-center gap-2 hover:bg-red-500/30 transition-colors"
+                className="px-4 py-2 bg-red-500/20 border border-red-500/50 rounded-lg text-red-600 font-semibold flex items-center gap-2 hover:bg-red-500/30 transition-colors"
                 onClick={() => {
                   handleDeleteUser(selectedUser.id, selectedUser.username)
                   setShowUserModal(false)

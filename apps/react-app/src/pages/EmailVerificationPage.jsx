@@ -100,16 +100,17 @@ export default function EmailVerificationPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center bg-[#0D0D0D] p-3 md:p-4"
+      className="min-h-screen flex items-center justify-center p-3 md:p-4"
+      style={{ background: 'var(--bg-primary)' }}
       role="main"
       aria-label="Email verification page"
     >
-      <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+      <div className="bg-[#141414]/60 backdrop-blur-xl rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]" style={{ border: '1px solid var(--border-subtle)' }}>
         <div className="flex justify-center mb-6 md:mb-8">
           {getIcon()}
         </div>
 
-        <h1 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4 text-white">
+        <h1 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
           {status === 'verifying' && 'Verifying Email'}
           {status === 'success' && 'Email Verified!'}
           {status === 'error' && 'Verification Failed'}
@@ -167,7 +168,7 @@ export default function EmailVerificationPage() {
           )}
         </div>
 
-        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-white/10 text-xs md:text-sm text-[#666666]">
+        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t text-xs md:text-sm text-[#666666]" style={{ borderColor: 'var(--border-subtle)' }}>
           <p>Having trouble? <Link to="/help" className="text-[#58a6ff] hover:text-[#79c0ff] underline transition-colors">Contact Support</Link></p>
         </div>
       </div>

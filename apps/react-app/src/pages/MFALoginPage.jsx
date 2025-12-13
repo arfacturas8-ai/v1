@@ -155,23 +155,26 @@ export default function MFALoginPage() {
   }
 
   return (
-    <div className="min-h-screen text-white flex items-center justify-center p-4 pb-8 md:p-4 bg-[#0D0D0D]" role="main" aria-label="Two-factor authentication">
+    <div className="min-h-screen flex items-center justify-center p-4 pb-8 md:p-4" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }} role="main" aria-label="Two-factor authentication">
       <div className="w-full max-w-full md:max-w-[480px] lg:max-w-[440px]">
         <button
           onClick={() => navigate('/login')}
-          className="mb-3 md:mb-4 flex items-center gap-2 text-[#666666] hover:text-white bg-transparent border-0 cursor-pointer text-xs p-1 transition-colors"
+          className="mb-3 md:mb-4 flex items-center gap-2 text-[#666666] bg-transparent border-0 cursor-pointer text-xs p-1 transition-colors"
+          style={{ '--hover-color': 'var(--text-primary)' }}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
           aria-label="Back to login"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to login</span>
         </button>
 
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-[10px] border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 lg:p-5">
+        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 lg:p-5" style={{ border: '1px solid var(--border-subtle)' }}>
           <div className="text-center mb-4 md:mb-5 lg:mb-4">
             <div className="inline-flex items-center justify-center w-11 h-11 bg-[#58a6ff]/10 rounded-full mb-3 md:mb-2.5 lg:mb-2">
               <Shield className="w-5.5 h-5.5 text-[#58a6ff]" />
             </div>
-            <h1 className="text-xl font-bold mb-2 md:mb-1.5 text-white">Two-Factor Authentication</h1>
+            <h1 className="text-xl font-bold mb-2 md:mb-1.5" style={{ color: 'var(--text-primary)' }}>Two-Factor Authentication</h1>
             <p className="text-xs text-[#666666] leading-relaxed">
               {email && <span className="block text-[11px] mb-2 md:mb-1.5 text-[#A0A0A0]">{email}</span>}
               Enter the 6-digit code from your authenticator app
@@ -192,7 +195,8 @@ export default function MFALoginPage() {
                     onChange={(e) => handleInputChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     disabled={loading}
-                    className="w-[38px] md:w-[42px] h-11 md:h-12 text-center text-lg font-bold bg-[#202225]/60 border border-white/10 rounded-[10px] text-white outline-none transition-all disabled:opacity-50"
+                    className="w-[38px] md:w-[42px] h-11 md:h-12 text-center text-lg font-bold bg-[#202225]/60 rounded-[10px] outline-none transition-all disabled:opacity-50"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     aria-label={`Digit ${index + 1}`}
                   />
                 ))}
@@ -249,7 +253,8 @@ export default function MFALoginPage() {
                     name="backupCode"
                     placeholder="Enter your backup code"
                     disabled={loading}
-                    className="w-full px-3 md:px-2.5 py-3 md:py-2.5 text-sm bg-[#202225]/60 border border-white/10 rounded-[10px] text-white outline-none transition-all disabled:opacity-50"
+                    className="w-full px-3 md:px-2.5 py-3 md:py-2.5 text-sm bg-[#202225]/60 rounded-[10px] outline-none transition-all disabled:opacity-50"
+                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     required
                   />
                   <p className="mt-2 md:mt-1.5 text-[11px] text-[#666666] leading-normal">
@@ -302,7 +307,7 @@ export default function MFALoginPage() {
             </>
           )}
 
-          <div className="mt-5 md:mt-4.5 lg:mt-3.5 pt-4 md:pt-3.5 lg:pt-3 border-t border-white/10 text-center">
+          <div className="mt-5 md:mt-4.5 lg:mt-3.5 pt-4 md:pt-3.5 lg:pt-3 border-t text-center" style={{ borderColor: 'var(--border-subtle)' }}>
             <p className="text-xs text-[#666666]">
               Lost access to your authenticator?{' '}
               <Link to="/account-recovery" className="text-[#58a6ff] no-underline transition-colors hover:text-[#79c0ff]">

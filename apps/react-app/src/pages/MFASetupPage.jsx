@@ -92,13 +92,13 @@ export default function MFASetupPage() {
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7] p-4 md:p-5" role="main" aria-label="Multi-factor authentication setup page">
-      <div className="w-full max-w-full md:max-w-[560px] bg-[#161b22]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-4 md:p-10">
+      <div className="w-full max-w-full md:max-w-[560px] bg-[#161b22]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-4 md:p-10" style={{ border: '1px solid var(--border-subtle)' }}>
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-14 md:w-16 h-14 md:h-16 bg-[#58a6ff]/[0.15] rounded-full mb-4">
             <Shield className="w-7 md:w-8 h-7 md:h-8 text-[#58a6ff]" />
           </div>
-          <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             Two-Factor Authentication
           </h1>
           <p className="text-sm text-[#8b949e] leading-relaxed">
@@ -120,7 +120,7 @@ export default function MFASetupPage() {
         {/* Step 1: Download Authenticator */}
         {step === 1 && (
           <div>
-            <h2 className="text-xl md:text-2xl font-semibold text-white mb-3 md:mb-4">
+            <h2 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
               Step 1: Download Authenticator App
             </h2>
             <p className="text-sm text-[#8b949e] leading-relaxed mb-4 md:mb-6">
@@ -154,7 +154,7 @@ export default function MFASetupPage() {
         {/* Step 2: Scan QR Code */}
         {step === 2 && (
           <div>
-            <h2 className="text-xl md:text-2xl font-semibold text-white mb-3 md:mb-4">
+            <h2 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
               Step 2: Scan QR Code
             </h2>
             <p className="text-sm text-[#8b949e] leading-relaxed mb-4 md:mb-6">
@@ -250,7 +250,7 @@ export default function MFASetupPage() {
         {/* Step 3: Backup Codes */}
         {step === 3 && (
           <div>
-            <h2 className="text-xl md:text-2xl font-semibold text-white mb-3 md:mb-4">
+            <h2 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
               Step 3: Save Backup Codes
             </h2>
             <p className="text-sm text-[#8b949e] leading-relaxed mb-4 md:mb-6">
@@ -298,7 +298,7 @@ export default function MFASetupPage() {
         )}
 
         {/* Footer */}
-        <div className="mt-8 pt-6 border-t border-white/10 text-center">
+        <div className="mt-8 pt-6 border-t text-center" style={{ borderColor: 'var(--border-subtle)' }}>
           <Link
             to="/settings"
             className="text-[#58a6ff] no-underline text-sm font-semibold hover:text-[#3d9df0] transition-colors"

@@ -122,10 +122,10 @@ export default function CallsPage() {
 
   return (
     <div style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px', color: '#FFFFFF' }}>
+      <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px', color: '#111827' }}>
         Call History
       </h1>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', backgroundColor: '#2A2A2A', borderRadius: '12px', overflow: 'hidden' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', backgroundColor: '#E5E7EB', borderRadius: '12px', overflow: 'hidden' }}>
         {callHistory.map((call) => (
           <div
             key={call.id}
@@ -134,15 +134,15 @@ export default function CallsPage() {
               alignItems: 'center',
               gap: '16px',
               padding: '16px',
-              backgroundColor: '#141414',
+              backgroundColor: '#FFFFFF',
               cursor: 'pointer',
               transition: 'background-color 150ms ease-out',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#1A1A1A';
+              e.currentTarget.style.backgroundColor = '#F9FAFB';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#141414';
+              e.currentTarget.style.backgroundColor = '#FFFFFF';
             }}
           >
             <Avatar
@@ -152,7 +152,7 @@ export default function CallsPage() {
               fallback={call.user.displayName[0]}
             />
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: '15px', fontWeight: '600', color: '#FFFFFF', marginBottom: '4px' }}>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: '#111827', marginBottom: '4px' }}>
                 {call.user.displayName}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -193,7 +193,7 @@ export default function CallsPage() {
                 transition: 'background-color 150ms ease-out',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#2A2A2A';
+                e.currentTarget.style.backgroundColor = '#F3F4F6';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = 'transparent';

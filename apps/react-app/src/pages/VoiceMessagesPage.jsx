@@ -174,12 +174,12 @@ const VoiceMessagesPage = () => {
   }, [])
 
   return (
-    <div className="min-h-screen p-4 md:p-6 bg-[#0d1117]" role="main" aria-label="Voice messages page">
+    <div className="min-h-screen p-4 md:p-6 bg-white" role="main" aria-label="Voice messages page">
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden"
+          className="bg-white border border-gray-200 rounded-3xl shadow-lg overflow-hidden"
         >
           {/* Header */}
           <div className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white p-5 md:p-8">
@@ -193,7 +193,7 @@ const VoiceMessagesPage = () => {
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-red-900/30 text-red-400 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-red-700/50"
+                className="mb-6 p-4 bg-red-50 text-red-600 rounded-2xl shadow-md border border-red-200"
                 role="alert"
               >
                 {typeof error === 'string' ? error : 'An error occurred'}
@@ -243,10 +243,10 @@ const VoiceMessagesPage = () => {
                   </div>
 
                   <div className="mt-5 md:mt-6">
-                    <div className="font-bold text-white text-3xl md:text-4xl">
+                    <div className="font-bold text-gray-900 text-3xl md:text-4xl">
                       {formatTime(recordingTime)}
                     </div>
-                    <div className="text-[#8b949e] mt-2 md:mt-3 text-sm md:text-base">
+                    <div className="text-gray-600 mt-2 md:mt-3 text-sm md:text-base">
                       {isRecording ? 'Recording...' : 'Tap to record'}
                     </div>
                   </div>
@@ -260,7 +260,7 @@ const VoiceMessagesPage = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="space-y-6"
                 >
-                  <div className="flex items-center gap-3 md:gap-4 p-4 md:p-6 bg-[#21262d]/60 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                  <div className="flex items-center gap-3 md:gap-4 p-4 md:p-6 bg-gray-50 border border-gray-200 rounded-2xl shadow-md">
                     <button
                       onClick={isPlaying ? pauseAudio : playAudio}
                       className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-full text-white transition-all flex-shrink-0"
@@ -274,11 +274,11 @@ const VoiceMessagesPage = () => {
                     </button>
 
                     <div className="flex-1 min-w-0">
-                      <div className="flex justify-between text-xs md:text-sm text-[#8b949e] mb-2">
+                      <div className="flex justify-between text-xs md:text-sm text-gray-600 mb-2">
                         <span>{formatTime(playbackTime)}</span>
                         <span>{formatTime(duration)}</span>
                       </div>
-                      <div className="h-2 bg-[#30363d] rounded-full overflow-hidden">
+                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                         <motion.div
                           className="h-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7]"
                           style={{ width: `${(playbackTime / duration) * 100}%` }}
@@ -291,7 +291,7 @@ const VoiceMessagesPage = () => {
                   <div className="grid grid-cols-3 gap-2 md:gap-4">
                     <button
                       onClick={deleteRecording}
-                      className="p-3 md:p-4 bg-red-900/30 hover:bg-red-900/50 text-red-400 border border-red-700/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
+                      className="p-3 md:p-4 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-2xl shadow-md transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
                       aria-label="Delete recording"
                     >
                       <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
@@ -300,7 +300,7 @@ const VoiceMessagesPage = () => {
 
                     <button
                       onClick={downloadRecording}
-                      className="p-3 md:p-4 bg-[#21262d] border border-white/10 hover:bg-[#30363d] text-[#c9d1d9] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
+                      className="p-3 md:p-4 bg-gray-100 border border-gray-200 hover:bg-gray-200 text-gray-900 rounded-2xl shadow-md transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
                       aria-label="Download recording"
                     >
                       <Download className="w-4 h-4 md:w-5 md:h-5" />
@@ -309,7 +309,7 @@ const VoiceMessagesPage = () => {
 
                     <button
                       onClick={sendVoiceMessage}
-                      className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm font-medium"
+                      className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-2xl shadow-lg transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm font-medium"
                       aria-label="Send voice message"
                     >
                       <Send className="w-4 h-4 md:w-5 md:h-5" />

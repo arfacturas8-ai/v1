@@ -157,9 +157,9 @@ export default function PasskeySetupPage() {
 
   if (!isSupported) {
     return (
-      <div className="min-h-screen text-white flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center p-4" style={{ color: 'var(--text-primary)' }}>
         <div className="w-full max-w-md">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg border border-white/10 p-8">
+          <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/10 rounded-full mb-4">
                 <AlertCircle className="w-8 h-8 text-red-500" />
@@ -180,12 +180,14 @@ export default function PasskeySetupPage() {
   }
 
   return (
-    <div className="min-h-screen text-white flex items-center justify-center p-4" role="main" aria-label="Passkey setup">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ color: 'var(--text-primary)' }} role="main" aria-label="Passkey setup">
       <div className="w-full max-w-2xl">
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 flex items-center gap-2 text-[#8b949e] hover:text-white transition-colors"
+          className="mb-6 flex items-center gap-2 text-[#8b949e] transition-colors"
+          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#8b949e'}
           aria-label="Go back"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -193,7 +195,7 @@ export default function PasskeySetupPage() {
         </button>
 
         {/* Card */}
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg border border-white/10 p-8">
+        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
           {/* Step 1: Introduction */}
           {step === 1 && (
             <>
@@ -275,12 +277,13 @@ export default function PasskeySetupPage() {
                     onChange={(e) => setDeviceName(e.target.value)}
                     placeholder="e.g. iPhone 14, MacBook Pro"
                     disabled={loading}
-                    className="w-full px-4 py-3 bg-[#21262d] border border-white/10 rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors disabled:opacity-50"
+                    className="w-full px-4 py-3 bg-[#21262d] rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors disabled:opacity-50"
+                    style={{ border: '1px solid var(--border-subtle)' }}
                   />
                 </div>
 
                 {/* QR code for mobile */}
-                <div className="p-6 bg-[#21262d] rounded-lg border border-white/10">
+                <div className="p-6 bg-[#21262d] rounded-lg" style={{ border: '1px solid var(--border-subtle)' }}>
                   <div className="flex items-start gap-4">
                     <div className="flex-shrink-0">
                       {qrCode && (
@@ -342,7 +345,7 @@ export default function PasskeySetupPage() {
                 </p>
               </div>
 
-              <div className="p-6 bg-[#21262d] rounded-lg border border-white/10 mb-8">
+              <div className="p-6 bg-[#21262d] rounded-lg mb-8" style={{ border: '1px solid var(--border-subtle)' }}>
                 <h3 className="font-medium mb-4">What's Next?</h3>
                 <ul className="space-y-3 text-sm text-[#8b949e]">
                   <li className="flex items-start gap-2">

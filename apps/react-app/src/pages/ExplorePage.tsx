@@ -97,7 +97,7 @@ export function ExplorePage() {
 
   const containerStyle: React.CSSProperties = {
     minHeight: '100vh',
-    backgroundColor: colors['bg-primary'],
+    backgroundColor: 'rgb(var(--color-neutral-50))',
   };
 
   const maxWidthStyle: React.CSSProperties = {
@@ -109,8 +109,8 @@ export function ExplorePage() {
   const headerStyle: React.CSSProperties = {
     position: 'sticky',
     top: 0,
-    backgroundColor: colors['bg-primary'],
-    borderBottom: `1px solid ${colors['border-default']}`,
+    backgroundColor: 'rgb(var(--color-neutral-50))',
+    borderBottom: `1px solid rgb(var(--color-neutral-200))`,
     padding: spacing[4],
     marginBottom: spacing[4],
     zIndex: 10,
@@ -153,8 +153,8 @@ export function ExplorePage() {
   };
 
   const cardStyle: React.CSSProperties = {
-    backgroundColor: colors['bg-secondary'],
-    border: `1px solid ${colors['border-default']}`,
+    backgroundColor: 'white',
+    border: `1px solid rgb(var(--color-neutral-200))`,
     borderRadius: radii.lg,
     padding: spacing[4],
     cursor: 'pointer',
@@ -184,13 +184,13 @@ export function ExplorePage() {
     gap: spacing[1],
     padding: `${spacing[1]} ${spacing[2]}`,
     backgroundColor:
-      trend === 'up' ? colors['success-bg'] :
-      trend === 'down' ? colors['error-bg'] :
-      colors['bg-elevated'],
+      trend === 'up' ? 'rgba(34, 197, 94, 0.1)' :
+      trend === 'down' ? 'rgba(239, 68, 68, 0.1)' :
+      'rgb(var(--color-neutral-100))',
     color:
-      trend === 'up' ? colors['success'] :
-      trend === 'down' ? colors['error'] :
-      colors['text-secondary'],
+      trend === 'up' ? 'rgb(34, 197, 94)' :
+      trend === 'down' ? 'rgb(239, 68, 68)' :
+      'rgb(var(--color-neutral-600))',
     borderRadius: radii.full,
     fontSize: typography.fontSize.xs,
     fontWeight: typography.fontWeight.semibold,

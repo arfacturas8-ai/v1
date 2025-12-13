@@ -193,7 +193,7 @@ const EventsCalendarPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center" role="main" aria-label="Events calendar page">
+      <div className="min-h-screen bg-white flex items-center justify-center" role="main" aria-label="Events calendar page">
         <div className="text-center">
           <div className=" rounded-full h-12 w-12 border-t-2 border-b-2 border-[#58a6ff] mx-auto mb-4"></div>
           <p className="text-[#666666]">Loading calendar...</p>
@@ -203,11 +203,11 @@ const EventsCalendarPage = () => {
   }
 
   return (
-    <div className="p-4 sm:p-6 max-w-[1600px] mx-auto min-h-screen bg-[#0D0D0D]" role="main" aria-label="Events calendar page">
+    <div className="p-4 sm:p-6 max-w-[1600px] mx-auto min-h-screen bg-white" role="main" aria-label="Events calendar page">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Events Calendar</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Events Calendar</h1>
           <p className="text-[#666666]">Manage and view upcoming events</p>
         </div>
         <button
@@ -237,32 +237,32 @@ const EventsCalendarPage = () => {
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-6">
         {/* Calendar Section */}
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
         {/* Calendar Header */}
-        <div className="p-4 sm:p-6 border-b border-white/10">
+        <div className="p-4 sm:p-6 border-b border-gray-200">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-3">
               <button
                 onClick={handlePrevMonth}
-                className="p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 aria-label="Previous month"
               >
-                <ChevronLeft size={20} className="text-[#A0A0A0]" />
+                <ChevronLeft size={20} className="text-gray-600" />
               </button>
-              <h2 className="text-xl font-bold text-white min-w-[200px] text-center">
+              <h2 className="text-xl font-bold text-gray-900 min-w-[200px] text-center">
                 {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
               </h2>
               <button
                 onClick={handleNextMonth}
-                className="p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 aria-label="Next month"
               >
-                <ChevronRight size={20} className="text-[#A0A0A0]" />
+                <ChevronRight size={20} className="text-gray-600" />
               </button>
             </div>
             <button
               onClick={handleToday}
-              className="px-4 py-2 bg-[#1A1A1A] border border-white/10 text-white rounded-lg hover:bg-[#30363d] transition-colors"
+              className="px-4 py-2 bg-gray-100 border border-gray-200 text-gray-900 rounded-lg hover:bg-gray-200 transition-colors"
               aria-label="Go to today"
             >
               Today
@@ -285,7 +285,7 @@ const EventsCalendarPage = () => {
           {events.length === 0 && !loading ? (
             <div className="text-center py-12">
               <Calendar size={64} className="mx-auto mb-4 text-[#58a6ff]" />
-              <h3 className="text-xl text-white mb-2">No Events</h3>
+              <h3 className="text-xl text-gray-900 mb-2">No Events</h3>
               <p className="text-[#666666] mb-6">You don't have any events scheduled yet</p>
               <button
                 onClick={() => setShowCreateModal(true)}
@@ -311,14 +311,14 @@ const EventsCalendarPage = () => {
                       dayObj.isCurrentMonth
                         ? isToday
                           ? 'border-[#58a6ff] bg-[#58a6ff]/10 shadow-[0_0_12px_rgba(88,166,255,0.2)]'
-                          : 'border-white/10 bg-[#0D0D0D]/50 hover:bg-[#141414]/80 hover:border-white/20 hover:shadow-[0_4px_12px_rgba(0,0,0,0.3)]'
+                          : 'border-gray-200 bg-gray-50 hover:bg-gray-100 hover:border-gray-300 hover:shadow-md'
                         : 'border-transparent bg-transparent'
                     } cursor-pointer`}
                   >
                     {dayObj.day && (
                       <>
                         <div className={`text-sm font-medium mb-1 ${
-                          isToday ? 'text-[#58a6ff]' : 'text-[#A0A0A0]'
+                          isToday ? 'text-[#58a6ff]' : 'text-gray-600'
                         }`}>
                           {dayObj.day}
                         </div>
@@ -353,9 +353,9 @@ const EventsCalendarPage = () => {
         </div>
 
         {/* Sidebar - Upcoming Events */}
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 overflow-hidden h-fit sticky top-6">
-          <div className="p-6 border-b border-white/10">
-            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden h-fit sticky top-6">
+          <div className="p-6 border-b border-gray-200">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
               <Clock size={20} className="text-[#58a6ff]" aria-hidden="true" />
               Upcoming Events
             </h2>
@@ -375,7 +375,7 @@ const EventsCalendarPage = () => {
                     <button
                       key={event.id}
                       onClick={() => setSelectedEvent(event)}
-                      className="w-full text-left p-4 bg-[#0D0D0D]/50 border border-white/10 rounded-xl hover:bg-[#0D0D0D]/80 hover:border-white/20 transition-all group"
+                      className="w-full text-left p-4 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 hover:border-gray-300 transition-all group"
                       aria-label={`View event: ${event.title}`}
                     >
                       <div className="flex items-start gap-3">
@@ -383,12 +383,12 @@ const EventsCalendarPage = () => {
                           <div className="text-xs text-[#666666] uppercase tracking-wide">
                             {eventDate.toLocaleDateString('en-US', { month: 'short' })}
                           </div>
-                          <div className="text-2xl font-bold text-white">
+                          <div className="text-2xl font-bold text-gray-900">
                             {eventDate.getDate()}
                           </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-white mb-1 truncate group-hover:text-[#58a6ff] transition-colors">
+                          <h3 className="font-semibold text-gray-900 mb-1 truncate group-hover:text-[#58a6ff] transition-colors">
                             {event.title}
                           </h3>
                           <div className="flex items-center gap-2 text-xs text-[#666666] mb-2">
@@ -416,15 +416,15 @@ const EventsCalendarPage = () => {
           onClick={() => setSelectedEvent(null)}
         >
           <div
-            className="bg-[#141414]/95 backdrop-blur-xl border border-white/10 rounded-2xl max-w-lg w-full shadow-[0_16px_48px_rgba(0,0,0,0.5)]"
+            className="bg-white border border-gray-200 rounded-2xl max-w-lg w-full shadow-2xl"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
             aria-labelledby="event-title"
           >
-            <div className="p-6 border-b border-white/10 flex justify-between items-start">
+            <div className="p-6 border-b border-gray-200 flex justify-between items-start">
               <div>
-                <h3 id="event-title" className="text-xl font-bold text-white mb-2">{selectedEvent.title}</h3>
+                <h3 id="event-title" className="text-xl font-bold text-gray-900 mb-2">{selectedEvent.title}</h3>
                 {selectedEvent.type && (
                   <span className={`inline-block px-3 py-1 text-xs rounded-lg ${getCategoryStyle(selectedEvent.type).bg} ${getCategoryStyle(selectedEvent.type).text} border ${getCategoryStyle(selectedEvent.type).border}`}>
                     {selectedEvent.type}
@@ -433,7 +433,7 @@ const EventsCalendarPage = () => {
               </div>
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="text-[#666666] hover:text-white transition-colors p-1 hover:bg-[#1A1A1A] rounded-lg"
+                className="text-gray-600 hover:text-gray-900 transition-colors p-1 hover:bg-gray-100 rounded-lg"
                 aria-label="Close event details"
               >
                 <X size={24} />
@@ -441,7 +441,7 @@ const EventsCalendarPage = () => {
             </div>
             <div className="p-6 space-y-4">
               {selectedEvent.description && (
-                <p className="text-[#A0A0A0]">{selectedEvent.description}</p>
+                <p className="text-gray-600">{selectedEvent.description}</p>
               )}
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-[#666666]">
@@ -462,17 +462,17 @@ const EventsCalendarPage = () => {
                 )}
               </div>
             </div>
-            <div className="p-6 border-t border-white/10 flex gap-3 justify-end">
+            <div className="p-6 border-t border-gray-200 flex gap-3 justify-end">
               <button
                 onClick={() => handleDeleteEvent(selectedEvent.id)}
-                className="px-4 py-2 bg-red-600/20 border border-red-500/30 text-red-400 hover:bg-red-600/30 hover:border-red-500/50 rounded-lg transition-all"
+                className="px-4 py-2 bg-red-50 border border-red-200 text-red-600 hover:bg-red-100 hover:border-red-300 rounded-lg transition-all"
                 aria-label="Delete event"
               >
                 Delete
               </button>
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="px-4 py-2 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white rounded-lg transition-colors"
+                className="px-4 py-2 bg-gray-100 border border-gray-200 hover:bg-gray-200 text-gray-900 rounded-lg transition-colors"
                 aria-label="Close"
               >
                 Close
@@ -489,38 +489,38 @@ const EventsCalendarPage = () => {
           onClick={() => setShowCreateModal(false)}
         >
           <div
-            className="bg-[#141414]/95 backdrop-blur-xl border border-white/10 rounded-2xl max-w-lg w-full shadow-[0_16px_48px_rgba(0,0,0,0.5)] max-h-[90vh] overflow-y-auto"
+            className="bg-white border border-gray-200 rounded-2xl max-w-lg w-full shadow-2xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
             role="dialog"
             aria-modal="true"
             aria-labelledby="create-event-title"
           >
-            <div className="p-6 border-b border-white/10 sticky top-0 bg-[#141414]/95 backdrop-blur-xl z-10">
-              <h3 id="create-event-title" className="text-xl font-bold text-white">Create New Event</h3>
+            <div className="p-6 border-b border-gray-200 sticky top-0 bg-white z-10">
+              <h3 id="create-event-title" className="text-xl font-bold text-gray-900">Create New Event</h3>
             </div>
             <form onSubmit={handleCreateEvent} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Event Title *
                 </label>
                 <input
                   type="text"
                   value={newEvent.title}
                   onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-[#A0A0A0] placeholder:text-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
                   placeholder="Enter event title"
                   required
                   aria-label="Event title"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Description
                 </label>
                 <textarea
                   value={newEvent.description}
                   onChange={(e) => setNewEvent({ ...newEvent, description: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-[#A0A0A0] placeholder:text-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all resize-none"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all resize-none"
                   rows={3}
                   placeholder="Enter event description"
                   aria-label="Event description"
@@ -528,60 +528,60 @@ const EventsCalendarPage = () => {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Start Date & Time *
                   </label>
                   <input
                     type="datetime-local"
                     value={newEvent.startDate}
                     onChange={(e) => setNewEvent({ ...newEvent, startDate: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-[#A0A0A0] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
                     required
                     aria-label="Start date and time"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     End Date & Time
                   </label>
                   <input
                     type="datetime-local"
                     value={newEvent.endDate}
                     onChange={(e) => setNewEvent({ ...newEvent, endDate: e.target.value })}
-                    className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-[#A0A0A0] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
+                    className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
                     aria-label="End date and time"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Location
                 </label>
                 <input
                   type="text"
                   value={newEvent.location}
                   onChange={(e) => setNewEvent({ ...newEvent, location: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-[#A0A0A0] placeholder:text-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all"
                   placeholder="Enter event location"
                   aria-label="Event location"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Event Type *
                 </label>
                 <select
                   value={newEvent.type}
                   onChange={(e) => setNewEvent({ ...newEvent, type: e.target.value })}
-                  className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-[#A0A0A0] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all cursor-pointer"
+                  className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all cursor-pointer"
                   required
                   aria-label="Event type"
                 >
-                  <option value="general" className="bg-[#0D0D0D]">General</option>
-                  <option value="meeting" className="bg-[#0D0D0D]">Meeting</option>
-                  <option value="workshop" className="bg-[#0D0D0D]">Workshop</option>
-                  <option value="social" className="bg-[#0D0D0D]">Social</option>
-                  <option value="deadline" className="bg-[#0D0D0D]">Deadline</option>
+                  <option value="general" className="bg-white">General</option>
+                  <option value="meeting" className="bg-white">Meeting</option>
+                  <option value="workshop" className="bg-white">Workshop</option>
+                  <option value="social" className="bg-white">Social</option>
+                  <option value="deadline" className="bg-white">Deadline</option>
                 </select>
                 <div className="mt-2 flex flex-wrap gap-2">
                   {Object.entries(eventCategories).map(([key, style]) => (
@@ -594,11 +594,11 @@ const EventsCalendarPage = () => {
                   ))}
                 </div>
               </div>
-              <div className="flex gap-3 justify-end pt-4 border-t border-white/10">
+              <div className="flex gap-3 justify-end pt-4 border-t border-gray-200">
                 <button
                   type="button"
                   onClick={() => setShowCreateModal(false)}
-                  className="px-6 py-2 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white rounded-lg transition-colors"
+                  className="px-6 py-2 bg-gray-100 border border-gray-200 hover:bg-gray-200 text-gray-900 rounded-lg transition-colors"
                   aria-label="Cancel"
                 >
                   Cancel
