@@ -1,7 +1,12 @@
+/**
+ * CRYB Platform - Desktop Sidebar v.1
+ * Light theme sidebar navigation matching design spec
+ */
+
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { 
-  Home, Hash, MessageCircle, Coins, Activity, Users, Search, User, Settings, 
+import {
+  Home, Hash, MessageCircle, Coins, Activity, Users, Search, User, Settings,
   Plus, Star, Award, Bookmark, TrendingUp, BarChart3, Bell, ChevronRight,
   LogOut, X
 } from 'lucide-react'
@@ -40,54 +45,52 @@ function Sidebar() {
 
   const NavItem = ({ item, isActive = false, className = "" }) => {
     const Icon = iconMap[item.icon]
-    
+
     return (
       <Link
         to={item.path}
         onClick={toggleSidebar}
+        className={`flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${className}`}
         style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  borderRadius: '12px',
-  fontWeight: '500',
-  color: '#ffffff'
-}}
+          color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
+          background: isActive ? 'var(--color-info-light)' : 'transparent',
+          fontWeight: isActive ? 600 : 500
+        }}
         aria-label={item.description || item.label}
       >
-        <Icon 
-          size={20} 
+        <Icon
+          size={20}
           style={{
-  color: '#ffffff'
-}}
+            color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
+            strokeWidth: isActive ? 2.5 : 2
+          }}
         />
         <span className="truncate">{item.label}</span>
         {isActive && (
-          <div style={{
-  width: '8px',
-  height: '8px',
-  borderRadius: '50%'
-}} />
+          <div
+            style={{
+              width: '4px',
+              height: '4px',
+              background: 'var(--brand-primary)',
+              borderRadius: '50%',
+              marginLeft: 'auto'
+            }}
+          />
         )}
       </Link>
     )
   }
 
   const SectionHeader = ({ title, icon: IconComponent }) => (
-    <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  fontWeight: '600'
-}}>
+    <div
+      className="flex items-center gap-2 px-4 py-2 font-semibold"
+      style={{
+        color: 'var(--text-tertiary)',
+        fontSize: 'var(--text-xs)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em'
+      }}
+    >
       {IconComponent && <IconComponent size={14} />}
       <span>{title}</span>
     </div>
@@ -103,70 +106,75 @@ function Sidebar() {
   return (
     <>
       {/* Desktop Sidebar */}
-      <aside style={{
-  position: 'fixed',
-  width: '320px'
-}}>
-        <div style={{
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column'
-}}>
+      <aside
+        className="fixed top-0 left-0 h-screen"
+        style={{
+          width: '320px',
+          background: 'var(--bg-secondary)',
+          borderRight: '1px solid var(--border-subtle)',
+          boxShadow: 'var(--shadow-sm)',
+          transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-100%)',
+          transition: 'transform var(--transition-normal)',
+          zIndex: 'var(--z-fixed)'
+        }}
+      >
+        <div className="h-full flex flex-col" style={{ overflowY: 'auto' }}>
           {/* Sidebar Header */}
-          <div style={{
-  padding: '24px'
-}}>
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-              <h2 style={{
-  fontWeight: 'bold'
-}}>Navigation</h2>
+          <div style={{ padding: 'var(--space-6)' }}>
+            <div className="flex items-center justify-between mb-4">
+              <h2
+                style={{
+                  fontSize: 'var(--text-2xl)',
+                  fontWeight: 'var(--font-bold)',
+                  color: 'var(--text-primary)'
+                }}
+              >
+                Navigation
+              </h2>
               <button
                 onClick={toggleSidebar}
+                className="btn-ghost p-2"
                 style={{
-  padding: '8px',
-  borderRadius: '12px'
-}}
+                  borderRadius: 'var(--radius-lg)'
+                }}
                 aria-label="Close sidebar"
               >
-                <X size={20} className="text-secondary" />
+                <X size={20} style={{ color: 'var(--text-secondary)' }} />
               </button>
             </div>
-            
+
             {/* User Quick Info */}
             {user && (
-              <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  padding: '12px',
-  borderRadius: '12px'
-}}>
-                <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
-                  {user.username?.charAt(0).toUpperCase() || 'U'}
-                </div>
-                <div style={{
-  flex: '1'
-}}>
-                  <div style={{
-  fontWeight: '500'
-}}>
-                    {user.displayName || user.username || 'User'}
+              <div
+                className="card card-compact"
+                style={{
+                  background: 'var(--bg-gradient-subtle)',
+                  border: 'none'
+                }}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="avatar avatar-md">
+                    {user.username?.charAt(0).toUpperCase() || 'U'}
                   </div>
-                  <div className="text-xs text-tertiary truncate">
-                    {user.email || 'user@cryb.com'}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div
+                      style={{
+                        fontWeight: 'var(--font-semibold)',
+                        color: 'var(--text-primary)',
+                        fontSize: 'var(--text-base)'
+                      }}
+                    >
+                      {user.displayName || user.username || 'User'}
+                    </div>
+                    <div
+                      className="truncate"
+                      style={{
+                        fontSize: 'var(--text-xs)',
+                        color: 'var(--text-tertiary)'
+                      }}
+                    >
+                      {user.email || 'user@cryb.com'}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -174,12 +182,9 @@ function Sidebar() {
           </div>
 
           {/* Navigation Content */}
-          <div style={{
-  flex: '1',
-  padding: '16px'
-}}>
+          <div style={{ flex: 1, padding: 'var(--space-4)', overflowY: 'auto' }}>
             {/* Primary Navigation */}
-            <section>
+            <section style={{ marginBottom: 'var(--space-6)' }}>
               <SectionHeader title="Main" icon={Home} />
               <nav className="space-y-1">
                 {navigationConfig.primary.map((item) => (
@@ -193,7 +198,7 @@ function Sidebar() {
             </section>
 
             {/* Secondary Navigation */}
-            <section>
+            <section style={{ marginBottom: 'var(--space-6)' }}>
               <SectionHeader title="Discover" icon={Search} />
               <nav className="space-y-1">
                 {navigationConfig.secondary.map((item) => (
@@ -207,16 +212,17 @@ function Sidebar() {
             </section>
 
             {/* Quick Actions */}
-            <section>
+            <section style={{ marginBottom: 'var(--space-6)' }}>
               <SectionHeader title="Create" icon={Plus} />
               <nav className="space-y-1">
                 {navigationConfig.quickActions.map((item) => (
                   <NavItem
                     key={item.id}
                     item={item}
+                    className="border"
                     style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}
+                      borderColor: 'var(--border-default)'
+                    }}
                   />
                 ))}
               </nav>
@@ -224,28 +230,40 @@ function Sidebar() {
 
             {/* User Stats */}
             {user && (
-              <section>
+              <section style={{ marginBottom: 'var(--space-6)' }}>
                 <SectionHeader title="Your Stats" icon={BarChart3} />
-                <div style={{
-  display: 'grid',
-  gap: '8px'
-}}>
+                <div className="grid gap-2">
                   {userStats.map((stat) => {
                     const Icon = iconMap[stat.icon]
                     return (
                       <div
                         key={stat.label}
+                        className="card card-compact text-center"
                         style={{
-  padding: '12px',
-  borderRadius: '12px',
-  textAlign: 'center'
-}}
+                          background: 'var(--bg-tertiary)'
+                        }}
                       >
-                        <Icon size={16} className="mx-auto mb-1 text-primary-trust" />
-                        <div style={{
-  fontWeight: 'bold'
-}}>{stat.value}</div>
-                        <div className="text-xs text-tertiary">{stat.label}</div>
+                        <Icon
+                          size={16}
+                          className="mx-auto mb-1"
+                          style={{ color: 'var(--brand-primary)' }}
+                        />
+                        <div
+                          style={{
+                            fontWeight: 'var(--font-bold)',
+                            color: 'var(--text-primary)'
+                          }}
+                        >
+                          {stat.value}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: 'var(--text-xs)',
+                            color: 'var(--text-tertiary)'
+                          }}
+                        >
+                          {stat.label}
+                        </div>
                       </div>
                     )
                   })}
@@ -266,54 +284,44 @@ function Sidebar() {
                     key={community.name}
                     to={community.path}
                     onClick={toggleSidebar}
+                    className="flex items-center justify-between px-4 py-2 rounded-lg transition-all"
                     style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '12px'
-}}
+                      color: 'var(--text-secondary)'
+                    }}
                   >
-                    <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px'
-}}>
-                      <div style={{
-  width: '24px',
-  height: '24px',
-  borderRadius: '4px',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
+                    <div className="flex items-center gap-3">
+                      <div
+                        style={{
+                          width: '24px',
+                          height: '24px',
+                          borderRadius: 'var(--radius-md)',
+                          background: 'var(--bg-gradient-subtle)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'var(--brand-primary)',
+                          fontWeight: 'var(--font-bold)',
+                          fontSize: 'var(--text-sm)'
+                        }}
+                      >
                         {community.name.charAt(0).toUpperCase()}
                       </div>
-                      <span className="text-secondary group-hover:text-primary">
-                        c/{community.name}
-                      </span>
+                      <span>c/{community.name}</span>
                     </div>
-                    <span className="text-xs text-tertiary">{community.members}</span>
+                    <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>
+                      {community.members}
+                    </span>
                   </Link>
                 ))}
                 <Link
                   to="/communities"
                   onClick={toggleSidebar}
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg transition-all"
                   style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '12px'
-}}
+                    color: 'var(--brand-primary)',
+                    fontWeight: 'var(--font-medium)',
+                    fontSize: 'var(--text-sm)'
+                  }}
                 >
                   <span>View All</span>
                   <ChevronRight size={14} />
@@ -323,9 +331,7 @@ function Sidebar() {
           </div>
 
           {/* Sidebar Footer */}
-          <div style={{
-  padding: '16px'
-}}>
+          <div style={{ padding: 'var(--space-4)', borderTop: '1px solid var(--border-subtle)' }}>
             {/* Account Navigation */}
             <nav className="space-y-1 mb-4">
               {navigationConfig.account.map((item) => (
@@ -340,18 +346,11 @@ function Sidebar() {
             {/* Logout Button */}
             <button
               onClick={handleLogout}
+              className="flex items-center gap-3 w-full px-4 py-3 font-medium rounded-xl transition-all"
               style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  width: '100%',
-  paddingLeft: '16px',
-  paddingRight: '16px',
-  paddingTop: '12px',
-  paddingBottom: '12px',
-  fontWeight: '500',
-  borderRadius: '12px'
-}}
+                color: 'var(--color-error)',
+                background: 'var(--color-error-light)'
+              }}
             >
               <LogOut size={20} />
               <span>Sign Out</span>
@@ -364,8 +363,12 @@ function Sidebar() {
       {isSidebarOpen && (
         <div
           style={{
-  position: 'fixed'
-}}
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 'var(--z-modal-backdrop)'
+          }}
           onClick={toggleSidebar}
           aria-label="Close sidebar"
         />
@@ -373,7 +376,5 @@ function Sidebar() {
     </>
   )
 }
-
-
 
 export default Sidebar
