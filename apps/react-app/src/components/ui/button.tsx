@@ -81,6 +81,63 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = 'Button';
 
+// ===== ICON BUTTON COMPONENT =====
+export interface IconButtonProps extends Omit<ButtonProps, 'leftIcon' | 'rightIcon'> {
+  /** Icon to display */
+  icon: React.ReactNode;
+  /** Accessible label */
+  'aria-label': string;
+}
+
+const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
+  ({ icon, children, ...props }, ref) => {
+    return (
+      <Button ref={ref} {...props}>
+        <span aria-hidden="true">{icon}</span>
+        {children && <span className="sr-only">{children}</span>}
+      </Button>
+    );
+  }
+);
+
+IconButton.displayName = 'IconButton';
+
+// ===== BUTTON GROUP COMPONENT =====
+export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  /** Orientation */
+  orientation?: 'horizontal' | 'vertical';
+  /** Whether buttons are attached */
+  attached?: boolean;
+}
+
+const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
+  (
+    {
+      className = '',
+      orientation = 'horizontal',
+      attached = true,
+      children,
+      ...props
+    },
+    ref
+  ) => {
+    const groupClass = [
+      'inline-flex',
+      orientation === 'horizontal' ? 'flex-row' : 'flex-col',
+      attached ? 'gap-0' : 'gap-2',
+      className
+    ].filter(Boolean).join(' ');
+
+    return (
+      <div ref={ref} className={groupClass} role="group" {...props}>
+        {children}
+      </div>
+    );
+  }
+);
+
+ButtonGroup.displayName = 'ButtonGroup';
+
 // ===== EXPORTS =====
-export { Button };
-export type { ButtonProps };
+export { Button, IconButton, ButtonGroup };
+export type { ButtonProps, IconButtonProps, ButtonGroupProps };
