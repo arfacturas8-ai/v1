@@ -79,29 +79,29 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[9998]"
+        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9998]"
       />
 
       {/* Modal Wrapper */}
       <div className="fixed inset-0 flex items-center justify-center p-4 z-[9999]">
-        <div className="w-full max-w-2xl sm:max-w-3xl max-h-[90vh] bg-gray-900/60 backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl overflow-hidden flex flex-col">
+        <div className="w-full max-w-2xl sm:max-w-3xl max-h-[90vh] bg-white backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-[var(--border-subtle)] shadow-2xl overflow-hidden flex flex-col">
 
           {/* Header */}
-          <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-6 border-b border-white/10">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-6 border-b border-[var(--border-subtle)]">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
                 <Keyboard className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
               </div>
               <div>
-                <h2 className="text-lg sm:text-xl font-bold text-white m-0">Keyboard Shortcuts</h2>
-                <p className="text-xs sm:text-sm text-gray-400 m-0">Navigate Cryb.ai like a pro</p>
+                <h2 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] m-0">Keyboard Shortcuts</h2>
+                <p className="text-xs sm:text-sm text-[var(--text-secondary)] m-0">Navigate Cryb.ai like a pro</p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="p-2 bg-gray-900/60 border border-white/10 rounded-lg cursor-pointer flex items-center justify-center min-h-[44px] min-w-[44px] hover:bg-gray-800/60 transition-colors"
+              className="p-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg cursor-pointer flex items-center justify-center min-h-[44px] min-w-[44px] hover:bg-white/50 transition-colors"
             >
-              <X className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-secondary)]" />
             </button>
           </div>
 
@@ -110,24 +110,24 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
             <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2">
               {shortcuts.map((category) => (
                 <div key={category.category}>
-                  <h3 className="text-xs sm:text-sm font-semibold text-gray-400 mb-3 uppercase tracking-wider">
+                  <h3 className="text-xs sm:text-sm font-semibold text-[var(--text-secondary)] mb-3 uppercase tracking-wider">
                     {category.category}
                   </h3>
                   <div className="flex flex-col gap-2">
                     {category.items.map((shortcut, index) => (
                       <div
                         key={index}
-                        className="flex items-center justify-between gap-2 p-3 sm:p-3 bg-gray-900/60 rounded-lg border border-white/5"
+                        className="flex items-center justify-between gap-2 p-3 sm:p-3 bg-[var(--bg-secondary)] rounded-lg border border-[var(--border-subtle)]"
                       >
-                        <span className="text-xs sm:text-sm text-gray-300 flex-1">{shortcut.description}</span>
+                        <span className="text-xs sm:text-sm text-[var(--text-primary)] flex-1">{shortcut.description}</span>
                         <div className="flex items-center gap-1 flex-shrink-0">
                           {shortcut.keys.map((key, keyIndex) => (
                             <React.Fragment key={keyIndex}>
-                              <kbd className="px-2 py-1 bg-gray-900/60 text-gray-400 rounded border border-white/10 text-xs font-mono inline-flex items-center justify-center min-w-[28px]">
+                              <kbd className="px-2 py-1 bg-white text-[var(--text-secondary)] rounded border border-[var(--border-subtle)] text-xs font-mono inline-flex items-center justify-center min-w-[28px]">
                                 {key === '⌘' ? <Command className="w-3 h-3" /> : key}
                               </kbd>
                               {keyIndex < shortcut.keys.length - 1 && (
-                                <span className="text-gray-400 text-xs">+</span>
+                                <span className="text-[var(--text-secondary)] text-xs">+</span>
                               )}
                             </React.Fragment>
                           ))}
@@ -141,16 +141,16 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Footer */}
-          <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-900/60 border-t border-white/10">
+          <div className="px-4 sm:px-6 py-3 sm:py-4 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)]">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-              <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-400">
+              <div className="flex items-center gap-2 text-xs sm:text-sm text-[var(--text-secondary)]">
                 <span>💡 Tip: Press</span>
-                <kbd className="px-2 py-1 bg-gray-900/60 text-gray-400 rounded border border-white/10 text-xs font-mono">?</kbd>
+                <kbd className="px-2 py-1 bg-white text-[var(--text-secondary)] rounded border border-[var(--border-subtle)] text-xs font-mono">?</kbd>
                 <span>anytime to view shortcuts</span>
               </div>
               <button
                 onClick={onClose}
-                className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 border-none rounded-lg text-white text-sm font-medium cursor-pointer hover:from-blue-700 hover:to-purple-700 transition-all min-h-[44px]"
+                className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-lg text-white text-sm font-medium cursor-pointer hover:opacity-90 transition-all min-h-[44px]"
               >
                 Got it
               </button>

@@ -193,48 +193,48 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[10000] p-5">
-      <div className="bg-gray-900/95 border border-gray-700/50 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-        <div className="flex items-center justify-between p-6 border-b border-gray-700/50 bg-gray-900">
-          <div className="flex items-center gap-3">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[10000] p-5">
+      <div className="bg-white border border-[var(--border-subtle)] rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-[var(--border-subtle)] bg-white">
+          <div className="flex items-center gap-3 text-[var(--text-primary)]">
             <Shield size={24} />
             <h2>Privacy & Safety</h2>
           </div>
-          <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors" onClick={onClose}>
+          <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-[var(--bg-secondary)] hover:bg-white/50 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors" onClick={onClose}>
             <X size={20} />
           </button>
         </div>
 
-        <div className="flex gap-2 p-4 bg-gray-900/50 border-b border-gray-700/50">
-          <button 
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'blocked' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+        <div className="flex gap-2 p-4 bg-[var(--bg-secondary)] border-b border-[var(--border-subtle)]">
+          <button
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'blocked' ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg' : 'bg-white text-[var(--text-secondary)] hover:bg-white/50 hover:text-[var(--text-primary)]'}`}
             onClick={() => setActiveTab('blocked')}
           >
             <UserX size={16} />
             Blocked Users
-            <span className="ml-auto px-2 py-0.5 bg-gray-700 rounded-full text-xs font-semibold">{blockedUsers.length}</span>
+            <span className="ml-auto px-2 py-0.5 bg-black/10 rounded-full text-xs font-semibold">{blockedUsers.length}</span>
           </button>
-          <button 
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'muted' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+          <button
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'muted' ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg' : 'bg-white text-[var(--text-secondary)] hover:bg-white/50 hover:text-[var(--text-primary)]'}`}
             onClick={() => setActiveTab('muted')}
           >
             <VolumeX size={16} />
             Muted Users
-            <span className="ml-auto px-2 py-0.5 bg-gray-700 rounded-full text-xs font-semibold">{mutedUsers.length}</span>
+            <span className="ml-auto px-2 py-0.5 bg-black/10 rounded-full text-xs font-semibold">{mutedUsers.length}</span>
           </button>
-          <button 
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'keywords' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+          <button
+            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'keywords' ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg' : 'bg-white text-[var(--text-secondary)] hover:bg-white/50 hover:text-[var(--text-primary)]'}`}
             onClick={() => setActiveTab('keywords')}
           >
             <MessageSquareOff size={16} />
             Filtered Keywords
-            <span className="ml-auto px-2 py-0.5 bg-gray-700 rounded-full text-xs font-semibold">{keywords.length}</span>
+            <span className="ml-auto px-2 py-0.5 bg-black/10 rounded-full text-xs font-semibold">{keywords.length}</span>
           </button>
         </div>
 
         {activeTab !== 'keywords' && (
-          <div className="p-4 bg-gray-900/30 border-b border-gray-700/50">
-            <div className="relative flex items-center gap-2 px-4 py-2.5 bg-gray-800 border border-gray-700 rounded-lg">
+          <div className="p-4 bg-[var(--bg-secondary)] border-b border-[var(--border-subtle)]">
+            <div className="relative flex items-center gap-2 px-4 py-2.5 bg-white border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)]">
               <Search size={16} />
               <input
                 type="text"
@@ -247,7 +247,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
         )}
 
         {activeTab === 'keywords' && (
-          <div className="p-4 bg-gray-900/30 border-b border-gray-700/50 space-y-3">
+          <div className="p-4 bg-[var(--bg-secondary)] border-b border-[var(--border-subtle)] space-y-3">
             <div className="flex gap-2">
               <input
                 type="text"
@@ -255,16 +255,17 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                 value={newKeyword}
                 onChange={(e) => setNewKeyword(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleAddKeyword()}
+                className="text-[var(--text-primary)]"
               />
-              <button 
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-lg font-medium transition-all"
+              <button
+                className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 disabled:bg-[var(--bg-secondary)] disabled:text-[var(--text-secondary)] text-white rounded-lg font-medium transition-all"
                 onClick={handleAddKeyword}
                 disabled={!newKeyword.trim()}
               >
                 Add
               </button>
             </div>
-            <div className="flex-1 min-w-0">
+            <div className="flex-1 min-w-0 text-[var(--text-secondary)]">
               <Info size={14} />
               <span>Posts and comments containing these keywords will be hidden</span>
             </div>
@@ -273,23 +274,23 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
 
         <div className="flex-1 overflow-y-auto p-6">
           {loading ? (
-            <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-              <div className="w-10 h-10 border-3 border-gray-600 border-t-blue-500 rounded-full  mb-4" />
+            <div className="flex flex-col items-center justify-center py-20 text-[var(--text-secondary)]">
+              <div className="w-10 h-10 border-3 border-gray-300 border-t-blue-500 rounded-full  mb-4" />
               <p></p>
             </div>
           ) : activeTab === 'keywords' ? (
             keywords.length > 0 ? (
               <div className="flex flex-col gap-3">
                 {filteredData().map(keyword => (
-                  <div key={keyword.id} className="flex items-center justify-between p-4 bg-gray-800/40 border border-gray-700/50 rounded-lg hover:bg-gray-800/60 transition-all">
+                  <div key={keyword.id} className="flex items-center justify-between p-4 bg-white border border-[var(--border-subtle)] rounded-lg hover:bg-[var(--bg-secondary)] transition-all">
                     <div className="flex-1 min-w-0">
-                      <span className="font-medium text-white block">{keyword.keyword}</span>
-                      <div className="flex gap-4 text-xs text-gray-500 mt-1">
+                      <span className="font-medium text-[var(--text-primary)] block">{keyword.keyword}</span>
+                      <div className="flex gap-4 text-xs text-[var(--text-secondary)] mt-1">
                         <span>{keyword.matchCount} matches</span>
                         <span>Added {formatDate(keyword.addedDate)}</span>
                       </div>
                     </div>
-                    <button 
+                    <button
                       className="px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg font-medium text-sm transition-all"
                       onClick={() => handleRemoveKeyword(keyword.id)}
                       title="Remove keyword"
@@ -300,7 +301,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-20 text-gray-400 text-center">
+              <div className="flex flex-col items-center justify-center py-20 text-[var(--text-secondary)] text-center">
                 <MessageSquareOff size={48} />
                 <h3>No filtered keywords</h3>
                 <p>Add keywords to automatically hide content</p>
@@ -309,20 +310,20 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
           ) : filteredData().length > 0 ? (
             <div className="flex flex-col gap-4">
               {filteredData().map(user => (
-                <div key={user.id} className="flex items-start gap-4 p-4 bg-gray-800/40 border border-gray-700/50 rounded-xl hover:bg-gray-800/60 transition-all">
-                  <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-2xl flex-shrink-0">
+                <div key={user.id} className="flex items-start gap-4 p-4 bg-white border border-[var(--border-subtle)] rounded-xl hover:bg-[var(--bg-secondary)] transition-all">
+                  <div className="w-12 h-12 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center text-2xl flex-shrink-0">
                     <span className="text-2xl">{user.avatar}</span>
                   </div>
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline gap-2 mb-1">
-                      <h3>{user.displayName}</h3>
-                      <span className="username">@{user.username}</span>
+                      <h3 className="text-[var(--text-primary)]">{user.displayName}</h3>
+                      <span className="username text-[var(--text-secondary)]">@{user.username}</span>
                     </div>
-                    
-                    <p className="text-sm text-gray-400 mb-2">{user.reason}</p>
-                    
-                    <div className="flex flex-wrap gap-3 text-xs text-gray-500">
+
+                    <p className="text-sm text-[var(--text-secondary)] mb-2">{user.reason}</p>
+
+                    <div className="flex flex-wrap gap-3 text-xs text-[var(--text-secondary)]">
                       <span className="flex items-center gap-1">
                         <Clock size={12} />
                         {activeTab === 'blocked' ? 'Blocked' : 'Muted'} {formatDate(user.blockedDate || user.mutedDate)}
@@ -344,8 +345,8 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                     </div>
 
                     {user.hideOptions && (
-                      <div className="flex gap-4 mt-3 pt-3 border-t border-gray-700/50">
-                        <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                      <div className="flex gap-4 mt-3 pt-3 border-t border-[var(--border-subtle)]">
+                        <label className="flex items-center gap-2 text-sm text-[var(--text-primary)] cursor-pointer">
                           <input
                             type="checkbox"
                             checked={user.hideOptions.posts}
@@ -353,7 +354,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                           />
                           <span>Hide posts</span>
                         </label>
-                        <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                        <label className="flex items-center gap-2 text-sm text-[var(--text-primary)] cursor-pointer">
                           <input
                             type="checkbox"
                             checked={user.hideOptions.comments}
@@ -361,7 +362,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                           />
                           <span>Hide comments</span>
                         </label>
-                        <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                        <label className="flex items-center gap-2 text-sm text-[var(--text-primary)] cursor-pointer">
                           <input
                             type="checkbox"
                             checked={user.hideOptions.messages}
@@ -388,17 +389,17 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-20 text-gray-400 text-center">
+            <div className="flex flex-col items-center justify-center py-20 text-[var(--text-secondary)] text-center">
               {activeTab === 'blocked' ? (
                 <>
                   <UserX size={48} />
-                  <h3>No blocked users</h3>
+                  <h3 className="text-[var(--text-primary)]">No blocked users</h3>
                   <p>Users you block will appear here</p>
                 </>
               ) : (
                 <>
                   <VolumeX size={48} />
-                  <h3>No muted users</h3>
+                  <h3 className="text-[var(--text-primary)]">No muted users</h3>
                   <p>Users you mute will appear here</p>
                 </>
               )}
@@ -407,14 +408,14 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
         </div>
 
         {/* Privacy Info */}
-        <div className="p-4 bg-gray-900/50 border-t border-gray-700/50 flex flex-col sm:flex-row gap-3">
-          <div className="flex items-start gap-3 p-3 bg-gray-800/40 border border-gray-700/50 rounded-lg flex-1">
+        <div className="p-4 bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)] flex flex-col sm:flex-row gap-3">
+          <div className="flex items-start gap-3 p-3 bg-white border border-[var(--border-subtle)] rounded-lg flex-1 text-[var(--text-primary)]">
             <Ban size={16} />
             <div>
               <strong>Blocking</strong> prevents users from seeing your posts, commenting, or messaging you
             </div>
           </div>
-          <div className="flex items-start gap-3 p-3 bg-gray-800/40 border border-gray-700/50 rounded-lg flex-1">
+          <div className="flex items-start gap-3 p-3 bg-white border border-[var(--border-subtle)] rounded-lg flex-1 text-[var(--text-primary)]">
             <VolumeX size={16} />
             <div>
               <strong>Muting</strong> hides content from users without them knowing
@@ -425,26 +426,26 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
 
       {/* Confirmation Modal */}
       {showConfirmModal && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-[10001] p-5">
-          <div className="bg-gray-900 border border-gray-700 rounded-2xl p-6 max-w-md w-full text-center">
-            <AlertCircle size={32} />
-            <h3>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-[10001] p-5">
+          <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 max-w-md w-full text-center">
+            <AlertCircle size={32} className="text-[var(--text-primary)]" />
+            <h3 className="text-[var(--text-primary)]">
               {showConfirmModal.type === 'blocked' ? 'Unblock' : 'Unmute'} {showConfirmModal.user.displayName}?
             </h3>
-            <p>
-              {showConfirmModal.type === 'blocked' 
+            <p className="text-[var(--text-secondary)]">
+              {showConfirmModal.type === 'blocked'
                 ? 'This user will be able to see your content and interact with you again.'
                 : 'You will start seeing content from this user again.'}
             </p>
             <div className="flex gap-3 mt-6">
-              <button 
-                className="flex-1 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg font-medium transition-all"
+              <button
+                className="flex-1 px-4 py-2.5 bg-[var(--bg-secondary)] hover:bg-white/50 text-[var(--text-primary)] rounded-lg font-medium transition-all"
                 onClick={() => setShowConfirmModal(null)}
               >
                 Cancel
               </button>
-              <button 
-                className="flex-1 px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all"
+              <button
+                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg font-medium transition-all"
                 onClick={() => {
                   if (showConfirmModal.type === 'blocked') {
                     handleUnblock(showConfirmModal.user.id)

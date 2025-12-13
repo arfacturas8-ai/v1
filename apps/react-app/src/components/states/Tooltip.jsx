@@ -52,16 +52,16 @@ export const Tooltip = ({
       <div>
         {isVisible && (
           <div
-            className={'absolute z-50 px-3 py-2 text-sm text-white bg-gray-900 rounded-lg shadow-lg whitespace-nowrap ' + positions[position]}
+            className={'absolute z-50 px-3 py-2 text-sm rounded-lg shadow-lg whitespace-nowrap ' + positions[position]}
             style={{
-              background: 'rgba(22, 27, 34, 0.95)',
+              background: 'rgba(255, 255, 255, 0.98)',
               backdropFilter: 'blur(12px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              color: '#ffffff',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-primary)',
               fontSize: '12px',
               padding: '8px 12px',
               borderRadius: '8px',
-              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.3)',
+              boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)',
               whiteSpace: 'nowrap',
               zIndex: 50
             }}

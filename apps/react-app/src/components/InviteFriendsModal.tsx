@@ -52,12 +52,12 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="relative w-full max-w-md bg-[#141414] border border-white/10 rounded-2xl shadow-2xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+      <div className="relative w-full max-w-md bg-white border border-[var(--border-subtle)] rounded-2xl shadow-2xl">
         {/* Close button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+          className="absolute top-4 right-4 p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-lg transition-colors"
         >
           <X className="w-5 h-5" />
         </button>
@@ -68,26 +68,26 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
             <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
               <Users className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Invite Friends to CRYB</h2>
-            <p className="text-sm text-gray-400">
+            <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Invite Friends to CRYB</h2>
+            <p className="text-sm text-[var(--text-secondary)]">
               Share the platform with friends and build your community together
             </p>
           </div>
 
           {/* Invitation Link Section */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
               Your Invitation Link
             </label>
             <div className="flex gap-2">
-              <div className="flex-1 px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg text-sm text-gray-300 font-mono overflow-x-auto whitespace-nowrap">
+              <div className="flex-1 px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-sm text-[var(--text-primary)] font-mono overflow-x-auto whitespace-nowrap">
                 {inviteUrl}
               </div>
               <Button
                 variant="outline"
                 size="lg"
                 onClick={handleCopy}
-                className="bg-[#0D0D0D] border-white/20 text-white hover:bg-white/5 flex-shrink-0"
+                className="bg-[var(--bg-secondary)] border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-white/50 flex-shrink-0"
               >
                 {copied ? (
                   <>
@@ -110,7 +110,7 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
 
           {/* Send via Email Section */}
           <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-300 mb-2">
+            <label className="block text-sm font-medium text-[var(--text-primary)] mb-2">
               Send Invitation via Email
             </label>
             <form onSubmit={handleSendInvite} className="flex gap-2">
@@ -154,17 +154,17 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
           <div className="p-4 bg-gradient-to-r from-[#58a6ff]/10 to-[#a371f7]/10 border border-[#58a6ff]/20 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs text-gray-400 mb-1">Invitations Sent</p>
-                <p className="text-2xl font-bold text-white">0</p>
+                <p className="text-xs text-[var(--text-secondary)] mb-1">Invitations Sent</p>
+                <p className="text-2xl font-bold text-[var(--text-primary)]">0</p>
               </div>
               <div className="text-right">
-                <p className="text-xs text-gray-400 mb-1">Friends Joined</p>
+                <p className="text-xs text-[var(--text-secondary)] mb-1">Friends Joined</p>
                 <p className="text-2xl font-bold text-[#58a6ff]">0</p>
               </div>
             </div>
-            <div className="mt-3 pt-3 border-t border-white/10">
-              <p className="text-xs text-gray-400">
-                💡 <strong className="text-white">Pro tip:</strong> Share your link on social media to reach more people!
+            <div className="mt-3 pt-3 border-t border-[var(--border-subtle)]">
+              <p className="text-xs text-[var(--text-secondary)]">
+                💡 <strong className="text-[var(--text-primary)]">Pro tip:</strong> Share your link on social media to reach more people!
               </p>
             </div>
           </div>

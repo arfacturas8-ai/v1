@@ -401,11 +401,11 @@ const FriendsSystem = ({ currentUser, onClose, initialView = 'dashboard' }) => {
 
   return (
     <div className="friends-modal enhanced">
-      <div className="bg-gray-900/95 border border-gray-700/50 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
-        <div className="flex items-center justify-between p-6 border-b border-gray-700/50">
+      <div className="bg-white border border-[var(--border-subtle)] rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-[var(--border-subtle)]" style={{ background: 'white' }}>
           <div className="header-title">
-            <Users size={24} />
-            <h2>Social Hub</h2>
+            <Users size={24} style={{ color: 'var(--text-primary)' }} />
+            <h2 style={{ color: 'var(--text-primary)' }}>Social Hub</h2>
             {isConnected && (
               <div className="realtime-indicator">
                 <div className="realtime-dot" />

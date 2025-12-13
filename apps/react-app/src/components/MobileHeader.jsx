@@ -91,7 +91,7 @@ function MobileHeader() {
   return (
     <>
       {/* Mobile Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0D0D0D]/95 backdrop-blur-xl border-b border-white/10 pt-[env(safe-area-inset-top)] md:hidden">
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl pt-[env(safe-area-inset-top)] md:hidden" style={{ background: 'white', borderBottom: '1px solid var(--border-subtle)' }}>
         <div className="px-4">
           {/* Top Bar */}
           <div className="flex items-center justify-between h-14">
@@ -109,7 +109,8 @@ function MobileHeader() {
                   {/* Notifications */}
                   <Link
                     to="/notifications"
-                    className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[#141414]/60 border border-white/10 text-[#666666] hover:text-white transition-colors"
+                    className="relative flex items-center justify-center w-10 h-10 rounded-lg border transition-colors"
+                    style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                     aria-label={`Notifications${unreadNotifications > 0 ? ` (${unreadNotifications} unread)` : ''}`}
                   >
                     <Bell size={18} />
@@ -130,15 +131,15 @@ function MobileHeader() {
                     </button>
 
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-56 bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
-                        <div className="p-4 border-b border-white/10">
+                      <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl border rounded-xl shadow-lg overflow-hidden" style={{ background: 'white', borderColor: 'var(--border-subtle)' }}>
+                        <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
-                              <div className="font-semibold text-white text-sm truncate">{user?.username || 'User'}</div>
-                              <div className="text-xs text-[#666666] truncate">{user?.email || ''}</div>
+                              <div className="font-semibold text-sm truncate" style={{ color: 'var(--text-primary)' }}>{user?.username || 'User'}</div>
+                              <div className="text-xs truncate" style={{ color: 'var(--text-secondary)' }}>{user?.email || ''}</div>
                             </div>
                           </div>
                         </div>
@@ -146,7 +147,8 @@ function MobileHeader() {
                           <Link
                             to={`/profile/${user?.username}`}
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             <User size={16} />
                             <span className="text-sm">Profile</span>
@@ -154,7 +156,8 @@ function MobileHeader() {
                           <Link
                             to="/settings"
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             <Settings size={16} />
                             <span className="text-sm">Settings</span>
@@ -162,13 +165,14 @@ function MobileHeader() {
                           <Link
                             to="/wallet"
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             <Wallet size={16} />
                             <span className="text-sm">Wallet</span>
                           </Link>
                         </div>
-                        <div className="py-2 border-t border-white/10">
+                        <div className="py-2 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                           <button
                             onClick={handleLogout}
                             className="flex items-center gap-3 px-4 py-2.5 w-full text-[#ef4444] hover:bg-[#ef4444]/10 transition-colors"
@@ -183,7 +187,8 @@ function MobileHeader() {
 
                   {/* Hamburger Menu */}
                   <button
-                    className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#141414]/60 border border-white/10 text-[#666666] hover:text-white transition-colors"
+                    className="flex items-center justify-center w-10 h-10 rounded-lg border transition-colors"
+                    style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label="Menu"
                   >
@@ -194,13 +199,14 @@ function MobileHeader() {
                 <div className="flex items-center gap-2">
                   <Link
                     to="/login"
-                    className="px-4 py-2 text-[#A0A0A0] hover:text-white text-sm font-medium transition-colors"
+                    className="px-4 py-2 text-sm font-medium transition-colors"
+                    style={{ color: 'var(--text-secondary)' }}
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    className="px-4 py-2 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all"
+                    className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg text-sm font-semibold transition-all"
                   >
                     Get Started
                   </Link>
@@ -214,13 +220,18 @@ function MobileHeader() {
             <div className="pb-3">
               <form onSubmit={handleSearch}>
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666666]" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
                   <input
                     type="search"
                     placeholder="Search CRYB..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-11 pl-11 pr-4 bg-[#141414]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#666666] outline-none focus:border-[#58a6ff]/50"
+                    className="w-full h-11 pl-11 pr-4 border rounded-lg text-sm outline-none"
+                    style={{
+                      background: 'var(--bg-secondary)',
+                      borderColor: 'var(--border-subtle)',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                 </div>
               </form>
@@ -232,7 +243,8 @@ function MobileHeader() {
         {isMobileMenuOpen && user && (
           <div
             ref={mobileMenuRef}
-            className="absolute top-full left-0 right-0 bg-[#0D0D0D]/95 backdrop-blur-xl border-t border-white/10 max-h-[70vh] overflow-y-auto"
+            className="absolute top-full left-0 right-0 backdrop-blur-xl border-t max-h-[70vh] overflow-y-auto"
+            style={{ background: 'white', borderColor: 'var(--border-subtle)' }}
           >
             <nav className="p-4 space-y-1">
               {navItems.map((item) => {
@@ -244,9 +256,12 @@ function MobileHeader() {
                     to={item.href}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                       isActive
-                        ? 'text-white bg-[#58a6ff]/10'
-                        : 'text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white'
+                        ? 'bg-[#58a6ff]/10'
+                        : ''
                     }`}
+                    style={{
+                      color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)'
+                    }}
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <IconComponent size={20} />
@@ -255,7 +270,7 @@ function MobileHeader() {
                 )
               })}
 
-              <div className="pt-4 border-t border-white/10">
+              <div className="pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                 <button
                   onClick={() => {
                     navigate('/submit')

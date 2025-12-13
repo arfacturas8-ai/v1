@@ -182,7 +182,7 @@ const AdvancedSearch = ({ onClose, initialQuery = '' }) => {
         />
         <button
           type="button"
-          className={`filter-toggle ${showFilters ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+          className={`filter-toggle ${showFilters ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg' : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:bg-white/10 hover:text-[var(--text-primary)]'}`}
           onClick={() => setShowFilters(!showFilters)}
         >
           <Sliders size={18} />
@@ -362,10 +362,10 @@ const AdvancedSearch = ({ onClose, initialQuery = '' }) => {
         return (
           <div className="result-item user">
             <div className="user-result">
-              <img 
-                src={result.avatar || '/default-avatar.png'} 
+              <img
+                src={result.avatar || '/default-avatar.png'}
                 alt={result.username}
-                className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-2xl flex-shrink-0"
+                className="w-12 h-12 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center text-2xl flex-shrink-0"
               />
               <div className="flex-1 min-w-0">
                 <h4 className="user-name">
@@ -428,7 +428,7 @@ const AdvancedSearch = ({ onClose, initialQuery = '' }) => {
   }
 
   const renderResults = () => (
-    <div className="p-6 border-t border-gray-700/50">
+    <div className="p-6 border-t border-[var(--border-subtle)]">
       {searchStats.totalResults > 0 && (
         <div className="results-header">
           <h3>
@@ -537,7 +537,7 @@ const AdvancedSearch = ({ onClose, initialQuery = '' }) => {
   return (
     <div className="advanced-search-modal">
       <div className="advanced-search-container">
-        <div className="flex items-center justify-between p-6 border-b border-gray-700/50 sticky top-0 bg-gray-900 z-10">
+        <div className="flex items-center justify-between p-6 border-b border-[var(--border-subtle)] sticky top-0 bg-white z-10">
           <div className="header-title">
             <Zap size={24} />
             <h2>Advanced Search</h2>

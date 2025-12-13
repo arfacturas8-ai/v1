@@ -146,22 +146,24 @@ export const useTouchGestures = (element, options = {}) => {
 }
 
 // Mobile-optimized header component
-export const MobileHeader = ({ 
-  title, 
-  subtitle, 
-  onBack, 
-  onMenu, 
-  actions = [], 
+export const MobileHeader = ({
+  title,
+  subtitle,
+  onBack,
+  onMenu,
+  actions = [],
   avatar,
   showBack = false,
-  className = '' 
+  className = ''
 }) => {
   return (
     <div style={{
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '16px'
+  padding: '16px',
+  background: 'white',
+  borderBottom: '1px solid var(--border-subtle)'
 }}>
       <div style={{
   display: 'flex',
@@ -174,7 +176,8 @@ export const MobileHeader = ({
             style={{
   padding: '8px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'var(--bg-secondary)',
+  color: 'var(--text-primary)'
 }}
           >
             <ArrowLeft style={{
@@ -188,7 +191,8 @@ export const MobileHeader = ({
             style={{
   padding: '8px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'var(--bg-secondary)',
+  color: 'var(--text-primary)'
 }}
           >
             <Menu style={{
@@ -197,13 +201,13 @@ export const MobileHeader = ({
 }} />
           </button>
         )}
-        
+
         {avatar && (
           <div style={{
   width: '40px',
   height: '40px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'var(--bg-secondary)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -211,26 +215,26 @@ export const MobileHeader = ({
             {avatar}
           </div>
         )}
-        
+
         <div style={{
   flex: '1'
 }}>
           <h1 style={{
   fontWeight: '600',
-  color: '#ffffff'
+  color: 'var(--text-primary)'
 }}>
             {title}
           </h1>
           {subtitle && (
             <p style={{
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }}>
               {subtitle}
             </p>
           )}
         </div>
       </div>
-      
+
       {actions.length > 0 && (
         <div style={{
   display: 'flex',
@@ -243,7 +247,8 @@ export const MobileHeader = ({
               style={{
   padding: '8px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'var(--bg-secondary)',
+  color: 'var(--text-primary)'
 }}
               title={action.title}
             >
@@ -260,18 +265,20 @@ export const MobileHeader = ({
 }
 
 // Mobile-optimized bottom navigation
-export const MobileBottomNav = ({ 
-  items = [], 
-  activeItem, 
+export const MobileBottomNav = ({
+  items = [],
+  activeItem,
   onItemSelect,
-  className = '' 
+  className = ''
 }) => {
   return (
     <div style={{
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-around',
-  padding: '8px'
+  padding: '8px',
+  background: 'white',
+  borderTop: '1px solid var(--border-subtle)'
 }}>
       {items.map((item, index) => (
         <button
@@ -285,7 +292,7 @@ export const MobileBottomNav = ({
   padding: '12px',
   borderRadius: '12px',
   flex: '1',
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }}
         >
           <item.icon style={{
@@ -304,7 +311,8 @@ export const MobileBottomNav = ({
   height: '16px',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  background: '#58a6ff'
 }}>
               {item.badge}
             </span>
@@ -372,7 +380,7 @@ export const SwipeableMessage = ({
   alignItems: 'center',
   justifyContent: 'center',
   width: '64px',
-  color: '#ffffff'
+  color: 'var(--text-primary)'
 }}>
               <ArrowLeft style={{
   width: '20px',
@@ -387,8 +395,8 @@ export const SwipeableMessage = ({
   alignItems: 'center',
   justifyContent: 'center',
   width: '64px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  color: '#ffffff'
+  background: 'var(--bg-secondary)',
+  color: 'var(--text-primary)'
 }}>
               <MoreVertical style={{
   width: '20px',
@@ -528,7 +536,7 @@ export const MobileInput = ({
   }
 
   return (
-    <div className={`bg-[#141414]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
+    <div className={`backdrop-blur-xl border-t ${className}`} style={{ background: 'white', borderColor: 'var(--border-subtle)' }}>
       {/* Attachments preview */}
       {attachments.length > 0 && (
         <div style={{
@@ -544,9 +552,9 @@ export const MobileInput = ({
                 <div style={{
   width: '64px',
   height: '64px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'var(--bg-secondary)',
   borderRadius: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                   {attachment.type.startsWith('image/') ? (
                     <img 
@@ -569,7 +577,7 @@ export const MobileInput = ({
                       <Paperclip style={{
   width: '24px',
   height: '24px',
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }} />
                     </div>
                   )}
@@ -578,13 +586,14 @@ export const MobileInput = ({
                   onClick={() => {/* Remove attachment */}}
                   style={{
   position: 'absolute',
-  color: '#ffffff',
+  color: 'white',
   borderRadius: '50%',
   width: '20px',
   height: '20px',
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  background: '#58a6ff'
 }}
                 >
                   <X style={{
@@ -618,12 +627,13 @@ export const MobileInput = ({
   borderRadius: '50%'
 }} />
               <span style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>
                 Recording voice message
               </span>
             </div>
-            <span className="text-sm text-red-600 dark:text-red-400">
+            <span className="text-sm" style={{ color: '#ef4444' }}>
               {formatDuration(recordingDuration)}
             </span>
           </div>
@@ -644,13 +654,13 @@ export const MobileInput = ({
             style={{
   padding: '12px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'var(--bg-secondary)'
 }}
           >
             <Paperclip style={{
   width: '20px',
   height: '20px',
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }} />
           </button>
         )}
@@ -673,10 +683,11 @@ export const MobileInput = ({
   paddingRight: '16px',
   paddingTop: '12px',
   paddingBottom: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  background: 'var(--bg-secondary)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '50%',
-  minHeight: '48px'
+  minHeight: '48px',
+  color: 'var(--text-primary)'
 }}
               onKeyPress={(e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -699,9 +710,10 @@ export const MobileInput = ({
   paddingRight: '16px',
   paddingTop: '12px',
   paddingBottom: '12px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '50%'
+  background: 'var(--bg-secondary)',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: '50%',
+  color: 'var(--text-primary)'
 }}
               onKeyPress={(e) => {
                 if (e.key === 'Enter') {
@@ -726,13 +738,13 @@ export const MobileInput = ({
               style={{
   padding: '12px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'var(--bg-secondary)'
 }}
             >
               <Camera style={{
   width: '20px',
   height: '20px',
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }} />
             </button>
           )}
@@ -745,8 +757,8 @@ export const MobileInput = ({
               style={{
   padding: '12px',
   borderRadius: '50%',
-  color: '#A0A0A0',
-  background: 'rgba(22, 27, 34, 0.6)'
+  color: 'var(--text-secondary)',
+  background: 'var(--bg-secondary)'
 }}
             >
               <Mic style={{
@@ -761,9 +773,10 @@ export const MobileInput = ({
             <button
               onClick={handleSend}
               disabled={disabled}
+              className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]"
               style={{
   padding: '12px',
-  color: '#ffffff',
+  color: 'white',
   borderRadius: '50%'
 }}
             >
@@ -792,20 +805,23 @@ export const MobileModal = ({
 
   return (
     <div style={{
-  position: 'fixed'
+  position: 'fixed',
+  background: 'rgba(0, 0, 0, 0.5)'
 }}>
       <div style={{
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'white',
+  borderRadius: '16px'
 }}>
         <div style={{
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '16px'
+  padding: '16px',
+  borderBottom: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600',
-  color: '#ffffff'
+  color: 'var(--text-primary)'
 }}>
             {title}
           </h2>
@@ -814,12 +830,13 @@ export const MobileModal = ({
             style={{
   padding: '8px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'var(--bg-secondary)'
 }}
           >
             <X style={{
   width: '20px',
-  height: '20px'
+  height: '20px',
+  color: 'var(--text-primary)'
 }} />
           </button>
         </div>

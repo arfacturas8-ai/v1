@@ -34,7 +34,7 @@ import * as Tabs from '@radix-ui/react-tabs';
 import { Badge } from '../ui/badge';
 // ===== COMMUNITY CARD VARIANTS =====
 const communityCardVariants = cva([
-  'bg-card border border-border rounded-lg overflow-hidden',
+  'bg-white border border-[var(--border-subtle)] rounded-lg overflow-hidden',
   'transition-all duration-200',
 ], {
   variants: {
@@ -331,7 +331,7 @@ const CommunityStats: React.FC<{ stats: Community['stats']; compact?: boolean }>
                   </span>
                 )}
               </div>
-              <div className="text-xs text-muted-foreground">{stat.label}</div>
+              <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{stat.label}</div>
             </div>
           </div>
         );
@@ -354,7 +354,8 @@ const ModeratorList: React.FC<{
   return (
     <div className="space-y-2">
       <h4 style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>Moderators</h4>
       <div style={{
   display: 'flex',
@@ -380,17 +381,19 @@ const ModeratorList: React.FC<{
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontWeight: '500'
+  fontWeight: '500',
+  background: 'var(--bg-secondary)',
+  color: 'var(--text-primary)'
 }}>
               {moderator.avatar ? (
-                <img 
-                  src={moderator.avatar} 
+                <img
+                  src={moderator.avatar}
                   alt={moderator.displayName}
                   style={{
   height: '24px',
   width: '24px',
   borderRadius: '50%'
-}} 
+}}
                 />
               ) : (
                 moderator.displayName.charAt(0).toUpperCase()
@@ -400,7 +403,8 @@ const ModeratorList: React.FC<{
   textAlign: 'left'
 }}>
               <div style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>
                 {moderator.displayName}
               </div>
@@ -414,7 +418,8 @@ const ModeratorList: React.FC<{
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '12px',
-  padding: '8px'
+  padding: '8px',
+  color: 'var(--text-secondary)'
 }}>
             +{remainingCount} more
           </div>
@@ -527,8 +532,9 @@ const CommunityActions: React.FC<{
             <DropdownMenu.Content
               style={{
   width: '192px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  padding: '4px'
+  border: '1px solid var(--border-subtle)',
+  padding: '4px',
+  background: 'white'
 }}
               align="end"
             >
@@ -607,7 +613,7 @@ const CommunityActions: React.FC<{
               </DropdownMenu.Item>
 
               <DropdownMenu.Separator style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   marginTop: '4px',
   marginBottom: '4px'
 }} />
@@ -663,7 +669,8 @@ const CommunityActions: React.FC<{
         <div style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '8px'
+  gap: '8px',
+  color: 'var(--text-secondary)'
 }}>
           <span>Joined {membership.joinDate?.toLocaleDateString()}</span>
           {membership.notificationsEnabled && (
@@ -773,7 +780,9 @@ const CommunityCard = React.forwardRef<HTMLDivElement, CommunityCardProps>(
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  background: 'var(--bg-secondary)',
+  color: 'var(--text-primary)'
 }}
               >
                 {community.avatar ? (
@@ -820,15 +829,16 @@ const CommunityCard = React.forwardRef<HTMLDivElement, CommunityCardProps>(
   justifyContent: 'space-between'
 }}>
                   <div>
-                    <h3 
+                    <h3
                       style={{
-  fontWeight: 'bold'
+  fontWeight: 'bold',
+  color: 'var(--text-primary)'
 }}
                       onClick={onViewCommunity}
                     >
                       {community.displayName}
                     </h3>
-                    <p className="text-muted-foreground text-sm">r/{community.name}</p>
+                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>r/{community.name}</p>
                   </div>
                   
                   {community.stats.trending && (
@@ -886,7 +896,7 @@ const CommunityCard = React.forwardRef<HTMLDivElement, CommunityCardProps>(
 
           {/* Description */}
           <div className="mb-4">
-            <p className="text-sm text-muted-foreground line-clamp-3">
+            <p className="text-sm line-clamp-3" style={{ color: 'var(--text-secondary)' }}>
               {community.description}
             </p>
           </div>
@@ -916,7 +926,7 @@ const CommunityCard = React.forwardRef<HTMLDivElement, CommunityCardProps>(
           )}
 
           {/* Metadata */}
-          <div className="space-y-2 mb-4 text-sm text-muted-foreground">
+          <div className="space-y-2 mb-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
             <div style={{
   display: 'flex',
   alignItems: 'center',
@@ -926,9 +936,9 @@ const CommunityCard = React.forwardRef<HTMLDivElement, CommunityCardProps>(
   height: '16px',
   width: '16px'
 }} />
-              Created {community.createdAt.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long' 
+              Created {community.createdAt.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long'
               })}
             </div>
           </div>
@@ -951,16 +961,17 @@ const CommunityCard = React.forwardRef<HTMLDivElement, CommunityCardProps>(
           {showRules && detailed && community.rules && community.rules.length > 0 && (
             <div className="mb-4">
               <h4 style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>Community Rules</h4>
               <div className="space-y-1">
                 {community.rules.slice(0, 3).map((rule, index) => (
-                  <div key={rule.id} className="text-xs text-muted-foreground">
+                  <div key={rule.id} className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                     {index + 1}. {rule.title}
                   </div>
                 ))}
                 {community.rules.length > 3 && (
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                     +{community.rules.length - 3} more rules
                   </div>
                 )}

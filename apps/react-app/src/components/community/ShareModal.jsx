@@ -84,17 +84,17 @@ const ShareModal = ({ post, onClose, onShare }) => {
   ]
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/50" onClick={onClose}>
+    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/40" onClick={onClose}>
       <div
         ref={modalRef}
-        className="w-full max-w-lg sm:max-w-xl rounded-2xl bg-gray-900"
+        className="w-full max-w-lg sm:max-w-xl rounded-2xl bg-white"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-white/10">
-          <h3 className="text-base sm:text-lg font-semibold">Share Post</h3>
+        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[var(--border-subtle)]">
+          <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">Share Post</h3>
           <button
             onClick={onClose}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-[var(--text-primary)]"
             aria-label="Close modal"
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -105,32 +105,32 @@ const ShareModal = ({ post, onClose, onShare }) => {
 
         <div className="px-4 sm:px-6 py-4 space-y-4">
           {/* Post Preview */}
-          <div className="p-3 border border-white/10 rounded-xl">
-            <h4 className="text-sm sm:text-base font-medium mb-1">
+          <div className="p-3 border border-[var(--border-subtle)] rounded-xl bg-gray-50">
+            <h4 className="text-sm sm:text-base font-medium mb-1 text-[var(--text-primary)]">
               {post.title}
             </h4>
-            <p className="text-xs text-muted">
+            <p className="text-xs text-[var(--text-secondary)]">
               r/{post.community} • u/{post.author}
             </p>
           </div>
 
           {/* Copy URL */}
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-2">Post URL</label>
+            <label className="block text-xs sm:text-sm font-medium mb-2 text-[var(--text-primary)]">Post URL</label>
             <div className="flex flex-col sm:flex-row gap-2">
               <input
                 ref={urlInputRef}
                 type="text"
                 value={postUrl}
                 readOnly
-                className="flex-1 px-3 py-2 min-h-[44px] text-sm rounded-lg bg-white/5 border border-white/10 focus:border-blue-500 focus:outline-none"
+                className="flex-1 px-3 py-2 min-h-[44px] text-sm rounded-lg bg-white border border-[var(--border-subtle)] focus:border-blue-500 focus:outline-none text-[var(--text-primary)]"
               />
               <button
                 onClick={copyToClipboard}
-                className={`min-h-[44px] px-4 py-2 text-sm rounded-lg flex items-center justify-center gap-2 transition-colors ${
+                className={`min-h-[44px] px-4 py-2 text-sm rounded-lg flex items-center justify-center gap-2 transition-all ${
                   copied
-                    ? 'bg-green-600 hover:bg-green-700'
-                    : 'bg-blue-600 hover:bg-blue-700'
+                    ? 'bg-green-600 hover:bg-green-700 text-white'
+                    : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:opacity-90'
                 }`}
               >
                 {copied ? (
@@ -154,7 +154,7 @@ const ShareModal = ({ post, onClose, onShare }) => {
 
           {/* Share Options */}
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-2">Share to</label>
+            <label className="block text-xs sm:text-sm font-medium mb-2 text-[var(--text-primary)]">Share to</label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {shareOptions.map((option) => (
                 <a
@@ -162,7 +162,7 @@ const ShareModal = ({ post, onClose, onShare }) => {
                   href={option.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex items-center gap-3 p-3 min-h-[44px] border border-white/10 rounded-xl ${option.color} hover:bg-white/5 transition-colors font-medium text-sm`}
+                  className={`flex items-center gap-3 p-3 min-h-[44px] border border-[var(--border-subtle)] rounded-xl ${option.color} hover:bg-gray-50 transition-colors font-medium text-sm`}
                   onClick={() => {
                     onShare?.(post.id, option.name.toLowerCase())
                     onClose()

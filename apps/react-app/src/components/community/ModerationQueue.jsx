@@ -205,8 +205,8 @@ export default function ModerationQueue({
       <div className="max-w-4xl mx-auto p-4 md:p-6">
         <div className="text-center py-16 text-red-500">
           <Shield size={48} className="mx-auto mb-4 opacity-70" />
-          <h3 className="text-xl font-semibold text-white mb-2">Access Denied</h3>
-          <p className="text-gray-400">You don't have permission to access the moderation queue.</p>
+          <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">Access Denied</h3>
+          <p className="text-[var(--text-secondary)]">You don't have permission to access the moderation queue.</p>
         </div>
       </div>
     )
@@ -215,8 +215,8 @@ export default function ModerationQueue({
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto p-4 md:p-6">
-        <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <div className="w-8 h-8 border-2 border-gray-600 border-t-blue-500 rounded-full  mb-4"></div>
+        <div className="flex flex-col items-center justify-center py-16 text-[var(--text-secondary)]">
+          <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full  mb-4"></div>
           <p>Loading moderation queue...</p>
         </div>
       </div>
@@ -228,17 +228,17 @@ export default function ModerationQueue({
       {/* Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
         <div>
-          <h2 className="flex items-center gap-2 text-2xl font-semibold text-white mb-1">
+          <h2 className="flex items-center gap-2 text-2xl font-semibold text-[var(--text-primary)] mb-1">
             <Shield size={24} />
             Moderation Queue
           </h2>
-          <p className="text-sm text-gray-400">{queue.length} items pending review</p>
+          <p className="text-sm text-[var(--text-secondary)]">{queue.length} items pending review</p>
         </div>
 
         {selectedItems.size > 0 && (
           <div className="relative">
             <button
-              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px]"
+              className="flex items-center gap-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px]"
               onClick={() => setShowBulkActions(!showBulkActions)}
             >
               {selectedItems.size} selected
@@ -246,26 +246,26 @@ export default function ModerationQueue({
             </button>
 
             {showBulkActions && (
-              <div className="absolute top-full right-0 mt-2 bg-gray-800 border border-gray-700 rounded-lg p-2 min-w-[200px] z-50 shadow-xl animate-fadeIn">
+              <div className="absolute top-full right-0 mt-2 bg-white border border-[var(--border-subtle)] rounded-lg p-2 min-w-[200px] z-50 shadow-xl animate-fadeIn">
                 <div className="mb-2">
                   <input
                     type="text"
                     placeholder="Moderation reason (optional)"
                     value={moderationReason}
                     onChange={(e) => setModerationReason(e.target.value)}
-                    className="w-full bg-gray-700 border border-gray-600 rounded px-2 py-1.5 text-white text-xs focus:outline-none focus:border-blue-500"
+                    className="w-full bg-white border border-[var(--border-subtle)] rounded px-2 py-1.5 text-[var(--text-primary)] text-xs focus:outline-none focus:border-blue-500"
                   />
                 </div>
                 <button
                   onClick={() => handleBulkModeration(MODERATION_ACTIONS.APPROVE)}
-                  className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-green-500 hover:bg-gray-700 rounded text-xs transition-colors"
+                  className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-green-500 hover:bg-gray-100 rounded text-xs transition-colors"
                 >
                   <Check size={14} />
                   Approve All
                 </button>
                 <button
                   onClick={() => handleBulkModeration(MODERATION_ACTIONS.REMOVE)}
-                  className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-red-500 hover:bg-gray-700 rounded text-xs transition-colors"
+                  className="flex items-center gap-2 w-full text-left px-2 py-1.5 text-red-500 hover:bg-gray-100 rounded text-xs transition-colors"
                 >
                   <X size={14} />
                   Remove All
@@ -277,23 +277,23 @@ export default function ModerationQueue({
       </div>
 
       {/* Controls */}
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between mb-5 p-4 bg-gray-800/60 backdrop-blur-sm border border-gray-700 rounded-xl gap-3">
+      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between mb-5 p-4 bg-white border border-[var(--border-subtle)] rounded-xl gap-3">
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 flex-1">
-          <div className="flex items-center gap-2 bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 flex-1 md:max-w-xs">
-            <Search size={16} className="text-gray-400" />
+          <div className="flex items-center gap-2 bg-white border border-[var(--border-subtle)] rounded-lg px-3 py-2 flex-1 md:max-w-xs">
+            <Search size={16} className="text-[var(--text-secondary)]" />
             <input
               type="text"
               placeholder="Search content..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="flex-1 bg-transparent border-none outline-none text-white text-sm placeholder-gray-400 min-h-[28px]"
+              className="flex-1 bg-transparent border-none outline-none text-[var(--text-primary)] text-sm placeholder-gray-400 min-h-[28px]"
             />
           </div>
 
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value)}
-            className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm cursor-pointer focus:outline-none focus:border-blue-500 min-h-[44px]"
+            className="bg-white border border-[var(--border-subtle)] rounded-lg px-3 py-2 text-[var(--text-primary)] text-sm cursor-pointer focus:outline-none focus:border-blue-500 min-h-[44px]"
           >
             <option value="all">All Types</option>
             <option value="posts">Posts</option>
@@ -304,7 +304,7 @@ export default function ModerationQueue({
           <select
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
-            className="bg-gray-900 border border-gray-700 rounded-lg px-3 py-2 text-white text-sm cursor-pointer focus:outline-none focus:border-blue-500 min-h-[44px]"
+            className="bg-white border border-[var(--border-subtle)] rounded-lg px-3 py-2 text-[var(--text-primary)] text-sm cursor-pointer focus:outline-none focus:border-blue-500 min-h-[44px]"
           >
             <option value="pending">Pending</option>
             <option value="approved">Approved</option>
@@ -313,10 +313,10 @@ export default function ModerationQueue({
         </div>
 
         <div className="flex gap-2">
-          <button onClick={selectAll} className="border border-gray-700 hover:bg-gray-700 text-gray-400 hover:text-white px-2 py-1 rounded text-xs transition-colors min-h-[44px]">
+          <button onClick={selectAll} className="border border-[var(--border-subtle)] hover:bg-gray-100 text-[var(--text-secondary)] hover:text-[var(--text-primary)] px-2 py-1 rounded text-xs transition-colors min-h-[44px]">
             Select All
           </button>
-          <button onClick={deselectAll} className="border border-gray-700 hover:bg-gray-700 text-gray-400 hover:text-white px-2 py-1 rounded text-xs transition-colors min-h-[44px]">
+          <button onClick={deselectAll} className="border border-[var(--border-subtle)] hover:bg-gray-100 text-[var(--text-secondary)] hover:text-[var(--text-primary)] px-2 py-1 rounded text-xs transition-colors min-h-[44px]">
             Deselect All
           </button>
         </div>
@@ -333,7 +333,7 @@ export default function ModerationQueue({
       {/* Queue List */}
       <div className="flex flex-col gap-3">
         {queue.map(item => (
-          <div key={item.id} className={`flex flex-col md:flex-row items-start gap-3 bg-gray-800/60 backdrop-blur-sm border rounded-lg p-4 transition-all ${selectedItems.has(item.id) ? 'border-blue-500 bg-blue-500/5' : 'border-gray-700 hover:border-blue-500/30'}`}>
+          <div key={item.id} className={`flex flex-col md:flex-row items-start gap-3 bg-white border rounded-lg p-4 transition-all ${selectedItems.has(item.id) ? 'border-blue-500 bg-blue-500/5' : 'border-[var(--border-subtle)] hover:border-blue-500/30'}`}>
             {/* Checkbox */}
             <div className="flex items-center pt-0.5">
               <input
@@ -345,7 +345,7 @@ export default function ModerationQueue({
             </div>
 
             {/* Type Icon */}
-            <div className="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-gray-900 flex-shrink-0" style={{ color: getItemTypeColor(item.type) }}>
+            <div className="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 flex-shrink-0" style={{ color: getItemTypeColor(item.type) }}>
               {getItemTypeIcon(item.type)}
             </div>
 
@@ -371,13 +371,13 @@ export default function ModerationQueue({
                     alt={item.author?.username}
                     className="w-5 h-5 rounded-full"
                   />
-                  <span className="text-sm text-gray-400">@{item.author?.username}</span>
+                  <span className="text-sm text-[var(--text-secondary)]">@{item.author?.username}</span>
                 </div>
               </div>
 
               <div>
-                {item.title && <h4 className="text-white font-semibold mb-1">{item.title}</h4>}
-                <p className="text-gray-300 text-sm leading-relaxed break-words">{item.content}</p>
+                {item.title && <h4 className="text-[var(--text-primary)] font-semibold mb-1">{item.title}</h4>}
+                <p className="text-[var(--text-secondary)] text-sm leading-relaxed break-words">{item.content}</p>
               </div>
 
               {item.reports && item.reports.length > 0 && (
@@ -385,7 +385,7 @@ export default function ModerationQueue({
                   <h5 className="text-red-500 font-semibold text-sm mb-2">Reports ({item.reports.length}):</h5>
                   <div className="flex flex-col gap-1">
                     {item.reports.slice(0, 3).map((report, index) => (
-                      <div key={index} className="text-xs text-gray-400">
+                      <div key={index} className="text-xs text-[var(--text-secondary)]">
                         <strong className="text-red-500">{report.reason}:</strong> {report.details}
                       </div>
                     ))}
@@ -405,7 +405,7 @@ export default function ModerationQueue({
                       key={index}
                       src={media.url}
                       alt={`Media ${index + 1}`}
-                      className="w-15 h-15 object-cover rounded border border-gray-700"
+                      className="w-15 h-15 object-cover rounded border border-[var(--border-subtle)]"
                     />
                   ))}
                 </div>
@@ -431,33 +431,33 @@ export default function ModerationQueue({
               </button>
 
               <button
-                className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-gray-700 text-gray-400 hover:bg-blue-500 hover:text-white hover:border-blue-500 rounded-lg transition-all"
+                className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-blue-500 hover:text-white hover:border-blue-500 rounded-lg transition-all"
                 title="View Full Content"
               >
                 <Eye size={16} />
               </button>
 
               <div className="relative group">
-                <button className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white rounded-lg transition-all">
+                <button className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-gray-100 hover:text-[var(--text-primary)] rounded-lg transition-all">
                   <MoreVertical size={16} />
                 </button>
-                <div className="hidden group-hover:block absolute top-full right-0 mt-1 bg-gray-800 border border-gray-700 rounded-lg py-1 min-w-[140px] z-50 shadow-xl">
+                <div className="hidden group-hover:block absolute top-full right-0 mt-1 bg-white border border-[var(--border-subtle)] rounded-lg py-1 min-w-[140px] z-50 shadow-xl">
                   <button
                     onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.FLAG)}
-                    className="flex items-center gap-2 w-full text-left px-3 py-2 text-white hover:bg-gray-700 text-xs transition-colors"
+                    className="flex items-center gap-2 w-full text-left px-3 py-2 text-[var(--text-primary)] hover:bg-gray-100 text-xs transition-colors"
                   >
                     <Flag size={14} />
                     Flag for Review
                   </button>
                   <button
                     onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.LOCK)}
-                    className="flex items-center gap-2 w-full text-left px-3 py-2 text-white hover:bg-gray-700 text-xs transition-colors"
+                    className="flex items-center gap-2 w-full text-left px-3 py-2 text-[var(--text-primary)] hover:bg-gray-100 text-xs transition-colors"
                   >
                     <Ban size={14} />
                     Lock Content
                   </button>
                   {item.author && (
-                    <button className="flex items-center gap-2 w-full text-left px-3 py-2 text-white hover:bg-gray-700 text-xs transition-colors">
+                    <button className="flex items-center gap-2 w-full text-left px-3 py-2 text-[var(--text-primary)] hover:bg-gray-100 text-xs transition-colors">
                       <User size={14} />
                       View User Profile
                     </button>
@@ -469,9 +469,9 @@ export default function ModerationQueue({
         ))}
 
         {queue.length === 0 && (
-          <div className="text-center py-16 text-gray-400">
+          <div className="text-center py-16 text-[var(--text-secondary)]">
             <Shield size={48} className="mx-auto mb-4 opacity-50" />
-            <h3 className="text-xl font-semibold text-white mb-2">No items in queue</h3>
+            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No items in queue</h3>
             <p className="text-sm">All content has been reviewed. Great job keeping the community safe!</p>
           </div>
         )}
