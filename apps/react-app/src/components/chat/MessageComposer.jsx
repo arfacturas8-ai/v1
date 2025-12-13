@@ -444,7 +444,7 @@ function MessageComposer({
   }, [content])
 
   return (
-    <div className={`glass ${className}`} style={{ borderTop: '1px solid var(--border-subtle)' }}>
+    <div className={`glass ${className}`} style={{ borderTop: '1px solid var(--border-subtle)', background: 'white' }}>
       {/* Reply/Edit Header */}
       {(replyToMessage || editingMessage) && (
         <div style={{
@@ -452,7 +452,7 @@ function MessageComposer({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'var(--bg-secondary)'
 }}>
           <div style={{
   display: 'flex',
@@ -465,19 +465,21 @@ function MessageComposer({
 }}>
               {editingMessage ? (
                 <span style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>
                   Editing message
                 </span>
               ) : (
                 <>
                   <span style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>
                     Replying to {replyToMessage.username}
                   </span>
                   <span style={{
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }}>
                     {replyToMessage.content}
                   </span>
@@ -489,7 +491,8 @@ function MessageComposer({
               style={{
   padding: '4px',
   borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'white',
+  color: 'var(--text-secondary)'
 }}
             >
               <X style={{
@@ -529,16 +532,17 @@ function MessageComposer({
   width: '80px',
   height: '80px',
   borderRadius: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                     />
                     <button
                       onClick={() => removeAttachment(attachment.id)}
                       style={{
   position: 'absolute',
-  color: '#ffffff',
+  color: 'var(--text-primary)',
   borderRadius: '50%',
-  padding: '4px'
+  padding: '4px',
+  background: 'white'
 }}
                     >
                       <X style={{
@@ -551,23 +555,24 @@ function MessageComposer({
                   <div style={{
   display: 'flex',
   alignItems: 'center',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'var(--bg-secondary)',
   borderRadius: '4px',
   padding: '8px'
 }}>
                     <File style={{
   width: '24px',
   height: '24px',
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }} />
                     <div>
                       <div style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>
                         {attachment.name}
                       </div>
                       <div style={{
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }}>
                         {(attachment.size / 1024 / 1024).toFixed(1)} MB
                       </div>
@@ -576,9 +581,10 @@ function MessageComposer({
                       onClick={() => removeAttachment(attachment.id)}
                       style={{
   position: 'absolute',
-  color: '#ffffff',
+  color: 'var(--text-primary)',
   borderRadius: '50%',
-  padding: '4px'
+  padding: '4px',
+  background: 'white'
 }}
                     >
                       <X style={{
@@ -617,11 +623,12 @@ function MessageComposer({
   borderRadius: '50%'
 }} />
               <span style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>
                 Recording voice message
               </span>
-              <span className="text-sm text-red-600 dark:text-red-400">
+              <span className="text-sm text-red-600">
                 {formatDuration(recordingDuration)}
               </span>
             </div>
@@ -631,6 +638,7 @@ function MessageComposer({
 }}>
               <button
                 onClick={stopRecording}
+                className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]"
                 style={{
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -649,8 +657,8 @@ function MessageComposer({
   paddingRight: '12px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  background: 'rgba(22, 27, 34, 0.6)',
-  color: '#ffffff',
+  background: 'var(--bg-secondary)',
+  color: 'var(--text-primary)',
   borderRadius: '4px'
 }}
               >
@@ -672,22 +680,24 @@ function MessageComposer({
           <div style={{
   display: 'flex',
   alignItems: 'center',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'var(--bg-secondary)',
   borderRadius: '4px',
   padding: '12px'
 }}>
             <Volume2 style={{
   width: '20px',
-  height: '20px'
+  height: '20px',
+  color: 'var(--text-primary)'
 }} />
             <div style={{
   flex: '1'
 }}>
               <div style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>Voice message</div>
               <div style={{
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }}>{formatDuration(recordingDuration)}</div>
             </div>
             <button
@@ -695,7 +705,8 @@ function MessageComposer({
               style={{
   padding: '4px',
   borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'white',
+  color: 'var(--text-secondary)'
 }}
             >
               <X style={{
@@ -717,7 +728,10 @@ function MessageComposer({
             ref={mentionsRef}
             style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)',
+  background: 'white',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
 }}
           >
             {filteredUsers.map((user, index) => (
@@ -732,15 +746,16 @@ function MessageComposer({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'white',
   textAlign: 'left'
 }}
+                className="hover:bg-[#F8F9FA]"
               >
                 <div style={{
   width: '32px',
   height: '32px',
   borderRadius: '50%',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'var(--bg-secondary)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -753,7 +768,8 @@ function MessageComposer({
 }} />
                   ) : (
                     <span style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>
                       {user.displayName.charAt(0).toUpperCase()}
                     </span>
@@ -761,10 +777,11 @@ function MessageComposer({
                 </div>
                 <div>
                   <div style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>{user.displayName}</div>
                   <div style={{
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }}>@{user.username}</div>
                 </div>
               </button>
@@ -776,7 +793,10 @@ function MessageComposer({
         {showSlashCommands && filteredCommands.length > 0 && (
           <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)',
+  background: 'white',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
 }}>
             {filteredCommands.map((command, index) => {
               const Icon = command.icon
@@ -792,21 +812,23 @@ function MessageComposer({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'white',
   textAlign: 'left'
 }}
+                  className="hover:bg-[#F8F9FA]"
                 >
                   <Icon style={{
   width: '20px',
   height: '20px',
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }} />
                   <div>
                     <div style={{
-  fontWeight: '500'
+  fontWeight: '500',
+  color: 'var(--text-primary)'
 }}>/{command.name}</div>
                     <div style={{
-  color: '#A0A0A0'
+  color: 'var(--text-secondary)'
 }}>{command.description}</div>
                   </div>
                 </button>
@@ -823,7 +845,10 @@ function MessageComposer({
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
-              className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff] disabled:opacity-50"
+              className="p-2 rounded-lg hover:bg-[#F8F9FA] transition-colors disabled:opacity-50"
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => !disabled && (e.currentTarget.style.color = '#58a6ff')}
+              onMouseLeave={(e) => !disabled && (e.currentTarget.style.color = 'var(--text-secondary)')}
             >
               <Paperclip className="w-5 h-5" />
             </button>
@@ -853,17 +878,22 @@ function MessageComposer({
             {showFormatting && (
               <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '8px',
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  background: 'white',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
 }}>
                 <button
                   onClick={() => insertFormatting('bold')}
+                  className="hover:bg-[#F8F9FA]"
                   style={{
   padding: '4px',
   borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'white',
+  color: 'var(--text-secondary)'
 }}
                 >
                   <Bold style={{
@@ -873,10 +903,12 @@ function MessageComposer({
                 </button>
                 <button
                   onClick={() => insertFormatting('italic')}
+                  className="hover:bg-[#F8F9FA]"
                   style={{
   padding: '4px',
   borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'white',
+  color: 'var(--text-secondary)'
 }}
                 >
                   <Italic style={{
@@ -886,10 +918,12 @@ function MessageComposer({
                 </button>
                 <button
                   onClick={() => insertFormatting('code')}
+                  className="hover:bg-[#F8F9FA]"
                   style={{
   padding: '4px',
   borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'white',
+  color: 'var(--text-secondary)'
 }}
                 >
                   <Code style={{
@@ -899,10 +933,12 @@ function MessageComposer({
                 </button>
                 <button
                   onClick={() => insertFormatting('link')}
+                  className="hover:bg-[#F8F9FA]"
                   style={{
   padding: '4px',
   borderRadius: '4px',
-  background: 'rgba(22, 27, 34, 0.6)'
+  background: 'white',
+  color: 'var(--text-secondary)'
 }}
                 >
                   <Link style={{
@@ -919,7 +955,10 @@ function MessageComposer({
             {/* Formatting Toggle */}
             <button
               onClick={() => setShowFormatting(!showFormatting)}
-              className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
+              className="p-2 rounded-lg hover:bg-[#F8F9FA] transition-colors"
+              style={{ color: 'var(--text-secondary)' }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
+              onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
               <Code className="w-5 h-5" />
             </button>
@@ -928,7 +967,10 @@ function MessageComposer({
             <div className="relative">
               <button
                 onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff]"
+                className="p-2 rounded-lg hover:bg-[#F8F9FA] transition-colors"
+                style={{ color: 'var(--text-secondary)' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
+                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
               >
                 <Smile className="w-5 h-5" />
               </button>
@@ -950,7 +992,10 @@ function MessageComposer({
               <button
                 onClick={startRecording}
                 disabled={disabled}
-                className="p-2 rounded-lg hover:bg-[#141414] transition-colors text-[#666666] hover:text-[#58a6ff] disabled:opacity-50"
+                className="p-2 rounded-lg hover:bg-[#F8F9FA] transition-colors disabled:opacity-50"
+                style={{ color: 'var(--text-secondary)' }}
+                onMouseEnter={(e) => !disabled && (e.currentTarget.style.color = '#58a6ff')}
+                onMouseLeave={(e) => !disabled && (e.currentTarget.style.color = 'var(--text-secondary)')}
               >
                 <Mic className="w-5 h-5" />
               </button>
@@ -960,7 +1005,7 @@ function MessageComposer({
             <button
               onClick={editingMessage ? handleSaveEdit : handleSendMessage}
               disabled={disabled || (!content.trim() && attachments.length === 0 && !audioBlob)}
-              className="btn-primary"
+              className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white disabled:opacity-50"
               style={{ borderRadius: 'var(--radius-lg)', padding: 'var(--space-2)' }}
             >
               <Send className="w-5 h-5" />

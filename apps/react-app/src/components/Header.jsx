@@ -111,9 +111,9 @@ function Header() {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0D0D0D]/80 backdrop-blur-xl border-b border-white/10'
+          ? 'backdrop-blur-xl border-b'
           : 'bg-transparent'
-      }`}>
+      }`} style={isScrolled ? { background: 'rgba(248, 249, 250, 0.8)', borderColor: 'var(--border-subtle)' } : {}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
@@ -134,9 +134,10 @@ function Header() {
                     to={item.path}
                     className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                       isActive
-                        ? 'text-white bg-[#58a6ff]/10'
-                        : 'text-[#666666] hover:text-white hover:bg-[#141414]/60'
+                        ? 'bg-[#58a6ff]/10'
+                        : 'hover:bg-white'
                     }`}
+                    style={{ color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)' }}
                   >
                     <Icon size={18} />
                     <span>{item.label}</span>
@@ -148,13 +149,14 @@ function Header() {
             {/* Desktop Search */}
             <form onSubmit={handleSearch} className="hidden lg:block flex-1 max-w-md mx-8">
               <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666666]" />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
                 <input
                   type="search"
                   placeholder="Search CRYB..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full h-10 pl-11 pr-4 bg-[#141414]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 transition-all"
+                  className="w-full h-10 pl-11 pr-4 bg-white border rounded-lg text-sm outline-none focus:border-[#58a6ff]/50 transition-all"
+                  style={{ color: 'var(--text-primary)', borderColor: 'var(--border-subtle)' }}
                 />
               </div>
             </form>
@@ -167,8 +169,11 @@ function Header() {
                   <div className="relative" ref={notificationRef}>
                     <button
                       onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-[#141414]/60 border border-white/10 text-[#666666] hover:text-white hover:border-[#58a6ff]/30 transition-all"
+                      className="relative flex items-center justify-center w-10 h-10 rounded-lg bg-white border hover:border-[#58a6ff]/30 transition-all"
+                      style={{ color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)' }}
                       aria-label="Notifications"
+                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                     >
                       <Bell size={18} />
                       {unreadCount > 0 && (
@@ -179,20 +184,20 @@ function Header() {
                     </button>
 
                     {isNotificationOpen && (
-                      <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-32px)] bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
-                        <div className="p-4 border-b border-white/10">
-                          <h3 className="font-semibold text-white">Notifications</h3>
+                      <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-32px)] bg-white backdrop-blur-xl border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+                        <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
+                          <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>Notifications</h3>
                         </div>
                         <div className="max-h-80 overflow-y-auto">
                           {notifications.length === 0 ? (
-                            <div className="px-4 py-8 text-center text-[#666666] text-sm">
+                            <div className="px-4 py-8 text-center text-sm" style={{ color: 'var(--text-secondary)' }}>
                               No notifications yet
                             </div>
                           ) : (
                             notifications.map((notification) => (
                               <div
                                 key={notification.id}
-                                className="px-4 py-3 hover:bg-[#141414]/60 transition-colors cursor-pointer"
+                                className="px-4 py-3 hover:bg-[#F8F9FA] transition-colors cursor-pointer"
                                 onClick={() => {
                                   setIsNotificationOpen(false)
                                   navigate('/notifications')
@@ -203,8 +208,8 @@ function Header() {
                                     <span className="w-2 h-2 mt-2 bg-[#58a6ff] rounded-full flex-shrink-0"></span>
                                   )}
                                   <div className="flex-1 min-w-0">
-                                    <p className="text-sm text-[#A0A0A0]">{notification.message || notification.content}</p>
-                                    <p className="text-xs text-[#666666] mt-1">
+                                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>{notification.message || notification.content}</p>
+                                    <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
                                       {notification.createdAt ? new Date(notification.createdAt).toLocaleDateString() : ''}
                                     </p>
                                   </div>
@@ -213,7 +218,7 @@ function Header() {
                             ))
                           )}
                         </div>
-                        <div className="p-3 border-t border-white/10">
+                        <div className="p-3 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                           <Link
                             to="/notifications"
                             onClick={() => setIsNotificationOpen(false)}
@@ -229,7 +234,7 @@ function Header() {
                   {/* Create Button - Desktop */}
                   <button
                     onClick={() => navigate('/submit')}
-                    className="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
+                    className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
                   >
                     <Plus size={16} />
                     <span>Create</span>
@@ -239,24 +244,25 @@ function Header() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center gap-2 p-1 pr-2 bg-[#141414]/60 border border-white/10 rounded-lg hover:border-[#58a6ff]/30 transition-all"
+                      className="flex items-center gap-2 p-1 pr-2 bg-white border rounded-lg hover:border-[#58a6ff]/30 transition-all"
+                      style={{ borderColor: 'var(--border-subtle)' }}
                     >
                       <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-sm font-semibold">
                         {user?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
-                      <ChevronDown size={14} className="text-[#666666] hidden sm:block" />
+                      <ChevronDown size={14} className="hidden sm:block" style={{ color: 'var(--text-secondary)' }} />
                     </button>
 
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-56 bg-[#0D0D0D]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.4)] overflow-hidden">
-                        <div className="p-4 border-b border-white/10">
+                      <div className="absolute right-0 mt-2 w-56 bg-white backdrop-blur-xl border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+                        <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
-                              <div className="font-semibold text-white text-sm truncate">{user?.username || 'User'}</div>
-                              <div className="text-xs text-[#666666] truncate">{user?.email || ''}</div>
+                              <div className="font-semibold text-sm truncate" style={{ color: 'var(--text-primary)' }}>{user?.username || 'User'}</div>
+                              <div className="text-xs truncate" style={{ color: 'var(--text-secondary)' }}>{user?.email || ''}</div>
                             </div>
                           </div>
                         </div>
@@ -264,7 +270,8 @@ function Header() {
                           <Link
                             to={`/profile/${user?.username}`}
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 hover:bg-[#F8F9FA] transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             <User size={16} />
                             <span className="text-sm">Profile</span>
@@ -272,7 +279,8 @@ function Header() {
                           <Link
                             to="/settings"
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 hover:bg-[#F8F9FA] transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             <Settings size={16} />
                             <span className="text-sm">Settings</span>
@@ -280,13 +288,14 @@ function Header() {
                           <Link
                             to="/wallet"
                             onClick={() => setIsUserMenuOpen(false)}
-                            className="flex items-center gap-3 px-4 py-2.5 text-[#A0A0A0] hover:bg-[#141414]/60 hover:text-white transition-colors"
+                            className="flex items-center gap-3 px-4 py-2.5 hover:bg-[#F8F9FA] transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             <Wallet size={16} />
                             <span className="text-sm">Wallet</span>
                           </Link>
                         </div>
-                        <div className="py-2 border-t border-white/10">
+                        <div className="py-2 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                           <button
                             onClick={handleLogout}
                             className="flex items-center gap-3 px-4 py-2.5 w-full text-[#ef4444] hover:bg-[#ef4444]/10 transition-colors"
@@ -302,7 +311,10 @@ function Header() {
                   {/* Mobile Menu Button */}
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-[#141414]/60 border border-white/10 text-[#666666] hover:text-white transition-colors"
+                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg bg-white border transition-colors"
+                    style={{ color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)' }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                   >
                     {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
                   </button>
@@ -311,13 +323,14 @@ function Header() {
                 <div className="flex items-center gap-3">
                   <Link
                     to="/login"
-                    className="text-[#A0A0A0] hover:text-white text-sm font-medium transition-colors"
+                    className="text-sm font-medium transition-colors hover:opacity-80"
+                    style={{ color: 'var(--text-secondary)' }}
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    className="px-4 py-2 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all"
+                    className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg text-sm font-semibold transition-all"
                   >
                     Get Started
                   </Link>
@@ -329,18 +342,19 @@ function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && user && (
-          <div className="md:hidden bg-[#0D0D0D]/95 backdrop-blur-xl border-t border-white/10">
+          <div className="md:hidden bg-white backdrop-blur-xl border-t" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="p-4 space-y-2">
               {/* Mobile Search */}
               <form onSubmit={handleSearch} className="mb-4">
                 <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#666666]" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4" style={{ color: 'var(--text-secondary)' }} />
                   <input
                     type="search"
                     placeholder="Search CRYB..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-11 pl-11 pr-4 bg-[#141414]/60 border border-white/10 rounded-lg text-white text-sm placeholder-[#666666] outline-none focus:border-[#58a6ff]/50"
+                    className="w-full h-11 pl-11 pr-4 bg-white border rounded-lg text-sm outline-none focus:border-[#58a6ff]/50"
+                    style={{ color: 'var(--text-primary)', borderColor: 'var(--border-subtle)' }}
                   />
                 </div>
               </form>
@@ -356,9 +370,10 @@ function Header() {
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                       isActive
-                        ? 'text-white bg-[#58a6ff]/10'
-                        : 'text-[#A0A0A0] hover:bg-[#141414]/60'
+                        ? 'bg-[#58a6ff]/10'
+                        : 'hover:bg-[#F8F9FA]'
                     }`}
+                    style={{ color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)' }}
                   >
                     <Icon size={20} />
                     <span>{item.label}</span>
@@ -366,13 +381,13 @@ function Header() {
                 )
               })}
 
-              <div className="pt-4 border-t border-white/10">
+              <div className="pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                 <button
                   onClick={() => {
                     navigate('/submit')
                     setIsMobileMenuOpen(false)
                   }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-[#58a6ff] hover:bg-[#4a8fd7] text-white rounded-lg text-sm font-semibold transition-all"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg text-sm font-semibold transition-all"
                 >
                   <Plus size={18} />
                   <span>Create Post</span>

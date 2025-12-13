@@ -215,11 +215,11 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] p-4" onClick={onClose}>
-      <div className="bg-[#141414]/95 rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-white/10" onClick={e => e.stopPropagation()}>
-        <div className="flex justify-between items-center p-6 border-b border-white/10 sticky top-0 bg-[#141414]/95 z-10">
-          <h2 className="text-xl font-semibold text-white m-0">Report Content</h2>
+      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-[var(--border-subtle)]" onClick={e => e.stopPropagation()}>
+        <div className="flex justify-between items-center p-6 border-b border-[var(--border-subtle)] sticky top-0 bg-white z-10">
+          <h2 className="text-xl font-semibold text-[var(--text-primary)] m-0">Report Content</h2>
           <button
-            className="bg-none border-none text-2xl text-gray-400 cursor-pointer hover:text-white transition-colors"
+            className="bg-none border-none text-2xl text-[var(--text-secondary)] cursor-pointer hover:text-[var(--text-primary)] transition-colors"
             onClick={onClose}
             aria-label="Close"
           >
@@ -229,7 +229,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
 
         <form onSubmit={handleSubmit} className="p-6">
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-3">What type of issue are you reporting?</h3>
+            <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-3">What type of issue are you reporting?</h3>
             <div className="grid grid-cols-2 gap-3">
               {Object.entries(reportCategories).map(([key, category]) => (
                 <label
@@ -237,7 +237,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
                   className={`flex items-center gap-3 p-4 border rounded-lg cursor-pointer transition-all ${
                     reportData.category === key
                       ? 'border-[#58a6ff] bg-[#58a6ff]/10'
-                      : 'border-white/10 bg-white/5 hover:border-white/20'
+                      : 'border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[#58a6ff]/30'
                   }`}
                 >
                   <input
@@ -253,7 +253,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
                     required
                     className="hidden"
                   />
-                  <span className="text-white font-medium">{category.label}</span>
+                  <span className="text-[var(--text-primary)] font-medium">{category.label}</span>
                 </label>
               ))}
             </div>
@@ -261,7 +261,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
 
           {reportData.category && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold text-white mb-3">More specifically, what is the issue?</h3>
+              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-3">More specifically, what is the issue?</h3>
               <div className="space-y-2">
                 {reportCategories[reportData.category].subcategories.map(subcategory => (
                   <label
@@ -269,7 +269,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
                     className={`flex items-center gap-3 p-3 border rounded-lg cursor-pointer transition-all ${
                       reportData.subcategory === subcategory
                         ? 'border-[#58a6ff] bg-[#58a6ff]/10'
-                        : 'border-white/10 bg-white/5 hover:border-white/20'
+                        : 'border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-[#58a6ff]/30'
                     }`}
                   >
                     <input
@@ -283,7 +283,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
                       }))}
                       className="hidden"
                     />
-                    <span className="text-white">{subcategoryLabels[subcategory]}</span>
+                    <span className="text-[var(--text-primary)]">{subcategoryLabels[subcategory]}</span>
                   </label>
                 ))}
               </div>
@@ -292,8 +292,8 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
 
           <div className="mb-6">
             <label htmlFor="description">
-              <h3 className="text-lg font-semibold text-white mb-2">Please provide additional details *</h3>
-              <p className="text-sm text-gray-400 mb-3">
+              <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Please provide additional details *</h3>
+              <p className="text-sm text-[var(--text-secondary)] mb-3">
                 Help us understand the issue by providing specific details about what you observed.
               </p>
             </label>
@@ -309,16 +309,16 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
               minLength={10}
               maxLength={1000}
               rows={4}
-              className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
+              className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
             />
-            <div className="text-xs text-gray-500 mt-1 text-right">
+            <div className="text-xs text-[var(--text-secondary)] mt-1 text-right">
               {reportData.description.length}/1000 characters
             </div>
           </div>
 
           <div className="mb-6">
-            <h3 className="text-lg font-semibold text-white mb-2">Evidence (Optional)</h3>
-            <p className="text-sm text-gray-400 mb-3">
+            <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-2">Evidence (Optional)</h3>
+            <p className="text-sm text-[var(--text-secondary)] mb-3">
               Provide links to screenshots, archives, or other evidence that supports your report.
             </p>
 
@@ -328,12 +328,12 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
                 value={newEvidenceUrl}
                 onChange={(e) => setNewEvidenceUrl(e.target.value)}
                 placeholder="https://example.com/evidence-link"
-                className="flex-1 px-4 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
+                className="flex-1 px-4 py-2 bg-white border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)] placeholder-[var(--text-secondary)] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20"
               />
               <button
                 type="button"
                 onClick={addEvidenceUrl}
-                className="px-4 py-2 bg-[#58a6ff] text-white rounded-lg hover:bg-[#1a6fc7] disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
                 disabled={!newEvidenceUrl.trim()}
               >
                 Add
@@ -342,9 +342,9 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
 
             {reportData.evidence_urls.length > 0 && (
               <div className="space-y-2">
-                <h4 className="text-sm font-semibold text-white">Added Evidence:</h4>
+                <h4 className="text-sm font-semibold text-[var(--text-primary)]">Added Evidence:</h4>
                 {reportData.evidence_urls.map((url, index) => (
-                  <div key={index} className="flex items-center justify-between gap-2 p-3 bg-white/5 border border-white/10 rounded-lg">
+                  <div key={index} className="flex items-center justify-between gap-2 p-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg">
                     <a
                       href={url}
                       target="_blank"
@@ -368,7 +368,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
           </div>
 
           <div className="mb-6 p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-lg">
-            <p className="text-sm text-yellow-200 m-0">
+            <p className="text-sm text-yellow-700 m-0">
               <strong>Important:</strong> Filing false reports may result in action against your account.
               We take all reports seriously and will investigate appropriately.
             </p>
@@ -385,7 +385,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
             </button>
             <button
               type="submit"
-              className="px-6 py-3 bg-[#58a6ff] text-white rounded-lg hover:bg-[#1a6fc7] disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+              className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
               disabled={loading || !reportData.category || !reportData.description.trim()}
             >
               {loading ? (

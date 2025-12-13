@@ -401,17 +401,17 @@ function GuidelinesPage() {
         </section>
 
         <div className="mt-12">
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl p-6 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Questions or Concerns?</h3>
-            <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
+          <div className="bg-white backdrop-blur-xl rounded-xl p-6 md:p-8 shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
+            <h3 className="text-xl font-semibold mt-6 mb-2" style={{ color: 'var(--text-primary)' }}>Questions or Concerns?</h3>
+            <p className="text-base leading-relaxed mb-4" style={{ color: 'var(--text-primary)' }}>
               If you have questions about these Community Guidelines or need clarification, please contact us:
             </p>
             <ul className="list-disc pl-6 mb-4 space-y-1">
-              <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Email: guidelines@cryb.com</li>
-              <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Help Center: <Link to="/help" className="text-[#58a6ff] no-underline transition-colors duration-200 hover:text-[#1a6bc0]">Visit Help Center</Link></li>
-              <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Terms of Service: <Link to="/terms" className="text-[#58a6ff] no-underline transition-colors duration-200 hover:text-[#1a6bc0]">Read our Terms</Link></li>
+              <li className="text-base leading-relaxed" style={{ color: 'var(--text-primary)' }}>Email: guidelines@cryb.com</li>
+              <li className="text-base leading-relaxed" style={{ color: 'var(--text-primary)' }}>Help Center: <Link to="/help" className="text-[#58a6ff] no-underline transition-colors duration-200 hover:text-[#1a6bc0]">Visit Help Center</Link></li>
+              <li className="text-base leading-relaxed" style={{ color: 'var(--text-primary)' }}>Terms of Service: <Link to="/terms" className="text-[#58a6ff] no-underline transition-colors duration-200 hover:text-[#1a6bc0]">Read our Terms</Link></li>
             </ul>
-            <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
+            <p className="text-base leading-relaxed mb-4" style={{ color: 'var(--text-primary)' }}>
               Thank you for helping make Cryb.ai a welcoming and positive community for everyone!
             </p>
           </div>

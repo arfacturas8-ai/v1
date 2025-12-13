@@ -154,9 +154,9 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
 
   if (loading) {
     return (
-      <div className="bg-white/90 backdrop-blur-[10px] rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-white/20">
-        <div className="flex justify-center items-center p-12 text-gray-500">
-          <div className="inline-block w-5 h-5 border-2 border-white/30 rounded-full border-t-white "></div>
+      <div className="bg-white backdrop-blur-[10px] rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-[var(--border-subtle)]">
+        <div className="flex justify-center items-center p-12 text-[var(--text-secondary)]">
+          <div className="inline-block w-5 h-5 border-2 border-[var(--border-subtle)] rounded-full border-t-[#58a6ff] "></div>
           <span>Loading moderation queue...</span>
         </div>
       </div>
@@ -164,12 +164,12 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
   }
 
   return (
-    <div className="bg-white/90 backdrop-blur-[10px] rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-white/20">
-      <div className="flex justify-between items-center mb-6 pb-4 border-b border-black/10">
-        <h2 className="text-xl font-semibold text-white m-0">Moderation Queue</h2>
+    <div className="bg-white backdrop-blur-[10px] rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-[var(--border-subtle)]">
+      <div className="flex justify-between items-center mb-6 pb-4 border-b border-[var(--border-subtle)]">
+        <h2 className="text-xl font-semibold text-[var(--text-primary)] m-0">Moderation Queue</h2>
         <div>
           <button
-            className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#1a6fc7] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
             onClick={fetchQueueItems}
             disabled={loading}
           >
@@ -178,11 +178,11 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
         </div>
       </div>
 
-      <div className="flex gap-4 items-center mb-6 p-4 bg-black/[0.02] rounded-lg">
+      <div className="flex gap-4 items-center mb-6 p-4 bg-[var(--bg-secondary)] rounded-lg">
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Status</label>
+          <label className="text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wide">Status</label>
           <select
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
+            className="px-2 py-2 border border-[var(--border-subtle)] rounded-md text-sm bg-white text-[var(--text-primary)] transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
             value={filters.status}
             onChange={(e) => onFiltersChange({ ...filters, status: e.target.value })}
           >
@@ -196,9 +196,9 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Priority</label>
+          <label className="text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wide">Priority</label>
           <select
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
+            className="px-2 py-2 border border-[var(--border-subtle)] rounded-md text-sm bg-white text-[var(--text-primary)] transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
             value={filters.priority}
             onChange={(e) => onFiltersChange({ ...filters, priority: e.target.value })}
           >
@@ -211,9 +211,9 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
         </div>
 
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-gray-500 uppercase tracking-wide">Content Type</label>
+          <label className="text-xs font-medium text-[var(--text-secondary)] uppercase tracking-wide">Content Type</label>
           <select
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95 transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
+            className="px-2 py-2 border border-[var(--border-subtle)] rounded-md text-sm bg-white text-[var(--text-primary)] transition-colors focus:outline-none focus:border-[#58a6ff] focus:shadow-[0_0_0_3px_rgba(102,126,234,0.1)]"
             value={filters.content_type}
             onChange={(e) => onFiltersChange({ ...filters, content_type: e.target.value })}
           >
@@ -231,7 +231,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
           <select
             value={bulkAction}
             onChange={(e) => setBulkAction(e.target.value)}
-            className="px-2 py-2 border border-black/10 rounded-md text-sm bg-[#141414]/95"
+            className="px-2 py-2 border border-[var(--border-subtle)] rounded-md text-sm bg-white text-[var(--text-primary)]"
           >
             <option value="">Choose bulk action...</option>
             <option value="approved">Approve All</option>
@@ -239,7 +239,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
             <option value="escalated">Escalate All</option>
           </select>
           <button
-            className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#1a6fc7] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
             onClick={handleBulkAction}
             disabled={!bulkAction}
           >
@@ -249,7 +249,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
       )}
 
       <div className="mt-4">
-        <div className="flex items-center gap-4 p-4 bg-black/[0.02] rounded-t-lg border-b border-black/10 font-semibold text-gray-500">
+        <div className="flex items-center gap-4 p-4 bg-[var(--bg-secondary)] rounded-t-lg border-b border-[var(--border-subtle)] font-semibold text-[var(--text-secondary)]">
           <label className="relative block cursor-pointer select-none">
             <input
               type="checkbox"
@@ -257,13 +257,13 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
               onChange={handleSelectAll}
               className="absolute opacity-0 cursor-pointer h-0 w-0 peer"
             />
-            <span className="relative block h-[18px] w-[18px] bg-[#141414]/95 border-2 border-white/10 rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
+            <span className="relative block h-[18px] w-[18px] bg-white border-2 border-[var(--border-subtle)] rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
           </label>
           <span>Select All</span>
         </div>
 
         {queueItems.length === 0 ? (
-          <div className="flex flex-col items-center p-12 text-gray-500">
+          <div className="flex flex-col items-center p-12 text-[var(--text-secondary)]">
             <span>🎉 No items in the moderation queue!</span>
             <p>All caught up with content moderation.</p>
           </div>
@@ -271,7 +271,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
           queueItems.map(item => (
             <div
               key={item.id}
-              className={`border border-black/10 border-t-0 bg-[#141414]/95 transition-all hover:bg-black/[0.01] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] last:rounded-b-lg ${selectedItems.has(item.id) ? 'bg-[#667eea]/5 border-[#58a6ff]' : ''}`}
+              className={`border border-[var(--border-subtle)] border-t-0 bg-white transition-all hover:bg-[var(--bg-secondary)] hover:shadow-[0_2px_8px_rgba(0,0,0,0.1)] last:rounded-b-lg ${selectedItems.has(item.id) ? 'bg-[#667eea]/5 border-[#58a6ff]' : ''}`}
             >
               <div className="flex items-center gap-4 p-4">
                 <label className="relative block cursor-pointer select-none">
@@ -281,7 +281,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                     onChange={() => handleItemSelect(item.id)}
                     className="absolute opacity-0 cursor-pointer h-0 w-0 peer"
                   />
-                  <span className="relative block h-[18px] w-[18px] bg-[#141414]/95 border-2 border-white/10 rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
+                  <span className="relative block h-[18px] w-[18px] bg-white border-2 border-[var(--border-subtle)] rounded-sm transition-all peer-hover:border-[#58a6ff] peer-checked:bg-[#58a6ff] peer-checked:border-[#58a6ff] after:content-[''] after:absolute after:hidden after:left-[5px] after:top-[2px] after:w-1 after:h-2 after:border-white after:border-r-2 after:border-b-2 after:rotate-45 peer-checked:after:block"></span>
                 </label>
 
                 <div
@@ -294,10 +294,10 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-1">
-                    <span className="text-xs font-bold px-2 py-1 bg-black/10 rounded uppercase tracking-wide">{item.content_type.toUpperCase()}</span>
-                    <span className="font-mono text-sm text-gray-500">#{item.content_id.slice(-8)}</span>
+                    <span className="text-xs font-bold px-2 py-1 bg-[var(--bg-secondary)] text-[var(--text-primary)] rounded uppercase tracking-wide">{item.content_type.toUpperCase()}</span>
+                    <span className="font-mono text-sm text-[var(--text-secondary)]">#{item.content_id.slice(-8)}</span>
                     <span className={`text-xs font-semibold px-2 py-1 rounded-xl uppercase tracking-wide ${
-                      item.status === 'pending' ? 'bg-gray-300/20 text-gray-500' :
+                      item.status === 'pending' ? 'bg-gray-300/20 text-[var(--text-secondary)]' :
                       item.status === 'reviewing' ? 'bg-blue-500/10 text-[#58a6ff]' :
                       item.status === 'approved' ? 'bg-green-500/10 text-green-500' :
                       item.status === 'rejected' ? 'bg-red-500/10 text-red-500' :
@@ -306,7 +306,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                       {item.status}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                  <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
                     <span>By: {item.username || 'Unknown User'}</span>
                     <span>•</span>
                     <span>{formatTime(item.created_at)}</span>
@@ -323,13 +323,13 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
 
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
-                    className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#1a6fc7] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                    className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                     onClick={() => setExpandedItem(expandedItem === item.id ? null : item.id)}
                   >
                     {expandedItem === item.id ? '🔼' : '🔽'} Details
                   </button>
                   <button
-                    className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#1a6fc7] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                    className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                     onClick={() => handleAssignToSelf(item.id)}
                     disabled={item.assigned_moderator}
                   >
@@ -339,17 +339,17 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
               </div>
 
               {expandedItem === item.id && (
-                <div className="px-4 pb-4 border-t border-black/5 bg-black/[0.01]">
+                <div className="px-4 pb-4 border-t border-[var(--border-subtle)] bg-[var(--bg-secondary)]">
                   <div className="mb-4">
-                    <h4 className="m-0 mb-2 text-sm font-semibold text-[#A0A0A0]">Content Preview:</h4>
-                    <div className="p-3 bg-[#141414]/95 border border-black/10 rounded-md text-sm leading-relaxed text-[#A0A0A0] max-h-[200px] overflow-y-auto">
+                    <h4 className="m-0 mb-2 text-sm font-semibold text-[var(--text-primary)]">Content Preview:</h4>
+                    <div className="p-3 bg-white border border-[var(--border-subtle)] rounded-md text-sm leading-relaxed text-[var(--text-primary)] max-h-[200px] overflow-y-auto">
                       {item.content_preview || 'No preview available'}
                     </div>
                   </div>
 
                   {item.flagged_categories && item.flagged_categories.length > 0 && (
                     <div className="mb-4">
-                      <h4 className="m-0 mb-2 text-sm font-semibold text-[#A0A0A0]">Flagged Categories:</h4>
+                      <h4 className="m-0 mb-2 text-sm font-semibold text-[var(--text-primary)]">Flagged Categories:</h4>
                       <div className="flex flex-wrap gap-2">
                         {item.flagged_categories.map(category => (
                           <span key={category} className="inline-block px-2 py-1 bg-red-500/10 text-red-600 rounded text-xs font-semibold uppercase tracking-wide">
@@ -362,16 +362,16 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
 
                   {item.triggered_rules && item.triggered_rules.length > 0 && (
                     <div className="mb-4">
-                      <h4 className="m-0 mb-2 text-sm font-semibold text-[#A0A0A0]">Triggered Rules:</h4>
+                      <h4 className="m-0 mb-2 text-sm font-semibold text-[var(--text-primary)]">Triggered Rules:</h4>
                       <ul className="m-0 p-0 list-none">
                         {item.triggered_rules.map(ruleId => (
-                          <li key={ruleId} className="py-1 text-sm text-gray-500">Rule ID: {ruleId}</li>
+                          <li key={ruleId} className="py-1 text-sm text-[var(--text-secondary)]">Rule ID: {ruleId}</li>
                         ))}
                       </ul>
                     </div>
                   )}
 
-                  <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-black/5">
+                  <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-[var(--border-subtle)]">
                     <button
                       className="bg-[#38a169] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#2f855a] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => {
@@ -403,14 +403,14 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                     </button>
 
                     <button
-                      className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#1a6fc7] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                      className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => handleAnalyzeContent(item.content_preview)}
                     >
                       🔍 Re-analyze
                     </button>
 
                     <button
-                      className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#1a6fc7] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                      className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => onUserSelect(item.user_id)}
                     >
                       👤 View User History
@@ -424,22 +424,22 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
       </div>
 
       {pagination.totalPages > 1 && (
-        <div className="flex justify-between items-center mt-8 p-4 bg-black/[0.02] rounded-lg">
+        <div className="flex justify-between items-center mt-8 p-4 bg-[var(--bg-secondary)] rounded-lg">
           <button
-            className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:bg-[#1a6fc7] disabled:bg-gray-600 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed"
             onClick={() => setPagination(prev => ({ ...prev, page: Math.max(1, prev.page - 1) }))}
             disabled={pagination.page === 1}
           >
             ‹ Previous
           </button>
 
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-[var(--text-secondary)]">
             Page {pagination.page} of {pagination.totalPages}
             ({pagination.total} total items)
           </span>
 
           <button
-            className="bg-[#58a6ff] text-white border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:bg-[#1a6fc7] disabled:bg-gray-600 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed"
             onClick={() => setPagination(prev => ({ ...prev, page: Math.min(prev.totalPages, prev.page + 1) }))}
             disabled={pagination.page === pagination.totalPages}
           >

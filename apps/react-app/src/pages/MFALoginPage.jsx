@@ -169,7 +169,7 @@ export default function MFALoginPage() {
           <span>Back to login</span>
         </button>
 
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-[10px] shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 lg:p-5" style={{ border: '1px solid var(--border-subtle)' }}>
+        <div className="bg-white backdrop-blur-xl rounded-[10px] shadow-sm p-5 md:p-6 lg:p-5" style={{ border: '1px solid var(--border-subtle)' }}>
           <div className="text-center mb-4 md:mb-5 lg:mb-4">
             <div className="inline-flex items-center justify-center w-11 h-11 bg-[#58a6ff]/10 rounded-full mb-3 md:mb-2.5 lg:mb-2">
               <Shield className="w-5.5 h-5.5 text-[#58a6ff]" />
@@ -195,7 +195,7 @@ export default function MFALoginPage() {
                     onChange={(e) => handleInputChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     disabled={loading}
-                    className="w-[38px] md:w-[42px] h-11 md:h-12 text-center text-lg font-bold bg-[#202225]/60 rounded-[10px] outline-none transition-all disabled:opacity-50"
+                    className="w-[38px] md:w-[42px] h-11 md:h-12 text-center text-lg font-bold bg-white rounded-[10px] outline-none transition-all disabled:opacity-50"
                     style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     aria-label={`Digit ${index + 1}`}
                   />
@@ -215,15 +215,16 @@ export default function MFALoginPage() {
                   checked={rememberDevice}
                   onChange={(e) => setRememberDevice(e.target.checked)}
                   disabled={loading}
-                  className="w-4 h-4 rounded border border-white/10 bg-[#202225]/60 cursor-pointer"
+                  className="w-4 h-4 rounded cursor-pointer"
+                  style={{ border: '1px solid var(--border-subtle)' }}
                 />
-                <span className="text-xs text-[#A0A0A0]">
+                <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
                   Remember this device for 30 days
                 </span>
               </label>
 
               {loading && (
-                <div className="flex items-center justify-center gap-2 text-[#666666] mb-4 md:mb-3.5 lg:mb-3 text-xs">
+                <div className="flex items-center justify-center gap-2 mb-4 md:mb-3.5 lg:mb-3 text-xs" style={{ color: 'var(--text-secondary)' }}>
                   <Loader2 className="w-4.5 h-4.5 " />
                   <span>Verify</span>
                 </div>

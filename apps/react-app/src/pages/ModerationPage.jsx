@@ -154,12 +154,12 @@ export default function ModerationPage() {
     return (
       <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Moderation page">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-8 text-center">
+          <div className="bg-white backdrop-blur-xl rounded-2xl p-8 text-center shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
             <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
-            <h2 className="text-xl text-white mb-2">Error Loading Data</h2>
-            <p className="text-[#666666] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+            <h2 className="text-xl mb-2" style={{ color: 'var(--text-primary)' }}>Error Loading Data</h2>
+            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <button
               onClick={loadModerationData}
               className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all"
@@ -178,17 +178,17 @@ export default function ModerationPage() {
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
             Moderation Dashboard
           </h1>
-          <p className="text-[#666666] text-lg">
+          <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>
             Manage content, users, and reports across the platform
           </p>
         </div>
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-500 rounded-lg flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -197,11 +197,11 @@ export default function ModerationPage() {
               </div>
               <span className="text-2xl font-bold text-red-400">{stats.pendingReports}</span>
             </div>
-            <h3 className="text-[#A0A0A0] font-medium mb-1">Pending Reports</h3>
-            <p className="text-[#666666] text-sm">Requires immediate attention</p>
+            <h3 className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Pending Reports</h3>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Requires immediate attention</p>
           </div>
 
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-[#58a6ff] to-blue-500 rounded-lg flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -210,11 +210,11 @@ export default function ModerationPage() {
               </div>
               <span className="text-2xl font-bold text-blue-400">{stats.flaggedContent}</span>
             </div>
-            <h3 className="text-[#A0A0A0] font-medium mb-1">Flagged Content</h3>
-            <p className="text-[#666666] text-sm">Auto-detected violations</p>
+            <h3 className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Flagged Content</h3>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Auto-detected violations</p>
           </div>
 
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-green-500 rounded-lg flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -223,11 +223,11 @@ export default function ModerationPage() {
               </div>
               <span className="text-2xl font-bold text-green-400">{stats.resolvedToday}</span>
             </div>
-            <h3 className="text-[#A0A0A0] font-medium mb-1">Resolved Today</h3>
-            <p className="text-[#666666] text-sm">Closed in last 24h</p>
+            <h3 className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Resolved Today</h3>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Closed in last 24h</p>
           </div>
 
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-[#a371f7] rounded-lg flex items-center justify-center">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -236,8 +236,8 @@ export default function ModerationPage() {
               </div>
               <span className="text-2xl font-bold text-purple-400">{stats.activeBans}</span>
             </div>
-            <h3 className="text-[#A0A0A0] font-medium mb-1">Active Bans</h3>
-            <p className="text-[#666666] text-sm">Temporary suspensions</p>
+            <h3 className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>Active Bans</h3>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Temporary suspensions</p>
           </div>
         </div>
 
@@ -245,22 +245,22 @@ export default function ModerationPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Reports */}
           <div className="lg:col-span-2">
-            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden">
-              <div className="p-6 border-b border-white/10">
-                <h2 className="text-xl font-bold text-white">Recent Reports</h2>
+            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm overflow-hidden" style={{ border: '1px solid var(--border-subtle)' }}>
+              <div className="p-6" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Recent Reports</h2>
               </div>
               {reports.length === 0 ? (
                 <div className="p-12 text-center">
                   <svg className="w-16 h-16 text-[#58a6ff] mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
-                  <h3 className="text-xl text-white mb-2">No Reports</h3>
-                  <p className="text-[#666666]">All clear! No pending reports at this time.</p>
+                  <h3 className="text-xl mb-2" style={{ color: 'var(--text-primary)' }}>No Reports</h3>
+                  <p style={{ color: 'var(--text-secondary)' }}>All clear! No pending reports at this time.</p>
                 </div>
               ) : (
-                <div className="divide-y divide-white/10">
+                <div style={{ borderTop: '1px solid var(--border-subtle)' }}>
                   {reports.map(report => (
-                    <div key={report.id} className="p-4 hover:bg-[#1A1A1A]/50 transition-colors">
+                    <div key={report.id} className="p-4 transition-colors" style={{ borderTop: '1px solid var(--border-subtle)', hover: { background: 'var(--bg-secondary)' } }}>
                       <div className="flex items-start justify-between mb-3">
                         <div className="flex-1">
                           <div className="flex items-center gap-2 mb-2">
@@ -271,10 +271,10 @@ export default function ModerationPage() {
                             }`}>
                               {report.type}
                             </span>
-                            <span className="text-[#666666] text-sm">{report.time}</span>
+                            <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{report.time}</span>
                           </div>
-                          <p className="text-[#A0A0A0] mb-1">{report.content}</p>
-                          <p className="text-[#666666] text-sm">Reported user: <span className="text-[#A0A0A0]">{report.user}</span></p>
+                          <p className="mb-1" style={{ color: 'var(--text-primary)' }}>{report.content}</p>
+                          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Reported user: <span style={{ color: 'var(--text-primary)' }}>{report.user}</span></p>
                         </div>
                       </div>
                       <div className="flex gap-2">
@@ -296,7 +296,8 @@ export default function ModerationPage() {
                         </button>
                         <button
                           onClick={() => handleDismissReport(report.id)}
-                          className="px-4 py-2 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white text-sm rounded-lg transition-colors disabled:opacity-50"
+                          className="px-4 py-2 bg-white text-sm rounded-lg transition-colors disabled:opacity-50"
+                          style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                           disabled={processingReport === report.id}
                           aria-label={`Dismiss report about ${report.type}`}
                         >
@@ -313,8 +314,8 @@ export default function ModerationPage() {
           {/* Quick Actions & Info */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-              <h3 className="text-lg font-bold text-white mb-4">Quick Actions</h3>
+            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+              <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Quick Actions</h3>
               <div className="space-y-3">
                 <button
                   onClick={() => handleQuickAction('ban-user')}
@@ -328,7 +329,8 @@ export default function ModerationPage() {
                 </button>
                 <button
                   onClick={() => handleQuickAction('remove-content')}
-                  className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white rounded-lg font-medium transition-all text-left flex items-center justify-between group"
+                  className="w-full px-4 py-3 bg-white rounded-lg font-medium transition-all text-left flex items-center justify-between group"
+                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   aria-label="Remove content"
                 >
                   <span>Remove Content</span>
@@ -338,7 +340,8 @@ export default function ModerationPage() {
                 </button>
                 <button
                   onClick={() => handleQuickAction('issue-warning')}
-                  className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white rounded-lg font-medium transition-all text-left flex items-center justify-between group"
+                  className="w-full px-4 py-3 bg-white rounded-lg font-medium transition-all text-left flex items-center justify-between group"
+                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   aria-label="Issue warning"
                 >
                   <span>Issue Warning</span>
@@ -348,7 +351,8 @@ export default function ModerationPage() {
                 </button>
                 <button
                   onClick={() => handleQuickAction('audit-log')}
-                  className="w-full px-4 py-3 bg-[#1A1A1A] border border-white/10 hover:bg-[#30363d] text-white rounded-lg font-medium transition-all text-left flex items-center justify-between group"
+                  className="w-full px-4 py-3 bg-white rounded-lg font-medium transition-all text-left flex items-center justify-between group"
+                  style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   aria-label="View audit log"
                 >
                   <span>View Audit Log</span>
@@ -360,32 +364,32 @@ export default function ModerationPage() {
             </div>
 
             {/* Moderator Info */}
-            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-              <h3 className="text-lg font-bold text-white mb-4">Your Stats</h3>
+            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+              <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Your Stats</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#666666]">Actions Today</span>
-                  <span className="text-white font-semibold">{moderatorStats.actionsToday}</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>Actions Today</span>
+                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{moderatorStats.actionsToday}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#666666]">This Week</span>
-                  <span className="text-white font-semibold">{moderatorStats.actionsThisWeek}</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>This Week</span>
+                  <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{moderatorStats.actionsThisWeek}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#666666]">Accuracy Rate</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>Accuracy Rate</span>
                   <span className="text-green-400 font-semibold">{moderatorStats.accuracyRate}%</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-[#666666]">Avg Response Time</span>
+                  <span style={{ color: 'var(--text-secondary)' }}>Avg Response Time</span>
                   <span className="text-[#58a6ff] font-semibold">{moderatorStats.avgResponseTime}</span>
                 </div>
               </div>
             </div>
 
             {/* Guidelines */}
-            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-              <h3 className="text-lg font-bold text-white mb-3">Guidelines</h3>
-              <ul className="space-y-2 text-sm text-[#666666]">
+            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+              <h3 className="text-lg font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Guidelines</h3>
+              <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                 <li className="flex items-start gap-2">
                   <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

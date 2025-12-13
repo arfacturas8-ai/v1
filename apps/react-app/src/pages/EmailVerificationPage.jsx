@@ -105,7 +105,7 @@ export default function EmailVerificationPage() {
       role="main"
       aria-label="Email verification page"
     >
-      <div className="bg-[#141414]/60 backdrop-blur-xl rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]" style={{ border: '1px solid var(--border-subtle)' }}>
+      <div className="bg-white backdrop-blur-xl rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
         <div className="flex justify-center mb-6 md:mb-8">
           {getIcon()}
         </div>
@@ -118,7 +118,8 @@ export default function EmailVerificationPage() {
         </h1>
 
         <p
-          className="text-sm md:text-base leading-relaxed text-[#A0A0A0] mb-6 md:mb-8"
+          className="text-sm md:text-base leading-relaxed mb-6 md:mb-8"
+          style={{ color: 'var(--text-secondary)' }}
           role={status === 'error' || status === 'expired' ? 'alert' : 'status'}
           aria-live="polite"
         >
@@ -135,7 +136,7 @@ export default function EmailVerificationPage() {
               >
                 Go to Home →
               </Link>
-              <p className="text-xs md:text-sm text-[#666666] italic m-0">
+              <p className="text-xs md:text-sm italic m-0" style={{ color: 'var(--text-secondary)' }}>
                 Redirecting automatically in 3 seconds...
               </p>
             </>
@@ -145,7 +146,7 @@ export default function EmailVerificationPage() {
             <>
               <button
                 onClick={resendVerification}
-                className="min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold text-sm md:text-base shadow-[0_4px_12px_rgba(88,166,255,0.4)] transition-all hover:opacity-90 border-none cursor-pointer"
+                className="min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold text-sm md:text-base shadow-sm transition-all hover:opacity-90 border-none cursor-pointer"
                 aria-label="Resend verification email"
               >
                 Resend Verification Email
@@ -153,7 +154,7 @@ export default function EmailVerificationPage() {
 
               <Link
                 to="/"
-                className="inline-block min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-transparent text-[#58a6ff] border-2 border-[#58a6ff] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold text-xs md:text-sm transition-all hover:border-[#79c0ff] hover:text-[#79c0ff]"
+                className="inline-block min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-transparent text-[#58a6ff] border-2 border-[#58a6ff] rounded-2xl shadow-sm font-semibold text-xs md:text-sm transition-all hover:border-[#79c0ff] hover:text-[#79c0ff]"
                 aria-label="Back to home page"
               >
                 Back to Home
@@ -162,13 +163,13 @@ export default function EmailVerificationPage() {
           )}
 
           {status === 'verifying' && (
-            <p className="text-xs md:text-sm text-[#666666] italic m-0">
+            <p className="text-xs md:text-sm italic m-0" style={{ color: 'var(--text-secondary)' }}>
               This may take a few seconds...
             </p>
           )}
         </div>
 
-        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t text-xs md:text-sm text-[#666666]" style={{ borderColor: 'var(--border-subtle)' }}>
+        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t text-xs md:text-sm" style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}>
           <p>Having trouble? <Link to="/help" className="text-[#58a6ff] hover:text-[#79c0ff] underline transition-colors">Contact Support</Link></p>
         </div>
       </div>

@@ -56,9 +56,9 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
   if (!isVisible) return null;
 
   return (
-    <div className="relative bg-gray-900/95 backdrop-blur-xl rounded-xl border border-white/10 shadow-2xl overflow-hidden min-w-[320px] sm:min-w-[400px]">
+    <div className="relative bg-white backdrop-blur-xl rounded-xl shadow-2xl overflow-hidden min-w-[320px] sm:min-w-[400px]" style={{ border: '1px solid var(--border-subtle)' }}>
       {/* Progress bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gray-800">
+      <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--bg-secondary)' }}>
         <div
           className={`h-full bg-gradient-to-r ${colorClass} transition-all duration-100`}
           style={{ width: `${progress}%` }}
@@ -70,12 +70,13 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
           <Icon size={20} className="text-white" />
         </div>
 
-        <p className="flex-1 text-sm sm:text-base text-white font-medium">{message}</p>
+        <p className="flex-1 text-sm sm:text-base font-medium" style={{ color: 'var(--text-primary)' }}>{message}</p>
 
         {onUndo && (
           <button
             onClick={handleUndo}
-            className="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-lg text-white text-sm font-medium transition-colors min-h-[36px]"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors min-h-[36px] hover:bg-[#F8F9FA]"
+            style={{ background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
           >
             <RotateCcw size={14} />
             Undo
@@ -84,9 +85,10 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
 
         <button
           onClick={handleDismiss}
-          className="flex-shrink-0 p-1.5 hover:bg-white/10 rounded-lg transition-colors min-h-[36px] min-w-[36px]"
+          className="flex-shrink-0 p-1.5 rounded-lg transition-colors min-h-[36px] min-w-[36px] hover:bg-[#F8F9FA]"
+          style={{ color: 'var(--text-secondary)' }}
         >
-          <X size={18} className="text-gray-400" />
+          <X size={18} />
         </button>
       </div>
     </div>
