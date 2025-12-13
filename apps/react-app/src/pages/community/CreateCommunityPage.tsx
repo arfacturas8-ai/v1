@@ -285,11 +285,11 @@ const CreateCommunityPage: React.FC = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center p-4">
-        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center max-w-md">
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
+        <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-12 text-center max-w-md shadow-lg">
           <Shield size={56} className="mx-auto mb-4 text-[#58a6ff]" />
-          <h2 className="text-2xl font-bold text-white mb-4">Sign in required</h2>
-          <p className="text-[#666666] mb-6">You need to be signed in to create a community.</p>
+          <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">Sign in required</h2>
+          <p className="text-[var(--text-secondary)] mb-6">You need to be signed in to create a community.</p>
           <button
             onClick={() => navigate('/login')}
             className="w-full px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
@@ -302,13 +302,13 @@ const CreateCommunityPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0] py-8 px-4">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)] py-8 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate('/communities')}
-            className="flex items-center gap-2 text-[#666666] hover:text-white mb-4 transition-colors"
+            className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] mb-4 transition-colors"
           >
             <ArrowLeft size={20} />
             Back to Communities
@@ -316,7 +316,7 @@ const CreateCommunityPage: React.FC = () => {
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
             Create a Community
           </h1>
-          <p className="text-[#666666]">Build your own space on CRYB</p>
+          <p className="text-[var(--text-secondary)]">Build your own space on CRYB</p>
         </div>
 
         {/* Progress Steps */}
@@ -331,20 +331,20 @@ const CreateCommunityPage: React.FC = () => {
                         ? 'bg-green-500 text-white'
                         : step.number === currentStep
                         ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                        : 'bg-[#141414] border border-white/10 text-[#666666]'
+                        : 'bg-white border border-[var(--border-subtle)] text-[var(--text-secondary)]'
                     }`}
                   >
                     {step.number < currentStep ? <Check size={20} /> : step.number}
                   </div>
                   <div className="text-center mt-2 hidden sm:block">
-                    <div className="text-sm font-semibold text-white">{step.title}</div>
-                    <div className="text-xs text-[#666666]">{step.description}</div>
+                    <div className="text-sm font-semibold text-[var(--text-primary)]">{step.title}</div>
+                    <div className="text-xs text-[var(--text-secondary)]">{step.description}</div>
                   </div>
                 </div>
                 {index < steps.length - 1 && (
                   <div
                     className={`flex-1 h-1 mx-2 transition-all ${
-                      step.number < currentStep ? 'bg-green-500' : 'bg-[#141414]'
+                      step.number < currentStep ? 'bg-green-500' : 'bg-[var(--bg-secondary)]'
                     }`}
                   />
                 )}
@@ -355,7 +355,7 @@ const CreateCommunityPage: React.FC = () => {
 
         {/* Success Message */}
         {success && (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-6 flex items-center gap-2.5">
+          <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 p-4 rounded-2xl shadow-sm mb-6 flex items-center gap-2.5">
             <CheckCircle size={20} />
             <span>Community created successfully! Redirecting...</span>
           </div>
@@ -363,24 +363,24 @@ const CreateCommunityPage: React.FC = () => {
 
         {/* Error Message */}
         {errorMessage && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-6 flex items-center gap-2.5">
+          <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 rounded-2xl shadow-sm mb-6 flex items-center gap-2.5">
             <AlertCircle size={20} />
             <span>{errorMessage}</span>
           </div>
         )}
 
         {/* Form */}
-        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 sm:p-8 shadow-lg">
           {/* Step 1: Basic Info */}
           {currentStep === 1 && (
             <div className="space-y-5">
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">Basic Information</h2>
-                <p className="text-[#666666]">Let's start with the basics</p>
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Basic Information</h2>
+                <p className="text-[var(--text-secondary)]">Let's start with the basics</p>
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-white">
+                <label className="block font-semibold mb-2 text-[var(--text-primary)]">
                   Community Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -388,18 +388,18 @@ const CreateCommunityPage: React.FC = () => {
                   value={formData.name}
                   onChange={(e) => handleInputChange('name', e.target.value.toLowerCase())}
                   placeholder="mycommunity"
-                  className={`w-full p-3 rounded-xl text-base bg-[#0D0D0D] text-white outline-none transition-colors ${
-                    errors.name ? 'border-2 border-red-500' : 'border border-white/10'
+                  className={`w-full p-3 rounded-xl text-base bg-[var(--bg-secondary)] text-[var(--text-primary)] outline-none transition-colors ${
+                    errors.name ? 'border-2 border-red-500' : 'border border-[var(--border-subtle)]'
                   }`}
                 />
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-                <p className="text-[#666666] text-sm mt-1">
+                <p className="text-[var(--text-secondary)] text-sm mt-1">
                   This will be your community's URL: cryb.ai/community/{formData.name || 'name'}
                 </p>
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-white">
+                <label className="block font-semibold mb-2 text-[var(--text-primary)]">
                   Display Name <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -407,15 +407,15 @@ const CreateCommunityPage: React.FC = () => {
                   value={formData.displayName}
                   onChange={(e) => handleInputChange('displayName', e.target.value)}
                   placeholder="My Awesome Community"
-                  className={`w-full p-3 rounded-xl text-base bg-[#0D0D0D] text-white outline-none transition-colors ${
-                    errors.displayName ? 'border-2 border-red-500' : 'border border-white/10'
+                  className={`w-full p-3 rounded-xl text-base bg-[var(--bg-secondary)] text-[var(--text-primary)] outline-none transition-colors ${
+                    errors.displayName ? 'border-2 border-red-500' : 'border border-[var(--border-subtle)]'
                   }`}
                 />
                 {errors.displayName && <p className="text-red-500 text-sm mt-1">{errors.displayName}</p>}
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-white">
+                <label className="block font-semibold mb-2 text-[var(--text-primary)]">
                   Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -423,22 +423,22 @@ const CreateCommunityPage: React.FC = () => {
                   onChange={(e) => handleInputChange('description', e.target.value)}
                   placeholder="Describe what your community is about..."
                   rows={4}
-                  className={`w-full p-3 rounded-xl text-base resize-y bg-[#0D0D0D] text-white outline-none transition-colors ${
-                    errors.description ? 'border-2 border-red-500' : 'border border-white/10'
+                  className={`w-full p-3 rounded-xl text-base resize-y bg-[var(--bg-secondary)] text-[var(--text-primary)] outline-none transition-colors ${
+                    errors.description ? 'border-2 border-red-500' : 'border border-[var(--border-subtle)]'
                   }`}
                 />
                 {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
-                <p className="text-[#666666] text-sm mt-1">
+                <p className="text-[var(--text-secondary)] text-sm mt-1">
                   {formData.description.length}/500 characters
                 </p>
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-white">Category</label>
+                <label className="block font-semibold mb-2 text-[var(--text-primary)]">Category</label>
                 <select
                   value={formData.category}
                   onChange={(e) => handleInputChange('category', e.target.value)}
-                  className="w-full p-3 border border-white/10 rounded-xl text-base bg-[#0D0D0D] text-white outline-none"
+                  className="w-full p-3 border border-[var(--border-subtle)] rounded-xl text-base bg-[var(--bg-secondary)] text-[var(--text-primary)] outline-none"
                 >
                   {categories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -454,19 +454,19 @@ const CreateCommunityPage: React.FC = () => {
           {currentStep === 2 && (
             <div className="space-y-5">
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">Appearance</h2>
-                <p className="text-[#666666]">Customize how your community looks</p>
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Appearance</h2>
+                <p className="text-[var(--text-secondary)]">Customize how your community looks</p>
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-white">Community Icon</label>
+                <label className="block font-semibold mb-2 text-[var(--text-primary)]">Community Icon</label>
                 <div className="flex items-center gap-4">
                   {iconPreview ? (
                     <div className="relative">
                       <img
                         src={iconPreview}
                         alt="Icon preview"
-                        className="w-24 h-24 rounded-xl object-cover border border-white/10"
+                        className="w-24 h-24 rounded-xl object-cover border border-[var(--border-subtle)]"
                       />
                       <button
                         onClick={() => handleRemoveFile('icon')}
@@ -476,8 +476,8 @@ const CreateCommunityPage: React.FC = () => {
                       </button>
                     </div>
                   ) : (
-                    <div className="w-24 h-24 rounded-xl bg-[#0D0D0D] border-2 border-dashed border-white/20 flex items-center justify-center">
-                      <ImageIcon size={32} className="text-[#666666]" />
+                    <div className="w-24 h-24 rounded-xl bg-[var(--bg-secondary)] border-2 border-dashed border-[var(--border-subtle)] flex items-center justify-center">
+                      <ImageIcon size={32} className="text-[var(--text-secondary)]" />
                     </div>
                   )}
                   <div>
@@ -494,7 +494,7 @@ const CreateCommunityPage: React.FC = () => {
                     >
                       Upload Icon
                     </button>
-                    <p className="text-[#666666] text-sm mt-2">
+                    <p className="text-[var(--text-secondary)] text-sm mt-2">
                       Recommended: Square image, at least 256x256px
                     </p>
                   </div>
@@ -503,14 +503,14 @@ const CreateCommunityPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-white">Community Banner</label>
+                <label className="block font-semibold mb-2 text-[var(--text-primary)]">Community Banner</label>
                 <div className="space-y-4">
                   {bannerPreview ? (
                     <div className="relative">
                       <img
                         src={bannerPreview}
                         alt="Banner preview"
-                        className="w-full h-48 rounded-xl object-cover border border-white/10"
+                        className="w-full h-48 rounded-xl object-cover border border-[var(--border-subtle)]"
                       />
                       <button
                         onClick={() => handleRemoveFile('banner')}
@@ -520,8 +520,8 @@ const CreateCommunityPage: React.FC = () => {
                       </button>
                     </div>
                   ) : (
-                    <div className="w-full h-48 rounded-xl bg-[#0D0D0D] border-2 border-dashed border-white/20 flex items-center justify-center">
-                      <ImageIcon size={48} className="text-[#666666]" />
+                    <div className="w-full h-48 rounded-xl bg-[var(--bg-secondary)] border-2 border-dashed border-[var(--border-subtle)] flex items-center justify-center">
+                      <ImageIcon size={48} className="text-[var(--text-secondary)]" />
                     </div>
                   )}
                   <div>
@@ -538,7 +538,7 @@ const CreateCommunityPage: React.FC = () => {
                     >
                       Upload Banner
                     </button>
-                    <p className="text-[#666666] text-sm mt-2">
+                    <p className="text-[var(--text-secondary)] text-sm mt-2">
                       Recommended: 1920x384px or wider
                     </p>
                   </div>
@@ -547,13 +547,13 @@ const CreateCommunityPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="block font-semibold mb-2 text-white flex items-center gap-2">
+                <label className="block font-semibold mb-2 text-[var(--text-primary)] flex items-center gap-2">
                   <Palette size={18} />
                   Theme Colors
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm text-[#666666] mb-2">Primary Color</label>
+                    <label className="block text-sm text-[var(--text-secondary)] mb-2">Primary Color</label>
                     <div className="flex items-center gap-3">
                       <input
                         type="color"
@@ -565,12 +565,12 @@ const CreateCommunityPage: React.FC = () => {
                         type="text"
                         value={formData.primaryColor}
                         onChange={(e) => handleInputChange('primaryColor', e.target.value)}
-                        className="flex-1 px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg text-white"
+                        className="flex-1 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)]"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm text-[#666666] mb-2">Accent Color</label>
+                    <label className="block text-sm text-[var(--text-secondary)] mb-2">Accent Color</label>
                     <div className="flex items-center gap-3">
                       <input
                         type="color"
@@ -582,7 +582,7 @@ const CreateCommunityPage: React.FC = () => {
                         type="text"
                         value={formData.accentColor}
                         onChange={(e) => handleInputChange('accentColor', e.target.value)}
-                        className="flex-1 px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg text-white"
+                        className="flex-1 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)]"
                       />
                     </div>
                   </div>
@@ -595,12 +595,12 @@ const CreateCommunityPage: React.FC = () => {
           {currentStep === 3 && (
             <div className="space-y-5">
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">Privacy & Type</h2>
-                <p className="text-[#666666]">Choose who can see and join your community</p>
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Privacy & Type</h2>
+                <p className="text-[var(--text-secondary)]">Choose who can see and join your community</p>
               </div>
 
               <div className="space-y-3">
-                <label className="block font-semibold mb-2 text-white">Privacy Level</label>
+                <label className="block font-semibold mb-2 text-[var(--text-primary)]">Privacy Level</label>
                 {[
                   {
                     value: 'public',
@@ -629,14 +629,14 @@ const CreateCommunityPage: React.FC = () => {
                       className={`w-full p-4 rounded-xl text-left transition-all ${
                         formData.privacy === option.value
                           ? 'bg-[#58a6ff]/20 border-2 border-[#58a6ff]'
-                          : 'bg-[#0D0D0D] border border-white/10 hover:border-white/30'
+                          : 'bg-[var(--bg-secondary)] border border-[var(--border-subtle)] hover:border-gray-300'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <Icon size={24} className={formData.privacy === option.value ? 'text-[#58a6ff]' : 'text-[#666666]'} />
+                        <Icon size={24} className={formData.privacy === option.value ? 'text-[#58a6ff]' : 'text-[var(--text-secondary)]'} />
                         <div className="flex-1">
-                          <div className="font-semibold text-white mb-1">{option.title}</div>
-                          <div className="text-sm text-[#666666]">{option.description}</div>
+                          <div className="font-semibold text-[var(--text-primary)] mb-1">{option.title}</div>
+                          <div className="text-sm text-[var(--text-secondary)]">{option.description}</div>
                         </div>
                         {formData.privacy === option.value && (
                           <CheckCircle size={20} className="text-[#58a6ff]" />
@@ -648,7 +648,7 @@ const CreateCommunityPage: React.FC = () => {
               </div>
 
               <div>
-                <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-white/10 rounded-xl cursor-pointer hover:border-white/30 transition-all">
+                <label className="flex items-center gap-3 p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl cursor-pointer hover:border-gray-300 transition-all">
                   <input
                     type="checkbox"
                     checked={formData.nsfw}
@@ -656,8 +656,8 @@ const CreateCommunityPage: React.FC = () => {
                     className="w-5 h-5 cursor-pointer accent-[#58a6ff]"
                   />
                   <div>
-                    <span className="font-semibold text-white block mb-1">NSFW (18+)</span>
-                    <span className="text-sm text-[#666666]">
+                    <span className="font-semibold text-[var(--text-primary)] block mb-1">NSFW (18+)</span>
+                    <span className="text-sm text-[var(--text-secondary)]">
                       This community contains adult content
                     </span>
                   </div>
@@ -670,14 +670,14 @@ const CreateCommunityPage: React.FC = () => {
           {currentStep === 4 && (
             <div className="space-y-5">
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">Community Rules</h2>
-                <p className="text-[#666666]">Set guidelines for your community (optional)</p>
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Community Rules</h2>
+                <p className="text-[var(--text-secondary)]">Set guidelines for your community (optional)</p>
               </div>
 
               <div className="space-y-3">
                 {formData.rules.map((rule, index) => (
                   <div key={index} className="flex gap-3">
-                    <div className="flex-shrink-0 w-8 h-10 flex items-center justify-center text-[#666666] font-semibold">
+                    <div className="flex-shrink-0 w-8 h-10 flex items-center justify-center text-[var(--text-secondary)] font-semibold">
                       {index + 1}.
                     </div>
                     <div className="flex-1">
@@ -686,7 +686,7 @@ const CreateCommunityPage: React.FC = () => {
                         value={rule}
                         onChange={(e) => handleRuleChange(index, e.target.value)}
                         placeholder={`Rule ${index + 1}`}
-                        className="w-full p-3 rounded-xl text-base bg-[#0D0D0D] border border-white/10 text-white outline-none"
+                        className="w-full p-3 rounded-xl text-base bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-primary)] outline-none"
                       />
                     </div>
                     {formData.rules.length > 1 && (
@@ -706,7 +706,7 @@ const CreateCommunityPage: React.FC = () => {
               {formData.rules.length < 10 && (
                 <button
                   onClick={addRule}
-                  className="w-full p-3 border-2 border-dashed border-white/20 rounded-xl text-[#666666] hover:text-white hover:border-white/40 transition-all"
+                  className="w-full p-3 border-2 border-dashed border-[var(--border-subtle)] rounded-xl text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-gray-300 transition-all"
                 >
                   + Add Rule
                 </button>
@@ -718,36 +718,36 @@ const CreateCommunityPage: React.FC = () => {
           {currentStep === 5 && (
             <div className="space-y-5">
               <div>
-                <h2 className="text-2xl font-bold text-white mb-2">Review & Create</h2>
-                <p className="text-[#666666]">Double-check everything before creating</p>
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Review & Create</h2>
+                <p className="text-[var(--text-secondary)]">Double-check everything before creating</p>
               </div>
 
               <div className="space-y-4">
-                <div className="p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                  <div className="text-sm text-[#666666] mb-1">Community Name</div>
-                  <div className="text-white font-semibold">{formData.displayName}</div>
-                  <div className="text-sm text-[#666666]">cryb.ai/community/{formData.name}</div>
+                <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
+                  <div className="text-sm text-[var(--text-secondary)] mb-1">Community Name</div>
+                  <div className="text-[var(--text-primary)] font-semibold">{formData.displayName}</div>
+                  <div className="text-sm text-[var(--text-secondary)]">cryb.ai/community/{formData.name}</div>
                 </div>
 
-                <div className="p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                  <div className="text-sm text-[#666666] mb-1">Description</div>
-                  <div className="text-white">{formData.description}</div>
+                <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
+                  <div className="text-sm text-[var(--text-secondary)] mb-1">Description</div>
+                  <div className="text-[var(--text-primary)]">{formData.description}</div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                    <div className="text-sm text-[#666666] mb-1">Category</div>
-                    <div className="text-white capitalize">{formData.category}</div>
+                  <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
+                    <div className="text-sm text-[var(--text-secondary)] mb-1">Category</div>
+                    <div className="text-[var(--text-primary)] capitalize">{formData.category}</div>
                   </div>
-                  <div className="p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                    <div className="text-sm text-[#666666] mb-1">Privacy</div>
-                    <div className="text-white capitalize">{formData.privacy}</div>
+                  <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
+                    <div className="text-sm text-[var(--text-secondary)] mb-1">Privacy</div>
+                    <div className="text-[var(--text-primary)] capitalize">{formData.privacy}</div>
                   </div>
                 </div>
 
                 {(formData.icon || formData.banner) && (
-                  <div className="p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                    <div className="text-sm text-[#666666] mb-2">Images</div>
+                  <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
+                    <div className="text-sm text-[var(--text-secondary)] mb-2">Images</div>
                     <div className="flex gap-3">
                       {iconPreview && (
                         <img src={iconPreview} alt="Icon" className="w-16 h-16 rounded-lg object-cover" />
@@ -760,13 +760,13 @@ const CreateCommunityPage: React.FC = () => {
                 )}
 
                 {formData.rules.filter((r) => r.trim()).length > 0 && (
-                  <div className="p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                    <div className="text-sm text-[#666666] mb-2">Rules</div>
+                  <div className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
+                    <div className="text-sm text-[var(--text-secondary)] mb-2">Rules</div>
                     <ol className="space-y-1">
                       {formData.rules
                         .filter((r) => r.trim())
                         .map((rule, index) => (
-                          <li key={index} className="text-white text-sm">
+                          <li key={index} className="text-[var(--text-primary)] text-sm">
                             {index + 1}. {rule}
                           </li>
                         ))}
@@ -778,14 +778,14 @@ const CreateCommunityPage: React.FC = () => {
           )}
 
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/10">
+          <div className="flex items-center justify-between mt-8 pt-6 border-t border-[var(--border-subtle)]">
             <button
               onClick={prevStep}
               disabled={currentStep === 1}
               className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
                 currentStep === 1
-                  ? 'bg-[#0D0D0D] border border-white/10 text-[#666666] cursor-not-allowed'
-                  : 'bg-[#0D0D0D] border border-white/10 text-white hover:bg-white/5'
+                  ? 'bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-secondary)] cursor-not-allowed'
+                  : 'bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-100'
               }`}
             >
               <ArrowLeft size={18} />
@@ -806,7 +806,7 @@ const CreateCommunityPage: React.FC = () => {
                 disabled={creating || success}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
                   creating || success
-                    ? 'bg-[#0D0D0D] border border-white/10 text-[#666666] cursor-not-allowed'
+                    ? 'bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-secondary)] cursor-not-allowed'
                     : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_0_20px_rgba(88,166,255,0.4)]'
                 }`}
               >

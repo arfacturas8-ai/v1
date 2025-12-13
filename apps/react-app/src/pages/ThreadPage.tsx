@@ -315,7 +315,7 @@ export default function ThreadPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] pt-16 flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] pt-16 flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#58a6ff] " />
       </div>
     );
@@ -323,11 +323,11 @@ export default function ThreadPage() {
 
   if (error || thread.length === 0) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] pt-16 flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] pt-16 flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-white mb-2">Thread not found</h2>
-          <p className="text-[#666666] mb-6">The thread you're looking for doesn't exist</p>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">Thread not found</h2>
+          <p className="text-[var(--text-secondary)] mb-6">The thread you're looking for doesn't exist</p>
           <button
             onClick={() => navigate(-1)}
             className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl font-medium hover:opacity-90 transition-opacity"
@@ -342,21 +342,21 @@ export default function ThreadPage() {
   const threadAuthor = thread[0].author;
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] pt-16 pb-20">
+    <div className="min-h-screen bg-[var(--bg-primary)] pt-16 pb-20">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <div className="sticky top-16 z-10 bg-[#0D0D0D]/80 backdrop-blur-xl border-b border-white/10 px-4 py-3">
+        <div className="sticky top-16 z-10 bg-white/80 backdrop-blur-xl border-b border-[var(--border-subtle)] px-4 py-3 shadow-sm">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
-              className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors"
+              className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
               aria-label="Go back"
             >
-              <ArrowLeft className="w-5 h-5 text-white" />
+              <ArrowLeft className="w-5 h-5 text-[var(--text-primary)]" />
             </button>
             <div>
-              <h1 className="text-lg font-bold text-white">Thread</h1>
-              <p className="text-sm text-[#666666]">by @{threadAuthor.username}</p>
+              <h1 className="text-lg font-bold text-[var(--text-primary)]">Thread</h1>
+              <p className="text-sm text-[var(--text-secondary)]">by @{threadAuthor.username}</p>
             </div>
           </div>
         </div>
@@ -376,7 +376,7 @@ export default function ThreadPage() {
               <div className="flex items-center gap-2 mb-1">
                 <Link
                   to={`/u/${threadAuthor.username}`}
-                  className="font-semibold text-white hover:underline"
+                  className="font-semibold text-[var(--text-primary)] hover:underline"
                 >
                   {threadAuthor.displayName}
                 </Link>
@@ -384,7 +384,7 @@ export default function ThreadPage() {
                   <CheckCircle className="w-4 h-4 text-[#58a6ff] fill-[#58a6ff]" />
                 )}
               </div>
-              <p className="text-sm text-[#A0A0A0]">
+              <p className="text-sm text-[var(--text-secondary)]">
                 Thread with {thread.length} posts
               </p>
             </div>
@@ -415,10 +415,10 @@ export default function ThreadPage() {
                 {/* Post card */}
                 <div
                   className={cn(
-                    "bg-[#141414]/60 backdrop-blur-xl border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden mb-2 transition-all",
+                    "bg-white backdrop-blur-xl border rounded-2xl shadow-sm overflow-hidden mb-2 transition-all",
                     isAuthorHighlighted
                       ? "border-[#58a6ff]/50"
-                      : "border-white/10",
+                      : "border-[var(--border-subtle)]",
                     post.isThreadStart && "ring-2 ring-[#58a6ff]/30",
                     isCollapsed && "opacity-60"
                   )}
@@ -447,18 +447,18 @@ export default function ThreadPage() {
                           <div className="flex items-center gap-2 flex-wrap">
                             <Link
                               to={`/u/${post.author.username}`}
-                              className="font-semibold text-white hover:underline"
+                              className="font-semibold text-[var(--text-primary)] hover:underline"
                             >
                               {post.author.displayName}
                             </Link>
                             {post.author.verified && (
                               <CheckCircle className="w-4 h-4 text-[#58a6ff] fill-[#58a6ff]" />
                             )}
-                            <span className="text-sm text-[#666666]">
+                            <span className="text-sm text-[var(--text-secondary)]">
                               @{post.author.username}
                             </span>
-                            <span className="text-[#666666]">•</span>
-                            <span className="text-sm text-[#666666] flex items-center gap-1">
+                            <span className="text-[var(--text-secondary)]">•</span>
+                            <span className="text-sm text-[var(--text-secondary)] flex items-center gap-1">
                               <Clock className="w-3 h-3" />
                               {formatRelativeTime(post.timestamp)}
                             </span>
@@ -477,19 +477,19 @@ export default function ThreadPage() {
                         {thread.length > 5 && index > 0 && index < thread.length - 1 && (
                           <button
                             onClick={() => toggleCollapse(post.id)}
-                            className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors"
+                            className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
                             aria-label={isCollapsed ? "Expand" : "Collapse"}
                           >
                             {isCollapsed ? (
-                              <ChevronDown className="w-5 h-5 text-[#666666]" />
+                              <ChevronDown className="w-5 h-5 text-[var(--text-secondary)]" />
                             ) : (
-                              <ChevronUp className="w-5 h-5 text-[#666666]" />
+                              <ChevronUp className="w-5 h-5 text-[var(--text-secondary)]" />
                             )}
                           </button>
                         )}
 
-                        <button className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors">
-                          <MoreHorizontal className="w-5 h-5 text-[#666666]" />
+                        <button className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors">
+                          <MoreHorizontal className="w-5 h-5 text-[var(--text-secondary)]" />
                         </button>
                       </div>
                     </div>
@@ -503,7 +503,7 @@ export default function ThreadPage() {
                         >
                           {/* Post content */}
                           <div className="mb-4">
-                            <p className="text-white whitespace-pre-wrap break-words leading-relaxed">
+                            <p className="text-[var(--text-primary)] whitespace-pre-wrap break-words leading-relaxed">
                               {post.content}
                             </p>
                           </div>
@@ -522,7 +522,7 @@ export default function ThreadPage() {
                           )}
 
                           {/* Actions */}
-                          <div className="flex items-center justify-between pt-3 border-t border-white/10">
+                          <div className="flex items-center justify-between pt-3 border-t border-[var(--border-subtle)]">
                             <div className="flex items-center gap-4">
                               <button
                                 onClick={() => handleLike(post.id)}
@@ -530,7 +530,7 @@ export default function ThreadPage() {
                                   "flex items-center gap-1.5 transition-colors",
                                   post.userLiked
                                     ? "text-red-500"
-                                    : "text-[#666666] hover:text-red-500"
+                                    : "text-[var(--text-secondary)] hover:text-red-500"
                                 )}
                               >
                                 <Heart className={cn("w-5 h-5", post.userLiked && "fill-current")} />
@@ -539,7 +539,7 @@ export default function ThreadPage() {
 
                               <Link
                                 to={`/post/${post.id}`}
-                                className="flex items-center gap-1.5 text-[#666666] hover:text-[#58a6ff] transition-colors"
+                                className="flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors"
                               >
                                 <MessageCircle className="w-5 h-5" />
                                 <span className="text-sm">{formatNumber(post.comments)}</span>
@@ -551,7 +551,7 @@ export default function ThreadPage() {
                                   "flex items-center gap-1.5 transition-colors",
                                   post.userReposted
                                     ? "text-green-500"
-                                    : "text-[#666666] hover:text-green-500"
+                                    : "text-[var(--text-secondary)] hover:text-green-500"
                                 )}
                               >
                                 <Repeat2 className="w-5 h-5" />
@@ -560,7 +560,7 @@ export default function ThreadPage() {
 
                               <button
                                 onClick={() => handleShare(post.id)}
-                                className="flex items-center gap-1.5 text-[#666666] hover:text-[#58a6ff] transition-colors"
+                                className="flex items-center gap-1.5 text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors"
                               >
                                 <Share2 className="w-5 h-5" />
                               </button>
@@ -572,7 +572,7 @@ export default function ThreadPage() {
                                 "p-2 rounded-xl transition-colors",
                                 post.userBookmarked
                                   ? "text-[#58a6ff]"
-                                  : "text-[#666666] hover:text-[#58a6ff]"
+                                  : "text-[var(--text-secondary)] hover:text-[#58a6ff]"
                               )}
                             >
                               <Bookmark className={cn("w-5 h-5", post.userBookmarked && "fill-current")} />
@@ -583,7 +583,7 @@ export default function ThreadPage() {
                           {post.replyCount && post.replyCount > 0 && (
                             <Link
                               to={`/post/${post.id}`}
-                              className="block mt-3 pt-3 border-t border-white/10 text-sm text-[#58a6ff] hover:underline"
+                              className="block mt-3 pt-3 border-t border-[var(--border-subtle)] text-sm text-[#58a6ff] hover:underline"
                             >
                               View {post.replyCount} {post.replyCount === 1 ? 'reply' : 'replies'}
                             </Link>
@@ -625,34 +625,34 @@ export default function ThreadPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: thread.length * 0.05 }}
-          className="mx-4 mb-4 p-6 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl"
+          className="mx-4 mb-4 p-6 bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm"
         >
-          <h3 className="text-lg font-bold text-white mb-4">Thread Summary</h3>
+          <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4">Thread Summary</h3>
 
           <div className="grid grid-cols-3 gap-4 text-center">
             <div>
               <div className="text-2xl font-bold text-[#58a6ff] mb-1">
                 {thread.length}
               </div>
-              <div className="text-sm text-[#666666]">Posts</div>
+              <div className="text-sm text-[var(--text-secondary)]">Posts</div>
             </div>
 
             <div>
               <div className="text-2xl font-bold text-[#58a6ff] mb-1">
                 {formatNumber(thread.reduce((sum, post) => sum + post.likes, 0))}
               </div>
-              <div className="text-sm text-[#666666]">Total Likes</div>
+              <div className="text-sm text-[var(--text-secondary)]">Total Likes</div>
             </div>
 
             <div>
               <div className="text-2xl font-bold text-[#58a6ff] mb-1">
                 {formatNumber(thread.reduce((sum, post) => sum + post.comments, 0))}
               </div>
-              <div className="text-sm text-[#666666]">Total Comments</div>
+              <div className="text-sm text-[var(--text-secondary)]">Total Comments</div>
             </div>
           </div>
 
-          <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-between">
+          <div className="mt-6 pt-6 border-t border-[var(--border-subtle)] flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
                 {threadAuthor.username[0].toUpperCase()}
@@ -661,11 +661,11 @@ export default function ThreadPage() {
               <div>
                 <Link
                   to={`/u/${threadAuthor.username}`}
-                  className="font-semibold text-white hover:underline block"
+                  className="font-semibold text-[var(--text-primary)] hover:underline block"
                 >
                   {threadAuthor.displayName}
                 </Link>
-                <span className="text-sm text-[#666666]">@{threadAuthor.username}</span>
+                <span className="text-sm text-[var(--text-secondary)]">@{threadAuthor.username}</span>
               </div>
             </div>
 

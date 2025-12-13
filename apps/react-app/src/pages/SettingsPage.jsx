@@ -584,8 +584,8 @@ function SettingsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full  mx-auto mb-4"></div>
-          <p className="text-[#A0A0A0] text-lg">Loading settings...</p>
+          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full mx-auto mb-4"></div>
+          <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>Loading settings...</p>
         </div>
       </div>
     )

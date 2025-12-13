@@ -289,12 +289,12 @@ const CommunityDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)]">
         <div className="max-w-7xl mx-auto p-4 sm:p-8">
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
               <Loader className="w-12 h-12 text-[#58a6ff]  mx-auto mb-4" />
-              <p className="text-[#666666]">Loading community...</p>
+              <p className="text-[var(--text-secondary)]">Loading community...</p>
             </div>
           </div>
         </div>
@@ -304,13 +304,13 @@ const CommunityDetailPage: React.FC = () => {
 
   if (error || !community) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)]">
         <div className="max-w-7xl mx-auto p-4 sm:p-8">
           <div className="flex items-center justify-center min-h-[60vh]">
-            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center max-w-md">
-              <Hash size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
-              <h3 className="text-xl font-semibold text-white mb-2">Community Not Found</h3>
-              <p className="text-[#666666] mb-6">{error || 'This community does not exist.'}</p>
+            <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-12 text-center max-w-md shadow-lg">
+              <Hash size={56} className="mx-auto mb-4 text-[var(--text-secondary)] opacity-50" />
+              <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">Community Not Found</h3>
+              <p className="text-[var(--text-secondary)] mb-6">{error || 'This community does not exist.'}</p>
               <button
                 onClick={() => navigate('/communities')}
                 className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
@@ -325,7 +325,7 @@ const CommunityDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)]">
       {/* Banner */}
       {community.banner && (
         <div className="h-48 sm:h-64 overflow-hidden">
@@ -334,7 +334,7 @@ const CommunityDetailPage: React.FC = () => {
       )}
 
       {/* Header */}
-      <div className="bg-[#141414]/60 backdrop-blur-xl border-b border-white/10">
+      <div className="bg-white border-b border-[var(--border-subtle)]">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             {/* Icon */}
@@ -343,10 +343,10 @@ const CommunityDetailPage: React.FC = () => {
                 <img
                   src={community.icon}
                   alt=""
-                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-4 border-[#0D0D0D] shadow-lg"
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-4 border-[var(--bg-primary)] shadow-lg"
                 />
               ) : (
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-2xl sm:text-3xl font-bold border-4 border-[#0D0D0D] shadow-lg">
+                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-2xl sm:text-3xl font-bold border-4 border-[var(--bg-primary)] shadow-lg">
                   {community.displayName[0].toUpperCase()}
                 </div>
               )}
@@ -354,10 +354,10 @@ const CommunityDetailPage: React.FC = () => {
 
             {/* Info */}
             <div className="flex-1">
-              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
+              <h1 className="text-2xl sm:text-3xl font-bold text-[var(--text-primary)] mb-1">
                 {community.displayName}
               </h1>
-              <div className="flex items-center gap-4 text-sm text-[#666666] mb-2">
+              <div className="flex items-center gap-4 text-sm text-[var(--text-secondary)] mb-2">
                 <span className="flex items-center gap-1">
                   <Users size={14} />
                   {formatNumber(community.memberCount)} members
@@ -370,7 +370,7 @@ const CommunityDetailPage: React.FC = () => {
                 )}
               </div>
               {community.description && (
-                <p className="text-[#A0A0A0] text-sm sm:text-base max-w-2xl">
+                <p className="text-[var(--text-secondary)] text-sm sm:text-base max-w-2xl">
                   {community.description}
                 </p>
               )}
@@ -382,7 +382,7 @@ const CommunityDetailPage: React.FC = () => {
                 onClick={handleJoinLeave}
                 className={`flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold transition-all ${
                   community.isMember
-                    ? 'bg-white/10 border border-white/20 text-[#A0A0A0] hover:bg-white/15'
+                    ? 'bg-gray-100 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-gray-200'
                     : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_0_20px_rgba(88,166,255,0.4)]'
                 }`}
               >
@@ -402,7 +402,7 @@ const CommunityDetailPage: React.FC = () => {
               {(community.isOwner || community.isModerator) && (
                 <button
                   onClick={() => navigate(`/community/${communityName}/settings`)}
-                  className="p-3 bg-white/10 border border-white/20 rounded-xl text-white hover:bg-white/15 transition-all"
+                  className="p-3 bg-gray-100 border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] hover:bg-gray-200 transition-all"
                 >
                   <Settings size={18} />
                 </button>
@@ -411,7 +411,7 @@ const CommunityDetailPage: React.FC = () => {
               <div className="relative">
                 <button
                   onClick={() => setShowOptionsMenu(!showOptionsMenu)}
-                  className="p-3 bg-white/10 border border-white/20 rounded-xl text-white hover:bg-white/15 transition-all"
+                  className="p-3 bg-gray-100 border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] hover:bg-gray-200 transition-all"
                 >
                   <MoreHorizontal size={18} />
                 </button>
@@ -421,16 +421,16 @@ const CommunityDetailPage: React.FC = () => {
                       className="fixed inset-0 z-10"
                       onClick={() => setShowOptionsMenu(false)}
                     />
-                    <div className="absolute right-0 mt-2 w-48 bg-[#141414] border border-white/10 rounded-xl shadow-lg z-20 overflow-hidden">
-                      <button className="w-full px-4 py-3 text-left text-white hover:bg-white/5 transition-all flex items-center gap-2">
+                    <div className="absolute right-0 mt-2 w-48 bg-white border border-[var(--border-subtle)] rounded-xl shadow-lg z-20 overflow-hidden">
+                      <button className="w-full px-4 py-3 text-left text-[var(--text-primary)] hover:bg-gray-50 transition-all flex items-center gap-2">
                         <Share2 size={16} />
                         Share
                       </button>
-                      <button className="w-full px-4 py-3 text-left text-white hover:bg-white/5 transition-all flex items-center gap-2">
+                      <button className="w-full px-4 py-3 text-left text-[var(--text-primary)] hover:bg-gray-50 transition-all flex items-center gap-2">
                         {community.isMember ? <BellOff size={16} /> : <Bell size={16} />}
                         {community.isMember ? 'Mute' : 'Notifications'}
                       </button>
-                      <button className="w-full px-4 py-3 text-left text-red-500 hover:bg-white/5 transition-all flex items-center gap-2">
+                      <button className="w-full px-4 py-3 text-left text-red-500 hover:bg-gray-50 transition-all flex items-center gap-2">
                         <Flag size={16} />
                         Report
                       </button>
@@ -444,7 +444,7 @@ const CommunityDetailPage: React.FC = () => {
       </div>
 
       {/* Tabs */}
-      <div className="bg-[#141414]/40 border-b border-white/10">
+      <div className="bg-[var(--bg-secondary)] border-b border-[var(--border-subtle)]">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex gap-1 overflow-x-auto">
             {tabs.map((tab) => {
@@ -456,8 +456,8 @@ const CommunityDetailPage: React.FC = () => {
                   onClick={() => setSelectedTab(tab.id)}
                   className={`flex items-center gap-2 px-6 py-4 text-sm font-semibold whitespace-nowrap transition-all ${
                     isActive
-                      ? 'text-white border-b-2 border-[#58a6ff]'
-                      : 'text-[#666666] hover:text-white'
+                      ? 'text-[var(--text-primary)] border-b-2 border-[#58a6ff]'
+                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                   }`}
                 >
                   <Icon size={16} />
@@ -478,11 +478,11 @@ const CommunityDetailPage: React.FC = () => {
               <>
                 {/* Post Composer */}
                 {community.isMember && (
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                  <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 shadow-sm">
                     {!showPostForm ? (
                       <button
                         onClick={() => setShowPostForm(true)}
-                        className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-left text-[#666666] hover:text-white hover:bg-[#141414] hover:border-[#58a6ff]/30 transition-all flex items-center gap-3"
+                        className="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-left text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-gray-50 hover:border-[#58a6ff]/30 transition-all flex items-center gap-3"
                       >
                         <Plus size={20} />
                         Create a post
@@ -490,11 +490,11 @@ const CommunityDetailPage: React.FC = () => {
                     ) : (
                       <form onSubmit={handleCreatePost} className="space-y-4">
                         <div className="flex items-center justify-between mb-4">
-                          <h3 className="text-lg font-semibold text-white">Create Post</h3>
+                          <h3 className="text-lg font-semibold text-[var(--text-primary)]">Create Post</h3>
                           <button
                             type="button"
                             onClick={() => setShowPostForm(false)}
-                            className="p-2 text-[#666666] hover:text-white rounded-lg hover:bg-white/5 transition-all"
+                            className="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] rounded-lg hover:bg-gray-50 transition-all"
                           >
                             <X size={20} />
                           </button>
@@ -505,7 +505,7 @@ const CommunityDetailPage: React.FC = () => {
                           value={newPost.title}
                           onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
                           placeholder="Post title..."
-                          className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 transition-all"
+                          className="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-[#58a6ff]/50 transition-all"
                           required
                         />
 
@@ -514,7 +514,7 @@ const CommunityDetailPage: React.FC = () => {
                           onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                           placeholder="What's on your mind?"
                           rows={4}
-                          className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 resize-none transition-all"
+                          className="w-full px-4 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:border-[#58a6ff]/50 resize-none transition-all"
                           required
                         />
 
@@ -529,7 +529,7 @@ const CommunityDetailPage: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => setShowPostForm(false)}
-                            className="px-6 py-3 bg-white/10 border border-white/20 rounded-xl text-[#A0A0A0] hover:bg-white/15 transition-all"
+                            className="px-6 py-3 bg-gray-100 border border-[var(--border-subtle)] rounded-xl text-[var(--text-secondary)] hover:bg-gray-200 transition-all"
                           >
                             Cancel
                           </button>
@@ -540,7 +540,7 @@ const CommunityDetailPage: React.FC = () => {
                 )}
 
                 {/* Sort Controls */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+                <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-4 shadow-sm">
                   <div className="flex gap-2 overflow-x-auto">
                     {sortOptions.map((option) => {
                       const Icon = option.icon
@@ -552,7 +552,7 @@ const CommunityDetailPage: React.FC = () => {
                           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all ${
                             isActive
                               ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                              : 'bg-[#0D0D0D] border border-white/10 text-[#666666] hover:text-white hover:border-[#58a6ff]/30'
+                              : 'bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[#58a6ff]/30'
                           }`}
                         >
                           <Icon size={16} />
@@ -566,24 +566,24 @@ const CommunityDetailPage: React.FC = () => {
                 {/* Posts */}
                 <div className="space-y-4">
                   {sortedPosts.length === 0 ? (
-                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                      <MessageSquare size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
-                      <h3 className="text-xl font-semibold text-white mb-2">No posts yet</h3>
-                      <p className="text-[#666666]">Be the first to post in this community!</p>
+                    <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-12 text-center shadow-sm">
+                      <MessageSquare size={56} className="mx-auto mb-4 text-[var(--text-secondary)] opacity-50" />
+                      <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No posts yet</h3>
+                      <p className="text-[var(--text-secondary)]">Be the first to post in this community!</p>
                     </div>
                   ) : (
                     sortedPosts.map((post) => (
                       <div
                         key={post.id}
-                        className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 transition-all"
+                        className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 shadow-sm hover:border-[#58a6ff]/30 transition-all"
                       >
                         <div className="flex gap-4">
                           {/* Vote Section */}
                           <div className="flex flex-col items-center gap-1">
                             <button
                               onClick={() => handleVote(post.id, 'up')}
-                              className={`p-1 rounded hover:bg-[#141414] transition-colors ${
-                                post.userVote === 'up' ? 'text-[#58a6ff]' : 'text-[#666666]'
+                              className={`p-1 rounded hover:bg-gray-100 transition-colors ${
+                                post.userVote === 'up' ? 'text-[#58a6ff]' : 'text-[var(--text-secondary)]'
                               }`}
                             >
                               <ChevronUp size={20} />
@@ -594,15 +594,15 @@ const CommunityDetailPage: React.FC = () => {
                                   ? 'text-[#58a6ff]'
                                   : post.score < 0
                                   ? 'text-[#a371f7]'
-                                  : 'text-[#666666]'
+                                  : 'text-[var(--text-secondary)]'
                               }`}
                             >
                               {post.score}
                             </span>
                             <button
                               onClick={() => handleVote(post.id, 'down')}
-                              className={`p-1 rounded hover:bg-[#141414] transition-colors ${
-                                post.userVote === 'down' ? 'text-[#a371f7]' : 'text-[#666666]'
+                              className={`p-1 rounded hover:bg-gray-100 transition-colors ${
+                                post.userVote === 'down' ? 'text-[#a371f7]' : 'text-[var(--text-secondary)]'
                               }`}
                             >
                               <ChevronDown size={20} />
@@ -620,33 +620,33 @@ const CommunityDetailPage: React.FC = () => {
                               to={`/post/${post.id}`}
                               className="block group"
                             >
-                              <h3 className="text-xl font-semibold text-white group-hover:text-[#58a6ff] transition-colors mb-2">
+                              <h3 className="text-xl font-semibold text-[var(--text-primary)] group-hover:text-[#58a6ff] transition-colors mb-2">
                                 {post.title}
                               </h3>
                             </Link>
-                            <div className="flex items-center gap-2 text-sm text-[#666666] mb-3">
+                            <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)] mb-3">
                               <span>Posted by u/{post.author}</span>
                               <span>•</span>
                               <span>{formatTimeAgo(post.created)}</span>
                             </div>
 
                             {post.content && (
-                              <p className="text-[#A0A0A0] mb-4 line-clamp-3">{post.content}</p>
+                              <p className="text-[var(--text-secondary)] mb-4 line-clamp-3">{post.content}</p>
                             )}
 
                             <div className="flex items-center gap-4 text-sm">
                               <Link
                                 to={`/post/${post.id}`}
-                                className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors"
+                                className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors"
                               >
                                 <MessageSquare size={16} />
                                 <span>{post.comments} comments</span>
                               </Link>
-                              <button className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors">
+                              <button className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors">
                                 <Share2 size={16} />
                                 <span>Share</span>
                               </button>
-                              <button className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors">
+                              <button className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors">
                                 <Bookmark size={16} />
                                 <span>Save</span>
                               </button>
@@ -661,21 +661,21 @@ const CommunityDetailPage: React.FC = () => {
             )}
 
             {selectedTab === 'about' && (
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <h2 className="text-2xl font-bold text-white mb-4">About</h2>
-                <p className="text-[#A0A0A0] mb-6">{community.description}</p>
+              <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 shadow-sm">
+                <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-4">About</h2>
+                <p className="text-[var(--text-secondary)] mb-6">{community.description}</p>
 
                 <div className="space-y-4">
-                  <div className="flex items-center gap-3 text-[#666666]">
+                  <div className="flex items-center gap-3 text-[var(--text-secondary)]">
                     <Calendar size={18} />
                     <span>Created {new Date(community.createdAt).toLocaleDateString()}</span>
                   </div>
-                  <div className="flex items-center gap-3 text-[#666666]">
+                  <div className="flex items-center gap-3 text-[var(--text-secondary)]">
                     <Users size={18} />
                     <span>{formatNumber(community.memberCount)} members</span>
                   </div>
                   {community.postCount !== undefined && (
-                    <div className="flex items-center gap-3 text-[#666666]">
+                    <div className="flex items-center gap-3 text-[var(--text-secondary)]">
                       <MessageSquare size={18} />
                       <span>{formatNumber(community.postCount)} posts</span>
                     </div>
@@ -685,9 +685,9 @@ const CommunityDetailPage: React.FC = () => {
             )}
 
             {selectedTab === 'members' && (
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+              <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 shadow-sm">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-white">Members</h2>
+                  <h2 className="text-2xl font-bold text-[var(--text-primary)]">Members</h2>
                   <button
                     onClick={() => navigate(`/community/${communityName}/members`)}
                     className="text-[#58a6ff] hover:text-[#a371f7] text-sm font-semibold"
@@ -695,25 +695,25 @@ const CommunityDetailPage: React.FC = () => {
                     View All
                   </button>
                 </div>
-                <p className="text-[#666666]">
+                <p className="text-[var(--text-secondary)]">
                   {formatNumber(community.memberCount)} members
                 </p>
               </div>
             )}
 
             {selectedTab === 'events' && (
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <Calendar size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
-                <h3 className="text-xl font-semibold text-white mb-2">No events yet</h3>
-                <p className="text-[#666666]">Check back later for community events.</p>
+              <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-12 text-center shadow-sm">
+                <Calendar size={56} className="mx-auto mb-4 text-[var(--text-secondary)] opacity-50" />
+                <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No events yet</h3>
+                <p className="text-[var(--text-secondary)]">Check back later for community events.</p>
               </div>
             )}
 
             {selectedTab === 'media' && (
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <ImageIcon size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
-                <h3 className="text-xl font-semibold text-white mb-2">No media yet</h3>
-                <p className="text-[#666666]">Media shared in this community will appear here.</p>
+              <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-12 text-center shadow-sm">
+                <ImageIcon size={56} className="mx-auto mb-4 text-[var(--text-secondary)] opacity-50" />
+                <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No media yet</h3>
+                <p className="text-[var(--text-secondary)]">Media shared in this community will appear here.</p>
               </div>
             )}
           </div>
@@ -722,15 +722,15 @@ const CommunityDetailPage: React.FC = () => {
           <div className="space-y-6">
             {/* Rules */}
             {community.rules && community.rules.length > 0 && (
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4 flex items-center gap-2">
                   <Shield size={20} className="text-[#58a6ff]" />
                   Community Rules
                 </h2>
                 <ol className="space-y-3">
                   {community.rules.map((rule, index) => (
-                    <li key={index} className="text-sm text-[#A0A0A0] flex gap-3">
-                      <span className="text-[#666666] font-semibold">{index + 1}.</span>
+                    <li key={index} className="text-sm text-[var(--text-secondary)] flex gap-3">
+                      <span className="text-[var(--text-secondary)] font-semibold">{index + 1}.</span>
                       <span>{rule}</span>
                     </li>
                   ))}
@@ -740,14 +740,14 @@ const CommunityDetailPage: React.FC = () => {
 
             {/* Moderators */}
             {community.moderators && community.moderators.length > 0 && (
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-                <h2 className="text-lg font-bold text-white mb-4">Moderators</h2>
+              <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-[var(--text-primary)] mb-4">Moderators</h2>
                 <div className="space-y-2">
                   {community.moderators.map((mod, index) => (
                     <Link
                       key={index}
                       to={`/user/${mod.username}`}
-                      className="flex items-center gap-2 text-[#666666] hover:text-[#58a6ff] transition-colors"
+                      className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors"
                     >
                       <div className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
                         {mod.username[0].toUpperCase()}

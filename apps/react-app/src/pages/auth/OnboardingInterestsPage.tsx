@@ -74,7 +74,7 @@ export default function OnboardingInterestsPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10" />
@@ -89,26 +89,26 @@ export default function OnboardingInterestsPage() {
               key={step}
               className={cn(
                 'h-1.5 rounded-full transition-all',
-                step === 3 ? 'w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]' : step < 3 ? 'w-1.5 bg-blue-500' : 'w-1.5 bg-gray-700'
+                step === 3 ? 'w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]' : step < 3 ? 'w-1.5 bg-blue-500' : 'w-1.5 bg-gray-300'
               )}
             />
           ))}
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-4xl bg-[#141414]/80 backdrop-blur-xl border-white/10">
+      <Card className="relative z-10 w-full max-w-4xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white">Choose your interests</h1>
-            <p className="text-lg text-gray-400">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[var(--text-primary)]">Choose your interests</h1>
+            <p className="text-lg text-[var(--text-secondary)]">
               Select at least {minInterests} topics you're interested in
             </p>
           </div>
 
           {/* Step indicator */}
           <div className="mb-8 text-center">
-            <span className="inline-block px-4 py-2 bg-[#0D0D0D] rounded-full text-sm text-gray-400">
+            <span className="inline-block px-4 py-2 bg-[var(--bg-secondary)] rounded-full text-sm text-[var(--text-secondary)]">
               Step 3 of 5
             </span>
           </div>
@@ -117,7 +117,7 @@ export default function OnboardingInterestsPage() {
           <div className="mb-6 text-center">
             <span className={cn(
               'text-sm font-medium',
-              canContinue ? 'text-green-500' : 'text-gray-400'
+              canContinue ? 'text-green-500' : 'text-[var(--text-secondary)]'
             )}>
               {selectedInterests.length} selected {canContinue && '✓'}
             </span>
@@ -140,14 +140,14 @@ export default function OnboardingInterestsPage() {
                       'hover:scale-105 active:scale-95',
                       isSelected
                         ? 'border-blue-500 bg-blue-500/10'
-                        : 'border-white/10 bg-[#0D0D0D] hover:border-white/20 hover:bg-[#0D0D0D]/80'
+                        : 'border-[var(--border-subtle)] bg-[var(--bg-secondary)] hover:border-gray-300 hover:bg-gray-50'
                     )}
                   >
                     <div className="flex flex-col items-center gap-3">
                       <div
                         className={cn(
                           'w-12 h-12 rounded-xl flex items-center justify-center transition-all',
-                          isSelected ? 'bg-blue-500/20' : 'bg-white/5 group-hover:bg-white/10'
+                          isSelected ? 'bg-blue-500/20' : 'bg-gray-100 group-hover:bg-gray-200'
                         )}
                       >
                         <Icon
@@ -157,7 +157,7 @@ export default function OnboardingInterestsPage() {
                       </div>
                       <span className={cn(
                         'text-sm font-medium transition-colors text-center',
-                        isSelected ? 'text-white' : 'text-gray-400 group-hover:text-gray-300'
+                        isSelected ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)] group-hover:text-[var(--text-primary)]'
                       )}>
                         {interest.name}
                       </span>
@@ -184,7 +184,7 @@ export default function OnboardingInterestsPage() {
                 size="lg"
                 onClick={handleBack}
                 disabled={loading}
-                className="bg-transparent border-white/20 text-white hover:bg-white/5"
+                className="bg-transparent border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back

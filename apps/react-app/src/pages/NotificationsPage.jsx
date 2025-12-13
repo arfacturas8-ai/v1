@@ -273,9 +273,9 @@ function NotificationsPage() {
   // Memoize filter options
   const filterOptions = useMemo(() => ['all', 'unread', 'mentions', 'reactions'], [])
   return (
-    <div className="min-h-screen bg-[#0D0D0D]" role="main">
+    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main">
       {/* Header */}
-      <div className="bg-[#141414]/80 backdrop-blur-xl border-b border-white/10 sticky top-0 z-10">
+      <div className="bg-white border-b sticky top-0 z-10" style={{ borderColor: 'var(--border-subtle)' }}>
         <div className="max-w-4xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
@@ -287,7 +287,7 @@ function NotificationsPage() {
                 <ArrowLeft className="w-5 h-5 text-[#666666]" aria-hidden="true" />
               </button>
               <Bell className="w-6 h-6 text-[#58a6ff]" aria-hidden="true" />
-              <h1 className="text-2xl font-bold text-white">Notifications</h1>
+              <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Notifications</h1>
               {unreadCount > 0 && (
                 <span className="px-2 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs font-semibold rounded-full shadow-lg" aria-label={`${unreadCount} unread notifications`}>
                   {unreadCount}
@@ -299,14 +299,15 @@ function NotificationsPage() {
               <button
                 onClick={handleMarkAllAsRead}
                 disabled={unreadCount === 0}
-                className="px-3 py-2 bg-[#141414]/60 backdrop-blur-xl hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-sm text-white flex items-center gap-2 transition-all duration-200 touch-target"
+                className="px-3 py-2 bg-white hover:bg-white disabled:opacity-50 disabled:cursor-not-allowed rounded-lg text-sm border flex items-center gap-2 transition-all duration-200 touch-target"
+                style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 aria-label="Mark all notifications as read"
               >
                 <CheckCheck className="w-4 h-4" aria-hidden="true" />
                 <span className="hidden md:inline">Mark all read</span>
               </button>
-              <button className="p-2 hover:bg-white/5 rounded-lg transition-all duration-200 touch-target" aria-label="Notification settings">
-                <Settings className="w-5 h-5 text-[#666666]" aria-hidden="true" />
+              <button className="p-2 rounded-lg transition-all duration-200 touch-target" style={{ color: 'var(--text-secondary)' }} aria-label="Notification settings">
+                <Settings className="w-5 h-5" aria-hidden="true" />
               </button>
             </div>
           </div>
@@ -318,12 +319,13 @@ function NotificationsPage() {
                 key={filterType}
                 onClick={() => setFilter(filterType)}
                 className={`
-                  px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 touch-target
+                  px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200 touch-target border
                   ${filter === filterType
                     ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                    : 'bg-[#141414]/60 backdrop-blur-xl text-[#666666] hover:bg-white/10 hover:text-[#A0A0A0]'
+                    : 'bg-white'
                   }
                 `}
+                style={filter !== filterType ? { borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' } : {}}
                 aria-pressed={filter === filterType}
                 aria-label={`Filter by ${filterType} notifications`}
               >
@@ -334,8 +336,8 @@ function NotificationsPage() {
 
           {/* Bulk Actions */}
           {selectedNotifications.size > 0 && (
-            <div className="mt-3 p-3 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl shadow-lg flex items-center justify-between">
-              <span className="text-sm text-[#A0A0A0] font-medium">
+            <div className="mt-3 p-3 bg-white border rounded-xl shadow-sm flex items-center justify-between" style={{ borderColor: 'var(--border-subtle)' }}>
+              <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                 {selectedNotifications.size} selected
               </span>
               <div className="flex gap-2">
@@ -366,10 +368,10 @@ function NotificationsPage() {
         {indicator}
         {error ? (
           /* Error State */
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-red-500/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="alert" aria-live="assertive">
+          <div className="bg-white border border-red-500/20 rounded-2xl shadow-sm p-8 text-center" style={{ borderColor: 'var(--border-subtle)' }} role="alert" aria-live="assertive">
             <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" aria-hidden="true" />
-            <h3 className="text-xl font-semibold text-white mb-2">Failed to Load Notifications</h3>
-            <p className="text-[#A0A0A0] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+            <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Failed to Load Notifications</h3>
+            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <button
               onClick={fetchNotifications}
               className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg text-white font-medium transition-all duration-200 touch-target"
@@ -380,10 +382,10 @@ function NotificationsPage() {
           </div>
         ) : !isAuthenticated ? (
           /* Not Authenticated */
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8 text-center" role="status">
-            <Bell className="w-12 h-12 text-[#666666] mx-auto mb-4" aria-hidden="true" />
-            <h3 className="text-xl font-semibold text-white mb-2">Sign In Required</h3>
-            <p className="text-[#A0A0A0] mb-6">Please sign in to view your notifications</p>
+          <div className="bg-white border rounded-2xl shadow-sm p-8 text-center" style={{ borderColor: 'var(--border-subtle)' }} role="status">
+            <Bell className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-secondary)' }} aria-hidden="true" />
+            <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Sign In Required</h3>
+            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>Please sign in to view your notifications</p>
             <button
               onClick={() => navigate('/login')}
               className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg text-white font-medium transition-all duration-200 touch-target"
@@ -398,10 +400,11 @@ function NotificationsPage() {
               <div
                 key={notification.id}
                 className={`
-                  bg-[#141414]/60 backdrop-blur-xl border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 transition-all duration-200 hover:bg-[#1c2128]/80 hover:border-white/20 hover:shadow-[0_12px_40px_rgba(0,0,0,0.4)]
-                  ${!notification.isRead ? 'border-l-4 border-l-[#58a6ff] border-white/10 shadow-[0_0_20px_rgba(88,166,255,0.15)]' : 'border-white/10'}
-                  ${selectedNotifications.has(notification.id) ? 'bg-[#1A1A1A]/80 border-[#58a6ff]/30' : ''}
+                  bg-white border rounded-2xl shadow-sm p-4 transition-all duration-200 hover:shadow-md
+                  ${!notification.isRead ? 'border-l-4 border-l-[#58a6ff]' : ''}
+                  ${selectedNotifications.has(notification.id) ? 'border-[#58a6ff]/30' : ''}
                 `}
+                style={{ borderColor: 'var(--border-subtle)' }}
               >
                 <div className="flex items-start gap-3">
                   {/* Checkbox */}
@@ -431,15 +434,15 @@ function NotificationsPage() {
                     <div className="flex items-start justify-between gap-2 mb-2">
                       <div className="flex items-center gap-2">
                         {getNotificationIcon(notification.type)}
-                        <span className={`font-semibold ${!notification.isRead ? 'text-white' : 'text-[#A0A0A0]'}`}>
+                        <span className="font-semibold" style={{ color: !notification.isRead ? 'var(--text-primary)' : 'var(--text-secondary)' }}>
                           {notification.title}
                         </span>
                       </div>
-                      <span className="text-xs text-[#666666] whitespace-nowrap font-medium">
+                      <span className="text-xs whitespace-nowrap font-medium" style={{ color: 'var(--text-secondary)' }}>
                         {formatDistanceToNow(notification.timestamp, { addSuffix: true })}
                       </span>
                     </div>
-                    <p className={`text-sm ${!notification.isRead ? 'text-[#A0A0A0]' : 'text-[#666666]'}`}>{notification.content}</p>
+                    <p className="text-sm" style={{ color: !notification.isRead ? 'var(--text-secondary)' : 'var(--text-secondary)' }}>{notification.content}</p>
                   </div>
 
                   {/* Actions */}
@@ -483,7 +486,7 @@ function NotificationsPage() {
         <div className="max-w-4xl mx-auto px-4 pb-6">
           <button
             onClick={handleDeleteAll}
-            className="w-full px-4 py-3 bg-[#141414]/60 backdrop-blur-xl border border-red-500/20 hover:border-red-500/40 hover:bg-red-500/5 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-red-500 font-medium flex items-center justify-center gap-2 transition-all duration-200 touch-target"
+            className="w-full px-4 py-3 bg-white border border-red-500/20 hover:border-red-500/40 hover:bg-red-500/5 rounded-2xl shadow-sm text-red-500 font-medium flex items-center justify-center gap-2 transition-all duration-200 touch-target"
             aria-label="Delete all notifications"
           >
             <Trash2 className="w-4 h-4" aria-hidden="true" />

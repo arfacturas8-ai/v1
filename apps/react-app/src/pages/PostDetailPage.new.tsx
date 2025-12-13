@@ -315,16 +315,16 @@ export default function PostDetailPage() {
 
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-semibold text-white">{comment?.author?.username}</span>
+              <span className="font-semibold text-[var(--text-primary)]">{comment?.author?.username}</span>
               {comment?.author?.verified && (
                 <CheckCircle className="w-4 h-4 text-[#58a6ff] fill-[#58a6ff]" />
               )}
-              <span className="text-xs text-[#666666]">
+              <span className="text-xs text-[var(--text-secondary)]">
                 {formatRelativeTime(comment?.timestamp)}
               </span>
             </div>
 
-            <p className="text-[#A0A0A0] text-sm mb-2 whitespace-pre-wrap break-words">
+            <p className="text-[var(--text-secondary)] text-sm mb-2 whitespace-pre-wrap break-words">
               {comment?.content}
             </p>
 
@@ -333,7 +333,7 @@ export default function PostDetailPage() {
                 onClick={() => handleCommentLike(comment?.id || '')}
                 className={cn(
                   "flex items-center gap-1 text-xs transition-colors",
-                  comment?.userLiked ? "text-red-500" : "text-[#666666] hover:text-red-500"
+                  comment?.userLiked ? "text-red-500" : "text-[var(--text-secondary)] hover:text-red-500"
                 )}
               >
                 <Heart className={cn("w-4 h-4", comment?.userLiked && "fill-current")} />
@@ -342,7 +342,7 @@ export default function PostDetailPage() {
 
               <button
                 onClick={() => handleReply(comment?.id || '', comment?.author?.username || '')}
-                className="text-xs text-[#666666] hover:text-[#58a6ff] transition-colors"
+                className="text-xs text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors"
               >
                 Reply
               </button>
@@ -377,14 +377,14 @@ export default function PostDetailPage() {
           </div>
         </div>
 
-        {depth === 0 && <div className="mt-4 border-b border-white/10" />}
+        {depth === 0 && <div className="mt-4 border-b border-[var(--border-subtle)]" />}
       </div>
     );
   };
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] pt-16 flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] pt-16 flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#58a6ff] " />
       </div>
     );
@@ -392,11 +392,11 @@ export default function PostDetailPage() {
 
   if (error || !post) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] pt-16 flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-primary)] pt-16 flex items-center justify-center">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-white mb-2">Post not found</h2>
-          <p className="text-[#666666] mb-6">The post you're looking for doesn't exist</p>
+          <h2 className="text-xl font-bold text-[var(--text-primary)] mb-2">Post not found</h2>
+          <p className="text-[var(--text-secondary)] mb-6">The post you're looking for doesn't exist</p>
           <button
             onClick={() => navigate(-1)}
             className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl font-medium hover:opacity-90 transition-opacity"
@@ -409,19 +409,19 @@ export default function PostDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] pt-16 pb-20">
+    <div className="min-h-screen bg-[var(--bg-primary)] pt-16 pb-20">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="sticky top-16 z-10 bg-[#0D0D0D]/80 backdrop-blur-xl border-b border-white/10 px-4 py-3">
+        <div className="sticky top-16 z-10 bg-white/80 backdrop-blur-xl border-b border-[var(--border-subtle)] px-4 py-3 shadow-sm">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
-              className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors"
+              className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
               aria-label="Go back"
             >
-              <ArrowLeft className="w-5 h-5 text-white" />
+              <ArrowLeft className="w-5 h-5 text-[var(--text-primary)]" />
             </button>
-            <h1 className="text-lg font-bold text-white">Post</h1>
+            <h1 className="text-lg font-bold text-[var(--text-primary)]">Post</h1>
           </div>
         </div>
 
@@ -432,10 +432,10 @@ export default function PostDetailPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden"
+              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden"
             >
               {/* Post header */}
-              <div className="p-6 border-b border-white/10">
+              <div className="p-6 border-b border-[var(--border-subtle)]">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-3">
                     <Link to={`/u/${post?.author?.username}`}>
@@ -448,7 +448,7 @@ export default function PostDetailPage() {
                       <div className="flex items-center gap-2">
                         <Link
                           to={`/u/${post?.author?.username}`}
-                          className="font-bold text-white hover:underline"
+                          className="font-bold text-[var(--text-primary)] hover:underline"
                         >
                           {post?.author?.displayName}
                         </Link>
@@ -458,7 +458,7 @@ export default function PostDetailPage() {
                       </div>
                       <Link
                         to={`/u/${post?.author?.username}`}
-                        className="text-sm text-[#666666] hover:underline"
+                        className="text-sm text-[var(--text-secondary)] hover:underline"
                       >
                         @{post?.author?.username}
                       </Link>
@@ -469,10 +469,10 @@ export default function PostDetailPage() {
                   <div className="relative" ref={shareMenuRef}>
                     <button
                       onClick={() => setShowMoreMenu(!showMoreMenu)}
-                      className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors"
+                      className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
                       aria-label="More options"
                     >
-                      <MoreHorizontal className="w-5 h-5 text-[#666666]" />
+                      <MoreHorizontal className="w-5 h-5 text-[var(--text-secondary)]" />
                     </button>
 
                     <AnimatePresence>
@@ -481,23 +481,23 @@ export default function PostDetailPage() {
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.95 }}
-                          className="absolute right-0 mt-2 w-48 bg-[#1A1A1A] border border-white/10 rounded-xl shadow-xl overflow-hidden z-50"
+                          className="absolute right-0 mt-2 w-48 bg-white border border-[var(--border-subtle)] rounded-xl shadow-lg overflow-hidden z-50"
                         >
                           <button
                             onClick={() => {
                               setShowReportModal(true);
                               setShowMoreMenu(false);
                             }}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#141414] transition-colors text-left"
+                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-secondary)] transition-colors text-left"
                           >
                             <Flag className="w-4 h-4 text-red-500" />
-                            <span className="text-sm text-white">Report post</span>
+                            <span className="text-sm text-[var(--text-primary)]">Report post</span>
                           </button>
                           <button
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#141414] transition-colors text-left"
+                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-secondary)] transition-colors text-left"
                           >
                             <UserX className="w-4 h-4 text-red-500" />
-                            <span className="text-sm text-white">Block @{post?.author?.username}</span>
+                            <span className="text-sm text-[var(--text-primary)]">Block @{post?.author?.username}</span>
                           </button>
                         </motion.div>
                       )}
@@ -507,13 +507,13 @@ export default function PostDetailPage() {
 
                 {/* Post content */}
                 <div className="mb-4">
-                  <p className="text-lg text-white whitespace-pre-wrap break-words leading-relaxed">
+                  <p className="text-lg text-[var(--text-primary)] whitespace-pre-wrap break-words leading-relaxed">
                     {post?.content}
                   </p>
                 </div>
 
                 {/* Post timestamp */}
-                <div className="flex items-center gap-2 text-sm text-[#666666]">
+                <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
                   <Clock className="w-4 h-4" />
                   <time dateTime={post?.timestamp?.toISOString()}>
                     {post?.timestamp?.toLocaleString('en-US', {
@@ -529,7 +529,7 @@ export default function PostDetailPage() {
 
               {/* Media */}
               {post?.media && (post?.media?.length || 0) > 0 && (
-                <div className="border-b border-white/10">
+                <div className="border-b border-[var(--border-subtle)]">
                   {post?.media?.[0]?.type === 'image' && (
                     <img
                       src={post?.media?.[0]?.url}
@@ -541,30 +541,30 @@ export default function PostDetailPage() {
               )}
 
               {/* Engagement stats */}
-              <div className="px-6 py-3 border-b border-white/10">
+              <div className="px-6 py-3 border-b border-[var(--border-subtle)]">
                 <div className="flex items-center gap-6 flex-wrap">
                   <div className="flex items-center gap-2 text-sm">
-                    <Eye className="w-4 h-4 text-[#666666]" />
-                    <span className="font-semibold text-white">{formatNumber(post?.views || 0)}</span>
-                    <span className="text-[#666666]">views</span>
+                    <Eye className="w-4 h-4 text-[var(--text-secondary)]" />
+                    <span className="font-semibold text-[var(--text-primary)]">{formatNumber(post?.views || 0)}</span>
+                    <span className="text-[var(--text-secondary)]">views</span>
                   </div>
                   <button className="flex items-center gap-2 text-sm hover:underline">
-                    <span className="font-semibold text-white">{formatNumber(post?.likes || 0)}</span>
-                    <span className="text-[#666666]">likes</span>
+                    <span className="font-semibold text-[var(--text-primary)]">{formatNumber(post?.likes || 0)}</span>
+                    <span className="text-[var(--text-secondary)]">likes</span>
                   </button>
                   <button className="flex items-center gap-2 text-sm hover:underline">
-                    <span className="font-semibold text-white">{formatNumber(post?.reposts || 0)}</span>
-                    <span className="text-[#666666]">reposts</span>
+                    <span className="font-semibold text-[var(--text-primary)]">{formatNumber(post?.reposts || 0)}</span>
+                    <span className="text-[var(--text-secondary)]">reposts</span>
                   </button>
                   <button className="flex items-center gap-2 text-sm hover:underline">
-                    <span className="font-semibold text-white">{formatNumber(post?.bookmarks || 0)}</span>
-                    <span className="text-[#666666]">bookmarks</span>
+                    <span className="font-semibold text-[var(--text-primary)]">{formatNumber(post?.bookmarks || 0)}</span>
+                    <span className="text-[var(--text-secondary)]">bookmarks</span>
                   </button>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="px-6 py-3 border-b border-white/10">
+              <div className="px-6 py-3 border-b border-[var(--border-subtle)]">
                 <div className="flex items-center justify-around">
                   <button
                     onClick={handleLike}
@@ -572,7 +572,7 @@ export default function PostDetailPage() {
                       "flex items-center gap-2 px-4 py-2 rounded-xl transition-colors",
                       liked
                         ? "text-red-500 hover:bg-red-500/10"
-                        : "text-[#666666] hover:bg-[#141414]/60 hover:text-red-500"
+                        : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-red-500"
                     )}
                   >
                     <Heart className={cn("w-5 h-5", liked && "fill-current")} />
@@ -580,7 +580,7 @@ export default function PostDetailPage() {
 
                   <button
                     onClick={() => commentInputRef.current?.focus()}
-                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-[#666666] hover:bg-[#141414]/60 hover:text-[#58a6ff] transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[#58a6ff] transition-colors"
                   >
                     <MessageCircle className="w-5 h-5" />
                   </button>
@@ -591,7 +591,7 @@ export default function PostDetailPage() {
                       "flex items-center gap-2 px-4 py-2 rounded-xl transition-colors",
                       reposted
                         ? "text-green-500 hover:bg-green-500/10"
-                        : "text-[#666666] hover:bg-[#141414]/60 hover:text-green-500"
+                        : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-green-500"
                     )}
                   >
                     <Repeat2 className="w-5 h-5" />
@@ -600,7 +600,7 @@ export default function PostDetailPage() {
                   <div className="relative">
                     <button
                       onClick={() => setShowShareMenu(!showShareMenu)}
-                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-[#666666] hover:bg-[#141414]/60 hover:text-[#58a6ff] transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[#58a6ff] transition-colors"
                     >
                       <Share2 className="w-5 h-5" />
                     </button>
@@ -611,13 +611,13 @@ export default function PostDetailPage() {
                           initial={{ opacity: 0, scale: 0.95 }}
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.95 }}
-                          className="absolute bottom-full mb-2 right-0 w-48 bg-[#1A1A1A] border border-white/10 rounded-xl shadow-xl overflow-hidden z-50"
+                          className="absolute bottom-full mb-2 right-0 w-48 bg-white border border-[var(--border-subtle)] rounded-xl shadow-lg overflow-hidden z-50"
                         >
                           <button
                             onClick={() => handleShare('copy')}
-                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[#141414] transition-colors text-left"
+                            className="w-full flex items-center gap-3 px-4 py-3 hover:bg-[var(--bg-secondary)] transition-colors text-left"
                           >
-                            <span className="text-sm text-white">Copy link</span>
+                            <span className="text-sm text-[var(--text-primary)]">Copy link</span>
                           </button>
                         </motion.div>
                       )}
@@ -630,7 +630,7 @@ export default function PostDetailPage() {
                       "flex items-center gap-2 px-4 py-2 rounded-xl transition-colors",
                       bookmarked
                         ? "text-[#58a6ff] hover:bg-[#58a6ff]/10"
-                        : "text-[#666666] hover:bg-[#141414]/60 hover:text-[#58a6ff]"
+                        : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[#58a6ff]"
                     )}
                   >
                     <Bookmark className={cn("w-5 h-5", bookmarked && "fill-current")} />
@@ -648,7 +648,7 @@ export default function PostDetailPage() {
 
                     <div className="flex-1">
                       {replyingTo && (
-                        <div className="mb-2 flex items-center gap-2 text-sm text-[#666666]">
+                        <div className="mb-2 flex items-center gap-2 text-sm text-[var(--text-secondary)]">
                           <span>Replying to @{post?.author?.username}</span>
                           <button
                             onClick={() => {
@@ -667,16 +667,16 @@ export default function PostDetailPage() {
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder="Write a comment..."
-                        className="w-full bg-[#0D0D0D] border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-[#666666] resize-none outline-none focus:border-[#58a6ff]/50 min-h-[80px]"
+                        className="w-full bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl px-4 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] resize-none outline-none focus:border-[#58a6ff]/50 min-h-[80px]"
                       />
 
                       <div className="flex items-center justify-between mt-3">
                         <div className="flex items-center gap-2">
-                          <button className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors">
-                            <ImageIcon className="w-5 h-5 text-[#666666]" />
+                          <button className="p-2 rounded-xl hover:bg-[var(--bg-primary)] transition-colors">
+                            <ImageIcon className="w-5 h-5 text-[var(--text-secondary)]" />
                           </button>
-                          <button className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors">
-                            <Smile className="w-5 h-5 text-[#666666]" />
+                          <button className="p-2 rounded-xl hover:bg-[var(--bg-primary)] transition-colors">
+                            <Smile className="w-5 h-5 text-[var(--text-secondary)]" />
                           </button>
                         </div>
 
@@ -709,11 +709,11 @@ export default function PostDetailPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden"
+              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden"
             >
-              <div className="p-6 border-b border-white/10">
+              <div className="p-6 border-b border-[var(--border-subtle)]">
                 <div className="flex items-center justify-between">
-                  <h2 className="text-lg font-bold text-white">
+                  <h2 className="text-lg font-bold text-[var(--text-primary)]">
                     Comments ({formatNumber(post?.comments || 0)})
                   </h2>
 
@@ -724,7 +724,7 @@ export default function PostDetailPage() {
                         "px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
                         sortBy === 'top'
                           ? "bg-[#58a6ff]/20 text-[#58a6ff]"
-                          : "text-[#666666] hover:bg-[#141414]/60"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
                       )}
                     >
                       Top
@@ -735,7 +735,7 @@ export default function PostDetailPage() {
                         "px-3 py-1.5 rounded-lg text-sm font-medium transition-colors",
                         sortBy === 'newest'
                           ? "bg-[#58a6ff]/20 text-[#58a6ff]"
-                          : "text-[#666666] hover:bg-[#141414]/60"
+                          : "text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]"
                       )}
                     >
                       Newest
@@ -751,9 +751,9 @@ export default function PostDetailPage() {
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <MessageCircle className="w-12 h-12 text-[#666666] mx-auto mb-4" />
-                    <p className="text-[#666666]">No comments yet</p>
-                    <p className="text-sm text-[#666666] mt-2">Be the first to comment!</p>
+                    <MessageCircle className="w-12 h-12 text-[var(--text-secondary)] mx-auto mb-4" />
+                    <p className="text-[var(--text-secondary)]">No comments yet</p>
+                    <p className="text-sm text-[var(--text-secondary)] mt-2">Be the first to comment!</p>
                   </div>
                 )}
               </div>
@@ -766,9 +766,9 @@ export default function PostDetailPage() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
+              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
             >
-              <h3 className="text-sm font-semibold text-white mb-4">About the author</h3>
+              <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">About the author</h3>
 
               <Link to={`/u/${post?.author?.username}`} className="flex items-start gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
@@ -777,16 +777,16 @@ export default function PostDetailPage() {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-white">{post?.author?.displayName}</span>
+                    <span className="font-bold text-[var(--text-primary)]">{post?.author?.displayName}</span>
                     {post?.author?.verified && (
                       <CheckCircle className="w-4 h-4 text-[#58a6ff] fill-[#58a6ff]" />
                     )}
                   </div>
-                  <span className="text-sm text-[#666666]">@{post?.author?.username}</span>
+                  <span className="text-sm text-[var(--text-secondary)]">@{post?.author?.username}</span>
                 </div>
               </Link>
 
-              <p className="text-sm text-[#A0A0A0] mb-4">{post?.author?.bio}</p>
+              <p className="text-sm text-[var(--text-secondary)] mb-4">{post?.author?.bio}</p>
 
               <button className="w-full px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl font-medium hover:opacity-90 transition-opacity">
                 Follow
@@ -798,21 +798,21 @@ export default function PostDetailPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
+              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
             >
-              <h3 className="text-sm font-semibold text-white mb-4">Related posts</h3>
+              <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">Related posts</h3>
 
               <div className="space-y-4">
                 {[1, 2, 3].map((i) => (
                   <Link
                     key={i}
                     to="#"
-                    className="block p-3 rounded-xl hover:bg-[#141414]/60 transition-colors"
+                    className="block p-3 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <p className="text-sm text-white mb-2 line-clamp-2">
+                    <p className="text-sm text-[var(--text-primary)] mb-2 line-clamp-2">
                       Another interesting post about similar topics...
                     </p>
-                    <div className="flex items-center gap-3 text-xs text-[#666666]">
+                    <div className="flex items-center gap-3 text-xs text-[var(--text-secondary)]">
                       <span>2.3K likes</span>
                       <span>456 comments</span>
                     </div>
@@ -826,9 +826,9 @@ export default function PostDetailPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
+              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
             >
-              <h3 className="text-sm font-semibold text-white mb-4">
+              <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
                 More from @{post?.author?.username}
               </h3>
 
@@ -837,9 +837,9 @@ export default function PostDetailPage() {
                   <Link
                     key={i}
                     to="#"
-                    className="block p-3 rounded-xl hover:bg-[#141414]/60 transition-colors"
+                    className="block p-3 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
                   >
-                    <p className="text-sm text-white line-clamp-3">
+                    <p className="text-sm text-[var(--text-primary)] line-clamp-3">
                       Check out this other post by the same author...
                     </p>
                   </Link>

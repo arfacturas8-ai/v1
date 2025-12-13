@@ -281,12 +281,12 @@ const CommunityMembersDetailPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)]">
         <div className="max-w-7xl mx-auto p-4 sm:p-8">
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
               <Loader className="w-12 h-12 text-[#58a6ff]  mx-auto mb-4" />
-              <p className="text-[#666666]">Loading members...</p>
+              <p className="text-[var(--text-secondary)]">Loading members...</p>
             </div>
           </div>
         </div>
@@ -295,21 +295,21 @@ const CommunityMembersDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)]">
       <div className="max-w-7xl mx-auto p-4 sm:p-8">
         {/* Header */}
         <div className="mb-8">
           <button
             onClick={() => navigate(`/community/${communityName}`)}
-            className="flex items-center gap-2 text-[#666666] hover:text-white mb-4 transition-colors"
+            className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] mb-4 transition-colors"
           >
             <ArrowLeft size={20} />
             Back to Community
           </button>
           <div className="flex items-center justify-between flex-wrap gap-4">
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Community Members</h1>
-              <p className="text-[#666666]">
+              <h1 className="text-3xl sm:text-4xl font-bold text-[var(--text-primary)] mb-2">Community Members</h1>
+              <p className="text-[var(--text-secondary)]">
                 {community?.displayName} • {members.length} members
               </p>
             </div>
@@ -347,22 +347,22 @@ const CommunityMembersDetailPage: React.FC = () => {
         )}
 
         {/* Filters and Search */}
-        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-4 sm:p-5 mb-6 shadow-sm">
           <div className="flex flex-col sm:flex-row gap-3">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" />
               <input
                 type="text"
                 placeholder="Search members..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
+                className="w-full pl-12 pr-10 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] text-base placeholder-[var(--text-secondary)] outline-none focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#666666] hover:text-white"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 >
                   <X size={18} />
                 </button>
@@ -374,7 +374,7 @@ const CommunityMembersDetailPage: React.FC = () => {
               <select
                 value={filterRole}
                 onChange={(e) => setFilterRole(e.target.value as any)}
-                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
               >
                 {roleFilters.map((filter) => (
                   <option key={filter.value} value={filter.value}>
@@ -384,7 +384,7 @@ const CommunityMembersDetailPage: React.FC = () => {
               </select>
               <ChevronDown
                 size={16}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none"
               />
             </div>
 
@@ -393,7 +393,7 @@ const CommunityMembersDetailPage: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value as any)}
-                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
               >
                 {sortOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -403,7 +403,7 @@ const CommunityMembersDetailPage: React.FC = () => {
               </select>
               <ChevronDown
                 size={16}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none"
               />
             </div>
           </div>
@@ -411,17 +411,17 @@ const CommunityMembersDetailPage: React.FC = () => {
 
         {/* Members List */}
         {filteredAndSortedMembers.length === 0 ? (
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <Users size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
-            <h3 className="text-xl font-semibold text-white mb-2">No members found</h3>
-            <p className="text-[#666666]">Try adjusting your filters or search term</p>
+          <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-12 text-center shadow-sm">
+            <Users size={56} className="mx-auto mb-4 text-[var(--text-secondary)] opacity-50" />
+            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No members found</h3>
+            <p className="text-[var(--text-secondary)]">Try adjusting your filters or search term</p>
           </div>
         ) : (
           <div className="grid gap-4">
             {filteredAndSortedMembers.map((member) => (
               <div
                 key={member.id}
-                className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:border-[#58a6ff]/30 transition-all"
+                className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 shadow-sm hover:border-[#58a6ff]/30 transition-all"
               >
                 <div className="flex items-start gap-4">
                   {/* Avatar */}
@@ -430,7 +430,7 @@ const CommunityMembersDetailPage: React.FC = () => {
                       <img
                         src={member.avatar}
                         alt={member.username}
-                        className="w-16 h-16 rounded-xl object-cover border border-white/10"
+                        className="w-16 h-16 rounded-xl object-cover border border-[var(--border-subtle)]"
                       />
                     ) : (
                       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-xl font-bold shadow-lg">
@@ -445,11 +445,11 @@ const CommunityMembersDetailPage: React.FC = () => {
                       <div className="flex-1 min-w-0">
                         <Link
                           to={`/user/${member.username}`}
-                          className="text-lg font-bold text-white hover:text-[#58a6ff] transition-colors block truncate"
+                          className="text-lg font-bold text-[var(--text-primary)] hover:text-[#58a6ff] transition-colors block truncate"
                         >
                           {member.displayName || member.username}
                         </Link>
-                        <div className="flex items-center gap-2 text-sm text-[#666666]">
+                        <div className="flex items-center gap-2 text-sm text-[var(--text-secondary)]">
                           <span>@{member.username}</span>
                           {member.verified && (
                             <CheckCircle size={14} className="text-[#58a6ff]" />
@@ -464,7 +464,7 @@ const CommunityMembersDetailPage: React.FC = () => {
                           <>
                             <button
                               onClick={() => handleDirectMessage(member.id)}
-                              className="p-2 bg-[#0D0D0D] border border-white/10 rounded-lg text-[#666666] hover:text-white hover:border-[#58a6ff]/50 transition-all"
+                              className="p-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[#58a6ff]/50 transition-all"
                               title="Send message"
                             >
                               <Mail size={18} />
@@ -476,7 +476,7 @@ const CommunityMembersDetailPage: React.FC = () => {
                                   onClick={() =>
                                     setShowMemberMenu(showMemberMenu === member.id ? null : member.id)
                                   }
-                                  className="p-2 bg-[#0D0D0D] border border-white/10 rounded-lg text-[#666666] hover:text-white hover:border-[#58a6ff]/50 transition-all"
+                                  className="p-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[#58a6ff]/50 transition-all"
                                 >
                                   <MoreVertical size={18} />
                                 </button>
@@ -487,13 +487,13 @@ const CommunityMembersDetailPage: React.FC = () => {
                                       className="fixed inset-0 z-10"
                                       onClick={() => setShowMemberMenu(null)}
                                     />
-                                    <div className="absolute right-0 mt-2 w-48 bg-[#141414] border border-white/10 rounded-xl shadow-lg z-20 overflow-hidden">
+                                    <div className="absolute right-0 mt-2 w-48 bg-white border border-[var(--border-subtle)] rounded-xl shadow-lg z-20 overflow-hidden">
                                       {community.isOwner && (
                                         <>
                                           {member.role === 'moderator' ? (
                                             <button
                                               onClick={() => handleDemoteModerator(member.id)}
-                                              className="w-full px-4 py-3 text-left text-white hover:bg-white/5 transition-all flex items-center gap-2"
+                                              className="w-full px-4 py-3 text-left text-[var(--text-primary)] hover:bg-gray-50 transition-all flex items-center gap-2"
                                             >
                                               <UserX size={16} />
                                               Demote
@@ -501,7 +501,7 @@ const CommunityMembersDetailPage: React.FC = () => {
                                           ) : (
                                             <button
                                               onClick={() => handlePromoteToModerator(member.id)}
-                                              className="w-full px-4 py-3 text-left text-white hover:bg-white/5 transition-all flex items-center gap-2"
+                                              className="w-full px-4 py-3 text-left text-[var(--text-primary)] hover:bg-gray-50 transition-all flex items-center gap-2"
                                             >
                                               <UserPlus size={16} />
                                               Promote to Mod
@@ -516,7 +516,7 @@ const CommunityMembersDetailPage: React.FC = () => {
                                             member.displayName || member.username
                                           )
                                         }
-                                        className="w-full px-4 py-3 text-left text-orange-500 hover:bg-white/5 transition-all flex items-center gap-2"
+                                        className="w-full px-4 py-3 text-left text-orange-500 hover:bg-gray-50 transition-all flex items-center gap-2"
                                       >
                                         <UserX size={16} />
                                         Kick
@@ -525,7 +525,7 @@ const CommunityMembersDetailPage: React.FC = () => {
                                         onClick={() =>
                                           handleBanMember(member.id, member.displayName || member.username)
                                         }
-                                        className="w-full px-4 py-3 text-left text-red-500 hover:bg-white/5 transition-all flex items-center gap-2"
+                                        className="w-full px-4 py-3 text-left text-red-500 hover:bg-gray-50 transition-all flex items-center gap-2"
                                       >
                                         <Ban size={16} />
                                         Ban
@@ -543,40 +543,40 @@ const CommunityMembersDetailPage: React.FC = () => {
                     {/* Stats */}
                     <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-4">
                       <div className="text-sm">
-                        <div className="flex items-center gap-1.5 text-[#666666] mb-1">
+                        <div className="flex items-center gap-1.5 text-[var(--text-secondary)] mb-1">
                           <Calendar size={14} />
                           <span>Joined</span>
                         </div>
-                        <div className="text-white font-semibold">{formatDate(member.joinedAt)}</div>
+                        <div className="text-[var(--text-primary)] font-semibold">{formatDate(member.joinedAt)}</div>
                       </div>
 
                       {member.lastActive && (
                         <div className="text-sm">
-                          <div className="flex items-center gap-1.5 text-[#666666] mb-1">
+                          <div className="flex items-center gap-1.5 text-[var(--text-secondary)] mb-1">
                             <Activity size={14} />
                             <span>Last Active</span>
                           </div>
-                          <div className="text-white font-semibold">{formatTimeAgo(member.lastActive)}</div>
+                          <div className="text-[var(--text-primary)] font-semibold">{formatTimeAgo(member.lastActive)}</div>
                         </div>
                       )}
 
                       {member.postCount !== undefined && (
                         <div className="text-sm">
-                          <div className="flex items-center gap-1.5 text-[#666666] mb-1">
+                          <div className="flex items-center gap-1.5 text-[var(--text-secondary)] mb-1">
                             <MessageSquare size={14} />
                             <span>Posts</span>
                           </div>
-                          <div className="text-white font-semibold">{member.postCount}</div>
+                          <div className="text-[var(--text-primary)] font-semibold">{member.postCount}</div>
                         </div>
                       )}
 
                       {member.reputation !== undefined && (
                         <div className="text-sm">
-                          <div className="flex items-center gap-1.5 text-[#666666] mb-1">
+                          <div className="flex items-center gap-1.5 text-[var(--text-secondary)] mb-1">
                             <ShieldCheck size={14} />
                             <span>Reputation</span>
                           </div>
-                          <div className="text-white font-semibold">{member.reputation}</div>
+                          <div className="text-[var(--text-primary)] font-semibold">{member.reputation}</div>
                         </div>
                       )}
                     </div>

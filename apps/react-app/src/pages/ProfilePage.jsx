@@ -371,17 +371,17 @@ function ProfilePage() {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+        <div className="bg-white rounded-2xl shadow-lg border" style={{ borderColor: 'var(--border-subtle)' }} className="max-w-md mx-4">
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
               <X className="w-8 h-8 text-red-400" />
             </div>
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Error Loading Profile</h2>
-            <p className="text-[#666666] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+            <p style={{ color: 'var(--text-secondary)' }} className="mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <div className="flex gap-3 justify-center">
               <Button variant="primary" onClick={loadProfileData} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Try Again</Button>
               <Link to="/">
-                <Button variant="secondary" className="bg-[#141414]/60 border border-white/10 text-[#A0A0A0]">Go Home</Button>
+                <Button variant="secondary" className="bg-white border" style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}>Go Home</Button>
               </Link>
             </div>
           </div>
@@ -392,14 +392,14 @@ function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
-        <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 max-w-md mx-4">
+      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
+        <div className="bg-white rounded-2xl shadow-lg border max-w-md mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
           <div className="p-8 text-center">
-            <div className="p-4 rounded-full bg-[#666666]/10 border border-[#666666]/20 inline-flex mb-6">
-              <User className="w-8 h-8 text-[#666666]" />
+            <div className="p-4 rounded-full border inline-flex mb-6" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
+              <User className="w-8 h-8" style={{ color: 'var(--text-secondary)' }} />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-3">User not found</h2>
-            <p className="text-[#666666] mb-6">The user you're looking for doesn't exist or has been deleted.</p>
+            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>User not found</h2>
+            <p style={{ color: 'var(--text-secondary)' }} className="mb-6">The user you're looking for doesn't exist or has been deleted.</p>
             <Link to="/">
               <Button variant="primary" className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Go Home</Button>
             </Link>
@@ -431,7 +431,7 @@ function ProfilePage() {
         {/* Profile Content */}
         <div className="container mx-auto px-4 -mt-24 relative z-10">
           <div className="max-w-6xl mx-auto">
-            <div className="bg-[#141414]/60 backdrop-blur-xl rounded-2xl border border-white/10 p-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <div className="bg-white rounded-2xl border p-6 shadow-lg" style={{ borderColor: 'var(--border-subtle)' }}>
               <div className="flex flex-col md:flex-row gap-6 items-start">
                 {/* Avatar */}
                 <div className="relative group">
@@ -475,13 +475,13 @@ function ProfilePage() {
                           )
                         })}
                       </h1>
-                      <p className="text-[#666666] text-sm mb-3">@{user.username}</p>
+                      <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>@{user.username}</p>
                       {user.bio && (
-                        <p className="text-[#A0A0A0] mb-3 max-w-2xl">{user.bio}</p>
+                        <p className="mb-3 max-w-2xl" style={{ color: 'var(--text-secondary)' }}>{user.bio}</p>
                       )}
 
                       {/* User Meta Info */}
-                      <div className="flex flex-wrap gap-4 text-sm text-[#666666]">
+                      <div className="flex flex-wrap gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                         {user.location && (
                           <div className="flex items-center gap-1">
                             <MapPin className="w-4 h-4" />
@@ -511,7 +511,8 @@ function ProfilePage() {
                       {isOwnProfile ? (
                         <button
                           onClick={handleShowEditModal}
-                          className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#A0A0A0] font-medium transition-all flex items-center gap-2"
+                          className="touch-target px-4 py-2 bg-white hover:bg-white border rounded-xl font-medium transition-all flex items-center gap-2"
+                          style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                           aria-label="Edit profile"
                         >
                           <Edit3 className="w-4 h-4" />
@@ -523,9 +524,10 @@ function ProfilePage() {
                             onClick={handleFollow}
                             className={`touch-target px-4 py-2 rounded-xl font-medium transition-all flex items-center gap-2 ${
                               isFollowing
-                                ? 'bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 text-[#A0A0A0]'
-                                : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] text-white'
+                                ? 'bg-white hover:bg-white border'
+                                : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg text-white'
                             }`}
+                            style={isFollowing ? { borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' } : {}}
                             aria-label={isFollowing ? 'Unfollow user' : 'Follow user'}
                           >
                             {isFollowing ? (
@@ -542,7 +544,8 @@ function ProfilePage() {
                           </button>
                           <button
                             onClick={handleShowMessageModal}
-                            className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#A0A0A0] font-medium transition-all flex items-center gap-2"
+                            className="touch-target px-4 py-2 bg-white hover:bg-white border rounded-xl font-medium transition-all flex items-center gap-2"
+                            style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                             aria-label="Send message"
                           >
                             <Mail className="w-4 h-4" />
@@ -551,7 +554,8 @@ function ProfilePage() {
                       )}
                       <button
                         onClick={handleShare}
-                        className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-xl text-[#A0A0A0] font-medium transition-all flex items-center gap-2"
+                        className="touch-target px-4 py-2 bg-white hover:bg-white border rounded-xl font-medium transition-all flex items-center gap-2"
+                        style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                         aria-label="Share profile"
                       >
                         <Share2 className="w-4 h-4" />
@@ -560,7 +564,7 @@ function ProfilePage() {
                   </div>
 
                   {/* Stats */}
-                  <div className="flex flex-wrap gap-6 pt-4 border-t border-white/10">
+                  <div className="flex flex-wrap gap-6 pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
                     {userStatsData.map((stat, idx) => {
                       const StatIcon = stat.icon
                       return (
@@ -569,9 +573,9 @@ function ProfilePage() {
                             <div className={`p-1.5 rounded-lg bg-gradient-to-r ${stat.color} bg-opacity-20`}>
                               <StatIcon className="w-4 h-4 text-[#58a6ff]" />
                             </div>
-                            <span className="text-xl font-bold text-white">{stat.value}</span>
+                            <span className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{stat.value}</span>
                           </div>
-                          <span className="text-sm text-[#666666]">{stat.label}</span>
+                          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{stat.label}</span>
                         </div>
                       )
                     })}
@@ -587,7 +591,7 @@ function ProfilePage() {
       <div className="container mx-auto px-4 py-6">
         <div className="max-w-6xl mx-auto">
           {/* Tabs */}
-          <div className="border-b border-white/10 mb-6">
+          <div className="border-b mb-6" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="flex gap-1 overflow-x-auto">
               {tabs.map((tab) => {
                 const TabIcon = tab.icon
@@ -598,15 +602,16 @@ function ProfilePage() {
                     className={`touch-target px-4 py-3 font-medium transition-all flex items-center gap-2 whitespace-nowrap border-b-2 ${
                       activeTab === tab.id
                         ? 'text-[#58a6ff] border-[#58a6ff]'
-                        : 'text-[#666666] border-transparent hover:text-[#A0A0A0] hover:border-white/10'
+                        : 'border-transparent'
                     }`}
+                    style={activeTab !== tab.id ? { color: 'var(--text-secondary)' } : {}}
                     aria-label={`View ${tab.label}`}
                     aria-current={activeTab === tab.id ? 'page' : undefined}
                   >
                     <TabIcon className="w-4 h-4" />
                     {tab.label}
                     {tab.count !== undefined && (
-                      <span className="text-xs px-2 py-0.5 bg-[#141414]/60 rounded-full border border-white/10">
+                      <span className="text-xs px-2 py-0.5 bg-white rounded-full border" style={{ borderColor: 'var(--border-subtle)' }}>
                         {tab.count}
                       </span>
                     )}
@@ -628,19 +633,20 @@ function ProfilePage() {
                       <Link
                         key={post.id}
                         to={`/post/${post.id}`}
-                        className="block bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all group"
+                        className="block bg-white border rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 hover:shadow-md transition-all group"
+                        style={{ borderColor: 'var(--border-subtle)' }}
                       >
                         <div className="flex items-start gap-3 mb-3">
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-white group-hover:text-[#58a6ff] transition-colors mb-2">
+                            <h3 className="text-lg font-semibold group-hover:text-[#58a6ff] transition-colors mb-2" style={{ color: 'var(--text-primary)' }}>
                               {post.title}
                             </h3>
                             {post.content && (
-                              <p className="text-[#666666] line-clamp-2 mb-3">
+                              <p className="line-clamp-2 mb-3" style={{ color: 'var(--text-secondary)' }}>
                                 {post.content.substring(0, 200)}...
                               </p>
                             )}
-                            <div className="flex items-center gap-4 text-sm text-[#666666]">
+                            <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                               <div className="flex items-center gap-1">
                                 <ChevronUp className="w-4 h-4" />
                                 <span>{post.upvotes || 0}</span>
@@ -672,10 +678,11 @@ function ProfilePage() {
                     comments.map((comment) => (
                       <div
                         key={comment.id}
-                        className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
+                        className="bg-white border rounded-2xl shadow-sm p-6"
+                        style={{ borderColor: 'var(--border-subtle)' }}
                       >
-                        <p className="text-[#A0A0A0] mb-3">{comment.content}</p>
-                        <div className="flex items-center gap-4 text-sm text-[#666666]">
+                        <p className="mb-3" style={{ color: 'var(--text-secondary)' }}>{comment.content}</p>
+                        <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                           <div className="flex items-center gap-1">
                             <ChevronUp className="w-4 h-4" />
                             <span>{comment.upvotes || 0}</span>
@@ -688,10 +695,10 @@ function ProfilePage() {
                       </div>
                     ))
                   ) : (
-                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
-                      <MessageSquare className="w-12 h-12 text-[#666666] mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-2">No comments yet</h3>
-                      <p className="text-[#666666]">
+                    <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
+                      <MessageSquare className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-secondary)' }} />
+                      <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No comments yet</h3>
+                      <p style={{ color: 'var(--text-secondary)' }}>
                         {isOwnProfile ? "You haven't commented on any posts yet." : "This user hasn't commented on anything yet."}
                       </p>
                     </div>
@@ -707,17 +714,18 @@ function ProfilePage() {
                       <Link
                         key={post.id}
                         to={`/post/${post.id}`}
-                        className="block bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 hover:border-[#666666] transition-all"
+                        className="block bg-white border rounded-2xl shadow-sm p-6 transition-all"
+                        style={{ borderColor: 'var(--border-subtle)' }}
                       >
-                        <h3 className="text-lg font-semibold text-[#A0A0A0] mb-2">{post.title}</h3>
-                        <p className="text-[#666666] text-sm">Saved {formatTimeAgo(post.savedAt)}</p>
+                        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{post.title}</h3>
+                        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Saved {formatTimeAgo(post.savedAt)}</p>
                       </Link>
                     ))
                   ) : (
-                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-12 text-center">
-                      <Bookmark className="w-12 h-12 text-[#666666] mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-2">No saved posts</h3>
-                      <p className="text-[#666666]">
+                    <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
+                      <Bookmark className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-secondary)' }} />
+                      <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No saved posts</h3>
+                      <p style={{ color: 'var(--text-secondary)' }}>
                         {isOwnProfile ? "You haven't saved any posts yet." : "This user hasn't saved any posts."}
                       </p>
                     </div>
@@ -729,20 +737,20 @@ function ProfilePage() {
               {activeTab === 'about' && (
                 <div className="space-y-6">
                   {/* Bio Section */}
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                    <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
+                  <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                       <User className="w-5 h-5" />
                       About
                     </h3>
-                    <p className="text-[#A0A0A0]">
+                    <p style={{ color: 'var(--text-secondary)' }}>
                       {user?.bio || 'No bio provided.'}
                     </p>
                   </div>
 
                   {/* Social Links */}
                   {(user.socialLinks && Object.keys(user.socialLinks).length > 0) && (
-                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
+                    <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                         <LinkIcon className="w-5 h-5" />
                         Social Links
                       </h3>
@@ -765,14 +773,15 @@ function ProfilePage() {
 
                   {/* Wallet Address */}
                   {user.walletAddress && (
-                    <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                      <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
+                    <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                         <Wallet className="w-5 h-5" />
                         Wallet Address
                       </h3>
                       <button
                         onClick={copyWalletAddress}
-                        className="touch-target flex items-center gap-2 text-[#666666] hover:text-[#A0A0A0] transition-colors font-mono text-sm"
+                        className="touch-target flex items-center gap-2 transition-colors font-mono text-sm"
+                        style={{ color: 'var(--text-secondary)' }}
                       >
                         <span className="truncate">{user.walletAddress}</span>
                         {copiedAddress ? (
@@ -791,8 +800,8 @@ function ProfilePage() {
             <div className="space-y-6">
               {/* Badges/Achievements */}
               {user.badges && user.badges.length > 0 && (
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                  <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
+                <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                     <Trophy className="w-5 h-5 text-yellow-400" />
                     Achievements
                   </h3>
@@ -802,14 +811,15 @@ function ProfilePage() {
                       return (
                         <div
                           key={idx}
-                          className="flex items-center gap-3 p-3 bg-[#0D0D0D] rounded-xl border border-white/10 hover:border-[#58a6ff]/30 transition-all"
+                          className="flex items-center gap-3 p-3 border rounded-xl hover:border-[#58a6ff]/30 transition-all"
+                          style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
                         >
                           <div className="p-2 rounded-lg bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20">
                             <BadgeIcon className="w-5 h-5 text-[#58a6ff]" />
                           </div>
                           <div className="flex-1">
-                            <h4 className="font-semibold text-white text-sm">{badge.name}</h4>
-                            <p className="text-xs text-[#666666]">{badge.description}</p>
+                            <h4 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{badge.name}</h4>
+                            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{badge.description}</p>
                           </div>
                         </div>
                       )
@@ -819,31 +829,31 @@ function ProfilePage() {
               )}
 
               {/* Followers/Following */}
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
+              <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                   <Users className="w-5 h-5" />
                   Connections
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                    <div className="text-2xl font-bold text-white mb-1">
+                  <div className="text-center p-4 border rounded-xl" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
+                    <div className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
                       {user.followerCount?.toLocaleString() || 0}
                     </div>
-                    <div className="text-sm text-[#666666]">Followers</div>
+                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Followers</div>
                   </div>
-                  <div className="text-center p-4 bg-[#0D0D0D] border border-white/10 rounded-xl">
-                    <div className="text-2xl font-bold text-white mb-1">
+                  <div className="text-center p-4 border rounded-xl" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
+                    <div className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
                       {user.followingCount?.toLocaleString() || 0}
                     </div>
-                    <div className="text-sm text-[#666666]">Following</div>
+                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Following</div>
                   </div>
                 </div>
               </div>
 
               {/* NFTs Preview */}
               {displayNfts.length > 0 && (
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                  <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
+                <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                     <Image className="w-5 h-5" />
                     NFT Collection
                   </h3>
@@ -871,7 +881,8 @@ function ProfilePage() {
                   {displayNfts.length > 4 && (
                     <button
                       onClick={() => handleTabChange('nfts')}
-                      className="touch-target w-full mt-3 px-4 py-2 bg-[#141414]/60 hover:bg-[#141414] border border-white/10 rounded-xl text-[#A0A0A0] text-sm font-medium transition-all"
+                      className="touch-target w-full mt-3 px-4 py-2 bg-white border rounded-xl text-sm font-medium transition-all"
+                      style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                     >
                       View all {displayNfts.length} NFTs
                     </button>
@@ -880,27 +891,27 @@ function ProfilePage() {
               )}
 
               {/* Activity Stats */}
-              <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-                <h3 className="text-lg font-semibold text-[#A0A0A0] mb-4 flex items-center gap-2">
+              <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
+                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                   <Activity className="w-5 h-5" />
                   Activity
                 </h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#666666]">Total Karma</span>
-                    <span className="font-semibold text-[#A0A0A0]">{user.karma?.toLocaleString() || 0}</span>
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total Karma</span>
+                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.karma?.toLocaleString() || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#666666]">Posts Created</span>
-                    <span className="font-semibold text-[#A0A0A0]">{user.stats?.totalPosts || 0}</span>
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Posts Created</span>
+                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.stats?.totalPosts || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#666666]">Comments Made</span>
-                    <span className="font-semibold text-[#A0A0A0]">{user.stats?.totalComments || 0}</span>
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Comments Made</span>
+                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.stats?.totalComments || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-[#666666]">Awards Received</span>
-                    <span className="font-semibold text-[#A0A0A0]">{user.stats?.totalAwards || 0}</span>
+                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Awards Received</span>
+                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.stats?.totalAwards || 0}</span>
                   </div>
                 </div>
               </div>
@@ -916,21 +927,22 @@ function ProfilePage() {
           onClose={handleCloseEditModal}
           title="Edit Profile"
         >
-          <div className="bg-[#141414] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 max-w-2xl w-full mx-4">
+          <div className="bg-white rounded-2xl shadow-lg border p-6 max-w-2xl w-full mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-[#A0A0A0]">Edit Profile</h2>
+              <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Edit Profile</h2>
               <button
                 onClick={handleCloseEditModal}
-                className="touch-target p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
+                className="touch-target p-2 rounded-lg transition-colors"
+                style={{ color: 'var(--text-secondary)' }}
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5 text-[#666666]" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                   Display Name
                 </label>
                 <Input
@@ -938,12 +950,13 @@ function ProfilePage() {
                   value={editFormData.displayName}
                   onChange={(e) => handleEditFormChange('displayName', e.target.value)}
                   placeholder="Your display name"
-                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                   Bio
                 </label>
                 <textarea
@@ -951,16 +964,17 @@ function ProfilePage() {
                   onChange={(e) => handleEditFormChange('bio', e.target.value)}
                   placeholder="Tell us about yourself"
                   rows={4}
-                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
+                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
+                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                   maxLength={500}
                 />
-                <p className="text-xs text-[#666666] mt-1">
+                <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
                   {editFormData.bio?.length || 0}/500 characters
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                   Location
                 </label>
                 <Input
@@ -968,12 +982,13 @@ function ProfilePage() {
                   value={editFormData.location}
                   onChange={(e) => handleEditFormChange('location', e.target.value)}
                   placeholder="Where are you from?"
-                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                   Website
                 </label>
                 <Input
@@ -981,7 +996,8 @@ function ProfilePage() {
                   value={editFormData.website}
                   onChange={(e) => handleEditFormChange('website', e.target.value)}
                   placeholder="https://example.com"
-                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
+                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 />
               </div>
 
@@ -1004,14 +1020,15 @@ function ProfilePage() {
                 <button
                   onClick={handleSave}
                   disabled={saveLoading}
-                  className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] disabled:opacity-50 text-white rounded-xl font-medium transition-all"
+                  className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg disabled:opacity-50 text-white rounded-xl font-medium transition-all"
                 >
                   Save Changes
                 </button>
                 <button
                   onClick={handleCloseEditModal}
                   disabled={saveLoading}
-                  className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414] border border-white/10 text-[#A0A0A0] rounded-xl font-medium transition-all"
+                  className="touch-target px-4 py-2 bg-white border rounded-xl font-medium transition-all"
+                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                 >
                   Cancel
                 </button>
@@ -1028,37 +1045,40 @@ function ProfilePage() {
           onClose={() => setShowMessageModal(false)}
           title="Send Message"
         >
-          <div className="bg-[#141414] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 p-6 max-w-2xl w-full mx-4">
+          <div className="bg-white rounded-2xl shadow-lg border p-6 max-w-2xl w-full mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-[#A0A0A0]">Send Message to @{user.username}</h2>
+              <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Send Message to @{user.username}</h2>
               <button
                 onClick={() => setShowMessageModal(false)}
-                className="touch-target p-2 hover:bg-[#1A1A1A] rounded-lg transition-colors"
+                className="touch-target p-2 rounded-lg transition-colors"
+                style={{ color: 'var(--text-secondary)' }}
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5 text-[#666666]" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#A0A0A0] mb-2">
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
                   Message
                 </label>
                 <textarea
                   placeholder="Type your message..."
                   rows={6}
-                  className="w-full bg-[#0D0D0D] border border-white/10 text-[#A0A0A0] rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
+                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
+                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 />
               </div>
 
               <div className="flex gap-3">
-                <button className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] text-white rounded-xl font-medium transition-all">
+                <button className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg text-white rounded-xl font-medium transition-all">
                   Send Message
                 </button>
                 <button
                   onClick={() => setShowMessageModal(false)}
-                  className="touch-target px-4 py-2 bg-[#141414]/60 hover:bg-[#141414] border border-white/10 text-[#A0A0A0] rounded-xl font-medium transition-all"
+                  className="touch-target px-4 py-2 bg-white border rounded-xl font-medium transition-all"
+                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                 >
                   Cancel
                 </button>

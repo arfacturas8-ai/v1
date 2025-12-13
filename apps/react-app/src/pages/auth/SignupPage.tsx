@@ -154,22 +154,22 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10" />
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
+      <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
         <CardContent className="p-8">
           {/* Logo and header */}
           <div className="text-center mb-8">
             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
               <Sparkles className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold mb-2 text-white">Create your account</h1>
-            <p className="text-gray-400">Join the CRYB community</p>
+            <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Create your account</h1>
+            <p className="text-[var(--text-secondary)]">Join the CRYB community</p>
           </div>
 
           {/* Invitation banner */}
@@ -180,10 +180,10 @@ export default function SignupPage() {
                   <Gift className="w-5 h-5 text-white" />
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-white mb-1">
+                  <p className="text-sm font-semibold text-[var(--text-primary)] mb-1">
                     You've been invited! 🎉
                   </p>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-sm text-[var(--text-secondary)]">
                     <strong className="text-[#58a6ff]">{inviterName}</strong> invited you to join CRYB.
                     Create your account to connect with them and explore the platform.
                   </p>
@@ -201,14 +201,14 @@ export default function SignupPage() {
           )}
 
           {/* Tab selector */}
-          <div className="flex gap-2 p-1 mb-6 bg-[#0D0D0D] rounded-lg">
+          <div className="flex gap-2 p-1 mb-6 bg-[var(--bg-secondary)] rounded-lg">
             <button
               onClick={() => setActiveTab('wallet')}
               className={cn(
                 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all',
                 activeTab === 'wallet'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               )}
             >
               Wallet
@@ -219,7 +219,7 @@ export default function SignupPage() {
                 'flex-1 py-2 px-4 rounded-md text-sm font-medium transition-all',
                 activeTab === 'email'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'text-gray-400 hover:text-white'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               )}
             >
               Email
@@ -242,7 +242,7 @@ export default function SignupPage() {
                     onClick={() => handleWalletConnect(wallet.id)}
                     disabled={!!walletConnecting}
                     loading={isConnecting}
-                    className="bg-[#0D0D0D] border-white/20 text-white hover:bg-white/5 justify-start"
+                    className="bg-[var(--bg-secondary)] border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50 justify-start"
                   >
                     <WalletIcon className="w-5 h-5 mr-3" style={{ color: wallet.color }} />
                     {isConnecting ? 'Connecting...' : `Connect with ${wallet.name}`}
@@ -371,10 +371,10 @@ export default function SignupPage() {
           <div className="space-y-4 mb-6">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-white/10"></div>
+                <div className="w-full border-t border-[var(--border-subtle)]"></div>
               </div>
               <div className="relative flex justify-center text-xs">
-                <span className="px-2 bg-[#141414] text-gray-400">Or continue with</span>
+                <span className="px-2 bg-white text-[var(--text-secondary)]">Or continue with</span>
               </div>
             </div>
 
@@ -388,7 +388,7 @@ export default function SignupPage() {
                     size="lg"
                     onClick={() => handleSocialSignup(provider.id)}
                     disabled={loading}
-                    className="bg-[#0D0D0D] border-white/20 text-white hover:bg-white/5"
+                    className="bg-[var(--bg-secondary)] border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50"
                   >
                     <ProviderIcon className="w-5 h-5" />
                   </Button>
@@ -407,13 +407,13 @@ export default function SignupPage() {
                 className="flex-shrink-0 cursor-pointer"
                 style={{ width: '16px !important', height: '16px', minWidth: '5px', minHeight: '16px' }}
               />
-              <span className="text-sm text-gray-400 group-hover:text-gray-300 transition-colors">
+              <span className="text-sm text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
                 I agree to the{' '}
-                <Link to="/terms" className="text-blue-400 hover:text-blue-300">
+                <Link to="/terms" className="text-blue-600 hover:text-blue-700">
                   Terms of Service
                 </Link>{' '}
                 and{' '}
-                <Link to="/privacy" className="text-blue-400 hover:text-blue-300">
+                <Link to="/privacy" className="text-blue-600 hover:text-blue-700">
                   Privacy Policy
                 </Link>
               </span>
@@ -421,16 +421,16 @@ export default function SignupPage() {
           </div>
 
           {/* Sign in link */}
-          <div className="text-center text-sm text-gray-400">
+          <div className="text-center text-sm text-[var(--text-secondary)]">
             Already have an account?{' '}
-            <Link to="/auth/login" className="text-blue-400 hover:text-blue-300 font-medium transition-colors">
+            <Link to="/auth/login" className="text-blue-600 hover:text-blue-700 font-medium transition-colors">
               Sign in
             </Link>
           </div>
 
           {/* Back to home */}
           <div className="mt-6 text-center">
-            <Link to="/" className="text-sm text-gray-500 hover:text-gray-400 transition-colors">
+            <Link to="/" className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors">
               ← Back to home
             </Link>
           </div>

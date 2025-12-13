@@ -88,19 +88,19 @@ export default function VerifyEmailPage() {
   // Verifying state
   if (verifying) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
-        <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
+        <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-blue-500/20 flex items-center justify-center">
               <RefreshCw className="w-8 h-8 text-blue-500 " />
             </div>
-            <h1 className="text-2xl font-bold mb-2 text-white">Verifying your email</h1>
-            <p className="text-gray-400">Please wait while we verify your email address...</p>
+            <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Verifying your email</h1>
+            <p className="text-[var(--text-secondary)]">Please wait while we verify your email address...</p>
           </CardContent>
         </Card>
       </div>
@@ -110,19 +110,19 @@ export default function VerifyEmailPage() {
   // Success state
   if (verified) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
-        <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
+        <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
-            <h1 className="text-2xl font-bold mb-2 text-white">Email verified!</h1>
-            <p className="text-gray-400 mb-6">
+            <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Email verified!</h1>
+            <p className="text-[var(--text-secondary)] mb-6">
               Your email has been successfully verified. Redirecting to onboarding...
             </p>
           </CardContent>
@@ -133,25 +133,25 @@ export default function VerifyEmailPage() {
 
   // Check email state
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10" />
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
+      <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
         <CardContent className="p-8">
           <div className="text-center mb-8">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
               <Mail className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl font-bold mb-2 text-white">Check your email</h1>
+            <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Check your email</h1>
             {email && (
-              <p className="text-gray-400 mb-4">
-                We've sent a verification link to <span className="text-white font-medium">{email}</span>
+              <p className="text-[var(--text-secondary)] mb-4">
+                We've sent a verification link to <span className="text-[var(--text-primary)] font-medium">{email}</span>
               </p>
             )}
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-[var(--text-secondary)]">
               Click the link in the email to verify your account. The link will expire in 24 hours.
             </p>
           </div>
@@ -178,28 +178,28 @@ export default function VerifyEmailPage() {
               onClick={handleResend}
               disabled={resending || resent}
               loading={resending}
-              className="bg-[#0D0D0D] border-white/20 text-white hover:bg-white/5"
+              className="bg-[var(--bg-secondary)] border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50"
             >
               {resent ? `Resend in ${countdown}s` : 'Resend verification email'}
             </Button>
 
-            <p className="text-center text-sm text-gray-500">
+            <p className="text-center text-sm text-[var(--text-secondary)]">
               Didn't receive the email? Check your spam folder or{' '}
               <button
                 onClick={handleResend}
                 disabled={resending || resent}
-                className="text-blue-400 hover:text-blue-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-blue-600 hover:text-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 try again
               </button>
             </p>
 
-            <div className="pt-4 border-t border-white/10">
-              <p className="text-center text-sm text-gray-400">
+            <div className="pt-4 border-t border-[var(--border-subtle)]">
+              <p className="text-center text-sm text-[var(--text-secondary)]">
                 Wrong email?{' '}
                 <button
                   onClick={() => navigate('/auth/signup')}
-                  className="text-blue-400 hover:text-blue-300 transition-colors"
+                  className="text-blue-600 hover:text-blue-700 transition-colors"
                 >
                   Sign up again
                 </button>

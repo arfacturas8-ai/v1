@@ -35,23 +35,23 @@ export default function ForgotPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+      <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
         {/* Background gradient blobs */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
-        <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
+        <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8 text-green-500" />
             </div>
-            <h1 className="text-2xl font-bold mb-2 text-white">Check your email</h1>
-            <p className="text-gray-400 mb-6">
-              We've sent a password reset link to <span className="text-white font-medium">{email}</span>
+            <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Check your email</h1>
+            <p className="text-[var(--text-secondary)] mb-6">
+              We've sent a password reset link to <span className="text-[var(--text-primary)] font-medium">{email}</span>
             </p>
-            <p className="text-sm text-gray-500 mb-6">
+            <p className="text-sm text-[var(--text-secondary)] mb-6">
               Click the link in the email to reset your password. The link will expire in 1 hour.
             </p>
             <div className="space-y-3">
@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
                 Resend link
               </Button>
               <Link to="/auth/login">
-                <Button variant="outline" fullWidth className="bg-transparent border-white/20 text-white hover:bg-white/5">
+                <Button variant="outline" fullWidth className="bg-transparent border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to login
                 </Button>
@@ -77,22 +77,22 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10" />
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl border-white/10">
+      <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
         <CardContent className="p-8">
           {/* Logo and header */}
           <div className="text-center mb-8">
             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
               <Sparkles className="w-6 h-6 text-white" />
             </div>
-            <h1 className="text-2xl font-bold mb-2 text-white">Forgot your password?</h1>
-            <p className="text-gray-400">No worries, we'll send you reset instructions</p>
+            <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Forgot your password?</h1>
+            <p className="text-[var(--text-secondary)]">No worries, we'll send you reset instructions</p>
           </div>
 
           {/* Error message */}
@@ -127,7 +127,7 @@ export default function ForgotPasswordPage() {
             </Button>
 
             <Link to="/auth/login">
-              <Button variant="ghost" fullWidth className="text-gray-400 hover:text-white hover:bg-white/5">
+              <Button variant="ghost" fullWidth className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-gray-50">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to login
               </Button>

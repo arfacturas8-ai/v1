@@ -257,12 +257,12 @@ const CommunitiesListPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+      <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)]">
         <div className="max-w-7xl mx-auto p-4 sm:p-8">
           <div className="flex items-center justify-center min-h-[60vh]">
             <div className="text-center">
               <Loader className="w-12 h-12 text-[#58a6ff]  mx-auto mb-4" />
-              <p className="text-[#666666]">Loading communities...</p>
+              <p className="text-[var(--text-secondary)]">Loading communities...</p>
             </div>
           </div>
         </div>
@@ -271,34 +271,34 @@ const CommunitiesListPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-secondary)]">
       <div className="max-w-7xl mx-auto p-4 sm:p-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
             Discover Communities
           </h1>
-          <p className="text-[#666666] text-base">
+          <p className="text-[var(--text-secondary)] text-base">
             Explore and join communities that match your interests
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 sm:p-5 mb-6 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-4 sm:p-5 mb-6 shadow-sm">
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1 relative">
-              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#666666]" />
+              <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" />
               <input
                 type="text"
                 placeholder="Search communities..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base placeholder-[#666666] outline-none focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
+                className="w-full pl-12 pr-10 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] text-base placeholder-[var(--text-secondary)] outline-none focus:border-[#58a6ff]/50 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.1)] transition-all"
               />
               {searchTerm && (
                 <button
                   onClick={() => setSearchTerm('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#666666] hover:text-white"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 >
                   <X size={18} />
                 </button>
@@ -309,7 +309,7 @@ const CommunitiesListPage: React.FC = () => {
               <select
                 value={filterCategory}
                 onChange={(e) => setFilterCategory(e.target.value)}
-                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
               >
                 {categories.map((cat) => (
                   <option key={cat} value={cat}>
@@ -317,14 +317,14 @@ const CommunitiesListPage: React.FC = () => {
                   </option>
                 ))}
               </select>
-              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none" />
+              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none" />
             </div>
 
             <div className="relative min-w-full sm:min-w-[160px]">
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 pr-10 py-3 bg-[#0D0D0D]/80 border border-white/10 rounded-xl text-white text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
+                className="w-full px-4 pr-10 py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] text-base appearance-none cursor-pointer outline-none focus:border-[#58a6ff]/50 transition-all"
               >
                 {sortOptions.map((opt) => (
                   <option key={opt.value} value={opt.value}>
@@ -332,7 +332,7 @@ const CommunitiesListPage: React.FC = () => {
                   </option>
                 ))}
               </select>
-              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] pointer-events-none" />
+              <ChevronDown size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)] pointer-events-none" />
             </div>
           </div>
         </div>
@@ -350,7 +350,7 @@ const CommunitiesListPage: React.FC = () => {
                   className={`flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
                     isActive
                       ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                      : 'bg-[#141414]/60 border border-white/10 text-[#666666] hover:bg-white/5 hover:text-white'
+                      : 'bg-white border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-gray-50 hover:text-[var(--text-primary)]'
                   }`}
                 >
                   <Icon size={16} />
@@ -361,11 +361,11 @@ const CommunitiesListPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-2">
-            <div className="flex bg-[#141414]/60 border border-white/10 rounded-xl p-1">
+            <div className="flex bg-white border border-[var(--border-subtle)] rounded-xl p-1">
               <button
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-all ${
-                  viewMode === 'grid' ? 'bg-[#58a6ff] text-white' : 'text-[#666666] hover:text-white'
+                  viewMode === 'grid' ? 'bg-[#58a6ff] text-white' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 <Grid3x3 size={18} />
@@ -373,7 +373,7 @@ const CommunitiesListPage: React.FC = () => {
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-all ${
-                  viewMode === 'list' ? 'bg-[#58a6ff] text-white' : 'text-[#666666] hover:text-white'
+                  viewMode === 'list' ? 'bg-[#58a6ff] text-white' : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
                 }`}
               >
                 <List size={18} />
@@ -401,10 +401,10 @@ const CommunitiesListPage: React.FC = () => {
 
         {/* Communities Grid/List */}
         {filteredCommunities.length === 0 ? (
-          <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 sm:p-16 text-center shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <Hash size={56} className="mx-auto mb-4 text-[#666666] opacity-50" />
-            <h3 className="text-xl font-semibold text-white mb-2">No communities found</h3>
-            <p className="text-[#666666] mb-6">
+          <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-12 sm:p-16 text-center shadow-sm">
+            <Hash size={56} className="mx-auto mb-4 text-[var(--text-secondary)] opacity-50" />
+            <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-2">No communities found</h3>
+            <p className="text-[var(--text-secondary)] mb-6">
               {searchTerm ? 'Try a different search term' : 'Be the first to create a community!'}
             </p>
             {user && (
@@ -428,7 +428,7 @@ const CommunitiesListPage: React.FC = () => {
               <div
                 key={community.id || community.name}
                 onClick={() => navigate(`/community/${community.name || community.id}`)}
-                className={`bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] group ${
+                className={`bg-white border border-[var(--border-subtle)] rounded-2xl shadow-sm cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-md group ${
                   viewMode === 'list' ? 'flex items-center gap-4 p-4' : 'p-5'
                 }`}
               >
@@ -439,7 +439,7 @@ const CommunitiesListPage: React.FC = () => {
                         <img
                           src={community.icon}
                           alt=""
-                          className="w-14 h-14 rounded-xl object-cover border border-white/10"
+                          className="w-14 h-14 rounded-xl object-cover border border-[var(--border-subtle)]"
                         />
                       ) : (
                         <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-xl font-bold shadow-lg">
@@ -447,7 +447,7 @@ const CommunitiesListPage: React.FC = () => {
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
-                        <div className="text-lg font-bold text-white mb-1 truncate group-hover:text-[#58a6ff] transition-colors">
+                        <div className="text-lg font-bold text-[var(--text-primary)] mb-1 truncate group-hover:text-[#58a6ff] transition-colors">
                           {community.displayName || community.name}
                         </div>
                         <div className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#58a6ff]/15 rounded-lg text-xs text-[#58a6ff] font-medium">
@@ -471,11 +471,11 @@ const CommunitiesListPage: React.FC = () => {
                       </div>
                     </div>
 
-                    <p className="text-[#666666] text-sm leading-relaxed mb-4 line-clamp-2">
+                    <p className="text-[var(--text-secondary)] text-sm leading-relaxed mb-4 line-clamp-2">
                       {community.description || 'No description available'}
                     </p>
 
-                    <div className="flex gap-4 mb-4 text-[#666666] text-sm">
+                    <div className="flex gap-4 mb-4 text-[var(--text-secondary)] text-sm">
                       <div className="flex items-center gap-1.5">
                         <Users size={14} />
                         {formatNumber(community.members || community.memberCount || 0)} members
@@ -497,7 +497,7 @@ const CommunitiesListPage: React.FC = () => {
                       }}
                       className={`w-full py-3 rounded-xl text-sm font-semibold transition-all ${
                         community.isJoined || community.isMember
-                          ? 'bg-white/10 border border-white/20 text-[#A0A0A0] hover:bg-white/15'
+                          ? 'bg-gray-100 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-gray-200'
                           : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_0_20px_rgba(88,166,255,0.4)]'
                       }`}
                     >
@@ -510,7 +510,7 @@ const CommunitiesListPage: React.FC = () => {
                       <img
                         src={community.icon}
                         alt=""
-                        className="w-16 h-16 rounded-xl object-cover border border-white/10 flex-shrink-0"
+                        className="w-16 h-16 rounded-xl object-cover border border-[var(--border-subtle)] flex-shrink-0"
                       />
                     ) : (
                       <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-xl font-bold shadow-lg flex-shrink-0">
@@ -520,10 +520,10 @@ const CommunitiesListPage: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-4 mb-2">
                         <div>
-                          <div className="text-lg font-bold text-white group-hover:text-[#58a6ff] transition-colors">
+                          <div className="text-lg font-bold text-[var(--text-primary)] group-hover:text-[#58a6ff] transition-colors">
                             {community.displayName || community.name}
                           </div>
-                          <p className="text-[#666666] text-sm line-clamp-1">
+                          <p className="text-[var(--text-secondary)] text-sm line-clamp-1">
                             {community.description || 'No description available'}
                           </p>
                         </div>
@@ -538,14 +538,14 @@ const CommunitiesListPage: React.FC = () => {
                           }}
                           className={`px-6 py-2 rounded-xl text-sm font-semibold whitespace-nowrap transition-all ${
                             community.isJoined || community.isMember
-                              ? 'bg-white/10 border border-white/20 text-[#A0A0A0] hover:bg-white/15'
+                              ? 'bg-gray-100 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-gray-200'
                               : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_0_20px_rgba(88,166,255,0.4)]'
                           }`}
                         >
                           {community.isJoined || community.isMember ? 'Joined' : 'Join'}
                         </button>
                       </div>
-                      <div className="flex items-center gap-4 text-[#666666] text-sm">
+                      <div className="flex items-center gap-4 text-[var(--text-secondary)] text-sm">
                         <div className="flex items-center gap-1.5">
                           <Users size={14} />
                           {formatNumber(community.members || community.memberCount || 0)}

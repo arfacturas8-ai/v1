@@ -59,7 +59,7 @@ export default function OnboardingCompletePage() {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10 " />
@@ -78,7 +78,7 @@ export default function OnboardingCompletePage() {
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-2xl bg-[#141414]/80 backdrop-blur-xl border-white/10">
+      <Card className="relative z-10 w-full max-w-2xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Loading phase */}
           {animationPhase === 'loading' && (
@@ -89,8 +89,8 @@ export default function OnboardingCompletePage() {
                   <Sparkles className="w-12 h-12 text-white " />
                 </div>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">Setting up your profile...</h2>
-              <p className="text-gray-400">This will only take a moment</p>
+              <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Setting up your profile...</h2>
+              <p className="text-[var(--text-secondary)]">This will only take a moment</p>
             </div>
           )}
 
@@ -103,8 +103,8 @@ export default function OnboardingCompletePage() {
                   <CheckCircle2 className="w-12 h-12 text-green-500 animate-bounce" />
                 </div>
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">All set!</h2>
-              <p className="text-gray-400">Your profile is ready</p>
+              <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">All set!</h2>
+              <p className="text-[var(--text-secondary)]">Your profile is ready</p>
             </div>
           )}
 
@@ -115,15 +115,15 @@ export default function OnboardingCompletePage() {
                 <Sparkles className="w-12 h-12 text-white" />
               </div>
 
-              <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white">
+              <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[var(--text-primary)]">
                 Welcome to CRYB!
               </h1>
-              <p className="text-lg text-gray-400 mb-8">
+              <p className="text-lg text-[var(--text-secondary)] mb-8">
                 You're all set to start exploring
               </p>
 
               {/* Summary stats */}
-              <div className="grid grid-cols-3 gap-4 mb-8 p-6 bg-[#0D0D0D] rounded-xl">
+              <div className="grid grid-cols-3 gap-4 mb-8 p-6 bg-[var(--bg-secondary)] rounded-xl">
                 {stats.map((stat, index) => {
                   const Icon = stat.icon;
                   return (
@@ -134,16 +134,16 @@ export default function OnboardingCompletePage() {
                       >
                         <Icon className="w-6 h-6" style={{ color: stat.color }} />
                       </div>
-                      <p className="text-sm text-white font-medium mb-1">{stat.value}</p>
-                      <p className="text-xs text-gray-400">{stat.label}</p>
+                      <p className="text-sm text-[var(--text-primary)] font-medium mb-1">{stat.value}</p>
+                      <p className="text-xs text-[var(--text-secondary)]">{stat.label}</p>
                     </div>
                   );
                 })}
               </div>
 
               {/* Features list */}
-              <div className="mb-8 text-left space-y-4 p-6 bg-[#0D0D0D] rounded-xl">
-                <h3 className="text-white font-semibold mb-4">What's next?</h3>
+              <div className="mb-8 text-left space-y-4 p-6 bg-[var(--bg-secondary)] rounded-xl">
+                <h3 className="text-[var(--text-primary)] font-semibold mb-4">What's next?</h3>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <div className="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -152,8 +152,8 @@ export default function OnboardingCompletePage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-white text-sm font-medium">Explore your personalized feed</p>
-                      <p className="text-gray-400 text-xs">Discover content based on your interests</p>
+                      <p className="text-[var(--text-primary)] text-sm font-medium">Explore your personalized feed</p>
+                      <p className="text-[var(--text-secondary)] text-xs">Discover content based on your interests</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -163,8 +163,8 @@ export default function OnboardingCompletePage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-white text-sm font-medium">Join communities</p>
-                      <p className="text-gray-400 text-xs">Connect with like-minded people</p>
+                      <p className="text-[var(--text-primary)] text-sm font-medium">Join communities</p>
+                      <p className="text-[var(--text-secondary)] text-xs">Connect with like-minded people</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
@@ -174,8 +174,8 @@ export default function OnboardingCompletePage() {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-white text-sm font-medium">Create your first post</p>
-                      <p className="text-gray-400 text-xs">Share your thoughts with the community</p>
+                      <p className="text-[var(--text-primary)] text-sm font-medium">Create your first post</p>
+                      <p className="text-[var(--text-secondary)] text-xs">Share your thoughts with the community</p>
                     </div>
                   </div>
                 </div>
@@ -194,7 +194,7 @@ export default function OnboardingCompletePage() {
                   Go to Home
                 </Button>
 
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-[var(--text-secondary)]">
                   Redirecting automatically in {countdown} second{countdown !== 1 ? 's' : ''}...
                 </p>
               </div>

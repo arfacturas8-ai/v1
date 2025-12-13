@@ -104,7 +104,7 @@ export default function OnboardingProfilePage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10" />
@@ -119,24 +119,24 @@ export default function OnboardingProfilePage() {
               key={step}
               className={cn(
                 'h-1.5 rounded-full transition-all',
-                step === 2 ? 'w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]' : step < 2 ? 'w-1.5 bg-blue-500' : 'w-1.5 bg-gray-700'
+                step === 2 ? 'w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]' : step < 2 ? 'w-1.5 bg-blue-500' : 'w-1.5 bg-gray-300'
               )}
             />
           ))}
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-2xl bg-[#141414]/80 backdrop-blur-xl border-white/10">
+      <Card className="relative z-10 w-full max-w-2xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white">Set up your profile</h1>
-            <p className="text-lg text-gray-400">Tell us about yourself</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[var(--text-primary)]">Set up your profile</h1>
+            <p className="text-lg text-[var(--text-secondary)]">Tell us about yourself</p>
           </div>
 
           {/* Step indicator */}
           <div className="mb-8 text-center">
-            <span className="inline-block px-4 py-2 bg-[#0D0D0D] rounded-full text-sm text-gray-400">
+            <span className="inline-block px-4 py-2 bg-[var(--bg-secondary)] rounded-full text-sm text-[var(--text-secondary)]">
               Step 2 of 5
             </span>
           </div>
@@ -152,12 +152,12 @@ export default function OnboardingProfilePage() {
             {/* Avatar upload */}
             <div className="flex flex-col items-center mb-8">
               <div className="relative">
-                <div className="w-32 h-32 rounded-full overflow-hidden bg-[#0D0D0D] border-4 border-white/10">
+                <div className="w-32 h-32 rounded-full overflow-hidden bg-[var(--bg-secondary)] border-4 border-[var(--border-subtle)]">
                   {avatarPreview ? (
                     <img src={avatarPreview} alt="Avatar preview" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
-                      <User className="w-12 h-12 text-gray-600" />
+                      <User className="w-12 h-12 text-gray-400" />
                     </div>
                   )}
                 </div>
@@ -176,8 +176,8 @@ export default function OnboardingProfilePage() {
                   className="hidden"
                 />
               </div>
-              <p className="mt-3 text-sm text-gray-400">Upload a profile picture (optional)</p>
-              <p className="text-xs text-gray-500">JPG, PNG or GIF. Max 5MB</p>
+              <p className="mt-3 text-sm text-[var(--text-secondary)]">Upload a profile picture (optional)</p>
+              <p className="text-xs text-[var(--text-secondary)]">JPG, PNG or GIF. Max 5MB</p>
             </div>
 
             {/* Username */}
@@ -241,7 +241,7 @@ export default function OnboardingProfilePage() {
                 size="lg"
                 onClick={handleBack}
                 disabled={loading}
-                className="bg-transparent border-white/20 text-white hover:bg-white/5"
+                className="bg-transparent border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back

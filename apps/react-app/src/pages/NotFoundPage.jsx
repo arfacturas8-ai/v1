@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom'
 
 export default function NotFoundPage() {
   return (
-    <div id="main-content" role="main" aria-label="404 Page Not Found" className="min-h-screen flex items-center justify-center bg-[#0D0D0D] px-4 sm:px-5">
-      <div className="text-center text-white max-w-2xl">
+    <div id="main-content" role="main" aria-label="404 Page Not Found" className="min-h-screen flex items-center justify-center px-4 sm:px-5" style={{ background: 'var(--bg-primary)' }}>
+      <div className="text-center max-w-2xl" style={{ color: 'var(--text-primary)' }}>
         <div
           className="text-[80px] sm:text-[120px] font-bold leading-none mb-4 sm:mb-5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"
           aria-hidden="true"
@@ -16,14 +16,14 @@ export default function NotFoundPage() {
           Page Not Found
         </h1>
 
-        <p className="text-base sm:text-lg opacity-90 mb-6 sm:mb-8 leading-relaxed">
+        <p className="text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           The page you're looking for doesn't exist or has been moved.
         </p>
 
         <nav className="flex gap-4 justify-center flex-wrap" aria-label="Error page actions">
           <Link
             to="/"
-            className="px-6 py-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white rounded-xl no-underline font-semibold text-base shadow-[0_10px_30px_rgba(0,0,0,0.2)] transition-all hover:scale-105"
+            className="px-6 py-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white rounded-xl no-underline font-semibold text-base shadow-lg transition-all hover:scale-105"
             aria-label="Back to Home page"
           >
             ← Back to Home
@@ -31,14 +31,15 @@ export default function NotFoundPage() {
 
           <Link
             to="/help"
-            className="px-6 py-3 bg-[#141414]/60 backdrop-blur-xl text-[#58a6ff] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline font-semibold text-base transition-all hover:bg-[#1A1A1A]/80"
+            className="px-6 py-3 bg-white text-[#58a6ff] border rounded-2xl shadow-sm no-underline font-semibold text-base transition-all"
+            style={{ borderColor: 'var(--border-subtle)' }}
             aria-label="Get help"
           >
             Get Help
           </Link>
         </nav>
 
-        <div className="mt-8 sm:mt-10 text-sm text-[#666666]">
+        <div className="mt-8 sm:mt-10 text-sm" style={{ color: 'var(--text-secondary)' }}>
           <p>Lost? Try searching or visit our <Link to="/communities" className="text-[#58a6ff] underline">communities page</Link></p>
         </div>
       </div>

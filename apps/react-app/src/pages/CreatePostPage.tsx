@@ -331,35 +331,35 @@ export default function CreatePostPage() {
   const charPercentage = (charCount / CHARACTER_LIMIT) * 100;
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] pt-16 pb-8">
+    <div className="min-h-screen bg-[var(--bg-primary)] pt-16 pb-8">
       <div className="max-w-2xl mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate(-1)}
-              className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors"
+              className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
               aria-label="Close"
             >
-              <X className="w-5 h-5 text-[#A0A0A0]" />
+              <X className="w-5 h-5 text-[var(--text-secondary)]" />
             </button>
-            <h1 className="text-xl font-bold text-white">Create Post</h1>
+            <h1 className="text-xl font-bold text-[var(--text-primary)]">Create Post</h1>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={handleSaveDraft}
-              className="p-2 rounded-xl hover:bg-[#141414]/60 transition-colors"
+              className="p-2 rounded-xl hover:bg-[var(--bg-secondary)] transition-colors"
               aria-label="Save draft"
             >
-              <Save className="w-5 h-5 text-[#A0A0A0]" />
+              <Save className="w-5 h-5 text-[var(--text-secondary)]" />
             </button>
 
             <button
               onClick={() => setShowPreview(!showPreview)}
               className={cn(
                 "p-2 rounded-xl transition-colors",
-                showPreview ? "bg-[#58a6ff]/20 text-[#58a6ff]" : "hover:bg-[#141414]/60 text-[#A0A0A0]"
+                showPreview ? "bg-[#58a6ff]/20 text-[#58a6ff]" : "hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)]"
               )}
               aria-label="Toggle preview"
             >
@@ -372,7 +372,7 @@ export default function CreatePostPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6"
+          className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
         >
           {/* User info */}
           <div className="flex items-start gap-3 mb-4">
@@ -382,17 +382,17 @@ export default function CreatePostPage() {
 
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <span className="font-semibold text-white">{user?.username || 'User'}</span>
+                <span className="font-semibold text-[var(--text-primary)]">{user?.username || 'User'}</span>
 
                 {/* Audience selector */}
                 <div className="relative">
                   <button
                     onClick={() => setShowAudienceMenu(!showAudienceMenu)}
-                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#0D0D0D] border border-white/10 hover:border-white/20 transition-colors"
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border-subtle)] hover:border-[var(--text-secondary)] transition-colors"
                   >
                     <AudienceIcon className="w-3 h-3 text-[#58a6ff]" />
-                    <span className="text-xs text-[#A0A0A0]">{audienceLabels[audience]}</span>
-                    <ChevronDown className="w-3 h-3 text-[#A0A0A0]" />
+                    <span className="text-xs text-[var(--text-secondary)]">{audienceLabels[audience]}</span>
+                    <ChevronDown className="w-3 h-3 text-[var(--text-secondary)]" />
                   </button>
 
                   <AnimatePresence>
@@ -401,7 +401,7 @@ export default function CreatePostPage() {
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="absolute top-full mt-2 left-0 bg-[#1A1A1A] border border-white/10 rounded-xl shadow-xl overflow-hidden z-50 min-w-[150px]"
+                        className="absolute top-full mt-2 left-0 bg-white border border-[var(--border-subtle)] rounded-xl shadow-lg overflow-hidden z-50 min-w-[150px]"
                       >
                         {(Object.keys(audienceIcons) as Audience[]).map((key) => {
                           const Icon = audienceIcons[key];
@@ -413,7 +413,7 @@ export default function CreatePostPage() {
                                 setShowAudienceMenu(false);
                               }}
                               className={cn(
-                                "w-full flex items-center gap-2 px-3 py-2 hover:bg-[#141414] transition-colors",
+                                "w-full flex items-center gap-2 px-3 py-2 hover:bg-[var(--bg-secondary)] transition-colors text-[var(--text-primary)]",
                                 audience === key && "bg-[#58a6ff]/20 text-[#58a6ff]"
                               )}
                             >
@@ -437,7 +437,7 @@ export default function CreatePostPage() {
               value={content}
               onChange={handleContentChange}
               placeholder="What's happening?"
-              className="w-full bg-transparent text-white placeholder:text-[#666666] resize-none outline-none text-lg min-h-[120px] max-h-[400px]"
+              className="w-full bg-transparent text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] resize-none outline-none text-lg min-h-[120px] max-h-[400px]"
               style={{ scrollbarWidth: 'thin' }}
               aria-label="Post content"
             />
@@ -457,12 +457,12 @@ export default function CreatePostPage() {
                       <button
                         key={user}
                         onClick={() => handleMentionSelect(user)}
-                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-[#141414] transition-colors text-left"
+                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-[var(--bg-secondary)] transition-colors text-left"
                       >
                         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold text-sm">
                           {user[0].toUpperCase()}
                         </div>
-                        <span className="text-white">@{user}</span>
+                        <span className="text-[var(--text-primary)]">@{user}</span>
                       </button>
                     ))}
                 </motion.div>
@@ -476,7 +476,7 @@ export default function CreatePostPage() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute bottom-full mb-2 left-0 bg-[#1A1A1A] border border-white/10 rounded-xl shadow-xl overflow-hidden z-50 w-64"
+                  className="absolute bottom-full mb-2 left-0 bg-white border border-[var(--border-subtle)] rounded-xl shadow-lg overflow-hidden z-50 w-64"
                 >
                   {mockHashtags
                     .filter(tag => tag.toLowerCase().includes(hashtagQuery.toLowerCase()))
@@ -484,10 +484,10 @@ export default function CreatePostPage() {
                       <button
                         key={tag}
                         onClick={() => handleHashtagSelect(tag)}
-                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-[#141414] transition-colors text-left"
+                        className="w-full flex items-center gap-2 px-3 py-2 hover:bg-[var(--bg-secondary)] transition-colors text-left"
                       >
                         <Hash className="w-4 h-4 text-[#58a6ff]" />
-                        <span className="text-white">#{tag}</span>
+                        <span className="text-[var(--text-primary)]">#{tag}</span>
                       </button>
                     ))}
                 </motion.div>
@@ -510,7 +510,7 @@ export default function CreatePostPage() {
                 )}
               >
                 {media.map((file) => (
-                  <div key={file.id} className="relative rounded-xl overflow-hidden bg-[#0D0D0D] aspect-video">
+                  <div key={file.id} className="relative rounded-xl overflow-hidden bg-[var(--bg-secondary)] aspect-video">
                     {file.type === 'video' ? (
                       <video src={file.preview} className="w-full h-full object-cover" />
                     ) : (
@@ -545,19 +545,19 @@ export default function CreatePostPage() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mb-4 p-4 bg-[#0D0D0D] border border-white/10 rounded-xl"
+                className="mb-4 p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <BarChart3 className="w-4 h-4 text-[#58a6ff]" />
-                    <span className="text-sm font-medium text-white">Poll</span>
+                    <span className="text-sm font-medium text-[var(--text-primary)]">Poll</span>
                   </div>
                   <button
                     onClick={() => setPoll(null)}
-                    className="p-1 rounded-lg hover:bg-[#141414]/60 transition-colors"
+                    className="p-1 rounded-lg hover:bg-[var(--bg-primary)] transition-colors"
                     aria-label="Remove poll"
                   >
-                    <X className="w-4 h-4 text-[#A0A0A0]" />
+                    <X className="w-4 h-4 text-[var(--text-secondary)]" />
                   </button>
                 </div>
 
@@ -569,15 +569,15 @@ export default function CreatePostPage() {
                         value={option.text}
                         onChange={(e) => handleUpdatePollOption(option.id, e.target.value)}
                         placeholder={`Option ${index + 1}`}
-                        className="flex-1 px-3 py-2 bg-[#141414] border border-white/10 rounded-lg text-white placeholder:text-[#666666] outline-none focus:border-[#58a6ff]/50"
+                        className="flex-1 px-3 py-2 bg-white border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] outline-none focus:border-[#58a6ff]/50"
                       />
                       {poll.options.length > 2 && (
                         <button
                           onClick={() => handleRemovePollOption(option.id)}
-                          className="p-2 rounded-lg hover:bg-[#141414]/60 transition-colors"
+                          className="p-2 rounded-lg hover:bg-[var(--bg-primary)] transition-colors"
                           aria-label="Remove option"
                         >
-                          <X className="w-4 h-4 text-[#A0A0A0]" />
+                          <X className="w-4 h-4 text-[var(--text-secondary)]" />
                         </button>
                       )}
                     </div>
@@ -587,18 +587,18 @@ export default function CreatePostPage() {
                 {poll.options.length < MAX_POLL_OPTIONS && (
                   <button
                     onClick={handleAddPollOption}
-                    className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-[#141414] border border-dashed border-white/10 rounded-lg hover:border-white/20 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-white border border-dashed border-[var(--border-subtle)] rounded-lg hover:border-[var(--text-secondary)] transition-colors"
                   >
                     <Plus className="w-4 h-4 text-[#58a6ff]" />
                     <span className="text-sm text-[#58a6ff]">Add option</span>
                   </button>
                 )}
 
-                <div className="flex items-center gap-4 mt-3 pt-3 border-t border-white/10">
+                <div className="flex items-center gap-4 mt-3 pt-3 border-t border-[var(--border-subtle)]">
                   <select
                     value={poll.duration}
                     onChange={(e) => setPoll({ ...poll, duration: Number(e.target.value) })}
-                    className="px-3 py-1.5 bg-[#141414] border border-white/10 rounded-lg text-sm text-white outline-none"
+                    className="px-3 py-1.5 bg-white border border-[var(--border-subtle)] rounded-lg text-sm text-[var(--text-primary)] outline-none"
                   >
                     <option value={1}>1 hour</option>
                     <option value={6}>6 hours</option>
@@ -612,9 +612,9 @@ export default function CreatePostPage() {
                       type="checkbox"
                       checked={poll.multipleChoice}
                       onChange={(e) => setPoll({ ...poll, multipleChoice: e.target.checked })}
-                      className="rounded border-white/10"
+                      className="rounded border-[var(--border-subtle)]"
                     />
-                    <span className="text-sm text-[#A0A0A0]">Multiple choice</span>
+                    <span className="text-sm text-[var(--text-secondary)]">Multiple choice</span>
                   </label>
                 </div>
               </motion.div>
@@ -637,16 +637,16 @@ export default function CreatePostPage() {
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
                     placeholder="Add location"
-                    className="flex-1 px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-lg text-white placeholder:text-[#666666] outline-none focus:border-[#58a6ff]/50"
+                    className="flex-1 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] outline-none focus:border-[#58a6ff]/50"
                   />
                   <button
                     onClick={() => {
                       setShowLocationInput(false);
                       setLocation('');
                     }}
-                    className="p-2 rounded-lg hover:bg-[#141414]/60 transition-colors"
+                    className="p-2 rounded-lg hover:bg-[var(--bg-primary)] transition-colors"
                   >
-                    <X className="w-4 h-4 text-[#A0A0A0]" />
+                    <X className="w-4 h-4 text-[var(--text-secondary)]" />
                   </button>
                 </div>
               </motion.div>
@@ -654,7 +654,7 @@ export default function CreatePostPage() {
           </AnimatePresence>
 
           {/* Toolbar */}
-          <div className="flex items-center justify-between pt-4 border-t border-white/10">
+          <div className="flex items-center justify-between pt-4 border-t border-[var(--border-subtle)]">
             <div className="flex items-center gap-1">
               {/* Image upload */}
               <button
@@ -802,7 +802,7 @@ export default function CreatePostPage() {
         {/* Tips */}
         <div className="mt-6 p-4 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-xl">
           <h3 className="text-sm font-medium text-[#58a6ff] mb-2">Pro Tips</h3>
-          <ul className="text-sm text-[#A0A0A0] space-y-1">
+          <ul className="text-sm text-[var(--text-secondary)] space-y-1">
             <li>• Use @ to mention users and # to add hashtags</li>
             <li>• You can add up to {MAX_MEDIA} media files per post</li>
             <li>• Press Cmd/Ctrl + Enter to post quickly</li>

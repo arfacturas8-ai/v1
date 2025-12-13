@@ -142,7 +142,7 @@ export default function OnboardingFollowPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[#0D0D0D] relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Background gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#58a6ff] top-20 left-10" />
@@ -157,33 +157,33 @@ export default function OnboardingFollowPage() {
               key={step}
               className={cn(
                 'h-1.5 rounded-full transition-all',
-                step === 4 ? 'w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]' : step < 4 ? 'w-1.5 bg-blue-500' : 'w-1.5 bg-gray-700'
+                step === 4 ? 'w-8 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]' : step < 4 ? 'w-1.5 bg-blue-500' : 'w-1.5 bg-gray-300'
               )}
             />
           ))}
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-3xl bg-[#141414]/80 backdrop-blur-xl border-white/10">
+      <Card className="relative z-10 w-full max-w-3xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white">Follow creators</h1>
-            <p className="text-lg text-gray-400">
+            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[var(--text-primary)]">Follow creators</h1>
+            <p className="text-lg text-[var(--text-secondary)]">
               Discover and follow creators to personalize your feed
             </p>
           </div>
 
           {/* Step indicator */}
           <div className="mb-8 text-center">
-            <span className="inline-block px-4 py-2 bg-[#0D0D0D] rounded-full text-sm text-gray-400">
+            <span className="inline-block px-4 py-2 bg-[var(--bg-secondary)] rounded-full text-sm text-[var(--text-secondary)]">
               Step 4 of 5
             </span>
           </div>
 
           {/* Follow all button */}
           <div className="mb-6 flex justify-between items-center">
-            <span className="text-sm text-gray-400">
+            <span className="text-sm text-[var(--text-secondary)]">
               {following.size} of {suggestedUsers.length} following
             </span>
             <Button
@@ -191,7 +191,7 @@ export default function OnboardingFollowPage() {
               size="sm"
               onClick={handleFollowAll}
               disabled={loading || following.size === suggestedUsers.length}
-              className="bg-transparent border-white/20 text-white hover:bg-white/5"
+              className="bg-transparent border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50"
             >
               Follow all
             </Button>
@@ -206,7 +206,7 @@ export default function OnboardingFollowPage() {
               return (
                 <div
                   key={user.id}
-                  className="p-4 bg-[#0D0D0D] rounded-xl border border-white/10 hover:border-white/20 transition-all"
+                  className="p-4 bg-[var(--bg-secondary)] rounded-xl border border-[var(--border-subtle)] hover:border-gray-300 transition-all"
                 >
                   <div className="flex items-start gap-4">
                     <Avatar
@@ -218,7 +218,7 @@ export default function OnboardingFollowPage() {
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-1">
-                        <h3 className="text-white font-semibold truncate">{user.displayName}</h3>
+                        <h3 className="text-[var(--text-primary)] font-semibold truncate">{user.displayName}</h3>
                         {user.isVerified && (
                           <div className="flex-shrink-0 w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
                             <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -227,9 +227,9 @@ export default function OnboardingFollowPage() {
                           </div>
                         )}
                       </div>
-                      <p className="text-sm text-gray-400 mb-2">@{user.username}</p>
-                      <p className="text-sm text-gray-400 mb-2">{user.bio}</p>
-                      <p className="text-xs text-gray-500">{formatNumber(user.followers)} followers</p>
+                      <p className="text-sm text-[var(--text-secondary)] mb-2">@{user.username}</p>
+                      <p className="text-sm text-[var(--text-secondary)] mb-2">{user.bio}</p>
+                      <p className="text-xs text-[var(--text-secondary)]">{formatNumber(user.followers)} followers</p>
                     </div>
 
                     <Button
@@ -241,7 +241,7 @@ export default function OnboardingFollowPage() {
                       className={cn(
                         'flex-shrink-0',
                         isFollowing
-                          ? 'bg-transparent border border-white/20 text-white hover:bg-white/5'
+                          ? 'bg-transparent border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50'
                           : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90'
                       )}
                     >
@@ -271,7 +271,7 @@ export default function OnboardingFollowPage() {
               size="lg"
               onClick={handleBack}
               disabled={loading}
-              className="bg-transparent border-white/20 text-white hover:bg-white/5"
+              className="bg-transparent border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-gray-50"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
@@ -291,7 +291,7 @@ export default function OnboardingFollowPage() {
             </Button>
           </div>
 
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-[var(--text-secondary)]">
             You can always follow or unfollow users later
           </p>
         </CardContent>
