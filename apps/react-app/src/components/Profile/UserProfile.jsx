@@ -7,6 +7,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext'
 import profileService from '../../services/profileService'
 import { useToast } from '../ui/useToast'
+import './UserProfile.css'
 
 
 export default function UserProfile({ userId, currentUser, isOwnProfile = false }) {
@@ -356,8 +357,8 @@ export default function UserProfile({ userId, currentUser, isOwnProfile = false 
                     >
                       Save Changes
                     </button>
-                    <button 
-                      className="flex-1 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg font-medium transition-all"
+                    <button
+                      className="btn-secondary"
                       onClick={() => {
                         setIsEditing(false)
                         setEditForm({
@@ -447,29 +448,29 @@ export default function UserProfile({ userId, currentUser, isOwnProfile = false 
       {/* Content Tabs */}
       <div className="profile-content">
         <div className="content-tabs">
-          <button 
-            className={`tab ${activeTab === 'posts' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+          <button
+            className={`tab ${activeTab === 'posts' ? 'active' : ''}`}
             onClick={() => setActiveTab('posts')}
           >
             <FileText size={16} />
             Posts
           </button>
-          <button 
-            className={`tab ${activeTab === 'comments' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+          <button
+            className={`tab ${activeTab === 'comments' ? 'active' : ''}`}
             onClick={() => setActiveTab('comments')}
           >
             <MessageSquare size={16} />
             Comments
           </button>
-          <button 
-            className={`tab ${activeTab === 'communities' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+          <button
+            className={`tab ${activeTab === 'communities' ? 'active' : ''}`}
             onClick={() => setActiveTab('communities')}
           >
             <Users size={16} />
             Communities
           </button>
-          <button 
-            className={`tab ${activeTab === 'activity' ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
+          <button
+            className={`tab ${activeTab === 'activity' ? 'active' : ''}`}
             onClick={() => setActiveTab('activity')}
           >
             <Activity size={16} />

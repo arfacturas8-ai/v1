@@ -506,10 +506,7 @@ const ReactionBar: React.FC<{
           )}
           onClick={onLike}
         >
-          <div}}
-          >
-            <Heart className={cn('h-4 w-4', reactions.userLiked && 'fill-current')} />
-          </div>
+          <Heart className={cn('h-4 w-4', reactions.userLiked && 'fill-current')} />
           {!compact && (
             <span className="text-sm">{formatNumber(reactions.likes)}</span>
           )}

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import apiService from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
 import { useResponsive } from '../hooks/useResponsive'
+import './UserCard.css'
 
 function UserCard({ user, showActions = true, compact = false, onUpdate }) {
   const { user: currentUser } = useAuth()
@@ -89,29 +90,29 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
 
   if (compact) {
     return (
-      <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-0 p-3 sm:p-4 rounded-lg border border-white/10 w-full">
-        <Link to={`/user/${user.username}`} className="flex items-center gap-3 flex-1 w-full sm:w-auto">
-          <div className="relative flex-shrink-0">
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-cryb-primary to-cryb-secondary">
-              <span className="text-white text-sm sm:text-base font-bold">{user.avatar}</span>
+      <div className="user-card user-card--compact">
+        <Link to={`/user/${user.username}`} className="user-card__link">
+          <div className="user-card__avatar-wrapper">
+            <div className="user-card__avatar">
+              <span>{user.avatar}</span>
             </div>
             {user.isOnline && (
-              <div className="absolute bottom-0 right-0 w-3 h-3 sm:w-4 sm:h-4 bg-green-500 rounded-full border-2 border-background"></div>
+              <div className="user-card__online-indicator"></div>
             )}
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="font-medium text-sm sm:text-base text-foreground truncate">{user.displayName}</p>
-            <p className="text-xs sm:text-sm text-muted-foreground truncate">@{user.username}</p>
+          <div className="user-card__info">
+            <p className="user-card__name">{user.displayName}</p>
+            <p className="user-card__username">@{user.username}</p>
           </div>
         </Link>
 
         {showActions && !isSelf && (
-          <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
+          <div className="user-card__actions">
             {hasIncomingRequest && (
               <button
                 onClick={handleFriendRequest}
                 disabled={isLoading}
-                className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-white bg-cryb-primary hover:bg-cryb-primary/90 rounded transition-colors flex-1 sm:flex-none"
+                className="user-card__btn user-card__btn--primary"
               >
                 Accept
               </button>
@@ -120,13 +121,13 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
               <button
                 onClick={handleFriendRequest}
                 disabled={isLoading}
-                className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-white bg-cryb-primary hover:bg-cryb-primary/90 rounded transition-colors flex-1 sm:flex-none"
+                className="user-card__btn user-card__btn--primary"
               >
                 Add
               </button>
             )}
             {hasPendingRequest && (
-              <span className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm bg-muted text-muted-foreground rounded text-center flex-1 sm:flex-none">
+              <span className="user-card__btn user-card__btn--pending">
                 Pending
               </span>
             )}
@@ -137,54 +138,56 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
   }
 
   return (
-    <div className="w-full rounded-lg border border-white/10 p-4 md:p-6">
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-        <Link to={`/user/${user.username}`} className="flex-shrink-0">
-          <div className="relative">
-            <div className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center bg-gradient-to-br from-cryb-primary to-cryb-secondary">
-              <span className="text-white text-xl md:text-2xl font-bold">{user.avatar}</span>
+    <div className="user-card user-card--full">
+      <div className="user-card__content">
+        <Link to={`/user/${user.username}`}>
+          <div className="user-card__avatar-wrapper">
+            <div className="user-card__avatar user-card__avatar--large">
+              <span>{user.avatar}</span>
             </div>
             {user.isOnline && (
-              <div className="absolute bottom-0 right-0 w-4 h-4 md:w-5 md:h-5 bg-green-500 rounded-full border-2 border-background"></div>
+              <div className="user-card__online-indicator user-card__online-indicator--large"></div>
             )}
           </div>
         </Link>
 
-        <div className="flex-1 min-w-0">
-          <Link to={`/user/${user.username}`} className="group">
-            <h3 className="text-base md:text-lg font-semibold text-foreground group-hover:text-cryb-primary transition-colors truncate">
-              {user.displayName}
-            </h3>
-            <p className="text-sm md:text-base text-muted-foreground truncate">@{user.username}</p>
-          </Link>
+        <div className="user-card__details">
+          <div className="user-card__header">
+            <Link to={`/user/${user.username}`} className="user-card__header-link">
+              <h3 className="user-card__name--large">
+                {user.displayName}
+              </h3>
+              <p className="user-card__username--large">@{user.username}</p>
+            </Link>
+          </div>
 
           {user.bio && (
-            <p className="mt-2 text-sm md:text-base text-muted-foreground line-clamp-2">{user.bio}</p>
+            <p className="user-card__bio">{user.bio}</p>
           )}
 
-          <div className="flex flex-wrap items-center gap-2 md:gap-4 mt-3 text-xs md:text-sm text-muted-foreground">
-            <span className="font-medium">{user.karma} karma</span>
+          <div className="user-card__meta">
+            <span className="user-card__meta-item">{user.karma} karma</span>
             <span>{user.friends?.length || 0} friends</span>
             <span>{user.followers?.length || 0} followers</span>
             {user.location && user.privacySettings?.showLocation && (
-              <span className="flex items-center gap-1">
+              <span className="user-card__meta-location">
                 📍 {user.location}
               </span>
             )}
           </div>
 
           {user.interests && user.interests.length > 0 && (
-            <div className="flex flex-wrap gap-2 mt-3">
+            <div className="user-card__interests">
               {user.interests.slice(0, isMobile ? 2 : 3).map((interest, index) => (
                 <span
                   key={index}
-                  className="px-2 py-1 text-xs md:text-sm bg-muted text-muted-foreground rounded-full"
+                  className="user-card__interest"
                 >
                   {interest}
                 </span>
               ))}
               {user.interests.length > (isMobile ? 2 : 3) && (
-                <span className="px-2 py-1 text-xs md:text-sm bg-muted text-muted-foreground rounded-full">
+                <span className="user-card__interest">
                   +{user.interests.length - (isMobile ? 2 : 3)} more
                 </span>
               )}
@@ -193,12 +196,12 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
         </div>
 
         {showActions && !isSelf && !isBlocked && (
-          <div className="flex flex-row md:flex-col gap-2 w-full md:w-auto">
+          <div className="user-card__actions--full">
             {hasIncomingRequest ? (
               <button
                 onClick={handleFriendRequest}
                 disabled={isLoading}
-                className="flex-1 md:flex-none px-4 py-2 text-sm md:text-base text-white bg-cryb-primary hover:bg-cryb-primary/90 rounded transition-colors"
+                className="user-card__btn user-card__btn--full user-card__btn--primary"
               >
                 Accept Friend Request
               </button>
@@ -206,19 +209,19 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
               <button
                 onClick={handleFriendRequest}
                 disabled={isLoading}
-                className="flex-1 md:flex-none px-4 py-2 text-sm md:text-base text-white bg-cryb-primary hover:bg-cryb-primary/90 rounded transition-colors"
+                className="user-card__btn user-card__btn--full user-card__btn--primary"
               >
                 Remove Friend
               </button>
             ) : hasPendingRequest ? (
-              <span className="flex-1 md:flex-none px-4 py-2 text-sm md:text-base bg-muted text-muted-foreground rounded text-center">
+              <span className="user-card__btn user-card__btn--full user-card__btn--pending">
                 Request Sent
               </span>
             ) : (
               <button
                 onClick={handleFriendRequest}
                 disabled={isLoading}
-                className="flex-1 md:flex-none px-4 py-2 text-sm md:text-base text-white bg-cryb-primary hover:bg-cryb-primary/90 rounded transition-colors"
+                className="user-card__btn user-card__btn--full user-card__btn--primary"
               >
                 Add Friend
               </button>
@@ -227,7 +230,7 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
             <button
               onClick={handleFollow}
               disabled={isLoading}
-              className="flex-1 md:flex-none px-4 py-2 text-sm md:text-base bg-muted hover:bg-muted/80 text-foreground rounded transition-colors"
+              className="user-card__btn user-card__btn--full user-card__btn--secondary"
             >
               {isFollowing ? 'Unfollow' : 'Follow'}
             </button>
@@ -235,7 +238,7 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
             <button
               onClick={handleBlock}
               disabled={isLoading}
-              className="flex-1 md:flex-none px-4 py-2 text-sm md:text-base bg-muted hover:bg-muted/80 text-muted-foreground rounded transition-colors"
+              className="user-card__btn user-card__btn--full user-card__btn--danger"
             >
               Block
             </button>
@@ -245,7 +248,7 @@ function UserCard({ user, showActions = true, compact = false, onUpdate }) {
         {isSelf && (
           <Link
             to="/settings"
-            className="px-4 py-2 text-sm md:text-base text-white bg-cryb-primary hover:bg-cryb-primary/90 rounded transition-colors text-center"
+            className="user-card__btn user-card__btn--full user-card__btn--settings"
           >
             Edit Profile
           </Link>

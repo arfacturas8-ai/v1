@@ -1,15 +1,16 @@
 /**
  * CRYB Security Settings Page
  * Security settings, sessions, and two-factor authentication
+ * Updated to use Design System v2.0 - Light Theme
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Shield, Key, Smartphone, Monitor, AlertCircle, X } from 'lucide-react';
 import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
+import { Input } from '../../components/ui/InputV1';
 import { Modal, ModalHeader, ModalTitle, ModalBody, ModalFooter } from '../../components/ui/modal';
-import { cn, formatRelativeTime } from '../../lib/utils';
+import { formatRelativeTime } from '../../lib/utils';
 
 interface Session {
   id: string;
@@ -127,49 +128,73 @@ const SecuritySettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: 'var(--space-20)' }}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 'var(--z-sticky)',
+        background: 'var(--bg-secondary)',
+        borderBottom: '1px solid var(--border-subtle)',
+        boxShadow: 'var(--shadow-sm)',
+      }}>
+        <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <button
               onClick={() => navigate('/settings')}
-              className="p-2 hover:bg-accent rounded-lg transition-colors"
+              className="btn-ghost"
+              style={{
+                padding: 'var(--space-2)',
+                borderRadius: 'var(--radius-lg)',
+              }}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft size={20} />
             </button>
-            <div className="flex items-center gap-2">
-              <Shield className="h-5 w-5 text-primary" />
-              <h1 className="text-2xl font-bold">Security</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Shield size={20} style={{ color: 'var(--brand-primary)' }} />
+              <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)' }}>
+                Security
+              </h1>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-6) var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
         {/* Password */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Password</h2>
+        <div className="card">
+          <h2 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>
+            Password
+          </h2>
           <Button
             variant="outline"
             onClick={() => setShowChangePassword(true)}
-            leftIcon={<Key className="h-4 w-4" />}
+            leftIcon={<Key size={16} />}
           >
             Change Password
           </Button>
         </div>
 
         {/* Two-Factor Authentication */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <div className="flex items-start justify-between">
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 'var(--space-4)' }}>
             <div>
-              <h2 className="font-semibold text-lg">Two-Factor Authentication</h2>
-              <p className="text-sm text-muted-foreground mt-1">
+              <h2 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
+                Two-Factor Authentication
+              </h2>
+              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)' }}>
                 Add an extra layer of security to your account
               </p>
             </div>
             {twoFactorEnabled && (
-              <div className="bg-green-500/10 text-green-500 px-3 py-1 rounded-full text-sm font-medium">
+              <div style={{
+                background: 'var(--color-success-light)',
+                color: 'var(--color-success)',
+                padding: 'var(--space-1) var(--space-3)',
+                borderRadius: 'var(--radius-full)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: 'var(--font-medium)',
+              }}>
                 Enabled
               </div>
             )}
@@ -177,48 +202,57 @@ const SecuritySettingsPage: React.FC = () => {
           <Button
             variant={twoFactorEnabled ? 'outline' : 'primary'}
             onClick={() => setShow2FASetup(true)}
-            leftIcon={<Shield className="h-4 w-4" />}
+            leftIcon={<Shield size={16} />}
           >
             {twoFactorEnabled ? 'Manage 2FA' : 'Enable 2FA'}
           </Button>
         </div>
 
         {/* Active Sessions */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Active Sessions</h2>
-          <p className="text-sm text-muted-foreground">
+        <div className="card">
+          <h2 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
+            Active Sessions
+          </h2>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)', marginBottom: 'var(--space-4)' }}>
             Manage and monitor devices that have access to your account
           </p>
 
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {sessions.map((session, index) => (
               <div
                 key={session.id}
-                className={cn(
-                  'p-4 rounded-lg border',
-                  session.current
-                    ? 'bg-primary/5 border-primary/20'
-                    : 'border-border hover:border-border/60'
-                )}
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: session.current ? '1px solid var(--brand-primary)' : '1px solid var(--border-subtle)',
+                  background: session.current ? 'var(--color-info-light)' : 'transparent',
+                  transition: 'all var(--transition-normal)',
+                }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 flex-1">
-                    <div className="mt-1 text-muted-foreground">
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-4)' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-3)', flex: 1, minWidth: 0 }}>
+                    <div style={{ marginTop: 'var(--space-1)', color: 'var(--text-secondary)' }}>
                       {getDeviceIcon(session.deviceType)}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <div className="font-medium">{session.device}</div>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                        <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>{session.device}</div>
                         {session.current && (
-                          <span className="text-xs bg-primary/20 text-primary px-2 py-0.5 rounded-full">
+                          <span style={{
+                            fontSize: 'var(--text-xs)',
+                            background: 'var(--brand-primary)',
+                            color: 'white',
+                            padding: '2px var(--space-2)',
+                            borderRadius: 'var(--radius-full)',
+                          }}>
                             Current
                           </span>
                         )}
                       </div>
-                      <div className="text-sm text-muted-foreground mt-1">
+                      <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)' }}>
                         {session.location} · {session.ip}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
                         Last active {formatRelativeTime(session.lastActive)}
                       </div>
                     </div>
@@ -239,8 +273,10 @@ const SecuritySettingsPage: React.FC = () => {
         </div>
 
         {/* Login History */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Login History</h2>
+        <div className="card">
+          <h2 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>
+            Login History
+          </h2>
           <Button
             variant="outline"
             onClick={() => navigate('/settings/security/login-history')}
@@ -250,29 +286,46 @@ const SecuritySettingsPage: React.FC = () => {
         </div>
 
         {/* Connected Apps */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Connected Apps</h2>
-          <p className="text-sm text-muted-foreground">
+        <div className="card">
+          <h2 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
+            Connected Apps
+          </h2>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)', marginBottom: 'var(--space-4)' }}>
             Apps and services that have access to your CRYB account
           </p>
 
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             {connectedApps.map((app) => (
               <div
                 key={app.id}
-                className="p-4 rounded-lg border border-border hover:border-border/60"
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: '1px solid var(--border-subtle)',
+                  transition: 'border-color var(--transition-normal)',
+                }}
               >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-3 flex-1">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 'var(--space-4)' }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-3)', flex: 1 }}>
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: 'var(--radius-lg)',
+                      background: 'var(--brand-gradient)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'white',
+                      fontWeight: 'var(--font-bold)',
+                    }}>
                       {app.name.charAt(0)}
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-medium">{app.name}</div>
-                      <div className="text-sm text-muted-foreground mt-1">
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>{app.name}</div>
+                      <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)' }}>
                         {app.permissions.join(', ')}
                       </div>
-                      <div className="text-sm text-muted-foreground">
+                      <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
                         Last used {formatRelativeTime(app.lastUsed)}
                       </div>
                     </div>
@@ -289,7 +342,7 @@ const SecuritySettingsPage: React.FC = () => {
             ))}
 
             {connectedApps.length === 0 && (
-              <div className="text-center py-8 text-muted-foreground">
+              <div style={{ textAlign: 'center', padding: 'var(--space-8)', color: 'var(--text-tertiary)' }}>
                 No connected apps
               </div>
             )}

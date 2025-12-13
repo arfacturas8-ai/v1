@@ -109,14 +109,14 @@ function ChannelSidebar({
 
   if (collapsed) {
     return (
-      <div style={{
+      <div className="glass" style={{
   width: '64px',
-  background: 'rgba(22, 27, 34, 0.6)',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   paddingTop: '12px',
-  paddingBottom: '12px'
+  paddingBottom: '12px',
+  borderRight: '1px solid var(--border-subtle)'
 }}>
         {/* Server Icons */}
         {servers.map(server => (
@@ -188,26 +188,27 @@ function ChannelSidebar({
   }
 
   return (
-    <div style={{
+    <div className="glass" style={{
   width: '240px',
-  background: 'rgba(22, 27, 34, 0.6)',
   display: 'flex',
   flexDirection: 'column',
-  height: '100%'
+  height: '100%',
+  borderRight: '1px solid var(--border-subtle)'
 }}>
       {/* Server Header */}
       <div style={{
   height: '48px',
-  background: 'rgba(22, 27, 34, 0.6)',
+  background: 'var(--bg-elevated)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
   paddingLeft: '16px',
-  paddingRight: '16px'
+  paddingRight: '16px',
+  borderBottom: '1px solid var(--border-subtle)'
 }}>
         <h1 style={{
-  color: '#ffffff',
-  fontWeight: '600'
+  color: 'var(--text-primary)',
+  fontWeight: 'var(--font-semibold)'
 }}>
           {currentServerData?.name || 'CRYB Server'}
         </h1>
@@ -242,23 +243,20 @@ function ChannelSidebar({
   position: 'absolute',
   width: '16px',
   height: '16px',
-  color: '#A0A0A0'
+  color: 'var(--text-tertiary)',
+  left: '12px',
+  top: '50%',
+  transform: 'translateY(-50%)'
 }} />
             <input
               type="text"
               placeholder="Search channels..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
               style={{
   width: '100%',
-  background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '4px',
-  paddingLeft: '36px',
-  paddingRight: '36px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  color: '#ffffff'
+  paddingLeft: '36px'
 }}
             />
           </div>

@@ -55,20 +55,21 @@ export const PostCard: React.FC<PostCardProps> = ({
   style,
 }) => {
   const cardStyle: React.CSSProperties = {
-    backgroundColor: colors['bg-secondary'],
-    borderRadius: radii.lg,
-    padding: spacing[4],
-    border: `1px solid ${colors['border-subtle']}`,
+    backgroundColor: 'var(--bg-secondary)',
+    borderRadius: 'var(--radius-lg)',
+    padding: 'var(--space-4)',
+    border: '1px solid var(--border-subtle)',
     cursor: onPostClick ? 'pointer' : 'default',
-    transition: 'all 150ms ease-out',
+    transition: 'all var(--transition-normal)',
+    boxShadow: 'var(--shadow-sm)',
     ...style,
   };
 
   const headerStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'flex-start',
-    gap: spacing[3],
-    marginBottom: spacing[3],
+    gap: 'var(--space-3)',
+    marginBottom: 'var(--space-3)',
   };
 
   const userInfoStyle: React.CSSProperties = {
@@ -79,19 +80,19 @@ export const PostCard: React.FC<PostCardProps> = ({
   const nameRowStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: spacing[2],
+    gap: 'var(--space-2)',
   };
 
   const contentStyle: React.CSSProperties = {
-    marginBottom: spacing[3],
+    marginBottom: 'var(--space-3)',
   };
 
   const mediaGridStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: post.media && post.media.length === 1 ? '1fr' : '1fr 1fr',
-    gap: spacing[2],
-    marginBottom: spacing[3],
-    borderRadius: radii.md,
+    gap: 'var(--space-2)',
+    marginBottom: 'var(--space-3)',
+    borderRadius: 'var(--radius-lg)',
     overflow: 'hidden',
   };
 
@@ -99,27 +100,27 @@ export const PostCard: React.FC<PostCardProps> = ({
     width: '100%',
     height: post.media && post.media.length === 1 ? '300px' : '150px',
     objectFit: 'cover',
-    backgroundColor: colors['bg-tertiary'],
+    backgroundColor: 'var(--bg-tertiary)',
   };
 
   const quotedPostStyle: React.CSSProperties = {
-    border: `1px solid ${colors['border-default']}`,
-    borderRadius: radii.md,
-    padding: spacing[3],
-    marginBottom: spacing[3],
-    backgroundColor: colors['bg-primary'],
+    border: '1px solid var(--border-default)',
+    borderRadius: 'var(--radius-lg)',
+    padding: 'var(--space-3)',
+    marginBottom: 'var(--space-3)',
+    backgroundColor: 'var(--bg-primary)',
   };
 
   const actionsStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: spacing[6],
+    gap: 'var(--space-6)',
   };
 
   const actionStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: spacing[1],
+    gap: 'var(--space-1)',
   };
 
   const formatTime = (date: Date | string): string => {
@@ -222,7 +223,7 @@ export const PostCard: React.FC<PostCardProps> = ({
       {/* Quoted Post */}
       {post.quotedPost && (
         <div style={quotedPostStyle}>
-          <div style={{ marginBottom: spacing[1] }}>
+          <div style={{ marginBottom: 'var(--space-1)' }}>
             <Text size="sm" weight="semibold">
               {post.quotedPost.author.displayName}
             </Text>
@@ -259,7 +260,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         {/* Repost */}
         <div style={actionStyle}>
           <IconButton
-            icon={<span style={{ color: post.isReposted ? colors['repost'] : 'inherit' }}>🔁</span>}
+            icon={<span style={{ color: post.isReposted ? 'var(--brand-secondary)' : 'inherit' }}>🔁</span>}
             variant="ghost"
             size="sm"
             onClick={(e) => {
@@ -271,7 +272,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             <Text
               variant="secondary"
               size="sm"
-              style={{ color: post.isReposted ? colors['repost'] : 'inherit' }}
+              style={{ color: post.isReposted ? 'var(--brand-secondary)' : 'inherit' }}
             >
               {formatCount(post.repostCount)}
             </Text>
@@ -281,7 +282,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         {/* Like */}
         <div style={actionStyle}>
           <IconButton
-            icon={<span style={{ color: post.isLiked ? colors['like'] : 'inherit' }}>❤️</span>}
+            icon={<span style={{ color: post.isLiked ? 'var(--color-error)' : 'inherit' }}>❤️</span>}
             variant="ghost"
             size="sm"
             onClick={(e) => {
@@ -293,7 +294,7 @@ export const PostCard: React.FC<PostCardProps> = ({
             <Text
               variant="secondary"
               size="sm"
-              style={{ color: post.isLiked ? colors['like'] : 'inherit' }}
+              style={{ color: post.isLiked ? 'var(--color-error)' : 'inherit' }}
             >
               {formatCount(post.likeCount)}
             </Text>
@@ -303,7 +304,7 @@ export const PostCard: React.FC<PostCardProps> = ({
         {/* Bookmark */}
         <div style={actionStyle}>
           <IconButton
-            icon={<span style={{ color: post.isBookmarked ? colors['bookmark'] : 'inherit' }}>🔖</span>}
+            icon={<span style={{ color: post.isBookmarked ? 'var(--brand-primary)' : 'inherit' }}>🔖</span>}
             variant="ghost"
             size="sm"
             onClick={(e) => {

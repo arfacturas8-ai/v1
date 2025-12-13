@@ -105,14 +105,22 @@ const PostList = ({
   if (error) {
     return (
       <div className="text-center py-8 px-4">
-        <div className="card max-w-md mx-auto p-6">
+        <div className="card" style={{
+          maxWidth: '28rem',
+          margin: '0 auto',
+          padding: 'var(--space-6)',
+          backgroundColor: 'var(--bg-secondary)',
+          borderRadius: 'var(--radius-xl)',
+          border: '1px solid var(--border-subtle)',
+          boxShadow: 'var(--shadow-md)'
+        }}>
           <div className="flex flex-col items-center gap-4">
-            <svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor" className="text-error">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor" style={{ color: 'var(--color-error)' }}>
               <path d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20S35.046 4 24 4zm-2 30h4v4h-4v-4zm0-20h4v16h-4V14z"/>
             </svg>
             <div className="text-center">
-              <h3 className="font-semibold text-base sm:text-lg mb-2">Something went wrong</h3>
-              <p className="text-secondary text-xs sm:text-sm mb-4">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+              <h3 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>Something went wrong</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', marginBottom: 'var(--space-4)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <button
                 onClick={() => window.location.reload()}
                 className="btn btn-primary w-full sm:w-auto"
@@ -169,12 +177,12 @@ const PostList = ({
         <div className="text-center py-12 px-4">
           <div className="max-w-md mx-auto">
             <div className="flex flex-col items-center gap-4">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor" className="text-muted/40">
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="currentColor" style={{ color: 'var(--text-tertiary)', opacity: 0.4 }}>
                 <path d="M24 4C12.954 4 4 12.954 4 24s8.954 20 20 20 20-8.954 20-20S35.046 4 24 4zm-8 20c0-4.411 3.589-8 8-8s8 3.589 8 8-3.589 8-8 8-8-3.589-8-8zm12 12c-2.633 0-5.067-.785-7.1-2.131A11.96 11.96 0 0024 32c1.06 0 2.085-.138 3.1-.362C25.067 35.215 22.633 36 20 36z"/>
               </svg>
               <div>
-                <h3 className="font-semibold text-base sm:text-lg mb-1">No posts yet</h3>
-                <p className="text-sm text-muted">
+                <h3 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', marginBottom: 'var(--space-1)', color: 'var(--text-primary)' }}>No posts yet</h3>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
                   Be the first to share something with the community!
                 </p>
               </div>

@@ -60,7 +60,15 @@ const Post = ({
 
   return (
     <article
-      className="border border-white/10 rounded-xl p-3 sm:p-4 bg-surface/40 backdrop-blur-sm"
+      className="card"
+      style={{
+        backgroundColor: 'var(--bg-secondary)',
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 'var(--radius-xl)',
+        padding: 'var(--space-3)',
+        boxShadow: 'var(--shadow-sm)',
+        transition: 'all var(--transition-normal)'
+      }}
       role="article"
       aria-labelledby={`post-${post.id}-title`}
     >
@@ -127,7 +135,15 @@ const Post = ({
           {/* Flair */}
           {post.flair && (
             <div className="mb-2">
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border border-white/10 bg-accent/10 text-accent">
+              <span className="badge" style={{
+                padding: 'var(--space-1) var(--space-2)',
+                borderRadius: 'var(--radius-full)',
+                fontSize: 'var(--text-xs)',
+                fontWeight: 'var(--font-medium)',
+                border: '1px solid var(--border-subtle)',
+                backgroundColor: 'var(--color-info-light)',
+                color: 'var(--brand-primary)'
+              }}>
                 {post.flair}
               </span>
             </div>
@@ -191,7 +207,15 @@ const Post = ({
                 href={post.linkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block border border-white/10 rounded-xl p-2 sm:p-3 hover:border-accent/50 transition-colors"
+                className="card"
+                style={{
+                  display: 'block',
+                  backgroundColor: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-subtle)',
+                  borderRadius: 'var(--radius-lg)',
+                  padding: 'var(--space-2)',
+                  transition: 'all var(--transition-normal)'
+                }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">

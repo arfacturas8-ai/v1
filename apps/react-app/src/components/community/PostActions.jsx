@@ -116,21 +116,25 @@ const PostActions = ({
 }}>
       <div style={{
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  gap: 'var(--space-1)'
 }}>
         {/* Main Actions */}
         {actions.map((action) => (
           <button
             key={action.id}
             onClick={action.onClick}
+            className="btn btn-ghost"
             style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '4px',
-  paddingLeft: '4px',
-  paddingRight: '4px',
-  paddingTop: '4px',
-  paddingBottom: '4px'
+  gap: 'var(--space-1)',
+  padding: 'var(--space-2) var(--space-3)',
+  fontSize: 'var(--text-sm)',
+  fontWeight: 'var(--font-medium)',
+  color: 'var(--text-secondary)',
+  borderRadius: 'var(--radius-full)',
+  transition: 'all var(--transition-normal)'
 }}
             aria-label={action.ariaLabel}
           >
@@ -176,24 +180,31 @@ const PostActions = ({
 
           {/* Dropdown Menu */}
           {showMoreMenu && (
-            <div style={{
+            <div className="card" style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  paddingTop: '4px',
-  paddingBottom: '4px'
+  backgroundColor: 'var(--bg-secondary)',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-lg)',
+  padding: 'var(--space-1)',
+  boxShadow: 'var(--shadow-lg)',
+  minWidth: '180px',
+  zIndex: 'var(--z-dropdown)'
 }}>
               {moreActions.map((action) => (
                 <button
                   key={action.id}
                   onClick={action.onClick}
+                  className="btn btn-ghost"
                   style={{
   width: '100%',
   display: 'flex',
   alignItems: 'center',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px'
+  gap: 'var(--space-2)',
+  padding: 'var(--space-2) var(--space-3)',
+  fontSize: 'var(--text-sm)',
+  justifyContent: 'flex-start',
+  borderRadius: 'var(--radius-md)',
+  color: action.danger ? 'var(--color-error)' : 'var(--text-primary)'
 }}
                 >
                   <span style={{

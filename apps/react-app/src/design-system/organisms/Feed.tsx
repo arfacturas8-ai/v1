@@ -81,7 +81,7 @@ export const Feed: React.FC<FeedProps> = ({
   const containerStyle: React.CSSProperties = {
     display: 'flex',
     flexDirection: 'column',
-    gap: spacing[3],
+    gap: 'var(--space-4)',
     ...style,
   };
 
@@ -90,15 +90,15 @@ export const Feed: React.FC<FeedProps> = ({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: spacing[16],
-    gap: spacing[3],
+    padding: 'var(--space-16)',
+    gap: 'var(--space-4)',
   };
 
   const loadingStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: spacing[6],
+    padding: 'var(--space-6)',
   };
 
   if (isLoading && posts.length === 0) {
@@ -136,7 +136,7 @@ export const Feed: React.FC<FeedProps> = ({
       )}
 
       {!hasMore && posts.length > 0 && (
-        <div style={{ textAlign: 'center', padding: spacing[6] }}>
+        <div style={{ textAlign: 'center', padding: 'var(--space-6)' }}>
           <Text variant="muted" size="sm">
             You're all caught up!
           </Text>

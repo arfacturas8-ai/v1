@@ -1,11 +1,11 @@
 /**
  * CRYB Settings Hub Page
  * Central hub for all settings with grouped navigation
+ * Updated to use Design System v2.0 - Light Theme
  */
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { cn } from '../../lib/utils';
 import {
   User,
   CreditCard,
@@ -53,32 +53,56 @@ const SettingItem: React.FC<SettingItemProps> = ({
   return (
     <button
       onClick={onClick}
-      className={cn(
-        'w-full flex items-center justify-between p-4 rounded-lg transition-colors',
-        'hover:bg-accent/50 active:bg-accent/70',
-        'border border-transparent hover:border-border',
-        danger && 'hover:bg-destructive/10 hover:border-destructive/20'
-      )}
+      style={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 'var(--space-4)',
+        background: 'transparent',
+        border: '1px solid transparent',
+        borderRadius: 'var(--radius-lg)',
+        cursor: 'pointer',
+        transition: 'all var(--transition-normal)',
+        textAlign: 'left',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = danger ? 'var(--color-error-light)' : 'var(--bg-hover)';
+        e.currentTarget.style.borderColor = danger ? 'var(--color-error)' : 'var(--border-default)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'transparent';
+        e.currentTarget.style.borderColor = 'transparent';
+      }}
     >
-      <div className="flex items-center gap-4">
+      <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
         <div
-          className={cn(
-            'flex-shrink-0 w-10 h-10 rounded-full flex items-center justify-center',
-            danger ? 'bg-destructive/10 text-destructive' : 'bg-primary/10 text-primary'
-          )}
+          style={{
+            flexShrink: 0,
+            width: '40px',
+            height: '40px',
+            borderRadius: 'var(--radius-full)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            background: danger ? 'var(--color-error-light)' : 'var(--color-info-light)',
+            color: danger ? 'var(--color-error)' : 'var(--brand-primary)',
+          }}
         >
           {icon}
         </div>
-        <div className="text-left">
-          <div className={cn('font-medium', danger && 'text-destructive')}>
+        <div>
+          <div style={{ fontWeight: 'var(--font-medium)', color: danger ? 'var(--color-error)' : 'var(--text-primary)' }}>
             {title}
           </div>
           {description && (
-            <div className="text-sm text-muted-foreground">{description}</div>
+            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-1)' }}>
+              {description}
+            </div>
           )}
         </div>
       </div>
-      <ChevronRight className={cn('h-5 w-5', danger ? 'text-destructive' : 'text-muted-foreground')} />
+      <ChevronRight size={20} style={{ color: danger ? 'var(--color-error)' : 'var(--text-tertiary)' }} />
     </button>
   );
 };
@@ -90,11 +114,18 @@ interface SettingGroupProps {
 
 const SettingGroup: React.FC<SettingGroupProps> = ({ title, children }) => {
   return (
-    <div className="space-y-2">
-      <h2 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide px-2">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
+      <h2 style={{
+        fontSize: 'var(--text-sm)',
+        fontWeight: 'var(--font-semibold)',
+        color: 'var(--text-secondary)',
+        textTransform: 'uppercase',
+        letterSpacing: '0.05em',
+        padding: '0 var(--space-2)',
+      }}>
         {title}
       </h2>
-      <div className="space-y-1">{children}</div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>{children}</div>
     </div>
   );
 };
@@ -103,27 +134,57 @@ const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <h1 className="text-2xl font-bold">Settings</h1>
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 'var(--z-sticky)',
+        background: 'var(--bg-secondary)',
+        borderBottom: '1px solid var(--border-subtle)',
+        boxShadow: 'var(--shadow-sm)',
+      }}>
+        <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4)' }}>
+          <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)' }}>
+            Settings
+          </h1>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-8">
+      <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-6) var(--space-4)', display: 'flex', flexDirection: 'column', gap: 'var(--space-8)' }}>
         {/* User Card */}
-        <div className="bg-card border border-border rounded-xl p-6">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white text-2xl font-bold">
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+            <div style={{
+              width: '64px',
+              height: '64px',
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--brand-gradient)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-inverse)',
+              fontSize: 'var(--text-2xl)',
+              fontWeight: 'var(--font-bold)',
+            }}>
               {MOCK_USER.name.charAt(0)}
             </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-lg">{MOCK_USER.name}</h3>
+            <div style={{ flex: 1 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                <h3 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
+                  {MOCK_USER.name}
+                </h3>
                 {MOCK_USER.verified && (
-                  <div className="w-5 h-5 rounded-full bg-primary flex items-center justify-center">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                  <div style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: 'var(--radius-full)',
+                    background: 'var(--brand-primary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    <svg width="12" height="12" fill="white" viewBox="0 0 20 20">
                       <path
                         fillRule="evenodd"
                         d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
@@ -133,8 +194,8 @@ const SettingsPage: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div className="text-sm text-muted-foreground">{MOCK_USER.username}</div>
-              <div className="text-sm text-muted-foreground">{MOCK_USER.email}</div>
+              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{MOCK_USER.username}</div>
+              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{MOCK_USER.email}</div>
             </div>
           </div>
         </div>
@@ -264,9 +325,14 @@ const SettingsPage: React.FC = () => {
         </SettingGroup>
 
         {/* Footer Info */}
-        <div className="text-center text-sm text-muted-foreground py-4">
+        <div style={{
+          textAlign: 'center',
+          fontSize: 'var(--text-sm)',
+          color: 'var(--text-tertiary)',
+          padding: 'var(--space-4) 0',
+        }}>
           <p>CRYB Platform v1.0.0</p>
-          <p className="mt-1">Made with care for the crypto community</p>
+          <p style={{ marginTop: 'var(--space-1)' }}>Made with care for the crypto community</p>
         </div>
       </div>
     </div>

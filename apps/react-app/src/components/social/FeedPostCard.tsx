@@ -185,8 +185,8 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
       >
         <div style={{
   display: 'flex',
-  gap: '12px',
-  padding: '12px'
+  gap: 'var(--space-3)',
+  padding: 'var(--space-3)'
 }}>
           {/* Voting Sidebar */}
           <div className="flex-shrink-0">
@@ -209,7 +209,7 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
             <div style={{
   display: 'flex',
   alignItems: 'flex-start',
-  gap: '8px'
+  gap: 'var(--space-2)'
 }}>
               <div style={{
   flex: '1'
@@ -218,7 +218,7 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                 <div style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '8px',
+  gap: 'var(--space-2)',
   flexWrap: 'wrap'
 }}>
                   {showCommunity && post.community && (
@@ -228,8 +228,10 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                         style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '4px',
-  fontWeight: '600'
+  gap: 'var(--space-1)',
+  fontWeight: 'var(--font-semibold)',
+  fontSize: 'var(--text-sm)',
+  color: 'var(--text-primary)'
 }}
                         onClick={(e) => e.stopPropagation()}
                       >
@@ -238,9 +240,9 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                             src={post.community.icon}
                             alt={post.community.displayName}
                             style={{
-  width: '20px',
-  height: '20px',
-  borderRadius: '50%'
+  width: 'var(--icon-sm)',
+  height: 'var(--icon-sm)',
+  borderRadius: 'var(--radius-full)'
 }}
                           />
                         )}
@@ -264,15 +266,17 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                     </span>
                   )}
 
-                  <span>•</span>
+                  <span style={{ color: 'var(--text-tertiary)' }}>•</span>
                   <span style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '4px'
+  gap: 'var(--space-1)',
+  fontSize: 'var(--text-sm)',
+  color: 'var(--text-tertiary)'
 }}>
                     <Clock style={{
-  width: '12px',
-  height: '12px'
+  width: 'var(--icon-xs)',
+  height: 'var(--icon-xs)'
 }} />
                     {formatTimeAgo(post.createdAt)}
                   </span>
@@ -288,23 +292,24 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                 <div style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '8px'
+  gap: 'var(--space-2)',
+  marginTop: 'var(--space-1)'
 }}>
                   {post.pinned && (
-                    <span style={{
+                    <span className="badge" style={{
   display: 'inline-flex',
   alignItems: 'center',
-  gap: '4px',
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '50%',
-  fontWeight: '500'
+  gap: 'var(--space-1)',
+  padding: 'var(--space-1) var(--space-2)',
+  borderRadius: 'var(--radius-full)',
+  fontSize: 'var(--text-xs)',
+  fontWeight: 'var(--font-medium)',
+  backgroundColor: 'var(--color-info-light)',
+  color: 'var(--brand-primary)'
 }}>
                       <Pin style={{
-  width: '12px',
-  height: '12px'
+  width: 'var(--icon-xs)',
+  height: 'var(--icon-xs)'
 }} />
                       Pinned
                     </span>
@@ -312,15 +317,12 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
 
                   {post.flair && (
                     <span
+                      className="badge"
                       style={{
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '50%',
-  fontWeight: '500'
-}}
-                      style={{
+                        padding: 'var(--space-1) var(--space-2)',
+                        borderRadius: 'var(--radius-full)',
+                        fontSize: 'var(--text-xs)',
+                        fontWeight: 'var(--font-medium)',
                         backgroundColor: `${post.flair.color}20`,
                         color: post.flair.color,
                       }}
@@ -330,39 +332,39 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                   )}
 
                   {post.nsfw && (
-                    <span style={{
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '50%',
-  fontWeight: '500'
+                    <span className="badge" style={{
+  padding: 'var(--space-1) var(--space-2)',
+  borderRadius: 'var(--radius-full)',
+  fontSize: 'var(--text-xs)',
+  fontWeight: 'var(--font-medium)',
+  backgroundColor: 'var(--color-error-light)',
+  color: 'var(--color-error)'
 }}>
                       NSFW
                     </span>
                   )}
 
                   {post.spoiler && (
-                    <span style={{
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '50%',
-  fontWeight: '500'
+                    <span className="badge" style={{
+  padding: 'var(--space-1) var(--space-2)',
+  borderRadius: 'var(--radius-full)',
+  fontSize: 'var(--text-xs)',
+  fontWeight: 'var(--font-medium)',
+  backgroundColor: 'var(--color-warning-light)',
+  color: 'var(--color-warning)'
 }}>
                       Spoiler
                     </span>
                   )}
 
                   {post.locked && (
-                    <span style={{
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '50%',
-  fontWeight: '500'
+                    <span className="badge" style={{
+  padding: 'var(--space-1) var(--space-2)',
+  borderRadius: 'var(--radius-full)',
+  fontSize: 'var(--text-xs)',
+  fontWeight: 'var(--font-medium)',
+  backgroundColor: 'var(--bg-tertiary)',
+  color: 'var(--text-secondary)'
 }}>
                       Locked
                     </span>
@@ -386,22 +388,26 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Portal>
                   <DropdownMenu.Content
+                    className="card"
                     style={{
   width: '224px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  padding: '4px'
+  backgroundColor: 'var(--bg-secondary)',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-lg)',
+  padding: 'var(--space-1)',
+  boxShadow: 'var(--shadow-lg)'
 }}
                     align="end"
                   >
-                    <DropdownMenu.Item style={{
+                    <DropdownMenu.Item className="btn-ghost" style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '8px',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px'
+  gap: 'var(--space-2)',
+  padding: 'var(--space-2) var(--space-3)',
+  fontSize: 'var(--text-sm)',
+  color: 'var(--text-primary)',
+  cursor: 'pointer',
+  borderRadius: 'var(--radius-md)'
 }}>
                       <ExternalLink style={{
   width: '16px',
@@ -477,15 +483,17 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
             {/* Media */}
             {showMedia && post.media && !isCompact && (
               <div style={{
-  borderRadius: '12px',
-  overflow: 'hidden'
+  borderRadius: 'var(--radius-lg)',
+  overflow: 'hidden',
+  marginBottom: 'var(--space-3)'
 }}>
                 {post.media.type === 'image' && (
                   <img
                     src={post.media.url}
                     alt={post.title}
                     style={{
-  width: '100%'
+  width: '100%',
+  display: 'block'
 }}
                     onLoad={() => setImageLoaded(true)}
                   />
@@ -497,16 +505,19 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
+                    className="card"
                     style={{
   display: 'block',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  padding: '12px'
+  backgroundColor: 'var(--bg-secondary)',
+  border: '1px solid var(--border-subtle)',
+  borderRadius: 'var(--radius-lg)',
+  padding: 'var(--space-3)',
+  transition: 'all var(--transition-normal)'
 }}
                   >
                     <div style={{
   display: 'flex',
-  gap: '12px'
+  gap: 'var(--space-3)'
 }}>
                       {post.media.thumbnail && (
                         <img
@@ -555,12 +566,13 @@ export const FeedPostCard: React.FC<FeedPostCardProps> = ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  gap: '8px'
+  gap: 'var(--space-2)',
+  paddingTop: 'var(--space-2)'
 }}>
               <div style={{
   display: 'flex',
   alignItems: 'center',
-  gap: '4px'
+  gap: 'var(--space-1)'
 }}>
                 <Button
                   variant="ghost"

@@ -242,14 +242,14 @@ function ChatPage({ user, onNavigate }) {
   // Show error state if data loading failed
   if (error) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#0D0D0D]" role="main" aria-label="Chat error">
-        <div className="text-center max-w-md p-8 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]" role="alert" aria-live="assertive">
+      <div className="h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Chat error">
+        <div className="card-elevated text-center max-w-md p-8" role="alert" aria-live="assertive">
           <div className="text-6xl mb-4" aria-hidden="true">⚠️</div>
-          <h2 className="text-2xl font-bold text-white mb-2">Something went wrong</h2>
-          <p className="text-[#A0A0A0] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Something went wrong</h2>
+          <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <button
             onClick={loadChatData}
-            className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)] transition-all"
+            className="btn-primary"
             aria-label="Try loading chat again"
           >
             Try Again
@@ -262,10 +262,10 @@ function ChatPage({ user, onNavigate }) {
   // Show loading indicator during initial data load
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#0D0D0D]" role="main" aria-label="Chat loading" aria-live="polite" aria-busy="true">
+      <div className="h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Chat loading" aria-live="polite" aria-busy="true">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full  mx-auto mb-4" role="status" aria-hidden="true"></div>
-          <p className="text-[#A0A0A0]" aria-live="polite">Loading chat...</p>
+          <div className="spinner mx-auto mb-4" role="status" aria-hidden="true"></div>
+          <p style={{ color: 'var(--text-secondary)' }} aria-live="polite">Loading chat...</p>
         </div>
       </div>
     )
@@ -282,7 +282,8 @@ function ChatPage({ user, onNavigate }) {
       />
 
       <div
-        className="h-screen flex overflow-hidden bg-[#0D0D0D] text-gray-100"
+        className="h-screen flex overflow-hidden"
+        style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
         role="main"
         aria-label="Chat application"
       >
@@ -303,12 +304,12 @@ function ChatPage({ user, onNavigate }) {
           {activeChannel && currentChannel ? (
             <>
               {/* Channel Header */}
-              <div className="h-14 flex items-center justify-between px-4 border-b border-white/10 bg-[#141414]/80 backdrop-blur-xl shadow-sm">
+              <div className="h-14 flex items-center justify-between px-4 glass-strong" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                 <div className="flex items-center min-w-0 flex-1">
                   {isMobile && (
                     <button
                       onClick={() => setActiveChannel(null)}
-                      className="mr-3 p-2 hover:bg-[#141414] rounded-xl transition-colors"
+                      className="btn-ghost mr-3"
                       aria-label="Back to channels"
                     >
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -317,11 +318,11 @@ function ChatPage({ user, onNavigate }) {
                     </button>
                   )}
                   <div className="flex items-center min-w-0">
-                    <span className="text-[#58a6ff] mr-2" aria-hidden="true">#</span>
-                    <h2 className="text-white font-semibold truncate">{currentChannel?.name || 'Channel'}</h2>
+                    <span className="mr-2" style={{ color: 'var(--brand-primary)' }} aria-hidden="true">#</span>
+                    <h2 className="font-semibold truncate" style={{ color: 'var(--text-primary)' }}>{currentChannel?.name || 'Channel'}</h2>
                   </div>
                   {currentChannel?.description && (
-                    <div className="hidden md:flex items-center ml-4 text-sm text-[#666666] border-l border-white/10 pl-4">
+                    <div className="hidden md:flex items-center ml-4 text-sm pl-4" style={{ color: 'var(--text-secondary)', borderLeft: '1px solid var(--border-subtle)' }}>
                       <span className="truncate">{currentChannel?.description}</span>
                     </div>
                   )}
@@ -329,7 +330,7 @@ function ChatPage({ user, onNavigate }) {
                 <div className="flex items-center gap-2 ml-4">
                   <button
                     onClick={handleSearchOpen}
-                    className="p-2 hover:bg-[#141414] rounded-xl transition-colors text-[#666666] hover:text-[#58a6ff]"
+                    className="btn-ghost"
                     aria-label="Search messages"
                     title="Search (Ctrl+K)"
                   >
@@ -339,7 +340,7 @@ function ChatPage({ user, onNavigate }) {
                   </button>
                   <button
                     onClick={handleNotificationOpen}
-                    className="p-2 hover:bg-[#141414] rounded-xl transition-colors relative text-[#666666] hover:text-[#58a6ff]"
+                    className="btn-ghost relative"
                     aria-label={`Notifications ${notifications.length > 0 ? `(${notifications.length} unread)` : ''}`}
                     title="Notifications"
                   >
@@ -347,11 +348,11 @@ function ChatPage({ user, onNavigate }) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                     {(notifications?.length || 0) > 0 && (
-                      <span className="absolute top-1 right-1 w-2 h-2 bg-[#58a6ff] rounded-full shadow-lg" aria-hidden="true"></span>
+                      <span className="badge-count" style={{ position: 'absolute', top: '4px', right: '4px' }} aria-hidden="true"></span>
                     )}
                   </button>
                   <button
-                    className="p-2 hover:bg-[#141414] rounded-xl transition-colors hidden md:block text-[#666666] hover:text-[#58a6ff]"
+                    className="btn-ghost hidden md:block"
                     aria-label="Channel members"
                     title="Members"
                   >
@@ -384,22 +385,22 @@ function ChatPage({ user, onNavigate }) {
             </>
           ) : (
             /* Empty State - No Channel Selected */
-            <div className="flex-1 flex items-center justify-center bg-[#0D0D0D]">
+            <div className="flex-1 flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
               <div className="text-center max-w-md px-6" role="status" aria-live="polite">
                 <div className="mb-6" aria-hidden="true">
-                  <svg className="w-24 h-24 mx-auto text-[#666666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-24 h-24 mx-auto" style={{ color: 'var(--text-tertiary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-white mb-3">
+                <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
                   Select a channel to start chatting
                 </h2>
-                <p className="text-[#666666] mb-6">
+                <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
                   Choose a channel from the sidebar to view messages and join the conversation.
                 </p>
                 {(servers?.length || 0) === 0 && (
-                  <div className="mt-8 p-4 bg-[#141414]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10">
-                    <p className="text-sm text-[#A0A0A0]">
+                  <div className="card mt-8">
+                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                       No servers available. Create or join a server to get started.
                     </p>
                   </div>

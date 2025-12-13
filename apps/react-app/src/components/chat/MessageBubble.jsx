@@ -186,43 +186,42 @@ function MessageBubble({
     }
   }, [isMobile])
 
-  // Get bubble styles based on message type and state - OpenSea Design
+  // Get bubble styles based on message type and state - Light Theme Design
   const getBubbleStyles = () => {
     const baseStyles = {
       transform: `translateX(${swipeOffset}px)`,
-      transition: isSwipeActive ? 'none' : 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      transition: isSwipeActive ? 'none' : 'var(--transition-normal)',
       maxWidth: isMobile ? '85%' : '70%',
       position: 'relative',
-      backdropFilter: 'blur(10px)',
     }
 
-    // OpenSea Dark Theme - User messages with gradient
+    // Light Theme - User messages with gradient
     if (isOwnMessage) {
       return {
         ...baseStyles,
         background: isSelected
-          ? 'linear-gradient(135deg, #58a6ff, #a371f7)'
-          : 'linear-gradient(135deg, #58a6ff, #a371f7)',
-        color: 'white',
-        borderRadius: '16px 16px 4px 16px',
+          ? 'var(--brand-gradient)'
+          : 'var(--brand-gradient)',
+        color: 'var(--text-inverse)',
+        borderRadius: 'var(--radius-xl) var(--radius-xl) var(--radius-sm) var(--radius-xl)',
         marginLeft: 'auto',
         boxShadow: isSelected
-          ? '0 8px 32px rgba(88, 166, 255, 0.4), 0 2px 8px rgba(88, 166, 255, 0.3)'
-          : '0 4px 20px rgba(88, 166, 255, 0.2), 0 2px 8px rgba(0, 0, 0, 0.1)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+          ? 'var(--shadow-lg)'
+          : 'var(--shadow-md)',
+        border: 'none',
       }
     } else {
       return {
         ...baseStyles,
         background: isSelected
-          ? '#2a2e36'
-          : '#1A1A1A',
-        color: '#FFFFFF',
-        borderRadius: '16px 16px 16px 4px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+          ? 'var(--bg-hover)'
+          : 'var(--bg-secondary)',
+        color: 'var(--text-primary)',
+        borderRadius: 'var(--radius-xl) var(--radius-xl) var(--radius-xl) var(--radius-sm)',
+        border: '1px solid var(--border-subtle)',
         boxShadow: isSelected
-          ? '0 8px 32px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.2)'
-          : '0 2px 12px rgba(0, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.1)',
+          ? 'var(--shadow-md)'
+          : 'var(--shadow-sm)',
       }
     }
   }
@@ -376,12 +375,12 @@ function MessageBubble({
             components={{
               p: ({ children }) => <span className="inline">{children}</span>,
               a: ({ href, children }) => (
-                <a 
-                  href={href} 
-                  target="_blank" 
+                <a
+                  href={href}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="underline hover:no-underline"
-                  style={{ color: isOwnMessage ? '#bfdbfe' : 'var(--accent-primary)' }}
+                  style={{ color: isOwnMessage ? 'rgba(255,255,255,0.9)' : 'var(--brand-primary)' }}
                 >
                   {children}
                 </a>
@@ -393,9 +392,9 @@ function MessageBubble({
   paddingRight: '4px',
   paddingTop: '0px',
   paddingBottom: '0px',
-  borderRadius: '4px',
-                    backgroundColor: isOwnMessage ? 'rgba(255,255,255,0.2)' : 'var(--bg-secondary)',
-                    color: isOwnMessage ? '#e0e7ff' : 'var(--accent-primary)'
+  borderRadius: 'var(--radius-sm)',
+                    backgroundColor: isOwnMessage ? 'rgba(255,255,255,0.2)' : 'var(--bg-tertiary)',
+                    color: isOwnMessage ? 'var(--text-inverse)' : 'var(--brand-primary)'
                   }}
                 >
                   {children}
@@ -405,15 +404,15 @@ function MessageBubble({
                 <pre
                   style={{
   padding: '8px',
-  borderRadius: '4px',
-                    backgroundColor: isOwnMessage ? 'rgba(255,255,255,0.1)' : 'var(--bg-secondary)',
+  borderRadius: 'var(--radius-md)',
+                    backgroundColor: isOwnMessage ? 'rgba(255,255,255,0.15)' : 'var(--bg-tertiary)',
                   }}
                 >
                   {children}
                 </pre>
               ),
               strong: ({ children }) => (
-                <strong style={{ color: isOwnMessage ? '#fbbf24' : 'var(--accent-primary)' }}>
+                <strong style={{ color: isOwnMessage ? 'var(--text-inverse)' : 'var(--text-primary)', fontWeight: 'var(--font-semibold)' }}>
                   {children}
                 </strong>
               )
@@ -491,12 +490,11 @@ function MessageBubble({
   paddingRight: '16px',
   paddingTop: '12px',
   paddingBottom: '12px',
-  borderRadius: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-          background: 'rgba(26, 26, 26, 0.95)',
-          borderColor: 'var(--border-primary)',
+  borderRadius: 'var(--radius-full)',
+  border: '1px solid var(--border-default)',
+          background: 'var(--bg-secondary)',
           top: '-60px',
-          boxShadow: '0 10px 40px rgba(0, 0, 0, 0.3), 0 4px 12px rgba(0, 0, 0, 0.2)'
+          boxShadow: 'var(--shadow-xl)'
         }}>
           {quickReactions.map((emoji, index) => (
             <button

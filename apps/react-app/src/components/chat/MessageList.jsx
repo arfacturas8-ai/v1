@@ -258,13 +258,16 @@ function MessageList({
       return (
         <div key={item.id} className="flex items-center justify-center my-8">
           <div className="flex items-center w-full px-4">
-            <div className="flex-1 border-t border-white/10"></div>
-            <div className="px-4 py-2 bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
-              <span className="text-sm font-medium text-[#666666]">
+            <div className="flex-1" style={{ borderTop: '1px solid var(--border-subtle)' }}></div>
+            <div className="px-4 py-2 glass" style={{
+              borderRadius: 'var(--radius-full)',
+              boxShadow: 'var(--shadow-sm)'
+            }}>
+              <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
                 {formatDate(item.date)}
               </span>
             </div>
-            <div className="flex-1 border-t border-white/10"></div>
+            <div className="flex-1" style={{ borderTop: '1px solid var(--border-subtle)' }}></div>
           </div>
         </div>
       )
@@ -456,7 +459,7 @@ function MessageList({
       {/* Loading indicator */}
       {isLoading && (
         <div className="flex justify-center p-4">
-          <div className="w-6 h-6 border-2 border-[#58a6ff] border-t-transparent rounded-full "></div>
+          <div className="spinner"></div>
         </div>
       )}
       
@@ -497,8 +500,8 @@ function MessageList({
       {/* Selection mode actions */}
       {isSelectionMode && selectedMessages.size > 0 && (
         <div className="absolute bottom-4 left-4 right-4 z-10">
-          <div className="flex items-center justify-between p-4 bg-[#141414]/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <span className="font-medium text-white">
+          <div className="card-elevated flex items-center justify-between p-4">
+            <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
               {selectedMessages.size} message{selectedMessages.size > 1 ? 's' : ''} selected
             </span>
             <div className="flex gap-2">
@@ -511,7 +514,7 @@ function MessageList({
                   setIsSelectionMode(false)
                   setSelectedMessages(new Set())
                 }}
-                className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:shadow-[0_8px_32px_rgba(88,166,255,0.3)] transition-all"
+                className="btn-primary btn-sm"
               >
                 Copy
               </button>
@@ -520,7 +523,7 @@ function MessageList({
                   setIsSelectionMode(false)
                   setSelectedMessages(new Set())
                 }}
-                className="px-4 py-2 bg-[#0D0D0D] border border-white/10 text-white rounded-xl font-medium hover:bg-[#141414] transition-all"
+                className="btn-secondary btn-sm"
               >
                 Cancel
               </button>
@@ -528,12 +531,17 @@ function MessageList({
           </div>
         </div>
       )}
-      
+
       {/* Scroll to bottom button */}
       {!isAtBottom() && (
         <button
           onClick={() => scrollToBottom(true)}
-          className="absolute bottom-4 right-4 p-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-full shadow-[0_8px_32px_rgba(88,166,255,0.4)] hover:shadow-[0_12px_40px_rgba(88,166,255,0.5)] transition-all z-10"
+          className="btn-primary absolute bottom-4 right-4 z-10"
+          style={{
+            borderRadius: 'var(--radius-full)',
+            padding: 'var(--space-3)',
+            boxShadow: 'var(--shadow-lg)'
+          }}
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M10 3a1 1 0 011 1v10.586l3.293-3.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L9 14.586V4a1 1 0 011-1z" clipRule="evenodd" />

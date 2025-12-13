@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
-import { 
-  User, Verified, UserPlus, UserMinus, MessageSquare, 
+import {
+  User, Verified, UserPlus, UserMinus, MessageSquare,
   MoreHorizontal, MapPin, Calendar, Star, ExternalLink,
   Users, Heart, Hash, Eye, EyeOff, Flag
 } from 'lucide-react'
 import { useAuth } from '../../contexts/AuthContext'
 import profileService from '../../services/profileService'
 import { useToast } from '../ui/useToast'
+import './ProfileCard.css'
 
 
 export default function ProfileCard({ 

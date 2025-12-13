@@ -444,7 +444,7 @@ function MessageComposer({
   }, [content])
 
   return (
-    <div className={`bg-[#141414]/80 backdrop-blur-xl border-t border-white/10 ${className}`}>
+    <div className={`glass ${className}`} style={{ borderTop: '1px solid var(--border-subtle)' }}>
       {/* Reply/Edit Header */}
       {(replyToMessage || editingMessage) && (
         <div style={{
@@ -845,8 +845,8 @@ function MessageComposer({
               onKeyDown={handleKeyPress}
               placeholder={disabled ? 'This channel is read-only' : placeholder}
               disabled={disabled}
-              className="w-full px-3 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] resize-none focus:outline-none focus:ring-2 focus:ring-[#58a6ff]/50 focus:border-[#58a6ff]/50 transition-all"
-              style={{ minHeight: '40px', maxHeight: '200px' }}
+              className="input textarea"
+              style={{ minHeight: '40px', maxHeight: '200px', resize: 'none' }}
             />
 
             {/* Format Toolbar */}
@@ -960,7 +960,8 @@ function MessageComposer({
             <button
               onClick={editingMessage ? handleSaveEdit : handleSendMessage}
               disabled={disabled || (!content.trim() && attachments.length === 0 && !audioBlob)}
-              className="p-2 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-[0_8px_32px_rgba(88,166,255,0.3)] transition-all disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
+              className="btn-primary"
+              style={{ borderRadius: 'var(--radius-lg)', padding: 'var(--space-2)' }}
             >
               <Send className="w-5 h-5" />
             </button>
@@ -970,7 +971,7 @@ function MessageComposer({
         {/* Typing Indicators */}
         {typingUsers.length > 0 && (
           <div className="px-4 pb-2">
-            <div className="text-sm text-[#666666] italic">
+            <div className="text-sm italic" style={{ color: 'var(--text-secondary)' }}>
               {typingUsers.length === 1
                 ? `${typingUsers[0]} is typing...`
                 : typingUsers.length === 2

@@ -736,17 +736,17 @@ function DirectMessagesPage() {
         .dm-page {
           display: flex;
           height: 100vh;
-          background: #0D0D0D;
-          color: #A0A0A0;
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          font-family: var(--font-sans);
         }
 
         /* Left Sidebar - Conversations List */
         .conversations-sidebar {
           width: 320px;
-          background: rgba(22, 27, 34, 0.8);
+          background: var(--bg-secondary);
           backdrop-filter: blur(12px);
-          border-right: 1px solid rgba(255, 255, 255, 0.1);
+          border-right: 1px solid var(--border-subtle);
           display: flex;
           flex-direction: column;
           flex-shrink: 0;
@@ -754,7 +754,7 @@ function DirectMessagesPage() {
 
         .sidebar-header {
           padding: 16px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          border-bottom: 1px solid var(--border-subtle);
           background: transparent;
         }
 
@@ -766,23 +766,24 @@ function DirectMessagesPage() {
         }
 
         .sidebar-title h1 {
-          font-size: 20px;
-          font-weight: 600;
+          font-size: var(--text-xl);
+          font-weight: var(--font-semibold);
           margin: 0;
+          color: var(--text-primary);
         }
 
         .new-conversation-btn {
-          background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
+          background: var(--brand-gradient);
           border: none;
-          border-radius: 10px;
+          border-radius: var(--radius-lg);
           width: 36px;
           height: 36px;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.2s;
-          color: #fff;
+          transition: var(--transition-normal);
+          color: var(--text-inverse);
         }
 
         .new-conversation-btn:hover {
@@ -806,22 +807,22 @@ function DirectMessagesPage() {
         .search-input {
           width: 100%;
           padding: 10px 12px 10px 40px;
-          background: rgba(13, 17, 23, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 10px;
-          color: #ffffff;
-          font-size: 14px;
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-default);
+          border-radius: var(--radius-lg);
+          color: var(--text-primary);
+          font-size: var(--text-sm);
           outline: none;
-          transition: all 0.2s;
+          transition: var(--transition-normal);
         }
 
         .search-input:focus {
-          border-color: rgba(88, 166, 255, 0.5);
-          background: rgba(22, 27, 34, 0.8);
+          border-color: var(--brand-primary);
+          box-shadow: 0 0 0 3px var(--color-info-light);
         }
 
         .search-input::placeholder {
-          color: #6B7280;
+          color: var(--text-tertiary);
         }
 
         .conversations-list {
@@ -951,13 +952,13 @@ function DirectMessagesPage() {
           flex: 1;
           display: flex;
           flex-direction: column;
-          background: #0D0D0D;
+          background: var(--bg-primary);
         }
 
         .chat-header {
           padding: 16px 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(22, 27, 34, 0.6);
+          border-bottom: 1px solid var(--border-subtle);
+          background: var(--bg-elevated);
           backdrop-filter: blur(12px);
           display: flex;
           align-items: center;
@@ -1121,18 +1122,19 @@ function DirectMessagesPage() {
         }
 
         .message-bubble {
-          background: rgba(22, 27, 34, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          background: var(--bg-secondary);
+          border: 1px solid var(--border-subtle);
           padding: 12px 16px;
-          border-radius: 16px;
-          border-top-left-radius: 4px;
+          border-radius: var(--radius-xl);
+          border-top-left-radius: var(--radius-sm);
         }
 
         .message-bubble.own {
-          background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
+          background: var(--brand-gradient);
           border: none;
-          border-radius: 16px;
-          border-top-right-radius: 4px;
+          border-radius: var(--radius-xl);
+          border-top-right-radius: var(--radius-sm);
+          color: var(--text-inverse);
         }
 
         .message-text {
@@ -1328,28 +1330,30 @@ function DirectMessagesPage() {
         }
 
         .send-btn {
-          background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);
+          background: var(--brand-gradient);
           border: none;
-          color: #FFFFFF;
+          color: var(--text-inverse);
           padding: 10px;
-          border-radius: 10px;
+          border-radius: var(--radius-lg);
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.2s;
+          transition: var(--transition-normal);
         }
 
         .send-btn:hover {
           opacity: 0.9;
           transform: scale(1.05);
+          box-shadow: var(--shadow-md);
         }
 
         .send-btn:disabled {
-          background: rgba(255, 255, 255, 0.1);
-          color: #6B7280;
+          background: var(--bg-tertiary);
+          color: var(--text-tertiary);
           cursor: not-allowed;
           transform: none;
+          opacity: 0.5;
         }
 
         /* Empty States */

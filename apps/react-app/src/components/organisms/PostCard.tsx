@@ -209,13 +209,15 @@ const PostCard: React.FC<PostCardProps> = ({
 
   return (
     <article
+      className="card"
       style={{
-        backgroundColor: colors.bg.secondary,
-        border: `1px solid ${colors.border.default}`,
-        borderRadius: radii.lg,
-        padding: spacing[4],
-        transition: `all ${animation.duration.fast} ${animation.easing.easeOut}`,
+        backgroundColor: 'var(--bg-secondary)',
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 'var(--radius-lg)',
+        padding: 'var(--space-4)',
+        transition: 'all var(--transition-normal)',
         cursor: onPostClick ? 'pointer' : 'default',
+        boxShadow: 'var(--shadow-sm)',
       }}
       onClick={onPostClick}
       role={onPostClick ? 'button' : undefined}
@@ -228,9 +230,9 @@ const PostCard: React.FC<PostCardProps> = ({
       }}
     >
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: spacing[3] }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 'var(--space-3)' }}>
         <div
-          style={{ display: 'flex', gap: spacing[3], cursor: 'pointer', flex: 1 }}
+          style={{ display: 'flex', gap: 'var(--space-3)', cursor: 'pointer', flex: 1 }}
           onClick={(e) => {
             e.stopPropagation();
             onAuthorClick?.();
@@ -250,9 +252,9 @@ const PostCard: React.FC<PostCardProps> = ({
             style={{
               width: '48px',
               height: '48px',
-              borderRadius: radii.full,
+              borderRadius: 'var(--radius-full)',
               overflow: 'hidden',
-              backgroundColor: colors.bg.tertiary,
+              backgroundColor: 'var(--bg-tertiary)',
               flexShrink: 0,
             }}
           >
@@ -285,12 +287,12 @@ const PostCard: React.FC<PostCardProps> = ({
 
           {/* Author Info */}
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2] }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
               <span
                 style={{
-                  color: colors.text.primary,
-                  fontSize: typography.fontSize.base,
-                  fontWeight: typography.fontWeight.semibold,
+                  color: 'var(--text-primary)',
+                  fontSize: 'var(--text-base)',
+                  fontWeight: 'var(--font-semibold)',
                   whiteSpace: 'nowrap',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -302,29 +304,29 @@ const PostCard: React.FC<PostCardProps> = ({
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                   <path
                     d="M5.6 8L7.2 9.6L10.4 6.4M14.4 8C14.4 11.5346 11.5346 14.4 8 14.4C4.46538 14.4 1.6 11.5346 1.6 8C1.6 4.46538 4.46538 1.6 8 1.6C11.5346 1.6 14.4 4.46538 14.4 8Z"
-                    stroke={colors.brand.primary}
+                    stroke="var(--brand-primary)"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    fill={colors.brand.primary}
+                    fill="var(--brand-primary)"
                   />
                 </svg>
               )}
             </div>
-            <div style={{ display: 'flex', gap: spacing[2], alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center' }}>
               <span
                 style={{
-                  color: colors.text.tertiary,
-                  fontSize: typography.fontSize.sm,
+                  color: 'var(--text-tertiary)',
+                  fontSize: 'var(--text-sm)',
                 }}
               >
                 @{author.username}
               </span>
-              <span style={{ color: colors.text.tertiary }}>•</span>
+              <span style={{ color: 'var(--text-tertiary)' }}>•</span>
               <span
                 style={{
-                  color: colors.text.tertiary,
-                  fontSize: typography.fontSize.sm,
+                  color: 'var(--text-tertiary)',
+                  fontSize: 'var(--text-sm)',
                 }}
               >
                 {formatRelativeTime(timestamp)}
@@ -475,13 +477,14 @@ const PostCard: React.FC<PostCardProps> = ({
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: spacing[2],
-          paddingTop: spacing[3],
-          borderTop: `1px solid ${colors.border.subtle}`,
+          gap: 'var(--space-2)',
+          paddingTop: 'var(--space-3)',
+          borderTop: '1px solid var(--border-subtle)',
         }}
       >
         {/* Like Button */}
         <button
+          className="btn btn-ghost"
           onClick={(e) => {
             e.stopPropagation();
             handleLike();
@@ -489,19 +492,19 @@ const PostCard: React.FC<PostCardProps> = ({
           style={{
             background: 'none',
             border: 'none',
-            color: liked ? colors.semantic.error : colors.text.tertiary,
+            color: liked ? 'var(--color-error)' : 'var(--text-tertiary)',
             cursor: 'pointer',
-            padding: spacing[2],
-            borderRadius: radii.full,
+            padding: 'var(--space-2)',
+            borderRadius: 'var(--radius-full)',
             display: 'flex',
             alignItems: 'center',
-            gap: spacing[2],
-            fontSize: typography.fontSize.sm,
-            transition: `all ${animation.duration.fast} ${animation.easing.easeOut}`,
+            gap: 'var(--space-2)',
+            fontSize: 'var(--text-sm)',
+            transition: 'all var(--transition-normal)',
           }}
           onMouseEnter={(e) => {
             if (!liked) {
-              e.currentTarget.style.backgroundColor = colors.bg.hover;
+              e.currentTarget.style.backgroundColor = 'var(--bg-hover)';
             }
           }}
           onMouseLeave={(e) => {

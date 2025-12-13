@@ -39,23 +39,35 @@ const FeedFilters = ({
   }
 
   return (
-    <div className={`feed-filters ${className}`}>
+    <div className={`feed-filters ${className}`} style={{
+      backgroundColor: 'var(--bg-secondary)',
+      padding: 'var(--space-4)',
+      borderRadius: 'var(--radius-xl)',
+      marginBottom: 'var(--space-4)'
+    }}>
       {/* Feed Header */}
       <div style={{
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  marginBottom: 'var(--space-4)'
 }}>
         <div style={{
   flex: '1'
 }}>
           <h1 style={{
-  fontWeight: 'bold'
+  fontSize: 'var(--text-2xl)',
+  fontWeight: 'var(--font-bold)',
+  color: 'var(--text-primary)',
+  marginBottom: 'var(--space-1)'
 }}>
             {getFeedTitle()}
           </h1>
           {getFeedDescription() && (
-            <p className="text-sm text-muted">
+            <p style={{
+              fontSize: 'var(--text-sm)',
+              color: 'var(--text-secondary)'
+            }}>
               {getFeedDescription()}
             </p>
           )}
@@ -64,11 +76,16 @@ const FeedFilters = ({
         {/* Refresh Button (Desktop) */}
         {onRefresh && (
           <button
+            className="btn btn-ghost"
             onClick={onRefresh}
             disabled={refreshing}
             style={{
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  gap: 'var(--space-2)',
+  padding: 'var(--space-2) var(--space-3)',
+  borderRadius: 'var(--radius-full)',
+  transition: 'all var(--transition-normal)'
 }}
             aria-label="Refresh feed"
           >
@@ -94,7 +111,9 @@ const FeedFilters = ({
       <div style={{
   display: 'flex',
   alignItems: 'center',
-  justifyContent: 'space-between'
+  justifyContent: 'space-between',
+  paddingTop: 'var(--space-3)',
+  borderTop: '1px solid var(--border-subtle)'
 }}>
         <SortControls
           sortBy={sortBy}
@@ -109,13 +128,16 @@ const FeedFilters = ({
   display: 'none'
 }}>
           <a
-            href={feedType === 'community' 
-              ? `/c/${communityName}/submit` 
+            href={feedType === 'community'
+              ? `/c/${communityName}/submit`
               : '/submit'
             }
+            className="btn btn-primary"
             style={{
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  gap: 'var(--space-2)',
+  textDecoration: 'none'
 }}
           >
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -130,33 +152,43 @@ const FeedFilters = ({
       {feedType === 'community' && (
         <div style={{
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  gap: 'var(--space-4)',
+  marginTop: 'var(--space-3)',
+  paddingTop: 'var(--space-3)',
+  borderTop: '1px solid var(--border-subtle)',
+  fontSize: 'var(--text-sm)',
+  color: 'var(--text-secondary)'
 }}>
           <div style={{
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  gap: 'var(--space-1)'
 }}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style={{ color: 'var(--text-tertiary)' }}>
               <path d="M6 0a6 6 0 1 0 0 12A6 6 0 0 0 6 0zM3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2zm6 0a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
             </svg>
             <span>25.4K members</span>
           </div>
           <div style={{
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  gap: 'var(--space-1)'
 }}>
             <div style={{
   width: '8px',
   height: '8px',
-  borderRadius: '50%'
+  borderRadius: 'var(--radius-full)',
+  backgroundColor: 'var(--color-success)'
 }} />
             <span>847 online</span>
           </div>
           <div style={{
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  gap: 'var(--space-1)'
 }}>
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor" style={{ color: 'var(--text-tertiary)' }}>
               <path d="M6 0a6 6 0 1 0 0 12A6 6 0 0 0 6 0zM5.5 1.5a.5.5 0 0 1 1 0v4a.5.5 0 0 1-.146.354l-2 2a.5.5 0 0 1-.708-.708L5.5 5.293V1.5z"/>
             </svg>
             <span>Created 2019</span>
