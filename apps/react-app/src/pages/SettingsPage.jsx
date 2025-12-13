@@ -606,7 +606,7 @@ function SettingsPage() {
 
       <div className="flex min-h-screen">
         {/* Left Sidebar Navigation */}
-        <aside className="safe-area-top w-64 border-r border-white/10 fixed left-0 top-0 bottom-0 overflow-y-auto lg:block hidden" style={{ background: 'var(--bg-primary)' }}>
+        <aside className="safe-area-top w-64 border-r border-[var(--border-subtle)] fixed left-0 top-0 bottom-0 overflow-y-auto lg:block hidden" style={{ background: 'var(--bg-primary)' }}>
           <h1 className="text-2xl font-bold px-6 py-8" style={{ color: 'var(--text-primary)' }}>Settings</h1>
           <nav className="flex flex-col gap-1 px-3">
             {tabs.map(tab => (
@@ -616,8 +616,9 @@ function SettingsPage() {
                 className={`touch-target flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                    : 'text-[#666666] hover:bg-white/5 hover:text-[#A0A0A0]'
+                    : 'hover:bg-gray-100'
                 }`}
+                style={activeTab !== tab.id ? { color: 'var(--text-secondary)' } : {}}
                 aria-label={`${tab.label} settings`}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
               >
@@ -629,7 +630,7 @@ function SettingsPage() {
         </aside>
 
         {/* Mobile Bottom Navigation */}
-        <aside className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-white/10 lg:hidden" style={{ background: 'var(--bg-primary)' }}>
+        <aside className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border-subtle)] lg:hidden" style={{ background: 'var(--bg-primary)' }}>
           <nav className="flex overflow-x-auto gap-2 px-3 py-3 hide-scrollbar">
             {tabs.map(tab => (
               <button
@@ -638,8 +639,9 @@ function SettingsPage() {
                 className={`touch-target flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all flex-shrink-0 ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                    : 'text-[#666666]'
+                    : ''
                 }`}
+                style={activeTab !== tab.id ? { color: 'var(--text-secondary)' } : {}}
                 aria-label={`${tab.label} settings`}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
               >
@@ -658,13 +660,13 @@ function SettingsPage() {
               <div className="space-y-6">
                 <div>
                   <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Profile Settings</h2>
-                  <p className="text-[#666666]">Customize your public profile and personal information</p>
+                  <p style={{ color: 'var(--text-secondary)' }}>Customize your public profile and personal information</p>
                 </div>
 
                 <form onSubmit={handleProfileSubmit} className="space-y-6">
                   {/* Avatar Upload */}
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-4">Profile Picture</label>
+                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                    <label className="block text-sm font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>Profile Picture</label>
                     <div className="flex items-center gap-6">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
                         {avatarPreview ? (
@@ -686,77 +688,82 @@ function SettingsPage() {
                             aria-label="Upload profile picture"
                           />
                         </label>
-                        <p className="text-[#666666] text-sm mt-2">JPG, PNG or GIF. Max size 5MB.</p>
+                        <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>JPG, PNG or GIF. Max size 5MB.</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Username (Read-only) */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Username</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Username</label>
                     <input
                       type="text"
                       value={currentUser?.username || ''}
                       disabled
-                      className="w-full px-4 py-3 bg-[#0D0D0D]/50 border border-white/10 rounded-xl text-[#666666] cursor-not-allowed"
+                      className="w-full px-4 py-3 bg-gray-50 border border-[var(--border-subtle)] rounded-xl cursor-not-allowed"
+                      style={{ color: 'var(--text-secondary)' }}
                     />
-                    <p className="text-[#666666] text-sm mt-1">Your username cannot be changed</p>
+                    <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Your username cannot be changed</p>
                   </div>
 
                   {/* Display Name */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Display Name</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Display Name</label>
                     <input
                       type="text"
                       value={profileData.displayName}
                       onChange={(e) => setProfileData({ ...profileData, displayName: e.target.value })}
                       placeholder="Enter your display name"
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      style={{ color: 'var(--text-primary)' }}
                       aria-label="Display name"
                     />
                   </div>
 
                   {/* Bio */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Bio</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Bio</label>
                     <textarea
                       value={profileData.bio}
                       onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
                       placeholder="Tell us about yourself..."
                       rows={4}
                       maxLength={500}
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors resize-none"
+                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors resize-none"
+                      style={{ color: 'var(--text-primary)' }}
                     />
-                    <p className="text-[#666666] text-sm mt-1">{profileData.bio.length}/500 characters</p>
+                    <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{profileData.bio.length}/500 characters</p>
                   </div>
 
                   {/* Location */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Location</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Location</label>
                     <input
                       type="text"
                       value={profileData.location}
                       onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
                       placeholder="City, Country"
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      style={{ color: 'var(--text-primary)' }}
                     />
                   </div>
 
                   {/* Website */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Website</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Website</label>
                     <input
                       type="url"
                       value={profileData.website}
                       onChange={(e) => setProfileData({ ...profileData, website: e.target.value })}
                       placeholder="https://yourwebsite.com"
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      style={{ color: 'var(--text-primary)' }}
                     />
                   </div>
 
                   {/* Social Links */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Social Links</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Social Links</label>
                     <div className="space-y-3">
                       <input
                         type="text"
@@ -766,7 +773,8 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, twitter: e.target.value }
                         })}
                         placeholder="Twitter/X username"
-                        className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        style={{ color: 'var(--text-primary)' }}
                       />
                       <input
                         type="text"
@@ -776,7 +784,8 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, github: e.target.value }
                         })}
                         placeholder="GitHub username"
-                        className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        style={{ color: 'var(--text-primary)' }}
                       />
                       <input
                         type="text"
@@ -786,14 +795,15 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, linkedin: e.target.value }
                         })}
                         placeholder="LinkedIn profile"
-                        className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white placeholder-[#666666] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
+                        style={{ color: 'var(--text-primary)' }}
                       />
                     </div>
                   </div>
 
                   {/* Interests */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-3">Interests</label>
+                    <label className="block text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Interests</label>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
                       {availableInterests.map(interest => (
                         <button
@@ -803,7 +813,7 @@ function SettingsPage() {
                           className={`touch-target px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                             profileData.interests.includes(interest)
                               ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                              : 'bg-[#141414] text-[#666666] border border-white/10 hover:border-[#58a6ff] hover:text-[#A0A0A0]'
+                              : 'bg-gray-100 text-gray-700 border border-[var(--border-subtle)] hover:border-[#58a6ff]'
                           }`}
                         >
                           {interest}
@@ -827,45 +837,48 @@ function SettingsPage() {
             {activeTab === 'account' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Account Settings</h2>
-                  <p className="text-[#666666]">Manage your email, password, and account preferences</p>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Account Settings</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Manage your email, password, and account preferences</p>
                 </div>
 
                 {/* Email */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Email Address</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Email Address</h3>
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Current Email</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Current Email</label>
                     <input
                       type="email"
                       value={currentUser?.email || ''}
                       disabled
-                      className="w-full px-4 py-3 bg-[#0D0D0D]/50 border border-white/10 rounded-xl text-[#666666] cursor-not-allowed"
+                      className="w-full px-4 py-3 bg-gray-50 border border-[var(--border-subtle)] rounded-xl cursor-not-allowed"
+                      style={{ color: 'var(--text-secondary)' }}
                     />
-                    <p className="text-[#666666] text-sm mt-1">Contact support to change your email address</p>
+                    <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Contact support to change your email address</p>
                   </div>
                 </div>
 
                 {/* Password Change */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Change Password</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Change Password</h3>
                   <form onSubmit={handlePasswordSubmit} className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Current Password</label>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Current Password</label>
                       <div className="relative">
                         <input
                           type={showCurrentPassword ? 'text' : 'password'}
                           value={passwordData.currentPassword}
                           onChange={(e) => handlePasswordChange('currentPassword', e.target.value)}
                           placeholder="Enter current password"
-                          className={`w-full px-4 py-3 pr-12 bg-[#0D0D0D] border rounded-xl text-white placeholder-[#666666] focus:outline-none transition-colors ${
-                            passwordErrors.currentPassword ? 'border-red-500' : 'border-white/10 focus:border-[#58a6ff]'
+                          className={`w-full px-4 py-3 pr-12 bg-white border rounded-xl placeholder-[var(--text-secondary)] focus:outline-none transition-colors ${
+                            passwordErrors.currentPassword ? 'border-red-500' : 'border-[var(--border-subtle)] focus:border-[#58a6ff]'
                           }`}
+                          style={{ color: 'var(--text-primary)' }}
                         />
                         <button
                           type="button"
                           onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#A0A0A0] transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                          style={{ color: 'var(--text-secondary)' }}
                           aria-label={showCurrentPassword ? 'Hide password' : 'Show password'}
                         >
                           {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -877,28 +890,30 @@ function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">New Password</label>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>New Password</label>
                       <div className="relative">
                         <input
                           type={showNewPassword ? 'text' : 'password'}
                           value={passwordData.newPassword}
                           onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
                           placeholder="Enter new password"
-                          className={`w-full px-4 py-3 pr-12 bg-[#0D0D0D] border rounded-xl text-white placeholder-[#666666] focus:outline-none transition-colors ${
-                            passwordErrors.newPassword ? 'border-red-500' : 'border-white/10 focus:border-[#58a6ff]'
+                          className={`w-full px-4 py-3 pr-12 bg-white border rounded-xl placeholder-[var(--text-secondary)] focus:outline-none transition-colors ${
+                            passwordErrors.newPassword ? 'border-red-500' : 'border-[var(--border-subtle)] focus:border-[#58a6ff]'
                           }`}
+                          style={{ color: 'var(--text-primary)' }}
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPassword(!showNewPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#A0A0A0] transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                          style={{ color: 'var(--text-secondary)' }}
                           aria-label={showNewPassword ? 'Hide password' : 'Show password'}
                         >
                           {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
                       {passwordData.newPassword && (
-                        <div className="mt-2 h-2 bg-[#0D0D0D] rounded-full overflow-hidden">
+                        <div className="mt-2 h-2 bg-gray-100 rounded-full overflow-hidden">
                           <div
                             className={`h-full transition-all ${calculatePasswordStrength(passwordData.newPassword).color}`}
                             style={{
@@ -914,21 +929,23 @@ function SettingsPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Confirm New Password</label>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Confirm New Password</label>
                       <div className="relative">
                         <input
                           type={showConfirmPassword ? 'text' : 'password'}
                           value={passwordData.confirmPassword}
                           onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
                           placeholder="Re-enter new password"
-                          className={`w-full px-4 py-3 pr-12 bg-[#0D0D0D] border rounded-xl text-white placeholder-[#666666] focus:outline-none transition-colors ${
-                            passwordErrors.confirmPassword ? 'border-red-500' : 'border-white/10 focus:border-[#58a6ff]'
+                          className={`w-full px-4 py-3 pr-12 bg-white border rounded-xl placeholder-[var(--text-secondary)] focus:outline-none transition-colors ${
+                            passwordErrors.confirmPassword ? 'border-red-500' : 'border-[var(--border-subtle)] focus:border-[#58a6ff]'
                           }`}
+                          style={{ color: 'var(--text-primary)' }}
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 text-[#666666] hover:text-[#A0A0A0] transition-colors"
+                          className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+                          style={{ color: 'var(--text-secondary)' }}
                           aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                         >
                           {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
@@ -951,8 +968,8 @@ function SettingsPage() {
 
                 {/* Delete Account */}
                 <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-2">Delete Account</h3>
-                  <p className="text-[#A0A0A0] mb-4">
+                  <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Delete Account</h3>
+                  <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>
                     Once you delete your account, there is no going back. Please be certain.
                   </p>
                   <button
@@ -970,17 +987,18 @@ function SettingsPage() {
             {activeTab === 'privacy' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Privacy Settings</h2>
-                  <p className="text-[#666666]">Control your privacy and who can see your information</p>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Privacy Settings</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Control your privacy and who can see your information</p>
                 </div>
 
                 <form onSubmit={handlePrivacySubmit} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Profile Visibility</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Profile Visibility</label>
                     <select
                       value={privacySettings.profileVisibility}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, profileVisibility: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       <option value="public">Public - Anyone can view</option>
                       <option value="friends">Friends Only</option>
@@ -989,11 +1007,12 @@ function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Who can send you friend requests?</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Who can send you friend requests?</label>
                     <select
                       value={privacySettings.friendRequestsFrom}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, friendRequestsFrom: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       <option value="everyone">Everyone</option>
                       <option value="friends_of_friends">Friends of Friends</option>
@@ -1002,11 +1021,12 @@ function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Who can message you?</label>
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Who can message you?</label>
                     <select
                       value={privacySettings.messagePrivacy}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, messagePrivacy: e.target.value })}
-                      className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors"
+                      style={{ color: 'var(--text-primary)' }}
                     >
                       <option value="everyone">Everyone</option>
                       <option value="friends">Friends Only</option>
@@ -1014,7 +1034,7 @@ function SettingsPage() {
                     </select>
                   </div>
 
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
+                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Show Online Status"
                       description="Let others see when you're online"
@@ -1048,23 +1068,24 @@ function SettingsPage() {
 
                 {/* Blocked Users */}
                 {blockedUsers.length > 0 && (
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                    <h3 className="text-xl font-semibold text-white mb-4">Blocked Users ({blockedUsers.length})</h3>
+                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                    <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Blocked Users ({blockedUsers.length})</h3>
                     <div className="space-y-3">
                       {blockedUsers.map(user => (
-                        <div key={user._id} className="flex items-center justify-between p-3 bg-[#0D0D0D] rounded-xl">
+                        <div key={user._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-bold">
                               {user.username[0].toUpperCase()}
                             </div>
                             <div>
-                              <div className="text-white font-medium">{user.username}</div>
-                              <div className="text-[#666666] text-sm">{user.displayName}</div>
+                              <div className="font-medium" style={{ color: 'var(--text-primary)' }}>{user.username}</div>
+                              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{user.displayName}</div>
                             </div>
                           </div>
                           <button
                             onClick={() => handleUnblockUser(user._id)}
-                            className="touch-target px-4 py-2 bg-white/5 text-[#A0A0A0] rounded-xl text-sm font-medium hover:bg-white/10 transition-colors"
+                            className="touch-target px-4 py-2 bg-gray-100 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                           >
                             Unblock
                           </button>
@@ -1080,19 +1101,19 @@ function SettingsPage() {
             {activeTab === 'security' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Security</h2>
-                  <p className="text-[#666666]">Manage your account security and authentication</p>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Security</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Manage your account security and authentication</p>
                 </div>
 
                 {/* Two-Factor Authentication */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Two-Factor Authentication</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Two-Factor Authentication</h3>
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-[#A0A0A0] font-medium mb-1">
+                      <div className="font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
                         {twoFactorEnabled ? 'Enabled' : 'Disabled'}
                       </div>
-                      <div className="text-[#666666] text-sm">
+                      <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                         Add an extra layer of security to your account
                       </div>
                     </div>
@@ -1110,20 +1131,20 @@ function SettingsPage() {
                 </div>
 
                 {/* Passkey Settings */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Passkeys</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Passkeys</h3>
                   <PasskeySettings />
                 </div>
 
                 {/* Active Sessions */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Active Sessions</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Active Sessions</h3>
                   <div className="space-y-3">
                     {activeSessions.map(session => (
-                      <div key={session.id} className="flex items-center justify-between p-4 bg-[#0D0D0D] rounded-xl">
+                      <div key={session.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
                         <div className="flex-1">
-                          <div className="text-white font-medium mb-1">{session.device}</div>
-                          <div className="text-[#666666] text-sm flex items-center gap-2">
+                          <div className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>{session.device}</div>
+                          <div className="text-sm flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                             {session.location} • {session.lastActive}
                             {session.current && (
                               <span className="px-2 py-0.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs rounded-full">
@@ -1134,7 +1155,8 @@ function SettingsPage() {
                         </div>
                         {!session.current && (
                           <button
-                            className="touch-target px-4 py-2 bg-white/5 text-[#A0A0A0] rounded-xl text-sm font-medium hover:bg-white/10 transition-colors"
+                            className="touch-target px-4 py-2 bg-gray-100 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors"
+                            style={{ color: 'var(--text-secondary)' }}
                             aria-label={`Revoke session ${session.device}`}
                           >
                             Revoke
@@ -1146,15 +1168,15 @@ function SettingsPage() {
                 </div>
 
                 {/* Login History */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Login History</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Login History</h3>
                   <div className="space-y-3">
                     {loginHistory.map(login => (
-                      <div key={login.id} className="flex items-start gap-3 p-4 bg-[#0D0D0D] rounded-xl">
+                      <div key={login.id} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
                         <div className="w-2 h-2 rounded-full bg-[#58a6ff] mt-2"></div>
                         <div className="flex-1">
-                          <div className="text-white font-medium mb-1">{login.device}</div>
-                          <div className="text-[#666666] text-sm">
+                          <div className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>{login.device}</div>
+                          <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                             {login.location} • {login.timestamp}
                           </div>
                         </div>
@@ -1176,12 +1198,12 @@ function SettingsPage() {
             {activeTab === 'notifications' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Notification Preferences</h2>
-                  <p className="text-[#666666]">Choose what notifications you want to receive</p>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Notification Preferences</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Choose what notifications you want to receive</p>
                 </div>
 
                 <form onSubmit={handleNotificationSubmit} className="space-y-6">
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
+                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Friend Requests"
                       description="When someone sends you a friend request"
@@ -1268,17 +1290,17 @@ function SettingsPage() {
             {activeTab === 'appearance' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Appearance</h2>
-                  <p className="text-[#666666]">Customize how the app looks and feels</p>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Appearance</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Customize how the app looks and feels</p>
                 </div>
 
                 <form onSubmit={handleAppearanceSubmit} className="space-y-6">
                   {/* Theme Toggle */}
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                    <h3 className="text-xl font-semibold text-white mb-4">Theme</h3>
+                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                    <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Theme</h3>
                     <div className="flex items-center justify-between">
                       <ThemeToggle />
-                      <p className="text-[#A0A0A0]">
+                      <p style={{ color: 'var(--text-secondary)' }}>
                         Current theme: <strong>{theme === 'dark' ? 'Dark' : 'Light'}</strong>
                       </p>
                     </div>
@@ -1286,8 +1308,8 @@ function SettingsPage() {
 
                   {/* Language */}
                   <div>
-                    <label className="block text-sm font-medium text-[#A0A0A0] mb-2">Language</label>
-                    <select className="w-full px-4 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white focus:border-[#58a6ff] focus:outline-none transition-colors">
+                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Language</label>
+                    <select className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors" style={{ color: 'var(--text-primary)' }}>
                       <option value="en">English</option>
                       <option value="es">Spanish</option>
                       <option value="fr">French</option>
@@ -1297,7 +1319,7 @@ function SettingsPage() {
                   </div>
 
                   {/* Accessibility Options */}
-                  <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 space-y-4">
+                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Reduce Motion"
                       description="Minimize animations and transitions"
@@ -1335,19 +1357,19 @@ function SettingsPage() {
             {activeTab === 'integrations' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Integrations</h2>
-                  <p className="text-[#666666]">Connect third-party apps and manage API access</p>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Integrations</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Connect third-party apps and manage API access</p>
                 </div>
 
                 {/* OAuth Settings */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Connected Apps</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Connected Apps</h3>
                   <OAuthSettings />
                 </div>
 
                 {/* API Keys */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">API Keys</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>API Keys</h3>
                   <APIKeysSettings />
                 </div>
               </div>
@@ -1357,28 +1379,29 @@ function SettingsPage() {
             {activeTab === 'wallet' && (
               <div className="space-y-6">
                 <div>
-                  <h2 className="text-3xl font-bold text-white mb-2">Web3 Wallet</h2>
-                  <p className="text-[#666666]">Connect and manage your cryptocurrency wallets</p>
+                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Web3 Wallet</h2>
+                  <p style={{ color: 'var(--text-secondary)' }}>Connect and manage your cryptocurrency wallets</p>
                 </div>
 
                 {/* Wallet Connection */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Wallet Connection</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Wallet Connection</h3>
                   <WalletConnectButton />
                 </div>
 
                 {/* Token Balances */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Token Balances</h3>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Token Balances</h3>
                   <TokenBalanceDisplay />
                 </div>
 
                 {/* Wallet Addresses */}
-                <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold text-white mb-4">Saved Addresses</h3>
-                  <p className="text-[#666666] mb-4">No saved wallet addresses yet</p>
+                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Saved Addresses</h3>
+                  <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>No saved wallet addresses yet</p>
                   <button
-                    className="touch-target px-6 py-2.5 bg-white/5 text-[#A0A0A0] rounded-xl font-medium hover:bg-white/10 transition-colors"
+                    className="touch-target px-6 py-2.5 bg-gray-100 rounded-xl font-medium hover:bg-gray-200 transition-colors"
+                    style={{ color: 'var(--text-secondary)' }}
                     aria-label="Add wallet address"
                   >
                     Add Address
@@ -1398,8 +1421,8 @@ const ToggleSwitch = ({ label, description, checked, onChange }) => {
   return (
     <div className="flex items-center justify-between py-2">
       <div className="flex-1">
-        <div className="text-[#A0A0A0] font-medium mb-1">{label}</div>
-        <div className="text-[#666666] text-sm">{description}</div>
+        <div className="font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{label}</div>
+        <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{description}</div>
       </div>
       <label className="relative inline-block w-12 h-6 flex-shrink-0 cursor-pointer">
         <input
@@ -1411,7 +1434,7 @@ const ToggleSwitch = ({ label, description, checked, onChange }) => {
         <span className={`absolute inset-0 rounded-full transition-all ${
           checked
             ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7]'
-            : 'bg-[#0D0D0D] border-2 border-white/10'
+            : 'bg-gray-200 border-2 border-[var(--border-subtle)]'
         }`}></span>
         <span className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
           checked ? 'translate-x-6' : 'translate-x-0'

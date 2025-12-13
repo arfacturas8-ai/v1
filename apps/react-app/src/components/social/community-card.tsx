@@ -231,7 +231,7 @@ const MemberRoleBadge: React.FC<{ role: CommunityMember['role'] }> = ({ role }) 
     member: {
       icon: Users,
       label: 'Member',
-      className: 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-300',
+      className: 'bg-gray-100 text-gray-800',
     },
   };
 

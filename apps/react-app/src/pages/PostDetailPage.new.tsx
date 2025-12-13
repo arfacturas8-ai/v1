@@ -534,7 +534,7 @@ export default function PostDetailPage() {
                     <img
                       src={post?.media?.[0]?.url}
                       alt={post?.media?.[0]?.alt}
-                      className="w-full h-auto max-h-[600px] object-contain bg-[#0D0D0D]"
+                      className="w-full h-auto max-h-[600px] object-contain bg-gray-100"
                     />
                   )}
                 </div>

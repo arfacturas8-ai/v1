@@ -106,9 +106,9 @@ export default function OAuthCallbackPage() {
 
         {status === 'processing' && (
           <div className="flex justify-center gap-2 mt-6">
-            <div className="w-2 h-2 rounded-full bg-[#141414] animate-bounce" style={{ animationDelay: '0s' }} />
-            <div className="w-2 h-2 rounded-full bg-[#141414] animate-bounce" style={{ animationDelay: '0.16s' }} />
-            <div className="w-2 h-2 rounded-full bg-[#141414] animate-bounce" style={{ animationDelay: '0.32s' }} />
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] animate-bounce" style={{ animationDelay: '0s' }} />
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] animate-bounce" style={{ animationDelay: '0.16s' }} />
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] animate-bounce" style={{ animationDelay: '0.32s' }} />
           </div>
         )}
 
