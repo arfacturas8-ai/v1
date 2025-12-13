@@ -198,17 +198,13 @@ function EnhancedWalletConnectButton({
   const currentError = errors[0];
 
   return (
-    <div style={{
-  position: 'relative'
-}}>
+    <div style={{ position: 'relative' }}>
       {/* Main wallet button */}
       {renderWalletButton()}
-      
+
       {/* Error display */}
       {currentError && (
-        <div style={{
-  position: 'absolute'
-}}>
+        <div style={{ position: 'absolute' }}>
           <Web3ErrorHandler
             error={currentError.error}
             onRetry={() => {
@@ -249,115 +245,80 @@ function EnhancedWalletConnectButton({
     // Connected state
     if (state.isConnected && state.account) {
       return (
-        <div style={{
-  position: 'relative'
-}}>
+        <div style={{ position: 'relative' }}>
           <button
             onClick={() => setShowDropdown(!showDropdown)}
             disabled={isLoading}
+            className="btn-primary"
             style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  borderRadius: '12px',
-  fontWeight: '500'
-}}
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+            }}
           >
-            <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px'
-}}>
-              <div style={{
-  width: '24px',
-  height: '24px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <div className="avatar avatar-sm" style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: 'var(--text-inverse)',
+                fontWeight: 'var(--font-bold)',
+              }}>
                 {state.account.slice(2, 4).toUpperCase()}
               </div>
               <span className="truncate">
                 {state.ensName || formatAddress(state.account)}
               </span>
             </div>
-            <ChevronDown style={{
-  height: '16px',
-  width: '16px'
-}} />
+            <ChevronDown size={16} />
           </button>
 
           {/* Connected dropdown */}
           {showDropdown && (
-            <div style={{
-  position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  padding: '16px'
-}}>
+            <div className="card" style={{
+              position: 'absolute',
+              top: '100%',
+              right: 0,
+              marginTop: 'var(--space-2)',
+              minWidth: '280px',
+              zIndex: 'var(--z-dropdown)',
+            }}>
               <div className="space-y-4">
                 {/* Account info */}
-                <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px'
-}}>
-                  <div style={{
-  width: '40px',
-  height: '40px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: '#ffffff',
-  fontWeight: 'bold'
-}}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                  <div className="avatar avatar-md" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--text-inverse)',
+                    fontWeight: 'var(--font-bold)',
+                    backgroundColor: 'var(--brand-primary)',
+                  }}>
                     {state.account.slice(2, 4).toUpperCase()}
                   </div>
-                  <div style={{
-  flex: '1'
-}}>
-                    <div style={{
-  fontWeight: '500'
-}}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
                       {state.ensName || formatAddress(state.account)}
                     </div>
-                    <div className="text-sm text-muted truncate">
+                    <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }} className="truncate">
                       {formatBalance(state.balance)} ETH
                     </div>
                   </div>
-                  <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px',
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '4px',
-  paddingBottom: '4px',
-  borderRadius: '4px'
-}}>
-                    <Check style={{
-  height: '12px',
-  width: '12px'
-}} />
+                  <div className="badge badge-beginner" style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-1)',
+                  }}>
+                    <Check size={12} />
                     Connected
                   </div>
                 </div>
 
                 {/* Network info */}
                 {state.chainId && (
-                  <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-muted">Network:</span>
-                    <span style={{
-  fontWeight: '500'
-}}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--text-sm)' }}>Network:</span>
+                    <span style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
                       {getChainName(state.chainId)}
                     </span>
                   </div>
@@ -365,21 +326,11 @@ function EnhancedWalletConnectButton({
 
                 {/* Provider info */}
                 {state.providerType && (
-                  <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-muted">Connected via:</span>
-                    <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px'
-}}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--text-sm)' }}>Connected via:</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                       {getProviderIcon(state.providerType)}
-                      <span style={{
-  fontWeight: '500'
-}}>
+                      <span style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
                         {state.providerType}
                       </span>
                     </div>
@@ -393,30 +344,25 @@ function EnhancedWalletConnectButton({
                       navigator.clipboard.writeText(state.account);
                       setShowDropdown(false);
                     }}
+                    className="btn-ghost"
                     style={{
-  width: '100%',
-  textAlign: 'left',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '4px'
-}}
+                      width: '100%',
+                      textAlign: 'left',
+                      justifyContent: 'flex-start',
+                    }}
                   >
                     Copy Address
                   </button>
                   <button
                     onClick={handleDisconnect}
                     disabled={isLoading}
+                    className="btn-ghost"
                     style={{
-  width: '100%',
-  textAlign: 'left',
-  paddingLeft: '12px',
-  paddingRight: '12px',
-  paddingTop: '8px',
-  paddingBottom: '8px',
-  borderRadius: '4px'
-}}
+                      width: '100%',
+                      textAlign: 'left',
+                      justifyContent: 'flex-start',
+                      color: 'var(--color-error)',
+                    }}
                   >
                     {isLoading ? 'Disconnecting...' : 'Disconnect'}
                   </button>
@@ -433,19 +379,14 @@ function EnhancedWalletConnectButton({
       return (
         <button
           disabled
+          className="btn-primary"
           style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  borderRadius: '12px',
-  fontWeight: '500',
-  color: '#ffffff'
-}}
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)',
+          }}
         >
-          <Loader2 style={{
-  height: '16px',
-  width: '16px'
-}} />
+          <Loader2 className="spinner" size={16} />
           {state.isConnecting ? 'Connecting...' : ''}
         </button>
       );
@@ -453,38 +394,27 @@ function EnhancedWalletConnectButton({
 
     // Coming Soon state
     const isComingSoon = import.meta.env.VITE_ENABLE_WEB3_FEATURES !== 'true';
-    
+
     if (isComingSoon) {
       return (
-        <div style={{
-  position: 'relative'
-}}>
+        <div style={{ position: 'relative' }}>
           <button
             disabled
+            className="btn-secondary"
             style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  borderRadius: '12px',
-  fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
-}}
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+            }}
           >
-            <Wallet style={{
-  height: '16px',
-  width: '16px'
-}} />
+            <Wallet size={16} />
             Connect Wallet
           </button>
-          <span style={{
-  position: 'absolute',
-  color: '#ffffff',
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '50%'
-}}>
+          <span className="badge badge-coming-soon" style={{
+            position: 'absolute',
+            top: '-8px',
+            right: '-8px',
+          }}>
             Coming Soon
           </span>
         </div>
@@ -493,106 +423,76 @@ function EnhancedWalletConnectButton({
 
     // Available for connection
     return (
-      <div style={{
-  position: 'relative'
-}}>
+      <div style={{ position: 'relative' }}>
         <button
           onClick={() => showProviderList ? setShowDropdown(!showDropdown) : handleConnect('metamask')}
+          className="btn-primary"
           style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px',
-  borderRadius: '12px',
-  fontWeight: '500'
-}}
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)',
+          }}
         >
-          <Wallet style={{
-  height: '16px',
-  width: '16px'
-}} />
+          <Wallet size={16} />
           Connect Wallet
-          {showProviderList && <ChevronDown style={{
-  height: '16px',
-  width: '16px'
-}} />}
+          {showProviderList && <ChevronDown size={16} />}
         </button>
 
         {/* Provider selection dropdown */}
         {showDropdown && showProviderList && (
-          <div style={{
-  position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  padding: '16px'
-}}>
+          <div className="card" style={{
+            position: 'absolute',
+            top: '100%',
+            right: 0,
+            marginTop: 'var(--space-2)',
+            minWidth: '320px',
+            zIndex: 'var(--z-dropdown)',
+          }}>
             <div className="space-y-3">
-              <h4 style={{
-  fontWeight: '600'
-}}>Connect Wallet</h4>
-              <p className="text-xs text-muted">Choose how you want to connect to Web3</p>
+              <h4 style={{ fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)' }}>Connect Wallet</h4>
+              <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>Choose how you want to connect to Web3</p>
               
               {availableProviders.map((provider) => (
                 <button
                   key={provider.id}
                   onClick={() => handleConnect(provider.id)}
+                  className="btn-ghost"
                   style={{
-  width: '100%',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  padding: '12px',
-  borderRadius: '12px',
-  textAlign: 'left'
-}}
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-3)',
+                    padding: 'var(--space-3)',
+                    textAlign: 'left',
+                    justifyContent: 'flex-start',
+                    border: '1px solid var(--border-subtle)',
+                  }}
                 >
                   {getProviderIcon(provider.id)}
-                  <div style={{
-  flex: '1'
-}}>
-                    <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '8px'
-}}>
-                      <span style={{
-  fontWeight: '500'
-}}>{provider.name}</span>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                      <span style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>{provider.name}</span>
                       {provider.isRecommended && (
-                        <span style={{
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '4px'
-}}>
+                        <span className="badge badge-new" style={{ fontSize: 'var(--text-xs)' }}>
                           Recommended
                         </span>
                       )}
                       {!provider.isInstalled && (
-                        <span style={{
-  paddingLeft: '8px',
-  paddingRight: '8px',
-  paddingTop: '0px',
-  paddingBottom: '0px',
-  borderRadius: '4px'
-}}>
+                        <span className="badge badge-coming-soon" style={{ fontSize: 'var(--text-xs)' }}>
                           Install
                         </span>
                       )}
                     </div>
-                    <div className="text-xs text-muted">{provider.description}</div>
+                    <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>{provider.description}</div>
                   </div>
                   {!provider.isInstalled && (
-                    <Download style={{
-  height: '16px',
-  width: '16px'
-}} />
+                    <Download size={16} />
                   )}
                 </button>
               ))}
 
-              <div className="pt-2 border-t border-muted/20 text-xs text-muted">
-                <p>New to Web3? <span className="text-accent-primary">Learn more about wallets</span></p>
+              <div style={{ paddingTop: 'var(--space-2)', borderTop: '1px solid var(--border-subtle)', fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>
+                <p>New to Web3? <span style={{ color: 'var(--brand-primary)' }}>Learn more about wallets</span></p>
               </div>
             </div>
           </div>
@@ -608,39 +508,35 @@ function InstallWalletModal({ provider, onClose, onInstallComplete }) {
 
   return (
     <div style={{
-  position: 'fixed',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '16px'
-}}>
-      <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px',
-  width: '100%',
-  padding: '24px'
-}}>
-        <div style={{
-  textAlign: 'center'
-}}>
-          <div style={{
-  width: '64px',
-  height: '64px',
-  borderRadius: '50%',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center'
-}}>
-            {getProviderIcon(provider.id, 'h-8 w-8 text-white')}
+      position: 'fixed',
+      inset: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 'var(--space-4)',
+      zIndex: 'var(--z-modal)',
+    }}>
+      <div className="card card-elevated" style={{
+        width: '100%',
+        maxWidth: '400px',
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div className="avatar avatar-lg" style={{
+            margin: '0 auto var(--space-4)',
+            backgroundColor: 'var(--bg-tertiary)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+            {getProviderIcon(provider.id)}
           </div>
-          
-          <h3 style={{
-  fontWeight: '600'
-}}>
+
+          <h3 style={{ fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>
             Install {provider.name}
           </h3>
-          
-          <p className="text-sm text-muted mb-4">
+
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-4)' }}>
             {provider.installInstructions}
           </p>
 
@@ -650,29 +546,23 @@ function InstallWalletModal({ provider, onClose, onInstallComplete }) {
                 window.open(provider.downloadUrl, '_blank');
                 onInstallComplete();
               }}
-              style={{
-  width: '100%'
-}}
+              className="btn-primary"
+              style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-2)' }}
             >
-              <Download style={{
-  height: '16px',
-  width: '16px'
-}} />
+              <Download size={16} />
               Install {provider.name}
             </Button>
-            
+
             <Button
               onClick={onClose}
-              variant="secondary"
-              style={{
-  width: '100%'
-}}
+              className="btn-secondary"
+              style={{ width: '100%' }}
             >
               Cancel
             </Button>
           </div>
 
-          <p className="text-xs text-muted mt-4">
+          <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', marginTop: 'var(--space-4)' }}>
             After installation, refresh this page to connect
           </p>
         </div>

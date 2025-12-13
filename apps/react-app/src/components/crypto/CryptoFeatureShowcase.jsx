@@ -727,4 +727,4 @@ const CryptoFeatureShowcase = () => {
 
 
 
-export default CRYPTO_FEATURES
+export default CryptoFeatureShowcase

@@ -244,15 +244,15 @@ function TokenEconomicsPage() {
   }
 
   const tokenDistribution = [
-    { category: 'Community & Users', percentage: 40, color: 'var(--brand-primary)' },
-    { category: 'Development Team', percentage: 20, color: 'var(--brand-secondary)' },
-    { category: 'Ecosystem Growth', percentage: 15, color: 'var(--color-success)' },
-    { category: 'Treasury Reserve', percentage: 15, color: 'var(--color-warning)' },
+    { category: 'Community & Users', percentage: 40, color: '#58a6ff' },
+    { category: 'Development Team', percentage: 20, color: '#a371f7' },
+    { category: 'Ecosystem Growth', percentage: 15, color: '#10b981' },
+    { category: 'Treasury Reserve', percentage: 15, color: '#f59e0b' },
     { category: 'Public Sale', percentage: 10, color: '#ec4899' }
   ]
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 lg:p-8" style={{ background: 'var(--bg-primary)' }}>
+    <div className="min-h-screen p-4 sm:p-6 lg:p-8" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
       {/* Page Header */}
       <div className="card card-elevated mb-6 sm:mb-8">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -327,72 +327,72 @@ function TokenEconomicsPage() {
         <>
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <div className="card card-interactive">
+            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--brand-gradient)' }}>
-                  <Coins size={isMobile ? 20 : 24} style={{ color: 'var(--text-inverse)' }} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center flex-shrink-0">
+                  <Coins size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Total Supply</div>
-                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>{tokenStats.totalSupply} CRYB</div>
+                  <div className="text-xs sm:text-sm text-white/60 mb-1">Total Supply</div>
+                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate">{tokenStats.totalSupply} CRYB</div>
                 </div>
               </div>
             </div>
 
-            <div className="card card-interactive">
+            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--color-success)', color: 'var(--text-inverse)' }}>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center flex-shrink-0">
                   <TrendingUp size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Circulating</div>
-                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>{tokenStats.circulatingSupply} CRYB</div>
+                  <div className="text-xs sm:text-sm text-white/60 mb-1">Circulating</div>
+                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate">{tokenStats.circulatingSupply} CRYB</div>
                 </div>
               </div>
             </div>
 
-            <div className="card card-interactive">
+            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--color-warning)', color: 'var(--text-inverse)' }}>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
                   <DollarSign size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Price</div>
-                  <div className="text-base sm:text-lg lg:text-xl font-bold" style={{ color: 'var(--text-primary)' }}>${tokenStats.price}</div>
-                  <div className="text-xs font-semibold" style={{ color: 'var(--color-success)' }}>+5.2%</div>
+                  <div className="text-xs sm:text-sm text-white/60 mb-1">Price</div>
+                  <div className="text-base sm:text-lg lg:text-xl font-bold">${tokenStats.price}</div>
+                  <div className="text-xs text-emerald-400 font-semibold">+5.2%</div>
                 </div>
               </div>
             </div>
 
-            <div className="card card-interactive">
+            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: '#ec4899', color: 'var(--text-inverse)' }}>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
                   <BarChart3 size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Market Cap</div>
-                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>${formatNumber(tokenStats.marketCap)}</div>
+                  <div className="text-xs sm:text-sm text-white/60 mb-1">Market Cap</div>
+                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate">${formatNumber(tokenStats.marketCap)}</div>
                 </div>
               </div>
             </div>
 
-            <div className="card card-elevated sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-gradient-subtle)' }}>
+            <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/50 sm:col-span-2 lg:col-span-1">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'var(--brand-gradient)' }}>
-                  <Wallet size={isMobile ? 20 : 24} style={{ color: 'var(--text-inverse)' }} />
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                  <Wallet size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Your Balance</div>
-                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>{tokenStats.yourBalance} CRYB</div>
-                  <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>${(parseFloat(tokenStats.yourBalance.replace(/,/g, '')) * parseFloat(tokenStats.price)).toFixed(2)}</div>
+                  <div className="text-xs sm:text-sm text-white/60 mb-1">Your Balance</div>
+                  <div className="text-base sm:text-lg lg:text-xl font-bold truncate">{tokenStats.yourBalance} CRYB</div>
+                  <div className="text-xs text-white/50">${(parseFloat(tokenStats.yourBalance.replace(/,/g, '')) * parseFloat(tokenStats.price)).toFixed(2)}</div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Token Distribution Chart */}
-          <div className="card card-elevated mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--text-primary)' }}>Token Distribution</h2>
+          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Token Distribution</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
               <div className="flex justify-center">
                 <svg viewBox="0 0 200 200" className="w-full max-w-[280px] sm:max-w-[320px] lg:max-w-[400px] h-auto">
@@ -414,7 +414,7 @@ function TokenEconomicsPage() {
                         key={index}
                         d={`M 100 100 L ${x1} ${y1} A 80 80 0 ${largeArcFlag} 1 ${x2} ${y2} Z`}
                         fill={item.color}
-                        stroke="var(--bg-primary)"
+                        stroke="#1a1d29"
                         strokeWidth="2"
                         className="transition-all hover:opacity-80"
                       />
@@ -425,14 +425,15 @@ function TokenEconomicsPage() {
               </div>
               <div className="space-y-3 sm:space-y-4">
                 {tokenDistribution.map((item, index) => (
-                  <div key={index} className="card card-compact" style={{ background: 'var(--bg-tertiary)' }}>
-                    <div className="flex items-center gap-3 sm:gap-4">
-                      <div className="w-4 h-4 sm:w-5 sm:h-5 rounded flex-shrink-0" style={{ backgroundColor: item.color }}></div>
-                      <div className="flex-1 min-w-0">
-                        <div className="text-sm sm:text-base font-medium truncate" style={{ color: 'var(--text-primary)' }}>{item.category}</div>
-                      </div>
-                      <div className="text-base sm:text-lg lg:text-xl font-bold flex-shrink-0" style={{ color: 'var(--text-primary)' }}>{item.percentage}%</div>
+                  <div key={index} className="flex items-center gap-3 sm:gap-4 bg-white/[0.02] p-3 sm:p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-white/[0.05] transition-colors">
+                    <div
+                      className="w-4 h-4 sm:w-5 sm:h-5 rounded-md flex-shrink-0"
+                      style={{ backgroundColor: item.color }}
+                    ></div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm sm:text-base font-medium truncate">{item.category}</div>
                     </div>
+                    <div className="text-base sm:text-lg lg:text-xl font-bold text-white/90 flex-shrink-0">{item.percentage}%</div>
                   </div>
                 ))}
               </div>
@@ -440,61 +441,51 @@ function TokenEconomicsPage() {
           </div>
 
           {/* Staking Section */}
-          <div className="card card-elevated mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--text-primary)' }}>Staking</h2>
+          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Staking</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
               {/* Staking Stats */}
               <div className="space-y-4">
-                <div className="card">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'var(--brand-gradient)' }}>
-                      <Lock size={isMobile ? 18 : 20} style={{ color: 'var(--text-inverse)' }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Staked</div>
-                      <div className="text-lg sm:text-xl lg:text-2xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>{stakingData.staked} CRYB</div>
-                    </div>
+                <div className="bg-white/[0.02] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 flex items-center gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                    <Lock size={isMobile ? 18 : 20} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs sm:text-sm text-white/60 mb-1">Staked</div>
+                    <div className="text-lg sm:text-xl lg:text-2xl font-bold truncate">{stakingData.staked} CRYB</div>
                   </div>
                 </div>
 
-                <div className="card">
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'var(--color-success)' }}>
-                      <TrendingUp size={isMobile ? 18 : 20} style={{ color: 'var(--text-inverse)' }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>APY</div>
-                      <div className="text-lg sm:text-xl lg:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{stakingData.apy}%</div>
-                    </div>
+                <div className="bg-white/[0.02] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 flex items-center gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                    <TrendingUp size={isMobile ? 18 : 20} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs sm:text-sm text-white/60 mb-1">APY</div>
+                    <div className="text-lg sm:text-xl lg:text-2xl font-bold">{stakingData.apy}%</div>
                   </div>
                 </div>
 
-                <div className="card card-elevated" style={{ background: 'var(--color-warning-light)' }}>
-                  <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'var(--color-warning)' }}>
-                      <Gift size={isMobile ? 18 : 20} style={{ color: 'var(--text-inverse)' }} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="text-xs sm:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>Rewards Earned</div>
-                      <div className="text-lg sm:text-xl lg:text-2xl font-bold truncate" style={{ color: 'var(--text-primary)' }}>{stakingData.rewards} CRYB</div>
-                    </div>
+                <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 flex items-center gap-4">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+                    <Gift size={isMobile ? 18 : 20} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-xs sm:text-sm text-white/60 mb-1">Rewards Earned</div>
+                    <div className="text-lg sm:text-xl lg:text-2xl font-bold truncate">{stakingData.rewards} CRYB</div>
                   </div>
                 </div>
               </div>
 
               {/* Staking Actions */}
               <div className="space-y-4 sm:space-y-6">
-                <div className="flex" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                <div className="flex border-b border-white/10">
                   <button
                     className={`flex-1 py-3 px-4 text-sm sm:text-base font-semibold transition-colors ${
                       activeTab === 'stake'
-                        ? 'border-b-2'
-                        : ''
+                        ? 'border-b-2 border-purple-500 text-purple-400'
+                        : 'text-white/60 hover:text-white/80'
                     }`}
-                    style={{
-                      borderBottomColor: activeTab === 'stake' ? 'var(--brand-primary)' : 'transparent',
-                      color: activeTab === 'stake' ? 'var(--brand-primary)' : 'var(--text-secondary)'
-                    }}
                     onClick={() => setActiveTab('stake')}
                   >
                     Stake
@@ -502,13 +493,9 @@ function TokenEconomicsPage() {
                   <button
                     className={`flex-1 py-3 px-4 text-sm sm:text-base font-semibold transition-colors ${
                       activeTab === 'unstake'
-                        ? 'border-b-2'
-                        : ''
+                        ? 'border-b-2 border-purple-500 text-purple-400'
+                        : 'text-white/60 hover:text-white/80'
                     }`}
-                    style={{
-                      borderBottomColor: activeTab === 'unstake' ? 'var(--brand-primary)' : 'transparent',
-                      color: activeTab === 'unstake' ? 'var(--brand-primary)' : 'var(--text-secondary)'
-                    }}
                     onClick={() => setActiveTab('unstake')}
                   >
                     Unstake
@@ -518,28 +505,27 @@ function TokenEconomicsPage() {
                 {activeTab === 'stake' ? (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>Amount to Stake</label>
+                      <label className="block text-sm font-medium text-white/80 mb-2">Amount to Stake</label>
                       <div className="relative">
                         <input
                           type="number"
-                          className="input w-full pr-16"
+                          className="input-dark w-full pr-16"
                           placeholder="0.00"
                           value={stakeAmount}
                           onChange={(e) => setStakeAmount(e.target.value)}
                         />
                         <button
-                          className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold transition-colors"
-                          style={{ background: 'var(--color-info-light)', color: 'var(--brand-primary)' }}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg text-xs sm:text-sm font-semibold transition-colors"
                           onClick={() => setStakeAmount(tokenStats.yourBalance.replace(/,/g, ''))}
                         >
                           MAX
                         </button>
                       </div>
-                      <div className="text-xs sm:text-sm mt-2" style={{ color: 'var(--text-tertiary)' }}>
+                      <div className="text-xs sm:text-sm text-white/50 mt-2">
                         Available: {tokenStats.yourBalance} CRYB
                       </div>
                     </div>
-                    <button className="btn-primary w-full flex items-center justify-center gap-2 py-3 text-sm sm:text-base" onClick={handleStake}>
+                    <button className="btn-primary-gradient w-full flex items-center justify-center gap-2 py-3 text-sm sm:text-base" onClick={handleStake}>
                       <Lock size={18} />
                       Stake Tokens
                     </button>
@@ -547,35 +533,34 @@ function TokenEconomicsPage() {
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-primary)' }}>Amount to Unstake</label>
+                      <label className="block text-sm font-medium text-white/80 mb-2">Amount to Unstake</label>
                       <div className="relative">
                         <input
                           type="number"
-                          className="input w-full pr-16"
+                          className="input-dark w-full pr-16"
                           placeholder="0.00"
                           value={unstakeAmount}
                           onChange={(e) => setUnstakeAmount(e.target.value)}
                         />
                         <button
-                          className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 rounded-lg text-xs sm:text-sm font-semibold transition-colors"
-                          style={{ background: 'var(--color-info-light)', color: 'var(--brand-primary)' }}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg text-xs sm:text-sm font-semibold transition-colors"
                           onClick={() => setUnstakeAmount(stakingData.staked.replace(/,/g, ''))}
                         >
                           MAX
                         </button>
                       </div>
-                      <div className="text-xs sm:text-sm mt-2" style={{ color: 'var(--text-tertiary)' }}>
+                      <div className="text-xs sm:text-sm text-white/50 mt-2">
                         Staked: {stakingData.staked} CRYB
                       </div>
                     </div>
-                    <button className="btn-primary w-full flex items-center justify-center gap-2 py-3 text-sm sm:text-base" onClick={handleUnstake}>
+                    <button className="btn-primary-gradient w-full flex items-center justify-center gap-2 py-3 text-sm sm:text-base" onClick={handleUnstake}>
                       <ArrowUpRight size={18} />
                       Unstake Tokens
                     </button>
                   </div>
                 )}
 
-                <button className="btn-secondary w-full flex items-center justify-center gap-2 py-3 text-sm sm:text-base" onClick={handleClaimRewards}>
+                <button className="btn-secondary-dark w-full flex items-center justify-center gap-2 py-3 text-sm sm:text-base" onClick={handleClaimRewards}>
                   <Gift size={18} />
                   Claim Rewards ({stakingData.rewards} CRYB)
                 </button>
@@ -584,59 +569,56 @@ function TokenEconomicsPage() {
           </div>
 
           {/* Governance Proposals */}
-          <div className="card card-elevated mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--text-primary)' }}>Governance Proposals</h2>
+          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Governance Proposals</h2>
             <div className="space-y-4 sm:space-y-6">
               {proposals.map((proposal) => (
                 <div
                   key={proposal.id}
-                  className="card card-elevated"
-                  style={{
-                    borderColor: proposal.status === 'active' ? 'var(--brand-primary)' : 'var(--border-subtle)'
-                  }}
+                  className={`bg-white/[0.02] border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all ${
+                    proposal.status === 'active'
+                      ? 'border-purple-500/30 hover:border-purple-500/50'
+                      : 'border-white/10 hover:border-white/10'
+                  }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4 mb-4">
                     <div className="flex-1 min-w-0">
                       <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-2">
-                        <h3 className="text-base sm:text-lg lg:text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{proposal.title}</h3>
-                        <span className={`badge ${
+                        <h3 className="text-base sm:text-lg lg:text-xl font-bold">{proposal.title}</h3>
+                        <span className={`px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold ${
                           proposal.status === 'active'
-                            ? 'badge-new'
-                            : ''
-                        }`} style={{
-                          background: proposal.status === 'passed' ? 'var(--color-success-light)' : undefined,
-                          color: proposal.status === 'passed' ? 'var(--color-success)' : undefined
-                        }}>
+                            ? 'bg-purple-500/20 text-purple-400'
+                            : 'bg-emerald-500/20 text-emerald-400'
+                        }`}>
                           {proposal.status}
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-xs sm:text-sm flex-shrink-0" style={{ color: 'var(--text-secondary)' }}>
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-white/60 flex-shrink-0">
                       <Clock size={14} />
                       {proposal.timeRemaining}
                     </div>
                   </div>
 
-                  <p className="text-sm sm:text-base mb-4 sm:mb-6" style={{ color: 'var(--text-secondary)' }}>{proposal.description}</p>
+                  <p className="text-sm sm:text-base text-white/70 mb-4 sm:mb-6">{proposal.description}</p>
 
                   <div className="space-y-3 sm:space-y-4">
-                    <div className="h-2 sm:h-3 rounded-full overflow-hidden" style={{ background: 'var(--bg-tertiary)' }}>
+                    <div className="h-2 sm:h-3 bg-[#161b22]/60 backdrop-blur-xl rounded-full overflow-hidden">
                       <div
-                        className="h-full transition-all duration-300"
+                        className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-300"
                         style={{
-                          width: `${(proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100}%`,
-                          background: 'var(--color-success)'
+                          width: `${(proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100}%`
                         }}
                       ></div>
                     </div>
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="card" style={{ background: 'var(--color-success-light)', borderColor: 'var(--color-success)' }}>
-                        <div className="text-xs mb-1" style={{ color: 'var(--color-success)' }}>For</div>
-                        <div className="text-sm sm:text-base lg:text-lg font-bold" style={{ color: 'var(--color-success)' }}>{formatNumber(proposal.votesFor)}</div>
+                      <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-3 sm:p-4">
+                        <div className="text-xs text-emerald-400 mb-1">For</div>
+                        <div className="text-sm sm:text-base lg:text-lg font-bold text-emerald-400">{formatNumber(proposal.votesFor)}</div>
                       </div>
-                      <div className="card" style={{ background: 'var(--color-error-light)', borderColor: 'var(--color-error)' }}>
-                        <div className="text-xs mb-1" style={{ color: 'var(--color-error)' }}>Against</div>
-                        <div className="text-sm sm:text-base lg:text-lg font-bold" style={{ color: 'var(--color-error)' }}>{formatNumber(proposal.votesAgainst)}</div>
+                      <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-3 sm:p-4">
+                        <div className="text-xs text-red-400 mb-1">Against</div>
+                        <div className="text-sm sm:text-base lg:text-lg font-bold text-red-400">{formatNumber(proposal.votesAgainst)}</div>
                       </div>
                     </div>
                   </div>
@@ -644,15 +626,14 @@ function TokenEconomicsPage() {
                   {proposal.status === 'active' && !proposal.hasVoted && (
                     <div className="grid grid-cols-2 gap-3 sm:gap-4 mt-4 sm:mt-6">
                       <button
-                        className="btn-success px-4 py-2.5 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors text-sm sm:text-base"
+                        className="bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/50 text-emerald-400 px-4 py-2.5 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors text-sm sm:text-base"
                         onClick={() => handleVote(proposal.id, true)}
                       >
                         <Vote size={14} />
                         Vote For
                       </button>
                       <button
-                        className="px-4 py-2.5 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors text-sm sm:text-base"
-                        style={{ background: 'var(--color-error-light)', border: '1px solid var(--color-error)', color: 'var(--color-error)' }}
+                        className="bg-red-500/20 hover:bg-red-500/30 border border-red-500/50 text-red-400 px-4 py-2.5 sm:py-3 rounded-lg font-semibold flex items-center justify-center gap-2 transition-colors text-sm sm:text-base"
                         onClick={() => handleVote(proposal.id, false)}
                       >
                         <Vote size={14} />
@@ -662,8 +643,8 @@ function TokenEconomicsPage() {
                   )}
 
                   {proposal.hasVoted && (
-                    <div className="mt-4 sm:mt-6 card text-center" style={{ background: 'var(--color-info-light)', borderColor: 'var(--brand-primary)' }}>
-                      <span className="text-sm sm:text-base font-semibold" style={{ color: 'var(--brand-primary)' }}>You voted on this proposal</span>
+                    <div className="mt-4 sm:mt-6 bg-[#58a6ff]/10 border border-blue-500/30 rounded-lg px-4 py-3 text-center">
+                      <span className="text-blue-400 text-sm sm:text-base font-semibold">You voted on this proposal</span>
                     </div>
                   )}
                 </div>
@@ -672,46 +653,45 @@ function TokenEconomicsPage() {
           </div>
 
           {/* Recent Transactions */}
-          <div className="card card-elevated mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8" style={{ color: 'var(--text-primary)' }}>Recent Transactions</h2>
+          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Recent Transactions</h2>
             <div className="overflow-x-auto -mx-4 sm:mx-0">
               {transactions.length > 0 ? (
                 <table className="w-full min-w-[640px]">
                   <thead>
-                    <tr style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Type</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Amount</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Transaction Hash</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Time</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>Status</th>
+                    <tr className="border-b border-white/10">
+                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Type</th>
+                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Amount</th>
+                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Transaction Hash</th>
+                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Time</th>
+                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {transactions.map((tx) => {
                       const Icon = getTransactionIcon(tx.type)
                       return (
-                        <tr key={tx.id} className="transition-colors" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                        <tr key={tx.id} className="border-b border-white/10 hover:bg-white/[0.02] transition-colors">
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-2">
-                              <Icon size={14} style={{ color: 'var(--brand-primary)' }} />
-                              <span className="text-sm sm:text-base capitalize" style={{ color: 'var(--text-primary)' }}>{tx.type}</span>
+                              <Icon size={14} className="text-purple-400" />
+                              <span className="text-sm sm:text-base capitalize">{tx.type}</span>
                             </div>
                           </td>
-                          <td className="py-4 px-4 text-sm sm:text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{tx.amount} CRYB</td>
+                          <td className="py-4 px-4 text-sm sm:text-base font-semibold">{tx.amount} CRYB</td>
                           <td className="py-4 px-4">
                             <a
                               href={`https://etherscan.io/tx/${tx.hash}`}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-sm sm:text-base font-mono"
-                              style={{ color: 'var(--brand-primary)' }}
+                              className="text-sm sm:text-base text-purple-400 hover:text-purple-300 font-mono"
                             >
                               {tx.hash}
                             </a>
                           </td>
-                          <td className="py-4 px-4 text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>{formatDate(tx.timestamp)}</td>
+                          <td className="py-4 px-4 text-xs sm:text-sm text-white/60">{formatDate(tx.timestamp)}</td>
                           <td className="py-4 px-4">
-                            <span className="badge" style={{ background: 'var(--color-success-light)', color: 'var(--color-success)' }}>
+                            <span className="px-2 sm:px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs sm:text-sm font-semibold capitalize">
                               {tx.status}
                             </span>
                           </td>
@@ -722,23 +702,23 @@ function TokenEconomicsPage() {
                 </table>
               ) : (
                 <div className="flex flex-col items-center justify-center py-12 sm:py-16 text-center">
-                  <Activity size={isMobile ? 32 : 48} style={{ color: 'var(--text-tertiary)' }} className="mb-4" />
-                  <p className="text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>No transactions yet</p>
+                  <Activity size={isMobile ? 32 : 48} className="text-white/30 mb-4" />
+                  <p className="text-white/60 text-sm sm:text-base">No transactions yet</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Token Claim Section */}
-          <div className="card card-elevated text-center" style={{ background: 'var(--bg-gradient-subtle)' }}>
-            <div className="flex flex-col items-center max-w-lg mx-auto">
-              <Gift size={isMobile ? 40 : 48} style={{ color: 'var(--brand-primary)' }} className="mb-4 sm:mb-6" />
-              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>Claim Your Tokens</h3>
-              <p className="text-sm sm:text-base mb-6 sm:mb-8" style={{ color: 'var(--text-secondary)' }}>
+          <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 sm:p-8 lg:p-12">
+            <div className="flex flex-col items-center text-center max-w-lg mx-auto">
+              <Gift size={isMobile ? 40 : 48} className="text-purple-400 mb-4 sm:mb-6" />
+              <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4">Claim Your Tokens</h3>
+              <p className="text-sm sm:text-base text-white/70 mb-6 sm:mb-8">
                 You have unclaimed CRYB tokens from the airdrop
               </p>
               <button
-                className="btn-primary flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg"
+                className="btn-primary-gradient flex items-center gap-2 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg"
                 onClick={handleClaimTokens}
               >
                 <Gift size={20} />

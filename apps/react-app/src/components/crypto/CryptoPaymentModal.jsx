@@ -8,7 +8,7 @@ import {
 import { cryptoPaymentService, SUBSCRIPTION_TIERS, PAYMENT_TYPES } from '../../services/cryptoPaymentService.js';
 import { walletManager } from '../../lib/web3/WalletManager.js';
 import { useResponsive } from '../../hooks/useResponsive';
-import { getErrorMessage } from '../../utils/errorUtils'
+import { getErrorMessage } from '../../utils/errorUtils';
 
 const CryptoPaymentModal = ({
   isOpen,
@@ -69,7 +69,7 @@ const CryptoPaymentModal = ({
   const handleMethodSelect = (method) => {
     setSelectedMethod(method);
     setError('');
-    
+
     // Set default crypto for method
     if (method.type === 'fiat_to_crypto') {
       setPaymentDetails(prev => ({
@@ -142,7 +142,7 @@ const CryptoPaymentModal = ({
 
         case 'direct_crypto':
           setProcessingStatus('Processing blockchain transaction...');
-          
+
           if (paymentType === PAYMENT_TYPES.SUBSCRIPTION) {
             result = await cryptoPaymentService.subscribeToPremium(
               paymentDetails.tier,
@@ -214,7 +214,7 @@ const CryptoPaymentModal = ({
 
   const getCryptoAmount = () => {
     if (!paymentDetails.amount || !cryptoPrices[paymentDetails.crypto]) return 0;
-    const usdAmount = selectedMethod?.type === 'fiat_to_crypto' 
+    const usdAmount = selectedMethod?.type === 'fiat_to_crypto'
       ? parseFloat(paymentDetails.amount)
       : parseFloat(paymentDetails.amount) * cryptoPrices[paymentDetails.crypto];
     return (usdAmount / cryptoPrices[paymentDetails.crypto]).toFixed(6);
@@ -224,28 +224,28 @@ const CryptoPaymentModal = ({
   const MethodSelectionStep = () => (
     <div className="space-y-4">
       <div className="text-center">
-        <h2 className="text-lg sm:text-xl font-bold">Choose Payment Method</h2>
-        <p className="text-sm sm:text-base text-gray-400">Select how you'd like to pay</p>
+        <h2 className="text-lg sm:text-xl font-bold text-primary">Choose Payment Method</h2>
+        <p className="text-sm sm:text-base text-secondary">Select how you'd like to pay</p>
       </div>
 
       <div className="space-y-3">
         {availableMethods.map((method, index) => (
-          <Card
+          <div
             key={index}
-            className="p-4 bg-gray-900/60 cursor-pointer hover:bg-gray-800/60 transition-colors"
+            className="card-interactive p-4 cursor-pointer"
             onClick={() => handleMethodSelect(method)}
           >
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 {method.type === 'fiat_to_crypto' ? (
-                  <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                  <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 text-brand-primary" />
                 ) : (
-                  <Wallet className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0" />
+                  <Wallet className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 text-brand-primary" />
                 )}
 
                 <div className="min-w-0">
-                  <p className="text-sm sm:text-base font-semibold truncate">{method.name}</p>
-                  <p className="text-xs sm:text-sm text-gray-400 truncate">
+                  <p className="text-sm sm:text-base font-semibold text-primary truncate">{method.name}</p>
+                  <p className="text-xs sm:text-sm text-secondary truncate">
                     Fee: {method.fees.fiat ? `$${method.fees.fiat} + ` : ''}
                     {(method.fees.percentage * 100).toFixed(1)}%
                   </p>
@@ -259,26 +259,25 @@ const CryptoPaymentModal = ({
                 <Badge color="green">{method.token}</Badge>
               )}
             </div>
-          </Card>
+          </div>
         ))}
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:justify-end">
-        <Button
-          variant="outline"
+        <button
+          className="btn-secondary w-full sm:w-auto min-h-[44px]"
           onClick={onClose}
-          className="w-full sm:w-auto min-h-[44px]"
         >
           Cancel
-        </Button>
-        <Button
+        </button>
+        <button
+          className="btn-primary w-full sm:w-auto min-h-[44px]"
           onClick={() => setStep('details')}
           disabled={!selectedMethod}
-          className="w-full sm:w-auto min-h-[44px]"
         >
           Continue
           <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
+        </button>
       </div>
     </div>
   );
@@ -287,13 +286,13 @@ const CryptoPaymentModal = ({
   const PaymentDetailsStep = () => (
     <div className="space-y-4">
       <div className="text-center">
-        <h2 className="text-lg sm:text-xl font-bold">Payment Details</h2>
-        <p className="text-sm sm:text-base text-gray-400">Enter the payment information</p>
+        <h2 className="text-lg sm:text-xl font-bold text-primary">Payment Details</h2>
+        <p className="text-sm sm:text-base text-secondary">Enter the payment information</p>
       </div>
 
       {/* Amount Input */}
       <div>
-        <label className="block text-sm sm:text-base font-medium mb-2">
+        <label className="block text-sm sm:text-base font-medium text-primary mb-2">
           Amount {selectedMethod?.type === 'fiat_to_crypto' ? `(${paymentDetails.currency})` : `(${paymentDetails.crypto})`}
         </label>
         <div className="relative">
@@ -301,18 +300,18 @@ const CryptoPaymentModal = ({
             type="number"
             value={paymentDetails.amount}
             onChange={(e) => handlePaymentDetailsChange('amount', e.target.value)}
-            className="w-full px-4 py-3 sm:px-4 sm:py-3 border border-white/10 rounded-xl sm:rounded-2xl bg-gray-900/60 text-sm sm:text-base min-h-[44px]"
+            className="input-primary"
             placeholder="0.00"
             step="0.01"
             min="0"
           />
-          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm sm:text-base">
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-secondary text-sm sm:text-base">
             {selectedMethod?.type === 'fiat_to_crypto' ? paymentDetails.currency : paymentDetails.crypto}
           </div>
         </div>
 
         {paymentDetails.amount && cryptoPrices[paymentDetails.crypto] && (
-          <p className="mt-2 text-xs sm:text-sm text-gray-400">
+          <p className="mt-2 text-xs sm:text-sm text-secondary">
             ≈ {getCryptoAmount()} {paymentDetails.crypto}
             {selectedMethod?.type === 'fiat_to_crypto' && (
               <span> (${(parseFloat(paymentDetails.amount) * cryptoPrices[paymentDetails.crypto]).toFixed(2)} USD)</span>
@@ -324,7 +323,7 @@ const CryptoPaymentModal = ({
       {/* Currency Selection for Fiat */}
       {selectedMethod?.type === 'fiat_to_crypto' && (
         <div>
-          <label className="block text-sm sm:text-base font-medium mb-2">Fiat Currency</label>
+          <label className="block text-sm sm:text-base font-medium text-primary mb-2">Fiat Currency</label>
           <Select.Root
             value={paymentDetails.currency}
             onValueChange={(value) => handlePaymentDetailsChange('currency', value)}
@@ -345,7 +344,7 @@ const CryptoPaymentModal = ({
 
       {/* Crypto Selection */}
       <div>
-        <label className="block text-sm sm:text-base font-medium mb-2">Cryptocurrency</label>
+        <label className="block text-sm sm:text-base font-medium text-primary mb-2">Cryptocurrency</label>
         <Select.Root
           value={paymentDetails.crypto}
           onValueChange={(value) => handlePaymentDetailsChange('crypto', value)}
@@ -375,7 +374,7 @@ const CryptoPaymentModal = ({
       {paymentType === PAYMENT_TYPES.SUBSCRIPTION && (
         <>
           <div>
-            <label className="block text-sm sm:text-base font-medium mb-2">Subscription Tier</label>
+            <label className="block text-sm sm:text-base font-medium text-primary mb-2">Subscription Tier</label>
             <Select.Root
               value={paymentDetails.tier}
               onValueChange={(value) => handlePaymentDetailsChange('tier', value)}
@@ -394,7 +393,7 @@ const CryptoPaymentModal = ({
           </div>
 
           <div>
-            <label className="block text-sm sm:text-base font-medium mb-2">Billing Period</label>
+            <label className="block text-sm sm:text-base font-medium text-primary mb-2">Billing Period</label>
             <Select.Root
               value={paymentDetails.duration}
               onValueChange={(value) => handlePaymentDetailsChange('duration', value)}
@@ -414,16 +413,16 @@ const CryptoPaymentModal = ({
       {/* Message for Tips */}
       {paymentType === PAYMENT_TYPES.TIP && (
         <div>
-          <label className="block text-sm sm:text-base font-medium mb-2">Message (Optional)</label>
+          <label className="block text-sm sm:text-base font-medium text-primary mb-2">Message (Optional)</label>
           <textarea
             value={paymentDetails.message}
             onChange={(e) => handlePaymentDetailsChange('message', e.target.value)}
-            className="w-full px-4 py-3 border border-white/10 rounded-xl sm:rounded-2xl bg-gray-900/60 text-sm sm:text-base resize-none"
+            className="input-primary resize-none"
             placeholder="Add a message with your tip..."
             rows={3}
             maxLength={200}
           />
-          <p className="mt-1 text-xs sm:text-sm text-gray-400">
+          <p className="mt-1 text-xs sm:text-sm text-secondary">
             {paymentDetails.message.length}/200 characters
           </p>
         </div>
@@ -431,57 +430,56 @@ const CryptoPaymentModal = ({
 
       {/* Fee Breakdown */}
       {fees.total > 0 && (
-        <Card className="p-4 sm:p-4 bg-gray-900/60">
-          <h3 className="text-sm sm:text-base font-semibold mb-3">Fee Breakdown</h3>
+        <div className="card bg-tertiary">
+          <h3 className="text-sm sm:text-base font-semibold text-primary mb-3">Fee Breakdown</h3>
           <div className="space-y-1 text-xs sm:text-sm">
-            <div className="flex justify-between">
+            <div className="flex justify-between text-primary">
               <span>Amount:</span>
               <span>{formatCurrency(parseFloat(paymentDetails.amount || 0))}</span>
             </div>
             {fees.gatewayFee > 0 && (
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-secondary">
                 <span>Gateway Fee:</span>
                 <span>{formatCurrency(fees.gatewayFee)}</span>
               </div>
             )}
             {fees.platformFee > 0 && (
-              <div className="flex justify-between text-gray-400">
+              <div className="flex justify-between text-secondary">
                 <span>Platform Fee:</span>
                 <span>{formatCurrency(fees.platformFee)}</span>
               </div>
             )}
-            <hr className="my-2 border-white/10" />
-            <div className="flex justify-between font-semibold">
+            <hr className="my-2 border-subtle" />
+            <div className="flex justify-between font-semibold text-primary">
               <span>Total:</span>
               <span>{formatCurrency(parseFloat(paymentDetails.amount || 0) + fees.total)}</span>
             </div>
           </div>
-        </Card>
+        </div>
       )}
 
       {error && (
-        <div className="flex items-center gap-2 p-3 sm:p-4 border border-red-500/30 bg-red-500/10 rounded-xl sm:rounded-2xl">
-          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-red-500 flex-shrink-0" />
-          <span className="text-xs sm:text-sm text-red-200">{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
+        <div className="flex items-center gap-2 p-3 sm:p-4 border border-error bg-error-light rounded-xl">
+          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-error flex-shrink-0" />
+          <span className="text-xs sm:text-sm text-error-dark">{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
         </div>
       )}
 
       <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:justify-between">
-        <Button
-          variant="outline"
+        <button
+          className="btn-secondary w-full sm:w-auto min-h-[44px]"
           onClick={() => setStep('method')}
-          className="w-full sm:w-auto min-h-[44px]"
         >
           Back
-        </Button>
-        <Button
+        </button>
+        <button
+          className="btn-primary w-full sm:w-auto min-h-[44px]"
           onClick={processPayment}
           disabled={isProcessing}
-          className="w-full sm:w-auto min-h-[44px]"
         >
           {isProcessing ? (
             <>
-              <RefreshCw className="w-4 h-4  mr-2" />
+              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
               Processing...
             </>
           ) : (
@@ -490,7 +488,7 @@ const CryptoPaymentModal = ({
               <Zap className="w-4 h-4 ml-2" />
             </>
           )}
-        </Button>
+        </button>
       </div>
     </div>
   );
@@ -498,20 +496,20 @@ const CryptoPaymentModal = ({
   // Processing Step
   const ProcessingStep = () => (
     <div className="text-center space-y-6 py-4">
-      <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-blue-500/10 flex items-center justify-center">
-        <RefreshCw className="w-8 h-8 sm:w-10 sm:h-10 text-blue-500 " />
+      <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-brand-primary/10 flex items-center justify-center">
+        <RefreshCw className="w-8 h-8 sm:w-10 sm:h-10 text-brand-primary animate-spin" />
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-lg sm:text-xl font-bold">Processing Payment</h2>
-        <p className="text-sm sm:text-base text-gray-400">{processingStatus}</p>
+        <h2 className="text-lg sm:text-xl font-bold text-primary">Processing Payment</h2>
+        <p className="text-sm sm:text-base text-secondary">{processingStatus}</p>
       </div>
 
       {selectedMethod?.type === 'fiat_to_crypto' && (
-        <div className="p-4 sm:p-4 bg-blue-500/10 border border-blue-500/30 rounded-xl sm:rounded-2xl">
+        <div className="p-4 sm:p-4 bg-info-light border border-info rounded-xl">
           <div className="flex items-center gap-3">
-            <Info className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 flex-shrink-0" />
-            <span className="text-xs sm:text-sm text-blue-200">
+            <Info className="w-4 h-4 sm:w-5 sm:h-5 text-info-dark flex-shrink-0" />
+            <span className="text-xs sm:text-sm text-info-dark">
               You will be redirected to {selectedMethod.provider} to complete your payment
             </span>
           </div>
@@ -519,10 +517,10 @@ const CryptoPaymentModal = ({
       )}
 
       {selectedMethod?.type === 'direct_crypto' && (
-        <div className="p-4 sm:p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl sm:rounded-2xl">
+        <div className="p-4 sm:p-4 bg-warning-light border border-warning rounded-xl">
           <div className="flex items-center gap-3">
-            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 flex-shrink-0" />
-            <span className="text-xs sm:text-sm text-yellow-200">
+            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-warning-dark flex-shrink-0" />
+            <span className="text-xs sm:text-sm text-warning-dark">
               Please confirm the transaction in your wallet
             </span>
           </div>
@@ -534,68 +532,65 @@ const CryptoPaymentModal = ({
   // Complete Step
   const CompleteStep = () => (
     <div className="text-center space-y-6 py-4">
-      <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-green-500/10 flex items-center justify-center">
-        <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-green-500" />
+      <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-success-light flex items-center justify-center">
+        <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-success" />
       </div>
 
       <div className="space-y-2">
-        <h2 className="text-lg sm:text-xl font-bold">Payment Successful!</h2>
-        <p className="text-sm sm:text-base text-gray-400">
+        <h2 className="text-lg sm:text-xl font-bold text-primary">Payment Successful!</h2>
+        <p className="text-sm sm:text-base text-secondary">
           Your {paymentType} has been processed successfully
         </p>
       </div>
 
       {transactionResult?.transactionHash && (
-        <Card className="p-4 sm:p-4 bg-gray-900/60 text-left">
-          <h3 className="text-sm sm:text-base font-semibold mb-3">Transaction Details</h3>
+        <div className="card text-left">
+          <h3 className="text-sm sm:text-base font-semibold text-primary mb-3">Transaction Details</h3>
           <div className="space-y-2 text-xs sm:text-sm">
             <div className="flex items-center justify-between gap-2">
-              <span className="text-gray-400">Transaction Hash:</span>
+              <span className="text-secondary">Transaction Hash:</span>
               <div className="flex items-center gap-1">
-                <span className="font-mono text-xs truncate max-w-[120px] sm:max-w-none">
+                <span className="font-mono text-xs text-primary truncate max-w-[120px] sm:max-w-none">
                   {transactionResult.transactionHash.slice(0, 10)}...{transactionResult.transactionHash.slice(-8)}
                 </span>
-                <Button
-                  size="sm"
-                  variant="ghost"
+                <button
+                  className="btn-ghost p-1 min-h-[32px] min-w-[32px]"
                   onClick={() => navigator.clipboard.writeText(transactionResult.transactionHash)}
-                  className="min-h-[32px] min-w-[32px] p-1"
                 >
                   <Copy className="w-3 h-3" />
-                </Button>
+                </button>
               </div>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-gray-400">Amount:</span>
-              <span>{paymentDetails.amount} {paymentDetails.crypto}</span>
+              <span className="text-secondary">Amount:</span>
+              <span className="text-primary">{paymentDetails.amount} {paymentDetails.crypto}</span>
             </div>
 
             <div className="flex items-center justify-between">
-              <span className="text-gray-400">Status:</span>
+              <span className="text-secondary">Status:</span>
               <Badge color="green">Confirmed</Badge>
             </div>
           </div>
-        </Card>
+        </div>
       )}
 
       <div className="flex flex-col gap-2 sm:gap-3">
-        <Button
+        <button
+          className="btn-primary w-full min-h-[44px]"
           onClick={() => { onClose(); resetModal(); }}
-          className="w-full min-h-[44px]"
         >
           Done
-        </Button>
+        </button>
 
         {transactionResult?.transactionHash && (
-          <Button
-            variant="outline"
+          <button
+            className="btn-secondary w-full min-h-[44px]"
             onClick={() => window.open(`https://etherscan.io/tx/${transactionResult.transactionHash}`, '_blank')}
-            className="w-full min-h-[44px]"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             View on Explorer
-          </Button>
+          </button>
         )}
       </div>
     </div>
@@ -603,34 +598,32 @@ const CryptoPaymentModal = ({
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
-      <Dialog.Content className="w-full max-w-md sm:max-w-lg rounded-2xl sm:rounded-3xl border border-white/10 p-4 sm:p-6">
+      <Dialog.Content className="w-full max-w-md sm:max-w-lg rounded-2xl sm:rounded-3xl border border-subtle p-4 sm:p-6">
         <div className="flex justify-between items-center mb-4 sm:mb-6">
-          <Dialog.Title className="text-lg sm:text-xl font-semibold">
+          <Dialog.Title className="text-lg sm:text-xl font-semibold text-primary">
             Crypto Payment
           </Dialog.Title>
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
+            className="btn-ghost min-h-[44px] min-w-[44px]"
             onClick={onClose}
-            className="min-h-[44px] min-w-[44px]"
           >
             <X className="w-5 h-5" />
-          </Button>
+          </button>
         </div>
 
         {/* Progress Indicator */}
         <div className="mb-6">
-          <div className="flex justify-between text-xs sm:text-sm text-gray-400 mb-2">
-            <span className={step === 'method' ? 'text-blue-500 font-medium' : ''}>
+          <div className="flex justify-between text-xs sm:text-sm text-secondary mb-2">
+            <span className={step === 'method' ? 'text-brand-primary font-medium' : ''}>
               Method
             </span>
-            <span className={step === 'details' ? 'text-blue-500 font-medium' : ''}>
+            <span className={step === 'details' ? 'text-brand-primary font-medium' : ''}>
               Details
             </span>
-            <span className={step === 'processing' ? 'text-blue-500 font-medium' : ''}>
+            <span className={step === 'processing' ? 'text-brand-primary font-medium' : ''}>
               Processing
             </span>
-            <span className={step === 'complete' ? 'text-blue-500 font-medium' : ''}>
+            <span className={step === 'complete' ? 'text-brand-primary font-medium' : ''}>
               Complete
             </span>
           </div>

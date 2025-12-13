@@ -33,7 +33,7 @@ function Web3FeaturePreview({ feature }) {
             network: 'Ethereum Mainnet'
           }
         }
-      
+
       case 'NFT Profile System':
         return {
           steps: [
@@ -47,7 +47,7 @@ function Web3FeaturePreview({ feature }) {
             { name: 'Azuki #9012', collection: 'Azuki', selected: false }
           ]
         }
-      
+
       case 'Crypto Payments':
         return {
           steps: [
@@ -62,7 +62,7 @@ function Web3FeaturePreview({ feature }) {
             fee: '0.1 USDC'
           }
         }
-      
+
       case 'Token Gating':
         return {
           steps: [
@@ -76,7 +76,7 @@ function Web3FeaturePreview({ feature }) {
             { symbol: 'COMP', amount: '5', required: '20', access: false }
           ]
         }
-      
+
       case 'DeFi Integration':
         return {
           steps: [
@@ -90,7 +90,7 @@ function Web3FeaturePreview({ feature }) {
             apr: '8.3%'
           }
         }
-      
+
       case 'DAO Governance':
         return {
           steps: [
@@ -104,7 +104,7 @@ function Web3FeaturePreview({ feature }) {
             timeLeft: '2 days'
           }
         }
-      
+
       default:
         return {
           steps: [
@@ -119,120 +119,173 @@ function Web3FeaturePreview({ feature }) {
   const demo = getFeatureDemo()
 
   return (
-    <div className="card p-2xl">
+    <div className="card" style={{ padding: 'var(--space-8)' }}>
       <div style={{
-  display: 'grid',
-  gap: '8px',
-  alignItems: 'center'
-}}>
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+        gap: 'var(--space-8)',
+        alignItems: 'center'
+      }}>
         {/* Feature Info */}
         <div>
           <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-3)',
+            marginBottom: 'var(--space-4)'
+          }}>
             <div style={{
-  borderRadius: '12px'
-}}>
+              padding: 'var(--space-3)',
+              borderRadius: 'var(--radius-lg)',
+              background: 'var(--bg-gradient-subtle)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
               <IconComponent style={{
-  height: '24px',
-  width: '24px'
-}} />
+                height: '24px',
+                width: '24px',
+                color: 'var(--brand-primary)'
+              }} />
             </div>
             <h3 style={{
-  fontWeight: 'bold'
-}}>{feature.title}</h3>
+              fontWeight: 'var(--font-bold)',
+              fontSize: 'var(--text-xl)',
+              color: 'var(--text-primary)'
+            }}>{feature.title}</h3>
           </div>
-          
-          <p className="text-lg text-secondary mb-lg leading-relaxed">
+
+          <p style={{
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-secondary)',
+            marginBottom: 'var(--space-6)',
+            lineHeight: 'var(--leading-relaxed)'
+          }}>
             {feature.description}
           </p>
-          
+
           <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px'
-}}>
+            padding: 'var(--space-4)',
+            border: '1px solid var(--border-subtle)',
+            borderLeft: '4px solid var(--brand-primary)',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--bg-tertiary)',
+            marginBottom: 'var(--space-6)'
+          }}>
             <p style={{
-  fontWeight: '500'
-}}>
+              fontWeight: 'var(--font-medium)',
+              color: 'var(--text-primary)',
+              fontSize: 'var(--text-base)',
+              fontStyle: 'italic'
+            }}>
               "{feature.preview}"
             </p>
           </div>
-          
-          <div className="space-y-sm mb-lg">
+
+          <div style={{ marginBottom: 'var(--space-6)' }}>
             <h4 style={{
-  fontWeight: '600'
-}}>Key Benefits:</h4>
+              fontWeight: 'var(--font-semibold)',
+              fontSize: 'var(--text-base)',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-3)'
+            }}>Key Benefits:</h4>
             {feature.benefits.map((benefit, index) => (
               <div key={index} style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+                marginBottom: 'var(--space-2)'
+              }}>
                 <ChevronRight style={{
-  height: '16px',
-  width: '16px'
-}} />
-                <span>{benefit}</span>
+                  height: '16px',
+                  width: '16px',
+                  color: 'var(--brand-primary)',
+                  flexShrink: 0
+                }} />
+                <span style={{
+                  color: 'var(--text-secondary)',
+                  fontSize: 'var(--text-sm)'
+                }}>{benefit}</span>
               </div>
             ))}
           </div>
-          
-          <button className="btn btn-secondary group">
+
+          <button className="btn-secondary" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)'
+          }}>
             <span>Learn More</span>
-            <ExternalLink style={{
-  height: '16px',
-  width: '16px'
-}} />
+            <ExternalLink style={{ height: '16px', width: '16px' }} />
           </button>
         </div>
 
         {/* Interactive Demo */}
         <div style={{
-  borderRadius: '12px'
-}}>
+          padding: 'var(--space-6)',
+          borderRadius: 'var(--radius-lg)',
+          background: 'var(--bg-tertiary)',
+          border: '1px solid var(--border-subtle)'
+        }}>
           {/* Demo Controls */}
           <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--space-4)'
+          }}>
             <h4 style={{
-  fontWeight: '600'
-}}>Live Preview</h4>
+              fontWeight: 'var(--font-semibold)',
+              fontSize: 'var(--text-base)',
+              color: 'var(--text-primary)'
+            }}>Live Preview</h4>
             <button
               onClick={() => setIsAnimating(!isAnimating)}
-              className="btn-icon"
+              style={{
+                padding: 'var(--space-2)',
+                borderRadius: 'var(--radius-md)',
+                background: 'var(--bg-secondary)',
+                border: '1px solid var(--border-subtle)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
               aria-label={isAnimating ? 'Pause animation' : 'Play animation'}
             >
               {isAnimating ? (
-                <Pause style={{
-  height: '16px',
-  width: '16px'
-}} />
+                <Pause style={{ height: '16px', width: '16px', color: 'var(--text-primary)' }} />
               ) : (
-                <Play style={{
-  height: '16px',
-  width: '16px'
-}} />
+                <Play style={{ height: '16px', width: '16px', color: 'var(--text-primary)' }} />
               )}
             </button>
           </div>
 
           {/* Demo Steps */}
-          <div className="space-y-md mb-lg">
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--space-4)',
+            marginBottom: 'var(--space-6)'
+          }}>
             {demo.steps.map((step, index) => (
               <div key={index} style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-3)'
+              }}>
                 <div style={{
-  width: '12px',
-  height: '12px',
-  borderRadius: '50%'
-}}></div>
-                <span className={`text-sm ${
-                  step.status === 'complete' ? 'text-primary' : 'text-muted'
-                }`}>
+                  width: '12px',
+                  height: '12px',
+                  borderRadius: '50%',
+                  background: step.status === 'complete' ? 'var(--color-success)' : 'var(--border-subtle)',
+                  flexShrink: 0
+                }}></div>
+                <span style={{
+                  fontSize: 'var(--text-sm)',
+                  color: step.status === 'complete' ? 'var(--text-primary)' : 'var(--text-tertiary)',
+                  fontWeight: step.status === 'complete' ? 'var(--font-medium)' : 'var(--font-regular)'
+                }}>
                   {step.label}
                 </span>
               </div>
@@ -241,32 +294,63 @@ function Web3FeaturePreview({ feature }) {
 
           {/* Feature-Specific Demo Content */}
           <div style={{
-  borderRadius: '12px'
-}}>
+            padding: 'var(--space-4)',
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border-subtle)'
+          }}>
             {feature.title === 'Wallet Integration' && (
               <div>
                 <div style={{
-  fontWeight: '500'
-}}>Connected Wallet</div>
-                <div className="text-muted">Address: {demo.mockWallet.address}</div>
-                <div className="text-muted">Balance: {demo.mockWallet.balance}</div>
-                <div className="text-success text-xs mt-sm">✓ {demo.mockWallet.network}</div>
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)',
+                  marginBottom: 'var(--space-2)',
+                  fontSize: 'var(--text-sm)'
+                }}>Connected Wallet</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-secondary)',
+                  marginBottom: 'var(--space-1)'
+                }}>Address: {demo.mockWallet.address}</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-secondary)',
+                  marginBottom: 'var(--space-1)'
+                }}>Balance: {demo.mockWallet.balance}</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--color-success)',
+                  marginTop: 'var(--space-2)'
+                }}>✓ {demo.mockWallet.network}</div>
               </div>
             )}
 
             {feature.title === 'NFT Profile System' && (
               <div>
                 <div style={{
-  fontWeight: '500'
-}}>Your Collections</div>
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)',
+                  marginBottom: 'var(--space-2)',
+                  fontSize: 'var(--text-sm)'
+                }}>Your Collections</div>
                 {demo.mockNFTs.map((nft, index) => (
                   <div key={index} style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-xs">{nft.name}</span>
-                    {nft.selected && <span className="text-xs">✓ Active</span>}
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: 'var(--space-2)'
+                  }}>
+                    <span style={{
+                      fontSize: 'var(--text-xs)',
+                      color: 'var(--text-secondary)'
+                    }}>{nft.name}</span>
+                    {nft.selected && (
+                      <span style={{
+                        fontSize: 'var(--text-xs)',
+                        color: 'var(--color-success)',
+                        fontWeight: 'var(--font-medium)'
+                      }}>✓ Active</span>
+                    )}
                   </div>
                 ))}
               </div>
@@ -275,28 +359,58 @@ function Web3FeaturePreview({ feature }) {
             {feature.title === 'Crypto Payments' && (
               <div>
                 <div style={{
-  fontWeight: '500'
-}}>Payment Details</div>
-                <div className="text-muted text-xs">From: {demo.mockPayment.from}</div>
-                <div className="text-muted text-xs">To: {demo.mockPayment.to}</div>
-                <div className="text-accent-light text-xs">Amount: {demo.mockPayment.amount}</div>
-                <div className="text-muted text-xs">Fee: {demo.mockPayment.fee}</div>
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)',
+                  marginBottom: 'var(--space-2)',
+                  fontSize: 'var(--text-sm)'
+                }}>Payment Details</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-secondary)',
+                  marginBottom: 'var(--space-1)'
+                }}>From: {demo.mockPayment.from}</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-secondary)',
+                  marginBottom: 'var(--space-1)'
+                }}>To: {demo.mockPayment.to}</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--brand-primary)',
+                  marginBottom: 'var(--space-1)',
+                  fontWeight: 'var(--font-medium)'
+                }}>Amount: {demo.mockPayment.amount}</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-tertiary)'
+                }}>Fee: {demo.mockPayment.fee}</div>
               </div>
             )}
 
             {feature.title === 'Token Gating' && (
               <div>
                 <div style={{
-  fontWeight: '500'
-}}>Token Holdings</div>
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)',
+                  marginBottom: 'var(--space-2)',
+                  fontSize: 'var(--text-sm)'
+                }}>Token Holdings</div>
                 {demo.mockTokens.map((token, index) => (
                   <div key={index} style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                    <span className="text-muted">{token.symbol}: {token.amount}</span>
-                    <span className={token.access ? 'text-success' : 'text-error'}>
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    marginBottom: 'var(--space-2)'
+                  }}>
+                    <span style={{
+                      fontSize: 'var(--text-xs)',
+                      color: 'var(--text-secondary)'
+                    }}>{token.symbol}: {token.amount}</span>
+                    <span style={{
+                      fontSize: 'var(--text-xs)',
+                      color: token.access ? 'var(--color-success)' : 'var(--color-error)',
+                      fontWeight: 'var(--font-medium)'
+                    }}>
                       {token.access ? '✓ Access' : '✗ Insufficient'}
                     </span>
                   </div>
@@ -307,11 +421,26 @@ function Web3FeaturePreview({ feature }) {
             {feature.title === 'DeFi Integration' && (
               <div>
                 <div style={{
-  fontWeight: '500'
-}}>Portfolio Overview</div>
-                <div className="text-accent-light text-xs">Total Value: {demo.mockDefi.totalValue}</div>
-                <div className="text-success text-xs">APR: {demo.mockDefi.apr}</div>
-                <div className="text-muted text-xs mt-sm">
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)',
+                  marginBottom: 'var(--space-2)',
+                  fontSize: 'var(--text-sm)'
+                }}>Portfolio Overview</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--brand-primary)',
+                  marginBottom: 'var(--space-1)',
+                  fontWeight: 'var(--font-medium)'
+                }}>Total Value: {demo.mockDefi.totalValue}</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--color-success)',
+                  marginBottom: 'var(--space-2)'
+                }}>APR: {demo.mockDefi.apr}</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-tertiary)'
+                }}>
                   Protocols: {demo.mockDefi.protocols.join(', ')}
                 </div>
               </div>
@@ -320,17 +449,34 @@ function Web3FeaturePreview({ feature }) {
             {feature.title === 'DAO Governance' && (
               <div>
                 <div style={{
-  fontWeight: '500'
-}}>Active Proposal</div>
-                <div className="text-muted text-xs mb-sm">{demo.mockProposal.title}</div>
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)',
+                  marginBottom: 'var(--space-2)',
+                  fontSize: 'var(--text-sm)'
+                }}>Active Proposal</div>
                 <div style={{
-  display: 'flex',
-  justifyContent: 'space-between'
-}}>
-                  <span className="text-success">For: {demo.mockProposal.votes.for}</span>
-                  <span className="text-error">Against: {demo.mockProposal.votes.against}</span>
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--text-secondary)',
+                  marginBottom: 'var(--space-2)'
+                }}>{demo.mockProposal.title}</div>
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  marginBottom: 'var(--space-2)'
+                }}>
+                  <span style={{
+                    fontSize: 'var(--text-xs)',
+                    color: 'var(--color-success)'
+                  }}>For: {demo.mockProposal.votes.for}</span>
+                  <span style={{
+                    fontSize: 'var(--text-xs)',
+                    color: 'var(--color-error)'
+                  }}>Against: {demo.mockProposal.votes.against}</span>
                 </div>
-                <div className="text-warning text-xs mt-sm">⏳ {demo.mockProposal.timeLeft} left</div>
+                <div style={{
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--color-warning)'
+                }}>⏳ {demo.mockProposal.timeLeft} left</div>
               </div>
             )}
           </div>

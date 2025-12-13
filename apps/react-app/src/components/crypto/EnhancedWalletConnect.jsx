@@ -780,4 +780,4 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
 
 
 
-export default WALLET_PROVIDERS
+export default EnhancedWalletConnect

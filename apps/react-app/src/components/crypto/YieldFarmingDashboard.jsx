@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Button, Badge, Progress, Tabs, Dialog, Select } from '@radix-ui/themes';
-import { 
+import {
   TrendingUp, DollarSign, Zap, RefreshCw, Settings,
   PlusCircle, MinusCircle, Target, Calendar, Info,
   ArrowUpRight, ArrowDownRight, Coins, Shield,
   AlertTriangle, CheckCircle, ExternalLink, Copy
 } from 'lucide-react';
-import { 
-  getCRYBTokenContract, 
-  STAKING_POOLS, 
+import {
+  getCRYBTokenContract,
+  STAKING_POOLS,
   YIELD_FARMS,
   YieldCalculator,
   TokenEconomics
@@ -98,13 +98,13 @@ const YieldFarmingDashboard = () => {
 
     const stakingDuration = Date.now() - userStakeInfo.stakeTime;
     const yearInMs = 365 * 24 * 60 * 60 * 1000;
-    
+
     if (stakingDuration < yearInMs) {
       // Bonus APY for early stakers
       const earlyStakerBonus = 1 + (0.1 * (yearInMs - stakingDuration) / yearInMs);
       return pool.baseAPY * pool.bonusMultiplier * earlyStakerBonus;
     }
-    
+
     return pool.baseAPY * pool.bonusMultiplier;
   };
 
@@ -177,10 +177,10 @@ const YieldFarmingDashboard = () => {
 
   const formatTimeRemaining = (timeMs) => {
     if (timeMs <= 0) return 'Unlocked';
-    
+
     const days = Math.floor(timeMs / (24 * 60 * 60 * 1000));
     const hours = Math.floor((timeMs % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-    
+
     if (days > 0) {
       return `${days}d ${hours}h`;
     } else if (hours > 0) {
@@ -209,7 +209,7 @@ const YieldFarmingDashboard = () => {
 
       setActionModal({ open: false, type: '', pool: null });
       setActionAmount('');
-      
+
       // Refresh data after transaction
       setTimeout(loadDashboardData, 2000);
     } catch (error) {
@@ -237,7 +237,7 @@ const YieldFarmingDashboard = () => {
 
       setActionModal({ open: false, type: '', pool: null });
       setActionAmount('');
-      
+
       // Refresh data after transaction
       setTimeout(loadDashboardData, 2000);
     } catch (error) {
@@ -251,258 +251,128 @@ const YieldFarmingDashboard = () => {
   const PortfolioOverview = () => (
     <div className="space-y-6">
       {/* Portfolio Stats */}
-      <div style={{
-  display: 'grid',
-  gap: '16px'
-}}>
-        <Card style={{
-  padding: '16px'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-            <div style={{
-  padding: '8px',
-  borderRadius: '12px'
-}}>
-              <DollarSign style={{
-  width: '20px',
-  height: '20px'
-}} />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="card">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10">
+              <DollarSign className="w-5 h-5 text-blue-600" />
             </div>
-            <div>
-              <p style={{
-  color: '#A0A0A0'
-}}>Portfolio Value</p>
-              <p style={{
-  fontWeight: '600'
-}}>
+            <div className="flex-1">
+              <p className="text-sm text-secondary">Portfolio Value</p>
+              <p className="text-xl font-semibold text-primary">
                 {formatCurrency(userPortfolio.portfolioValueUSD)}
               </p>
             </div>
           </div>
-        </Card>
+        </div>
 
-        <Card style={{
-  padding: '16px'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-            <div style={{
-  padding: '8px',
-  borderRadius: '12px'
-}}>
-              <Shield style={{
-  width: '20px',
-  height: '20px'
-}} />
+        <div className="card">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500/10 to-blue-500/10">
+              <Shield className="w-5 h-5 text-purple-600" />
             </div>
-            <div>
-              <p style={{
-  color: '#A0A0A0'
-}}>Total Staked</p>
-              <p style={{
-  fontWeight: '600'
-}}>
+            <div className="flex-1">
+              <p className="text-sm text-secondary">Total Staked</p>
+              <p className="text-xl font-semibold text-primary">
                 {formatTokenAmount(userPortfolio.totalStaked)} CRYB
               </p>
             </div>
           </div>
-        </Card>
+        </div>
 
-        <Card style={{
-  padding: '16px'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-            <div style={{
-  padding: '8px',
-  borderRadius: '12px'
-}}>
-              <TrendingUp style={{
-  width: '20px',
-  height: '20px'
-}} />
+        <div className="card">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/10 to-blue-500/10">
+              <TrendingUp className="w-5 h-5 text-green-600" />
             </div>
-            <div>
-              <p style={{
-  color: '#A0A0A0'
-}}>Total Farmed</p>
-              <p style={{
-  fontWeight: '600'
-}}>
+            <div className="flex-1">
+              <p className="text-sm text-secondary">Total Farmed</p>
+              <p className="text-xl font-semibold text-primary">
                 {formatTokenAmount(userPortfolio.totalFarmed)} LP
               </p>
             </div>
           </div>
-        </Card>
+        </div>
 
-        <Card style={{
-  padding: '16px'
-}}>
-          <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
-            <div style={{
-  padding: '8px',
-  borderRadius: '12px'
-}}>
-              <Zap style={{
-  width: '20px',
-  height: '20px'
-}} />
+        <div className="card">
+          <div className="flex items-center gap-3">
+            <div className="p-2 rounded-xl bg-gradient-to-br from-yellow-500/10 to-orange-500/10">
+              <Zap className="w-5 h-5 text-yellow-600" />
             </div>
-            <div>
-              <p style={{
-  color: '#A0A0A0'
-}}>Pending Rewards</p>
-              <p style={{
-  fontWeight: '600'
-}}>
+            <div className="flex-1">
+              <p className="text-sm text-secondary">Pending Rewards</p>
+              <p className="text-xl font-semibold text-primary">
                 {formatTokenAmount(userPortfolio.pendingRewards)} CRYB
               </p>
             </div>
           </div>
-        </Card>
+        </div>
       </div>
 
       {/* TVL Information */}
       {totalValueLocked && (
-        <Card style={{
-  padding: '24px'
-}}>
-          <h3 style={{
-  fontWeight: '600'
-}}>Total Value Locked (TVL)</h3>
-          <div style={{
-  display: 'grid',
-  gap: '16px'
-}}>
-            <div style={{
-  textAlign: 'center'
-}}>
-              <p style={{
-  fontWeight: 'bold'
-}}>
+        <div className="card">
+          <h3 className="text-lg font-semibold text-primary mb-4">Total Value Locked (TVL)</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center p-4 rounded-xl bg-tertiary">
+              <p className="text-2xl font-bold text-primary">
                 {formatCurrency(totalValueLocked.totalValueUSD)}
               </p>
-              <p style={{
-  color: '#A0A0A0'
-}}>Total TVL</p>
+              <p className="text-sm text-secondary mt-1">Total TVL</p>
             </div>
-            <div style={{
-  textAlign: 'center'
-}}>
-              <p style={{
-  fontWeight: 'bold'
-}}>
+            <div className="text-center p-4 rounded-xl bg-tertiary">
+              <p className="text-2xl font-bold text-primary">
                 {formatTokenAmount(totalValueLocked.totalStaked)}
               </p>
-              <p style={{
-  color: '#A0A0A0'
-}}>Total Staked CRYB</p>
+              <p className="text-sm text-secondary mt-1">Total Staked CRYB</p>
             </div>
-            <div style={{
-  textAlign: 'center'
-}}>
-              <p style={{
-  fontWeight: 'bold'
-}}>
+            <div className="text-center p-4 rounded-xl bg-tertiary">
+              <p className="text-2xl font-bold text-primary">
                 {formatTokenAmount(totalValueLocked.totalFarmed)}
               </p>
-              <p style={{
-  color: '#A0A0A0'
-}}>Total LP Farmed</p>
+              <p className="text-sm text-secondary mt-1">Total LP Farmed</p>
             </div>
           </div>
-        </Card>
+        </div>
       )}
 
       {/* Quick Actions */}
-      <Card style={{
-  padding: '24px'
-}}>
-        <h3 style={{
-  fontWeight: '600'
-}}>Quick Actions</h3>
-        <div style={{
-  display: 'grid',
-  gap: '12px'
-}}>
-          <Button 
-            style={{
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  height: '80px'
-}}
+      <div className="card">
+        <h3 className="text-lg font-semibold text-primary mb-4">Quick Actions</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <button
+            className="btn-primary flex flex-col items-center justify-center gap-2 h-20"
             onClick={() => setActionModal({ open: true, type: 'stake', pool: 'basic' })}
           >
-            <PlusCircle style={{
-  width: '20px',
-  height: '20px'
-}} />
-            <span className="text-sm">Stake CRYB</span>
-          </Button>
-          
-          <Button 
-            variant="outline"
-            style={{
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  height: '80px'
-}}
+            <PlusCircle className="w-5 h-5" />
+            <span className="text-sm font-medium">Stake CRYB</span>
+          </button>
+
+          <button
+            className="btn-secondary flex flex-col items-center justify-center gap-2 h-20"
             onClick={() => setActiveTab('staking')}
           >
-            <Target style={{
-  width: '20px',
-  height: '20px'
-}} />
-            <span className="text-sm">View Pools</span>
-          </Button>
-          
-          <Button 
-            variant="outline"
-            style={{
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  height: '80px'
-}}
+            <Target className="w-5 h-5" />
+            <span className="text-sm font-medium">View Pools</span>
+          </button>
+
+          <button
+            className="btn-secondary flex flex-col items-center justify-center gap-2 h-20"
             onClick={() => setActiveTab('farming')}
           >
-            <TrendingUp style={{
-  width: '20px',
-  height: '20px'
-}} />
-            <span className="text-sm">Farm LP</span>
-          </Button>
-          
-          <Button 
-            variant="outline"
-            style={{
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  height: '80px'
-}}
+            <TrendingUp className="w-5 h-5" />
+            <span className="text-sm font-medium">Farm LP</span>
+          </button>
+
+          <button
+            className="btn-secondary flex flex-col items-center justify-center gap-2 h-20"
             disabled={userPortfolio.pendingRewards === BigInt(0)}
           >
-            <Zap style={{
-  width: '20px',
-  height: '20px'
-}} />
-            <span className="text-sm">Claim All</span>
-          </Button>
+            <Zap className="w-5 h-5" />
+            <span className="text-sm font-medium">Claim All</span>
+          </button>
         </div>
-      </Card>
+      </div>
     </div>
   );
 
@@ -510,22 +380,11 @@ const YieldFarmingDashboard = () => {
   const StakingPools = () => (
     <div className="space-y-4">
       {Object.values(stakingData).map((pool) => (
-        <Card key={pool.id} style={{
-  padding: '24px'
-}}>
-          <div style={{
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'flex-start'
-}}>
+        <div key={pool.id} className="card">
+          <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 style={{
-  fontWeight: '600'
-}}>{pool.name}</h3>
-              <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+              <h3 className="text-lg font-semibold text-primary">{pool.name}</h3>
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
                 <Badge color="green">{pool.currentAPY.toFixed(1)}% APY</Badge>
                 <Badge variant="outline">
                   Lock: {pool.lockPeriod / (24 * 60 * 60)} days
@@ -535,63 +394,36 @@ const YieldFarmingDashboard = () => {
                 </Badge>
               </div>
             </div>
-            
-            <div style={{
-  textAlign: 'right'
-}}>
-              <p style={{
-  color: '#A0A0A0'
-}}>Your Stake</p>
-              <p style={{
-  fontWeight: '600'
-}}>
+
+            <div className="text-right">
+              <p className="text-sm text-secondary">Your Stake</p>
+              <p className="text-lg font-semibold text-primary">
                 {formatTokenAmount(pool.amount || BigInt(0))} CRYB
               </p>
-              <p style={{
-  color: '#A0A0A0'
-}}>
+              <p className="text-sm text-tertiary">
                 ≈ {formatCurrency((Number(pool.amount || 0) / 1e18) * cryptoPrices.CRYB)}
               </p>
             </div>
           </div>
 
           {pool.amount && pool.amount > BigInt(0) && (
-            <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
-  padding: '16px',
-  borderRadius: '12px'
-}}>
-              <div style={{
-  display: 'grid',
-  gap: '16px'
-}}>
+            <div className="bg-tertiary p-4 rounded-xl mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <p style={{
-  color: '#A0A0A0'
-}}>Pending Rewards</p>
-                  <p style={{
-  fontWeight: '600'
-}}>
+                  <p className="text-sm text-secondary">Pending Rewards</p>
+                  <p className="text-base font-semibold text-primary">
                     {formatTokenAmount(pool.pendingRewards || BigInt(0))} CRYB
                   </p>
                 </div>
                 <div>
-                  <p style={{
-  color: '#A0A0A0'
-}}>Time to Unlock</p>
-                  <p style={{
-  fontWeight: '600'
-}}>
+                  <p className="text-sm text-secondary">Time to Unlock</p>
+                  <p className="text-base font-semibold text-primary">
                     {formatTimeRemaining(pool.timeToUnlock)}
                   </p>
                 </div>
                 <div>
-                  <p style={{
-  color: '#A0A0A0'
-}}>Staked Since</p>
-                  <p style={{
-  fontWeight: '600'
-}}>
+                  <p className="text-sm text-secondary">Staked Since</p>
+                  <p className="text-base font-semibold text-primary">
                     {new Date(pool.stakeTime).toLocaleDateString()}
                   </p>
                 </div>
@@ -599,60 +431,50 @@ const YieldFarmingDashboard = () => {
             </div>
           )}
 
-          <div style={{
-  display: 'flex'
-}}>
-            <Button 
-              onClick={() => setActionModal({ 
-                open: true, 
-                type: 'stake', 
-                pool: pool 
+          <div className="flex gap-2 flex-wrap">
+            <button
+              className="btn-primary"
+              onClick={() => setActionModal({
+                open: true,
+                type: 'stake',
+                pool: pool
               })}
             >
-              <PlusCircle style={{
-  width: '16px',
-  height: '16px'
-}} />
+              <PlusCircle className="w-4 h-4" />
               Stake
-            </Button>
-            
+            </button>
+
             {pool.amount && pool.amount > BigInt(0) && (
               <>
-                <Button 
-                  variant="outline"
-                  onClick={() => setActionModal({ 
-                    open: true, 
-                    type: 'unstake', 
-                    pool: pool 
+                <button
+                  className="btn-secondary"
+                  onClick={() => setActionModal({
+                    open: true,
+                    type: 'unstake',
+                    pool: pool
                   })}
                   disabled={pool.timeToUnlock > 0}
                 >
-                  <MinusCircle style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <MinusCircle className="w-4 h-4" />
                   Unstake
-                </Button>
-                
-                <Button 
-                  variant="outline"
-                  onClick={() => setActionModal({ 
-                    open: true, 
-                    type: 'compound', 
-                    pool: pool 
+                </button>
+
+                <button
+                  className="btn-secondary"
+                  onClick={() => setActionModal({
+                    open: true,
+                    type: 'compound',
+                    pool: pool
                   })}
                   disabled={!pool.pendingRewards || pool.pendingRewards === BigInt(0)}
                 >
-                  <RefreshCw style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <RefreshCw className="w-4 h-4" />
                   Compound
-                </Button>
+                </button>
               </>
             )}
           </div>
-        </Card>
+        </div>
       ))}
     </div>
   );
@@ -661,93 +483,53 @@ const YieldFarmingDashboard = () => {
   const YieldFarming = () => (
     <div className="space-y-4">
       {Object.values(farmingData).map((farm) => (
-        <Card key={farm.id} style={{
-  padding: '24px'
-}}>
-          <div style={{
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'flex-start'
-}}>
+        <div key={farm.id} className="card">
+          <div className="flex justify-between items-start mb-4">
             <div>
-              <h3 style={{
-  fontWeight: '600'
-}}>{farm.name}</h3>
-              <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+              <h3 className="text-lg font-semibold text-primary">{farm.name}</h3>
+              <div className="flex items-center gap-2 mt-2 flex-wrap">
                 <Badge color="purple">{farm.currentAPY.toFixed(1)}% APY</Badge>
                 <Badge variant="outline">
                   Multiplier: {farm.multiplier}x
                 </Badge>
                 {farm.impermanentLoss > 2 && (
                   <Badge color="yellow">
-                    <AlertTriangle style={{
-  width: '12px',
-  height: '12px'
-}} />
+                    <AlertTriangle className="w-3 h-3" />
                     IL: {farm.impermanentLoss.toFixed(1)}%
                   </Badge>
                 )}
               </div>
             </div>
-            
-            <div style={{
-  textAlign: 'right'
-}}>
-              <p style={{
-  color: '#A0A0A0'
-}}>Your LP Tokens</p>
-              <p style={{
-  fontWeight: '600'
-}}>
+
+            <div className="text-right">
+              <p className="text-sm text-secondary">Your LP Tokens</p>
+              <p className="text-lg font-semibold text-primary">
                 {formatTokenAmount(farm.stakedAmount || BigInt(0))}
               </p>
-              <p style={{
-  color: '#A0A0A0'
-}}>
+              <p className="text-sm text-tertiary">
                 ≈ {formatCurrency((Number(farm.stakedAmount || 0) / 1e18) * cryptoPrices.CRYB * 2)}
               </p>
             </div>
           </div>
 
           {farm.stakedAmount && farm.stakedAmount > BigInt(0) && (
-            <div style={{
-  padding: '16px',
-  borderRadius: '12px'
-}}>
-              <div style={{
-  display: 'grid',
-  gap: '16px'
-}}>
+            <div className="bg-tertiary p-4 rounded-xl mb-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <p style={{
-  color: '#A0A0A0'
-}}>Pending Rewards</p>
-                  <p style={{
-  fontWeight: '600'
-}}>
+                  <p className="text-sm text-secondary">Pending Rewards</p>
+                  <p className="text-base font-semibold text-primary">
                     {formatTokenAmount(farm.pendingRewards || BigInt(0))} CRYB
                   </p>
                 </div>
                 <div>
-                  <p style={{
-  color: '#A0A0A0'
-}}>Last Harvest</p>
-                  <p style={{
-  fontWeight: '600'
-}}>
+                  <p className="text-sm text-secondary">Last Harvest</p>
+                  <p className="text-base font-semibold text-primary">
                     {new Date(farm.lastHarvestTime).toLocaleDateString()}
                   </p>
                 </div>
                 <div>
-                  <p style={{
-  color: '#A0A0A0'
-}}>Impermanent Loss</p>
-                  <p style={{
-  fontWeight: '600'
-}}>
+                  <p className="text-sm text-secondary">Impermanent Loss</p>
+                  <p className="text-base font-semibold text-warning">
                     -{farm.impermanentLoss.toFixed(2)}%
                   </p>
                 </div>
@@ -755,55 +537,45 @@ const YieldFarmingDashboard = () => {
             </div>
           )}
 
-          <div style={{
-  display: 'flex'
-}}>
-            <Button 
-              onClick={() => setActionModal({ 
-                open: true, 
-                type: 'deposit', 
-                pool: farm 
+          <div className="flex gap-2 flex-wrap">
+            <button
+              className="btn-primary"
+              onClick={() => setActionModal({
+                open: true,
+                type: 'deposit',
+                pool: farm
               })}
             >
-              <PlusCircle style={{
-  width: '16px',
-  height: '16px'
-}} />
+              <PlusCircle className="w-4 h-4" />
               Deposit LP
-            </Button>
-            
+            </button>
+
             {farm.stakedAmount && farm.stakedAmount > BigInt(0) && (
               <>
-                <Button 
-                  variant="outline"
-                  onClick={() => setActionModal({ 
-                    open: true, 
-                    type: 'withdraw', 
-                    pool: farm 
+                <button
+                  className="btn-secondary"
+                  onClick={() => setActionModal({
+                    open: true,
+                    type: 'withdraw',
+                    pool: farm
                   })}
                 >
-                  <MinusCircle style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <MinusCircle className="w-4 h-4" />
                   Withdraw
-                </Button>
-                
-                <Button 
-                  variant="outline"
+                </button>
+
+                <button
+                  className="btn-secondary"
                   onClick={() => handleFarmAction(farm.id, 'harvest', '0')}
                   disabled={!farm.pendingRewards || farm.pendingRewards === BigInt(0)}
                 >
-                  <Zap style={{
-  width: '16px',
-  height: '16px'
-}} />
+                  <Zap className="w-4 h-4" />
                   Harvest
-                </Button>
+                </button>
               </>
             )}
           </div>
-        </Card>
+        </div>
       ))}
     </div>
   );
@@ -812,76 +584,54 @@ const YieldFarmingDashboard = () => {
   const ActionModal = () => (
     <Dialog.Root open={actionModal.open} onOpenChange={(open) => setActionModal({ ...actionModal, open })}>
       <Dialog.Content className="max-w-md">
-        <Dialog.Title style={{
-  fontWeight: '600'
-}}>
+        <Dialog.Title className="text-xl font-semibold text-primary">
           {actionModal.type === 'stake' && 'Stake CRYB Tokens'}
           {actionModal.type === 'unstake' && 'Unstake CRYB Tokens'}
           {actionModal.type === 'deposit' && 'Deposit LP Tokens'}
           {actionModal.type === 'withdraw' && 'Withdraw LP Tokens'}
           {actionModal.type === 'compound' && 'Compound Rewards'}
         </Dialog.Title>
-        
+
         {actionModal.pool && (
           <div className="space-y-4">
-            <div style={{
-  background: 'rgba(22, 27, 34, 0.6)',
-  padding: '12px',
-  borderRadius: '12px'
-}}>
-              <p style={{
-  fontWeight: '500'
-}}>{actionModal.pool.name}</p>
-              <p style={{
-  color: '#A0A0A0'
-}}>
+            <div className="bg-tertiary p-3 rounded-xl">
+              <p className="font-medium text-primary">{actionModal.pool.name}</p>
+              <p className="text-sm text-secondary">
                 APY: {actionModal.pool.currentAPY?.toFixed(1) || actionModal.pool.baseAPY}%
               </p>
             </div>
 
             {actionModal.type !== 'compound' && (
               <div>
-                <label style={{
-  display: 'block',
-  fontWeight: '500'
-}}>
+                <label className="block text-sm font-medium text-primary mb-2">
                   Amount {actionModal.type.includes('stake') ? 'CRYB' : 'LP'}
                 </label>
                 <input
                   type="number"
                   value={actionAmount}
                   onChange={(e) => setActionAmount(e.target.value)}
-                  style={{
-  width: '100%',
-  padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
-  borderRadius: '12px'
-}}
+                  className="input-primary"
                   placeholder="0.00"
                   step="0.01"
                   min="0"
                 />
                 {actionModal.pool.minStake && actionModal.type === 'stake' && (
-                  <p style={{
-  color: '#A0A0A0'
-}}>
+                  <p className="text-sm text-secondary mt-1">
                     Minimum: {formatTokenAmount(actionModal.pool.minStake)} CRYB
                   </p>
                 )}
               </div>
             )}
 
-            <div style={{
-  display: 'flex',
-  justifyContent: 'flex-end'
-}}>
-              <Button 
-                variant="outline" 
+            <div className="flex justify-end gap-2">
+              <button
+                className="btn-secondary"
                 onClick={() => setActionModal({ open: false, type: '', pool: null })}
               >
                 Cancel
-              </Button>
-              <Button 
+              </button>
+              <button
+                className="btn-primary"
                 onClick={() => {
                   if (actionModal.type.includes('stake') || actionModal.type === 'compound') {
                     handleStakeAction(actionModal.pool.id, actionModal.type, actionAmount);
@@ -893,16 +643,13 @@ const YieldFarmingDashboard = () => {
               >
                 {isProcessing ? (
                   <>
-                    <RefreshCw style={{
-  width: '16px',
-  height: '16px'
-}} />
+                    <RefreshCw className="w-4 h-4 animate-spin" />
                     Processing...
                   </>
                 ) : (
                   `Confirm ${actionModal.type}`
                 )}
-              </Button>
+              </button>
             </div>
           </div>
         )}
@@ -912,78 +659,45 @@ const YieldFarmingDashboard = () => {
 
   if (!walletManager.isConnected) {
     return (
-      <Card style={{
-  padding: '32px',
-  textAlign: 'center'
-}}>
-        <TrendingUp style={{
-  width: '64px',
-  height: '64px',
-  color: '#A0A0A0'
-}} />
-        <h2 style={{
-  fontWeight: 'bold'
-}}>Connect Wallet</h2>
-        <p style={{
-  color: '#A0A0A0'
-}}>
+      <div className="card text-center py-12">
+        <TrendingUp className="w-16 h-16 mx-auto mb-4 text-tertiary" />
+        <h2 className="text-2xl font-bold text-primary mb-2">Connect Wallet</h2>
+        <p className="text-secondary mb-6">
           Connect your wallet to access DeFi yield farming features
         </p>
-        <Button onClick={() => walletManager.connect()}>
+        <button className="btn-primary" onClick={() => walletManager.connect()}>
           Connect Wallet
-        </Button>
-      </Card>
+        </button>
+      </div>
     );
   }
 
   if (isLoading) {
     return (
-      <Card style={{
-  padding: '32px',
-  textAlign: 'center'
-}}>
-        <RefreshCw style={{
-  width: '32px',
-  height: '32px'
-}} />
-        <p>Loading DeFi dashboard...</p>
-      </Card>
+      <div className="card text-center py-12">
+        <RefreshCw className="w-8 h-8 mx-auto mb-4 animate-spin text-brand-primary" />
+        <p className="text-secondary">Loading DeFi dashboard...</p>
+      </div>
     );
   }
 
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div style={{
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center'
-}}>
+      <div className="flex justify-between items-center">
         <div>
-          <h1 style={{
-  fontWeight: 'bold'
-}}>DeFi Yield Farming</h1>
-          <p style={{
-  color: '#A0A0A0'
-}}>Maximize your CRYB token rewards</p>
+          <h1 className="text-3xl font-bold text-primary">DeFi Yield Farming</h1>
+          <p className="text-secondary">Maximize your CRYB token rewards</p>
         </div>
-        <div style={{
-  display: 'flex'
-}}>
-          <Button variant="outline" onClick={loadDashboardData}>
-            <RefreshCw style={{
-  width: '16px',
-  height: '16px'
-}} />
+        <div className="flex gap-2">
+          <button className="btn-secondary" onClick={loadDashboardData}>
+            <RefreshCw className="w-4 h-4" />
             Refresh
-          </Button>
-          <Button variant="outline">
-            <Settings style={{
-  width: '16px',
-  height: '16px'
-}} />
+          </button>
+          <button className="btn-secondary">
+            <Settings className="w-4 h-4" />
             Settings
-          </Button>
+          </button>
         </div>
       </div>
 
@@ -991,24 +705,15 @@ const YieldFarmingDashboard = () => {
       <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Trigger value="overview">
-            <DollarSign style={{
-  width: '16px',
-  height: '16px'
-}} />
+            <DollarSign className="w-4 h-4" />
             Overview
           </Tabs.Trigger>
           <Tabs.Trigger value="staking">
-            <Shield style={{
-  width: '16px',
-  height: '16px'
-}} />
+            <Shield className="w-4 h-4" />
             Staking Pools
           </Tabs.Trigger>
           <Tabs.Trigger value="farming">
-            <TrendingUp style={{
-  width: '16px',
-  height: '16px'
-}} />
+            <TrendingUp className="w-4 h-4" />
             Yield Farming
           </Tabs.Trigger>
         </Tabs.List>

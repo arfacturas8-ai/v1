@@ -707,4 +707,4 @@ const CryptoTippingSystem = ({
 
 
 
-export default TIP_PRESETS
+export default CryptoTippingSystem

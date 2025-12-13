@@ -415,10 +415,12 @@ Once launched, CRYB will transition to community governance where CRYB token hol
 
       {/* Category Navigation */}
       <div style={{
-  display: 'flex',
-  flexWrap: 'wrap',
-  justifyContent: 'center'
-}}>
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 'var(--space-3)',
+        justifyContent: 'center',
+        marginBottom: 'var(--space-6)'
+      }}>
         {educationCategories.map((category) => {
           const IconComponent = category.icon
           return (
@@ -428,39 +430,42 @@ Once launched, CRYB will transition to community governance where CRYB token hol
                 setActiveCategory(category.id)
                 setExpandedTopic(null)
               }}
-              className={`btn group transition-all duration-200 ${
-                activeCategory === category.id
-                  ? 'btn-primary'
-                  : 'btn-secondary hover:border-accent-primary/30'
-              }`}
+              className={activeCategory === category.id ? 'btn-primary' : 'btn-secondary'}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)'
+              }}
             >
-              <IconComponent style={{
-  height: '16px',
-  width: '16px'
-}} />
-              <span style={{
-  display: 'none'
-}}>{category.title}</span>
-              <span className="sm:hidden">{category.title.split(' ')[0]}</span>
+              <IconComponent style={{ height: '16px', width: '16px' }} />
+              <span style={{ display: window.innerWidth >= 640 ? 'inline' : 'none' }}>
+                {category.title}
+              </span>
+              <span style={{ display: window.innerWidth < 640 ? 'inline' : 'none' }}>
+                {category.title.split(' ')[0]}
+              </span>
             </button>
           )
         })}
       </div>
 
       {/* Category Description */}
-      <div style={{
-  textAlign: 'center'
-}}>
+      <div style={{ textAlign: 'center', marginBottom: 'var(--space-8)' }}>
         {educationCategories.find(cat => cat.id === activeCategory) && (
           <div style={{
-  borderRadius: '12px'
-}}>
+            padding: 'var(--space-4)',
+            borderRadius: 'var(--radius-lg)',
+            background: 'var(--bg-tertiary)'
+          }}>
             <h3 style={{
-  fontWeight: '600'
-}}>
+              fontWeight: 'var(--font-semibold)',
+              fontSize: 'var(--text-lg)',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-2)'
+            }}>
               {educationCategories.find(cat => cat.id === activeCategory).title}
             </h3>
-            <p className="text-secondary">
+            <p style={{ color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>
               {educationCategories.find(cat => cat.id === activeCategory).description}
             </p>
           </div>
@@ -468,90 +473,129 @@ Once launched, CRYB will transition to community governance where CRYB token hol
       </div>
 
       {/* Educational Content */}
-      <div className="space-y-md">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
         {currentContent.map((topic) => (
-          <div key={topic.id} className="card p-lg">
+          <div key={topic.id} className="card" style={{ padding: 'var(--space-6)' }}>
             <button
               onClick={() => toggleTopic(topic.id)}
               style={{
-  width: '100%',
-  textAlign: 'left'
-}}
+                width: '100%',
+                textAlign: 'left',
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0
+              }}
             >
               <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'space-between'
-}}>
-                <div style={{
-  flex: '1'
-}}>
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <div style={{ flex: '1' }}>
                   <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-3)',
+                    marginBottom: 'var(--space-2)',
+                    flexWrap: 'wrap'
+                  }}>
                     <h3 style={{
-  fontWeight: '600'
-}}>{topic.title}</h3>
-                    <div style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+                      fontWeight: 'var(--font-semibold)',
+                      fontSize: 'var(--text-lg)',
+                      color: 'var(--text-primary)'
+                    }}>{topic.title}</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                       <span style={{
-  borderRadius: '4px'
-}}>
+                        fontSize: 'var(--text-xs)',
+                        padding: 'var(--space-1) var(--space-3)',
+                        borderRadius: 'var(--radius-sm)',
+                        background: topic.difficulty === 'Beginner' ? 'var(--color-success-light)' : 'var(--color-info-light)',
+                        color: topic.difficulty === 'Beginner' ? 'var(--color-success-dark)' : 'var(--color-info-dark)',
+                        fontWeight: 'var(--font-medium)'
+                      }}>
                         {topic.difficulty}
                       </span>
-                      <span className="text-xs text-muted">{topic.readTime}</span>
+                      <span style={{
+                        fontSize: 'var(--text-xs)',
+                        color: 'var(--text-tertiary)'
+                      }}>{topic.readTime}</span>
                     </div>
                   </div>
-                  <p className="text-secondary">{topic.summary}</p>
+                  <p style={{
+                    color: 'var(--text-secondary)',
+                    fontSize: 'var(--text-sm)',
+                    lineHeight: 'var(--leading-relaxed)'
+                  }}>{topic.summary}</p>
                 </div>
-                <div className="ml-md">
+                <div style={{ marginLeft: 'var(--space-4)' }}>
                   {expandedTopic === topic.id ? (
                     <ChevronDown style={{
-  height: '20px',
-  width: '20px'
-}} />
+                      height: '20px',
+                      width: '20px',
+                      color: 'var(--text-secondary)'
+                    }} />
                   ) : (
                     <ChevronRight style={{
-  height: '20px',
-  width: '20px'
-}} />
+                      height: '20px',
+                      width: '20px',
+                      color: 'var(--text-secondary)'
+                    }} />
                   )}
                 </div>
               </div>
             </button>
 
             {expandedTopic === topic.id && (
-              <div className="mt-lg border-t border-border-primary pt-lg">
+              <div style={{
+                marginTop: 'var(--space-6)',
+                paddingTop: 'var(--space-6)',
+                borderTop: '1px solid var(--border-subtle)'
+              }}>
                 {/* Content */}
-                <div className="prose prose-invert max-w-none mb-lg">
+                <div style={{ marginBottom: 'var(--space-6)' }}>
                   {topic.content.split('\n\n').map((paragraph, index) => {
                     if (paragraph.startsWith('**') && paragraph.includes(':**')) {
                       // Handle section headers
                       const [header, ...content] = paragraph.split('\n')
                       return (
-                        <div key={index} className="mb-lg">
+                        <div key={index} style={{ marginBottom: 'var(--space-6)' }}>
                           <h4 style={{
-  fontWeight: '600'
-}}>
+                            fontWeight: 'var(--font-semibold)',
+                            fontSize: 'var(--text-base)',
+                            color: 'var(--text-primary)',
+                            marginBottom: 'var(--space-3)'
+                          }}>
                             {header.replace(/\*\*/g, '')}
                           </h4>
                           {content.map((line, lineIndex) => (
-                            <div key={lineIndex} className="mb-sm">
+                            <div key={lineIndex} style={{ marginBottom: 'var(--space-2)' }}>
                               {line.startsWith('• ') ? (
                                 <div style={{
-  display: 'flex',
-  alignItems: 'flex-start'
-}}>
+                                  display: 'flex',
+                                  alignItems: 'flex-start',
+                                  gap: 'var(--space-2)'
+                                }}>
                                   <div style={{
-  borderRadius: '50%'
-}}></div>
-                                  <span className="text-secondary">{line.substring(2).replace(/\*\*/g, '')}</span>
+                                    width: '4px',
+                                    height: '4px',
+                                    borderRadius: '50%',
+                                    background: 'var(--brand-primary)',
+                                    marginTop: '8px',
+                                    flexShrink: 0
+                                  }}></div>
+                                  <span style={{
+                                    color: 'var(--text-secondary)',
+                                    fontSize: 'var(--text-sm)',
+                                    lineHeight: 'var(--leading-relaxed)'
+                                  }}>{line.substring(2).replace(/\*\*/g, '')}</span>
                                 </div>
                               ) : (
-                                <p className="text-secondary">{line.replace(/\*\*/g, '')}</p>
+                                <p style={{
+                                  color: 'var(--text-secondary)',
+                                  fontSize: 'var(--text-sm)',
+                                  lineHeight: 'var(--leading-relaxed)'
+                                }}>{line.replace(/\*\*/g, '')}</p>
                               )}
                             </div>
                           ))}
@@ -561,23 +605,39 @@ Once launched, CRYB will transition to community governance where CRYB token hol
                       // Handle regular paragraphs
                       const lines = paragraph.split('\n')
                       return (
-                        <div key={index} className="mb-lg">
+                        <div key={index} style={{ marginBottom: 'var(--space-6)' }}>
                           {lines.map((line, lineIndex) => {
                             if (line.startsWith('• ')) {
                               return (
                                 <div key={lineIndex} style={{
-  display: 'flex',
-  alignItems: 'flex-start'
-}}>
+                                  display: 'flex',
+                                  alignItems: 'flex-start',
+                                  gap: 'var(--space-2)',
+                                  marginBottom: 'var(--space-2)'
+                                }}>
                                   <div style={{
-  borderRadius: '50%'
-}}></div>
-                                  <span className="text-secondary">{line.substring(2).replace(/\*\*/g, '')}</span>
+                                    width: '4px',
+                                    height: '4px',
+                                    borderRadius: '50%',
+                                    background: 'var(--brand-primary)',
+                                    marginTop: '8px',
+                                    flexShrink: 0
+                                  }}></div>
+                                  <span style={{
+                                    color: 'var(--text-secondary)',
+                                    fontSize: 'var(--text-sm)',
+                                    lineHeight: 'var(--leading-relaxed)'
+                                  }}>{line.substring(2).replace(/\*\*/g, '')}</span>
                                 </div>
                               )
                             } else {
                               return (
-                                <p key={lineIndex} className="text-secondary mb-sm">
+                                <p key={lineIndex} style={{
+                                  color: 'var(--text-secondary)',
+                                  fontSize: 'var(--text-sm)',
+                                  lineHeight: 'var(--leading-relaxed)',
+                                  marginBottom: 'var(--space-2)'
+                                }}>
                                   {line.replace(/\*\*/g, '')}
                                 </p>
                               )
@@ -591,29 +651,46 @@ Once launched, CRYB will transition to community governance where CRYB token hol
 
                 {/* Key Takeaways */}
                 <div style={{
-  borderRadius: '12px'
-}}>
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'var(--bg-tertiary)',
+                  marginBottom: 'var(--space-4)'
+                }}>
                   <h4 style={{
-  display: 'flex',
-  alignItems: 'center',
-  fontWeight: '600'
-}}>
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 'var(--space-2)',
+                    fontWeight: 'var(--font-semibold)',
+                    fontSize: 'var(--text-base)',
+                    color: 'var(--text-primary)',
+                    marginBottom: 'var(--space-3)'
+                  }}>
                     <Lightbulb style={{
-  height: '16px',
-  width: '16px'
-}} />
+                      height: '16px',
+                      width: '16px',
+                      color: 'var(--brand-primary)'
+                    }} />
                     Key Takeaways
                   </h4>
-                  <div className="space-y-sm">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                     {topic.keyTakeaways.map((takeaway, index) => (
                       <div key={index} style={{
-  display: 'flex',
-  alignItems: 'flex-start'
-}}>
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: 'var(--space-2)'
+                      }}>
                         <div style={{
-  borderRadius: '50%'
-}}></div>
-                        <span className="text-secondary">{takeaway}</span>
+                          width: '4px',
+                          height: '4px',
+                          borderRadius: '50%',
+                          background: 'var(--brand-primary)',
+                          marginTop: '8px',
+                          flexShrink: 0
+                        }}></div>
+                        <span style={{
+                          color: 'var(--text-secondary)',
+                          fontSize: 'var(--text-sm)'
+                        }}>{takeaway}</span>
                       </div>
                     ))}
                   </div>
@@ -621,22 +698,32 @@ Once launched, CRYB will transition to community governance where CRYB token hol
 
                 {/* Next Steps */}
                 <div style={{
-  borderRadius: '12px'
-}}>
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'var(--color-info-light)'
+                }}>
                   <h4 style={{
-  fontWeight: '600'
-}}>What to Learn Next</h4>
-                  <div className="space-y-sm">
+                    fontWeight: 'var(--font-semibold)',
+                    fontSize: 'var(--text-base)',
+                    color: 'var(--text-primary)',
+                    marginBottom: 'var(--space-3)'
+                  }}>What to Learn Next</h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                     {topic.nextSteps.map((step, index) => (
                       <div key={index} style={{
-  display: 'flex',
-  alignItems: 'center'
-}}>
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'var(--space-2)'
+                      }}>
                         <ChevronRight style={{
-  height: '12px',
-  width: '12px'
-}} />
-                        <span className="text-sm text-secondary">{step}</span>
+                          height: '12px',
+                          width: '12px',
+                          color: 'var(--brand-primary)'
+                        }} />
+                        <span style={{
+                          fontSize: 'var(--text-sm)',
+                          color: 'var(--text-secondary)'
+                        }}>{step}</span>
                       </div>
                     ))}
                   </div>
@@ -648,66 +735,112 @@ Once launched, CRYB will transition to community governance where CRYB token hol
       </div>
 
       {/* Additional Resources */}
-      <div className="mt-2xl border-t border-border-primary pt-2xl">
+      <div style={{
+        marginTop: 'var(--space-8)',
+        paddingTop: 'var(--space-8)',
+        borderTop: '1px solid var(--border-subtle)'
+      }}>
         <div style={{
-  textAlign: 'center'
-}}>
+          textAlign: 'center',
+          marginBottom: 'var(--space-6)'
+        }}>
           <h3 style={{
-  fontWeight: 'bold'
-}}>Additional Resources</h3>
-          <p className="text-secondary">Expand your Web3 knowledge with these trusted sources</p>
+            fontWeight: 'var(--font-bold)',
+            fontSize: 'var(--text-2xl)',
+            color: 'var(--text-primary)',
+            marginBottom: 'var(--space-2)'
+          }}>Additional Resources</h3>
+          <p style={{
+            color: 'var(--text-secondary)',
+            fontSize: 'var(--text-base)'
+          }}>Expand your Web3 knowledge with these trusted sources</p>
         </div>
-        
+
         <div style={{
-  display: 'grid'
-}}>
-          <div style={{
-  textAlign: 'center'
-}}>
-            <div className="text-4xl mb-md">📚</div>
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+          gap: 'var(--space-6)'
+        }}>
+          <div className="card" style={{
+            padding: 'var(--space-6)',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: 'var(--text-5xl)', marginBottom: 'var(--space-4)' }}>📚</div>
             <h4 style={{
-  fontWeight: '600'
-}}>Documentation</h4>
-            <p className="text-sm text-secondary mb-md">Read official docs from leading Web3 projects</p>
-            <button className="btn btn-secondary text-sm">
-              <ExternalLink style={{
-  height: '12px',
-  width: '12px'
-}} />
+              fontWeight: 'var(--font-semibold)',
+              fontSize: 'var(--text-lg)',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-2)'
+            }}>Documentation</h4>
+            <p style={{
+              fontSize: 'var(--text-sm)',
+              color: 'var(--text-secondary)',
+              marginBottom: 'var(--space-4)'
+            }}>Read official docs from leading Web3 projects</p>
+            <button className="btn-secondary" style={{
+              fontSize: 'var(--text-sm)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+              margin: '0 auto'
+            }}>
+              <ExternalLink style={{ height: '12px', width: '12px' }} />
               <span>Browse Docs</span>
             </button>
           </div>
 
-          <div style={{
-  textAlign: 'center'
-}}>
-            <div className="text-4xl mb-md">🎥</div>
+          <div className="card" style={{
+            padding: 'var(--space-6)',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: 'var(--text-5xl)', marginBottom: 'var(--space-4)' }}>🎥</div>
             <h4 style={{
-  fontWeight: '600'
-}}>Video Tutorials</h4>
-            <p className="text-sm text-secondary mb-md">Step-by-step guides and explanations</p>
-            <button className="btn btn-secondary text-sm">
-              <Play style={{
-  height: '12px',
-  width: '12px'
-}} />
+              fontWeight: 'var(--font-semibold)',
+              fontSize: 'var(--text-lg)',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-2)'
+            }}>Video Tutorials</h4>
+            <p style={{
+              fontSize: 'var(--text-sm)',
+              color: 'var(--text-secondary)',
+              marginBottom: 'var(--space-4)'
+            }}>Step-by-step guides and explanations</p>
+            <button className="btn-secondary" style={{
+              fontSize: 'var(--text-sm)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+              margin: '0 auto'
+            }}>
+              <Play style={{ height: '12px', width: '12px' }} />
               <span>Watch Videos</span>
             </button>
           </div>
 
-          <div style={{
-  textAlign: 'center'
-}}>
-            <div className="text-4xl mb-md">💬</div>
+          <div className="card" style={{
+            padding: 'var(--space-6)',
+            textAlign: 'center'
+          }}>
+            <div style={{ fontSize: 'var(--text-5xl)', marginBottom: 'var(--space-4)' }}>💬</div>
             <h4 style={{
-  fontWeight: '600'
-}}>Community</h4>
-            <p className="text-sm text-secondary mb-md">Ask questions and learn from others</p>
-            <button className="btn btn-secondary text-sm">
-              <Users style={{
-  height: '12px',
-  width: '12px'
-}} />
+              fontWeight: 'var(--font-semibold)',
+              fontSize: 'var(--text-lg)',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-2)'
+            }}>Community</h4>
+            <p style={{
+              fontSize: 'var(--text-sm)',
+              color: 'var(--text-secondary)',
+              marginBottom: 'var(--space-4)'
+            }}>Ask questions and learn from others</p>
+            <button className="btn-secondary" style={{
+              fontSize: 'var(--text-sm)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+              margin: '0 auto'
+            }}>
+              <Users style={{ height: '12px', width: '12px' }} />
               <span>Join Community</span>
             </button>
           </div>
