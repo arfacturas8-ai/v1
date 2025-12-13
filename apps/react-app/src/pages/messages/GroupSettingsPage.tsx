@@ -5,8 +5,8 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { colors, spacing, typography, radii, animation } from '../../design-system/tokens';
 import { formatFileSize, generateId } from '../../lib/utils';
+import { Input, Textarea } from '../../components/ui/InputV1';
 
 // Icons
 const BackIcon: React.FC = () => (
@@ -341,8 +341,8 @@ const GroupSettingsPage: React.FC = () => {
           alignItems: 'center',
           justifyContent: 'center',
           height: '100vh',
-          background: colors.bg.primary,
-          color: colors.text.primary,
+          background: 'var(--bg-primary)',
+          color: 'var(--text-primary)',
         }}
       >
       </div>
@@ -363,19 +363,19 @@ const GroupSettingsPage: React.FC = () => {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        background: colors.bg.primary,
-        color: colors.text.primary,
+        background: 'var(--bg-primary)',
+        color: 'var(--text-primary)',
       }}
     >
       {/* Header */}
       <div
         style={{
-          padding: spacing[4],
-          background: colors.bg.secondary,
-          borderBottom: `1px solid ${colors.border.subtle}`,
+          padding: 'var(--space-4)',
+          background: 'var(--bg-secondary)',
+          borderBottom: '1px solid var(--border-subtle)',
           display: 'flex',
           alignItems: 'center',
-          gap: spacing[3],
+          gap: 'var(--space-3)',
         }}
       >
         <button
@@ -383,9 +383,9 @@ const GroupSettingsPage: React.FC = () => {
           style={{
             background: 'none',
             border: 'none',
-            color: colors.text.primary,
+            color: 'var(--text-primary)',
             cursor: 'pointer',
-            padding: spacing[2],
+            padding: 'var(--space-2)',
             display: 'flex',
             alignItems: 'center',
           }}
@@ -393,7 +393,7 @@ const GroupSettingsPage: React.FC = () => {
         >
           <BackIcon />
         </button>
-        <h1 style={{ flex: 1, fontSize: typography.fontSize.xl, fontWeight: typography.fontWeight.bold, margin: 0 }}>
+        <h1 style={{ flex: 1, fontSize: 'var(--text-xl)', fontWeight: 'var(--font-bold)', margin: 0 }}>
           Group Settings
         </h1>
         {isAdmin && !isEditingInfo && (
@@ -402,9 +402,9 @@ const GroupSettingsPage: React.FC = () => {
             style={{
               background: 'none',
               border: 'none',
-              color: colors.text.secondary,
+              color: 'var(--text-secondary)',
               cursor: 'pointer',
-              padding: spacing[2],
+              padding: 'var(--space-2)',
               display: 'flex',
               alignItems: 'center',
             }}
@@ -420,21 +420,19 @@ const GroupSettingsPage: React.FC = () => {
         {/* Group info */}
         <div
           style={{
-            padding: spacing[6],
-            background: colors.bg.secondary,
-            borderBottom: `1px solid ${colors.border.subtle}`,
+            padding: 'var(--space-6)',
+            background: 'var(--bg-secondary)',
+            borderBottom: '1px solid var(--border-subtle)',
             textAlign: 'center',
           }}
         >
           {/* Avatar */}
-          <div style={{ position: 'relative', display: 'inline-block', marginBottom: spacing[4] }}>
+          <div style={{ position: 'relative', display: 'inline-block', marginBottom: 'var(--space-4)' }}>
             <div
+              className="avatar"
               style={{
                 width: '120px',
                 height: '120px',
-                borderRadius: radii.full,
-                overflow: 'hidden',
-                background: colors.bg.tertiary,
                 margin: '0 auto',
               }}
             >
@@ -463,10 +461,10 @@ const GroupSettingsPage: React.FC = () => {
                     right: 0,
                     width: '36px',
                     height: '36px',
-                    borderRadius: radii.full,
-                    background: colors.brand.primary,
+                    borderRadius: 'var(--radius-full)',
+                    background: 'var(--brand-primary)',
                     border: 'none',
-                    color: '#FFFFFF',
+                    color: 'var(--text-inverse)',
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
@@ -482,31 +480,24 @@ const GroupSettingsPage: React.FC = () => {
 
           {/* Name */}
           {isEditingInfo ? (
-            <input
-              type="text"
-              value={editedName}
-              onChange={(e) => setEditedName(e.target.value)}
-              style={{
-                width: '100%',
-                maxWidth: '400px',
-                padding: spacing[3],
-                background: colors.bg.tertiary,
-                border: `1px solid ${colors.border.subtle}`,
-                borderRadius: radii.md,
-                color: colors.text.primary,
-                fontSize: typography.fontSize.xl,
-                fontWeight: typography.fontWeight.bold,
-                textAlign: 'center',
-                outline: 'none',
-                marginBottom: spacing[3],
-              }}
-            />
+            <div style={{ maxWidth: '400px', margin: '0 auto var(--space-3)' }}>
+              <Input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+                style={{
+                  fontSize: 'var(--text-xl)',
+                  fontWeight: 'var(--font-bold)',
+                  textAlign: 'center',
+                }}
+              />
+            </div>
           ) : (
             <h2
               style={{
-                fontSize: typography.fontSize['2xl'],
-                fontWeight: typography.fontWeight.bold,
-                margin: `0 0 ${spacing[2]} 0`,
+                fontSize: 'var(--text-2xl)',
+                fontWeight: 'var(--font-bold)',
+                margin: '0 0 var(--space-2) 0',
               }}
             >
               {groupSettings.name}
@@ -515,31 +506,23 @@ const GroupSettingsPage: React.FC = () => {
 
           {/* Description */}
           {isEditingInfo ? (
-            <textarea
-              value={editedDescription}
-              onChange={(e) => setEditedDescription(e.target.value)}
-              style={{
-                width: '100%',
-                maxWidth: '400px',
-                padding: spacing[3],
-                background: colors.bg.tertiary,
-                border: `1px solid ${colors.border.subtle}`,
-                borderRadius: radii.md,
-                color: colors.text.primary,
-                fontSize: typography.fontSize.base,
-                textAlign: 'center',
-                outline: 'none',
-                minHeight: '80px',
-                resize: 'vertical',
-                fontFamily: typography.fontFamily.sans,
-              }}
-            />
+            <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+              <Textarea
+                value={editedDescription}
+                onChange={(e) => setEditedDescription(e.target.value)}
+                style={{
+                  textAlign: 'center',
+                  minHeight: '80px',
+                }}
+                resize="vertical"
+              />
+            </div>
           ) : (
             <p
               style={{
-                fontSize: typography.fontSize.base,
-                color: colors.text.secondary,
-                margin: `0 0 ${spacing[4]} 0`,
+                fontSize: 'var(--text-base)',
+                color: 'var(--text-secondary)',
+                margin: '0 0 var(--space-4) 0',
                 maxWidth: '500px',
                 marginLeft: 'auto',
                 marginRight: 'auto',
@@ -551,7 +534,7 @@ const GroupSettingsPage: React.FC = () => {
 
           {/* Save/Cancel buttons */}
           {isEditingInfo && (
-            <div style={{ display: 'flex', gap: spacing[2], justifyContent: 'center', marginTop: spacing[4] }}>
+            <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'center', marginTop: 'var(--space-4)' }}>
               <button
                 onClick={() => {
                   setIsEditingInfo(false);
@@ -560,30 +543,13 @@ const GroupSettingsPage: React.FC = () => {
                   setNewAvatar(null);
                   setNewAvatarPreview('');
                 }}
-                style={{
-                  padding: `${spacing[2]} ${spacing[4]}`,
-                  background: colors.bg.tertiary,
-                  border: 'none',
-                  borderRadius: radii.md,
-                  color: colors.text.primary,
-                  fontSize: typography.fontSize.base,
-                  cursor: 'pointer',
-                }}
+                className="btn-ghost"
               >
                 Cancel
               </button>
               <button
                 onClick={saveGroupInfo}
-                style={{
-                  padding: `${spacing[2]} ${spacing[4]}`,
-                  background: colors.brand.primary,
-                  border: 'none',
-                  borderRadius: radii.md,
-                  color: '#FFFFFF',
-                  fontSize: typography.fontSize.base,
-                  fontWeight: typography.fontWeight.semibold,
-                  cursor: 'pointer',
-                }}
+                className="btn-primary"
               >
                 Save Changes
               </button>
@@ -592,7 +558,7 @@ const GroupSettingsPage: React.FC = () => {
 
           {/* Member count */}
           {!isEditingInfo && (
-            <div style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary }}>
+            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)' }}>
               {groupSettings.members.length} members • Created{' '}
               {groupSettings.createdAt.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}
             </div>
@@ -603,8 +569,8 @@ const GroupSettingsPage: React.FC = () => {
         {!isEditingInfo && (
           <div
             style={{
-              background: colors.bg.secondary,
-              borderBottom: `1px solid ${colors.border.subtle}`,
+              background: 'var(--bg-secondary)',
+              borderBottom: '1px solid var(--border-subtle)',
             }}
           >
             <button
@@ -613,14 +579,14 @@ const GroupSettingsPage: React.FC = () => {
                 width: '100%',
                 display: 'flex',
                 alignItems: 'center',
-                gap: spacing[3],
-                padding: spacing[4],
+                gap: 'var(--space-3)',
+                padding: 'var(--space-4)',
                 background: 'none',
                 border: 'none',
-                color: colors.text.primary,
-                fontSize: typography.fontSize.base,
+                color: 'var(--text-primary)',
+                fontSize: 'var(--text-base)',
                 cursor: 'pointer',
-                borderBottom: `1px solid ${colors.border.subtle}`,
+                borderBottom: '1px solid var(--border-subtle)',
               }}
             >
               <BellOffIcon />
@@ -631,10 +597,10 @@ const GroupSettingsPage: React.FC = () => {
                 style={{
                   width: '44px',
                   height: '24px',
-                  borderRadius: radii.full,
-                  background: groupSettings.isMuted ? colors.brand.primary : colors.bg.tertiary,
+                  borderRadius: 'var(--radius-full)',
+                  background: groupSettings.isMuted ? 'var(--brand-primary)' : 'var(--bg-tertiary)',
                   position: 'relative',
-                  transition: `background ${animation.duration.fast} ${animation.easing.easeOut}`,
+                  transition: 'background var(--transition-fast)',
                 }}
               >
                 <div
@@ -644,9 +610,9 @@ const GroupSettingsPage: React.FC = () => {
                     left: groupSettings.isMuted ? '22px' : '2px',
                     width: '20px',
                     height: '20px',
-                    borderRadius: radii.full,
-                    background: '#FFFFFF',
-                    transition: `left ${animation.duration.fast} ${animation.easing.easeOut}`,
+                    borderRadius: 'var(--radius-full)',
+                    background: 'var(--text-inverse)',
+                    transition: 'left var(--transition-fast)',
                   }}
                 />
               </div>
@@ -660,8 +626,8 @@ const GroupSettingsPage: React.FC = () => {
             <div
               style={{
                 display: 'flex',
-                background: colors.bg.secondary,
-                borderBottom: `1px solid ${colors.border.subtle}`,
+                background: 'var(--bg-secondary)',
+                borderBottom: '1px solid var(--border-subtle)',
               }}
             >
               {(['members', 'media', 'files'] as const).map(tab => (
@@ -670,13 +636,13 @@ const GroupSettingsPage: React.FC = () => {
                   onClick={() => setActiveTab(tab)}
                   style={{
                     flex: 1,
-                    padding: spacing[4],
+                    padding: 'var(--space-4)',
                     background: 'none',
                     border: 'none',
-                    borderBottom: activeTab === tab ? `2px solid ${colors.brand.primary}` : 'none',
-                    color: activeTab === tab ? colors.brand.primary : colors.text.secondary,
-                    fontSize: typography.fontSize.base,
-                    fontWeight: activeTab === tab ? typography.fontWeight.semibold : typography.fontWeight.regular,
+                    borderBottom: activeTab === tab ? '2px solid var(--brand-primary)' : 'none',
+                    color: activeTab === tab ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                    fontSize: 'var(--text-base)',
+                    fontWeight: activeTab === tab ? 'var(--font-semibold)' : 'var(--font-regular)',
                     cursor: 'pointer',
                     textTransform: 'capitalize',
                   }}
@@ -692,52 +658,27 @@ const GroupSettingsPage: React.FC = () => {
               {activeTab === 'members' && (
                 <div>
                   {/* Search members */}
-                  <div style={{ padding: spacing[4] }}>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: spacing[2],
-                        background: colors.bg.tertiary,
-                        borderRadius: radii.md,
-                        padding: spacing[3],
-                      }}
-                    >
-                      <SearchIcon />
-                      <input
-                        type="text"
-                        value={searchMemberQuery}
-                        onChange={(e) => setSearchMemberQuery(e.target.value)}
-                        placeholder="Search members..."
-                        style={{
-                          flex: 1,
-                          background: 'none',
-                          border: 'none',
-                          outline: 'none',
-                          color: colors.text.primary,
-                          fontSize: typography.fontSize.base,
-                        }}
-                      />
-                    </div>
+                  <div style={{ padding: 'var(--space-4)' }}>
+                    <Input
+                      type="text"
+                      value={searchMemberQuery}
+                      onChange={(e) => setSearchMemberQuery(e.target.value)}
+                      placeholder="Search members..."
+                      leftIcon={<SearchIcon />}
+                    />
                   </div>
 
                   {/* Add member button */}
                   {isAdmin && (
-                    <div style={{ padding: `0 ${spacing[4]} ${spacing[4]}` }}>
+                    <div style={{ padding: '0 var(--space-4) var(--space-4)' }}>
                       <button
+                        className="btn-secondary"
                         style={{
                           width: '100%',
                           display: 'flex',
                           alignItems: 'center',
-                          gap: spacing[3],
-                          padding: spacing[4],
-                          background: colors.bg.tertiary,
-                          border: 'none',
-                          borderRadius: radii.md,
-                          color: colors.brand.primary,
-                          fontSize: typography.fontSize.base,
-                          fontWeight: typography.fontWeight.semibold,
-                          cursor: 'pointer',
+                          gap: 'var(--space-3)',
+                          justifyContent: 'center',
                         }}
                       >
                         <AddUserIcon />
@@ -754,21 +695,15 @@ const GroupSettingsPage: React.FC = () => {
                         style={{
                           display: 'flex',
                           alignItems: 'center',
-                          gap: spacing[3],
-                          padding: spacing[4],
-                          borderBottom: `1px solid ${colors.border.subtle}`,
+                          gap: 'var(--space-3)',
+                          padding: 'var(--space-4)',
+                          borderBottom: '1px solid var(--border-subtle)',
                         }}
                       >
                         {/* Avatar */}
                         <div style={{ position: 'relative' }}>
                           <div
-                            style={{
-                              width: '48px',
-                              height: '48px',
-                              borderRadius: radii.full,
-                              overflow: 'hidden',
-                              background: colors.bg.tertiary,
-                            }}
+                            className="avatar avatar-md"
                           >
                             {member.avatar ? (
                               <img
@@ -784,8 +719,6 @@ const GroupSettingsPage: React.FC = () => {
                                   display: 'flex',
                                   alignItems: 'center',
                                   justifyContent: 'center',
-                                  fontSize: typography.fontSize.lg,
-                                  fontWeight: typography.fontWeight.semibold,
                                 }}
                               >
                                 {member.name.charAt(0).toUpperCase()}
@@ -800,9 +733,9 @@ const GroupSettingsPage: React.FC = () => {
                                 right: 0,
                                 width: '14px',
                                 height: '14px',
-                                background: colors.semantic.success,
-                                border: `2px solid ${colors.bg.primary}`,
-                                borderRadius: radii.full,
+                                background: 'var(--color-success)',
+                                border: '2px solid var(--bg-primary)',
+                                borderRadius: 'var(--radius-full)',
                               }}
                             />
                           )}
@@ -810,10 +743,10 @@ const GroupSettingsPage: React.FC = () => {
 
                         {/* Member info */}
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.semibold }}>
+                          <div style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--font-semibold)' }}>
                             {member.name}
                           </div>
-                          <div style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary }}>
+                          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)' }}>
                             {member.username}
                             {member.role === 'admin' && ' • Admin'}
                           </div>
@@ -826,9 +759,9 @@ const GroupSettingsPage: React.FC = () => {
                             style={{
                               background: 'none',
                               border: 'none',
-                              color: colors.text.tertiary,
+                              color: 'var(--text-tertiary)',
                               cursor: 'pointer',
-                              padding: spacing[2],
+                              padding: 'var(--space-2)',
                             }}
                             aria-label="Member options"
                           >
@@ -839,30 +772,24 @@ const GroupSettingsPage: React.FC = () => {
                         {/* Member options menu */}
                         {showMemberOptions === member.id && (
                           <div
+                            className="card"
                             style={{
                               position: 'absolute',
-                              right: spacing[4],
-                              background: colors.bg.elevated,
-                              borderRadius: radii.md,
-                              padding: spacing[2],
+                              right: 'var(--space-4)',
+                              padding: 'var(--space-2)',
                               minWidth: '180px',
-                              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.3)',
+                              boxShadow: 'var(--shadow-lg)',
                               zIndex: 10,
                             }}
                           >
                             {member.role !== 'admin' && (
                               <button
                                 onClick={() => promoteToAdmin(member.id)}
+                                className="btn-ghost"
                                 style={{
                                   width: '100%',
-                                  background: 'none',
-                                  border: 'none',
-                                  color: colors.text.primary,
-                                  cursor: 'pointer',
-                                  padding: spacing[3],
                                   textAlign: 'left',
-                                  fontSize: typography.fontSize.base,
-                                  borderRadius: radii.sm,
+                                  justifyContent: 'flex-start',
                                 }}
                               >
                                 Make Admin
@@ -870,16 +797,12 @@ const GroupSettingsPage: React.FC = () => {
                             )}
                             <button
                               onClick={() => removeMember(member.id)}
+                              className="btn-ghost"
                               style={{
                                 width: '100%',
-                                background: 'none',
-                                border: 'none',
-                                color: colors.semantic.error,
-                                cursor: 'pointer',
-                                padding: spacing[3],
+                                color: 'var(--color-error)',
                                 textAlign: 'left',
-                                fontSize: typography.fontSize.base,
-                                borderRadius: radii.sm,
+                                justifyContent: 'flex-start',
                               }}
                             >
                               Remove from Group
@@ -894,12 +817,12 @@ const GroupSettingsPage: React.FC = () => {
 
               {/* Media tab */}
               {activeTab === 'media' && (
-                <div style={{ padding: spacing[4] }}>
+                <div style={{ padding: 'var(--space-4)' }}>
                   <div
                     style={{
                       display: 'grid',
                       gridTemplateColumns: 'repeat(3, 1fr)',
-                      gap: spacing[2],
+                      gap: 'var(--space-2)',
                     }}
                   >
                     {mediaItems.map(item => (
@@ -907,9 +830,9 @@ const GroupSettingsPage: React.FC = () => {
                         key={item.id}
                         style={{
                           aspectRatio: '1',
-                          borderRadius: radii.md,
+                          borderRadius: 'var(--radius-md)',
                           overflow: 'hidden',
-                          background: colors.bg.tertiary,
+                          background: 'var(--bg-tertiary)',
                           cursor: 'pointer',
                         }}
                       >
@@ -924,13 +847,13 @@ const GroupSettingsPage: React.FC = () => {
                   {mediaItems.length === 0 && (
                     <div
                       style={{
-                        padding: spacing[8],
+                        padding: 'var(--space-8)',
                         textAlign: 'center',
-                        color: colors.text.tertiary,
+                        color: 'var(--text-tertiary)',
                       }}
                     >
                       <ImageIcon />
-                      <div style={{ marginTop: spacing[2] }}>No media shared yet</div>
+                      <div style={{ marginTop: 'var(--space-2)' }}>No media shared yet</div>
                     </div>
                   )}
                 </div>
@@ -945,9 +868,9 @@ const GroupSettingsPage: React.FC = () => {
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: spacing[3],
-                        padding: spacing[4],
-                        borderBottom: `1px solid ${colors.border.subtle}`,
+                        gap: 'var(--space-3)',
+                        padding: 'var(--space-4)',
+                        borderBottom: '1px solid var(--border-subtle)',
                         cursor: 'pointer',
                       }}
                     >
@@ -955,21 +878,21 @@ const GroupSettingsPage: React.FC = () => {
                         style={{
                           width: '40px',
                           height: '40px',
-                          borderRadius: radii.md,
-                          background: colors.bg.tertiary,
+                          borderRadius: 'var(--radius-md)',
+                          background: 'var(--bg-tertiary)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          color: colors.text.secondary,
+                          color: 'var(--text-secondary)',
                         }}
                       >
                         <FileIcon />
                       </div>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: typography.fontSize.base, fontWeight: typography.fontWeight.medium }}>
+                        <div style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--font-medium)' }}>
                           {file.name}
                         </div>
-                        <div style={{ fontSize: typography.fontSize.sm, color: colors.text.tertiary }}>
+                        <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)' }}>
                           {formatFileSize(file.size)} • {file.sender}
                         </div>
                       </div>
@@ -979,13 +902,13 @@ const GroupSettingsPage: React.FC = () => {
                   {fileItems.length === 0 && (
                     <div
                       style={{
-                        padding: spacing[8],
+                        padding: 'var(--space-8)',
                         textAlign: 'center',
-                        color: colors.text.tertiary,
+                        color: 'var(--text-tertiary)',
                       }}
                     >
                       <FileIcon />
-                      <div style={{ marginTop: spacing[2] }}>No files shared yet</div>
+                      <div style={{ marginTop: 'var(--space-2)' }}>No files shared yet</div>
                     </div>
                   )}
                 </div>
@@ -996,7 +919,7 @@ const GroupSettingsPage: React.FC = () => {
 
         {/* Leave group */}
         {!isEditingInfo && (
-          <div style={{ padding: spacing[4], marginTop: spacing[4] }}>
+          <div style={{ padding: 'var(--space-4)', marginTop: 'var(--space-4)' }}>
             <button
               onClick={() => setShowLeaveConfirm(true)}
               style={{
@@ -1004,14 +927,14 @@ const GroupSettingsPage: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: spacing[3],
-                padding: spacing[4],
+                gap: 'var(--space-3)',
+                padding: 'var(--space-4)',
                 background: 'none',
-                border: `1px solid ${colors.semantic.error}`,
-                borderRadius: radii.md,
-                color: colors.semantic.error,
-                fontSize: typography.fontSize.base,
-                fontWeight: typography.fontWeight.semibold,
+                border: '1px solid var(--color-error)',
+                borderRadius: 'var(--radius-md)',
+                color: 'var(--color-error)',
+                fontSize: 'var(--text-base)',
+                fontWeight: 'var(--font-semibold)',
                 cursor: 'pointer',
               }}
             >
@@ -1033,49 +956,40 @@ const GroupSettingsPage: React.FC = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
-              zIndex: 1000,
+              background: 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+              zIndex: 'var(--z-modal-backdrop)',
             }}
           />
           <div
+            className="card"
             style={{
               position: 'fixed',
               top: '50%',
               left: '50%',
               transform: 'translate(-50%, -50%)',
-              background: colors.bg.elevated,
-              borderRadius: radii.lg,
-              padding: spacing[6],
               maxWidth: '400px',
               width: '90%',
-              zIndex: 1001,
+              zIndex: 'var(--z-modal)',
             }}
           >
             <h3
               style={{
-                fontSize: typography.fontSize.xl,
-                fontWeight: typography.fontWeight.bold,
-                margin: `0 0 ${spacing[3]} 0`,
+                fontSize: 'var(--text-xl)',
+                fontWeight: 'var(--font-bold)',
+                margin: '0 0 var(--space-3) 0',
               }}
             >
               Leave "{groupSettings.name}"?
             </h3>
-            <p style={{ fontSize: typography.fontSize.base, color: colors.text.secondary, margin: `0 0 ${spacing[6]} 0` }}>
+            <p style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)', margin: '0 0 var(--space-6) 0' }}>
               You will no longer receive messages from this group. You can rejoin if you're added again.
             </p>
-            <div style={{ display: 'flex', gap: spacing[3] }}>
+            <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
               <button
                 onClick={() => setShowLeaveConfirm(false)}
-                style={{
-                  flex: 1,
-                  padding: spacing[3],
-                  background: colors.bg.tertiary,
-                  border: 'none',
-                  borderRadius: radii.md,
-                  color: colors.text.primary,
-                  fontSize: typography.fontSize.base,
-                  cursor: 'pointer',
-                }}
+                className="btn-ghost"
+                style={{ flex: 1 }}
               >
                 Cancel
               </button>
@@ -1083,13 +997,13 @@ const GroupSettingsPage: React.FC = () => {
                 onClick={leaveGroup}
                 style={{
                   flex: 1,
-                  padding: spacing[3],
-                  background: colors.semantic.error,
+                  padding: 'var(--space-3)',
+                  background: 'var(--color-error)',
                   border: 'none',
-                  borderRadius: radii.md,
-                  color: '#FFFFFF',
-                  fontSize: typography.fontSize.base,
-                  fontWeight: typography.fontWeight.semibold,
+                  borderRadius: 'var(--radius-full)',
+                  color: 'var(--text-inverse)',
+                  fontSize: 'var(--text-base)',
+                  fontWeight: 'var(--font-semibold)',
                   cursor: 'pointer',
                 }}
               >

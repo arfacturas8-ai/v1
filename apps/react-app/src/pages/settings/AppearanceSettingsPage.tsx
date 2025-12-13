@@ -1,6 +1,7 @@
 /**
  * CRYB Appearance Settings Page
  * Theme, colors, and display customization
+ * v.1 Light Theme Design System
  */
 
 import React, { useState } from 'react';
@@ -83,274 +84,458 @@ const AppearanceSettingsPage: React.FC = () => {
     console.log('Appearance settings saved');
   };
 
-  const accentColors: Array<{ value: AccentColor; color: string; name: string }> = [
-    { value: 'blue', color: 'bg-blue-500', name: 'Blue' },
-    { value: 'purple', color: 'bg-purple-500', name: 'Purple' },
-    { value: 'green', color: 'bg-green-500', name: 'Green' },
-    { value: 'orange', color: 'bg-orange-500', name: 'Orange' },
-    { value: 'pink', color: 'bg-pink-500', name: 'Pink' },
-    { value: 'cyan', color: 'bg-cyan-500', name: 'Cyan' },
+  const accentColors: Array<{ value: AccentColor; colorHex: string; name: string }> = [
+    { value: 'blue', colorHex: '#3B82F6', name: 'Blue' },
+    { value: 'purple', colorHex: '#A855F7', name: 'Purple' },
+    { value: 'green', colorHex: '#10B981', name: 'Green' },
+    { value: 'orange', colorHex: '#F97316', name: 'Orange' },
+    { value: 'pink', colorHex: '#EC4899', name: 'Pink' },
+    { value: 'cyan', colorHex: '#06B6D4', name: 'Cyan' },
   ];
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: 'var(--space-20)' }}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 'var(--z-sticky)',
+          background: 'rgba(248, 249, 250, 0.95)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          borderBottom: '1px solid var(--border-subtle)'
+        }}
+      >
+        <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <button
               onClick={() => navigate('/settings')}
-              className="p-2 hover:bg-accent rounded-lg transition-colors"
+              style={{
+                padding: 'var(--space-2)',
+                background: 'transparent',
+                border: 'none',
+                borderRadius: 'var(--radius-lg)',
+                cursor: 'pointer',
+                transition: 'background var(--transition-normal)',
+                display: 'flex',
+                alignItems: 'center',
+                color: 'var(--text-primary)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft size={20} />
             </button>
-            <div className="flex items-center gap-2">
-              <Palette className="h-5 w-5 text-primary" />
-              <h1 className="text-2xl font-bold">Appearance</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Palette size={20} style={{ color: 'var(--brand-primary)' }} />
+              <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)' }}>
+                Appearance
+              </h1>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        {/* Theme Mode */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Theme</h2>
-          <p className="text-sm text-muted-foreground">
-            Choose how CRYB looks to you
-          </p>
+      <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4) var(--space-4) var(--space-6)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+          {/* Theme Mode */}
+          <div className="card">
+            <h2 style={{
+              fontSize: 'var(--text-lg)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'var(--text-primary)'
+            }}>
+              Theme
+            </h2>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-2)' }}>
+              Choose how CRYB looks to you
+            </p>
 
-          <div className="grid grid-cols-3 gap-3">
-            <button
-              onClick={() => handleThemeChange('light')}
-              className={cn(
-                'p-4 rounded-lg border-2 transition-all',
-                themeMode === 'light'
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              )}
-            >
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-12 h-12 rounded-lg bg-white border border-gray-200 flex items-center justify-center">
-                  <Sun className="h-6 w-6 text-yellow-500" />
-                </div>
-                <div className="font-medium">Light</div>
-              </div>
-            </button>
-
-            <button
-              onClick={() => handleThemeChange('dark')}
-              className={cn(
-                'p-4 rounded-lg border-2 transition-all',
-                themeMode === 'dark'
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              )}
-            >
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-12 h-12 rounded-lg bg-gray-900 border border-gray-700 flex items-center justify-center">
-                  <Moon className="h-6 w-6 text-blue-400" />
-                </div>
-                <div className="font-medium">Dark</div>
-              </div>
-            </button>
-
-            <button
-              onClick={() => handleThemeChange('system')}
-              className={cn(
-                'p-4 rounded-lg border-2 transition-all',
-                themeMode === 'system'
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              )}
-            >
-              <div className="flex flex-col items-center gap-2">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-white to-gray-900 border border-gray-400 flex items-center justify-center">
-                  <Monitor className="h-6 w-6 text-gray-600" />
-                </div>
-                <div className="font-medium">System</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Accent Color */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Accent Color</h2>
-          <p className="text-sm text-muted-foreground">
-            Choose your preferred accent color
-          </p>
-
-          <div className="grid grid-cols-3 gap-3">
-            {accentColors.map((color) => (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 'var(--space-3)',
+              marginTop: 'var(--space-4)'
+            }}>
               <button
-                key={color.value}
-                onClick={() => handleAccentColorChange(color.value)}
-                className={cn(
-                  'p-4 rounded-lg border-2 transition-all',
-                  accentColor === color.value
-                    ? 'border-primary bg-primary/5'
-                    : 'border-border hover:border-primary/50'
-                )}
+                onClick={() => handleThemeChange('light')}
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: themeMode === 'light' ? '2px solid var(--brand-primary)' : '2px solid var(--border-subtle)',
+                  background: themeMode === 'light' ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                  transition: 'all var(--transition-normal)',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  if (themeMode !== 'light') e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  if (themeMode !== 'light') e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                }}
               >
-                <div className="flex flex-col items-center gap-2">
-                  <div
-                    className={cn(
-                      'w-12 h-12 rounded-lg',
-                      color.color,
-                      accentColor === color.value && 'ring-2 ring-offset-2 ring-primary'
-                    )}
-                  />
-                  <div className="font-medium">{color.name}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: 'var(--radius-lg)',
+                    background: '#FFFFFF',
+                    border: '1px solid #E5E7EB',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Sun size={24} style={{ color: '#EAB308' }} />
+                  </div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>Light</div>
                 </div>
               </button>
-            ))}
-          </div>
-        </div>
 
-        {/* Font Size */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Font Size</h2>
-          <p className="text-sm text-muted-foreground">
-            Adjust the text size across the app
-          </p>
-
-          <div className="grid grid-cols-3 gap-3">
-            <button
-              onClick={() => handleFontSizeChange('small')}
-              className={cn(
-                'p-4 rounded-lg border-2 transition-all',
-                fontSize === 'small'
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              )}
-            >
-              <div className="flex flex-col items-center gap-2">
-                <div className="text-sm font-medium">Aa</div>
-                <div className="text-xs">Small</div>
-              </div>
-            </button>
-
-            <button
-              onClick={() => handleFontSizeChange('medium')}
-              className={cn(
-                'p-4 rounded-lg border-2 transition-all',
-                fontSize === 'medium'
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              )}
-            >
-              <div className="flex flex-col items-center gap-2">
-                <div className="text-base font-medium">Aa</div>
-                <div className="text-xs">Medium</div>
-              </div>
-            </button>
-
-            <button
-              onClick={() => handleFontSizeChange('large')}
-              className={cn(
-                'p-4 rounded-lg border-2 transition-all',
-                fontSize === 'large'
-                  ? 'border-primary bg-primary/5'
-                  : 'border-border hover:border-primary/50'
-              )}
-            >
-              <div className="flex flex-col items-center gap-2">
-                <div className="text-lg font-medium">Aa</div>
-                <div className="text-xs">Large</div>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Display Options */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Display Options</h2>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Reduce Motion</div>
-                <div className="text-sm text-muted-foreground">
-                  Minimize animations and transitions
-                </div>
-              </div>
-              <Switch
-                checked={reduceMotion}
-                onCheckedChange={(checked) => {
-                  setReduceMotion(checked);
-                  setHasChanges(true);
+              <button
+                onClick={() => handleThemeChange('dark')}
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: themeMode === 'dark' ? '2px solid var(--brand-primary)' : '2px solid var(--border-subtle)',
+                  background: themeMode === 'dark' ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                  transition: 'all var(--transition-normal)',
+                  cursor: 'pointer'
                 }}
-              />
-            </div>
-
-            <div className="h-px bg-border" />
-
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Compact Mode</div>
-                <div className="text-sm text-muted-foreground">
-                  Show more content with tighter spacing
-                </div>
-              </div>
-              <Switch
-                checked={compactMode}
-                onCheckedChange={(checked) => {
-                  setCompactMode(checked);
-                  setHasChanges(true);
+                onMouseEnter={(e) => {
+                  if (themeMode !== 'dark') e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.5)';
                 }}
-              />
+                onMouseLeave={(e) => {
+                  if (themeMode !== 'dark') e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: 'var(--radius-lg)',
+                    background: '#111827',
+                    border: '1px solid #374151',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Moon size={24} style={{ color: '#60A5FA' }} />
+                  </div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>Dark</div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleThemeChange('system')}
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: themeMode === 'system' ? '2px solid var(--brand-primary)' : '2px solid var(--border-subtle)',
+                  background: themeMode === 'system' ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                  transition: 'all var(--transition-normal)',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  if (themeMode !== 'system') e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  if (themeMode !== 'system') e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  <div style={{
+                    width: '48px',
+                    height: '48px',
+                    borderRadius: 'var(--radius-lg)',
+                    background: 'linear-gradient(to bottom right, #FFFFFF 0%, #111827 100%)',
+                    border: '1px solid #9CA3AF',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <Monitor size={24} style={{ color: '#6B7280' }} />
+                  </div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>System</div>
+                </div>
+              </button>
             </div>
           </div>
-        </div>
 
-        {/* Preview */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Preview</h2>
-          <div className="border border-border rounded-lg p-4 space-y-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary" />
-              <div className="flex-1">
-                <div className="font-medium">Sample User</div>
-                <div className="text-sm text-muted-foreground">@sampleuser</div>
-              </div>
-            </div>
-            <p className="text-sm">
-              This is a preview of how your content will appear with your current settings.
-              The quick brown fox jumps over the lazy dog.
+          {/* Accent Color */}
+          <div className="card">
+            <h2 style={{
+              fontSize: 'var(--text-lg)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'var(--text-primary)'
+            }}>
+              Accent Color
+            </h2>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-2)' }}>
+              Choose your preferred accent color
             </p>
-            <div className="flex gap-2">
-              <Button size="sm" variant="primary">
-                Primary Button
-              </Button>
-              <Button size="sm" variant="outline">
-                Secondary Button
-              </Button>
-            </div>
-          </div>
-        </div>
 
-        {/* Save Button */}
-        {hasChanges && (
-          <div className="sticky bottom-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 -mx-4">
-            <div className="max-w-2xl mx-auto flex gap-3">
-              <Button
-                variant="outline"
-                onClick={() => setHasChanges(false)}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleSave}
-                loading={isSaving}
-                className="flex-1"
-              >
-                Save Changes
-              </Button>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 'var(--space-3)',
+              marginTop: 'var(--space-4)'
+            }}>
+              {accentColors.map((color) => (
+                <button
+                  key={color.value}
+                  onClick={() => handleAccentColorChange(color.value)}
+                  style={{
+                    padding: 'var(--space-4)',
+                    borderRadius: 'var(--radius-lg)',
+                    border: accentColor === color.value ? '2px solid var(--brand-primary)' : '2px solid var(--border-subtle)',
+                    background: accentColor === color.value ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                    transition: 'all var(--transition-normal)',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (accentColor !== color.value) e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.5)';
+                  }}
+                  onMouseLeave={(e) => {
+                    if (accentColor !== color.value) e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                  }}
+                >
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}>
+                    <div
+                      style={{
+                        width: '48px',
+                        height: '48px',
+                        borderRadius: 'var(--radius-lg)',
+                        background: color.colorHex,
+                        boxShadow: accentColor === color.value ? '0 0 0 2px var(--bg-secondary), 0 0 0 4px var(--brand-primary)' : 'none'
+                      }}
+                    />
+                    <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>{color.name}</div>
+                  </div>
+                </button>
+              ))}
             </div>
           </div>
-        )}
+
+          {/* Font Size */}
+          <div className="card">
+            <h2 style={{
+              fontSize: 'var(--text-lg)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'var(--text-primary)'
+            }}>
+              Font Size
+            </h2>
+            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginTop: 'var(--space-2)' }}>
+              Adjust the text size across the app
+            </p>
+
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 'var(--space-3)',
+              marginTop: 'var(--space-4)'
+            }}>
+              <button
+                onClick={() => handleFontSizeChange('small')}
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: fontSize === 'small' ? '2px solid var(--brand-primary)' : '2px solid var(--border-subtle)',
+                  background: fontSize === 'small' ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                  transition: 'all var(--transition-normal)',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  if (fontSize !== 'small') e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  if (fontSize !== 'small') e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  <div style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>Aa</div>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>Small</div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleFontSizeChange('medium')}
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: fontSize === 'medium' ? '2px solid var(--brand-primary)' : '2px solid var(--border-subtle)',
+                  background: fontSize === 'medium' ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                  transition: 'all var(--transition-normal)',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  if (fontSize !== 'medium') e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  if (fontSize !== 'medium') e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  <div style={{ fontSize: 'var(--text-base)', fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>Aa</div>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>Medium</div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleFontSizeChange('large')}
+                style={{
+                  padding: 'var(--space-4)',
+                  borderRadius: 'var(--radius-lg)',
+                  border: fontSize === 'large' ? '2px solid var(--brand-primary)' : '2px solid var(--border-subtle)',
+                  background: fontSize === 'large' ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                  transition: 'all var(--transition-normal)',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  if (fontSize !== 'large') e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.5)';
+                }}
+                onMouseLeave={(e) => {
+                  if (fontSize !== 'large') e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                }}
+              >
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' }}>
+                  <div style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>Aa</div>
+                  <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-secondary)' }}>Large</div>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Display Options */}
+          <div className="card">
+            <h2 style={{
+              fontSize: 'var(--text-lg)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'var(--text-primary)'
+            }}>
+              Display Options
+            </h2>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)', marginTop: 'var(--space-4)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
+                    Reduce Motion
+                  </div>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                    Minimize animations and transitions
+                  </div>
+                </div>
+                <Switch
+                  checked={reduceMotion}
+                  onCheckedChange={(checked) => {
+                    setReduceMotion(checked);
+                    setHasChanges(true);
+                  }}
+                />
+              </div>
+
+              <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
+
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
+                    Compact Mode
+                  </div>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                    Show more content with tighter spacing
+                  </div>
+                </div>
+                <Switch
+                  checked={compactMode}
+                  onCheckedChange={(checked) => {
+                    setCompactMode(checked);
+                    setHasChanges(true);
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Preview */}
+          <div className="card">
+            <h2 style={{
+              fontSize: 'var(--text-lg)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'var(--text-primary)'
+            }}>
+              Preview
+            </h2>
+            <div style={{
+              border: '1px solid var(--border-subtle)',
+              borderRadius: 'var(--radius-lg)',
+              padding: 'var(--space-4)',
+              marginTop: 'var(--space-4)'
+            }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                  <div style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: 'var(--radius-full)',
+                    background: 'var(--brand-gradient)'
+                  }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>Sample User</div>
+                    <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>@sampleuser</div>
+                  </div>
+                </div>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-primary)' }}>
+                  This is a preview of how your content will appear with your current settings.
+                  The quick brown fox jumps over the lazy dog.
+                </p>
+                <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                  <Button size="sm" variant="primary">
+                    Primary Button
+                  </Button>
+                  <Button size="sm" variant="secondary">
+                    Secondary Button
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Save Button */}
+          {hasChanges && (
+            <div
+              style={{
+                position: 'sticky',
+                bottom: 0,
+                background: 'rgba(248, 249, 250, 0.95)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                borderTop: '1px solid var(--border-subtle)',
+                padding: 'var(--space-4)',
+                marginLeft: 'calc(-1 * var(--space-4))',
+                marginRight: 'calc(-1 * var(--space-4))'
+              }}
+            >
+              <div style={{ maxWidth: '672px', margin: '0 auto', display: 'flex', gap: 'var(--space-3)' }}>
+                <Button
+                  variant="secondary"
+                  onClick={() => setHasChanges(false)}
+                  style={{ flex: 1 }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSave}
+                  loading={isSaving}
+                  style={{ flex: 1 }}
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

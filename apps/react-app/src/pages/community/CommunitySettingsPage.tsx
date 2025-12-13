@@ -27,6 +27,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import communityService from '../../services/communityService'
 import fileUploadService from '../../services/fileUploadService'
 import { getErrorMessage } from '../../utils/errorUtils'
+import { Input, Textarea, Select } from '../../components/ui/InputV1'
 
 interface Community {
   id: string
@@ -311,10 +312,10 @@ const CommunitySettingsPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center">
-        <div className="text-center">
-          <Loader className="w-12 h-12 text-[#58a6ff]  mx-auto mb-4" />
-          <p className="text-[#666666]">Loading settings...</p>
+      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div className="spinner" style={{ margin: '0 auto var(--space-4)' }} />
+          <p style={{ color: 'var(--text-secondary)' }}>Loading settings...</p>
         </div>
       </div>
     )
@@ -322,14 +323,15 @@ const CommunitySettingsPage: React.FC = () => {
 
   if (!community) {
     return (
-      <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center p-4">
-        <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-12 text-center max-w-md">
-          <AlertCircle size={56} className="mx-auto mb-4 text-red-500" />
-          <h2 className="text-2xl font-bold text-white mb-4">Error</h2>
-          <p className="text-[#666666] mb-6">{errorMessage || 'Community not found'}</p>
+      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--space-4)' }}>
+        <div className="card" style={{ padding: 'var(--space-12)', textAlign: 'center', maxWidth: '448px' }}>
+          <AlertCircle size={56} style={{ margin: '0 auto var(--space-4)', color: 'var(--color-error)' }} />
+          <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>Error</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-6)' }}>{errorMessage || 'Community not found'}</p>
           <button
             onClick={() => navigate('/communities')}
-            className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+            className="btn-primary"
+            style={{ padding: 'var(--space-3) var(--space-8)' }}
           >
             Back to Communities
           </button>
@@ -339,28 +341,40 @@ const CommunitySettingsPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0D0D0D] text-[#A0A0A0]">
-      <div className="max-w-7xl mx-auto p-4 sm:p-8">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: 'var(--space-4) var(--space-4)', '@media (min-width: 640px)': { padding: 'var(--space-8)' } }}>
         {/* Header */}
-        <div className="mb-8">
+        <div style={{ marginBottom: 'var(--space-8)' }}>
           <button
             onClick={() => navigate(`/community/${communityName}`)}
-            className="flex items-center gap-2 text-[#666666] hover:text-white mb-4 transition-colors"
+            className="btn-ghost"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--space-2)',
+              marginBottom: 'var(--space-4)',
+              padding: 'var(--space-2) var(--space-3)',
+            }}
           >
             <ArrowLeft size={20} />
             Back to Community
           </button>
-          <div className="flex items-center justify-between">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+              <h1 style={{ fontSize: 'var(--text-3xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>
                 Community Settings
               </h1>
-              <p className="text-[#666666]">{community.displayName}</p>
+              <p style={{ color: 'var(--text-secondary)' }}>{community.displayName}</p>
             </div>
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 'var(--space-2)',
+              }}
             >
               <Save size={18} />
               Save Changes
@@ -370,24 +384,44 @@ const CommunitySettingsPage: React.FC = () => {
 
         {/* Messages */}
         {successMessage && (
-          <div className="bg-green-500/10 border border-green-500/30 text-green-500 p-4 rounded-xl mb-6 flex items-center gap-2">
+          <div style={{
+            background: 'var(--color-success-light)',
+            border: '1px solid var(--color-success)',
+            color: 'var(--color-success-dark)',
+            padding: 'var(--space-4)',
+            borderRadius: 'var(--radius-xl)',
+            marginBottom: 'var(--space-6)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)'
+          }}>
             <CheckCircle size={20} />
             <span>{successMessage}</span>
           </div>
         )}
 
         {errorMessage && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 rounded-xl mb-6 flex items-center gap-2">
+          <div style={{
+            background: 'var(--color-error-light)',
+            border: '1px solid var(--color-error)',
+            color: 'var(--color-error-dark)',
+            padding: 'var(--space-4)',
+            borderRadius: 'var(--radius-xl)',
+            marginBottom: 'var(--space-6)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--space-2)'
+          }}>
             <AlertCircle size={20} />
             <span>{errorMessage}</span>
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 'var(--space-6)', '@media (min-width: 1024px)': { gridTemplateColumns: '1fr 3fr' } }}>
           {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.3)] sticky top-4">
-              <nav className="space-y-1">
+          <div>
+            <div className="card" style={{ position: 'sticky', top: 'var(--space-4)' }}>
+              <nav style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)' }}>
                 {tabs.map((tab) => {
                   const Icon = tab.icon
                   const isActive = selectedTab === tab.id
@@ -395,14 +429,18 @@ const CommunitySettingsPage: React.FC = () => {
                     <button
                       key={tab.id}
                       onClick={() => setSelectedTab(tab.id)}
-                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-all ${
-                        isActive
-                          ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                          : 'text-[#666666] hover:text-white hover:bg-white/5'
-                      }`}
+                      className={isActive ? 'gradient-primary' : 'btn-ghost'}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'var(--space-3)',
+                        padding: 'var(--space-3) var(--space-4)',
+                        justifyContent: 'flex-start',
+                      }}
                     >
                       <Icon size={18} />
-                      <span className="font-medium">{tab.label}</span>
+                      <span style={{ fontWeight: 'var(--font-medium)' }}>{tab.label}</span>
                     </button>
                   )
                 })}
@@ -411,59 +449,46 @@ const CommunitySettingsPage: React.FC = () => {
           </div>
 
           {/* Content */}
-          <div className="lg:col-span-3">
-            <div className="bg-[#141414]/60 backdrop-blur-xl border border-white/10 rounded-2xl p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+          <div>
+            <div className="card" style={{ padding: 'var(--space-6)' }}>
               {/* General Settings */}
               {selectedTab === 'general' && (
-                <div className="space-y-6">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-4">General Settings</h2>
+                    <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>General Settings</h2>
                   </div>
 
-                  <div>
-                    <label className="block font-semibold mb-2 text-white">Display Name</label>
-                    <input
-                      type="text"
-                      value={formData.displayName || ''}
-                      onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
-                      className="w-full p-3 rounded-xl bg-[#0D0D0D] border border-white/10 text-white outline-none focus:border-[#58a6ff]/50"
-                    />
-                  </div>
+                  <Input
+                    label="Display Name"
+                    type="text"
+                    value={formData.displayName || ''}
+                    onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
+                  />
+
+                  <Textarea
+                    label="Description"
+                    value={formData.description || ''}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    rows={4}
+                    resize="none"
+                  />
+
+                  <Select
+                    label="Category"
+                    value={formData.category || 'general'}
+                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                    options={['general', 'gaming', 'technology', 'art', 'music', 'sports', 'education', 'business'].map(
+                      (cat) => ({ value: cat, label: cat.charAt(0).toUpperCase() + cat.slice(1) })
+                    )}
+                  />
 
                   <div>
-                    <label className="block font-semibold mb-2 text-white">Description</label>
-                    <textarea
-                      value={formData.description || ''}
-                      onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                      rows={4}
-                      className="w-full p-3 rounded-xl bg-[#0D0D0D] border border-white/10 text-white outline-none focus:border-[#58a6ff]/50 resize-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block font-semibold mb-2 text-white">Category</label>
-                    <select
-                      value={formData.category || 'general'}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      className="w-full p-3 rounded-xl bg-[#0D0D0D] border border-white/10 text-white outline-none"
-                    >
-                      {['general', 'gaming', 'technology', 'art', 'music', 'sports', 'education', 'business'].map(
-                        (cat) => (
-                          <option key={cat} value={cat}>
-                            {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                          </option>
-                        )
-                      )}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block font-semibold mb-2 text-white">Community Rules</label>
-                    <div className="space-y-3">
+                    <label style={{ display: 'block', fontWeight: 'var(--font-semibold)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>Community Rules</label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
                       {(formData.rules || []).map((rule, index) => (
-                        <div key={index} className="flex gap-3">
-                          <span className="text-[#666666] font-semibold pt-3">{index + 1}.</span>
-                          <input
+                        <div key={index} style={{ display: 'flex', gap: 'var(--space-3)' }}>
+                          <span style={{ color: 'var(--text-secondary)', fontWeight: 'var(--font-semibold)', paddingTop: 'var(--space-3)' }}>{index + 1}.</span>
+                          <Input
                             type="text"
                             value={rule}
                             onChange={(e) => {
@@ -471,14 +496,21 @@ const CommunitySettingsPage: React.FC = () => {
                               newRules[index] = e.target.value
                               setFormData({ ...formData, rules: newRules })
                             }}
-                            className="flex-1 p-3 rounded-xl bg-[#0D0D0D] border border-white/10 text-white outline-none"
                           />
                           <button
                             onClick={() => {
                               const newRules = (formData.rules || []).filter((_, i) => i !== index)
                               setFormData({ ...formData, rules: newRules })
                             }}
-                            className="p-3 text-red-500 hover:bg-red-500/10 rounded-xl transition-all"
+                            style={{
+                              padding: 'var(--space-3)',
+                              color: 'var(--color-error)',
+                              background: 'none',
+                              border: 'none',
+                              borderRadius: 'var(--radius-xl)',
+                              cursor: 'pointer',
+                              transition: 'all var(--transition-normal)',
+                            }}
                           >
                             <X size={20} />
                           </button>
@@ -488,7 +520,16 @@ const CommunitySettingsPage: React.FC = () => {
                         onClick={() => {
                           setFormData({ ...formData, rules: [...(formData.rules || []), ''] })
                         }}
-                        className="w-full p-3 border-2 border-dashed border-white/20 rounded-xl text-[#666666] hover:text-white hover:border-white/40 transition-all"
+                        style={{
+                          width: '100%',
+                          padding: 'var(--space-3)',
+                          border: '2px dashed var(--border-default)',
+                          borderRadius: 'var(--radius-xl)',
+                          color: 'var(--text-secondary)',
+                          background: 'none',
+                          cursor: 'pointer',
+                          transition: 'all var(--transition-normal)',
+                        }}
                       >
                         + Add Rule
                       </button>
@@ -496,9 +537,9 @@ const CommunitySettingsPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-2 text-white">Post Settings</label>
-                    <div className="space-y-3">
-                      <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-white/10 rounded-xl cursor-pointer">
+                    <label style={{ display: 'block', fontWeight: 'var(--font-semibold)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>Post Settings</label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+                      <label className="card-compact" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', cursor: 'pointer' }}>
                         <input
                           type="checkbox"
                           checked={formData.settings?.allowPosts !== false}
@@ -508,11 +549,11 @@ const CommunitySettingsPage: React.FC = () => {
                               settings: { ...formData.settings, allowPosts: e.target.checked }
                             })
                           }
-                          className="w-5 h-5 accent-[#58a6ff]"
+                          style={{ width: '20px', height: '20px', accentColor: 'var(--brand-primary)' }}
                         />
-                        <span className="text-white">Allow members to create posts</span>
+                        <span style={{ color: 'var(--text-primary)' }}>Allow members to create posts</span>
                       </label>
-                      <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-white/10 rounded-xl cursor-pointer">
+                      <label className="card-compact" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', cursor: 'pointer' }}>
                         <input
                           type="checkbox"
                           checked={formData.settings?.requireApproval || false}
@@ -522,9 +563,9 @@ const CommunitySettingsPage: React.FC = () => {
                               settings: { ...formData.settings, requireApproval: e.target.checked }
                             })
                           }
-                          className="w-5 h-5 accent-[#58a6ff]"
+                          style={{ width: '20px', height: '20px', accentColor: 'var(--brand-primary)' }}
                         />
-                        <span className="text-white">Require approval for new posts</span>
+                        <span style={{ color: 'var(--text-primary)' }}>Require approval for new posts</span>
                       </label>
                     </div>
                   </div>
@@ -533,19 +574,25 @@ const CommunitySettingsPage: React.FC = () => {
 
               {/* Appearance Settings */}
               {selectedTab === 'appearance' && (
-                <div className="space-y-6">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Appearance Settings</h2>
+                    <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>Appearance Settings</h2>
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-2 text-white">Community Icon</label>
-                    <div className="flex items-center gap-4">
+                    <label style={{ display: 'block', fontWeight: 'var(--font-semibold)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>Community Icon</label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
                       {(iconPreview || community.icon) && (
                         <img
                           src={iconPreview || community.icon}
                           alt="Icon"
-                          className="w-24 h-24 rounded-xl object-cover border border-white/10"
+                          style={{
+                            width: '96px',
+                            height: '96px',
+                            borderRadius: 'var(--radius-xl)',
+                            objectFit: 'cover',
+                            border: '1px solid var(--border-subtle)'
+                          }}
                         />
                       )}
                       <div>
@@ -554,11 +601,16 @@ const CommunitySettingsPage: React.FC = () => {
                           type="file"
                           accept="image/*"
                           onChange={(e) => handleFileChange('icon', e.target.files?.[0] || null)}
-                          className="hidden"
+                          style={{ display: 'none' }}
                         />
                         <button
                           onClick={() => iconInputRef.current?.click()}
-                          className="flex items-center gap-2 px-4 py-2 bg-[#58a6ff] rounded-xl text-white font-semibold hover:bg-[#4a94e8] transition-all"
+                          className="btn-primary"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 'var(--space-2)',
+                          }}
                         >
                           <Upload size={18} />
                           Upload Icon
@@ -568,13 +620,19 @@ const CommunitySettingsPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-2 text-white">Community Banner</label>
-                    <div className="space-y-4">
+                    <label style={{ display: 'block', fontWeight: 'var(--font-semibold)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>Community Banner</label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                       {(bannerPreview || community.banner) && (
                         <img
                           src={bannerPreview || community.banner}
                           alt="Banner"
-                          className="w-full h-48 rounded-xl object-cover border border-white/10"
+                          style={{
+                            width: '100%',
+                            height: '192px',
+                            borderRadius: 'var(--radius-xl)',
+                            objectFit: 'cover',
+                            border: '1px solid var(--border-subtle)'
+                          }}
                         />
                       )}
                       <div>
@@ -583,11 +641,16 @@ const CommunitySettingsPage: React.FC = () => {
                           type="file"
                           accept="image/*"
                           onChange={(e) => handleFileChange('banner', e.target.files?.[0] || null)}
-                          className="hidden"
+                          style={{ display: 'none' }}
                         />
                         <button
                           onClick={() => bannerInputRef.current?.click()}
-                          className="flex items-center gap-2 px-4 py-2 bg-[#58a6ff] rounded-xl text-white font-semibold hover:bg-[#4a94e8] transition-all"
+                          className="btn-primary"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: 'var(--space-2)',
+                          }}
                         >
                           <Upload size={18} />
                           Upload Banner
@@ -600,14 +663,14 @@ const CommunitySettingsPage: React.FC = () => {
 
               {/* Privacy Settings */}
               {selectedTab === 'privacy' && (
-                <div className="space-y-6">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Privacy Settings</h2>
+                    <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>Privacy Settings</h2>
                   </div>
 
                   <div>
-                    <label className="block font-semibold mb-2 text-white">Privacy Level</label>
-                    <div className="space-y-3">
+                    <label style={{ display: 'block', fontWeight: 'var(--font-semibold)', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>Privacy Level</label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
                       {[
                         { value: 'public', icon: Globe, title: 'Public', description: 'Anyone can view and join' },
                         {
@@ -624,24 +687,30 @@ const CommunitySettingsPage: React.FC = () => {
                         }
                       ].map((option) => {
                         const Icon = option.icon
+                        const isSelected = formData.privacy === option.value
                         return (
                           <button
                             key={option.value}
                             onClick={() => setFormData({ ...formData, privacy: option.value as any })}
-                            className={`w-full p-4 rounded-xl text-left transition-all ${
-                              formData.privacy === option.value
-                                ? 'bg-[#58a6ff]/20 border-2 border-[#58a6ff]'
-                                : 'bg-[#0D0D0D] border border-white/10 hover:border-white/30'
-                            }`}
+                            style={{
+                              width: '100%',
+                              padding: 'var(--space-4)',
+                              borderRadius: 'var(--radius-xl)',
+                              textAlign: 'left',
+                              transition: 'all var(--transition-normal)',
+                              background: isSelected ? 'var(--color-info-light)' : 'var(--bg-secondary)',
+                              border: isSelected ? '2px solid var(--brand-primary)' : '1px solid var(--border-default)',
+                              cursor: 'pointer',
+                            }}
                           >
-                            <div className="flex items-center gap-3">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
                               <Icon
                                 size={24}
-                                className={formData.privacy === option.value ? 'text-[#58a6ff]' : 'text-[#666666]'}
+                                style={{ color: isSelected ? 'var(--brand-primary)' : 'var(--text-secondary)' }}
                               />
                               <div>
-                                <div className="font-semibold text-white">{option.title}</div>
-                                <div className="text-sm text-[#666666]">{option.description}</div>
+                                <div style={{ fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)' }}>{option.title}</div>
+                                <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{option.description}</div>
                               </div>
                             </div>
                           </button>
@@ -651,16 +720,16 @@ const CommunitySettingsPage: React.FC = () => {
                   </div>
 
                   <div>
-                    <label className="flex items-center gap-3 p-4 bg-[#0D0D0D] border border-white/10 rounded-xl cursor-pointer">
+                    <label className="card-compact" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', cursor: 'pointer' }}>
                       <input
                         type="checkbox"
                         checked={formData.nsfw || false}
                         onChange={(e) => setFormData({ ...formData, nsfw: e.target.checked })}
-                        className="w-5 h-5 accent-[#58a6ff]"
+                        style={{ width: '20px', height: '20px', accentColor: 'var(--brand-primary)' }}
                       />
                       <div>
-                        <span className="font-semibold text-white block">NSFW (18+)</span>
-                        <span className="text-sm text-[#666666]">Mark as adult content</span>
+                        <span style={{ fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)', display: 'block' }}>NSFW (18+)</span>
+                        <span style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>Mark as adult content</span>
                       </div>
                     </label>
                   </div>
@@ -669,74 +738,104 @@ const CommunitySettingsPage: React.FC = () => {
 
               {/* Members */}
               {selectedTab === 'members' && (
-                <div className="space-y-6">
-                  <div className="flex items-center justify-between">
-                    <h2 className="text-2xl font-bold text-white">Members</h2>
-                    <div className="relative">
-                      <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]" />
-                      <input
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)' }}>Members</h2>
+                    <div style={{ width: '250px' }}>
+                      <Input
                         type="text"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         placeholder="Search members..."
-                        className="pl-10 pr-4 py-2 bg-[#0D0D0D] border border-white/10 rounded-xl text-white text-sm outline-none"
+                        leftIcon={<Search size={18} />}
                       />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                     {filteredMembers.map((member) => (
                       <div
                         key={member.id}
-                        className="flex items-center justify-between p-4 bg-[#0D0D0D] border border-white/10 rounded-xl"
+                        className="card-compact"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
                       >
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-white font-bold">
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                          <div className="avatar avatar-md gradient-primary" style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)' }}>
                             {member.username[0].toUpperCase()}
                           </div>
                           <div>
-                            <div className="text-white font-semibold">{member.displayName || member.username}</div>
-                            <div className="text-sm text-[#666666]">@{member.username}</div>
+                            <div style={{ color: 'var(--text-primary)', fontWeight: 'var(--font-semibold)' }}>{member.displayName || member.username}</div>
+                            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>@{member.username}</div>
                           </div>
                           {member.role === 'owner' && (
-                            <span className="px-2 py-1 bg-yellow-500/20 text-yellow-500 text-xs rounded-lg font-semibold flex items-center gap-1">
+                            <span className="badge" style={{ background: 'rgba(255, 193, 7, 0.2)', color: '#FFC107', display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
                               <Crown size={12} />
                               Owner
                             </span>
                           )}
                           {member.role === 'moderator' && (
-                            <span className="px-2 py-1 bg-blue-500/20 text-blue-500 text-xs rounded-lg font-semibold flex items-center gap-1">
+                            <span className="badge" style={{ background: 'var(--color-info-light)', color: 'var(--brand-primary)', display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
                               <ShieldCheck size={12} />
                               Mod
                             </span>
                           )}
                         </div>
                         {member.role !== 'owner' && community.isOwner && (
-                          <div className="flex items-center gap-2">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                             {member.role === 'moderator' ? (
                               <button
                                 onClick={() => handleDemoteModerator(member.id)}
-                                className="px-3 py-2 bg-yellow-500/20 text-yellow-500 rounded-lg text-sm hover:bg-yellow-500/30 transition-all"
+                                className="btn-sm"
+                                style={{
+                                  background: 'rgba(255, 193, 7, 0.2)',
+                                  color: '#FFC107',
+                                  border: 'none'
+                                }}
                               >
                                 Demote
                               </button>
                             ) : (
                               <button
                                 onClick={() => handlePromoteToModerator(member.id)}
-                                className="px-3 py-2 bg-green-500/20 text-green-500 rounded-lg text-sm hover:bg-green-500/30 transition-all"
+                                className="btn-sm"
+                                style={{
+                                  background: 'var(--color-success-light)',
+                                  color: 'var(--color-success)',
+                                  border: 'none'
+                                }}
                               >
                                 Promote
                               </button>
                             )}
                             <button
                               onClick={() => handleKickMember(member.id)}
-                              className="p-2 text-orange-500 hover:bg-orange-500/10 rounded-lg transition-all"
+                              style={{
+                                padding: 'var(--space-2)',
+                                color: 'var(--color-warning)',
+                                background: 'none',
+                                border: 'none',
+                                borderRadius: 'var(--radius-lg)',
+                                cursor: 'pointer',
+                                transition: 'all var(--transition-normal)',
+                              }}
                             >
                               <UserX size={18} />
                             </button>
                             <button
                               onClick={() => handleBanMember(member.id)}
-                              className="p-2 text-red-500 hover:bg-red-500/10 rounded-lg transition-all"
+                              style={{
+                                padding: 'var(--space-2)',
+                                color: 'var(--color-error)',
+                                background: 'none',
+                                border: 'none',
+                                borderRadius: 'var(--radius-lg)',
+                                cursor: 'pointer',
+                                transition: 'all var(--transition-normal)',
+                              }}
                             >
                               <Ban size={18} />
                             </button>
@@ -750,31 +849,36 @@ const CommunitySettingsPage: React.FC = () => {
 
               {/* Moderators */}
               {selectedTab === 'moderators' && (
-                <div className="space-y-6">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Moderators</h2>
+                    <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>Moderators</h2>
                   </div>
 
-                  <div className="space-y-2">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                     {members
                       .filter((m) => m.role === 'moderator' || m.role === 'owner')
                       .map((member) => (
                         <div
                           key={member.id}
-                          className="flex items-center justify-between p-4 bg-[#0D0D0D] border border-white/10 rounded-xl"
+                          className="card-compact"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
                         >
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-white font-bold">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                            <div className="avatar avatar-md gradient-primary" style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)' }}>
                               {member.username[0].toUpperCase()}
                             </div>
                             <div>
-                              <div className="text-white font-semibold">
+                              <div style={{ color: 'var(--text-primary)', fontWeight: 'var(--font-semibold)' }}>
                                 {member.displayName || member.username}
                               </div>
-                              <div className="text-sm text-[#666666]">@{member.username}</div>
+                              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>@{member.username}</div>
                             </div>
                             {member.role === 'owner' && (
-                              <span className="px-2 py-1 bg-yellow-500/20 text-yellow-500 text-xs rounded-lg font-semibold flex items-center gap-1">
+                              <span className="badge" style={{ background: 'rgba(255, 193, 7, 0.2)', color: '#FFC107', display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
                                 <Crown size={12} />
                                 Owner
                               </span>
@@ -783,7 +887,12 @@ const CommunitySettingsPage: React.FC = () => {
                           {member.role === 'moderator' && community.isOwner && (
                             <button
                               onClick={() => handleDemoteModerator(member.id)}
-                              className="px-3 py-2 bg-red-500/20 text-red-500 rounded-lg text-sm hover:bg-red-500/30 transition-all"
+                              className="btn-sm"
+                              style={{
+                                background: 'var(--color-error-light)',
+                                color: 'var(--color-error)',
+                                border: 'none'
+                              }}
                             >
                               Remove
                             </button>
@@ -796,34 +905,44 @@ const CommunitySettingsPage: React.FC = () => {
 
               {/* Banned Users */}
               {selectedTab === 'banned' && (
-                <div className="space-y-6">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Banned Users</h2>
+                    <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>Banned Users</h2>
                   </div>
 
                   {bannedUsers.length === 0 ? (
-                    <div className="text-center py-12 text-[#666666]">No banned users</div>
+                    <div style={{ textAlign: 'center', padding: 'var(--space-12) 0', color: 'var(--text-secondary)' }}>No banned users</div>
                   ) : (
-                    <div className="space-y-2">
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
                       {bannedUsers.map((user) => (
                         <div
                           key={user.id}
-                          className="flex items-center justify-between p-4 bg-[#0D0D0D] border border-white/10 rounded-xl"
+                          className="card-compact"
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                          }}
                         >
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-white font-bold">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                            <div className="avatar avatar-md gradient-primary" style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)' }}>
                               {user.username[0].toUpperCase()}
                             </div>
                             <div>
-                              <div className="text-white font-semibold">{user.username}</div>
-                              <div className="text-sm text-[#666666]">
+                              <div style={{ color: 'var(--text-primary)', fontWeight: 'var(--font-semibold)' }}>{user.username}</div>
+                              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
                                 Banned {new Date(user.bannedAt).toLocaleDateString()}
                               </div>
                             </div>
                           </div>
                           <button
                             onClick={() => handleUnbanUser(user.id)}
-                            className="px-3 py-2 bg-green-500/20 text-green-500 rounded-lg text-sm hover:bg-green-500/30 transition-all"
+                            className="btn-sm"
+                            style={{
+                              background: 'var(--color-success-light)',
+                              color: 'var(--color-success)',
+                              border: 'none'
+                            }}
                           >
                             Unban
                           </button>
@@ -836,20 +955,38 @@ const CommunitySettingsPage: React.FC = () => {
 
               {/* Danger Zone */}
               {selectedTab === 'danger' && community.isOwner && (
-                <div className="space-y-6">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
                   <div>
-                    <h2 className="text-2xl font-bold text-white mb-4">Danger Zone</h2>
+                    <h2 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>Danger Zone</h2>
                   </div>
 
-                  <div className="p-6 bg-red-500/10 border-2 border-red-500/30 rounded-xl">
-                    <h3 className="text-lg font-bold text-white mb-2">Delete Community</h3>
-                    <p className="text-[#666666] mb-4">
+                  <div style={{
+                    padding: 'var(--space-6)',
+                    background: 'var(--color-error-light)',
+                    border: '2px solid var(--color-error)',
+                    borderRadius: 'var(--radius-xl)'
+                  }}>
+                    <h3 style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)', marginBottom: 'var(--space-2)' }}>Delete Community</h3>
+                    <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-4)' }}>
                       This action cannot be undone. All posts, comments, and member data will be permanently
                       deleted.
                     </p>
                     <button
                       onClick={() => setShowDeleteConfirm(true)}
-                      className="flex items-center gap-2 px-6 py-3 bg-red-500 rounded-xl text-white font-semibold hover:bg-red-600 transition-all"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'var(--space-2)',
+                        padding: 'var(--space-3) var(--space-6)',
+                        background: 'var(--color-error)',
+                        border: 'none',
+                        borderRadius: 'var(--radius-full)',
+                        color: 'var(--text-inverse)',
+                        fontSize: 'var(--text-base)',
+                        fontWeight: 'var(--font-semibold)',
+                        cursor: 'pointer',
+                        transition: 'all var(--transition-normal)',
+                      }}
                     >
                       <Trash2 size={18} />
                       Delete Community
@@ -864,32 +1001,70 @@ const CommunitySettingsPage: React.FC = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center p-4 z-50">
-          <div className="bg-[#141414] border border-white/10 rounded-2xl p-8 max-w-md w-full">
-            <div className="flex items-center gap-3 mb-4">
-              <AlertTriangle size={32} className="text-red-500" />
-              <h3 className="text-2xl font-bold text-white">Delete Community?</h3>
+        <>
+          <div
+            onClick={() => setShowDeleteConfirm(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              background: 'rgba(0, 0, 0, 0.5)',
+              backdropFilter: 'blur(4px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 'var(--space-4)',
+              zIndex: 'var(--z-modal-backdrop)',
+            }}
+          />
+          <div
+            className="card"
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              padding: 'var(--space-8)',
+              maxWidth: '448px',
+              width: '100%',
+              zIndex: 'var(--z-modal)',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', marginBottom: 'var(--space-4)' }}>
+              <AlertTriangle size={32} style={{ color: 'var(--color-error)' }} />
+              <h3 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)' }}>Delete Community?</h3>
             </div>
-            <p className="text-[#666666] mb-6">
+            <p style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-6)' }}>
               Are you absolutely sure? This will permanently delete <strong>{community.displayName}</strong> and
               all of its content. This action cannot be undone.
             </p>
-            <div className="flex gap-3">
+            <div style={{ display: 'flex', gap: 'var(--space-3)' }}>
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 px-6 py-3 bg-[#0D0D0D] border border-white/10 rounded-xl text-white hover:bg-white/5 transition-all"
+                className="btn-ghost"
+                style={{ flex: 1 }}
               >
                 Cancel
               </button>
               <button
                 onClick={handleDeleteCommunity}
-                className="flex-1 px-6 py-3 bg-red-500 rounded-xl text-white font-semibold hover:bg-red-600 transition-all"
+                style={{
+                  flex: 1,
+                  padding: 'var(--space-3) var(--space-6)',
+                  background: 'var(--color-error)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-full)',
+                  color: 'var(--text-inverse)',
+                  fontSize: 'var(--text-base)',
+                  fontWeight: 'var(--font-semibold)',
+                  cursor: 'pointer',
+                  transition: 'all var(--transition-normal)',
+                }}
               >
                 Delete Forever
               </button>
             </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   )

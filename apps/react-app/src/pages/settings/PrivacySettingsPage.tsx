@@ -1,6 +1,7 @@
 /**
  * CRYB Privacy Settings Page
  * Comprehensive privacy controls and data management
+ * v.1 Light Theme Design System
  */
 
 import React, { useState } from 'react';
@@ -8,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Eye, EyeOff, ChevronRight } from 'lucide-react';
 import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
-import { cn } from '../../lib/utils';
+import '../../styles/design-system.css';
 
 interface PrivacySettings {
   profileVisibility: 'public' | 'followers' | 'private';
@@ -60,34 +61,60 @@ const PrivacySettingsPage: React.FC = () => {
     onChange: (value: string) => void;
   }> = ({ value, options, onChange }) => {
     return (
-      <div className="space-y-2">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}>
         {options.map((option) => (
           <button
             key={option.value}
             onClick={() => onChange(option.value)}
-            className={cn(
-              'w-full p-4 rounded-lg border transition-all text-left',
-              value === option.value
-                ? 'border-primary bg-primary/5'
-                : 'border-border hover:border-primary/50 hover:bg-accent/30'
-            )}
+            style={{
+              width: '100%',
+              padding: 'var(--space-4)',
+              borderRadius: 'var(--radius-lg)',
+              border: `1px solid ${value === option.value ? 'var(--brand-primary)' : 'var(--border-default)'}`,
+              background: value === option.value ? 'var(--color-info-light)' : 'var(--bg-secondary)',
+              transition: 'all var(--transition-normal)',
+              textAlign: 'left',
+              cursor: 'pointer'
+            }}
+            onMouseEnter={(e) => {
+              if (value !== option.value) {
+                e.currentTarget.style.borderColor = 'var(--brand-primary)';
+                e.currentTarget.style.background = 'var(--bg-hover)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (value !== option.value) {
+                e.currentTarget.style.borderColor = 'var(--border-default)';
+                e.currentTarget.style.background = 'var(--bg-secondary)';
+              }
+            }}
           >
-            <div className="flex items-center gap-3">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
               <div
-                className={cn(
-                  'w-5 h-5 rounded-full border-2 flex items-center justify-center',
-                  value === option.value
-                    ? 'border-primary'
-                    : 'border-muted-foreground'
-                )}
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  borderRadius: '50%',
+                  border: `2px solid ${value === option.value ? 'var(--brand-primary)' : 'var(--text-tertiary)'}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
               >
                 {value === option.value && (
-                  <div className="w-3 h-3 rounded-full bg-primary" />
+                  <div style={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '50%',
+                    background: 'var(--brand-primary)'
+                  }} />
                 )}
               </div>
-              <div className="flex-1">
-                <div className="font-medium">{option.label}</div>
-                <div className="text-sm text-muted-foreground">
+              <div style={{ flex: 1 }}>
+                <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
+                  {option.label}
+                </div>
+                <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
                   {option.description}
                 </div>
               </div>
@@ -99,30 +126,68 @@ const PrivacySettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: 'var(--space-20)' }}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 'var(--z-sticky)',
+        background: 'var(--bg-primary)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid var(--border-subtle)'
+      }}>
+        <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <button
               onClick={() => navigate('/settings')}
-              className="p-2 hover:bg-accent rounded-lg transition-colors"
+              style={{
+                padding: 'var(--space-2)',
+                background: 'transparent',
+                border: 'none',
+                borderRadius: 'var(--radius-lg)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'background var(--transition-normal)',
+                color: 'var(--text-primary)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft style={{ width: '20px', height: '20px' }} />
             </button>
-            <div className="flex items-center gap-2">
-              <Eye className="h-5 w-5 text-primary" />
-              <h1 className="text-2xl font-bold">Privacy</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Eye style={{ width: '20px', height: '20px', color: 'var(--brand-primary)' }} />
+              <h1 style={{
+                fontSize: 'var(--text-2xl)',
+                fontWeight: 'var(--font-bold)',
+                color: 'var(--text-primary)'
+              }}>Privacy</h1>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <div style={{
+        maxWidth: '672px',
+        margin: '0 auto',
+        padding: 'var(--space-4)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-6)'
+      }}>
         {/* Profile Visibility */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Profile Visibility</h2>
-          <p className="text-sm text-muted-foreground">
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)'
+          }}>Profile Visibility</h2>
+          <p style={{
+            fontSize: 'var(--text-sm)',
+            color: 'var(--text-secondary)'
+          }}>
             Control who can see your profile and posts
           </p>
           <RadioGroup
@@ -153,9 +218,16 @@ const PrivacySettingsPage: React.FC = () => {
         </div>
 
         {/* Message Permissions */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Message Permissions</h2>
-          <p className="text-sm text-muted-foreground">
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)'
+          }}>Message Permissions</h2>
+          <p style={{
+            fontSize: 'var(--text-sm)',
+            color: 'var(--text-secondary)'
+          }}>
             Control who can send you direct messages
           </p>
           <RadioGroup
@@ -186,14 +258,24 @@ const PrivacySettingsPage: React.FC = () => {
         </div>
 
         {/* Activity & Presence */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Activity & Presence</h2>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)'
+          }}>Activity & Presence</h2>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div className="font-medium">Show Activity Status</div>
-                <div className="text-sm text-muted-foreground">
+                <div style={{
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)'
+                }}>Show Activity Status</div>
+                <div style={{
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--text-secondary)'
+                }}>
                   Let others see when you're online
                 </div>
               </div>
@@ -205,12 +287,18 @@ const PrivacySettingsPage: React.FC = () => {
               />
             </div>
 
-            <div className="h-px bg-border" />
+            <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
 
-            <div className="flex items-center justify-between">
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div>
-                <div className="font-medium">Show in Search Results</div>
-                <div className="text-sm text-muted-foreground">
+                <div style={{
+                  fontWeight: 'var(--font-medium)',
+                  color: 'var(--text-primary)'
+                }}>Show in Search Results</div>
+                <div style={{
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--text-secondary)'
+                }}>
                   Allow your profile to appear in search
                 </div>
               </div>
@@ -225,13 +313,23 @@ const PrivacySettingsPage: React.FC = () => {
         </div>
 
         {/* Wallet Privacy */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Wallet Privacy</h2>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)'
+          }}>Wallet Privacy</h2>
 
-          <div className="flex items-center justify-between">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <div className="font-medium">Show Wallet Holdings</div>
-              <div className="text-sm text-muted-foreground">
+              <div style={{
+                fontWeight: 'var(--font-medium)',
+                color: 'var(--text-primary)'
+              }}>Show Wallet Holdings</div>
+              <div style={{
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)'
+              }}>
                 Display your NFT collection and wallet balances
               </div>
             </div>
@@ -245,9 +343,16 @@ const PrivacySettingsPage: React.FC = () => {
         </div>
 
         {/* Tagging */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Tagging</h2>
-          <p className="text-sm text-muted-foreground">
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)'
+          }}>Tagging</h2>
+          <p style={{
+            fontSize: 'var(--text-sm)',
+            color: 'var(--text-secondary)'
+          }}>
             Control who can tag you in posts
           </p>
           <RadioGroup
@@ -278,13 +383,23 @@ const PrivacySettingsPage: React.FC = () => {
         </div>
 
         {/* Data & Analytics */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Data & Analytics</h2>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)'
+          }}>Data & Analytics</h2>
 
-          <div className="flex items-center justify-between">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div>
-              <div className="font-medium">Share Analytics Data</div>
-              <div className="text-sm text-muted-foreground">
+              <div style={{
+                fontWeight: 'var(--font-medium)',
+                color: 'var(--text-primary)'
+              }}>Share Analytics Data</div>
+              <div style={{
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)'
+              }}>
                 Help improve CRYB by sharing anonymous usage data
               </div>
             </div>
@@ -298,64 +413,158 @@ const PrivacySettingsPage: React.FC = () => {
         </div>
 
         {/* Block & Mute Management */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-3">
-          <h2 className="font-semibold text-lg mb-3">Blocked & Muted</h2>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)',
+            marginBottom: 'var(--space-3)'
+          }}>Blocked & Muted</h2>
 
           <button
             onClick={() => navigate('/settings/blocked-accounts')}
-            className="w-full flex items-center justify-between p-4 rounded-lg hover:bg-accent/50 transition-colors border border-transparent hover:border-border"
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: 'var(--space-4)',
+              borderRadius: 'var(--radius-lg)',
+              background: 'transparent',
+              border: '1px solid transparent',
+              cursor: 'pointer',
+              transition: 'all var(--transition-normal)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--bg-hover)';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
           >
-            <div className="text-left">
-              <div className="font-medium">Blocked Accounts</div>
-              <div className="text-sm text-muted-foreground">
+            <div style={{ textAlign: 'left' }}>
+              <div style={{
+                fontWeight: 'var(--font-medium)',
+                color: 'var(--text-primary)'
+              }}>Blocked Accounts</div>
+              <div style={{
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)'
+              }}>
                 Manage blocked users
               </div>
             </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+            <ChevronRight style={{ width: '20px', height: '20px', color: 'var(--text-tertiary)' }} />
           </button>
 
           <button
             onClick={() => navigate('/settings/muted-accounts')}
-            className="w-full flex items-center justify-between p-4 rounded-lg hover:bg-accent/50 transition-colors border border-transparent hover:border-border"
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: 'var(--space-4)',
+              borderRadius: 'var(--radius-lg)',
+              background: 'transparent',
+              border: '1px solid transparent',
+              cursor: 'pointer',
+              transition: 'all var(--transition-normal)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--bg-hover)';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
           >
-            <div className="text-left">
-              <div className="font-medium">Muted Accounts</div>
-              <div className="text-sm text-muted-foreground">
+            <div style={{ textAlign: 'left' }}>
+              <div style={{
+                fontWeight: 'var(--font-medium)',
+                color: 'var(--text-primary)'
+              }}>Muted Accounts</div>
+              <div style={{
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)'
+              }}>
                 Manage muted users
               </div>
             </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+            <ChevronRight style={{ width: '20px', height: '20px', color: 'var(--text-tertiary)' }} />
           </button>
 
           <button
             onClick={() => navigate('/settings/hidden-words')}
-            className="w-full flex items-center justify-between p-4 rounded-lg hover:bg-accent/50 transition-colors border border-transparent hover:border-border"
+            style={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              padding: 'var(--space-4)',
+              borderRadius: 'var(--radius-lg)',
+              background: 'transparent',
+              border: '1px solid transparent',
+              cursor: 'pointer',
+              transition: 'all var(--transition-normal)'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = 'var(--bg-hover)';
+              e.currentTarget.style.borderColor = 'var(--border-subtle)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.borderColor = 'transparent';
+            }}
           >
-            <div className="text-left">
-              <div className="font-medium">Hidden Words</div>
-              <div className="text-sm text-muted-foreground">
+            <div style={{ textAlign: 'left' }}>
+              <div style={{
+                fontWeight: 'var(--font-medium)',
+                color: 'var(--text-primary)'
+              }}>Hidden Words</div>
+              <div style={{
+                fontSize: 'var(--text-sm)',
+                color: 'var(--text-secondary)'
+              }}>
                 Filter content with specific words
               </div>
             </div>
-            <ChevronRight className="h-5 w-5 text-muted-foreground" />
+            <ChevronRight style={{ width: '20px', height: '20px', color: 'var(--text-tertiary)' }} />
           </button>
         </div>
 
         {/* Save Button */}
         {hasChanges && (
-          <div className="sticky bottom-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 -mx-4">
-            <div className="max-w-2xl mx-auto flex gap-3">
+          <div style={{
+            position: 'sticky',
+            bottom: 0,
+            background: 'var(--bg-primary)',
+            backdropFilter: 'blur(10px)',
+            borderTop: '1px solid var(--border-subtle)',
+            padding: 'var(--space-4)',
+            marginLeft: 'calc(-1 * var(--space-4))',
+            marginRight: 'calc(-1 * var(--space-4))'
+          }}>
+            <div style={{
+              maxWidth: '672px',
+              margin: '0 auto',
+              display: 'flex',
+              gap: 'var(--space-3)'
+            }}>
               <Button
-                variant="outline"
+                variant="secondary"
                 onClick={() => setHasChanges(false)}
-                className="flex-1"
+                style={{ flex: 1 }}
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleSave}
                 loading={isSaving}
-                className="flex-1"
+                style={{ flex: 1 }}
               >
                 Save Changes
               </Button>

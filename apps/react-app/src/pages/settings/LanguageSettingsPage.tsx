@@ -1,14 +1,15 @@
 /**
  * CRYB Language Settings Page
  * Language and region preferences
+ * v.1 Light Theme Design System
  */
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Globe, Check } from 'lucide-react';
 import { Button } from '../../components/ui/button';
-import { Input } from '../../components/ui/input';
-import { cn } from '../../lib/utils';
+import { Input, Select } from '../../components/ui/InputV1';
+import '../../styles/design-system.css';
 
 interface Language {
   code: string;
@@ -67,33 +68,69 @@ const LanguageSettingsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)', paddingBottom: 'var(--space-20)' }}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 'var(--z-sticky)',
+        background: 'var(--bg-primary)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: '1px solid var(--border-subtle)'
+      }}>
+        <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <button
               onClick={() => navigate('/settings')}
-              className="p-2 hover:bg-accent rounded-lg transition-colors"
+              style={{
+                padding: 'var(--space-2)',
+                background: 'transparent',
+                border: 'none',
+                borderRadius: 'var(--radius-lg)',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'background var(--transition-normal)',
+                color: 'var(--text-primary)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft style={{ width: '20px', height: '20px' }} />
             </button>
-            <div className="flex items-center gap-2">
-              <Globe className="h-5 w-5 text-primary" />
-              <h1 className="text-2xl font-bold">Language</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Globe style={{ width: '20px', height: '20px', color: 'var(--brand-primary)' }} />
+              <h1 style={{
+                fontSize: 'var(--text-2xl)',
+                fontWeight: 'var(--font-bold)',
+                color: 'var(--text-primary)'
+              }}>Language</h1>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
+      <div style={{
+        maxWidth: '672px',
+        margin: '0 auto',
+        padding: 'var(--space-4)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 'var(--space-6)'
+      }}>
         {/* Info Card */}
-        <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4">
-          <div className="flex items-start gap-3">
-            <Globe className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
-            <div className="text-sm text-blue-500">
-              <div className="font-medium mb-1">Language Preferences</div>
-              <div className="opacity-90">
+        <div style={{
+          background: 'var(--color-info-light)',
+          border: '1px solid var(--brand-primary)',
+          borderRadius: 'var(--radius-xl)',
+          padding: 'var(--space-4)'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-3)' }}>
+            <Globe style={{ width: '20px', height: '20px', color: 'var(--brand-primary)', flexShrink: 0, marginTop: '2px' }} />
+            <div style={{ fontSize: 'var(--text-sm)', color: 'var(--brand-primary)' }}>
+              <div style={{ fontWeight: 'var(--font-medium)', marginBottom: 'var(--space-1)' }}>Language Preferences</div>
+              <div style={{ opacity: 0.9 }}>
                 Choose your preferred language for the CRYB interface. This will change the
                 language of menus, buttons, and system messages.
               </div>
@@ -102,124 +139,187 @@ const LanguageSettingsPage: React.FC = () => {
         </div>
 
         {/* Search */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
           <Input
             type="search"
             placeholder="Search languages..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            leftIcon={<Globe className="h-4 w-4" />}
+            leftIcon={<Globe style={{ width: '16px', height: '16px' }} />}
           />
         </div>
 
         {/* Language List */}
-        <div className="bg-card border border-border rounded-xl divide-y divide-border">
-          {filteredLanguages.map((language) => (
+        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
+          {filteredLanguages.map((language, index) => (
             <button
               key={language.code}
               onClick={() => handleLanguageSelect(language.code)}
-              className={cn(
-                'w-full flex items-center justify-between p-4 transition-colors',
-                'hover:bg-accent/50 active:bg-accent/70',
-                selectedLanguage === language.code && 'bg-primary/5'
-              )}
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: 'var(--space-4)',
+                background: selectedLanguage === language.code ? 'var(--color-info-light)' : 'transparent',
+                border: 'none',
+                borderTop: index > 0 ? '1px solid var(--border-subtle)' : 'none',
+                cursor: 'pointer',
+                transition: 'background var(--transition-normal)'
+              }}
+              onMouseEnter={(e) => {
+                if (selectedLanguage !== language.code) {
+                  e.currentTarget.style.background = 'var(--bg-hover)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (selectedLanguage !== language.code) {
+                  e.currentTarget.style.background = 'transparent';
+                }
+              }}
             >
-              <div className="flex items-center gap-3">
-                <span className="text-2xl">{language.flag}</span>
-                <div className="text-left">
-                  <div className="font-medium">{language.name}</div>
-                  <div className="text-sm text-muted-foreground">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
+                <span style={{ fontSize: 'var(--text-2xl)' }}>{language.flag}</span>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{
+                    fontWeight: 'var(--font-medium)',
+                    color: 'var(--text-primary)'
+                  }}>{language.name}</div>
+                  <div style={{
+                    fontSize: 'var(--text-sm)',
+                    color: 'var(--text-secondary)'
+                  }}>
                     {language.nativeName}
                   </div>
                 </div>
               </div>
               {selectedLanguage === language.code && (
-                <Check className="h-5 w-5 text-primary" />
+                <Check style={{ width: '20px', height: '20px', color: 'var(--brand-primary)' }} />
               )}
             </button>
           ))}
 
           {filteredLanguages.length === 0 && (
-            <div className="p-8 text-center text-muted-foreground">
+            <div style={{
+              padding: 'var(--space-8)',
+              textAlign: 'center',
+              color: 'var(--text-secondary)'
+            }}>
               No languages found matching "{searchQuery}"
             </div>
           )}
         </div>
 
         {/* Additional Settings */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg">Regional Settings</h2>
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+          <h2 style={{
+            fontWeight: 'var(--font-semibold)',
+            fontSize: 'var(--text-lg)',
+            color: 'var(--text-primary)'
+          }}>Regional Settings</h2>
 
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
             <div>
-              <label className="text-sm font-medium mb-2 block">Date Format</label>
-              <select className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="MM/DD/YYYY">MM/DD/YYYY (US)</option>
-                <option value="DD/MM/YYYY">DD/MM/YYYY (EU)</option>
-                <option value="YYYY-MM-DD">YYYY-MM-DD (ISO)</option>
-              </select>
+              <Select
+                label="Date Format"
+                options={[
+                  { value: 'MM/DD/YYYY', label: 'MM/DD/YYYY (US)' },
+                  { value: 'DD/MM/YYYY', label: 'DD/MM/YYYY (EU)' },
+                  { value: 'YYYY-MM-DD', label: 'YYYY-MM-DD (ISO)' }
+                ]}
+                defaultValue="MM/DD/YYYY"
+              />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Time Format</label>
-              <select className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="12">12-hour (AM/PM)</option>
-                <option value="24">24-hour</option>
-              </select>
+              <Select
+                label="Time Format"
+                options={[
+                  { value: '12', label: '12-hour (AM/PM)' },
+                  { value: '24', label: '24-hour' }
+                ]}
+                defaultValue="12"
+              />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Number Format</label>
-              <select className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="en-US">1,234.56 (US)</option>
-                <option value="de-DE">1.234,56 (EU)</option>
-                <option value="fr-FR">1 234,56 (FR)</option>
-              </select>
+              <Select
+                label="Number Format"
+                options={[
+                  { value: 'en-US', label: '1,234.56 (US)' },
+                  { value: 'de-DE', label: '1.234,56 (EU)' },
+                  { value: 'fr-FR', label: '1 234,56 (FR)' }
+                ]}
+                defaultValue="en-US"
+              />
             </div>
 
             <div>
-              <label className="text-sm font-medium mb-2 block">Currency</label>
-              <select className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring">
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
-                <option value="GBP">GBP (£)</option>
-                <option value="JPY">JPY (¥)</option>
-                <option value="CNY">CNY (¥)</option>
-              </select>
+              <Select
+                label="Currency"
+                options={[
+                  { value: 'USD', label: 'USD ($)' },
+                  { value: 'EUR', label: 'EUR (€)' },
+                  { value: 'GBP', label: 'GBP (£)' },
+                  { value: 'JPY', label: 'JPY (¥)' },
+                  { value: 'CNY', label: 'CNY (¥)' }
+                ]}
+                defaultValue="USD"
+              />
             </div>
           </div>
         </div>
 
         {/* Translation Note */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-3">
-          <h3 className="font-semibold">Help Us Translate</h3>
-          <p className="text-sm text-muted-foreground">
+        <div className="card" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+          <h3 style={{
+            fontWeight: 'var(--font-semibold)',
+            color: 'var(--text-primary)'
+          }}>Help Us Translate</h3>
+          <p style={{
+            fontSize: 'var(--text-sm)',
+            color: 'var(--text-secondary)'
+          }}>
             Want to help make CRYB available in your language? Join our translation community
             and contribute to making the platform more accessible worldwide.
           </p>
-          <Button variant="outline" size="sm">
+          <Button variant="secondary" size="sm">
             Become a Translator
           </Button>
         </div>
 
         {/* Save Button */}
         {hasChanges && (
-          <div className="sticky bottom-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 -mx-4">
-            <div className="max-w-2xl mx-auto flex gap-3">
+          <div style={{
+            position: 'sticky',
+            bottom: 0,
+            background: 'var(--bg-primary)',
+            backdropFilter: 'blur(10px)',
+            borderTop: '1px solid var(--border-subtle)',
+            padding: 'var(--space-4)',
+            marginLeft: 'calc(-1 * var(--space-4))',
+            marginRight: 'calc(-1 * var(--space-4))'
+          }}>
+            <div style={{
+              maxWidth: '672px',
+              margin: '0 auto',
+              display: 'flex',
+              gap: 'var(--space-3)'
+            }}>
               <Button
-                variant="outline"
+                variant="secondary"
                 onClick={() => {
                   setSelectedLanguage('en');
                   setHasChanges(false);
                 }}
-                className="flex-1"
+                style={{ flex: 1 }}
               >
                 Cancel
               </Button>
               <Button
                 onClick={handleSave}
                 loading={isSaving}
-                className="flex-1"
+                style={{ flex: 1 }}
               >
                 Save Changes
               </Button>

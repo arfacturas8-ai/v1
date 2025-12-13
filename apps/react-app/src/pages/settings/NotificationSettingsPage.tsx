@@ -1,6 +1,7 @@
 /**
  * CRYB Notification Settings Page
  * Comprehensive notification preferences with granular controls
+ * v.1 Light Theme Design System
  */
 
 import React, { useState } from 'react';
@@ -8,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Bell, Moon } from 'lucide-react';
 import { Switch } from '../../components/ui/switch';
 import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/InputV1';
 import { cn } from '../../lib/utils';
 
 interface NotificationSettings {
@@ -140,185 +142,269 @@ const NotificationSettingsPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm border-b border-border">
-        <div className="max-w-2xl mx-auto px-4 py-4">
-          <div className="flex items-center gap-3">
+      <div
+        style={{
+          position: 'sticky',
+          top: 0,
+          zIndex: 'var(--z-sticky)',
+          background: 'rgba(248, 249, 250, 0.95)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+          borderBottom: '1px solid var(--border-subtle)'
+        }}
+      >
+        <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)' }}>
             <button
               onClick={() => navigate('/settings')}
-              className="p-2 hover:bg-accent rounded-lg transition-colors"
+              style={{
+                padding: 'var(--space-2)',
+                background: 'transparent',
+                border: 'none',
+                borderRadius: 'var(--radius-lg)',
+                cursor: 'pointer',
+                transition: 'background var(--transition-normal)',
+                display: 'flex',
+                alignItems: 'center',
+                color: 'var(--text-primary)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'var(--bg-hover)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             >
-              <ArrowLeft className="h-5 w-5" />
+              <ArrowLeft size={20} />
             </button>
-            <div className="flex items-center gap-2">
-              <Bell className="h-5 w-5 text-primary" />
-              <h1 className="text-2xl font-bold">Notifications</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Bell size={20} style={{ color: 'var(--brand-primary)' }} />
+              <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--font-bold)', color: 'var(--text-primary)' }}>
+                Notifications
+              </h1>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        {/* Master Toggles */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg mb-4">Master Controls</h2>
+      <div style={{ maxWidth: '672px', margin: '0 auto', padding: 'var(--space-4) var(--space-4) var(--space-6)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-6)' }}>
+          {/* Master Toggles */}
+          <div className="card">
+            <h2 style={{
+              fontSize: 'var(--text-lg)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-4)'
+            }}>
+              Master Controls
+            </h2>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Push Notifications</div>
-                <div className="text-sm text-muted-foreground">
-                  Enable push notifications on this device
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
+                    Push Notifications
+                  </div>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                    Enable push notifications on this device
+                  </div>
                 </div>
+                <Switch
+                  checked={settings.pushEnabled}
+                  onCheckedChange={(checked) => updateSettings({ pushEnabled: checked })}
+                />
               </div>
-              <Switch
-                checked={settings.pushEnabled}
-                onCheckedChange={(checked) => updateSettings({ pushEnabled: checked })}
-              />
-            </div>
 
-            <div className="h-px bg-border" />
+              <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
 
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Email Notifications</div>
-                <div className="text-sm text-muted-foreground">
-                  Receive notifications via email
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
+                    Email Notifications
+                  </div>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                    Receive notifications via email
+                  </div>
                 </div>
+                <Switch
+                  checked={settings.emailEnabled}
+                  onCheckedChange={(checked) => updateSettings({ emailEnabled: checked })}
+                />
               </div>
-              <Switch
-                checked={settings.emailEnabled}
-                onCheckedChange={(checked) => updateSettings({ emailEnabled: checked })}
-              />
             </div>
           </div>
-        </div>
 
-        {/* Notification Types */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <h2 className="font-semibold text-lg mb-4">Notification Types</h2>
+          {/* Notification Types */}
+          <div className="card">
+            <h2 style={{
+              fontSize: 'var(--text-lg)',
+              fontWeight: 'var(--font-semibold)',
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-4)'
+            }}>
+              Notification Types
+            </h2>
 
-          <div className="space-y-4">
-            {notificationTypes.map((type, index) => (
-              <React.Fragment key={type.key}>
-                {index > 0 && <div className="h-px bg-border" />}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium">{type.title}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {type.description}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+              {notificationTypes.map((type, index) => (
+                <React.Fragment key={type.key}>
+                  {index > 0 && <div style={{ height: '1px', background: 'var(--border-subtle)' }} />}
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div>
+                      <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
+                        {type.title}
+                      </div>
+                      <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                        {type.description}
+                      </div>
+                    </div>
+                    <Switch
+                      checked={settings.notifications[type.key]}
+                      onCheckedChange={(checked) => updateNotification(type.key, checked)}
+                      disabled={!settings.pushEnabled && !settings.emailEnabled}
+                    />
+                  </div>
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+
+          {/* Quiet Mode */}
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+              <Moon size={20} style={{ color: 'var(--brand-primary)' }} />
+              <h2 style={{ fontSize: 'var(--text-lg)', fontWeight: 'var(--font-semibold)', color: 'var(--text-primary)' }}>
+                Quiet Mode
+              </h2>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div>
+                  <div style={{ fontWeight: 'var(--font-medium)', color: 'var(--text-primary)' }}>
+                    Enable Quiet Mode
+                  </div>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                    Pause notifications during specified hours
+                  </div>
+                </div>
+                <Switch
+                  checked={settings.quietMode.enabled}
+                  onCheckedChange={(checked) =>
+                    updateSettings({
+                      ...settings,
+                      quietMode: { ...settings.quietMode, enabled: checked },
+                    })
+                  }
+                />
+              </div>
+
+              {settings.quietMode.enabled && (
+                <>
+                  <div style={{ height: '1px', background: 'var(--border-subtle)' }} />
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--space-4)' }}>
+                    <div>
+                      <label
+                        style={{
+                          fontSize: 'var(--text-sm)',
+                          fontWeight: 'var(--font-medium)',
+                          color: 'var(--text-primary)',
+                          marginBottom: 'var(--space-2)',
+                          display: 'block'
+                        }}
+                      >
+                        Start Time
+                      </label>
+                      <input
+                        type="time"
+                        value={settings.quietMode.startTime}
+                        onChange={(e) =>
+                          updateSettings({
+                            ...settings,
+                            quietMode: {
+                              ...settings.quietMode,
+                              startTime: e.target.value,
+                            },
+                          })
+                        }
+                        className="input"
+                        style={{ width: '100%' }}
+                      />
+                    </div>
+                    <div>
+                      <label
+                        style={{
+                          fontSize: 'var(--text-sm)',
+                          fontWeight: 'var(--font-medium)',
+                          color: 'var(--text-primary)',
+                          marginBottom: 'var(--space-2)',
+                          display: 'block'
+                        }}
+                      >
+                        End Time
+                      </label>
+                      <input
+                        type="time"
+                        value={settings.quietMode.endTime}
+                        onChange={(e) =>
+                          updateSettings({
+                            ...settings,
+                            quietMode: {
+                              ...settings.quietMode,
+                              endTime: e.target.value,
+                            },
+                          })
+                        }
+                        className="input"
+                        style={{ width: '100%' }}
+                      />
                     </div>
                   </div>
-                  <Switch
-                    checked={settings.notifications[type.key]}
-                    onCheckedChange={(checked) => updateNotification(type.key, checked)}
-                    disabled={!settings.pushEnabled && !settings.emailEnabled}
-                  />
-                </div>
-              </React.Fragment>
-            ))}
-          </div>
-        </div>
-
-        {/* Quiet Mode */}
-        <div className="bg-card border border-border rounded-xl p-6 space-y-4">
-          <div className="flex items-center gap-2 mb-4">
-            <Moon className="h-5 w-5 text-primary" />
-            <h2 className="font-semibold text-lg">Quiet Mode</h2>
+                  <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+                    Notifications will be paused from {settings.quietMode.startTime} to{' '}
+                    {settings.quietMode.endTime}
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Enable Quiet Mode</div>
-                <div className="text-sm text-muted-foreground">
-                  Pause notifications during specified hours
-                </div>
+          {/* Save Button */}
+          {hasChanges && (
+            <div
+              style={{
+                position: 'sticky',
+                bottom: 0,
+                background: 'rgba(248, 249, 250, 0.95)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                borderTop: '1px solid var(--border-subtle)',
+                padding: 'var(--space-4)',
+                marginLeft: 'calc(-1 * var(--space-4))',
+                marginRight: 'calc(-1 * var(--space-4))'
+              }}
+            >
+              <div style={{ maxWidth: '672px', margin: '0 auto', display: 'flex', gap: 'var(--space-3)' }}>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    // Reset to previous state
+                    setHasChanges(false);
+                  }}
+                  style={{ flex: 1 }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleSave}
+                  loading={isSaving}
+                  style={{ flex: 1 }}
+                >
+                  Save Changes
+                </Button>
               </div>
-              <Switch
-                checked={settings.quietMode.enabled}
-                onCheckedChange={(checked) =>
-                  updateSettings({
-                    ...settings,
-                    quietMode: { ...settings.quietMode, enabled: checked },
-                  })
-                }
-              />
             </div>
-
-            {settings.quietMode.enabled && (
-              <>
-                <div className="h-px bg-border" />
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">Start Time</label>
-                    <input
-                      type="time"
-                      value={settings.quietMode.startTime}
-                      onChange={(e) =>
-                        updateSettings({
-                          ...settings,
-                          quietMode: {
-                            ...settings.quietMode,
-                            startTime: e.target.value,
-                          },
-                        })
-                      }
-                      className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm font-medium mb-2 block">End Time</label>
-                    <input
-                      type="time"
-                      value={settings.quietMode.endTime}
-                      onChange={(e) =>
-                        updateSettings({
-                          ...settings,
-                          quietMode: {
-                            ...settings.quietMode,
-                            endTime: e.target.value,
-                          },
-                        })
-                      }
-                      className="w-full px-3 py-2 bg-background border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-ring"
-                    />
-                  </div>
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  Notifications will be paused from {settings.quietMode.startTime} to{' '}
-                  {settings.quietMode.endTime}
-                </div>
-              </>
-            )}
-          </div>
+          )}
         </div>
-
-        {/* Save Button */}
-        {hasChanges && (
-          <div className="sticky bottom-0 bg-background/95 backdrop-blur-sm border-t border-border p-4 -mx-4">
-            <div className="max-w-2xl mx-auto flex gap-3">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  // Reset to previous state
-                  setHasChanges(false);
-                }}
-                className="flex-1"
-              >
-                Cancel
-              </Button>
-              <Button
-                onClick={handleSave}
-                loading={isSaving}
-                className="flex-1"
-              >
-                Save Changes
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

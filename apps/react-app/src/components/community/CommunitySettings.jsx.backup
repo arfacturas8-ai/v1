@@ -7,11 +7,11 @@ import {
 import communityService from '../../services/communityService'
 import { getErrorMessage } from '../../utils/errorUtils'
 
-export default function CommunitySettings({
-  communityId,
-  currentUser,
+export default function CommunitySettings({ 
+  communityId, 
+  currentUser, 
   canManageCommunity = false,
-  onClose
+  onClose 
 }) {
   const [activeTab, setActiveTab] = useState('general')
   const [community, setCommunity] = useState(null)
@@ -41,7 +41,7 @@ export default function CommunitySettings({
     try {
       setLoading(true)
       const result = await communityService.getCommunity(communityId)
-
+      
       if (result.success) {
         setCommunity(result.community)
       } else {
@@ -74,13 +74,13 @@ export default function CommunitySettings({
 
   const handleSaveChanges = async () => {
     if (!hasUnsavedChanges) return
-
+    
     try {
       setSaving(true)
       setError(null)
-
+      
       const result = await communityService.updateCommunity(communityId, changes)
-
+      
       if (result.success) {
         setCommunity(result.community)
         setChanges({})
@@ -98,13 +98,13 @@ export default function CommunitySettings({
 
   const handleImageUpload = async (type, file) => {
     if (!file) return
-
+    
     try {
       const formData = new FormData()
       formData.append(type, file)
-
+      
       const result = await communityService.updateCommunity(communityId, formData)
-
+      
       if (result.success) {
         setCommunity(result.community)
       } else {
@@ -159,7 +159,6 @@ export default function CommunitySettings({
   return (
     <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 'var(--z-modal)', padding: 'var(--space-5)' }}>
       <div className="card" style={{ width: '100%', maxWidth: '1000px', maxHeight: '90vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-        {/* Header */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 'var(--space-5)', borderBottom: '1px solid var(--border-subtle)', background: 'var(--bg-secondary)' }}>
           <div>
             <h2 style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', margin: 0, marginBottom: 'var(--space-1)', color: 'var(--text-primary)', fontSize: 'var(--text-xl)', fontWeight: 'var(--font-semibold)' }}>
@@ -187,10 +186,8 @@ export default function CommunitySettings({
           </div>
         </div>
 
-        {/* Body */}
         <div style={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
-          {/* Sidebar Tabs */}
-          <div style={{ width: '200px', background: 'var(--bg-secondary)', borderRight: '1px solid var(--border-subtle)', paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-4)', overflowY: 'auto' }} className="custom-scrollbar">
+          <div style={{ width: '200px', background: 'var(--bg-secondary)', borderRight: '1px solid var(--border-subtle)', paddingTop: 'var(--space-4)', paddingBottom: 'var(--space-4)', overflowY: 'auto' }}>
             {tabs.map(tab => {
               const TabIcon = tab.icon
               const isActive = activeTab === tab.id
@@ -198,7 +195,6 @@ export default function CommunitySettings({
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className="btn-ghost"
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -206,11 +202,25 @@ export default function CommunitySettings({
                     width: '100%',
                     padding: 'var(--space-3) var(--space-5)',
                     background: isActive ? 'var(--color-info-light)' : 'transparent',
+                    border: 'none',
                     borderRight: isActive ? '2px solid var(--brand-primary)' : 'none',
                     color: isActive ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                    cursor: 'pointer',
                     fontSize: 'var(--text-sm)',
                     textAlign: 'left',
-                    borderRadius: 0
+                    transition: 'all var(--transition-normal)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'var(--bg-hover)'
+                      e.currentTarget.style.color = 'var(--text-primary)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = 'var(--text-secondary)'
+                    }
                   }}
                 >
                   <TabIcon size={18} />
@@ -220,8 +230,7 @@ export default function CommunitySettings({
             })}
           </div>
 
-          {/* Content Area */}
-          <div style={{ flex: 1, padding: 'var(--space-6)', overflowY: 'auto' }} className="custom-scrollbar">
+          <div style={{ flex: 1, padding: 'var(--space-6)', overflowY: 'auto' }}>
             {error && (
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', background: 'var(--color-error-light)', border: '1px solid var(--color-error)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-3)', marginBottom: 'var(--space-5)', color: 'var(--color-error-dark)', fontSize: 'var(--text-sm)' }}>
                 <AlertTriangle size={16} />
@@ -248,26 +257,26 @@ export default function CommunitySettings({
                   </p>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Description</label>
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Description</label>
                   <textarea
                     value={getCurrentValue('description')}
                     onChange={(e) => handleInputChange('description', e.target.value)}
                     placeholder="Describe what your community is about..."
                     rows={4}
-                    className="input textarea"
+                    className="w-full bg-input border border-border-primary rounded-lg px-3 py-2.5 text-text-primary text-sm transition-all resize-y min-h-[80px] focus:outline-none focus:border-accent-primary focus:ring-3 focus:ring-accent-primary/10"
                   />
-                  <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                  <p className="mt-2 text-text-tertiary text-xs leading-snug">
                     Help people understand what your community is about
                   </p>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Category</label>
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Category</label>
                   <select
                     value={getCurrentValue('category')}
                     onChange={(e) => handleInputChange('category', e.target.value)}
-                    className="input"
+                    className="w-full bg-input border border-border-primary rounded-lg px-3 py-2.5 text-text-primary text-sm transition-all focus:outline-none focus:border-accent-primary focus:ring-3 focus:ring-accent-primary/10"
                   >
                     <option value="general">General</option>
                     <option value="gaming">Gaming</option>
@@ -282,8 +291,8 @@ export default function CommunitySettings({
                   </select>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Community Rules</label>
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Community Rules</label>
                   <CommunityRules
                     rules={getCurrentValue('rules') || []}
                     onChange={(rules) => handleInputChange('rules', rules)}
@@ -295,83 +304,83 @@ export default function CommunitySettings({
             {/* Privacy Tab */}
             {activeTab === 'privacy' && (
               <div>
-                <h3 style={{ margin: 0, marginBottom: 'var(--space-6)', color: 'var(--text-primary)', fontSize: 'var(--text-lg)', paddingBottom: 'var(--space-2)', borderBottom: '1px solid var(--border-subtle)' }}>Privacy & Access</h3>
+                <h3 className="m-0 mb-6 text-text-primary text-lg pb-2 border-b border-border-primary">Privacy & Access</h3>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Community Type</label>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
-                    <label className="card card-compact" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', cursor: 'pointer', transition: 'all var(--transition-normal)' }}>
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Community Type</label>
+                  <div className="flex flex-col gap-3">
+                    <label className="flex items-center gap-3 p-4 border border-border-primary rounded-lg cursor-pointer transition-all hover:border-accent-primary/30 hover:bg-accent-primary/5">
                       <input
                         type="radio"
                         name="communityType"
                         value="public"
                         checked={getCurrentValue('isPublic') === true}
                         onChange={() => handleInputChange('isPublic', true)}
-                        style={{ width: 'auto', margin: 0 }}
+                        className="w-auto m-0"
                       />
-                      <Globe size={20} style={{ color: 'var(--brand-primary)' }} />
-                      <div style={{ flex: 1 }}>
-                        <strong style={{ display: 'block', color: 'var(--text-primary)', marginBottom: 'var(--space-1)' }}>Public</strong>
-                        <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 'var(--text-xs)' }}>Anyone can view and join this community</p>
+                      <Globe size={20} />
+                      <div className="flex-1">
+                        <strong className="block text-text-primary mb-1">Public</strong>
+                        <p className="m-0 text-text-secondary text-[13px]">Anyone can view and join this community</p>
                       </div>
                     </label>
 
-                    <label className="card card-compact" style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', cursor: 'pointer', transition: 'all var(--transition-normal)' }}>
+                    <label className="flex items-center gap-3 p-4 border border-border-primary rounded-lg cursor-pointer transition-all hover:border-accent-primary/30 hover:bg-accent-primary/5">
                       <input
                         type="radio"
                         name="communityType"
                         value="private"
                         checked={getCurrentValue('isPublic') === false}
                         onChange={() => handleInputChange('isPublic', false)}
-                        style={{ width: 'auto', margin: 0 }}
+                        className="w-auto m-0"
                       />
-                      <Lock size={20} style={{ color: 'var(--brand-primary)' }} />
-                      <div style={{ flex: 1 }}>
-                        <strong style={{ display: 'block', color: 'var(--text-primary)', marginBottom: 'var(--space-1)' }}>Private</strong>
-                        <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: 'var(--text-xs)' }}>Only invited members can view and participate</p>
+                      <Lock size={20} />
+                      <div className="flex-1">
+                        <strong className="block text-text-primary mb-1">Private</strong>
+                        <p className="m-0 text-text-secondary text-[13px]">Only invited members can view and participate</p>
                       </div>
                     </label>
                   </div>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer mb-2">
                     <input
                       type="checkbox"
                       checked={getCurrentValue('requireApproval')}
                       onChange={(e) => handleInputChange('requireApproval', e.target.checked)}
-                      style={{ width: 'auto', margin: 0 }}
+                      className="w-auto m-0"
                     />
                     Require approval for new members
                   </label>
-                  <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                  <p className="mt-2 text-text-tertiary text-xs leading-snug">
                     New member requests will need to be approved by moderators
                   </p>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer mb-2">
                     <input
                       type="checkbox"
                       checked={getCurrentValue('allowPosts')}
                       onChange={(e) => handleInputChange('allowPosts', e.target.checked)}
-                      style={{ width: 'auto', margin: 0 }}
+                      className="w-auto m-0"
                     />
                     Allow members to create posts
                   </label>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer mb-2">
                     <input
                       type="checkbox"
                       checked={getCurrentValue('showInDirectory')}
                       onChange={(e) => handleInputChange('showInDirectory', e.target.checked)}
-                      style={{ width: 'auto', margin: 0 }}
+                      className="w-auto m-0"
                     />
                     Show in community directory
                   </label>
-                  <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                  <p className="mt-2 text-text-tertiary text-xs leading-snug">
                     Allow this community to appear in search results and recommendations
                   </p>
                 </div>
@@ -381,19 +390,20 @@ export default function CommunitySettings({
             {/* Appearance Tab */}
             {activeTab === 'appearance' && (
               <div>
-                <h3 style={{ margin: 0, marginBottom: 'var(--space-6)', color: 'var(--text-primary)', fontSize: 'var(--text-lg)', paddingBottom: 'var(--space-2)', borderBottom: '1px solid var(--border-subtle)' }}>Appearance & Branding</h3>
+                <h3 className="m-0 mb-6 text-text-primary text-lg pb-2 border-b border-border-primary">Appearance & Branding</h3>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Community Icon</label>
-                  <div style={{ display: 'flex', gap: 'var(--space-4)', alignItems: 'center' }}>
-                    <div className="avatar avatar-lg">
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Community Icon</label>
+                  <div className="flex gap-4 items-center">
+                    <div className="w-20 h-20 rounded-lg overflow-hidden border border-border-primary flex-shrink-0">
                       <img
                         src={community?.icon || '/default-community.png'}
                         alt="Community icon"
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    <div style={{ flex: 1 }}>
-                      <label className="btn btn-primary btn-sm" style={{ display: 'inline-flex', cursor: 'pointer' }}>
+                    <div className="flex-1">
+                      <label className="flex items-center gap-1.5 bg-accent-primary text-white border-none rounded-md px-4 py-2 cursor-pointer text-[13px] font-medium transition-all hover:bg-accent-dark">
                         <Upload size={16} />
                         Upload New Icon
                         <input
@@ -403,25 +413,25 @@ export default function CommunitySettings({
                           hidden
                         />
                       </label>
-                      <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                      <p className="mt-2 text-text-tertiary text-xs leading-snug">
                         Recommended: 256x256px, PNG or JPG
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Banner Image</label>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-                    <div style={{ width: '100%', height: '120px', borderRadius: 'var(--radius-lg)', overflow: 'hidden', border: '1px solid var(--border-subtle)' }}>
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Banner Image</label>
+                  <div className="flex flex-col items-stretch gap-4">
+                    <div className="w-full h-[120px] rounded-lg overflow-hidden border border-border-primary flex-shrink-0">
                       <img
                         src={community?.banner || '/default-banner.png'}
                         alt="Community banner"
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    <div>
-                      <label className="btn btn-primary btn-sm" style={{ display: 'inline-flex', cursor: 'pointer' }}>
+                    <div className="flex-1">
+                      <label className="flex items-center gap-1.5 bg-accent-primary text-white border-none rounded-md px-4 py-2 cursor-pointer text-[13px] font-medium transition-all hover:bg-accent-dark">
                         <Upload size={16} />
                         Upload New Banner
                         <input
@@ -431,32 +441,31 @@ export default function CommunitySettings({
                           hidden
                         />
                       </label>
-                      <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                      <p className="mt-2 text-text-tertiary text-xs leading-snug">
                         Recommended: 1920x300px, PNG or JPG
                       </p>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Theme Color</label>
-                  <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center' }}>
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Theme Color</label>
+                  <div className="flex gap-3 items-center">
                     <input
                       type="color"
-                      value={getCurrentValue('themeColor') || '#58a6ff'}
+                      value={getCurrentValue('themeColor') || '#0ea5e9'}
                       onChange={(e) => handleInputChange('themeColor', e.target.value)}
-                      style={{ width: '50px', height: '40px', border: '1px solid var(--border-default)', borderRadius: 'var(--radius-lg)', cursor: 'pointer', background: 'transparent' }}
+                      className="w-[50px] h-10 border border-border-primary rounded-lg cursor-pointer bg-transparent"
                     />
                     <input
                       type="text"
-                      value={getCurrentValue('themeColor') || '#58a6ff'}
+                      value={getCurrentValue('themeColor') || '#0ea5e9'}
                       onChange={(e) => handleInputChange('themeColor', e.target.value)}
-                      placeholder="#58a6ff"
-                      className="input"
-                      style={{ width: '120px', fontFamily: 'var(--font-mono)' }}
+                      placeholder="#0ea5e9"
+                      className="w-[120px] font-mono bg-input border border-border-primary rounded-lg px-3 py-2.5 text-text-primary text-sm transition-all focus:outline-none focus:border-accent-primary focus:ring-3 focus:ring-accent-primary/10"
                     />
                   </div>
-                  <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                  <p className="mt-2 text-text-tertiary text-xs leading-snug">
                     Choose a primary color for your community's theme
                   </p>
                 </div>
@@ -466,68 +475,68 @@ export default function CommunitySettings({
             {/* Permissions Tab */}
             {activeTab === 'permissions' && (
               <div>
-                <h3 style={{ margin: 0, marginBottom: 'var(--space-6)', color: 'var(--text-primary)', fontSize: 'var(--text-lg)', paddingBottom: 'var(--space-2)', borderBottom: '1px solid var(--border-subtle)' }}>Member Permissions</h3>
+                <h3 className="m-0 mb-6 text-text-primary text-lg pb-2 border-b border-border-primary">Member Permissions</h3>
 
-                <div className="card" style={{ marginBottom: 'var(--space-8)' }}>
-                  <h4 style={{ margin: 0, marginBottom: 'var(--space-4)', color: 'var(--text-primary)', fontSize: 'var(--text-base)' }}>Post Permissions</h4>
-                  <div style={{ marginBottom: 'var(--space-3)' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-8 p-4 bg-background-secondary rounded-lg">
+                  <h4 className="m-0 mb-4 text-text-primary text-base">Post Permissions</h4>
+                  <div className="mb-3">
+                    <label className="flex items-center gap-2 cursor-pointer mb-2">
                       <input
                         type="checkbox"
                         checked={getNestedValue('permissions', 'createPosts')}
                         onChange={(e) => handleNestedChange('permissions', 'createPosts', e.target.checked)}
-                        style={{ width: 'auto', margin: 0 }}
+                        className="w-auto m-0"
                       />
                       Members can create posts
                     </label>
                   </div>
 
-                  <div style={{ marginBottom: 'var(--space-3)' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                  <div className="mb-3">
+                    <label className="flex items-center gap-2 cursor-pointer mb-2">
                       <input
                         type="checkbox"
                         checked={getNestedValue('permissions', 'uploadMedia')}
                         onChange={(e) => handleNestedChange('permissions', 'uploadMedia', e.target.checked)}
-                        style={{ width: 'auto', margin: 0 }}
+                        className="w-auto m-0"
                       />
                       Members can upload images and media
                     </label>
                   </div>
 
-                  <div style={{ marginBottom: 0 }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                  <div className="mb-0">
+                    <label className="flex items-center gap-2 cursor-pointer mb-2">
                       <input
                         type="checkbox"
                         checked={getNestedValue('permissions', 'createPolls')}
                         onChange={(e) => handleNestedChange('permissions', 'createPolls', e.target.checked)}
-                        style={{ width: 'auto', margin: 0 }}
+                        className="w-auto m-0"
                       />
                       Members can create polls
                     </label>
                   </div>
                 </div>
 
-                <div className="card" style={{ marginBottom: 'var(--space-8)' }}>
-                  <h4 style={{ margin: 0, marginBottom: 'var(--space-4)', color: 'var(--text-primary)', fontSize: 'var(--text-base)' }}>Community Permissions</h4>
-                  <div style={{ marginBottom: 'var(--space-3)' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-8 p-4 bg-background-secondary rounded-lg">
+                  <h4 className="m-0 mb-4 text-text-primary text-base">Community Permissions</h4>
+                  <div className="mb-3">
+                    <label className="flex items-center gap-2 cursor-pointer mb-2">
                       <input
                         type="checkbox"
                         checked={getNestedValue('permissions', 'inviteMembers')}
                         onChange={(e) => handleNestedChange('permissions', 'inviteMembers', e.target.checked)}
-                        style={{ width: 'auto', margin: 0 }}
+                        className="w-auto m-0"
                       />
                       Members can invite others
                     </label>
                   </div>
 
-                  <div style={{ marginBottom: 0 }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                  <div className="mb-0">
+                    <label className="flex items-center gap-2 cursor-pointer mb-2">
                       <input
                         type="checkbox"
                         checked={getNestedValue('permissions', 'createEvents')}
                         onChange={(e) => handleNestedChange('permissions', 'createEvents', e.target.checked)}
-                        style={{ width: 'auto', margin: 0 }}
+                        className="w-auto m-0"
                       />
                       Members can create events
                     </label>
@@ -539,60 +548,60 @@ export default function CommunitySettings({
             {/* Moderation Tab */}
             {activeTab === 'moderation' && (
               <div>
-                <h3 style={{ margin: 0, marginBottom: 'var(--space-6)', color: 'var(--text-primary)', fontSize: 'var(--text-lg)', paddingBottom: 'var(--space-2)', borderBottom: '1px solid var(--border-subtle)' }}>Moderation Settings</h3>
+                <h3 className="m-0 mb-6 text-text-primary text-lg pb-2 border-b border-border-primary">Moderation Settings</h3>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer mb-2">
                     <input
                       type="checkbox"
                       checked={getNestedValue('moderation', 'autoModeratePosts')}
                       onChange={(e) => handleNestedChange('moderation', 'autoModeratePosts', e.target.checked)}
-                      style={{ width: 'auto', margin: 0 }}
+                      className="w-auto m-0"
                     />
                     Auto-moderate new posts
                   </label>
-                  <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                  <p className="mt-2 text-text-tertiary text-xs leading-snug">
                     Posts from new members will require approval before being visible
                   </p>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer mb-2">
                     <input
                       type="checkbox"
                       checked={getNestedValue('moderation', 'filterProfanity')}
                       onChange={(e) => handleNestedChange('moderation', 'filterProfanity', e.target.checked)}
-                      style={{ width: 'auto', margin: 0 }}
+                      className="w-auto m-0"
                     />
                     Filter profanity
                   </label>
-                  <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                  <p className="mt-2 text-text-tertiary text-xs leading-snug">
                     Automatically detect and filter inappropriate language
                   </p>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', cursor: 'pointer', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+                <div className="mb-6">
+                  <label className="flex items-center gap-2 cursor-pointer mb-2">
                     <input
                       type="checkbox"
                       checked={getNestedValue('moderation', 'requireEmailVerification')}
                       onChange={(e) => handleNestedChange('moderation', 'requireEmailVerification', e.target.checked)}
-                      style={{ width: 'auto', margin: 0 }}
+                      className="w-auto m-0"
                     />
                     Require email verification for new members
                   </label>
                 </div>
 
-                <div style={{ marginBottom: 'var(--space-6)' }}>
-                  <label style={{ display: 'block', marginBottom: 'var(--space-2)', color: 'var(--text-primary)', fontWeight: 'var(--font-medium)', fontSize: 'var(--text-sm)' }}>Minimum account age (days)</label>
+                <div className="mb-6">
+                  <label className="block mb-2 text-text-primary font-medium text-sm">Minimum account age (days)</label>
                   <input
                     type="number"
                     min="0"
                     value={getNestedValue('moderation', 'minAccountAge')}
                     onChange={(e) => handleNestedChange('moderation', 'minAccountAge', parseInt(e.target.value) || 0)}
-                    className="input"
+                    className="w-full bg-input border border-border-primary rounded-lg px-3 py-2.5 text-text-primary text-sm transition-all focus:outline-none focus:border-accent-primary focus:ring-3 focus:ring-accent-primary/10"
                   />
-                  <p style={{ marginTop: 'var(--space-2)', color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)', lineHeight: 'var(--leading-snug)' }}>
+                  <p className="mt-2 text-text-tertiary text-xs leading-snug">
                     Require accounts to be this old before joining (0 = no requirement)
                   </p>
                 </div>
@@ -623,26 +632,23 @@ function CommunityRules({ rules = [], onChange }) {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+    <div className="flex flex-col gap-3">
       {rules.map((rule, index) => (
-        <div key={index} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
-          <div style={{ width: '24px', height: '24px', background: 'var(--brand-primary)', color: 'var(--text-inverse)', borderRadius: 'var(--radius-full)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 'var(--text-xs)', fontWeight: 'var(--font-semibold)', flexShrink: 0 }}>
-            {index + 1}
+        <div key={index} className="flex items-center gap-2">
+          <div className="w-6 h-6 bg-accent-primary text-white rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0">
+            {index + 1}.
           </div>
           <input
             type="text"
             value={rule}
             onChange={(e) => updateRule(index, e.target.value)}
             placeholder="Enter a community rule..."
-            className="input"
-            style={{ flex: 1, marginBottom: 0 }}
+            className="flex-1 mb-0 bg-input border border-border-primary rounded-lg px-3 py-2.5 text-text-primary text-sm transition-all focus:outline-none focus:border-accent-primary focus:ring-3 focus:ring-accent-primary/10"
           />
           <button
             type="button"
             onClick={() => removeRule(index)}
-            style={{ background: 'var(--color-error)', color: 'var(--text-inverse)', border: 'none', borderRadius: 'var(--radius-md)', padding: 'var(--space-2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all var(--transition-normal)' }}
-            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--color-error-dark)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'var(--color-error)'}
+            className="bg-error text-white border-none rounded-md p-1.5 cursor-pointer flex items-center justify-center transition-all hover:bg-error-dark"
           >
             <Trash2 size={16} />
           </button>
@@ -652,17 +658,7 @@ function CommunityRules({ rules = [], onChange }) {
       <button
         type="button"
         onClick={addRule}
-        style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', background: 'var(--bg-secondary)', border: '1px dashed var(--border-default)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-3)', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: 'var(--text-sm)', transition: 'all var(--transition-normal)' }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = 'var(--brand-primary)'
-          e.currentTarget.style.color = 'var(--brand-primary)'
-          e.currentTarget.style.background = 'var(--color-info-light)'
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = 'var(--border-default)'
-          e.currentTarget.style.color = 'var(--text-secondary)'
-          e.currentTarget.style.background = 'var(--bg-secondary)'
-        }}
+        className="flex items-center gap-1.5 bg-background-secondary border border-dashed border-border-primary rounded-lg p-3 text-text-secondary cursor-pointer text-sm transition-all hover:border-accent-primary hover:text-accent-primary hover:bg-accent-primary/5"
       >
         <Plus size={16} />
         Add Rule
