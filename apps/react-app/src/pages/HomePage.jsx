@@ -1,9 +1,13 @@
+/**
+ * CRYB Platform - Home Page v.1
+ * Light theme home feed matching design spec
+ */
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useFeedQuery, useCreatePost } from '../hooks/api/usePosts';
 import { Feed, Composer } from '../design-system/organisms';
-import { colors, spacing } from '../design-system/tokens';
 import { Text } from '../design-system/atoms';
 import { useOnboardingTour } from '../hooks/useOnboardingTour';
 
@@ -17,7 +21,6 @@ function HomePageContent() {
   useEffect(() => {
     const shouldShowTour = localStorage.getItem('show_onboarding_tour');
     if (shouldShowTour === 'true') {
-      // Small delay to let the page fully render
       setTimeout(() => {
         startTour();
         localStorage.removeItem('show_onboarding_tour');
@@ -77,47 +80,6 @@ function HomePageContent() {
     });
   };
 
-  const containerStyle = {
-    minHeight: '100vh',
-    backgroundColor: colors['bg-primary'],
-  };
-
-  const maxWidthContainerStyle = {
-    maxWidth: '600px',
-    margin: '0 auto',
-    padding: spacing[4],
-  };
-
-  const headerStyle = {
-    position: 'sticky',
-    top: 0,
-    backgroundColor: colors['bg-primary'],
-    borderBottom: `1px solid ${colors['border-default']}`,
-    padding: spacing[4],
-    marginBottom: spacing[4],
-    zIndex: 10,
-    backdropFilter: 'blur(10px)',
-  };
-
-  const tabsStyle = {
-    display: 'flex',
-    gap: spacing[4],
-    marginTop: spacing[3],
-  };
-
-  const tabStyle = (isActive) => ({
-    cursor: 'pointer',
-    padding: `${spacing[2]} 0`,
-    borderBottom: `2px solid ${isActive ? colors['brand-primary'] : 'transparent'}`,
-    transition: 'all 150ms ease-out',
-    flex: 1,
-    textAlign: 'center',
-  });
-
-  const composerWrapperStyle = {
-    marginBottom: spacing[4],
-  };
-
   const currentUser = user ? {
     username: user.username || 'user',
     displayName: user.displayName || user.username || 'User',
@@ -125,34 +87,103 @@ function HomePageContent() {
   } : null;
 
   return (
-    <div id="home-feed" style={containerStyle}>
-      <div style={maxWidthContainerStyle}>
-        <div id="feed-tabs" style={headerStyle}>
-          <Text size="xl" weight="bold">
-            CRYB.AI
+    <div
+      id="home-feed"
+      style={{
+        minHeight: '100vh',
+        background: 'var(--bg-primary)',
+      }}
+    >
+      <div
+        style={{
+          maxWidth: '640px',
+          margin: '0 auto',
+          padding: 'var(--space-4)',
+        }}
+      >
+        {/* Header */}
+        <div
+          id="feed-tabs"
+          style={{
+            position: 'sticky',
+            top: 0,
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: 'var(--radius-xl)',
+            padding: 'var(--space-4)',
+            marginBottom: 'var(--space-4)',
+            zIndex: 10,
+            boxShadow: 'var(--shadow-sm)',
+          }}
+        >
+          <Text
+            size="xl"
+            weight="bold"
+            style={{
+              color: 'var(--text-primary)',
+              marginBottom: 'var(--space-3)',
+            }}
+          >
+            CRYB
           </Text>
-          <div style={tabsStyle}>
-            <div
-              style={tabStyle(activeTab === 'algorithmic')}
+
+          {/* Tabs */}
+          <div
+            style={{
+              display: 'flex',
+              gap: 'var(--space-2)',
+              background: 'var(--bg-tertiary)',
+              padding: 'var(--space-1)',
+              borderRadius: 'var(--radius-full)',
+            }}
+          >
+            <button
               onClick={() => setActiveTab('algorithmic')}
+              style={{
+                flex: 1,
+                padding: 'var(--space-2) var(--space-4)',
+                background: activeTab === 'algorithmic' ? 'var(--bg-secondary)' : 'transparent',
+                color: activeTab === 'algorithmic' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                border: 'none',
+                borderRadius: 'var(--radius-full)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: activeTab === 'algorithmic' ? 'var(--font-semibold)' : 'var(--font-medium)',
+                cursor: 'pointer',
+                transition: 'all var(--transition-normal)',
+                boxShadow: activeTab === 'algorithmic' ? 'var(--shadow-sm)' : 'none',
+              }}
             >
-              <Text weight={activeTab === 'algorithmic' ? 'semibold' : 'regular'}>
-                For You
-              </Text>
-            </div>
-            <div
-              style={tabStyle(activeTab === 'chronological')}
+              For You
+            </button>
+            <button
               onClick={() => setActiveTab('chronological')}
+              style={{
+                flex: 1,
+                padding: 'var(--space-2) var(--space-4)',
+                background: activeTab === 'chronological' ? 'var(--bg-secondary)' : 'transparent',
+                color: activeTab === 'chronological' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                border: 'none',
+                borderRadius: 'var(--radius-full)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: activeTab === 'chronological' ? 'var(--font-semibold)' : 'var(--font-medium)',
+                cursor: 'pointer',
+                transition: 'all var(--transition-normal)',
+                boxShadow: activeTab === 'chronological' ? 'var(--shadow-sm)' : 'none',
+              }}
             >
-              <Text weight={activeTab === 'chronological' ? 'semibold' : 'regular'}>
-                Following
-              </Text>
-            </div>
+              Following
+            </button>
           </div>
         </div>
 
+        {/* Composer */}
         {currentUser && (
-          <div id="create-post-button" style={composerWrapperStyle}>
+          <div
+            id="create-post-button"
+            style={{
+              marginBottom: 'var(--space-4)',
+            }}
+          >
             <Composer
               currentUser={currentUser}
               onPost={handleCreatePost}
@@ -161,6 +192,7 @@ function HomePageContent() {
           </div>
         )}
 
+        {/* Feed */}
         <Feed
           posts={posts}
           isLoading={isLoading || isFetchingNextPage}
