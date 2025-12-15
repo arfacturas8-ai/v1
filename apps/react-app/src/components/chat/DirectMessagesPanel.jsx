@@ -391,7 +391,7 @@ function DirectMessagesPanel({
   return (
     <div className="flex flex-col h-full" style={{ background: 'var(--bg-primary)' }}>
       {/* Header */}
-      <div className="px-4 py-3 backdrop-blur-xl border-b" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
+      <div className="px-4 py-3  border-b" style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* Avatar/Group Icon */}
@@ -521,7 +521,7 @@ function DirectMessagesPanel({
         
         {/* Call status */}
         {inCall && (
-          <div className="mt-3 p-3 bg-white backdrop-blur-xl border rounded-xl" style={{ borderColor: 'var(--border-subtle)' }}>
+          <div className="mt-3 p-3 bg-white  border rounded-xl" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {callType === 'video' ? (
@@ -535,7 +535,7 @@ function DirectMessagesPanel({
               </div>
               <button
                 onClick={endCall}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-xl transition-colors"
+                style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-red-600 hover:bg-red-700  rounded-xl transition-colors"
               >
                 End call
               </button>
@@ -571,7 +571,7 @@ function DirectMessagesPanel({
         
         {/* Conversation Info Sidebar */}
         {showConversationInfo && (
-          <div className="w-80 bg-white backdrop-blur-xl border-l overflow-y-auto" style={{ borderColor: 'var(--border-subtle)' }}>
+          <div className="w-80 bg-white  border-l overflow-y-auto" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="p-4">
               <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
                 Conversation Info

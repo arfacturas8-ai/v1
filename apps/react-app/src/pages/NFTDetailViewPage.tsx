@@ -244,7 +244,7 @@ const FullscreenMediaModal: React.FC<{
 }> = ({ open, onClose, src, type, alt }) => {
   return (
     <Modal open={open} onOpenChange={onClose} size="full" variant="glass">
-      <div className="relative w-full h-full flex items-center justify-center bg-black/95 p-4">
+      <div style={{background: "var(--bg-primary)"}} className="relative w-full h-full flex items-center justify-center /95 p-4">
         <Button
           variant="glass"
           size="icon"

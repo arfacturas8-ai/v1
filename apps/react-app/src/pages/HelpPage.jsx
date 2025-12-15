@@ -213,7 +213,7 @@ function HelpPage() {
                 className={`bg-transparent border-none text-sm p-2 px-3 text-left cursor-pointer rounded-md transition-all duration-200 font-inherit outline-none ${
                   activeSection === section.id
                     ? 'text-[#58a6ff] bg-[#58a6ff]/10 font-medium border-l-2 border-[#58a6ff] pl-2.5'
-                    : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 backdrop-blur-xl'
+                    : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 '
                 }`}
               >
                 {section.title}
@@ -248,7 +248,7 @@ function HelpPage() {
 
         {/* Getting Started */}
         <section id="getting-started" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Getting Started</h2>
             {filteredFaqs['getting-started'] && filteredFaqs['getting-started'].map((faq, index) => (
               <div key={index} className="border-b border-black/10 last:border-0">
@@ -271,7 +271,7 @@ function HelpPage() {
 
         {/* Account & Profile */}
         <section id="account" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Account & Profile</h2>
             {filteredFaqs['account'] && filteredFaqs['account'].map((faq, index) => (
               <div key={index} className="border-b border-black/10 last:border-0">
@@ -294,7 +294,7 @@ function HelpPage() {
 
         {/* Communities & Posts */}
         <section id="communities" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Communities & Posts</h2>
             {filteredFaqs['communities'] && filteredFaqs['communities'].map((faq, index) => (
               <div key={index} className="border-b border-black/10 last:border-0">
@@ -317,7 +317,7 @@ function HelpPage() {
 
         {/* Messaging */}
         <section id="messaging" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Messaging</h2>
             {filteredFaqs['messaging'] && filteredFaqs['messaging'].map((faq, index) => (
               <div key={index} className="border-b border-black/10 last:border-0">
@@ -340,7 +340,7 @@ function HelpPage() {
 
         {/* Web3/Crypto */}
         <section id="web3" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Web3/Crypto</h2>
             {filteredFaqs['web3'] && filteredFaqs['web3'].map((faq, index) => (
               <div key={index} className="border-b border-black/10 last:border-0">
@@ -363,7 +363,7 @@ function HelpPage() {
 
         {/* Troubleshooting */}
         <section id="troubleshooting" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Troubleshooting</h2>
             {filteredFaqs['troubleshooting'] && filteredFaqs['troubleshooting'].map((faq, index) => (
               <div key={index} className="border-b border-black/10 last:border-0">
@@ -386,7 +386,7 @@ function HelpPage() {
 
         {/* Contact Support */}
         <section id="contact" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-4 border-b-2 border-[#58a6ff]/20">Contact Support</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               Can't find what you're looking for? Our support team is here to help.

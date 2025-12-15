@@ -346,7 +346,7 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
           <div className="form-actions">
             <button
               type="button"
-              className="flex-1 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 hover:text-white rounded-lg font-medium transition-all"
+              style={{color: "var(--text-primary)"}} className="flex-1 px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-gray-300 hover: rounded-lg font-medium transition-all"
               onClick={onClose}
               disabled={isSubmitting}
             >

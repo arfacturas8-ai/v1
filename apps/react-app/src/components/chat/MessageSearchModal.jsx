@@ -74,13 +74,13 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 flex items-center justify-center p-4 z-50 /70 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-[rgba(22,27,34,0.6)] backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.4),0_8px_32px_rgba(0,82,255,0.1)] overflow-hidden flex flex-col max-h-[90vh]"
+        style={{borderColor: "var(--border-subtle)"}} className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-[rgba(22,27,34,0.6)]  rounded-2xl border  shadow-[0_20px_60px_rgba(0,0,0,0.4),0_8px_32px_rgba(0,82,255,0.1)] overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-4 sm:px-6 py-4 flex items-center justify-between border-b border-white/10">
+        <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 flex items-center justify-between border-b ">
           <div className="flex items-center gap-3">
             <Search className="w-5 h-5 sm:w-6 sm:h-6" />
             <h3 className="font-semibold text-base sm:text-lg">Search Messages</h3>
@@ -100,7 +100,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
             <input
               type="text"
               placeholder="Search messages, users, or content..."
-              className="w-full h-12 pl-10 pr-12 bg-white/5 border border-white/10 rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent-cyan/50"
+              style={{borderColor: "var(--border-subtle)"}} className="w-full h-12 pl-10 pr-12 bg-white/5 border  rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent-cyan/50"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               autoFocus
@@ -117,7 +117,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
 
         {/* Advanced Filters */}
         {showFilters && (
-          <div className="px-4 sm:px-6 py-4 bg-white/5 border-y border-white/10">
+          <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 bg-white/5 border-y ">
             <div className="space-y-4">
               {/* User Filter */}
               <div>
@@ -128,7 +128,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
                 <input
                   type="text"
                   placeholder="Username..."
-                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent-cyan/50"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 py-2 bg-white/5 border  rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent-cyan/50"
                   value={searchFilters.user}
                   onChange={(e) => setSearchFilters(prev => ({ ...prev, user: e.target.value }))}
                 />
@@ -141,7 +141,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
                   Date Range
                 </label>
                 <select
-                  className="w-full px-3 py-2 bg-white/5 border border-white/10 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent-cyan/50"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 py-2 bg-white/5 border  rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-accent-cyan/50"
                   value={searchFilters.dateRange}
                   onChange={(e) => setSearchFilters(prev => ({ ...prev, dateRange: e.target.value }))}
                 >
@@ -180,7 +180,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
                 {searchResults.map((message) => (
                   <div
                     key={message.id}
-                    className="p-3 sm:p-4 rounded-xl border border-white/10 hover:bg-white/5 cursor-pointer transition-colors"
+                    style={{borderColor: "var(--border-subtle)"}} className="p-3 sm:p-4 rounded-xl border  hover:bg-white/5 cursor-pointer transition-colors"
                     onClick={() => {
                       onJumpToMessage(message)
                       onClose()
@@ -188,7 +188,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
                   >
                     {/* Message Header */}
                     <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center font-semibold text-white text-sm">
+                      <div style={{color: "var(--text-primary)"}} className="w-8 h-8 rounded-full bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center font-semibold  text-sm">
                         {message.username?.[0] || '?'}
                       </div>
                       <span className="font-medium text-sm sm:text-base">
@@ -237,8 +237,8 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
 
         {/* Search Tips */}
         {!searchQuery && (
-          <div className="px-4 sm:px-6 py-4 border-t border-white/10">
-            <div className="p-3 rounded-xl bg-white/5 border border-white/10">
+          <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 border-t ">
+            <div style={{borderColor: "var(--border-subtle)"}} className="p-3 rounded-xl bg-white/5 border ">
               <h5 className="font-medium text-sm mb-2">Search Tips:</h5>
               <div className="text-xs text-tertiary space-y-1">
                 <div>• Use quotes for exact phrases: "hello world"</div>

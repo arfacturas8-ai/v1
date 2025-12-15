@@ -139,7 +139,7 @@ function CommunitiesPage() {
         </div>
 
         {/* Search and Filters */}
-        <div className="backdrop-blur-xl rounded-2xl p-4 sm:p-5 mb-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+        <div className=" rounded-2xl p-4 sm:p-5 mb-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex-1 relative">
               <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-tertiary)' }} />
@@ -231,7 +231,7 @@ function CommunitiesPage() {
 
         {/* Communities Grid */}
         {filteredCommunities.length === 0 ? (
-          <div className="backdrop-blur-xl rounded-2xl p-12 sm:p-16 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+          <div className=" rounded-2xl p-12 sm:p-16 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
             <Hash size={56} className="mx-auto mb-4 opacity-50" style={{ color: 'var(--text-tertiary)' }} />
             <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No communities found</h3>
             <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
@@ -253,7 +253,7 @@ function CommunitiesPage() {
               <div
                 key={community.id || community.name}
                 onClick={() => navigate(`/community/${community.name || community.id}`)}
-                className="backdrop-blur-xl rounded-2xl p-5 cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] group"
+                className=" rounded-2xl p-5 cursor-pointer transition-all hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] group"
                 style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}
               >
                 <div className="flex items-start gap-4 mb-4">

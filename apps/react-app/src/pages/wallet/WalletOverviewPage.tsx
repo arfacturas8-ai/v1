@@ -269,7 +269,7 @@ export function WalletOverviewPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-primary/50 flex items-center justify-center">
-                <Wallet className="h-5 w-5 text-white" />
+                <Wallet style={{color: "var(--text-primary)"}} className="h-5 w-5 " />
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">

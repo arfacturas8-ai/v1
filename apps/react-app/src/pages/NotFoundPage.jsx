@@ -23,7 +23,7 @@ export default function NotFoundPage() {
         <nav className="flex gap-4 justify-center flex-wrap" aria-label="Error page actions">
           <Link
             to="/"
-            className="px-6 py-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white rounded-xl no-underline font-semibold text-base shadow-lg transition-all hover:scale-105"
+            style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  rounded-xl no-underline font-semibold text-base shadow-lg transition-all hover:scale-105"
             aria-label="Back to Home page"
           >
             ← Back to Home

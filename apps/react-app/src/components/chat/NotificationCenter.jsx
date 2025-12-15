@@ -622,7 +622,7 @@ function NotificationCenter({
           
           {/* Sound settings */}
           {notificationSettings.sound && (
-            <div className="mt-4 pt-4 border-t border-white/10 dark:border-gray-600">
+            <div style={{borderColor: "var(--border-subtle)"}} className="mt-4 pt-4 border-t  dark:border-gray-600">
               <h5 style={{
   fontWeight: '500',
   color: '#ffffff'
@@ -711,7 +711,7 @@ function NotificationCenter({
             const isExpanded = expandedGroups.has(groupKey)
             
             return (
-              <div key={groupKey} className="border-b border-white/10 dark:border-gray-700">
+              <div key={groupKey} style={{borderColor: "var(--border-subtle)"}} className="border-b  dark:border-gray-700">
                 <button
                   onClick={() => toggleGroup(groupKey)}
                   style={{

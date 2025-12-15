@@ -36,7 +36,7 @@ export default function NFTGalleryPage() {
     nft.collection?.toLowerCase().includes(searchQuery.toLowerCase())
   )
   return (
-    <div role="main" aria-label="NFT gallery page" className="min-h-screen bg-[#0d1117] pt-20">
+    <div role="main" aria-label="NFT gallery page" style={{background: "var(--bg-primary)"}} className="min-h-screen  pt-20">
       <div className="max-w-7xl mx-auto px-3 md:px-5 py-6 md:py-8">
         {/* Header */}
         <div className="flex justify-between items-start mb-8 md:mb-10 flex-wrap gap-4">
@@ -44,14 +44,14 @@ export default function NFTGalleryPage() {
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2 md:mb-3">
               My NFT Gallery
             </h1>
-            <p className="text-sm md:text-base text-[#8b949e] leading-relaxed">
+            <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">
               View and manage your digital collectibles
             </p>
           </div>
 
           <Link
             to="/nft-marketplace"
-            className="inline-flex items-center gap-2 px-4 py-2.5 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl text-sm md:text-base font-semibold shadow-lg shadow-[#58a6ff]/40 hover:-translate-y-0.5 transition-transform"
+            style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-2 px-4 py-2.5 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl text-sm md:text-base font-semibold shadow-lg shadow-[#58a6ff]/40 hover:-translate-y-0.5 transition-transform"
             aria-label="Browse marketplace"
           >
             Browse Marketplace
@@ -65,25 +65,25 @@ export default function NFTGalleryPage() {
           <div className="flex-1 min-w-[200px] md:min-w-[300px] relative">
             <Search
               size={20}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8b949e]"
+              style={{color: "var(--text-secondary)"}} className="absolute left-3.5 top-1/2 -translate-y-1/2 "
             />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search NFTs..."
-              className="w-full pl-11 pr-3 md:pr-4 py-2.5 md:py-3 text-sm md:text-base border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-[#161b22]/60 text-[#c9d1d9] focus:border-[#58a6ff] focus:outline-none transition-colors"
+              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full pl-11 pr-3 md:pr-4 py-2.5 md:py-3 text-sm md:text-base border  rounded-2xl    focus:border-[#58a6ff] focus:outline-none transition-colors"
               aria-label="Search NFTs"
             />
           </div>
 
           {/* Filter */}
           <div className="flex gap-2 items-center">
-            <Filter size={18} className="text-[#8b949e]" />
+            <Filter size={18} style={{color: "var(--text-secondary)"}} className="" />
             <select
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
-              className="px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-[#161b22]/60 text-[#c9d1d9] font-medium cursor-pointer focus:outline-none"
+              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border  rounded-2xl    font-medium cursor-pointer focus:outline-none"
               aria-label="Filter NFTs"
             >
               <option value="all">All NFTs</option>
@@ -96,10 +96,10 @@ export default function NFTGalleryPage() {
           </div>
 
           {/* View mode */}
-          <div className="flex gap-1 bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-1 border border-white/10">
+          <div style={{borderColor: "var(--border-subtle)"}} className="flex gap-1 bg-[#21262d]/60 rounded-2xl  p-1 border ">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 md:p-3 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e] hover:bg-[#161b22]/60 backdrop-blur-xl'}`}
+              className={`p-2 md:p-3 rounded-lg transition-all ${viewMode === 'grid' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e] hover:bg-[#161b22]/60 '}`}
               aria-label="Grid view"
               aria-pressed={viewMode === 'grid'}
             >
@@ -107,7 +107,7 @@ export default function NFTGalleryPage() {
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 md:p-3 rounded-lg transition-all ${viewMode === 'list' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e] hover:bg-[#161b22]/60 backdrop-blur-xl'}`}
+              className={`p-2 md:p-3 rounded-lg transition-all ${viewMode === 'list' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e] hover:bg-[#161b22]/60 '}`}
               aria-label="List view"
               aria-pressed={viewMode === 'list'}
             >
@@ -125,9 +125,9 @@ export default function NFTGalleryPage() {
           ].map((stat, index) => (
             <div
               key={index}
-              className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5"
+              style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 md:p-5"
             >
-              <div className="text-sm text-[#8b949e] mb-2 font-medium">
+              <div style={{color: "var(--text-secondary)"}} className="text-sm  mb-2 font-medium">
                 {stat.label}
               </div>
               <div className={`text-2xl md:text-3xl font-bold ${stat.color}`}>
@@ -139,17 +139,17 @@ export default function NFTGalleryPage() {
 
         {/* Content */}
         {!isLoading && filteredNFTs.length === 0 ? (
-          <div className="text-center py-16 md:py-20 px-5 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-            <Image size={64} className="text-[#8b949e] mx-auto mb-5" />
-            <h3 className="text-lg md:text-xl font-semibold text-white mb-3">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card text-center py-16 md:py-20 px-5   border  rounded-2xl ">
+            <Image size={64} style={{color: "var(--text-secondary)"}} className=" mx-auto mb-5" />
+            <h3 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-semibold  mb-3">
               No NFTs Found
             </h3>
-            <p className="text-sm md:text-base text-[#8b949e] mb-6 leading-relaxed">
+            <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  mb-6 leading-relaxed">
               {searchQuery ? 'Try adjusting your search or filters' : 'Start collecting NFTs to see them here'}
             </p>
             <Link
               to="/nft-marketplace"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl text-sm md:text-base font-semibold shadow-lg shadow-[#58a6ff]/40"
+              style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl text-sm md:text-base font-semibold shadow-lg shadow-[#58a6ff]/40"
             >
               Browse Marketplace
             </Link>

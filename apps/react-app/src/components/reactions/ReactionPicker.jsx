@@ -111,7 +111,7 @@ function QuickReactionBar({ reactions, userReactions, onReactionSelect, classNam
         />
       ))}
       <button
-        className="flex items-center justify-center w-8 h-8 bg-transparent border border-zinc-700 rounded-full text-gray-500 cursor-pointer transition-all duration-200 hover:bg-zinc-800 hover:text-white hover:scale-110"
+        style={{color: "var(--text-primary)"}} className="flex items-center justify-center w-8 h-8 bg-transparent border border-zinc-700 rounded-full text-gray-500 cursor-pointer transition-all duration-200 hover:bg-zinc-800 hover: hover:scale-110"
         title="More reactions"
       >
         <Plus size={16} />
@@ -256,7 +256,7 @@ function ReactionPicker({
               placeholder="Search reactions..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2 px-3 pl-9 text-white text-sm transition-all duration-200 focus:outline-none focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.2)] placeholder:text-gray-500"
+              style={{color: "var(--text-primary)"}} className="w-full bg-zinc-800 border border-zinc-700 rounded-lg py-2 px-3 pl-9  text-sm transition-all duration-200 focus:outline-none focus:border-blue-500 focus:shadow-[0_0_0_3px_rgba(88,166,255,0.2)] placeholder:text-gray-500"
             />
           </div>
         </div>
@@ -306,7 +306,7 @@ function ReactionPicker({
 
                 {/* Tooltip with reaction info */}
                 {hoveredReaction === reaction && (
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 bg-black text-white px-3 py-2 rounded-lg text-xs whitespace-nowrap z-10 mb-2 opacity-0 animate-[tooltipFadeIn_0.2s_ease-out_forwards] after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-black">
+                  <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="absolute bottom-full left-1/2 -translate-x-1/2   px-3 py-2 rounded-lg text-xs whitespace-nowrap z-10 mb-2 opacity-0 animate-[tooltipFadeIn_0.2s_ease-out_forwards] after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-black">
                     <span className="mr-1.5">{reaction.emoji}</span>
                     <span>{reaction.label}</span>
                     {reaction.usage_count && (
@@ -324,7 +324,7 @@ function ReactionPicker({
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery('')}
-                  className="bg-blue-500 border-none rounded-md px-3 py-1.5 text-white text-xs cursor-pointer transition-colors duration-200 hover:bg-blue-600"
+                  style={{color: "var(--text-primary)"}} className="bg-blue-500 border-none rounded-md px-3 py-1.5  text-xs cursor-pointer transition-colors duration-200 hover:bg-blue-600"
                 >
                   Clear search
                 </button>
@@ -347,7 +347,7 @@ function ReactionPicker({
           </div>
 
           {customEmojis.length === 0 && activeCategory === 'custom' && (
-            <button className="flex items-center gap-1 bg-transparent border border-zinc-700 rounded-md px-2 py-1 text-gray-500 text-[11px] cursor-pointer transition-all duration-200 hover:text-white hover:border-blue-500">
+            <button style={{color: "var(--text-primary)"}} className="flex items-center gap-1 bg-transparent border border-zinc-700 rounded-md px-2 py-1 text-gray-500 text-[11px] cursor-pointer transition-all duration-200 hover: hover:border-blue-500">
               <Plus size={14} />
               Add Custom Emoji
             </button>

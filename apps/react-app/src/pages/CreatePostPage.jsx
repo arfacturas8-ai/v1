@@ -451,7 +451,7 @@ function CreatePostPage() {
                         <button
                           type="button"
                           onClick={() => setFormData(prev => ({ ...prev, image: null }))}
-                          className="absolute top-6 right-6 bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition-colors shadow-lg"
+                          style={{color: "var(--text-primary)"}} className="absolute top-6 right-6 bg-red-500  p-2 rounded-lg hover:bg-red-600 transition-colors shadow-lg"
                           aria-label="Remove image"
                         >
                           ×

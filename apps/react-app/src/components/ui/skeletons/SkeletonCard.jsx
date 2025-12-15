@@ -270,7 +270,7 @@ export function SkeletonUserCard({ showBio = true, className = '' }) {
         </div>
       </div>
 
-      <div className="mt-4 pt-4 border-t border-white/10 dark:border-gray-800">
+      <div style={{borderColor: "var(--border-subtle)"}} className="mt-4 pt-4 border-t  dark:border-gray-800">
         <SkeletonButton size="md" fullWidth />
       </div>
     </div>

@@ -59,7 +59,7 @@ function GuidelinesPage() {
                 className={`bg-transparent border-none text-sm p-1 px-2 text-left cursor-pointer rounded-md transition-all duration-200 font-inherit outline-none ${
                   activeSection === section.id
                     ? 'text-[#58a6ff] bg-[#58a6ff]/10 font-medium border-l-2 border-[#58a6ff] pl-2.5'
-                    : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 backdrop-blur-xl'
+                    : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 '
                 }`}
               >
                 {section.title}
@@ -79,7 +79,7 @@ function GuidelinesPage() {
         </div>
 
         <section id="introduction" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Introduction</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               Welcome to the Cryb.ai community! Our platform is built on the principles of respect, safety, and meaningful engagement. These Community Guidelines outline the standards of behavior we expect from all users to create a positive and inclusive environment.
@@ -96,7 +96,7 @@ function GuidelinesPage() {
         </section>
 
         <section id="respectful" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Be Respectful</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Treat Others with Kindness</h3>
@@ -142,7 +142,7 @@ function GuidelinesPage() {
         </section>
 
         <section id="safe" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Stay Safe</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">No Illegal Content</h3>
@@ -182,7 +182,7 @@ function GuidelinesPage() {
         </section>
 
         <section id="quality" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Quality Content</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">No Spam</h3>
@@ -226,7 +226,7 @@ function GuidelinesPage() {
         </section>
 
         <section id="privacy" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Privacy & Security</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Respect Privacy</h3>
@@ -267,7 +267,7 @@ function GuidelinesPage() {
         </section>
 
         <section id="enforcement" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Enforcement Actions</h2>
 
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -309,7 +309,7 @@ function GuidelinesPage() {
         </section>
 
         <section id="reporting" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Reporting Violations</h2>
 
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -356,7 +356,7 @@ function GuidelinesPage() {
         </section>
 
         <section id="appeals" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-6 md:p-8 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-6 pb-2 border-b-2 border-[#58a6ff]/20">Appeals Process</h2>
 
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -401,7 +401,7 @@ function GuidelinesPage() {
         </section>
 
         <div className="mt-12">
-          <div className="bg-white backdrop-blur-xl rounded-xl p-6 md:p-8 shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="bg-white  rounded-xl p-6 md:p-8 shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
             <h3 className="text-xl font-semibold mt-6 mb-2" style={{ color: 'var(--text-primary)' }}>Questions or Concerns?</h3>
             <p className="text-base leading-relaxed mb-4" style={{ color: 'var(--text-primary)' }}>
               If you have questions about these Community Guidelines or need clarification, please contact us:

@@ -238,7 +238,7 @@ export default function ModerationQueue({
         {selectedItems.size > 0 && (
           <div className="relative">
             <button
-              className="flex items-center gap-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-3 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px]"
+              style={{color: "var(--text-primary)"}} className="flex items-center gap-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-3 py-2 rounded-lg text-sm font-medium transition-colors min-h-[44px]"
               onClick={() => setShowBulkActions(!showBulkActions)}
             >
               {selectedItems.size} selected
@@ -353,9 +353,9 @@ export default function ModerationQueue({
             <div className="flex-1 min-w-0">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-2 gap-2">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="bg-blue-600 text-white px-1.5 py-0.5 rounded text-xs font-semibold uppercase">{item.type}</span>
+                  <span style={{color: "var(--text-primary)"}} className="bg-blue-600  px-1.5 py-0.5 rounded text-xs font-semibold uppercase">{item.type}</span>
                   {item.priority && (
-                    <span className="text-white px-1.5 py-0.5 rounded text-xs font-semibold uppercase" style={{ backgroundColor: getPriorityColor(item.priority) }}>
+                    <span style={{color: "var(--text-primary)"}} className=" px-1.5 py-0.5 rounded text-xs font-semibold uppercase" style={{ backgroundColor: getPriorityColor(item.priority) }}>
                       {item.priority}
                     </span>
                   )}
@@ -415,7 +415,7 @@ export default function ModerationQueue({
             {/* Actions */}
             <div className="flex md:flex-col gap-1.5 self-center">
               <button
-                className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-green-500 text-green-500 hover:bg-green-500 hover:text-white rounded-lg transition-all"
+                style={{color: "var(--text-primary)"}} className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-green-500 text-green-500 hover:bg-green-500 hover: rounded-lg transition-all"
                 onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.APPROVE)}
                 title="Approve"
               >
@@ -423,7 +423,7 @@ export default function ModerationQueue({
               </button>
 
               <button
-                className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white rounded-lg transition-all"
+                style={{color: "var(--text-primary)"}} className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-red-500 text-red-500 hover:bg-red-500 hover: rounded-lg transition-all"
                 onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.REMOVE, 'Removed by moderator')}
                 title="Remove"
               >
@@ -431,7 +431,7 @@ export default function ModerationQueue({
               </button>
 
               <button
-                className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-blue-500 hover:text-white hover:border-blue-500 rounded-lg transition-all"
+                style={{color: "var(--text-primary)"}} className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-blue-500 hover: hover:border-blue-500 rounded-lg transition-all"
                 title="View Full Content"
               >
                 <Eye size={16} />

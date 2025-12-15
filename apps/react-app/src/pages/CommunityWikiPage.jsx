@@ -15,7 +15,7 @@ const CommunityWikiPage = () => {
           <p className="text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>Knowledge base and documentation for the community</p>
         </div>
 
-        <div className="flex items-center gap-3 backdrop-blur-xl rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+        <div className="flex items-center gap-3  rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
           <Search size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />
           <input
             type="text"
@@ -26,7 +26,7 @@ const CommunityWikiPage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
-          <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+          <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
             <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl flex items-center justify-center mb-3 sm:mb-4" style={{ boxShadow: 'var(--shadow-sm)' }}>
               <FileText size={24} className="text-[#58a6ff]" />
             </div>
@@ -34,7 +34,7 @@ const CommunityWikiPage = () => {
             <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Learn the basics of our community</p>
           </div>
 
-          <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+          <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
             <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl flex items-center justify-center mb-3 sm:mb-4" style={{ boxShadow: 'var(--shadow-sm)' }}>
               <FileText size={24} className="text-emerald-500" />
             </div>
@@ -42,7 +42,7 @@ const CommunityWikiPage = () => {
             <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Rules and best practices</p>
           </div>
 
-          <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80 sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+          <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80 sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
             <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl flex items-center justify-center mb-3 sm:mb-4" style={{ boxShadow: 'var(--shadow-sm)' }}>
               <FileText size={24} className="text-[#a371f7]" />
             </div>
@@ -51,7 +51,7 @@ const CommunityWikiPage = () => {
           </div>
         </div>
 
-        <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+        <div className=" rounded-2xl p-5 sm:p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-3 sm:mb-4">
             <h3 className="text-base sm:text-lg font-semibold m-0" style={{ color: 'var(--text-primary)' }}>Recent Articles</h3>
             <button className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-none rounded-lg text-xs sm:text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity" style={{ color: 'var(--text-inverse)' }}>

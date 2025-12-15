@@ -457,7 +457,7 @@ export default function UserSearch({
                         showStats={true}
                         onClick={handleUserSelect}
                       />
-                      <div className="absolute top-3 right-3 flex items-center gap-1 bg-success text-white px-2 py-1 rounded-xl text-xs font-medium backdrop-blur-sm">
+                      <div style={{color: "var(--text-primary)"}} className="absolute top-3 right-3 flex items-center gap-1 bg-success  px-2 py-1 rounded-xl text-xs font-medium backdrop-blur-sm">
                         <TrendingUp size={14} />
                         <span>{user.trend}</span>
                       </div>

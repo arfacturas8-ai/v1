@@ -313,7 +313,7 @@ const CommunityDetailPage: React.FC = () => {
               <p className="text-[var(--text-secondary)] mb-6">{error || 'This community does not exist.'}</p>
               <button
                 onClick={() => navigate('/communities')}
-                className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+                style={{color: "var(--text-primary)"}} className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl  font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
               >
                 Browse Communities
               </button>
@@ -346,7 +346,7 @@ const CommunityDetailPage: React.FC = () => {
                   className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl object-cover border-4 border-[var(--bg-primary)] shadow-lg"
                 />
               ) : (
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-2xl sm:text-3xl font-bold border-4 border-[var(--bg-primary)] shadow-lg">
+                <div style={{color: "var(--text-primary)"}} className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  text-2xl sm:text-3xl font-bold border-4 border-[var(--bg-primary)] shadow-lg">
                   {community.displayName[0].toUpperCase()}
                 </div>
               )}
@@ -522,7 +522,7 @@ const CommunityDetailPage: React.FC = () => {
                           <button
                             type="submit"
                             disabled={postSubmitting}
-                            className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl  font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             Post
                           </button>
@@ -749,7 +749,7 @@ const CommunityDetailPage: React.FC = () => {
                       to={`/user/${mod.username}`}
                       className="flex items-center gap-2 text-[var(--text-secondary)] hover:text-[#58a6ff] transition-colors"
                     >
-                      <div className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
+                      <div style={{color: "var(--text-primary)"}} className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center  text-xs font-bold shadow-lg">
                         {mod.username[0].toUpperCase()}
                       </div>
                       <span>u/{mod.username}</span>

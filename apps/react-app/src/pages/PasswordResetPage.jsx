@@ -155,7 +155,7 @@ export default function PasswordResetPage() {
         {/* Header */}
         <div className="text-center mb-5 md:mb-6">
           <div className="w-11 h-11 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl flex items-center justify-center mx-auto mb-2 md:mb-3" style={{ boxShadow: 'var(--shadow-md)' }} aria-hidden="true">
-            <KeyRound className="w-5 h-5 text-white" />
+            <KeyRound style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
           </div>
           <h1 className="text-lg md:text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
             {step === 'request' && 'Reset Password'}

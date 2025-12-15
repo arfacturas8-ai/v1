@@ -212,7 +212,7 @@ const EventsCalendarPage = () => {
         </div>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:opacity-90 transition-all shadow-lg shadow-[#58a6ff]/20"
+          style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:opacity-90 transition-all shadow-lg shadow-[#58a6ff]/20"
           aria-label="Create new event"
         >
           <Plus size={20} aria-hidden="true" />
@@ -289,7 +289,7 @@ const EventsCalendarPage = () => {
               <p className="text-[#666666] mb-6">You don't have any events scheduled yet</p>
               <button
                 onClick={() => setShowCreateModal(true)}
-                className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all shadow-lg shadow-[#58a6ff]/20"
+                style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all shadow-lg shadow-[#58a6ff]/20"
                 aria-label="Create your first event"
               >
                 Create Your First Event
@@ -412,7 +412,7 @@ const EventsCalendarPage = () => {
       {/* Event Detail Modal */}
       {selectedEvent && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          style={{background: "var(--bg-primary)"}} className="fixed inset-0 /80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
           onClick={() => setSelectedEvent(null)}
         >
           <div
@@ -485,7 +485,7 @@ const EventsCalendarPage = () => {
       {/* Create Event Modal */}
       {showCreateModal && (
         <div
-          className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+          style={{background: "var(--bg-primary)"}} className="fixed inset-0 /80 backdrop-blur-sm flex items-center justify-center z-50 p-4"
           onClick={() => setShowCreateModal(false)}
         >
           <div
@@ -605,7 +605,7 @@ const EventsCalendarPage = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg font-semibold hover:opacity-90 transition-all shadow-lg shadow-[#58a6ff]/20"
+                  style={{color: "var(--text-primary)"}} className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-lg font-semibold hover:opacity-90 transition-all shadow-lg shadow-[#58a6ff]/20"
                   aria-label="Create event"
                 >
                   Create Event

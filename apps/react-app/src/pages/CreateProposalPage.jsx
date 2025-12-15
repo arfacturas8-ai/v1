@@ -187,7 +187,7 @@ const CreateProposalPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-0 rounded-2xl shadow-lg text-white text-base font-semibold cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              style={{color: "var(--text-primary)"}} className="w-full px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-0 rounded-2xl shadow-lg  text-base font-semibold cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               aria-label={loading ? 'Submitting proposal' : 'Submit proposal'}
             >
               Submit Proposal

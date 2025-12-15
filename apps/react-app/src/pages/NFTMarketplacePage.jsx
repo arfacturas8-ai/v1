@@ -261,7 +261,7 @@ const NFTMarketplacePage = () => {
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)]/60 to-transparent" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-end pb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full text-[#58a6ff] text-sm font-medium mb-4 w-fit backdrop-blur-xl">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full text-[#58a6ff] text-sm font-medium mb-4 w-fit ">
             <Sparkles size={16} />
             <span>Featured Collection</span>
           </div>
@@ -304,10 +304,10 @@ const NFTMarketplacePage = () => {
       </div>
 
       {/* Collection Stats Bar */}
-      <div className="border-b border-[var(--border-subtle)] bg-white backdrop-blur-xl">
+      <div className="border-b border-[var(--border-subtle)] bg-white ">
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3 p-4 bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
+            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
                 <Flame size={20} />
               </div>
@@ -316,7 +316,7 @@ const NFTMarketplacePage = () => {
                 <div className="text-lg font-bold text-[var(--text-primary)]">{collectionStats.floorPrice} ETH</div>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
+            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
                 <Activity size={20} />
               </div>
@@ -325,7 +325,7 @@ const NFTMarketplacePage = () => {
                 <div className="text-lg font-bold text-[var(--text-primary)]">{collectionStats.volume24h} ETH</div>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
+            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
                 <Grid size={20} />
               </div>
@@ -334,7 +334,7 @@ const NFTMarketplacePage = () => {
                 <div className="text-lg font-bold text-[var(--text-primary)]">{collectionStats.totalListings}</div>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-4 bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
+            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
                 <Users size={20} />
               </div>
@@ -355,7 +355,7 @@ const NFTMarketplacePage = () => {
             <span className="text-[var(--text-primary)] font-medium">Connect your wallet to buy, bid, and list NFTs</span>
             <Button
               onClick={handleConnectWallet}
-              className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity"
+              style={{color: "var(--text-primary)"}} className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity"
             >
               Connect Wallet
             </Button>
@@ -369,7 +369,7 @@ const NFTMarketplacePage = () => {
         {/* Filter Sidebar */}
         <aside className={`${showFilters ? 'block' : 'hidden'} w-80 flex-shrink-0 space-y-6`}>
           <div className="sticky top-4">
-            <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6 space-y-6">
+            <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-[var(--text-primary)] font-semibold">
                   <Filter size={20} />
@@ -444,7 +444,7 @@ const NFTMarketplacePage = () => {
                   />
                 </div>
                 <button
-                  className="w-full px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity"
+                  style={{color: "var(--text-primary)"}} className="w-full px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity"
                   onClick={loadListings}
                 >
                   Apply
@@ -472,7 +472,7 @@ const NFTMarketplacePage = () => {
                             ? 'bg-[#58a6ff] border-[#58a6ff]'
                             : 'border-[var(--border-subtle)]'
                         }`}>
-                          {selectedCollections.has(collection.id) && <CheckCircle size={16} className="text-white" />}
+                          {selectedCollections.has(collection.id) && <CheckCircle size={16} style={{color: "var(--text-primary)"}} className="" />}
                         </div>
                         <span className="text-[var(--text-primary)] font-medium">{collection.name}</span>
                         {collection.verified && (
@@ -545,7 +545,7 @@ const NFTMarketplacePage = () => {
         <main className="flex-1 min-w-0">
 
           {/* Controls Bar */}
-          <div className="flex items-center justify-between mb-6 bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-4 shadow-sm">
+          <div className="flex items-center justify-between mb-6 bg-white  border border-[var(--border-subtle)] rounded-2xl p-4 shadow-sm">
             <div className="flex items-center gap-4">
               <button
                 className="flex items-center gap-2 px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-colors"
@@ -613,7 +613,7 @@ const NFTMarketplacePage = () => {
           {loading && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl overflow-hidden shadow-sm">
+                <div key={i} className="bg-white  border border-[var(--border-subtle)] rounded-2xl overflow-hidden shadow-sm">
                   <div className="aspect-square bg-[var(--bg-secondary)]" />
                   <div className="p-4 space-y-3">
                     <SkeletonBox width="w-3/4" height="h-4" className="mb-2" />
@@ -636,7 +636,7 @@ const NFTMarketplacePage = () => {
               <p className="text-[var(--text-secondary)] mb-6 max-w-md">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <Button
                 onClick={loadListings}
-                className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-2xl font-semibold hover:opacity-90 transition-opacity"
+                style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-2xl font-semibold hover:opacity-90 transition-opacity"
                 aria-label="Retry loading NFTs"
               >
                 Try Again
@@ -670,7 +670,7 @@ const NFTMarketplacePage = () => {
                 return (
                   <div
                     key={nft.id}
-                    className="group bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all overflow-hidden cursor-pointer"
+                    className="group bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all overflow-hidden cursor-pointer"
                   >
                     {/* NFT Image */}
                     <div className="relative aspect-square overflow-hidden">
@@ -683,14 +683,14 @@ const NFTMarketplacePage = () => {
 
                       {/* Overlay on hover */}
                       <div className="absolute inset-0 bg-gradient-to-t from-[var(--text-primary)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
-                        <button className="px-4 py-2 bg-white/90 backdrop-blur-xl border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] font-medium hover:bg-white transition-colors">
+                        <button className="px-4 py-2 bg-white/90  border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] font-medium hover:bg-white transition-colors">
                           Quick View
                         </button>
                       </div>
 
                       {/* Favorite Button */}
                       <button
-                        className={`absolute top-3 right-3 p-2 rounded-xl backdrop-blur-xl transition-all ${
+                        className={`absolute top-3 right-3 p-2 rounded-xl  transition-all ${
                           isFavorited
                             ? 'bg-red-500/20 border border-red-500/50 text-red-400'
                             : 'bg-white/90 border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-white'
@@ -710,13 +710,13 @@ const NFTMarketplacePage = () => {
 
                       {/* Rarity Badge */}
                       {rarityScore > 80 && (
-                        <div className="absolute top-3 left-3 px-3 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center gap-1.5 text-white text-xs font-bold backdrop-blur-xl">
+                        <div style={{color: "var(--text-primary)"}} className="absolute top-3 left-3 px-3 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center gap-1.5  text-xs font-bold ">
                           <Sparkles size={14} />
                           Legendary
                         </div>
                       )}
                       {rarityScore > 60 && rarityScore <= 80 && (
-                        <div className="absolute top-3 left-3 px-3 py-1.5 bg-gradient-to-r from-[#a371f7] to-[#8b5cf6] rounded-xl text-white text-xs font-bold backdrop-blur-xl">
+                        <div style={{color: "var(--text-primary)"}} className="absolute top-3 left-3 px-3 py-1.5 bg-gradient-to-r from-[#a371f7] to-[#8b5cf6] rounded-xl  text-xs font-bold ">
                           Rare
                         </div>
                       )}
@@ -763,7 +763,7 @@ const NFTMarketplacePage = () => {
                       <div className="pt-2">
                         {hasAuction ? (
                           <button
-                            className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                            style={{color: "var(--text-primary)"}} className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                             onClick={() => handlePlaceBid(nft)}
                           >
                             <DollarSign size={16} />
@@ -771,7 +771,7 @@ const NFTMarketplacePage = () => {
                           </button>
                         ) : (
                           <button
-                            className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                            style={{color: "var(--text-primary)"}} className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                             onClick={() => handlePurchase(nft)}
                           >
                             <ShoppingBag size={16} />

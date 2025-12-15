@@ -28,7 +28,7 @@ const overlayVariants = cva([
   variants: {
     variant: {
       default: 'bg-black/80 backdrop-blur-sm',
-      glass: 'bg-black/60 backdrop-blur-xl',
+      glass: 'bg-black/60 ',
       dark: 'bg-black/90 backdrop-blur-md',
       light: 'bg-black/40 backdrop-blur-lg',
     },
@@ -56,7 +56,7 @@ const contentVariants = cva(
       variant: {
         default: 'bg-background border border-border shadow-xl',
         glass: [
-          'bg-background/80 backdrop-blur-xl border border-border/50',
+          'bg-background/80  border border-border/50',
           'shadow-2xl shadow-black/50',
         ],
         gradient: [

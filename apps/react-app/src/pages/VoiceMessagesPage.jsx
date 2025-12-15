@@ -182,7 +182,7 @@ const VoiceMessagesPage = () => {
           className="bg-white border border-gray-200 rounded-3xl shadow-lg overflow-hidden"
         >
           {/* Header */}
-          <div className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white p-5 md:p-8">
+          <div style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  p-5 md:p-8">
             <h1 className="font-bold text-xl md:text-2xl mb-2 md:mb-3">Voice Messages</h1>
             <p className="opacity-90 text-sm md:text-base">Record and send audio messages</p>
           </div>
@@ -221,9 +221,9 @@ const VoiceMessagesPage = () => {
                       aria-label={isRecording ? 'Stop recording' : 'Start recording'}
                     >
                       {isRecording ? (
-                        <StopCircle className="w-14 h-14 md:w-16 md:h-16 text-white" />
+                        <StopCircle style={{color: "var(--text-primary)"}} className="w-14 h-14 md:w-16 md:h-16 " />
                       ) : (
-                        <Mic className="w-14 h-14 md:w-16 md:h-16 text-white" />
+                        <Mic style={{color: "var(--text-primary)"}} className="w-14 h-14 md:w-16 md:h-16 " />
                       )}
                     </motion.button>
 
@@ -263,7 +263,7 @@ const VoiceMessagesPage = () => {
                   <div className="flex items-center gap-3 md:gap-4 p-4 md:p-6 bg-gray-50 border border-gray-200 rounded-2xl shadow-md">
                     <button
                       onClick={isPlaying ? pauseAudio : playAudio}
-                      className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-full text-white transition-all flex-shrink-0"
+                      style={{color: "var(--text-primary)"}} className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-full  transition-all flex-shrink-0"
                       aria-label={isPlaying ? 'Pause' : 'Play'}
                     >
                       {isPlaying ? (
@@ -309,7 +309,7 @@ const VoiceMessagesPage = () => {
 
                     <button
                       onClick={sendVoiceMessage}
-                      className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-2xl shadow-lg transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm font-medium"
+                      style={{color: "var(--text-primary)"}} className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-2xl shadow-lg transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm font-medium"
                       aria-label="Send voice message"
                     >
                       <Send className="w-4 h-4 md:w-5 md:h-5" />

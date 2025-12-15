@@ -250,7 +250,7 @@ export default function MemberDirectory({
         
         {canManageMembers && (
           <button 
-            className="flex items-center gap-2 bg-accent-primary text-white border-none rounded-lg px-4 py-2.5 cursor-pointer font-medium transition-all hover:bg-accent-dark hover:-translate-y-0.5"
+            style={{color: "var(--text-primary)"}} className="flex items-center gap-2 bg-accent-primary  border-none rounded-lg px-4 py-2.5 cursor-pointer font-medium transition-all hover:bg-accent-dark hover:-translate-y-0.5"
             onClick={() => setShowInviteModal(true)}
           >
             <UserPlus size={18} />
@@ -340,7 +340,7 @@ export default function MemberDirectory({
 
             <div className="flex justify-center gap-2 relative">
               <button 
-                className="flex items-center justify-center w-9 h-9 border border-border-primary rounded-lg bg-card text-text-secondary cursor-pointer transition-all hover:bg-accent-primary hover:text-white hover:border-accent-primary"
+                style={{color: "var(--text-primary)"}} className="flex items-center justify-center w-9 h-9 border border-border-primary rounded-lg bg-card text-text-secondary cursor-pointer transition-all hover:bg-accent-primary hover: hover:border-accent-primary"
                 title="Send Message"
               >
                 <MessageCircle size={16} />
@@ -406,7 +406,7 @@ export default function MemberDirectory({
       {pagination.hasMore && (
         <div className="flex justify-center mt-6">
           <button 
-            className="bg-card border border-border-primary rounded-lg px-6 py-3 text-text-primary cursor-pointer font-medium transition-all hover:bg-accent-primary hover:text-white hover:border-accent-primary disabled:opacity-60 disabled:cursor-not-allowed"
+            style={{color: "var(--text-primary)"}} className="bg-card border border-border-primary rounded-lg px-6 py-3 text-text-primary cursor-pointer font-medium transition-all hover:bg-accent-primary hover: hover:border-accent-primary disabled:opacity-60 disabled:cursor-not-allowed"
             onClick={() => loadMembers()}
             disabled={loading}
           >
@@ -502,7 +502,7 @@ function InviteMembersModal({ communityId, onClose, onInviteSent }) {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-[1000] p-5">
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /70 flex items-center justify-center z-[1000] p-5">
       <div className="bg-card rounded-xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-5 border-b border-border-primary">
           <h3>Invite Members</h3>
@@ -542,7 +542,7 @@ function InviteMembersModal({ communityId, onClose, onInviteSent }) {
                   className="flex-1 bg-background-secondary border border-border-primary rounded-md px-3 py-2 text-text-primary text-sm font-mono"
                 />
                 <button 
-                  className="flex items-center gap-1 bg-accent-primary text-white border-none rounded-md px-3 py-2 cursor-pointer text-[13px] font-medium transition-all whitespace-nowrap hover:bg-accent-dark"
+                  style={{color: "var(--text-primary)"}} className="flex items-center gap-1 bg-accent-primary  border-none rounded-md px-3 py-2 cursor-pointer text-[13px] font-medium transition-all whitespace-nowrap hover:bg-accent-dark"
                   onClick={copyInviteLink}
                 >
                   {copied ? <Check size={16} /> : <Copy size={16} />}
@@ -591,7 +591,7 @@ function InviteMembersModal({ communityId, onClose, onInviteSent }) {
           </button>
           {inviteMethod !== 'link' && (
             <button 
-              className="bg-accent-primary text-white border-none rounded-md px-4 py-2 cursor-pointer font-medium transition-all hover:bg-accent-dark disabled:opacity-60 disabled:cursor-not-allowed" 
+              style={{color: "var(--text-primary)"}} className="bg-accent-primary  border-none rounded-md px-4 py-2 cursor-pointer font-medium transition-all hover:bg-accent-dark disabled:opacity-60 disabled:cursor-not-allowed" 
               onClick={handleSendInvites}
               disabled={loading}
             >

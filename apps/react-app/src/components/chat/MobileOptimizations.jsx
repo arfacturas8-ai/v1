@@ -536,7 +536,7 @@ export const MobileInput = ({
   }
 
   return (
-    <div className={`backdrop-blur-xl border-t ${className}`} style={{ background: 'white', borderColor: 'var(--border-subtle)' }}>
+    <div className={` border-t ${className}`} style={{ background: 'white', borderColor: 'var(--border-subtle)' }}>
       {/* Attachments preview */}
       {attachments.length > 0 && (
         <div style={{

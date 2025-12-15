@@ -78,12 +78,12 @@ export default function OAuthCallbackPage() {
 
   return (
     <div role="main" aria-label="OAuth callback page" className={`min-h-screen flex items-center justify-center bg-gradient-to-br ${bgGradient} p-4 md:p-5 transition-all duration-500`}>
-      <div className="text-center text-white max-w-md mx-auto">
-        <div className="relative inline-flex items-center justify-center w-20 md:w-[100px] h-20 md:h-[100px] bg-white/20 backdrop-blur-xl rounded-full mb-6 md:mb-8 backdrop-blur-md">
+      <div style={{color: "var(--text-primary)"}} className="text-center  max-w-md mx-auto">
+        <div className="relative inline-flex items-center justify-center w-20 md:w-[100px] h-20 md:h-[100px] bg-white/20  rounded-full mb-6 md:mb-8 backdrop-blur-md">
           {status === 'processing' && (
             <>
               <Loader className="w-9 md:w-12 h-9 md:h-12 " />
-              <div className="absolute inset-0 rounded-full border-4 border-white/10 border-t-white " style={{ animationDuration: '2s' }} />
+              <div style={{borderColor: "var(--border-subtle)"}} className="absolute inset-0 rounded-full border-4  border-t-white " style={{ animationDuration: '2s' }} />
             </>
           )}
           {status === 'success' && (

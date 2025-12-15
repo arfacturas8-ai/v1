@@ -119,7 +119,7 @@ const HomeFeed = ({ user }) => {
             </span>
           </div>
           {(!user?.joinedCommunities?.length) && (
-            <button className="flex items-center gap-1.5 px-3 py-2 bg-accent-primary text-white border-none rounded-md text-xs font-medium cursor-pointer transition-all hover:bg-accent-secondary hover:-translate-y-0.5">
+            <button style={{color: "var(--text-primary)"}} className="flex items-center gap-1.5 px-3 py-2 bg-accent-primary  border-none rounded-md text-xs font-medium cursor-pointer transition-all hover:bg-accent-secondary hover:-translate-y-0.5">
               <Plus size={14} />
               Browse Communities
             </button>
@@ -160,7 +160,7 @@ const HomeFeed = ({ user }) => {
         <div className="bg-card border border-border-primary rounded-xl p-5">
           <h3>Quick Actions</h3>
           <div className="flex flex-col gap-2">
-            <button className="flex items-center justify-center gap-2 px-4 py-3 border border-accent-primary rounded-lg bg-accent-primary text-white text-sm font-medium cursor-pointer transition-all text-center hover:bg-accent-secondary hover:-translate-y-0.5">
+            <button style={{color: "var(--text-primary)"}} className="flex items-center justify-center gap-2 px-4 py-3 border border-accent-primary rounded-lg bg-accent-primary  text-sm font-medium cursor-pointer transition-all text-center hover:bg-accent-secondary hover:-translate-y-0.5">
               <Plus size={16} />
               Create Post
             </button>
@@ -185,7 +185,7 @@ const HomeFeed = ({ user }) => {
                     {community.icon ? (
                       <img src={community.icon} alt={community.name} />
                     ) : (
-                      <div className="w-full h-full bg-accent-primary text-white flex items-center justify-center font-semibold text-sm">
+                      <div style={{color: "var(--text-primary)"}} className="w-full h-full bg-accent-primary  flex items-center justify-center font-semibold text-sm">
                         {community.name.charAt(0).toUpperCase()}
                       </div>
                     )}
@@ -215,7 +215,7 @@ const HomeFeed = ({ user }) => {
               '#digitalart',
               '#music'
             ].map(topic => (
-              <button key={topic} className="px-2.5 py-1.5 bg-background-secondary border border-border-primary rounded-2xl text-text-secondary text-[11px] cursor-pointer transition-all hover:bg-accent-primary hover:text-white hover:border-accent-primary">
+              <button key={topic} style={{color: "var(--text-primary)"}} className="px-2.5 py-1.5 bg-background-secondary border border-border-primary rounded-2xl text-text-secondary text-[11px] cursor-pointer transition-all hover:bg-accent-primary hover: hover:border-accent-primary">
                 {topic}
               </button>
             ))}

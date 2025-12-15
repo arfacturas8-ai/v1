@@ -81,11 +81,11 @@ function InviteModal({ onClose, onJoin }) {
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/70 backdrop-blur-sm">
-      <div className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-[rgba(22,27,34,0.6)] backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl overflow-hidden">
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 flex items-center justify-center p-4 z-50 /70 backdrop-blur-sm">
+      <div style={{borderColor: "var(--border-subtle)"}} className="w-full max-w-md sm:max-w-lg md:max-w-xl bg-[rgba(22,27,34,0.6)]  rounded-2xl sm:rounded-3xl border  shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between border-b border-white/10">
-          <h2 className="text-lg sm:text-xl font-bold text-white">
+        <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 sm:py-6 flex items-center justify-between border-b ">
+          <h2 style={{color: "var(--text-primary)"}} className="text-lg sm:text-xl font-bold ">
             Join a Server
           </h2>
           <button
@@ -104,7 +104,7 @@ function InviteModal({ onClose, onJoin }) {
 
           {/* Invite Code Input */}
           <div className="space-y-3">
-            <label className="block text-sm sm:text-base font-medium text-white">
+            <label style={{color: "var(--text-primary)"}} className="block text-sm sm:text-base font-medium ">
               Invite Code
             </label>
             <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
@@ -145,18 +145,18 @@ function InviteModal({ onClose, onJoin }) {
           {/* Invite Preview */}
           {inviteData && (
             <div className="space-y-4">
-              <div className="rounded-xl p-3 sm:p-4 border border-white/10 bg-white/5 space-y-4">
+              <div style={{borderColor: "var(--border-subtle)"}} className="rounded-xl p-3 sm:p-4 border  bg-white/5 space-y-4">
                 <div className="flex items-start gap-3">
                   <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <p className="text-sm sm:text-base font-medium text-white">Valid Invite</p>
+                    <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Valid Invite</p>
                     <p className="text-xs sm:text-sm text-gray-300 mt-1">
                       You've been invited to join:
                     </p>
                   </div>
                 </div>
 
-                <div className="bg-[rgba(22,27,34,0.6)] rounded-xl p-3 sm:p-4 border border-white/10">
+                <div style={{borderColor: "var(--border-subtle)"}} className="bg-[rgba(22,27,34,0.6)] rounded-xl p-3 sm:p-4 border ">
                   <div className="flex items-start gap-3">
                     {/* Server Icon */}
                     <div className="flex-shrink-0">
@@ -167,7 +167,7 @@ function InviteModal({ onClose, onJoin }) {
                           className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover"
                         />
                       ) : (
-                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm sm:text-base">
+                        <div style={{color: "var(--text-primary)"}} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center  font-bold text-sm sm:text-base">
                           {inviteData.server?.name?.charAt(0).toUpperCase() || 'S'}
                         </div>
                       )}
@@ -176,7 +176,7 @@ function InviteModal({ onClose, onJoin }) {
                     {/* Server Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h4 className="text-sm sm:text-base font-bold text-white truncate">
+                        <h4 style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-bold  truncate">
                           {inviteData.server?.name || 'Unknown Server'}
                         </h4>
                         {inviteData.server?.isPublic ? (
@@ -209,11 +209,11 @@ function InviteModal({ onClose, onJoin }) {
                 </div>
 
                 {/* Invite Details */}
-                <div className="pt-3 border-t border-white/10 space-y-2">
+                <div style={{borderColor: "var(--border-subtle)"}} className="pt-3 border-t  space-y-2">
                   {inviteData.inviter && (
                     <div>
                       <span className="text-xs sm:text-sm text-gray-400">Invited by:</span>
-                      <p className="text-sm sm:text-base font-medium text-white">
+                      <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">
                         {inviteData.inviter.username || 'Unknown'}
                       </p>
                     </div>
@@ -221,7 +221,7 @@ function InviteModal({ onClose, onJoin }) {
                   {inviteData.expiresAt && (
                     <div>
                       <span className="text-xs sm:text-sm text-gray-400">Expires:</span>
-                      <p className="text-sm sm:text-base font-medium text-white">
+                      <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">
                         {new Date(inviteData.expiresAt).toLocaleDateString()}
                       </p>
                     </div>
@@ -229,7 +229,7 @@ function InviteModal({ onClose, onJoin }) {
                   {inviteData.maxUses && (
                     <div>
                       <span className="text-xs sm:text-sm text-gray-400">Uses:</span>
-                      <p className="text-sm sm:text-base font-medium text-white">
+                      <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">
                         {inviteData.uses || 0} / {inviteData.maxUses}
                       </p>
                     </div>
@@ -241,7 +241,7 @@ function InviteModal({ onClose, onJoin }) {
         </div>
 
         {/* Footer */}
-        <div className="px-4 sm:px-6 py-4 border-t border-white/10 flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 sm:justify-end">
+        <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 border-t  flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 sm:justify-end">
           <Button
             variant="ghost"
             onClick={onClose}

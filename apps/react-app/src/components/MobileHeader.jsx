@@ -91,7 +91,7 @@ function MobileHeader() {
   return (
     <>
       {/* Mobile Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl pt-[env(safe-area-inset-top)] md:hidden" style={{ background: 'white', borderBottom: '1px solid var(--border-subtle)' }}>
+      <header className="fixed top-0 left-0 right-0 z-50  pt-[env(safe-area-inset-top)] md:hidden" style={{ background: 'white', borderBottom: '1px solid var(--border-subtle)' }}>
         <div className="px-4">
           {/* Top Bar */}
           <div className="flex items-center justify-between h-14">
@@ -115,7 +115,7 @@ function MobileHeader() {
                   >
                     <Bell size={18} />
                     {unreadNotifications > 0 && (
-                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[11px] font-bold rounded-full flex items-center justify-center">
+                      <span style={{color: "var(--text-primary)"}} className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff]  text-[11px] font-bold rounded-full flex items-center justify-center">
                         {unreadNotifications > 9 ? '9+' : unreadNotifications}
                       </span>
                     )}
@@ -125,16 +125,16 @@ function MobileHeader() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white text-sm font-semibold"
+                      style={{color: "var(--text-primary)"}} className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  text-sm font-semibold"
                     >
                       {user?.username?.charAt(0).toUpperCase() || 'U'}
                     </button>
 
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-56 backdrop-blur-xl border rounded-xl shadow-lg overflow-hidden" style={{ background: 'white', borderColor: 'var(--border-subtle)' }}>
+                      <div className="absolute right-0 mt-2 w-56  border rounded-xl shadow-lg overflow-hidden" style={{ background: 'white', borderColor: 'var(--border-subtle)' }}>
                         <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
+                            <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
@@ -206,7 +206,7 @@ function MobileHeader() {
                   </Link>
                   <Link
                     to="/register"
-                    className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg text-sm font-semibold transition-all"
+                    style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-lg text-sm font-semibold transition-all"
                   >
                     Get Started
                   </Link>
@@ -243,7 +243,7 @@ function MobileHeader() {
         {isMobileMenuOpen && user && (
           <div
             ref={mobileMenuRef}
-            className="absolute top-full left-0 right-0 backdrop-blur-xl border-t max-h-[70vh] overflow-y-auto"
+            className="absolute top-full left-0 right-0  border-t max-h-[70vh] overflow-y-auto"
             style={{ background: 'white', borderColor: 'var(--border-subtle)' }}
           >
             <nav className="p-4 space-y-1">
@@ -276,7 +276,7 @@ function MobileHeader() {
                     navigate('/submit')
                     setIsMobileMenuOpen(false)
                   }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
+                  style={{color: "var(--text-primary)"}} className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
                 >
                   <Plus size={18} />
                   <span>Create Post</span>

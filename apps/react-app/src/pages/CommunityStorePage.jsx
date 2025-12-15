@@ -16,7 +16,7 @@ const CommunityStorePage = () => {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
-          <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+          <div className=" rounded-2xl p-5 sm:p-6 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
             <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4" style={{ boxShadow: 'var(--shadow-sm)' }}>
               <ShoppingBag size={24} className="text-[#58a6ff]" />
             </div>
@@ -24,7 +24,7 @@ const CommunityStorePage = () => {
             <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Badges, emotes, and profile customizations</p>
           </div>
 
-          <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+          <div className=" rounded-2xl p-5 sm:p-6 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
             <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4" style={{ boxShadow: 'var(--shadow-sm)' }}>
               <Tag size={24} className="text-emerald-500" />
             </div>
@@ -32,7 +32,7 @@ const CommunityStorePage = () => {
             <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Exclusive discounts for members</p>
           </div>
 
-          <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6 text-center sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+          <div className=" rounded-2xl p-5 sm:p-6 text-center sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
             <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-4" style={{ boxShadow: 'var(--shadow-sm)' }}>
               <Gift size={24} className="text-[#a371f7]" />
             </div>
@@ -41,7 +41,7 @@ const CommunityStorePage = () => {
           </div>
         </div>
 
-        <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+        <div className=" rounded-2xl p-5 sm:p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
           <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4" style={{ color: 'var(--text-primary)' }}>Available Items</h3>
           <p className="text-xs sm:text-sm text-center py-6 sm:py-8" style={{ color: 'var(--text-secondary)' }}>
             No items available in the store yet. Check back soon!

@@ -96,7 +96,7 @@ function ContactPage() {
     return (
       <div className="min-h-screen bg-[var(--color-bg-primary)] px-5 py-10">
         <main id="main-content" className="max-w-2xl mx-auto text-center" role="main" aria-label="Page content">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-black/10 px-8 py-12">
+          <div className="bg-[var(--color-bg-secondary)]/60  rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-black/10 px-8 py-12">
             <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <svg className="w-10 h-10 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
@@ -109,7 +109,7 @@ function ContactPage() {
             <div className="flex flex-col gap-3">
               <Link
                 to="/home"
-                className="block px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline font-semibold text-center hover:opacity-90 transition-opacity"
+                style={{color: "var(--text-primary)"}} className="block px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  rounded-2xl  no-underline font-semibold text-center hover:opacity-90 transition-opacity"
                 aria-label="Return to home page"
               >
                 Back to Home
@@ -120,7 +120,7 @@ function ContactPage() {
                   setErrors({})
                   setSubmitError('')
                 }}
-                className="px-6 py-3.5 bg-[var(--color-bg-secondary)]/60 text-[#58a6ff] border border-black/10 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] font-semibold cursor-pointer hover:bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl transition-colors"
+                className="px-6 py-3.5 bg-[var(--color-bg-secondary)]/60 text-[#58a6ff] border border-black/10 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] font-semibold cursor-pointer hover:bg-[var(--color-bg-secondary)]/60  transition-colors"
                 aria-label="Send another message"
               >
                 Send Another Message
@@ -144,7 +144,7 @@ function ContactPage() {
           </p>
         </div>
 
-        <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-black/10 p-6 md:p-8">
+        <div className="bg-[var(--color-bg-secondary)]/60  rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-black/10 p-6 md:p-8">
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-5">
               <div>
@@ -264,14 +264,14 @@ function ContactPage() {
                 type="submit"
                 disabled={isLoading}
                 className={`w-full px-6 py-3.5 text-white border-none rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] font-semibold text-base flex items-center justify-center gap-2 transition-opacity ${
-                  isLoading ? 'bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer hover:opacity-90'
+                  isLoading ? 'bg-[var(--color-bg-secondary)]/60  cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer hover:opacity-90'
                 }`}
               >
                 Send Message
               </button>
               <Link
                 to="/help"
-                className={`block text-center px-6 py-3.5 bg-[var(--color-bg-secondary)]/60 text-[#58a6ff] border border-black/10 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] no-underline font-semibold hover:bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl transition-colors ${
+                className={`block text-center px-6 py-3.5 bg-[var(--color-bg-secondary)]/60 text-[#58a6ff] border border-black/10 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] no-underline font-semibold hover:bg-[var(--color-bg-secondary)]/60  transition-colors ${
                   isLoading ? 'opacity-50 pointer-events-none' : ''
                 }`}
                 aria-label="Visit help center"

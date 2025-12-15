@@ -106,7 +106,7 @@ const AwardModal = ({ post, onClose, onAward }) => {
   const userCoins = 1250 // This would come from user context/API
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/40" onClick={onClose}>
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 flex items-center justify-center p-4 z-50 /40" onClick={onClose}>
       <div
         ref={modalRef}
         className="w-full max-w-lg sm:max-w-xl rounded-2xl bg-white max-h-[90vh] overflow-y-auto"
@@ -250,7 +250,7 @@ const AwardModal = ({ post, onClose, onAward }) => {
           <button
             onClick={handleAwardSubmit}
             disabled={!selectedAward || isSubmitting}
-            className="min-h-[44px] px-4 py-2 text-sm sm:text-base rounded-lg bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            style={{color: "var(--text-primary)"}} className="min-h-[44px] px-4 py-2 text-sm sm:text-base rounded-lg bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
           >
             {isSubmitting ? (
               <>

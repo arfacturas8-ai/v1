@@ -111,7 +111,7 @@ function Header() {
     <>
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'backdrop-blur-xl border-b'
+          ? ' border-b'
           : 'bg-transparent'
       }`} style={isScrolled ? { background: 'rgba(248, 249, 250, 0.8)', borderColor: 'var(--border-subtle)' } : {}}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -177,14 +177,14 @@ function Header() {
                     >
                       <Bell size={18} />
                       {unreadCount > 0 && (
-                        <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff] text-white text-[11px] font-bold rounded-full flex items-center justify-center">
+                        <span style={{color: "var(--text-primary)"}} className="absolute -top-1 -right-1 w-5 h-5 bg-[#58a6ff]  text-[11px] font-bold rounded-full flex items-center justify-center">
                           {unreadCount}
                         </span>
                       )}
                     </button>
 
                     {isNotificationOpen && (
-                      <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-32px)] bg-white backdrop-blur-xl border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+                      <div className="absolute right-0 mt-2 w-80 max-w-[calc(100vw-32px)] bg-white  border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
                         <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>Notifications</h3>
                         </div>
@@ -234,7 +234,7 @@ function Header() {
                   {/* Create Button - Desktop */}
                   <button
                     onClick={() => navigate('/submit')}
-                    className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
+                    style={{color: "var(--text-primary)"}} className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
                   >
                     <Plus size={16} />
                     <span>Create</span>
@@ -247,17 +247,17 @@ function Header() {
                       className="flex items-center gap-2 p-1 pr-2 bg-white border rounded-lg hover:border-[#58a6ff]/30 transition-all"
                       style={{ borderColor: 'var(--border-subtle)' }}
                     >
-                      <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-sm font-semibold">
+                      <div style={{color: "var(--text-primary)"}} className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  text-sm font-semibold">
                         {user?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
                       <ChevronDown size={14} className="hidden sm:block" style={{ color: 'var(--text-secondary)' }} />
                     </button>
 
                     {isUserMenuOpen && (
-                      <div className="absolute right-0 mt-2 w-56 bg-white backdrop-blur-xl border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
+                      <div className="absolute right-0 mt-2 w-56 bg-white  border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
                         <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
+                            <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
@@ -330,7 +330,7 @@ function Header() {
                   </Link>
                   <Link
                     to="/register"
-                    className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg text-sm font-semibold transition-all"
+                    style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg text-sm font-semibold transition-all"
                   >
                     Get Started
                   </Link>
@@ -342,7 +342,7 @@ function Header() {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && user && (
-          <div className="md:hidden bg-white backdrop-blur-xl border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+          <div className="md:hidden bg-white  border-t" style={{ borderColor: 'var(--border-subtle)' }}>
             <div className="p-4 space-y-2">
               {/* Mobile Search */}
               <form onSubmit={handleSearch} className="mb-4">
@@ -387,7 +387,7 @@ function Header() {
                     navigate('/submit')
                     setIsMobileMenuOpen(false)
                   }}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg text-sm font-semibold transition-all"
+                  style={{color: "var(--text-primary)"}} className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg text-sm font-semibold transition-all"
                 >
                   <Plus size={18} />
                   <span>Create Post</span>

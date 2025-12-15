@@ -105,7 +105,7 @@ export default function EmailVerificationPage() {
       role="main"
       aria-label="Email verification page"
     >
-      <div className="bg-white backdrop-blur-xl rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
+      <div className="bg-white  rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
         <div className="flex justify-center mb-6 md:mb-8">
           {getIcon()}
         </div>
@@ -131,7 +131,7 @@ export default function EmailVerificationPage() {
             <>
               <Link
                 to="/home"
-                className="inline-block min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold text-sm md:text-base shadow-[0_4px_12px_rgba(88,166,255,0.4)] transition-all hover:opacity-90"
+                style={{color: "var(--text-primary)"}} className="inline-block min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold text-sm md:text-base shadow-[0_4px_12px_rgba(88,166,255,0.4)] transition-all hover:opacity-90"
                 aria-label="Go to home page"
               >
                 Go to Home →
@@ -146,7 +146,7 @@ export default function EmailVerificationPage() {
             <>
               <button
                 onClick={resendVerification}
-                className="min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold text-sm md:text-base shadow-sm transition-all hover:opacity-90 border-none cursor-pointer"
+                style={{color: "var(--text-primary)"}} className="min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold text-sm md:text-base shadow-sm transition-all hover:opacity-90 border-none cursor-pointer"
                 aria-label="Resend verification email"
               >
                 Resend Verification Email

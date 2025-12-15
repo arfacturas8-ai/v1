@@ -264,19 +264,19 @@ function CryptoPage() {
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 max-w-2xl mx-auto mb-12 md:mb-16">
-              <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+              <div className="bg-white  rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
                 <div className="p-4 md:p-6 text-center">
                   <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">1B</div>
                   <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total Supply</div>
                 </div>
               </div>
-              <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+              <div className="bg-white  rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
                 <div className="p-4 md:p-6 text-center">
                   <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-2">40%</div>
                   <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Community Owned</div>
                 </div>
               </div>
-              <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+              <div className="bg-white  rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
                 <div className="p-4 md:p-6 text-center">
                   <div className="text-2xl md:text-3xl font-bold text-emerald-400 mb-2">15%</div>
                   <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Max Staking APY</div>
@@ -309,7 +309,7 @@ function CryptoPage() {
                 </div>
 
                 <div className="text-center">
-                  <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-4 md:p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div className="bg-white  rounded-2xl shadow-sm p-4 md:p-6" style={{ border: '1px solid var(--border-subtle)' }}>
                     <h4 className="font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>Token Flow</h4>
                     <div className="space-y-2 md:space-y-3 text-sm">
                       <div className="flex items-center justify-between">
@@ -368,7 +368,7 @@ function CryptoPage() {
               {features.map((feature, index) => {
                 const IconComponent = feature.icon
                 return (
-                  <div key={index} className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-4 md:p-6 group hover:border-[#58a6ff]/50 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div key={index} className="bg-white  rounded-2xl shadow-sm p-4 md:p-6 group hover:border-[#58a6ff]/50 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
                     <div className="flex items-start gap-3 md:gap-4">
                       <div className="p-3 bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20 rounded-lg group-hover:from-[#58a6ff]/30 group-hover:to-[#a371f7]/30 transition-colors flex-shrink-0">
                         <IconComponent className="h-6 w-6 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" />
@@ -397,7 +397,7 @@ function CryptoPage() {
                 return (
                   <div
                     key={index}
-                    className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 group hover:border-[#58a6ff]/50 transition-all duration-300 cursor-pointer"
+                    className="bg-white  rounded-2xl shadow-sm p-6 group hover:border-[#58a6ff]/50 transition-all duration-300 cursor-pointer"
                     style={{ border: '1px solid var(--border-subtle)' }}
                     onClick={() => setActiveFeature(index)}
                   >
@@ -441,7 +441,7 @@ function CryptoPage() {
               </div>
 
               <div className="grid md:grid-cols-3 gap-6 md:gap-8">
-                <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 text-center group hover:border-emerald-400/30 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
+                <div className="bg-white  rounded-2xl shadow-sm p-6 text-center group hover:border-emerald-400/30 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
                   <div className="inline-flex p-4 md:p-6 bg-emerald-400/20 rounded-2xl shadow-sm mb-4 md:mb-6 group-hover:scale-110 transition-transform">
                     <Shield className="h-8 w-8 text-emerald-400" />
                   </div>
@@ -449,7 +449,7 @@ function CryptoPage() {
                   <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>Built on blockchain technology for maximum security and transparency</p>
                 </div>
 
-                <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 text-center group hover:border-[#58a6ff]/50 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
+                <div className="bg-white  rounded-2xl shadow-sm p-6 text-center group hover:border-[#58a6ff]/50 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
                   <div className="inline-flex p-4 md:p-6 bg-[#58a6ff]/20 rounded-2xl shadow-sm mb-4 md:mb-6 group-hover:scale-110 transition-transform">
                     <Users className="h-8 w-8 text-[#58a6ff]" />
                   </div>
@@ -457,7 +457,7 @@ function CryptoPage() {
                   <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>Participate in governance and help shape the future of the platform</p>
                 </div>
 
-                <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 text-center group hover:border-[#a371f7]/50 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
+                <div className="bg-white  rounded-2xl shadow-sm p-6 text-center group hover:border-[#a371f7]/50 transition-all duration-300" style={{ border: '1px solid var(--border-subtle)' }}>
                   <div className="inline-flex p-4 md:p-6 bg-[#a371f7]/20 rounded-2xl shadow-sm mb-4 md:mb-6 group-hover:scale-110 transition-transform">
                     <TrendingUp className="h-8 w-8 text-[#a371f7]" />
                   </div>

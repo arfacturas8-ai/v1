@@ -9,11 +9,11 @@ const ComingSoonBadge = ({ feature, description, icon: Icon, color = 'purple' })
   const accentColor = colorMap[color] || colorMap.purple
 
   return (
-    <div className="bg-gray-800/60 backdrop-blur-xl border border-gray-700/50 rounded-xl shadow-2xl p-4 relative overflow-hidden">
+    <div className="bg-gray-800/60  border border-gray-700/50 rounded-xl shadow-2xl p-4 relative overflow-hidden">
       <div className="flex items-center gap-3 mb-2">
         {Icon && <Icon size={20} style={{ color: accentColor }} />}
-        <span className="text-white text-base font-semibold flex-1">{feature}</span>
-        <span className="px-3 py-1 rounded-full text-xs font-bold text-white" style={{ background: `linear-gradient(to right, ${accentColor}, ${accentColor}dd)` }}>
+        <span style={{color: "var(--text-primary)"}} className=" text-base font-semibold flex-1">{feature}</span>
+        <span style={{color: "var(--text-primary)"}} className="px-3 py-1 rounded-full text-xs font-bold " style={{ background: `linear-gradient(to right, ${accentColor}, ${accentColor}dd)` }}>
           Coming Soon
         </span>
       </div>

@@ -292,7 +292,7 @@ const CreateCommunityPage: React.FC = () => {
           <p className="text-[var(--text-secondary)] mb-6">You need to be signed in to create a community.</p>
           <button
             onClick={() => navigate('/login')}
-            className="w-full px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+            style={{color: "var(--text-primary)"}} className="w-full px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl  font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
           >
             Sign In
           </button>
@@ -470,7 +470,7 @@ const CreateCommunityPage: React.FC = () => {
                       />
                       <button
                         onClick={() => handleRemoveFile('icon')}
-                        className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors"
+                        style={{color: "var(--text-primary)"}} className="absolute -top-2 -right-2 p-1 bg-red-500 rounded-full  hover:bg-red-600 transition-colors"
                       >
                         <X size={16} />
                       </button>
@@ -490,7 +490,7 @@ const CreateCommunityPage: React.FC = () => {
                     />
                     <button
                       onClick={() => iconInputRef.current?.click()}
-                      className="px-4 py-2 bg-[#58a6ff] rounded-xl text-white font-semibold hover:bg-[#4a94e8] transition-all"
+                      style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-[#58a6ff] rounded-xl  font-semibold hover:bg-[#4a94e8] transition-all"
                     >
                       Upload Icon
                     </button>
@@ -514,7 +514,7 @@ const CreateCommunityPage: React.FC = () => {
                       />
                       <button
                         onClick={() => handleRemoveFile('banner')}
-                        className="absolute top-2 right-2 p-2 bg-red-500 rounded-full text-white hover:bg-red-600 transition-colors"
+                        style={{color: "var(--text-primary)"}} className="absolute top-2 right-2 p-2 bg-red-500 rounded-full  hover:bg-red-600 transition-colors"
                       >
                         <X size={20} />
                       </button>
@@ -534,7 +534,7 @@ const CreateCommunityPage: React.FC = () => {
                     />
                     <button
                       onClick={() => bannerInputRef.current?.click()}
-                      className="px-4 py-2 bg-[#58a6ff] rounded-xl text-white font-semibold hover:bg-[#4a94e8] transition-all"
+                      style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-[#58a6ff] rounded-xl  font-semibold hover:bg-[#4a94e8] transition-all"
                     >
                       Upload Banner
                     </button>
@@ -795,7 +795,7 @@ const CreateCommunityPage: React.FC = () => {
             {currentStep < 5 ? (
               <button
                 onClick={nextStep}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+                style={{color: "var(--text-primary)"}} className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl  font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
               >
                 Next
                 <ArrowRight size={18} />

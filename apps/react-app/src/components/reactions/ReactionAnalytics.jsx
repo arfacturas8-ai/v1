@@ -17,7 +17,7 @@ function AnalyticsCard({ title, value, subtitle, icon: Icon, trend, color, onCli
     >
       <div className="flex items-center gap-2 mb-3">
         <div
-          className="flex items-center justify-center w-9 h-9 rounded-lg text-white"
+          style={{color: "var(--text-primary)"}} className="flex items-center justify-center w-9 h-9 rounded-lg "
           style={{ backgroundColor: color }}
         >
           <Icon size={20} />
@@ -25,7 +25,7 @@ function AnalyticsCard({ title, value, subtitle, icon: Icon, trend, color, onCli
         <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide">{title}</div>
       </div>
 
-      <div className="text-[32px] font-bold text-white mb-1 leading-none">{value}</div>
+      <div style={{color: "var(--text-primary)"}} className="text-[32px] font-bold  mb-1 leading-none">{value}</div>
 
       {subtitle && <div className="text-xs text-gray-500 mb-2">{subtitle}</div>}
 

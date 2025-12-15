@@ -268,7 +268,7 @@ const Post = ({
 
           {/* Mobile Vote Controls */}
           {isMobile && (
-            <div className="mt-3 pt-3 border-t border-white/10">
+            <div style={{borderColor: "var(--border-subtle)"}} className="mt-3 pt-3 border-t ">
               <VoteControls
                 postId={post.id}
                 initialScore={post.score}

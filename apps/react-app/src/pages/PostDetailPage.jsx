@@ -582,7 +582,7 @@ export default function PostDetailPage() {
                         />
                       ) : (
                         <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-                          <Users className="w-6 h-6 text-white" />
+                          <Users style={{color: "var(--text-primary)"}} className="w-6 h-6 " />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
@@ -624,7 +624,7 @@ export default function PostDetailPage() {
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
+                        <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
                           {post.author.username?.[0]?.toUpperCase() || 'U'}
                         </div>
                       )}

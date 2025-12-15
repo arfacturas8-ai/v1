@@ -32,7 +32,7 @@ const CookieConsent = () => {
   if (!showConsent) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[10000] p-4 bg-white/95 backdrop-blur-xl border-t border-[var(--border-subtle)] shadow-lg">
+    <div className="fixed bottom-0 left-0 right-0 z-[10000] p-4 bg-white/95  border-t border-[var(--border-subtle)] shadow-lg">
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex-1 text-sm sm:text-base text-[var(--text-secondary)]">
           <p className="mb-2">
@@ -52,7 +52,7 @@ const CookieConsent = () => {
           </button>
           <button
             onClick={handleAccept}
-            className="px-4 sm:px-6 py-2.5 sm:py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:from-[#4895ee] hover:to-[#9260e6] text-white rounded-lg text-sm sm:text-base font-medium transition-all min-h-[44px]"
+            style={{color: "var(--text-primary)"}} className="px-4 sm:px-6 py-2.5 sm:py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:from-[#4895ee] hover:to-[#9260e6]  rounded-lg text-sm sm:text-base font-medium transition-all min-h-[44px]"
           >
             Accept
           </button>

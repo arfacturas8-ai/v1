@@ -60,15 +60,15 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
     return (
       <div
         onClick={() => setIsMinimized(false)}
-        className="fixed top-[50px] right-4 w-[280px] bg-black/90 backdrop-blur-[20px] rounded-[20px] border border-white/20 cursor-pointer z-[9999] shadow-[0_8px_32px_rgba(0,0,0,0.5)] transition-all duration-300 hover:scale-105"
+        style={{background: "var(--bg-primary)"}} style={{borderColor: "var(--border-default)"}} className="fixed top-[50px] right-4 w-[280px] /90 backdrop-blur-[20px] rounded-[20px] border  cursor-pointer z-[9999]  transition-all duration-300 hover:scale-105"
       >
         <div className="flex items-center gap-3 p-4">
           <div className="w-10 h-10 rounded-full bg-[#5865f2] flex items-center justify-center relative">
-            <Volume2 size={20} className="text-white" />
+            <Volume2 size={20} style={{color: "var(--text-primary)"}} className="" />
           </div>
 
           <div className="flex-1 flex flex-col gap-0.5">
-            <div className="text-sm font-semibold text-white whitespace-nowrap overflow-hidden text-ellipsis">
+            <div style={{color: "var(--text-primary)"}} className="text-sm font-semibold  whitespace-nowrap overflow-hidden text-ellipsis">
               {roomTitle}
             </div>
             <div className="text-xs text-[#b0b3b8]">
@@ -95,15 +95,15 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
   return (
     <div className={`flex flex-col h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white font-['-apple-system',BlinkMacSystemFont,'Segoe_UI','Roboto',sans-serif] relative overflow-hidden select-none ${batteryOptimized ? 'bg-gradient-to-br from-[#2c2c2c] to-[#1a1a1a]' : ''}`}>
       {/* Header */}
-      <div className="flex justify-between items-center px-5 py-4 bg-white/10 backdrop-blur-[20px] border-b border-white/10 min-h-[60px]">
+      <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center px-5 py-4 bg-white/10 backdrop-blur-[20px] border-b  min-h-[60px]">
         <div className="flex-1">
-          <h2 className="text-lg font-semibold m-0 mb-1 text-white whitespace-nowrap overflow-hidden text-ellipsis">
+          <h2 style={{color: "var(--text-primary)"}} className="text-lg font-semibold m-0 mb-1  whitespace-nowrap overflow-hidden text-ellipsis">
             {roomTitle}
           </h2>
           <div className="flex items-center gap-2">
             <div className={`w-4 h-4 rounded-full relative ${getConnectionClass()}`}></div>
             {isConnected ? (
-              <Wifi size={16} className="text-white/60" />
+              <Wifi size={16} style={{color: "var(--text-primary)"}} className="/60" />
             ) : (
               <WifiOff size={16} className="text-[#ff4757]" />
             )}
@@ -116,13 +116,13 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
         <div className="flex gap-3">
           <button
             onClick={handleMinimize}
-            className="w-9 h-9 border-none rounded-full bg-white/10 text-white cursor-pointer transition-all duration-200 flex items-center justify-center hover:bg-white/20"
+            style={{color: "var(--text-primary)"}} className="w-9 h-9 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center hover:bg-white/20"
           >
             <Minimize2 size={18} />
           </button>
           <button
             onClick={handleClose}
-            className="w-9 h-9 border-none rounded-full bg-white/10 text-white cursor-pointer transition-all duration-200 flex items-center justify-center hover:bg-[#ff4757]/80"
+            style={{color: "var(--text-primary)"}} className="w-9 h-9 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center hover:bg-[#ff4757]/80"
           >
             <X size={18} />
           </button>
@@ -141,7 +141,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
                 {participant.avatar ? (
                   <img src={participant.avatar} alt={participant.name} className="w-full h-full object-cover" />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-white font-semibold text-2xl bg-gradient-to-br from-[#5865f2] to-[#7289da]">
+                  <div style={{color: "var(--text-primary)"}} className="w-full h-full flex items-center justify-center  font-semibold text-2xl bg-gradient-to-br from-[#5865f2] to-[#7289da]">
                     {participant.name?.charAt(0) || '?'}
                   </div>
                 )}
@@ -151,7 +151,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
               </div>
 
               <div className="text-center w-full">
-                <div className="text-sm font-medium text-white mb-1 whitespace-nowrap overflow-hidden text-ellipsis block">
+                <div style={{color: "var(--text-primary)"}} className="text-sm font-medium  mb-1 whitespace-nowrap overflow-hidden text-ellipsis block">
                   {participant.name}
                 </div>
                 <div className="flex justify-center gap-1">
@@ -169,7 +169,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
       </div>
 
       {/* Controls */}
-      <div className="px-5 py-5 bg-white/5 backdrop-blur-[20px] border-t border-white/10">
+      <div style={{borderColor: "var(--border-subtle)"}} className="px-5 py-5 bg-white/5 backdrop-blur-[20px] border-t ">
         <div className="flex gap-4 mb-4">
           <button
             onClick={toggleMute}
@@ -191,7 +191,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
         <div className="flex justify-center gap-5">
           <button
             onClick={handleClose}
-            className="w-14 h-14 border-none rounded-full bg-[#ff4757]/80 text-white cursor-pointer transition-all duration-200 flex items-center justify-center active:scale-95 hover:bg-[#ff4757]/90"
+            style={{color: "var(--text-primary)"}} className="w-14 h-14 border-none rounded-full bg-[#ff4757]/80  cursor-pointer transition-all duration-200 flex items-center justify-center active:scale-95 hover:bg-[#ff4757]/90"
           >
             <PhoneOff size={24} />
           </button>
@@ -199,7 +199,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
       </div>
 
       {/* Status Bar */}
-      <div className="flex justify-between items-center px-5 py-3 bg-black/30 text-xs text-[#b0b3b8]">
+      <div style={{background: "var(--bg-primary)"}} className="flex justify-between items-center px-5 py-3 /30 text-xs text-[#b0b3b8]">
         <div className="flex items-center gap-2">
           <span>{isConnected ? 'Connected' : 'Disconnected'}</span>
           <span className="opacity-50">•</span>
@@ -207,7 +207,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
         </div>
         <div>
           {batteryOptimized && (
-            <div className="bg-[#ff4757]/80 px-2 py-1 rounded-xl text-[11px] text-white font-semibold">
+            <div style={{color: "var(--text-primary)"}} className="bg-[#ff4757]/80 px-2 py-1 rounded-xl text-[11px]  font-semibold">
               BACKGROUND
             </div>
           )}

@@ -135,13 +135,13 @@ const Comment = ({
                   </a>
 
                   {comment.authorFlair && (
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium border border-white/10 bg-accent/10 text-accent">
+                    <span style={{borderColor: "var(--border-subtle)"}} className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium border  bg-accent/10 text-accent">
                       {comment.authorFlair}
                     </span>
                   )}
 
                   {comment.isOP && (
-                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-accent text-white">
+                    <span style={{color: "var(--text-primary)"}} className="inline-flex items-center px-1.5 py-0.5 rounded-full text-xs font-medium bg-accent ">
                       OP
                     </span>
                   )}
@@ -179,7 +179,7 @@ const Comment = ({
                       <textarea
                         value={editContent}
                         onChange={(e) => setEditContent(e.target.value)}
-                        className="w-full min-h-[80px] p-2 rounded-lg border border-white/10 bg-surface/60 text-sm resize-y"
+                        style={{borderColor: "var(--border-subtle)"}} className="w-full min-h-[80px] p-2 rounded-lg border  bg-surface/60 text-sm resize-y"
                         placeholder="What are your thoughts?"
                         autoFocus
                       />
@@ -331,11 +331,11 @@ const ReplyForm = React.forwardRef(({ onSubmit, onCancel }, ref) => {
   }
 
   return (
-    <form ref={ref} onSubmit={handleSubmit} className="rounded-xl border border-white/10 p-2 sm:p-3 bg-surface/40">
+    <form ref={ref} onSubmit={handleSubmit} style={{borderColor: "var(--border-subtle)"}} className="rounded-xl border  p-2 sm:p-3 bg-surface/40">
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        className="w-full min-h-[80px] p-2 rounded-lg border border-white/10 bg-surface/60 text-sm resize-y mb-2"
+        style={{borderColor: "var(--border-subtle)"}} className="w-full min-h-[80px] p-2 rounded-lg border  bg-surface/60 text-sm resize-y mb-2"
         placeholder="Share your thoughts..."
         disabled={isSubmitting}
         autoFocus

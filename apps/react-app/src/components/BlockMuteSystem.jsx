@@ -193,7 +193,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[10000] p-5">
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /40 backdrop-blur-sm flex items-center justify-center z-[10000] p-5">
       <div className="bg-white border border-[var(--border-subtle)] rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-6 border-b border-[var(--border-subtle)] bg-white">
           <div className="flex items-center gap-3 text-[var(--text-primary)]">
@@ -212,7 +212,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
           >
             <UserX size={16} />
             Blocked Users
-            <span className="ml-auto px-2 py-0.5 bg-black/10 rounded-full text-xs font-semibold">{blockedUsers.length}</span>
+            <span style={{background: "var(--bg-primary)"}} className="ml-auto px-2 py-0.5 /10 rounded-full text-xs font-semibold">{blockedUsers.length}</span>
           </button>
           <button
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'muted' ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg' : 'bg-white text-[var(--text-secondary)] hover:bg-white/50 hover:text-[var(--text-primary)]'}`}
@@ -220,7 +220,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
           >
             <VolumeX size={16} />
             Muted Users
-            <span className="ml-auto px-2 py-0.5 bg-black/10 rounded-full text-xs font-semibold">{mutedUsers.length}</span>
+            <span style={{background: "var(--bg-primary)"}} className="ml-auto px-2 py-0.5 /10 rounded-full text-xs font-semibold">{mutedUsers.length}</span>
           </button>
           <button
             className={`flex items-center gap-2 px-4 py-2.5 rounded-lg font-medium text-sm transition-all ${activeTab === 'keywords' ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg' : 'bg-white text-[var(--text-secondary)] hover:bg-white/50 hover:text-[var(--text-primary)]'}`}
@@ -228,7 +228,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
           >
             <MessageSquareOff size={16} />
             Filtered Keywords
-            <span className="ml-auto px-2 py-0.5 bg-black/10 rounded-full text-xs font-semibold">{keywords.length}</span>
+            <span style={{background: "var(--bg-primary)"}} className="ml-auto px-2 py-0.5 /10 rounded-full text-xs font-semibold">{keywords.length}</span>
           </button>
         </div>
 
@@ -258,7 +258,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                 className="text-[var(--text-primary)]"
               />
               <button
-                className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 disabled:bg-[var(--bg-secondary)] disabled:text-[var(--text-secondary)] text-white rounded-lg font-medium transition-all"
+                style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 disabled:bg-[var(--bg-secondary)] disabled:text-[var(--text-secondary)]  rounded-lg font-medium transition-all"
                 onClick={handleAddKeyword}
                 disabled={!newKeyword.trim()}
               >
@@ -291,7 +291,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                       </div>
                     </div>
                     <button
-                      className="px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg font-medium text-sm transition-all"
+                      style={{color: "var(--text-primary)"}} className="px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover: rounded-lg font-medium text-sm transition-all"
                       onClick={() => handleRemoveKeyword(keyword.id)}
                       title="Remove keyword"
                     >
@@ -376,7 +376,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
 
                   <div className="flex items-center gap-2">
                     <button 
-                      className="px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white rounded-lg font-medium text-sm transition-all"
+                      style={{color: "var(--text-primary)"}} className="px-3 py-1.5 bg-red-600/20 hover:bg-red-600 text-red-400 hover: rounded-lg font-medium text-sm transition-all"
                       onClick={() => setShowConfirmModal({ 
                         type: activeTab, 
                         user 
@@ -426,7 +426,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
 
       {/* Confirmation Modal */}
       {showConfirmModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-md flex items-center justify-center z-[10001] p-5">
+        <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /40 backdrop-blur-md flex items-center justify-center z-[10001] p-5">
           <div className="bg-white border border-[var(--border-subtle)] rounded-2xl p-6 max-w-md w-full text-center">
             <AlertCircle size={32} className="text-[var(--text-primary)]" />
             <h3 className="text-[var(--text-primary)]">
@@ -445,7 +445,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
                 Cancel
               </button>
               <button
-                className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg font-medium transition-all"
+                style={{color: "var(--text-primary)"}} className="flex-1 px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg font-medium transition-all"
                 onClick={() => {
                   if (showConfirmModal.type === 'blocked') {
                     handleUnblock(showConfirmModal.user.id)

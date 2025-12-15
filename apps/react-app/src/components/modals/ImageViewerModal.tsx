@@ -236,7 +236,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
     >
       <div
         ref={containerRef}
-        className="relative w-full h-full flex flex-col bg-black"
+        style={{background: "var(--bg-primary)"}} className="relative w-full h-full flex flex-col "
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
         onWheel={handleWheel}
@@ -246,15 +246,15 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               {showInfo && currentItem?.title && (
-                <div className="text-white">
+                <div style={{color: "var(--text-primary)"}} className="">
                   <h3 className="font-semibold">{currentItem.title}</h3>
                   {currentItem.description && (
-                    <p className="text-sm text-white/70">{currentItem.description}</p>
+                    <p style={{color: "var(--text-primary)"}} className="text-sm /70">{currentItem.description}</p>
                   )}
                 </div>
               )}
               {hasMultiple && (
-                <div className="text-sm text-white/70">
+                <div style={{color: "var(--text-primary)"}} className="text-sm /70">
                   {currentIndex + 1} / {media.length}
                 </div>
               )}
@@ -262,17 +262,17 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
 
             <div className="flex items-center gap-2">
               {/* Zoom Controls */}
-              <div className="flex items-center gap-1 bg-black/50 rounded-lg p-1">
+              <div style={{background: "var(--bg-primary)"}} className="flex items-center gap-1 /50 rounded-lg p-1">
                 <Button
                   variant="ghost"
                   size="icon-sm"
                   onClick={handleZoomOut}
                   disabled={zoom <= 0.5}
-                  className="text-white hover:bg-white/20"
+                  style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 >
                   <ZoomOut className="h-4 w-4" />
                 </Button>
-                <span className="text-white text-sm min-w-12 text-center">
+                <span style={{color: "var(--text-primary)"}} className=" text-sm min-w-12 text-center">
                   {Math.round(zoom * 100)}%
                 </span>
                 <Button
@@ -280,7 +280,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                   size="icon-sm"
                   onClick={handleZoomIn}
                   disabled={zoom >= 3}
-                  className="text-white hover:bg-white/20"
+                  style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 >
                   <ZoomIn className="h-4 w-4" />
                 </Button>
@@ -291,7 +291,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 variant="ghost"
                 size="icon"
                 onClick={handleRotate}
-                className="text-white hover:bg-white/20"
+                style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 aria-label="Rotate"
               >
                 <RotateCw className="h-5 w-5" />
@@ -302,7 +302,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 variant="ghost"
                 size="icon"
                 onClick={handleFullscreen}
-                className="text-white hover:bg-white/20"
+                style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
               >
                 {isFullscreen ? (
@@ -318,7 +318,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                   variant="ghost"
                   size="icon"
                   onClick={handleDownload}
-                  className="text-white hover:bg-white/20"
+                  style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                   aria-label="Download"
                 >
                   <Download className="h-5 w-5" />
@@ -331,7 +331,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                   variant="ghost"
                   size="icon"
                   onClick={handleShareClick}
-                  className="text-white hover:bg-white/20"
+                  style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                   aria-label="Share"
                 >
                   <Share2 className="h-5 w-5" />
@@ -343,7 +343,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 variant="ghost"
                 size="icon"
                 onClick={() => onOpenChange(false)}
-                className="text-white hover:bg-white/20"
+                style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 aria-label="Close"
               >
                 <X className="h-5 w-5" />
@@ -442,7 +442,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full bg-black/50 flex items-center justify-center text-white">
+                    <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="w-full h-full /50 flex items-center justify-center ">
                       <span className="text-2xl">▶</span>
                     </div>
                   )}

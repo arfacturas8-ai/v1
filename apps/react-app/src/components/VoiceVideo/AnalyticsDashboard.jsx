@@ -409,7 +409,7 @@ const AnalyticsDashboard = ({
 
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white gap-5">
+      <div style={{color: "var(--text-primary)"}} className="flex flex-col justify-center items-center h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e]  gap-5">
         <div className="w-10 h-10 border-3 border-white/30 border-t-[#5865f2] rounded-full "></div>
         <p>Loading analytics...</p>
       </div>
@@ -417,21 +417,21 @@ const AnalyticsDashboard = ({
   }
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e] text-white font-['Inter',-apple-system,BlinkMacSystemFont,sans-serif] overflow-hidden">
+    <div style={{color: "var(--text-primary)"}} className="flex flex-col h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e]  font-['Inter',-apple-system,BlinkMacSystemFont,sans-serif] overflow-hidden">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center px-6 py-5 bg-white/5 backdrop-blur-[10px] border-b border-white/10 gap-4 md:gap-0">
+      <div style={{borderColor: "var(--border-subtle)"}} className="flex flex-col md:flex-row justify-between items-stretch md:items-center px-6 py-5 bg-white/5 backdrop-blur-[10px] border-b  gap-4 md:gap-0">
         <div className="flex-1">
-          <h2 className="text-2xl font-semibold m-0 mb-1 text-white">Analytics Dashboard</h2>
+          <h2 style={{color: "var(--text-primary)"}} className="text-2xl font-semibold m-0 mb-1 ">Analytics Dashboard</h2>
           <p className="text-sm text-[#b0b3b8] m-0">Room: {roomId}</p>
         </div>
 
         <div className="flex items-center gap-5 justify-between flex-wrap">
           <div className="flex items-center gap-2">
-            <label className="text-sm text-white whitespace-nowrap">Time Range:</label>
+            <label style={{color: "var(--text-primary)"}} className="text-sm  whitespace-nowrap">Time Range:</label>
             <select
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
+              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="px-3 py-2 bg-white/10 border  rounded-md  text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
             >
               <option value="5m">5 minutes</option>
               <option value="1h">1 hour</option>
@@ -443,7 +443,7 @@ const AnalyticsDashboard = ({
           </div>
 
           <div className="flex items-center">
-            <label className="flex items-center gap-2 text-sm text-white cursor-pointer">
+            <label style={{color: "var(--text-primary)"}} className="flex items-center gap-2 text-sm  cursor-pointer">
               <input
                 type="checkbox"
                 checked={autoRefresh}
@@ -456,7 +456,7 @@ const AnalyticsDashboard = ({
 
           <button
             onClick={exportData}
-            className="px-4 py-2.5 bg-[#5865f2] border-none rounded-md text-white font-medium cursor-pointer transition-all duration-200 hover:bg-[#4752c4] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2"
+            style={{color: "var(--text-primary)"}} className="px-4 py-2.5 bg-[#5865f2] border-none rounded-md  font-medium cursor-pointer transition-all duration-200 hover:bg-[#4752c4] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2"
           >
             Export Data
           </button>
@@ -494,7 +494,7 @@ const AnalyticsDashboard = ({
                 </div>
                 <button
                   onClick={() => dismissAlert(alert.id)}
-                  className="bg-transparent border-none text-[#7f8c8d] cursor-pointer text-lg p-0 w-5 h-5 flex items-center justify-center hover:text-white"
+                  style={{color: "var(--text-primary)"}} className="bg-transparent border-none text-[#7f8c8d] cursor-pointer text-lg p-0 w-5 h-5 flex items-center justify-center hover:"
                 >
                   ×
                 </button>
@@ -505,7 +505,7 @@ const AnalyticsDashboard = ({
       )}
 
       {/* Navigation Tabs */}
-      <div className="flex bg-white/5 border-b border-white/10 overflow-x-auto">
+      <div style={{borderColor: "var(--border-subtle)"}} className="flex bg-white/5 border-b  overflow-x-auto">
         {['overview', 'participants', 'performance', 'history'].map(tab => (
           <button
             key={tab}
@@ -527,8 +527,8 @@ const AnalyticsDashboard = ({
           <div className="flex flex-col gap-8">
             {/* Key Metrics */}
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-              <div className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border border-white/10">
-                <h3 className="text-base font-semibold m-0 mb-4 text-white">Bandwidth Usage</h3>
+              <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border ">
+                <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-4 ">Bandwidth Usage</h3>
                 <canvas
                   ref={chartRefs.bandwidth}
                   width={300}
@@ -537,8 +537,8 @@ const AnalyticsDashboard = ({
                 />
               </div>
 
-              <div className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border border-white/10">
-                <h3 className="text-base font-semibold m-0 mb-4 text-white">Connection Quality</h3>
+              <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border ">
+                <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-4 ">Connection Quality</h3>
                 <canvas
                   ref={chartRefs.quality}
                   width={300}
@@ -547,8 +547,8 @@ const AnalyticsDashboard = ({
                 />
               </div>
 
-              <div className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border border-white/10">
-                <h3 className="text-base font-semibold m-0 mb-4 text-white">Participants</h3>
+              <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border ">
+                <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-4 ">Participants</h3>
                 <canvas
                   ref={chartRefs.participants}
                   width={300}
@@ -557,8 +557,8 @@ const AnalyticsDashboard = ({
                 />
               </div>
 
-              <div className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border border-white/10">
-                <h3 className="text-base font-semibold m-0 mb-4 text-white">Latency</h3>
+              <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/5 rounded-xl p-5 backdrop-blur-[10px] border ">
+                <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-4 ">Latency</h3>
                 <canvas
                   ref={chartRefs.latency}
                   width={300}
@@ -570,7 +570,7 @@ const AnalyticsDashboard = ({
 
             {/* Real-time Stats */}
             <div className="bg-white/5 rounded-xl p-6">
-              <h3 className="text-lg font-semibold m-0 mb-5 text-white">Real-time Statistics</h3>
+              <h3 style={{color: "var(--text-primary)"}} className="text-lg font-semibold m-0 mb-5 ">Real-time Statistics</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div className="flex flex-col gap-2">
                   <label className="text-sm text-[#b0b3b8] font-medium">Packet Loss</label>
@@ -596,7 +596,7 @@ const AnalyticsDashboard = ({
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-sm text-[#b0b3b8] font-medium">Active Speakers</label>
-                  <span className="text-xl font-semibold text-white">{realTimeData.participants?.speaking || 0}</span>
+                  <span style={{color: "var(--text-primary)"}} className="text-xl font-semibold ">{realTimeData.participants?.speaking || 0}</span>
                 </div>
               </div>
             </div>
@@ -606,14 +606,14 @@ const AnalyticsDashboard = ({
         {activeTab === 'participants' && (
           <div className="flex flex-col gap-5">
             <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center mb-5 gap-3">
-              <h3 className="text-lg font-semibold m-0 text-white">Active Participants ({participants.length})</h3>
+              <h3 style={{color: "var(--text-primary)"}} className="text-lg font-semibold m-0 ">Active Participants ({participants.length})</h3>
               <div className="flex flex-col md:flex-row gap-3">
                 <input
                   type="text"
                   placeholder="Search participants..."
-                  className="px-4 py-2.5 bg-white/5 border border-white/10 rounded-md text-white text-sm w-full md:w-[250px] focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
+                  style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2.5 bg-white/5 border  rounded-md  text-sm w-full md:w-[250px] focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
                 />
-                <select className="px-4 py-2.5 bg-white/5 border border-white/10 rounded-md text-white text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]">
+                <select style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2.5 bg-white/5 border  rounded-md  text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]">
                   <option value="all">All</option>
                   <option value="speaking">Speaking</option>
                   <option value="video">Video On</option>
@@ -629,18 +629,18 @@ const AnalyticsDashboard = ({
                     {participant.avatar ? (
                       <img src={participant.avatar} alt={participant.name} className="w-full h-full object-cover" />
                     ) : (
-                      <div className="w-full h-full bg-[#5865f2] flex items-center justify-center text-white font-semibold text-lg">
+                      <div style={{color: "var(--text-primary)"}} className="w-full h-full bg-[#5865f2] flex items-center justify-center  font-semibold text-lg">
                         {participant.name?.charAt(0) || '?'}
                       </div>
                     )}
                   </div>
 
                   <div className="flex-1">
-                    <div className="text-base font-semibold text-white mb-1">{participant.name || 'Unknown'}</div>
+                    <div style={{color: "var(--text-primary)"}} className="text-base font-semibold  mb-1">{participant.name || 'Unknown'}</div>
                     <div className="flex gap-2">
                       {participant.isSpeaking && <span className="px-2 py-0.5 rounded-xl text-xs font-medium bg-[#00d2d3]/20 text-[#00d2d3]">Speaking</span>}
                       {participant.hasVideo && <span className="px-2 py-0.5 rounded-xl text-xs font-medium bg-[#5865f2]/20 text-[#5865f2]">Video</span>}
-                      {participant.hasAudio && <span className="px-2 py-0.5 rounded-xl text-xs font-medium bg-white/10 text-white">Audio</span>}
+                      {participant.hasAudio && <span style={{color: "var(--text-primary)"}} className="px-2 py-0.5 rounded-xl text-xs font-medium bg-white/10 ">Audio</span>}
                     </div>
                   </div>
 
@@ -666,8 +666,8 @@ const AnalyticsDashboard = ({
 
                   {isAdmin && (
                     <div className="flex gap-2">
-                      <button className="px-3 py-1.5 border border-white/20 bg-transparent text-white rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#f39c12]/10 hover:border-[#f39c12] hover:text-[#f39c12] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Mute</button>
-                      <button className="px-3 py-1.5 border border-white/20 bg-transparent text-white rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#ff4757]/10 hover:border-[#ff4757] hover:text-[#ff4757] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Kick</button>
+                      <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="px-3 py-1.5 border  bg-transparent  rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#f39c12]/10 hover:border-[#f39c12] hover:text-[#f39c12] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Mute</button>
+                      <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="px-3 py-1.5 border  bg-transparent  rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#ff4757]/10 hover:border-[#ff4757] hover:text-[#ff4757] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Kick</button>
                     </div>
                   )}
                 </div>
@@ -678,59 +678,59 @@ const AnalyticsDashboard = ({
 
         {activeTab === 'performance' && (
           <div className="flex flex-col gap-6">
-            <h3 className="text-lg font-semibold m-0 mb-5 text-white">Performance Analysis</h3>
+            <h3 style={{color: "var(--text-primary)"}} className="text-lg font-semibold m-0 mb-5 ">Performance Analysis</h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-              <div className="bg-white/5 rounded-xl p-5 border border-white/10">
-                <h4 className="text-base font-semibold m-0 mb-4 text-white">Network Performance</h4>
+              <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/5 rounded-xl p-5 border ">
+                <h4 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-4 ">Network Performance</h4>
                 <div className="flex flex-col gap-3">
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">Average RTT:</span>
-                    <span className="text-white font-semibold">{realTimeData.latency?.rtt || 0}ms</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{realTimeData.latency?.rtt || 0}ms</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">Packet Loss:</span>
-                    <span className="text-white font-semibold">{((realTimeData.connection?.packetLoss || 0) * 100).toFixed(2)}%</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{((realTimeData.connection?.packetLoss || 0) * 100).toFixed(2)}%</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">Bandwidth Utilization:</span>
-                    <span className="text-white font-semibold">{(realTimeData.bandwidth?.upload + realTimeData.bandwidth?.download) || 0} kbps</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{(realTimeData.bandwidth?.upload + realTimeData.bandwidth?.download) || 0} kbps</span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white/5 rounded-xl p-5 border border-white/10">
-                <h4 className="text-base font-semibold m-0 mb-4 text-white">Media Quality</h4>
+              <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/5 rounded-xl p-5 border ">
+                <h4 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-4 ">Media Quality</h4>
                 <div className="flex flex-col gap-3">
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">Video Quality:</span>
-                    <span className="text-white font-semibold">{realTimeData.quality?.video || 0}/5</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{realTimeData.quality?.video || 0}/5</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">Audio Quality:</span>
-                    <span className="text-white font-semibold">{realTimeData.quality?.audio || 0}/5</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{realTimeData.quality?.audio || 0}/5</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">Frame Rate:</span>
-                    <span className="text-white font-semibold">30 fps</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">30 fps</span>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white/5 rounded-xl p-5 border border-white/10">
-                <h4 className="text-base font-semibold m-0 mb-4 text-white">Resource Usage</h4>
+              <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/5 rounded-xl p-5 border ">
+                <h4 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-4 ">Resource Usage</h4>
                 <div className="flex flex-col gap-3">
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">CPU Usage:</span>
-                    <span className="text-white font-semibold">15%</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">15%</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">Memory Usage:</span>
-                    <span className="text-white font-semibold">180 MB</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">180 MB</span>
                   </div>
-                  <div className="flex justify-between items-center py-2 border-b border-white/10 last:border-b-0">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="flex justify-between items-center py-2 border-b  last:border-b-0">
                     <span className="text-[#b0b3b8] text-sm">GPU Usage:</span>
-                    <span className="text-white font-semibold">8%</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">8%</span>
                   </div>
                 </div>
               </div>
@@ -740,25 +740,25 @@ const AnalyticsDashboard = ({
 
         {activeTab === 'history' && (
           <div className="flex flex-col gap-6">
-            <h3 className="text-lg font-semibold m-0 text-white">Historical Data</h3>
+            <h3 style={{color: "var(--text-primary)"}} className="text-lg font-semibold m-0 ">Historical Data</h3>
             <div className="bg-white/5 rounded-xl p-6">
-              <h4 className="text-base font-semibold m-0 mb-5 text-white">Session Summary</h4>
+              <h4 style={{color: "var(--text-primary)"}} className="text-base font-semibold m-0 mb-5 ">Session Summary</h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <div className="flex flex-col gap-2">
                   <label className="text-sm text-[#b0b3b8] font-medium">Total Duration:</label>
-                  <span className="text-lg font-semibold text-white">{formatDuration(Date.now() - (historicalData.sessionStart || Date.now()))}</span>
+                  <span style={{color: "var(--text-primary)"}} className="text-lg font-semibold ">{formatDuration(Date.now() - (historicalData.sessionStart || Date.now()))}</span>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-sm text-[#b0b3b8] font-medium">Peak Participants:</label>
-                  <span className="text-lg font-semibold text-white">{historicalData.peakParticipants || 0}</span>
+                  <span style={{color: "var(--text-primary)"}} className="text-lg font-semibold ">{historicalData.peakParticipants || 0}</span>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-sm text-[#b0b3b8] font-medium">Average Quality:</label>
-                  <span className="text-lg font-semibold text-white">{(historicalData.averageQuality || 0).toFixed(1)}/5</span>
+                  <span style={{color: "var(--text-primary)"}} className="text-lg font-semibold ">{(historicalData.averageQuality || 0).toFixed(1)}/5</span>
                 </div>
                 <div className="flex flex-col gap-2">
                   <label className="text-sm text-[#b0b3b8] font-medium">Data Transferred:</label>
-                  <span className="text-lg font-semibold text-white">{(historicalData.dataTransferred || 0).toFixed(2)} MB</span>
+                  <span style={{color: "var(--text-primary)"}} className="text-lg font-semibold ">{(historicalData.dataTransferred || 0).toFixed(2)} MB</span>
                 </div>
               </div>
             </div>

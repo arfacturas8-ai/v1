@@ -31,8 +31,8 @@ export default function RateLimitedPage() {
   }
 
   return (
-    <div id="main-content" role="main" aria-label="429 Rate Limited" className="min-h-screen flex items-center justify-center bg-[#0d1117] p-3 md:p-5">
-      <div className="text-center text-white max-w-2xl w-full">
+    <div id="main-content" role="main" aria-label="429 Rate Limited" style={{background: "var(--bg-primary)"}} className="min-h-screen flex items-center justify-center  p-3 md:p-5">
+      <div style={{color: "var(--text-primary)"}} className="text-center  max-w-2xl w-full">
         <div className="inline-flex items-center justify-center w-24 h-24 md:w-30 md:h-30 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full mb-6 md:mb-8 backdrop-blur-sm relative" aria-hidden="true">
           <Clock size={64} aria-hidden="true" className="w-12 h-12 md:w-16 md:h-16 text-[#58a6ff]" />
           <div className="absolute inset-0 rounded-full border-4 border-[#58a6ff]/30 border-t-[#58a6ff] " aria-hidden="true" />
@@ -42,31 +42,31 @@ export default function RateLimitedPage() {
           429
         </div>
 
-        <h1 className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6 text-white">
+        <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6 ">
           Slow Down There!
         </h1>
 
-        <p className="text-base md:text-lg text-[#8b949e] mb-6 md:mb-8 leading-relaxed">
+        <p style={{color: "var(--text-secondary)"}} className="text-base md:text-lg  mb-6 md:mb-8 leading-relaxed">
           You've made too many requests. Please wait a moment before trying again.
         </p>
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] md:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 md:p-8 mb-6 md:mb-8 border border-white/10" role="timer" aria-live="polite" aria-atomic="true">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card   rounded-2xl  md:rounded-2xl  p-6 md:p-8 mb-6 md:mb-8 border " role="timer" aria-live="polite" aria-atomic="true">
           <div className="text-4xl md:text-5xl font-bold mb-3 tracking-wider text-[#58a6ff]" aria-label={`${countdown} seconds remaining`}>
             {formatTime(countdown)}
           </div>
-          <p className="text-sm text-[#8b949e] m-0">
+          <p style={{color: "var(--text-secondary)"}} className="text-sm  m-0">
             Time until you can try again
           </p>
         </div>
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg md:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 mb-6 md:mb-8 border border-white/10 text-left">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card   rounded-lg md:rounded-2xl  p-4 md:p-5 mb-6 md:mb-8 border  text-left">
           <div className="flex items-start gap-3 md:gap-4">
             <AlertCircle size={20} className="mt-0.5 flex-shrink-0 text-[#58a6ff]" aria-hidden="true" />
             <div>
-              <h3 className="text-sm md:text-base font-semibold mb-2 text-white">
+              <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-semibold mb-2 ">
                 Why did this happen?
               </h3>
-              <ul className="list-none p-0 m-0 text-xs md:text-sm text-[#c9d1d9] leading-relaxed space-y-1">
+              <ul style={{color: "var(--text-primary)"}} className="list-none p-0 m-0 text-xs md:text-sm  leading-relaxed space-y-1">
                 <li>• You sent too many requests in a short time</li>
                 <li>• Rate limits help protect our service for everyone</li>
                 <li>• Automated scripts may trigger this protection</li>
@@ -79,7 +79,7 @@ export default function RateLimitedPage() {
           <div className="flex gap-3 md:gap-4 flex-wrap justify-center">
             <button
               onClick={handleGoBack}
-              className="inline-flex items-center gap-2 px-5 py-3 md:px-8 md:py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white rounded-lg md:rounded-xl font-semibold text-sm md:text-base border-0 shadow-lg cursor-pointer transition-all hover:opacity-90"
+              style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-2 px-5 py-3 md:px-8 md:py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  rounded-lg md:rounded-xl font-semibold text-sm md:text-base border-0 shadow-lg cursor-pointer transition-all hover:opacity-90"
               aria-label="Go back to previous page"
             >
               <ArrowLeft size={20} aria-hidden="true" />
@@ -88,7 +88,7 @@ export default function RateLimitedPage() {
 
             <Link
               to="/"
-              className="inline-flex items-center gap-2 px-5 py-3 md:px-8 md:py-3.5 bg-[#161b22]/60 text-[#58a6ff] border border-white/10 rounded-lg md:rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline font-semibold text-sm md:text-base backdrop-blur-xl transition-all hover:bg-[#161b22]/60 backdrop-blur-xl"
+              style={{borderColor: "var(--border-subtle)"}} className="card card inline-flex items-center gap-2 px-5 py-3 md:px-8 md:py-3.5 /60 text-[#58a6ff] border  rounded-lg md:rounded-2xl  no-underline font-semibold text-sm md:text-base  transition-all hover: "
               aria-label="Go to home page"
             >
               <Home size={20} aria-hidden="true" />
@@ -97,7 +97,7 @@ export default function RateLimitedPage() {
           </div>
         </nav>
 
-        <div className="mt-8 md:mt-12 text-xs md:text-sm text-[#8b949e]">
+        <div style={{color: "var(--text-secondary)"}} className="mt-8 md:mt-12 text-xs md:text-sm ">
           <p>
             Having issues?{' '}
             <Link

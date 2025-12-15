@@ -159,13 +159,13 @@ export default function PasskeySetupPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-4" style={{ color: 'var(--text-primary)' }}>
         <div className="w-full max-w-md">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="card   rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/10 rounded-full mb-4">
                 <AlertCircle className="w-8 h-8 text-red-500" />
               </div>
               <h1 className="text-2xl font-bold mb-2">Browser Not Supported</h1>
-              <p className="text-[#8b949e] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+              <p style={{color: "var(--text-secondary)"}} className=" mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <button
                 onClick={() => navigate(-1)}
                 className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
@@ -185,7 +185,7 @@ export default function PasskeySetupPage() {
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 flex items-center gap-2 text-[#8b949e] transition-colors"
+          style={{color: "var(--text-secondary)"}} className="mb-6 flex items-center gap-2  transition-colors"
           onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
           onMouseLeave={(e) => e.currentTarget.style.color = '#8b949e'}
           aria-label="Go back"
@@ -195,7 +195,7 @@ export default function PasskeySetupPage() {
         </button>
 
         {/* Card */}
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
+        <div className="card   rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
           {/* Step 1: Introduction */}
           {step === 1 && (
             <>
@@ -204,7 +204,7 @@ export default function PasskeySetupPage() {
                   <Fingerprint className="w-8 h-8 text-[#58a6ff]" />
                 </div>
                 <h1 className="text-2xl font-bold mb-2">Set Up Passkey</h1>
-                <p className="text-[#8b949e]">
+                <p style={{color: "var(--text-secondary)"}} className="">
                   Sign in faster and more securely with biometric authentication
                 </p>
               </div>
@@ -215,7 +215,7 @@ export default function PasskeySetupPage() {
                   <Shield className="w-5 h-5 text-[#58a6ff] flex-shrink-0 mt-0.5" />
                   <div>
                     <h3 className="font-medium mb-1">More Secure</h3>
-                    <p className="text-sm text-[#8b949e]">
+                    <p style={{color: "var(--text-secondary)"}} className="text-sm ">
                       Passkeys use biometric authentication and are resistant to phishing attacks
                     </p>
                   </div>
@@ -225,7 +225,7 @@ export default function PasskeySetupPage() {
                   <Fingerprint className="w-5 h-5 text-[#58a6ff] flex-shrink-0 mt-0.5" />
                   <div>
                     <h3 className="font-medium mb-1">Faster Sign-In</h3>
-                    <p className="text-sm text-[#8b949e]">
+                    <p style={{color: "var(--text-secondary)"}} className="text-sm ">
                       Sign in with Face ID, Touch ID, or Windows Hello
                     </p>
                   </div>
@@ -235,7 +235,7 @@ export default function PasskeySetupPage() {
                   <Key className="w-5 h-5 text-[#58a6ff] flex-shrink-0 mt-0.5" />
                   <div>
                     <h3 className="font-medium mb-1">No Password Needed</h3>
-                    <p className="text-sm text-[#8b949e]">
+                    <p style={{color: "var(--text-secondary)"}} className="text-sm ">
                       Never worry about remembering or resetting passwords
                     </p>
                   </div>
@@ -259,7 +259,7 @@ export default function PasskeySetupPage() {
                   <Smartphone className="w-8 h-8 text-[#58a6ff]" />
                 </div>
                 <h1 className="text-2xl font-bold mb-2">Name Your Device</h1>
-                <p className="text-[#8b949e]">
+                <p style={{color: "var(--text-secondary)"}} className="">
                   This helps you identify which device this passkey is for
                 </p>
               </div>
@@ -297,7 +297,7 @@ export default function PasskeySetupPage() {
                         <QrCode className="w-5 h-5 text-[#58a6ff]" />
                         <h3 className="font-medium">Set Up on Mobile</h3>
                       </div>
-                      <p className="text-sm text-[#8b949e]">
+                      <p style={{color: "var(--text-secondary)"}} className="text-sm ">
                         Scan this QR code with your phone to set up a passkey on your mobile device
                       </p>
                     </div>
@@ -340,14 +340,14 @@ export default function PasskeySetupPage() {
                   <Check className="w-8 h-8 text-green-500" />
                 </div>
                 <h1 className="text-2xl font-bold mb-2">Passkey Created!</h1>
-                <p className="text-[#8b949e]">
+                <p style={{color: "var(--text-secondary)"}} className="">
                   Your passkey has been successfully set up on {registeredDevice?.name || deviceName}
                 </p>
               </div>
 
               <div className="p-6 bg-[#21262d] rounded-lg mb-8" style={{ border: '1px solid var(--border-subtle)' }}>
                 <h3 className="font-medium mb-4">What's Next?</h3>
-                <ul className="space-y-3 text-sm text-[#8b949e]">
+                <ul style={{color: "var(--text-secondary)"}} className="space-y-3 text-sm ">
                   <li className="flex items-start gap-2">
                     <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                     <span>You can now sign in using biometric authentication</span>
@@ -384,7 +384,7 @@ export default function PasskeySetupPage() {
         {/* Help text */}
         {step === 2 && (
           <div className="mt-6 text-center">
-            <p className="text-sm text-[#8b949e]">
+            <p style={{color: "var(--text-secondary)"}} className="text-sm ">
               Need help?{' '}
               <Link to="/help" className="text-[#58a6ff] hover:text-[#3d9df0]">
                 Learn more about passkeys

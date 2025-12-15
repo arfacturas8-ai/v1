@@ -52,7 +52,7 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 z-50 flex items-center justify-center p-4 /40 backdrop-blur-sm">
       <div className="relative w-full max-w-md bg-white border border-[var(--border-subtle)] rounded-2xl shadow-2xl">
         {/* Close button */}
         <button
@@ -66,7 +66,7 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
           {/* Header */}
           <div className="text-center mb-6">
             <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-              <Users className="w-7 h-7 text-white" />
+              <Users style={{color: "var(--text-primary)"}} className="w-7 h-7 " />
             </div>
             <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Invite Friends to CRYB</h2>
             <p className="text-sm text-[var(--text-secondary)]">
@@ -129,7 +129,7 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
                 size="lg"
                 loading={sending}
                 disabled={sending || sent || !email}
-                className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-0 text-white hover:opacity-90 flex-shrink-0"
+                style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-0  hover:opacity-90 flex-shrink-0"
               >
                 {sent ? (
                   <>

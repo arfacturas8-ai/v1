@@ -89,7 +89,7 @@ const MobilePostCard = ({
   return (
     <article
       ref={cardRef}
-      className="relative bg-surface/40 backdrop-blur-sm border border-white/10 rounded-xl p-3 transition-transform touch-pan-y"
+      style={{borderColor: "var(--border-subtle)"}} className="relative bg-surface/40 backdrop-blur-sm border  rounded-xl p-3 transition-transform touch-pan-y"
       style={{
         transform: `translateX(${swipeOffset}px)`,
       }}
@@ -168,7 +168,7 @@ const MobilePostCard = ({
       {/* Flair */}
       {post.flair && (
         <div className="mb-2">
-          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border border-white/10 bg-accent/10 text-accent">
+          <span style={{borderColor: "var(--border-subtle)"}} className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border  bg-accent/10 text-accent">
             {post.flair}
           </span>
         </div>
@@ -201,7 +201,7 @@ const MobilePostCard = ({
             href={post.linkUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="block border border-white/10 rounded-lg p-2 hover:border-accent/50 transition-colors"
+            style={{borderColor: "var(--border-subtle)"}} className="block border  rounded-lg p-2 hover:border-accent/50 transition-colors"
           >
             <div className="flex gap-2">
               {post.linkThumbnail && (

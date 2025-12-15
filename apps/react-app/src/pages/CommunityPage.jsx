@@ -257,7 +257,7 @@ function CommunityPage() {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className="backdrop-blur-xl rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
+        <div className=" rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
               <Shield className="w-8 h-8 text-red-500" />
@@ -281,7 +281,7 @@ function CommunityPage() {
   if (!community) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className="backdrop-blur-xl rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
+        <div className=" rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full inline-flex mb-6" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
               <Users className="w-8 h-8" style={{ color: 'var(--text-tertiary)' }} />
@@ -369,7 +369,7 @@ function CommunityPage() {
         )}
 
         {/* Community Header */}
-        <div className="backdrop-blur-xl" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-subtle)' }}>
+        <div className="" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-subtle)' }}>
           <div className="container mx-auto px-4 py-6 max-w-6xl">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="flex items-center gap-4">
@@ -442,7 +442,7 @@ function CommunityPage() {
             <div className="lg:col-span-2 space-y-6">
               {/* Create Post Button/Form */}
               {isJoined && (
-                <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                   {!showPostForm ? (
                     <button
                       onClick={handleTogglePostForm}
@@ -501,7 +501,7 @@ function CommunityPage() {
               )}
 
               {/* Sort Controls */}
-              <div className="backdrop-blur-xl rounded-2xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+              <div className=" rounded-2xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
                 <div className="flex gap-2 overflow-x-auto pb-2">
                   {sortOptions.map((option) => {
                     const Icon = option.icon
@@ -529,7 +529,7 @@ function CommunityPage() {
               {/* Posts List */}
               <div className="space-y-4">
                 {sortedPosts.length === 0 ? (
-                  <div className="backdrop-blur-xl rounded-2xl p-12 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                  <div className=" rounded-2xl p-12 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
                     <MessageSquare className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-tertiary)' }} />
                     <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No posts yet</h3>
                     <p style={{ color: 'var(--text-secondary)' }}>Be the first to post in this community!</p>
@@ -538,7 +538,7 @@ function CommunityPage() {
                   sortedPosts.map((post) => (
                     <article
                       key={post.id}
-                      className="backdrop-blur-xl rounded-2xl hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all overflow-hidden group"
+                      className=" rounded-2xl hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all overflow-hidden group"
                       style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}
                     >
                       <div className="p-6">
@@ -633,7 +633,7 @@ function CommunityPage() {
             {/* Sidebar */}
             <div className="space-y-6">
               {/* About Community */}
-              <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+              <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
                 <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>About Community</h2>
                 <div className="space-y-4">
                   {communityStats.map((stat, index) => {
@@ -664,7 +664,7 @@ function CommunityPage() {
 
               {/* Community Rules */}
               {displayRules.length > 0 && (
-                <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
                   <h2 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
                     <Shield className="w-5 h-5 text-[#58a6ff]" />
                     Rules
@@ -682,7 +682,7 @@ function CommunityPage() {
 
               {/* Moderators */}
               {displayModerators.length > 0 && (
-                <div className="backdrop-blur-xl rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
+                <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
                   <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Moderators</h2>
                   <div className="space-y-2">
                     {displayModerators.map((mod, index) => (

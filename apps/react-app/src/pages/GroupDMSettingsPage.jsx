@@ -61,36 +61,36 @@ const GroupDMSettingsPage = () => {
   const currentUserRole = members.find(m => m.id === currentUserId)?.role
 
   return (
-    <div className="min-h-screen bg-[#0d1117]" role="main" aria-label="Group DM settings page">
-      <div className="bg-[#161b22]/60 backdrop-blur-xl border-b border-white/10">
+    <div style={{background: "var(--bg-primary)"}} className="min-h-screen " role="main" aria-label="Group DM settings page">
+      <div style={{borderColor: "var(--border-subtle)"}} className="card   border-b ">
         <div className="max-w-3xl mx-auto px-3 md:px-6 py-3 md:py-4 flex items-center gap-3 md:gap-4">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 bg-transparent border-none text-white cursor-pointer rounded-lg hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors flex items-center justify-center"
+            style={{color: "var(--text-primary)"}} className="card p-2 bg-transparent border-none  cursor-pointer rounded-lg hover:  transition-colors flex items-center justify-center"
             aria-label="Go back"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-lg md:text-xl font-bold text-white m-0">Group Settings</h1>
-            <p className="text-xs md:text-sm text-[#8b949e] m-0">{members.length} members</p>
+            <h1 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-bold  m-0">Group Settings</h1>
+            <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm  m-0">{members.length} members</p>
           </div>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-3 md:px-6 py-4 md:py-8 flex flex-col gap-5 md:gap-6">
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
-          <h2 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-white flex items-center gap-2">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-xl p-5 md:p-8 ">
+          <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold mb-3 md:mb-4  flex items-center gap-2">
             <Settings className="w-5 h-5" />
             Group Information
           </h2>
 
           <div className="flex flex-col gap-3 md:gap-4">
             <div className="flex flex-col">
-              <label className="block text-xs md:text-sm font-medium mb-2 text-[#c9d1d9]">Group Icon</label>
+              <label style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium mb-2 ">Group Icon</label>
               <div className="flex items-center gap-3 md:gap-4">
                 <div className="text-5xl md:text-6xl">{groupIcon}</div>
-                <button className="py-2 md:py-2.5 px-3 md:px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none rounded-lg cursor-pointer flex items-center gap-2 text-xs md:text-sm font-medium">
+                <button style={{color: "var(--text-primary)"}} className="py-2 md:py-2.5 px-3 md:px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none rounded-lg cursor-pointer flex items-center gap-2 text-xs md:text-sm font-medium">
                   <Image className="w-4 h-4" />
                   Change Icon
                 </button>
@@ -98,31 +98,31 @@ const GroupDMSettingsPage = () => {
             </div>
 
             <div className="flex flex-col">
-              <label className="block text-xs md:text-sm font-medium mb-2 text-[#c9d1d9]">Group Name</label>
+              <label style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium mb-2 ">Group Name</label>
               <input
                 type="text"
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
-                className="w-full py-2.5 md:py-3 px-3 md:px-4 bg-[#161b22]/80 border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base text-white outline-none"
+                style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full py-2.5 md:py-3 px-3 md:px-4 /80 border  rounded-2xl  text-sm md:text-base  outline-none"
                 disabled={currentUserRole !== 'owner' && currentUserRole !== 'admin'}
               />
             </div>
 
-            <div className="flex items-center justify-between p-3 md:p-4 bg-[#161b22]/80 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+            <div className="card flex items-center justify-between p-3 md:p-4 /80 rounded-2xl ">
               <div className="flex items-center gap-2 md:gap-3">
                 {notificationsEnabled ? (
                   <Bell className="w-5 h-5 text-[#58a6ff]" />
                 ) : (
-                  <BellOff className="w-5 h-5 text-[#8b949e]" />
+                  <BellOff style={{color: "var(--text-secondary)"}} className="w-5 h-5 " />
                 )}
                 <div>
-                  <div className="font-medium text-white mb-1 text-sm md:text-base">Notifications</div>
-                  <div className="text-xs md:text-sm text-[#8b949e]">Get notified of new messages</div>
+                  <div style={{color: "var(--text-primary)"}} className="font-medium  mb-1 text-sm md:text-base">Notifications</div>
+                  <div style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm ">Get notified of new messages</div>
                 </div>
               </div>
               <button
                 onClick={() => setNotificationsEnabled(prev => !prev)}
-                className={`relative w-14 h-8 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border-none cursor-pointer transition-colors ${
+                className={`relative w-14 h-8 rounded-2xl  border-none cursor-pointer transition-colors ${
                   notificationsEnabled ? 'bg-[#58a6ff]' : 'bg-[#8b949e]'
                 }`}
                 aria-pressed={notificationsEnabled}
@@ -135,14 +135,14 @@ const GroupDMSettingsPage = () => {
           </div>
         </div>
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-xl p-5 md:p-8 ">
           <div className="flex items-center justify-between mb-3 md:mb-4">
-            <h2 className="text-base md:text-lg font-semibold text-white flex items-center gap-2 m-0">
+            <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold  flex items-center gap-2 m-0">
               <Users className="w-5 h-5" />
               Members ({members.length})
             </h2>
             {(currentUserRole === 'owner' || currentUserRole === 'admin') && (
-              <button className="py-2 md:py-2.5 px-3 md:px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none rounded-lg cursor-pointer flex items-center gap-2 text-xs md:text-sm font-medium">
+              <button style={{color: "var(--text-primary)"}} className="py-2 md:py-2.5 px-3 md:px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none rounded-lg cursor-pointer flex items-center gap-2 text-xs md:text-sm font-medium">
                 <UserPlus className="w-4 h-4" />
                 Add Members
               </button>
@@ -151,21 +151,21 @@ const GroupDMSettingsPage = () => {
 
           <div className="flex flex-col gap-2">
             {members.map((member) => (
-              <div key={member.id} className="flex items-center justify-between p-3 md:p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors">
+              <div key={member.id} className="card flex items-center justify-between p-3 md:p-4 rounded-2xl  hover:  transition-colors">
                 <div className="flex items-center gap-3 md:gap-4">
                   <div className="relative">
                     <div className="text-2xl md:text-3xl">{member.avatar}</div>
                     {member.isOnline && <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#161b22]/60" />}
                   </div>
                   <div>
-                    <div className="flex items-center gap-2 font-medium text-white text-sm md:text-base">
+                    <div style={{color: "var(--text-primary)"}} className="flex items-center gap-2 font-medium  text-sm md:text-base">
                       <span>{member.username}</span>
                       {getRoleBadge(member.role)}
                       {member.id === currentUserId && (
-                        <span className="text-xs text-[#8b949e]">(You)</span>
+                        <span style={{color: "var(--text-secondary)"}} className="text-xs ">(You)</span>
                       )}
                     </div>
-                    <div className="text-xs md:text-sm text-[#8b949e] capitalize">{member.role}</div>
+                    <div style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm  capitalize">{member.role}</div>
                   </div>
                 </div>
 
@@ -174,14 +174,14 @@ const GroupDMSettingsPage = () => {
                     <select
                       value={member.role}
                       onChange={(e) => changeMemberRole(member.id, e.target.value)}
-                      className="py-1.5 md:py-2 px-2 md:px-3 bg-[#161b22]/80 border border-white/10 rounded-lg text-white text-xs md:text-sm cursor-pointer"
+                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card py-1.5 md:py-2 px-2 md:px-3 /80 border  rounded-lg  text-xs md:text-sm cursor-pointer"
                     >
                       <option value="member">Member</option>
                       <option value="admin">Admin</option>
                     </select>
                     <button
                       onClick={() => removeMember(member.id)}
-                      className="p-2 bg-transparent border-none text-red-500 cursor-pointer rounded-lg hover:bg-[#161b22]/60 backdrop-blur-xl transition-colors flex items-center justify-center"
+                      className="card p-2 bg-transparent border-none text-red-500 cursor-pointer rounded-lg hover:  transition-colors flex items-center justify-center"
                       aria-label={`Remove ${member.username}`}
                     >
                       <UserMinus className="w-4 h-4" />
@@ -193,13 +193,13 @@ const GroupDMSettingsPage = () => {
           </div>
         </div>
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl border-2 border-red-500/30 rounded-xl p-5 md:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="card   border-2 border-red-500/30 rounded-xl p-5 md:p-8 ">
           <h2 className="text-base md:text-lg font-semibold mb-3 md:mb-4 text-red-500">Danger Zone</h2>
 
           <div className="flex flex-col gap-2 md:gap-3">
             <button
               onClick={leaveGroup}
-              className="w-full py-3 md:py-4 px-4 bg-red-500/10 text-red-500 border border-red-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer flex items-center justify-center gap-2 text-sm md:text-base font-medium hover:bg-red-500/20 transition-colors"
+              className="w-full py-3 md:py-4 px-4 bg-red-500/10 text-red-500 border border-red-500/30 rounded-2xl  cursor-pointer flex items-center justify-center gap-2 text-sm md:text-base font-medium hover:bg-red-500/20 transition-colors"
             >
               <LogOut className="w-5 h-5" />
               Leave Group
@@ -208,7 +208,7 @@ const GroupDMSettingsPage = () => {
             {currentUserRole === 'owner' && (
               <button
                 onClick={deleteGroup}
-                className="w-full py-3 md:py-4 px-4 bg-red-500/20 text-red-500 border border-red-500/40 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer flex items-center justify-center gap-2 text-sm md:text-base font-medium hover:bg-red-500/30 transition-colors"
+                className="w-full py-3 md:py-4 px-4 bg-red-500/20 text-red-500 border border-red-500/40 rounded-2xl  cursor-pointer flex items-center justify-center gap-2 text-sm md:text-base font-medium hover:bg-red-500/30 transition-colors"
               >
                 <Trash2 className="w-5 h-5" />
                 Delete Group

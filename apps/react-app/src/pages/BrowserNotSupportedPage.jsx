@@ -7,7 +7,7 @@ const BrowserNotSupportedPage = () => {
     <div
       role="main"
       aria-label="Browser not supported page"
-      className="min-h-screen bg-[#0d1117] flex items-center justify-center p-6"
+      style={{background: "var(--bg-primary)"}} className="min-h-screen  flex items-center justify-center p-6"
     >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -19,36 +19,36 @@ const BrowserNotSupportedPage = () => {
         <div className="w-24 h-24 md:w-30 md:h-30 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
           <AlertTriangle className="w-12 h-12 md:w-16 md:h-16 text-amber-500" aria-hidden="true" />
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4">
+        <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-bold  mb-4">
           Browser Not Supported
         </h1>
-        <p className="text-[#8b949e] text-sm md:text-base mb-8 leading-relaxed">
+        <p style={{color: "var(--text-secondary)"}} className=" text-sm md:text-base mb-8 leading-relaxed">
           Your browser is outdated. Please upgrade to a modern browser for the best experience.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <a
             href="https://www.google.com/chrome/"
             aria-label="Download Chrome browser"
-            className="p-6 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline transition-all hover:border-white/10"
+            style={{borderColor: "var(--border-subtle)"}} className="card p-6   border border-white/10 rounded-2xl  no-underline transition-all hover:"
           >
             <div aria-hidden="true" className="text-5xl mb-3">🌐</div>
-            <div className="font-semibold text-white">Chrome</div>
+            <div style={{color: "var(--text-primary)"}} className="font-semibold ">Chrome</div>
           </a>
           <a
             href="https://www.mozilla.org/firefox/"
             aria-label="Download Firefox browser"
-            className="p-6 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline transition-all hover:border-white/10"
+            style={{borderColor: "var(--border-subtle)"}} className="card p-6   border border-white/10 rounded-2xl  no-underline transition-all hover:"
           >
             <div aria-hidden="true" className="text-5xl mb-3">🦊</div>
-            <div className="font-semibold text-white">Firefox</div>
+            <div style={{color: "var(--text-primary)"}} className="font-semibold ">Firefox</div>
           </a>
           <a
             href="https://www.apple.com/safari/"
             aria-label="Download Safari browser"
-            className="p-6 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] no-underline transition-all hover:border-white/10"
+            style={{borderColor: "var(--border-subtle)"}} className="card p-6   border border-white/10 rounded-2xl  no-underline transition-all hover:"
           >
             <div aria-hidden="true" className="text-5xl mb-3">🧭</div>
-            <div className="font-semibold text-white">Safari</div>
+            <div style={{color: "var(--text-primary)"}} className="font-semibold ">Safari</div>
           </a>
         </div>
       </motion.div>

@@ -23,7 +23,7 @@ const dropdownContentVariants = cva(
     variants: {
       variant: {
         default: 'bg-popover border-border',
-        glass: 'bg-background/80 backdrop-blur-xl border-border/50',
+        glass: 'bg-background/80  border-border/50',
         gradient: 'bg-gradient-to-br from-background via-background to-primary/5 border-primary/20',
         neon: 'bg-background/90 backdrop-blur-md border-2 border-accent-cyan/40',
       },

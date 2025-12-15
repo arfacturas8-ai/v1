@@ -29,9 +29,9 @@ export default function MaintenancePage() {
   }
 
   return (
-    <div role="main" aria-label="Maintenance page" className="min-h-screen flex items-center justify-center bg-[#0d1117] px-4 sm:px-5">
-      <div className="text-center text-white max-w-full sm:max-w-[700px] px-0 sm:px-4">
-        <div className="inline-flex items-center justify-center w-24 sm:w-[120px] h-24 sm:h-[120px] bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(88,166,255,0.3)] rounded-full mb-6 backdrop-blur-[10px] relative">
+    <div role="main" aria-label="Maintenance page" style={{background: "var(--bg-primary)"}} className="min-h-screen flex items-center justify-center  px-4 sm:px-5">
+      <div style={{color: "var(--text-primary)"}} className="text-center  max-w-full sm:max-w-[700px] px-0 sm:px-4">
+        <div className="card inline-flex items-center justify-center w-24 sm:w-[120px] h-24 sm:h-[120px]   border border-[rgba(88,166,255,0.3)] rounded-full mb-6 backdrop-blur-[10px] relative">
           <Wrench size={48} className="sm:w-16 sm:h-16 text-[#58a6ff] animate-wiggle" />
         </div>
 
@@ -39,37 +39,37 @@ export default function MaintenancePage() {
           We'll Be Right Back!
         </h1>
 
-        <p className="text-lg sm:text-xl text-[#8b949e] mb-8 leading-relaxed max-w-[500px] mx-auto">
+        <p style={{color: "var(--text-secondary)"}} className="text-lg sm:text-xl  mb-8 leading-relaxed max-w-[500px] mx-auto">
           Cryb.ai is currently undergoing scheduled maintenance to bring you a better experience.
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 sm:mb-8">
-          <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 border border-white/10">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card    rounded-2xl  p-4 sm:p-5 border ">
             <Clock size={24} className="sm:w-7 sm:h-7 mb-4 text-[#58a6ff] mx-auto" />
-            <div className="text-sm text-[#8b949e] mb-2">
+            <div style={{color: "var(--text-secondary)"}} className="text-sm  mb-2">
               Estimated Duration
             </div>
-            <div className="text-xl sm:text-2xl font-bold text-white">
+            <div style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-bold ">
               {getTimeRemaining()}
             </div>
           </div>
 
-          <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 border border-white/10">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card    rounded-2xl  p-4 sm:p-5 border ">
             <CheckCircle2 size={24} className="sm:w-7 sm:h-7 mb-4 text-emerald-500 mx-auto" />
-            <div className="text-sm text-[#8b949e] mb-2">
+            <div style={{color: "var(--text-secondary)"}} className="text-sm  mb-2">
               Expected Back
             </div>
-            <div className="text-xl sm:text-2xl font-bold text-white">
+            <div style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-bold ">
               {formatTime(estimatedEnd)}
             </div>
           </div>
         </div>
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 sm:p-6 mb-6 sm:mb-8 border border-white/10 text-left">
-          <h3 className="text-base sm:text-lg font-semibold mb-4 text-center text-white">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card    rounded-2xl  p-5 sm:p-6 mb-6 sm:mb-8 border  text-left">
+          <h3 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold mb-4 text-center ">
             What's Being Improved?
           </h3>
-          <ul className="list-none p-0 m-0 text-sm text-[#c9d1d9] leading-8">
+          <ul style={{color: "var(--text-primary)"}} className="list-none p-0 m-0 text-sm  leading-8">
             <li className="flex items-center gap-3">
               <CheckCircle2 size={18} className="text-emerald-500 flex-shrink-0" />
               Performance enhancements for faster loading
@@ -89,8 +89,8 @@ export default function MaintenancePage() {
           </ul>
         </div>
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 mb-6 sm:mb-8 border border-white/10">
-          <p className="text-base text-[#c9d1d9] mb-4 leading-relaxed">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card    rounded-2xl  p-4 sm:p-5 mb-6 sm:mb-8 border ">
+          <p style={{color: "var(--text-primary)"}} className="text-base  mb-4 leading-relaxed">
             Stay updated on our progress:
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
@@ -98,7 +98,7 @@ export default function MaintenancePage() {
               href="https://twitter.com/crybplatform"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white border-none rounded-lg no-underline text-sm font-semibold transition-all hover:scale-105"
+              style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  border-none rounded-lg no-underline text-sm font-semibold transition-all hover:scale-105"
               aria-label="Follow us on Twitter"
             >
               <Twitter size={18} />
@@ -108,7 +108,7 @@ export default function MaintenancePage() {
               href="https://status.cryb.app"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-[#161b22]/60 backdrop-blur-xl text-[#58a6ff] border border-white/10 rounded-lg no-underline text-sm font-semibold transition-all hover:bg-[#161b22]/60 backdrop-blur-xl"
+              style={{borderColor: "var(--border-subtle)"}} className="card card inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 /60  text-[#58a6ff] border  rounded-lg no-underline text-sm font-semibold transition-all hover: "
               aria-label="Check status page"
             >
               <MessageCircle size={18} />
@@ -117,7 +117,7 @@ export default function MaintenancePage() {
           </div>
         </div>
 
-        <p className="text-sm text-[#8b949e] leading-relaxed">
+        <p style={{color: "var(--text-secondary)"}} className="text-sm  leading-relaxed">
           Thank you for your patience! We're working hard to get back online as quickly as possible.
           <br />
           Questions?{' '}
@@ -129,7 +129,7 @@ export default function MaintenancePage() {
           </a>
         </p>
 
-        <div className="mt-6 sm:mt-8 p-4 bg-[#161b22]/60 backdrop-blur-xl rounded-lg backdrop-blur-xl border border-white/10 text-xs text-[#8b949e]">
+        <div style={{color: "var(--text-secondary)"}} style={{borderColor: "var(--border-subtle)"}} className="card mt-6 sm:mt-8 p-4   rounded-lg  border  text-xs ">
           <p className="m-0">
             Maintenance ID: MAINT-{Math.random().toString(36).substring(7).toUpperCase()}
             <br />

@@ -118,11 +118,11 @@ function ServersPage() {
             <img
               src={server?.icon}
               alt={server?.name || 'Server'}
-              className="w-12 h-12 md:w-16 md:h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] object-cover"
+              className="w-12 h-12 md:w-16 md:h-16 rounded-2xl  object-cover"
             />
           ) : (
             <div
-              className="w-12 h-12 md:w-16 md:h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center text-white text-xl md:text-2xl font-bold bg-gradient-to-br from-[#58a6ff] to-[#a371f7]"
+              style={{color: "var(--text-primary)"}} className="w-12 h-12 md:w-16 md:h-16 rounded-2xl  flex items-center justify-center  text-xl md:text-2xl font-bold bg-gradient-to-br from-[#58a6ff] to-[#a371f7]"
             >
               {server?.name?.charAt(0)?.toUpperCase() || 'S'}
             </div>
@@ -134,17 +134,17 @@ function ServersPage() {
           <div className="flex items-start justify-between gap-2 mb-2">
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <h3 className="text-base md:text-lg font-bold text-white truncate">
+                <h3 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-bold  truncate">
                   {server?.name || 'Unnamed Server'}
                 </h3>
                 {server?.isPublic ? (
                   <Globe className="h-4 w-4 text-[#58a6ff] flex-shrink-0" />
                 ) : (
-                  <Lock className="h-4 w-4 text-[#8b949e] flex-shrink-0" />
+                  <Lock style={{color: "var(--text-secondary)"}} className="h-4 w-4  flex-shrink-0" />
                 )}
               </div>
               {server?.description && (
-                <p className="text-sm text-[#8b949e] line-clamp-2">
+                <p style={{color: "var(--text-secondary)"}} className="text-sm  line-clamp-2">
                   {server?.description}
                 </p>
               )}
@@ -174,7 +174,7 @@ function ServersPage() {
           </div>
 
           {/* Server Stats */}
-          <div className="flex items-center gap-3 md:gap-4 text-sm text-[#8b949e]">
+          <div style={{color: "var(--text-secondary)"}} className="flex items-center gap-3 md:gap-4 text-sm ">
             <div className="flex items-center gap-1">
               <Users className="h-4 w-4 flex-shrink-0" />
               <span className="text-xs md:text-sm">{server?.memberCount || 0} members</span>
@@ -295,9 +295,9 @@ function ServersPage() {
         {/* Server List */}
         {error ? (
           <div className="text-center py-12 md:py-16 lg:py-20">
-            <div className="bg-error/10 border border-error/20 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 md:p-8 lg:p-10 max-w-md mx-auto">
+            <div className="bg-error/10 border border-error/20 rounded-2xl  p-6 md:p-8 lg:p-10 max-w-md mx-auto">
               <div className="text-4xl md:text-5xl lg:text-6xl mb-3 md:mb-4">⚠️</div>
-              <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">
+              <h3 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-bold  mb-2 md:mb-3">
                 Something went wrong
               </h3>
               <p className="text-sm md:text-base text-rgb(var(--color-neutral-600)) mb-4 md:mb-6 lg:mb-8">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
@@ -316,7 +316,7 @@ function ServersPage() {
             {activeTab === 'discover' && (publicServers?.length || 0) === 0 && (
               <div className="text-center py-12 md:py-16 lg:py-20">
                 <Globe className="h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 text-rgb(var(--color-neutral-300)) mx-auto mb-3 md:mb-4" />
-                <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">
+                <h3 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-bold  mb-2 md:mb-3">
                   No servers found
                 </h3>
                 <p className="text-sm md:text-base text-secondary mb-4 md:mb-6 lg:mb-8">
@@ -328,7 +328,7 @@ function ServersPage() {
             {activeTab === 'myServers' && (myServers?.length || 0) === 0 && (
               <div className="text-center py-12 md:py-16 lg:py-20">
                 <Users className="h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 text-rgb(var(--color-neutral-300)) mx-auto mb-3 md:mb-4" />
-                <h3 className="text-lg md:text-xl font-bold text-white mb-2 md:mb-3">
+                <h3 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-bold  mb-2 md:mb-3">
                   You haven't joined any servers yet
                 </h3>
                 <p className="text-sm md:text-base text-secondary mb-4 md:mb-6 lg:mb-8">

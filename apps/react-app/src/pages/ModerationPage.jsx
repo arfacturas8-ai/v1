@@ -154,7 +154,7 @@ export default function ModerationPage() {
     return (
       <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Moderation page">
         <div className="container mx-auto px-4 py-8 max-w-7xl">
-          <div className="bg-white backdrop-blur-xl rounded-2xl p-8 text-center shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="bg-white  rounded-2xl p-8 text-center shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
             <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
@@ -162,7 +162,7 @@ export default function ModerationPage() {
             <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <button
               onClick={loadModerationData}
-              className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all"
+              style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-all"
               aria-label="Retry loading"
             >
               Retry
@@ -188,10 +188,10 @@ export default function ModerationPage() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-500 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
@@ -201,10 +201,10 @@ export default function ModerationPage() {
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Requires immediate attention</p>
           </div>
 
-          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-[#58a6ff] to-blue-500 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
@@ -214,10 +214,10 @@ export default function ModerationPage() {
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Auto-detected violations</p>
           </div>
 
-          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-green-500 rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -227,10 +227,10 @@ export default function ModerationPage() {
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Closed in last 24h</p>
           </div>
 
-          <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
+          <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-[#a371f7] rounded-lg flex items-center justify-center">
-                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
@@ -245,7 +245,7 @@ export default function ModerationPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent Reports */}
           <div className="lg:col-span-2">
-            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm overflow-hidden" style={{ border: '1px solid var(--border-subtle)' }}>
+            <div className="bg-white  rounded-2xl shadow-sm overflow-hidden" style={{ border: '1px solid var(--border-subtle)' }}>
               <div className="p-6" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
                 <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Recent Reports</h2>
               </div>
@@ -280,7 +280,7 @@ export default function ModerationPage() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => handleReviewReport(report.id)}
-                          className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white text-sm rounded-lg transition-colors"
+                          style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  text-sm rounded-lg transition-colors"
                           disabled={processingReport === report.id}
                           aria-label={`Review report about ${report.type}`}
                         >
@@ -314,12 +314,12 @@ export default function ModerationPage() {
           {/* Quick Actions & Info */}
           <div className="space-y-6">
             {/* Quick Actions */}
-            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+            <div className="bg-white  rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
               <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Quick Actions</h3>
               <div className="space-y-3">
                 <button
                   onClick={() => handleQuickAction('ban-user')}
-                  className="w-full px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg font-medium transition-all text-left flex items-center justify-between group"
+                  style={{color: "var(--text-primary)"}} className="w-full px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg font-medium transition-all text-left flex items-center justify-between group"
                   aria-label="Ban user"
                 >
                   <span>Ban User</span>
@@ -364,7 +364,7 @@ export default function ModerationPage() {
             </div>
 
             {/* Moderator Info */}
-            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+            <div className="bg-white  rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
               <h3 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Your Stats</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
@@ -387,7 +387,7 @@ export default function ModerationPage() {
             </div>
 
             {/* Guidelines */}
-            <div className="bg-white backdrop-blur-xl rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
+            <div className="bg-white  rounded-2xl shadow-sm p-6" style={{ border: '1px solid var(--border-subtle)' }}>
               <h3 className="text-lg font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Guidelines</h3>
               <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                 <li className="flex items-start gap-2">

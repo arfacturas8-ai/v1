@@ -79,12 +79,12 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
       {/* Backdrop */}
       <div
         onClick={onClose}
-        className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9998]"
+        style={{background: "var(--bg-primary)"}} className="fixed inset-0 /40 backdrop-blur-sm z-[9998]"
       />
 
       {/* Modal Wrapper */}
       <div className="fixed inset-0 flex items-center justify-center p-4 z-[9999]">
-        <div className="w-full max-w-2xl sm:max-w-3xl max-h-[90vh] bg-white backdrop-blur-xl rounded-2xl sm:rounded-3xl border border-[var(--border-subtle)] shadow-2xl overflow-hidden flex flex-col">
+        <div className="w-full max-w-2xl sm:max-w-3xl max-h-[90vh] bg-white  rounded-2xl sm:rounded-3xl border border-[var(--border-subtle)] shadow-2xl overflow-hidden flex flex-col">
 
           {/* Header */}
           <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-6 border-b border-[var(--border-subtle)]">
@@ -150,7 +150,7 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
               </div>
               <button
                 onClick={onClose}
-                className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-lg text-white text-sm font-medium cursor-pointer hover:opacity-90 transition-all min-h-[44px]"
+                style={{color: "var(--text-primary)"}} className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-lg  text-sm font-medium cursor-pointer hover:opacity-90 transition-all min-h-[44px]"
               >
                 Got it
               </button>

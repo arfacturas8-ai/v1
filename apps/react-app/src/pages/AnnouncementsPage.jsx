@@ -13,22 +13,22 @@ const AnnouncementsPage = () => {
     <div
       role="main"
       aria-label="Announcements page"
-      className="min-h-screen bg-[#0d1117] p-4 md:p-6"
+      style={{background: "var(--bg-primary)"}} className="min-h-screen  p-4 md:p-6"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 md:p-8 mb-6 md:mb-8"
+          className="bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl  p-6 md:p-8 mb-6 md:mb-8"
         >
           <div className="flex items-center gap-3 mb-2">
-            <Megaphone className="w-7 h-7 md:w-8 md:h-8 text-white" aria-hidden="true" />
-            <h1 className="text-2xl md:text-3xl font-bold text-white">
+            <Megaphone style={{color: "var(--text-primary)"}} className="w-7 h-7 md:w-8 md:h-8 " aria-hidden="true" />
+            <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-bold ">
               Announcements
             </h1>
           </div>
-          <p className="text-white/90 text-sm md:text-base">
+          <p style={{color: "var(--text-primary)"}} className="/90 text-sm md:text-base">
             Stay updated with the latest news and updates
           </p>
         </motion.div>
@@ -41,7 +41,7 @@ const AnnouncementsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-6 cursor-pointer hover:border-white/10 transition-all"
+              style={{borderColor: "var(--border-subtle)"}} className="card   border border-white/10 rounded-2xl  p-4 md:p-6 cursor-pointer hover: transition-all"
             >
               <div className="flex items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
@@ -49,19 +49,19 @@ const AnnouncementsPage = () => {
                     {announcement.pinned && (
                       <Pin className="w-4 h-4 text-[#58a6ff] flex-shrink-0" aria-hidden="true" />
                     )}
-                    <h3 className="text-base md:text-lg font-semibold text-white break-words">
+                    <h3 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold  break-words">
                       {announcement.title}
                     </h3>
                   </div>
-                  <p className="text-[#8b949e] text-sm md:text-base mb-3 leading-relaxed">
+                  <p style={{color: "var(--text-secondary)"}} className=" text-sm md:text-base mb-3 leading-relaxed">
                     {announcement.content}
                   </p>
-                  <div className="flex items-center gap-2 text-[#8b949e] text-xs md:text-sm">
+                  <div style={{color: "var(--text-secondary)"}} className="flex items-center gap-2  text-xs md:text-sm">
                     <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" aria-hidden="true" />
                     <span>{announcement.date}</span>
                   </div>
                 </div>
-                <ChevronRight className="w-5 h-5 text-[#8b949e] flex-shrink-0" aria-hidden="true" />
+                <ChevronRight style={{color: "var(--text-secondary)"}} className="w-5 h-5  flex-shrink-0" aria-hidden="true" />
               </div>
             </motion.div>
           ))}

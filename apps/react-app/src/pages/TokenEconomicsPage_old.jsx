@@ -327,71 +327,71 @@ function TokenEconomicsPage() {
         <>
           {/* Stats Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
-            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
+            <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center flex-shrink-0">
                   <Coins size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm text-white/60 mb-1">Total Supply</div>
+                  <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">Total Supply</div>
                   <div className="text-base sm:text-lg lg:text-xl font-bold truncate">{tokenStats.totalSupply} CRYB</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
+            <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center flex-shrink-0">
                   <TrendingUp size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm text-white/60 mb-1">Circulating</div>
+                  <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">Circulating</div>
                   <div className="text-base sm:text-lg lg:text-xl font-bold truncate">{tokenStats.circulatingSupply} CRYB</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
+            <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
                   <DollarSign size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm text-white/60 mb-1">Price</div>
+                  <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">Price</div>
                   <div className="text-base sm:text-lg lg:text-xl font-bold">${tokenStats.price}</div>
                   <div className="text-xs text-emerald-400 font-semibold">+5.2%</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/30">
+            <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
                   <BarChart3 size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm text-white/60 mb-1">Market Cap</div>
+                  <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">Market Cap</div>
                   <div className="text-base sm:text-lg lg:text-xl font-bold truncate">${formatNumber(tokenStats.marketCap)}</div>
                 </div>
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all hover:border-purple-500/50 sm:col-span-2 lg:col-span-1">
+            <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/50 sm:col-span-2 lg:col-span-1">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center flex-shrink-0">
                   <Wallet size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-xs sm:text-sm text-white/60 mb-1">Your Balance</div>
+                  <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">Your Balance</div>
                   <div className="text-base sm:text-lg lg:text-xl font-bold truncate">{tokenStats.yourBalance} CRYB</div>
-                  <div className="text-xs text-white/50">${(parseFloat(tokenStats.yourBalance.replace(/,/g, '')) * parseFloat(tokenStats.price)).toFixed(2)}</div>
+                  <div style={{color: "var(--text-primary)"}} className="text-xs /50">${(parseFloat(tokenStats.yourBalance.replace(/,/g, '')) * parseFloat(tokenStats.price)).toFixed(2)}</div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Token Distribution Chart */}
-          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+          <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Token Distribution</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 items-center">
               <div className="flex justify-center">
@@ -425,7 +425,7 @@ function TokenEconomicsPage() {
               </div>
               <div className="space-y-3 sm:space-y-4">
                 {tokenDistribution.map((item, index) => (
-                  <div key={index} className="flex items-center gap-3 sm:gap-4 bg-white/[0.02] p-3 sm:p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:bg-white/[0.05] transition-colors">
+                  <div key={index} className="flex items-center gap-3 sm:gap-4 bg-white/[0.02] p-3 sm:p-4 rounded-2xl  hover:bg-white/[0.05] transition-colors">
                     <div
                       className="w-4 h-4 sm:w-5 sm:h-5 rounded-md flex-shrink-0"
                       style={{ backgroundColor: item.color }}
@@ -433,7 +433,7 @@ function TokenEconomicsPage() {
                     <div className="flex-1 min-w-0">
                       <div className="text-sm sm:text-base font-medium truncate">{item.category}</div>
                     </div>
-                    <div className="text-base sm:text-lg lg:text-xl font-bold text-white/90 flex-shrink-0">{item.percentage}%</div>
+                    <div style={{color: "var(--text-primary)"}} className="text-base sm:text-lg lg:text-xl font-bold /90 flex-shrink-0">{item.percentage}%</div>
                   </div>
                 ))}
               </div>
@@ -441,37 +441,37 @@ function TokenEconomicsPage() {
           </div>
 
           {/* Staking Section */}
-          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+          <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Staking</h2>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
               {/* Staking Stats */}
               <div className="space-y-4">
-                <div className="bg-white/[0.02] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 flex items-center gap-4">
+                <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.02] border  rounded-2xl  p-4 sm:p-5 flex items-center gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center flex-shrink-0">
                     <Lock size={isMobile ? 18 : 20} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs sm:text-sm text-white/60 mb-1">Staked</div>
+                    <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">Staked</div>
                     <div className="text-lg sm:text-xl lg:text-2xl font-bold truncate">{stakingData.staked} CRYB</div>
                   </div>
                 </div>
 
-                <div className="bg-white/[0.02] border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 flex items-center gap-4">
+                <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.02] border  rounded-2xl  p-4 sm:p-5 flex items-center gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
                     <TrendingUp size={isMobile ? 18 : 20} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs sm:text-sm text-white/60 mb-1">APY</div>
+                    <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">APY</div>
                     <div className="text-lg sm:text-xl lg:text-2xl font-bold">{stakingData.apy}%</div>
                   </div>
                 </div>
 
-                <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-5 flex items-center gap-4">
+                <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl  p-4 sm:p-5 flex items-center gap-4">
                   <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
                     <Gift size={isMobile ? 18 : 20} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <div className="text-xs sm:text-sm text-white/60 mb-1">Rewards Earned</div>
+                    <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /60 mb-1">Rewards Earned</div>
                     <div className="text-lg sm:text-xl lg:text-2xl font-bold truncate">{stakingData.rewards} CRYB</div>
                   </div>
                 </div>
@@ -479,7 +479,7 @@ function TokenEconomicsPage() {
 
               {/* Staking Actions */}
               <div className="space-y-4 sm:space-y-6">
-                <div className="flex border-b border-white/10">
+                <div style={{borderColor: "var(--border-subtle)"}} className="flex border-b ">
                   <button
                     className={`flex-1 py-3 px-4 text-sm sm:text-base font-semibold transition-colors ${
                       activeTab === 'stake'
@@ -505,7 +505,7 @@ function TokenEconomicsPage() {
                 {activeTab === 'stake' ? (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-white/80 mb-2">Amount to Stake</label>
+                      <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium /80 mb-2">Amount to Stake</label>
                       <div className="relative">
                         <input
                           type="number"
@@ -521,7 +521,7 @@ function TokenEconomicsPage() {
                           MAX
                         </button>
                       </div>
-                      <div className="text-xs sm:text-sm text-white/50 mt-2">
+                      <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /50 mt-2">
                         Available: {tokenStats.yourBalance} CRYB
                       </div>
                     </div>
@@ -533,7 +533,7 @@ function TokenEconomicsPage() {
                 ) : (
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium text-white/80 mb-2">Amount to Unstake</label>
+                      <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium /80 mb-2">Amount to Unstake</label>
                       <div className="relative">
                         <input
                           type="number"
@@ -549,7 +549,7 @@ function TokenEconomicsPage() {
                           MAX
                         </button>
                       </div>
-                      <div className="text-xs sm:text-sm text-white/50 mt-2">
+                      <div style={{color: "var(--text-primary)"}} className="text-xs sm:text-sm /50 mt-2">
                         Staked: {stakingData.staked} CRYB
                       </div>
                     </div>
@@ -569,13 +569,13 @@ function TokenEconomicsPage() {
           </div>
 
           {/* Governance Proposals */}
-          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+          <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Governance Proposals</h2>
             <div className="space-y-4 sm:space-y-6">
               {proposals.map((proposal) => (
                 <div
                   key={proposal.id}
-                  className={`bg-white/[0.02] border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 transition-all ${
+                  className={`bg-white/[0.02] border rounded-2xl  p-4 sm:p-6 transition-all ${
                     proposal.status === 'active'
                       ? 'border-purple-500/30 hover:border-purple-500/50'
                       : 'border-white/10 hover:border-white/10'
@@ -594,16 +594,16 @@ function TokenEconomicsPage() {
                         </span>
                       </div>
                     </div>
-                    <div className="flex items-center gap-2 text-xs sm:text-sm text-white/60 flex-shrink-0">
+                    <div style={{color: "var(--text-primary)"}} className="flex items-center gap-2 text-xs sm:text-sm /60 flex-shrink-0">
                       <Clock size={14} />
                       {proposal.timeRemaining}
                     </div>
                   </div>
 
-                  <p className="text-sm sm:text-base text-white/70 mb-4 sm:mb-6">{proposal.description}</p>
+                  <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base /70 mb-4 sm:mb-6">{proposal.description}</p>
 
                   <div className="space-y-3 sm:space-y-4">
-                    <div className="h-2 sm:h-3 bg-[#161b22]/60 backdrop-blur-xl rounded-full overflow-hidden">
+                    <div className="card h-2 sm:h-3   rounded-full overflow-hidden">
                       <div
                         className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 transition-all duration-300"
                         style={{
@@ -653,25 +653,25 @@ function TokenEconomicsPage() {
           </div>
 
           {/* Recent Transactions */}
-          <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
+          <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 lg:p-8 mb-6 sm:mb-8">
             <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-6 sm:mb-8">Recent Transactions</h2>
             <div className="overflow-x-auto -mx-4 sm:mx-0">
               {transactions.length > 0 ? (
                 <table className="w-full min-w-[640px]">
                   <thead>
-                    <tr className="border-b border-white/10">
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Type</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Amount</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Transaction Hash</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Time</th>
-                      <th className="text-left py-3 px-4 text-xs sm:text-sm font-semibold text-white/60">Status</th>
+                    <tr style={{borderColor: "var(--border-subtle)"}} className="border-b ">
+                      <th style={{color: "var(--text-primary)"}} className="text-left py-3 px-4 text-xs sm:text-sm font-semibold /60">Type</th>
+                      <th style={{color: "var(--text-primary)"}} className="text-left py-3 px-4 text-xs sm:text-sm font-semibold /60">Amount</th>
+                      <th style={{color: "var(--text-primary)"}} className="text-left py-3 px-4 text-xs sm:text-sm font-semibold /60">Transaction Hash</th>
+                      <th style={{color: "var(--text-primary)"}} className="text-left py-3 px-4 text-xs sm:text-sm font-semibold /60">Time</th>
+                      <th style={{color: "var(--text-primary)"}} className="text-left py-3 px-4 text-xs sm:text-sm font-semibold /60">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {transactions.map((tx) => {
                       const Icon = getTransactionIcon(tx.type)
                       return (
-                        <tr key={tx.id} className="border-b border-white/10 hover:bg-white/[0.02] transition-colors">
+                        <tr key={tx.id} style={{borderColor: "var(--border-subtle)"}} className="border-b  hover:bg-white/[0.02] transition-colors">
                           <td className="py-4 px-4">
                             <div className="flex items-center gap-2">
                               <Icon size={14} className="text-purple-400" />
@@ -689,7 +689,7 @@ function TokenEconomicsPage() {
                               {tx.hash}
                             </a>
                           </td>
-                          <td className="py-4 px-4 text-xs sm:text-sm text-white/60">{formatDate(tx.timestamp)}</td>
+                          <td style={{color: "var(--text-primary)"}} className="py-4 px-4 text-xs sm:text-sm /60">{formatDate(tx.timestamp)}</td>
                           <td className="py-4 px-4">
                             <span className="px-2 sm:px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs sm:text-sm font-semibold capitalize">
                               {tx.status}
@@ -702,19 +702,19 @@ function TokenEconomicsPage() {
                 </table>
               ) : (
                 <div className="flex flex-col items-center justify-center py-12 sm:py-16 text-center">
-                  <Activity size={isMobile ? 32 : 48} className="text-white/30 mb-4" />
-                  <p className="text-white/60 text-sm sm:text-base">No transactions yet</p>
+                  <Activity size={isMobile ? 32 : 48} style={{color: "var(--text-primary)"}} className="/30 mb-4" />
+                  <p style={{color: "var(--text-primary)"}} className="/60 text-sm sm:text-base">No transactions yet</p>
                 </div>
               )}
             </div>
           </div>
 
           {/* Token Claim Section */}
-          <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 sm:p-8 lg:p-12">
+          <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl  p-6 sm:p-8 lg:p-12">
             <div className="flex flex-col items-center text-center max-w-lg mx-auto">
               <Gift size={isMobile ? 40 : 48} className="text-purple-400 mb-4 sm:mb-6" />
               <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4">Claim Your Tokens</h3>
-              <p className="text-sm sm:text-base text-white/70 mb-6 sm:mb-8">
+              <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base /70 mb-6 sm:mb-8">
                 You have unclaimed CRYB tokens from the airdrop
               </p>
               <button

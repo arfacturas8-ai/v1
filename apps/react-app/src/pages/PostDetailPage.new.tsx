@@ -309,7 +309,7 @@ export default function PostDetailPage() {
     return (
       <div key={comment?.id} className={cn(depth > 0 && "ml-12 mt-3")}>
         <div className="flex gap-3">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold text-sm flex-shrink-0">
+          <div style={{color: "var(--text-primary)"}} className="w-8 h-8 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold text-sm flex-shrink-0">
             {comment?.author?.username?.[0]?.toUpperCase() || 'U'}
           </div>
 
@@ -412,7 +412,7 @@ export default function PostDetailPage() {
     <div className="min-h-screen bg-[var(--bg-primary)] pt-16 pb-20">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="sticky top-16 z-10 bg-white/80 backdrop-blur-xl border-b border-[var(--border-subtle)] px-4 py-3 shadow-sm">
+        <div className="sticky top-16 z-10 bg-white/80  border-b border-[var(--border-subtle)] px-4 py-3 shadow-sm">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
@@ -432,14 +432,14 @@ export default function PostDetailPage() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden"
+              className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden"
             >
               {/* Post header */}
               <div className="p-6 border-b border-[var(--border-subtle)]">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-3">
                     <Link to={`/u/${post?.author?.username}`}>
-                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
+                      <div style={{color: "var(--text-primary)"}} className="w-12 h-12 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
                         {post?.author?.username?.[0]?.toUpperCase() || 'U'}
                       </div>
                     </Link>
@@ -642,7 +642,7 @@ export default function PostDetailPage() {
               {user && (
                 <div className="p-6">
                   <div className="flex gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold flex-shrink-0">
+                    <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold flex-shrink-0">
                       {user.username?.[0]?.toUpperCase() || 'U'}
                     </div>
 
@@ -709,7 +709,7 @@ export default function PostDetailPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden"
+              className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden"
             >
               <div className="p-6 border-b border-[var(--border-subtle)]">
                 <div className="flex items-center justify-between">
@@ -766,12 +766,12 @@ export default function PostDetailPage() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
+              className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
             >
               <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">About the author</h3>
 
               <Link to={`/u/${post?.author?.username}`} className="flex items-start gap-3 mb-4">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
+                <div style={{color: "var(--text-primary)"}} className="w-12 h-12 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
                   {post?.author?.username?.[0]?.toUpperCase() || 'U'}
                 </div>
 
@@ -798,7 +798,7 @@ export default function PostDetailPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
+              className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
             >
               <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">Related posts</h3>
 
@@ -826,7 +826,7 @@ export default function PostDetailPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
+              className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
             >
               <h3 className="text-sm font-semibold text-[var(--text-primary)] mb-4">
                 More from @{post?.author?.username}

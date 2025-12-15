@@ -94,7 +94,7 @@ export default function VerifyEmailPage() {
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
-        <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+        <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-blue-500/20 flex items-center justify-center">
               <RefreshCw className="w-8 h-8 text-blue-500 " />
@@ -116,7 +116,7 @@ export default function VerifyEmailPage() {
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
-        <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+        <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8 text-green-500" />
@@ -139,11 +139,11 @@ export default function VerifyEmailPage() {
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8">
           <div className="text-center mb-8">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-              <Mail className="w-8 h-8 text-white" />
+              <Mail style={{color: "var(--text-primary)"}} className="w-8 h-8 " />
             </div>
             <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Check your email</h1>
             {email && (

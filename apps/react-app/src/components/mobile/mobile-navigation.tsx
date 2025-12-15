@@ -316,7 +316,7 @@ const MobileDrawer: React.FC<MobileDrawerProps> = ({
     <Sheet.Root open={open} onOpenChange={onClose}>
       <Sheet.Portal>
         {showOverlay && (
-          <Sheet.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40" />
+          <Sheet.Overlay style={{background: "var(--bg-primary)"}} className="fixed inset-0 /50 backdrop-blur-sm z-40" />
         )}
         
         <Sheet.Content asChild>

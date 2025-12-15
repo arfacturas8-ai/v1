@@ -223,11 +223,11 @@ const BotManagementPage = () => {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">Bot Management</h1>
+          <h1 style={{color: "var(--text-primary)"}} className="text-2xl sm:text-3xl font-bold  mb-2">Bot Management</h1>
           <p className="text-sm sm:text-base text-[#666666]">Manage and configure your automation bots</p>
         </div>
         <button
-          className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-4 sm:px-6 py-3 rounded-xl text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+          style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-4 sm:px-6 py-3 rounded-xl text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
           onClick={() => setShowCreateModal(true)}
           aria-label="Add new bot"
         >
@@ -238,7 +238,7 @@ const BotManagementPage = () => {
 
       {/* Message Toast */}
       {message && (
-        <div className={`fixed top-6 right-6 px-6 py-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm font-medium z-[1000] animate-slide-in ${
+        <div className={`fixed top-6 right-6 px-6 py-4 rounded-2xl  text-sm font-medium z-[1000] animate-slide-in ${
           message?.type === 'success'
             ? 'bg-emerald-500/20 border border-emerald-500 text-emerald-400'
             : 'bg-red-500/20 border border-red-500 text-red-400'
@@ -323,7 +323,7 @@ const BotManagementPage = () => {
           <h3 className="text-xl text-primary mb-2">Error Loading Bots</h3>
           <p className="text-secondary mb-6">{error || 'An error occurred'}</p>
           <button
-            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={loadBots}
           >
             <RefreshCw size={16} />
@@ -339,7 +339,7 @@ const BotManagementPage = () => {
           <h3 className="text-xl text-primary mb-2">No Bots Yet</h3>
           <p className="text-secondary mb-6">Create your first automation bot to get started</p>
           <button
-            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={() => setShowCreateModal(true)}
             aria-label="Create your first bot"
           >
@@ -365,7 +365,7 @@ const BotManagementPage = () => {
             <div key={bot?.id || Math.random()} className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg transition-all">
               {/* Bot Header */}
               <div className="flex items-start gap-4 pb-4 mb-4 border-b border-rgb(var(--color-neutral-200))">
-                <div className="w-16 h-16 rounded-2xl shadow-sm bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white flex-shrink-0">
+                <div style={{color: "var(--text-primary)"}} className="w-16 h-16 rounded-2xl shadow-sm bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  flex-shrink-0">
                   {bot?.avatarUrl ? (
                     <img src={bot?.avatarUrl} alt={bot?.name || 'Bot'} className="w-full h-full object-cover rounded-2xl shadow-sm" />
                   ) : (
@@ -490,7 +490,7 @@ const BotManagementPage = () => {
 
       {/* Create Bot Modal */}
       {showCreateModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowCreateModal(false)}>
+        <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /50 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowCreateModal(false)}>
           <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-xl animate-slide-up" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-5 border-b border-rgb(var(--color-neutral-200)) flex justify-between items-center">
               <h2 className="text-xl font-semibold text-primary">Create New Bot</h2>
@@ -593,7 +593,7 @@ const BotManagementPage = () => {
                 Cancel
               </button>
               <button
-                className="px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-lg transition-all"
+                style={{color: "var(--text-primary)"}} className="px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-lg transition-all"
                 onClick={handleCreateBot}
               >
                 Create Bot
@@ -605,7 +605,7 @@ const BotManagementPage = () => {
 
       {/* Activity Logs Modal */}
       {showActivityModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowActivityModal(false)}>
+        <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /50 backdrop-blur-sm flex items-center justify-center z-[1000] p-4 animate-fade-in" onClick={() => setShowActivityModal(false)}>
           <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-xl animate-slide-up" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-5 border-b border-rgb(var(--color-neutral-200)) flex justify-between items-center">
               <h2 className="text-xl font-semibold text-primary">Activity Logs - {selectedBot?.name || 'Bot'}</h2>

@@ -43,7 +43,7 @@ const CommunityRulesPage = () => {
           <p className="text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>c/{communityName}</p>
         </div>
 
-        <div className="backdrop-blur-xl rounded-2xl p-5 sm:p-6 mb-4 sm:mb-6" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border-subtle)' }}>
+        <div className=" rounded-2xl p-5 sm:p-6 mb-4 sm:mb-6" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border-subtle)' }}>
           {loading ? (
             <div className="text-center py-8 sm:py-10" style={{ color: 'var(--text-secondary)' }}>Loading rules...</div>
           ) : (

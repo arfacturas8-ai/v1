@@ -89,7 +89,7 @@ export default function LandingPage() {
       {/* Navigation */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'backdrop-blur-xl'
+          ? ''
           : 'bg-transparent'
       }`}
         style={isScrolled ? { background: 'rgba(248, 249, 250, 0.95)', borderBottom: '1px solid var(--border-subtle)' } : {}}
@@ -155,7 +155,7 @@ export default function LandingPage() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden backdrop-blur-xl" style={{ background: 'rgba(255, 255, 255, 0.95)', borderTop: '1px solid var(--border-subtle)' }}>
+          <div className="md:hidden " style={{ background: 'rgba(255, 255, 255, 0.95)', borderTop: '1px solid var(--border-subtle)' }}>
             <div className="px-4 py-4 space-y-3">
               <Link to="/tokenomics" className="block py-2 text-sm font-medium transition-colors" style={{ color: 'var(--text-secondary)' }}>
                 Tokenomics
@@ -183,7 +183,7 @@ export default function LandingPage() {
       <section className="relative pt-32 md:pt-40 pb-20 md:pb-32 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2 backdrop-blur-xl rounded-full" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
+          <div className="inline-flex items-center gap-2 mb-8 px-4 py-2  rounded-full" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
             <span className="w-2 h-2 bg-[#58a6ff] rounded-full "></span>
             <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Decentralized Social, Reimagined</span>
           </div>

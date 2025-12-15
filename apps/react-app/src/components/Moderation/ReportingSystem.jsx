@@ -214,7 +214,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-[1000] p-4" onClick={onClose}>
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /50 flex items-center justify-center z-[1000] p-4" onClick={onClose}>
       <div className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-[0_20px_60px_rgba(0,0,0,0.3)] border border-[var(--border-subtle)]" onClick={e => e.stopPropagation()}>
         <div className="flex justify-between items-center p-6 border-b border-[var(--border-subtle)] sticky top-0 bg-white z-10">
           <h2 className="text-xl font-semibold text-[var(--text-primary)] m-0">Report Content</h2>
@@ -333,7 +333,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
               <button
                 type="button"
                 onClick={addEvidenceUrl}
-                className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
+                style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-lg hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors"
                 disabled={!newEvidenceUrl.trim()}
               >
                 Add
@@ -378,14 +378,14 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 disabled:bg-gray-800 disabled:cursor-not-allowed transition-colors"
+              style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gray-600  rounded-lg hover:bg-gray-700 disabled:bg-gray-800 disabled:cursor-not-allowed transition-colors"
               disabled={loading}
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-lg hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+              style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-lg hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
               disabled={loading || !reportData.category || !reportData.description.trim()}
             >
               {loading ? (

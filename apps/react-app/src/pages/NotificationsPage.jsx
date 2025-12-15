@@ -289,7 +289,7 @@ function NotificationsPage() {
               <Bell className="w-6 h-6 text-[#58a6ff]" aria-hidden="true" />
               <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Notifications</h1>
               {unreadCount > 0 && (
-                <span className="px-2 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs font-semibold rounded-full shadow-lg" aria-label={`${unreadCount} unread notifications`}>
+                <span style={{color: "var(--text-primary)"}} className="px-2 py-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-xs font-semibold rounded-full shadow-lg" aria-label={`${unreadCount} unread notifications`}>
                   {unreadCount}
                 </span>
               )}
@@ -343,7 +343,7 @@ function NotificationsPage() {
               <div className="flex gap-2">
                 <button
                   onClick={handleBulkMarkRead}
-                  className="px-3 py-1.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-sm text-white font-medium flex items-center gap-1.5 transition-all duration-200 touch-target"
+                  style={{color: "var(--text-primary)"}} className="px-3 py-1.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg text-sm  font-medium flex items-center gap-1.5 transition-all duration-200 touch-target"
                   aria-label="Mark selected notifications as read"
                 >
                   <Check className="w-4 h-4" aria-hidden="true" />
@@ -351,7 +351,7 @@ function NotificationsPage() {
                 </button>
                 <button
                   onClick={handleBulkDelete}
-                  className="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-sm text-white font-medium flex items-center gap-1.5 transition-all duration-200 touch-target"
+                  style={{color: "var(--text-primary)"}} className="px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg text-sm  font-medium flex items-center gap-1.5 transition-all duration-200 touch-target"
                   aria-label="Delete selected notifications"
                 >
                   <Trash2 className="w-4 h-4" aria-hidden="true" />
@@ -374,7 +374,7 @@ function NotificationsPage() {
             <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <button
               onClick={fetchNotifications}
-              className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg text-white font-medium transition-all duration-200 touch-target"
+              style={{color: "var(--text-primary)"}} className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg  font-medium transition-all duration-200 touch-target"
               aria-label="Try again to load notifications"
             >
               Try Again
@@ -388,7 +388,7 @@ function NotificationsPage() {
             <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>Please sign in to view your notifications</p>
             <button
               onClick={() => navigate('/login')}
-              className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg text-white font-medium transition-all duration-200 touch-target"
+              style={{color: "var(--text-primary)"}} className="px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 hover:shadow-lg rounded-lg  font-medium transition-all duration-200 touch-target"
               aria-label="Sign in to view notifications"
             >
               Sign In
@@ -412,7 +412,7 @@ function NotificationsPage() {
                     type="checkbox"
                     checked={selectedNotifications.has(notification.id)}
                     onChange={() => handleToggleSelect(notification.id)}
-                    className="mt-1 w-4 h-4 rounded border-white/20 bg-transparent checked:bg-gradient-to-r checked:from-[#58a6ff] checked:to-[#a371f7] focus:ring-2 focus:ring-[#58a6ff]/50 cursor-pointer transition-all"
+                    style={{borderColor: "var(--border-default)"}} className="mt-1 w-4 h-4 rounded  bg-transparent checked:bg-gradient-to-r checked:from-[#58a6ff] checked:to-[#a371f7] focus:ring-2 focus:ring-[#58a6ff]/50 cursor-pointer transition-all"
                     aria-label={`Select notification: ${notification.title}`}
                   />
 

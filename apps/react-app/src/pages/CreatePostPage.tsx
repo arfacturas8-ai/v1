@@ -372,11 +372,11 @@ export default function CreatePostPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
+          className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6"
         >
           {/* User info */}
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
+            <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
               {user?.username?.[0]?.toUpperCase() || 'U'}
             </div>
 
@@ -449,7 +449,7 @@ export default function CreatePostPage() {
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className="absolute bottom-full mb-2 left-0 bg-[#1A1A1A] border border-white/10 rounded-xl shadow-xl overflow-hidden z-50 w-64"
+                  style={{borderColor: "var(--border-subtle)"}} className="absolute bottom-full mb-2 left-0 bg-[#1A1A1A] border  rounded-xl shadow-xl overflow-hidden z-50 w-64"
                 >
                   {mockUsers
                     .filter(user => user.toLowerCase().includes(mentionQuery.toLowerCase()))
@@ -459,7 +459,7 @@ export default function CreatePostPage() {
                         onClick={() => handleMentionSelect(user)}
                         className="w-full flex items-center gap-2 px-3 py-2 hover:bg-[var(--bg-secondary)] transition-colors text-left"
                       >
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold text-sm">
+                        <div style={{color: "var(--text-primary)"}} className="w-8 h-8 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold text-sm">
                           {user[0].toUpperCase()}
                         </div>
                         <span className="text-[var(--text-primary)]">@{user}</span>
@@ -518,19 +518,19 @@ export default function CreatePostPage() {
                     )}
 
                     {file.status === 'uploading' && (
-                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                      <div style={{background: "var(--bg-primary)"}} className="absolute inset-0 /60 flex items-center justify-center">
                         <div className="text-center">
-                          <span className="text-white text-sm">{file.progress}%</span>
+                          <span style={{color: "var(--text-primary)"}} className=" text-sm">{file.progress}%</span>
                         </div>
                       </div>
                     )}
 
                     <button
                       onClick={() => handleRemoveMedia(file.id)}
-                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/60 hover:bg-black/80 transition-colors"
+                      style={{background: "var(--bg-primary)"}} className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/60 hover:/80 transition-colors"
                       aria-label="Remove media"
                     >
-                      <X className="w-4 h-4 text-white" />
+                      <X style={{color: "var(--text-primary)"}} className="w-4 h-4 " />
                     </button>
                   </div>
                 ))}

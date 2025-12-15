@@ -23,34 +23,34 @@ const PrivacySettingsPage = () => {
           {/* Header */}
           <div className="mb-6 sm:mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
-                <Shield className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl  flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
+                <Shield style={{color: "var(--text-primary)"}} className="w-4 h-4 sm:w-5 sm:h-5 " />
               </div>
-              <h1 className="text-xl sm:text-2xl font-bold text-white">Privacy Settings</h1>
+              <h1 style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-bold ">Privacy Settings</h1>
             </div>
             <p className="text-sm sm:text-base text-[#666666]">Control who can see your information and how your data is used</p>
           </div>
 
           {/* Profile Visibility */}
-          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-[#58a6ff]" />
-              <h2 className="text-base sm:text-lg font-semibold text-white">Profile Visibility</h2>
+              <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Profile Visibility</h2>
             </div>
             <div className="space-y-2 sm:space-y-3">
               {['public', 'friends', 'private'].map(option => (
                 <label key={option} className="flex items-center gap-3 p-2 sm:p-3 rounded-lg cursor-pointer" style={{ background: settings.profileVisibility === option ? 'rgba(88, 166, 255, 0.1)' : 'transparent', border: settings.profileVisibility === option ? '1px solid rgba(88, 166, 255, 0.3)' : '1px solid transparent' }}>
                   <input type="radio" name="visibility" checked={settings.profileVisibility === option} onChange={() => updateSetting('profileVisibility', option)} className="sr-only" />
                   <div className="w-4 h-4 rounded-full border-2 flex-shrink-0" style={{ borderColor: settings.profileVisibility === option ? '#58a6ff' : '#666666', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
-                  <span className="text-sm sm:text-base text-white capitalize">{option}</span>
+                  <span style={{color: "var(--text-primary)"}} className="text-sm sm:text-base  capitalize">{option}</span>
                 </label>
               ))}
             </div>
           </div>
 
           {/* Toggle Settings */}
-          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
-            <h2 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Activity & Status</h2>
+          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold  mb-3 sm:mb-4">Activity & Status</h2>
             <div className="space-y-3 sm:space-y-4">
               {[
                 { key: 'showOnlineStatus', icon: Eye, label: 'Show Online Status', desc: 'Let others see when you are online' },
@@ -60,7 +60,7 @@ const PrivacySettingsPage = () => {
                   <div className="flex items-center gap-2 sm:gap-3 min-w-0">
                     <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#666666] flex-shrink-0" />
                     <div className="min-w-0">
-                      <p className="text-sm sm:text-base text-white font-medium">{item.label}</p>
+                      <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base  font-medium">{item.label}</p>
                       <p className="text-xs sm:text-sm text-[#666666]">{item.desc}</p>
                     </div>
                   </div>
@@ -73,13 +73,13 @@ const PrivacySettingsPage = () => {
           </div>
 
           {/* Direct Messages */}
-          <div className="rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 sm:p-6" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl  p-4 sm:p-6" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-[#a371f7]" />
-              <h2 className="text-base sm:text-lg font-semibold text-white">Direct Messages</h2>
+              <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Direct Messages</h2>
             </div>
             <p className="text-sm sm:text-base text-[#666666] mb-3 sm:mb-4">Control who can send you direct messages</p>
-            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base text-white outline-none" style={{ background: '#1A1A1A', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} style={{color: "var(--text-primary)"}} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base  outline-none" style={{ background: '#1A1A1A', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
               <option value="everyone">Everyone</option>
               <option value="friends">Friends Only</option>
               <option value="none">No One</option>

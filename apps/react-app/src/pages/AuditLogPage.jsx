@@ -231,7 +231,7 @@ export default function AuditLogPage() {
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
         <div className="text-center">
           <Loader2 className="w-12 h-12  text-[#58a6ff] mx-auto mb-4" />
-          <p className="text-[#8b949e]">Loading audit logs...</p>
+          <p style={{color: "var(--text-secondary)"}} className="">Loading audit logs...</p>
         </div>
       </div>
     )
@@ -246,29 +246,29 @@ export default function AuditLogPage() {
             <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-[#58a6ff]" />
             <h1 className="text-2xl sm:text-3xl font-bold">Audit Log</h1>
           </div>
-          <p className="text-sm sm:text-base text-[#8b949e]">
+          <p style={{color: "var(--text-secondary)"}} className="text-sm sm:text-base ">
             Comprehensive log of all system actions and administrative activities
           </p>
         </div>
 
         {/* Filters and Search */}
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg border border-white/10 p-4 sm:p-6 mb-4 sm:mb-6">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card   rounded-lg border  p-4 sm:p-6 mb-4 sm:mb-6">
           {/* Search bar */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mb-4">
             <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-[#8b949e]" />
+              <Search style={{color: "var(--text-secondary)"}} className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 " />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search logs by user, action, or target..."
-                className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-3 text-sm sm:text-base bg-[#21262d] border border-white/10 rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors"
+                style={{borderColor: "var(--border-subtle)"}} className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-3 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors"
               />
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border border-white/10 rounded-lg hover:bg-[#30363d] transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+                style={{borderColor: "var(--border-subtle)"}} className="flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
                 <span className="hidden sm:inline">Filters</span>
@@ -277,7 +277,7 @@ export default function AuditLogPage() {
               <button
                 onClick={loadLogs}
                 disabled={loading}
-                className="px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border border-white/10 rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50"
+                style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50"
                 title="Refresh"
               >
                 <RefreshCw className={`w-4 h-4 sm:w-5 sm:h-5 ${loading ? '' : ''}`} />
@@ -295,13 +295,13 @@ export default function AuditLogPage() {
 
           {/* Filter options */}
           {showFilters && (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 pt-4 border-t border-white/10">
+            <div style={{borderColor: "var(--border-subtle)"}} className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 pt-4 border-t ">
               <div>
                 <label className="block text-xs sm:text-sm font-medium mb-2">Action Type</label>
                 <select
                   value={selectedAction}
                   onChange={(e) => setSelectedAction(e.target.value)}
-                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border border-white/10 rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
                 >
                   {actionTypes.map(action => (
                     <option key={action.value} value={action.value}>
@@ -316,7 +316,7 @@ export default function AuditLogPage() {
                 <select
                   value={selectedUser}
                   onChange={(e) => setSelectedUser(e.target.value)}
-                  className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border border-white/10 rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
                 >
                   <option value="all">All Users</option>
                   {uniqueUsers.map(user => (
@@ -334,13 +334,13 @@ export default function AuditLogPage() {
                     type="date"
                     value={dateRange.start}
                     onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                    className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#21262d] border border-white/10 rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                    style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
                   />
                   <input
                     type="date"
                     value={dateRange.end}
                     onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                    className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#21262d] border border-white/10 rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                    style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
                   />
                 </div>
               </div>
@@ -350,7 +350,7 @@ export default function AuditLogPage() {
 
         {/* Results count */}
         <div className="flex items-center justify-between mb-4">
-          <p className="text-sm text-[#8b949e]">
+          <p style={{color: "var(--text-secondary)"}} className="text-sm ">
             Showing {indexOfFirstLog + 1}-{Math.min(indexOfLastLog, filteredLogs.length)} of {filteredLogs.length} logs
           </p>
         </div>
@@ -364,18 +364,18 @@ export default function AuditLogPage() {
         )}
 
         {/* Logs table */}
-        <div className="bg-[#161b22]/60 backdrop-blur-xl rounded-lg border border-white/10 overflow-hidden">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card   rounded-lg border  overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px]">
-              <thead className="bg-[#21262d] border-b border-white/10">
+              <thead style={{borderColor: "var(--border-subtle)"}} className="bg-[#21262d] border-b ">
                 <tr>
-                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-[#8b949e]">Severity</th>
-                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-[#8b949e]">Timestamp</th>
-                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-[#8b949e]">User</th>
-                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-[#8b949e]">Action</th>
-                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-[#8b949e] hidden md:table-cell">Target</th>
-                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-[#8b949e] hidden lg:table-cell">IP Address</th>
-                  <th className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium text-[#8b949e]">Details</th>
+                  <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium ">Severity</th>
+                  <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium ">Timestamp</th>
+                  <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium ">User</th>
+                  <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium ">Action</th>
+                  <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium  hidden md:table-cell">Target</th>
+                  <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium  hidden lg:table-cell">IP Address</th>
+                  <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium ">Details</th>
                 </tr>
               </thead>
               <tbody>
@@ -383,19 +383,19 @@ export default function AuditLogPage() {
                   currentLogs.map((log) => {
                     const timestamp = formatTimestamp(log.timestamp)
                     return (
-                      <tr key={log.id} className="border-b border-white/10 hover:bg-[#21262d] transition-colors">
+                      <tr key={log.id} style={{borderColor: "var(--border-subtle)"}} className="border-b  hover:bg-[#21262d] transition-colors">
                         <td className="px-3 sm:px-6 py-3 sm:py-4">
                           {getSeverityIcon(log.severity)}
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4">
                           <div className="text-xs sm:text-sm">
-                            <div className="text-white">{timestamp.date}</div>
-                            <div className="text-[#8b949e] text-xs">{timestamp.time}</div>
+                            <div style={{color: "var(--text-primary)"}} className="">{timestamp.date}</div>
+                            <div style={{color: "var(--text-secondary)"}} className=" text-xs">{timestamp.time}</div>
                           </div>
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4">
                           <div className="flex items-center gap-2">
-                            <User className="w-3 h-3 sm:w-4 sm:h-4 text-[#8b949e] flex-shrink-0" />
+                            <User style={{color: "var(--text-secondary)"}} className="w-3 h-3 sm:w-4 sm:h-4  flex-shrink-0" />
                             <span className="text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none">{log.user}</span>
                           </div>
                         </td>
@@ -406,10 +406,10 @@ export default function AuditLogPage() {
                           </div>
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 hidden md:table-cell">
-                          <span className="text-xs sm:text-sm font-mono text-[#8b949e]">{log.target}</span>
+                          <span style={{color: "var(--text-secondary)"}} className="text-xs sm:text-sm font-mono ">{log.target}</span>
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4 hidden lg:table-cell">
-                          <span className="text-xs sm:text-sm font-mono text-[#8b949e]">{log.ipAddress}</span>
+                          <span style={{color: "var(--text-secondary)"}} className="text-xs sm:text-sm font-mono ">{log.ipAddress}</span>
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4">
                           <button
@@ -426,8 +426,8 @@ export default function AuditLogPage() {
                 ) : (
                   <tr>
                     <td colSpan={7} className="px-3 sm:px-6 py-8 sm:py-12 text-center">
-                      <FileText className="w-8 h-8 sm:w-12 sm:h-12 text-[#8b949e] mx-auto mb-3" />
-                      <p className="text-sm sm:text-base text-[#8b949e]">No logs found matching your filters</p>
+                      <FileText style={{color: "var(--text-secondary)"}} className="w-8 h-8 sm:w-12 sm:h-12  mx-auto mb-3" />
+                      <p style={{color: "var(--text-secondary)"}} className="text-sm sm:text-base ">No logs found matching your filters</p>
                     </td>
                   </tr>
                 )}
@@ -442,7 +442,7 @@ export default function AuditLogPage() {
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border border-white/10 rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="hidden sm:inline">Previous</span>
               <span className="sm:hidden">Prev</span>
@@ -468,7 +468,7 @@ export default function AuditLogPage() {
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border border-white/10 rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>
@@ -477,8 +477,8 @@ export default function AuditLogPage() {
 
         {/* Detail modal */}
         {selectedLog && (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setSelectedLog(null)}>
-            <div className="bg-[#161b22]/95 backdrop-blur-xl rounded-lg border border-white/10 p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+          <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setSelectedLog(null)}>
+            <div style={{borderColor: "var(--border-subtle)"}} className="card /95  rounded-lg border  p-4 sm:p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-start justify-between mb-4 sm:mb-6">
                 <div className="flex items-center gap-2 sm:gap-3">
                   {getSeverityIcon(selectedLog.severity)}
@@ -486,7 +486,7 @@ export default function AuditLogPage() {
                 </div>
                 <button
                   onClick={() => setSelectedLog(null)}
-                  className="text-[#8b949e] hover:text-white transition-colors"
+                  style={{color: "var(--text-primary)"}} style={{color: "var(--text-secondary)"}} className=" hover: transition-colors"
                 >
                   <XCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
@@ -495,31 +495,31 @@ export default function AuditLogPage() {
               <div className="space-y-3 sm:space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
-                    <label className="block text-xs sm:text-sm text-[#8b949e] mb-1">User</label>
+                    <label style={{color: "var(--text-secondary)"}} className="block text-xs sm:text-sm  mb-1">User</label>
                     <p className="text-sm sm:text-base font-medium break-all">{selectedLog.user}</p>
                   </div>
                   <div>
-                    <label className="block text-xs sm:text-sm text-[#8b949e] mb-1">Target</label>
+                    <label style={{color: "var(--text-secondary)"}} className="block text-xs sm:text-sm  mb-1">Target</label>
                     <p className="text-xs sm:text-sm font-mono break-all">{selectedLog.target}</p>
                   </div>
                   <div>
-                    <label className="block text-xs sm:text-sm text-[#8b949e] mb-1">Timestamp</label>
+                    <label style={{color: "var(--text-secondary)"}} className="block text-xs sm:text-sm  mb-1">Timestamp</label>
                     <p className="text-xs sm:text-sm">{new Date(selectedLog.timestamp).toLocaleString()}</p>
                   </div>
                   <div>
-                    <label className="block text-xs sm:text-sm text-[#8b949e] mb-1">IP Address</label>
+                    <label style={{color: "var(--text-secondary)"}} className="block text-xs sm:text-sm  mb-1">IP Address</label>
                     <p className="text-xs sm:text-sm font-mono">{selectedLog.ipAddress}</p>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm text-[#8b949e] mb-1">User Agent</label>
+                  <label style={{color: "var(--text-secondary)"}} className="block text-xs sm:text-sm  mb-1">User Agent</label>
                   <p className="text-xs sm:text-sm break-all">{selectedLog.userAgent}</p>
                 </div>
 
                 <div>
-                  <label className="block text-xs sm:text-sm text-[#8b949e] mb-1">Details</label>
-                  <pre className="bg-[#21262d] border border-white/10 rounded-lg p-3 sm:p-4 text-xs sm:text-sm overflow-x-auto">
+                  <label style={{color: "var(--text-secondary)"}} className="block text-xs sm:text-sm  mb-1">Details</label>
+                  <pre style={{borderColor: "var(--border-subtle)"}} className="bg-[#21262d] border  rounded-lg p-3 sm:p-4 text-xs sm:text-sm overflow-x-auto">
                     {JSON.stringify(selectedLog.details, null, 2)}
                   </pre>
                 </div>

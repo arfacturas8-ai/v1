@@ -265,7 +265,7 @@ function ThreadView({
   background: 'rgba(22, 27, 34, 0.6)'
 }}>
       {/* Thread Header */}
-      <div className="flex-shrink-0 border-b border-white/10 dark:border-gray-700">
+      <div style={{borderColor: "var(--border-subtle)"}} className="flex-shrink-0 border-b  dark:border-gray-700">
         <div style={{
   padding: '16px'
 }}>

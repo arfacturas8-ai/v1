@@ -316,7 +316,7 @@ const CommunityMembersDetailPage: React.FC = () => {
             {canManageMembers && (
               <button
                 onClick={() => navigate(`/community/${communityName}/settings`)}
-                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+                style={{color: "var(--text-primary)"}} className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl  font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
               >
                 <ShieldCheck size={18} />
                 Manage Settings
@@ -433,7 +433,7 @@ const CommunityMembersDetailPage: React.FC = () => {
                         className="w-16 h-16 rounded-xl object-cover border border-[var(--border-subtle)]"
                       />
                     ) : (
-                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                      <div style={{color: "var(--text-primary)"}} className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  text-xl font-bold shadow-lg">
                         {(member.displayName || member.username)[0].toUpperCase()}
                       </div>
                     )}

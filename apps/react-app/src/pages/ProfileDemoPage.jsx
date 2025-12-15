@@ -142,7 +142,7 @@ export default function ProfileDemoPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950" role="main" aria-label="Profile demo page">
       {/* Profile Switcher */}
-      <div className="bg-[#161b22]/50 backdrop-blur border-b border-slate-800/50">
+      <div className="card /50 backdrop-blur border-b border-slate-800/50">
         <div className="container mx-auto px-4 py-4 max-w-7xl">
           <div className="flex items-center gap-3 overflow-x-auto">
             <span className="text-slate-400 text-sm font-medium whitespace-nowrap">View Profile:</span>
@@ -182,10 +182,10 @@ export default function ProfileDemoPage() {
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Profile Header */}
-        <div className="bg-[#161b22]/50 backdrop-blur border border-slate-800/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden mb-8">
+        <div className="card /50 backdrop-blur border border-slate-800/50 rounded-2xl  overflow-hidden mb-8">
           {/* Banner */}
           <div className="h-48 bg-gradient-to-r from-[#58a6ff] via-purple-600 to-pink-600 relative">
-            <div className="absolute inset-0 bg-black/20"></div>
+            <div style={{background: "var(--bg-primary)"}} className="absolute inset-0 /20"></div>
           </div>
 
           {/* Profile Info */}
@@ -193,7 +193,7 @@ export default function ProfileDemoPage() {
             <div className="flex flex-col md:flex-row gap-6 -mt-20 md:-mt-16">
               {/* Avatar */}
               <div className="flex-shrink-0">
-                <div className="w-32 h-32 bg-gradient-to-br from-[#58a6ff] via-purple-600 to-pink-600 rounded-2xl border-4 border-slate-900 flex items-center justify-center text-white font-bold text-4xl shadow-2xl">
+                <div style={{color: "var(--text-primary)"}} className="w-32 h-32 bg-gradient-to-br from-[#58a6ff] via-purple-600 to-pink-600 rounded-2xl border-4 border-slate-900 flex items-center justify-center  font-bold text-4xl shadow-2xl">
                   {currentProfile.displayName[0]}
                 </div>
               </div>
@@ -202,10 +202,10 @@ export default function ProfileDemoPage() {
               <div className="flex-1 min-w-0 mt-16 md:mt-0">
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
                   <div>
-                    <h1 className="text-3xl font-bold text-white mb-2">{currentProfile.displayName}</h1>
+                    <h1 style={{color: "var(--text-primary)"}} className="text-3xl font-bold  mb-2">{currentProfile.displayName}</h1>
                     <p className="text-slate-400">@{currentProfile.username}</p>
                   </div>
-                  <Button className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:shadow-lg hover:shadow-blue-500/25">
+                  <Button style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  hover:shadow-lg hover:shadow-blue-500/25">
                     <UserPlus className="w-4 h-4 mr-2" />
                     Follow
                   </Button>
@@ -242,22 +242,22 @@ export default function ProfileDemoPage() {
                 <div className="flex flex-wrap gap-6 text-sm">
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-slate-400" />
-                    <span className="text-white font-semibold">{currentProfile.followerCount.toLocaleString()}</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.followerCount.toLocaleString()}</span>
                     <span className="text-slate-400">Followers</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Users className="w-4 h-4 text-slate-400" />
-                    <span className="text-white font-semibold">{currentProfile.followingCount.toLocaleString()}</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.followingCount.toLocaleString()}</span>
                     <span className="text-slate-400">Following</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Trophy className="w-4 h-4 text-slate-400" />
-                    <span className="text-white font-semibold">{currentProfile.karma.toLocaleString()}</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.karma.toLocaleString()}</span>
                     <span className="text-slate-400">Karma</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Image className="w-4 h-4 text-slate-400" />
-                    <span className="text-white font-semibold">{currentProfile.nftCount}</span>
+                    <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.nftCount}</span>
                     <span className="text-slate-400">NFTs</span>
                   </div>
                 </div>
@@ -285,7 +285,7 @@ export default function ProfileDemoPage() {
         </div>
 
         {/* Tabs */}
-        <div className="bg-[#161b22]/50 backdrop-blur border border-slate-800/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 mb-8">
+        <div className="card /50 backdrop-blur border border-slate-800/50 rounded-2xl  p-4 mb-8">
           <div className="flex gap-2 overflow-x-auto">
             <button
               onClick={() => setActiveTab('nfts')}
@@ -329,10 +329,10 @@ export default function ProfileDemoPage() {
             {currentProfile.nfts.map((nft) => (
               <div
                 key={nft.id}
-                className="bg-[#161b22]/50 backdrop-blur border border-slate-800/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden hover:border-slate-700/50 transition-all group cursor-pointer"
+                className="card /50 backdrop-blur border border-slate-800/50 rounded-2xl  overflow-hidden hover:border-slate-700/50 transition-all group cursor-pointer"
               >
                 <div className={`aspect-square bg-gradient-to-br ${nft.color} relative`}>
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/10 transition-all"></div>
+                  <div style={{background: "var(--bg-primary)"}} className="absolute inset-0 bg-black/30 group-hover:/10 transition-all"></div>
                   <div className="absolute top-3 right-3">
                     <div className={`px-2 py-1 text-xs rounded-lg font-medium backdrop-blur ${
                       nft.rarity === 'legendary' ? 'bg-yellow-900/80 text-yellow-300 border border-yellow-700/50' :
@@ -344,12 +344,12 @@ export default function ProfileDemoPage() {
                   </div>
                 </div>
                 <div className="p-4">
-                  <h3 className="text-white font-semibold mb-1 group-hover:text-blue-400 transition-colors">{nft.name}</h3>
+                  <h3 style={{color: "var(--text-primary)"}} className=" font-semibold mb-1 group-hover:text-blue-400 transition-colors">{nft.name}</h3>
                   <p className="text-slate-400 text-sm mb-3">{nft.collection}</p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Wallet className="w-4 h-4 text-slate-500" />
-                      <span className="text-white font-semibold">{nft.price}</span>
+                      <span style={{color: "var(--text-primary)"}} className=" font-semibold">{nft.price}</span>
                     </div>
                     <button className="p-2 hover:bg-[#21262d] rounded-lg transition-colors">
                       <ExternalLink className="w-4 h-4 text-slate-400" />
@@ -362,7 +362,7 @@ export default function ProfileDemoPage() {
         )}
 
         {activeTab === 'activity' && (
-          <div className="bg-[#161b22]/50 backdrop-blur border border-slate-800/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-8">
+          <div className="card /50 backdrop-blur border border-slate-800/50 rounded-2xl  p-8">
             <div className="space-y-6">
               {[
                 { type: 'post', action: 'Created a new post', time: '2 hours ago', icon: MessageSquare },
@@ -375,10 +375,10 @@ export default function ProfileDemoPage() {
                 return (
                   <div key={index} className="flex items-start gap-4 pb-6 border-b border-slate-800/50 last:border-0">
                     <div className="w-10 h-10 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-lg flex items-center justify-center flex-shrink-0">
-                      <ActivityIcon className="w-5 h-5 text-white" />
+                      <ActivityIcon style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
                     </div>
                     <div className="flex-1">
-                      <p className="text-white mb-1">{activity.action}</p>
+                      <p style={{color: "var(--text-primary)"}} className=" mb-1">{activity.action}</p>
                       <p className="text-slate-400 text-sm">{activity.time}</p>
                     </div>
                   </div>
@@ -390,9 +390,9 @@ export default function ProfileDemoPage() {
 
         {activeTab === 'wallet' && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="bg-[#161b22]/50 backdrop-blur border border-slate-800/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
+            <div className="card /50 backdrop-blur border border-slate-800/50 rounded-2xl  p-6">
               <div className="flex items-center justify-between mb-6">
-                <h3 className="text-xl font-bold text-white">Wallet Address</h3>
+                <h3 style={{color: "var(--text-primary)"}} className="text-xl font-bold ">Wallet Address</h3>
                 <button className="p-2 hover:bg-[#21262d] rounded-lg transition-colors">
                   <Copy className="w-5 h-5 text-slate-400" />
                 </button>
@@ -408,20 +408,20 @@ export default function ProfileDemoPage() {
               )}
             </div>
 
-            <div className="bg-[#161b22]/50 backdrop-blur border border-slate-800/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6">
-              <h3 className="text-xl font-bold text-white mb-6">Statistics</h3>
+            <div className="card /50 backdrop-blur border border-slate-800/50 rounded-2xl  p-6">
+              <h3 style={{color: "var(--text-primary)"}} className="text-xl font-bold  mb-6">Statistics</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Total Posts</span>
-                  <span className="text-white font-semibold">{currentProfile.stats.totalPosts}</span>
+                  <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.stats.totalPosts}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Total Comments</span>
-                  <span className="text-white font-semibold">{currentProfile.stats.totalComments.toLocaleString()}</span>
+                  <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.stats.totalComments.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Awards Received</span>
-                  <span className="text-white font-semibold">{currentProfile.stats.totalAwards}</span>
+                  <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.stats.totalAwards}</span>
                 </div>
               </div>
             </div>

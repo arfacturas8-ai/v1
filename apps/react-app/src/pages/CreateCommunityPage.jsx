@@ -213,21 +213,21 @@ function CreateCommunityPage() {
       className="min-h-screen py-6 px-4 sm:py-10 sm:px-5"
       style={{ background: 'var(--bg-primary)' }}
     >
-      <div className="max-w-3xl mx-auto backdrop-blur-xl rounded-2xl p-6 sm:p-10 shadow-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
+      <div className="max-w-3xl mx-auto  rounded-2xl p-6 sm:p-10 shadow-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
         <h1 className="text-2xl sm:text-3xl mb-2.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent font-bold">
           Create Community
         </h1>
         <p className="mb-6 sm:mb-8" style={{ color: 'var(--text-secondary)' }}>Build your own community on CRYB</p>
 
         {success && (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-5 flex items-center gap-2.5">
+          <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 p-4 rounded-2xl  mb-5 flex items-center gap-2.5">
             <CheckCircle size={20} />
             <span>Community created successfully! Redirecting...</span>
           </div>
         )}
 
         {errorMessage && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-5 flex items-center gap-2.5">
+          <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 rounded-2xl  mb-5 flex items-center gap-2.5">
             <AlertCircle size={20} />
             <span>{errorMessage}</span>
           </div>

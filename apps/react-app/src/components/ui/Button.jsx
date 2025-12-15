@@ -66,7 +66,7 @@ const buttonVariants = cva(
         ],
         glass: [
           'glass text-text-primary',
-          'hover:backdrop-blur-xl',
+          'hover:',
           'border border-border/30',
         ],
       },

@@ -445,13 +445,13 @@ function ProfilePage() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                        <User className="w-16 h-16 text-white" />
+                        <User style={{color: "var(--text-primary)"}} className="w-16 h-16 " />
                       </div>
                     )}
                   </div>
                   {user.isVerified && (
                     <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 shadow-lg" style={{ borderColor: 'var(--bg-primary)' }}>
-                      <CheckCircle className="w-5 h-5 text-white" />
+                      <CheckCircle style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
                     </div>
                   )}
                 </div>
@@ -861,7 +861,7 @@ function ProfilePage() {
                     {displayNfts.slice(0, 4).map((nft, idx) => (
                       <div
                         key={idx}
-                        className="aspect-square rounded-lg overflow-hidden bg-[#1A1A1A] border border-white/10 hover:border-blue-500 transition-all cursor-pointer group"
+                        style={{borderColor: "var(--border-subtle)"}} className="aspect-square rounded-lg overflow-hidden bg-[#1A1A1A] border  hover:border-blue-500 transition-all cursor-pointer group"
                       >
                         {nft.image ? (
                           <img
@@ -872,7 +872,7 @@ function ProfilePage() {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                            <Image className="w-8 h-8 text-white" />
+                            <Image style={{color: "var(--text-primary)"}} className="w-8 h-8 " />
                           </div>
                         )}
                       </div>
@@ -1020,7 +1020,7 @@ function ProfilePage() {
                 <button
                   onClick={handleSave}
                   disabled={saveLoading}
-                  className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg disabled:opacity-50 text-white rounded-xl font-medium transition-all"
+                  style={{color: "var(--text-primary)"}} className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg disabled:opacity-50  rounded-xl font-medium transition-all"
                 >
                   Save Changes
                 </button>
@@ -1072,7 +1072,7 @@ function ProfilePage() {
               </div>
 
               <div className="flex gap-3">
-                <button className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg text-white rounded-xl font-medium transition-all">
+                <button style={{color: "var(--text-primary)"}} className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg  rounded-xl font-medium transition-all">
                   Send Message
                 </button>
                 <button

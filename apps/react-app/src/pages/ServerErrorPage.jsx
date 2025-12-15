@@ -35,7 +35,7 @@ export default function ServerErrorPage() {
     <>
       <SkipToContent />
       <div
-        className="error-page-container min-h-screen flex items-center justify-center bg-[#0d1117] px-3 sm:px-5 font-sans"
+        style={{background: "var(--bg-primary)"}} className="error-page-container min-h-screen flex items-center justify-center  px-3 sm:px-5 font-sans"
         role="main"
         aria-label="Server error page"
       >
@@ -54,7 +54,7 @@ export default function ServerErrorPage() {
           </div>
 
           {/* Error Heading */}
-          <h1 className="text-[32px] sm:text-5xl font-bold text-white mb-4 sm:mb-6 tracking-tight">
+          <h1 style={{color: "var(--text-primary)"}} className="text-[32px] sm:text-5xl font-bold  mb-4 sm:mb-6 tracking-tight">
             500 - Server Error
           </h1>
 
@@ -64,7 +64,7 @@ export default function ServerErrorPage() {
           </p>
 
           {/* Error ID */}
-          <div className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-md sm:rounded-lg mb-6 sm:mb-10">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card inline-block px-3 sm:px-4 py-1.5 sm:py-2   border  rounded-md sm:rounded-lg mb-6 sm:mb-10">
             <p className="text-xs text-[#64748b] m-0">
               Error ID: <span className="text-[#94a3b8] font-mono">{errorId}</span>
             </p>
@@ -75,7 +75,7 @@ export default function ServerErrorPage() {
             {/* Try Again Button with Gradient */}
             <button
               onClick={handleRefresh}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-3 sm:py-3.5 text-base font-semibold text-white bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-none rounded-xl cursor-pointer transition-all shadow-[0_4px_12px_rgba(88,166,255,0.4)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(59,130,246,0.5)]"
+              style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-3 sm:py-3.5 text-base font-semibold  bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-none rounded-xl cursor-pointer transition-all shadow-[0_4px_12px_rgba(88,166,255,0.4)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(59,130,246,0.5)]"
               aria-label="Try again by refreshing the page"
             >
               <RefreshCw size={18} aria-hidden="true" />
@@ -85,7 +85,7 @@ export default function ServerErrorPage() {
             {/* Go Home Button */}
             <button
               onClick={handleGoHome}
-              className="inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-3 sm:py-3.5 text-base font-semibold text-[#e2e8f0] bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] cursor-pointer transition-all backdrop-blur-[10px] hover:bg-[#161b22]/60 backdrop-blur-xl hover:border-white/10 hover:-translate-y-0.5"
+              style={{borderColor: "var(--border-subtle)"}} className="card card inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-3 sm:py-3.5 text-base font-semibold text-[#e2e8f0] /60  border border-white/10 rounded-2xl  cursor-pointer transition-all backdrop-blur-[10px] hover:  hover: hover:-translate-y-0.5"
               aria-label="Go to home page"
             >
               <Home size={18} aria-hidden="true" />

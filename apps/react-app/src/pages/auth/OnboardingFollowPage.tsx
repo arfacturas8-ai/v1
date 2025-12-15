@@ -164,7 +164,7 @@ export default function OnboardingFollowPage() {
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-3xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-3xl bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-8">
@@ -221,7 +221,7 @@ export default function OnboardingFollowPage() {
                         <h3 className="text-[var(--text-primary)] font-semibold truncate">{user.displayName}</h3>
                         {user.isVerified && (
                           <div className="flex-shrink-0 w-4 h-4 rounded-full bg-blue-500 flex items-center justify-center">
-                            <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <svg style={{color: "var(--text-primary)"}} className="w-3 h-3 " fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           </div>

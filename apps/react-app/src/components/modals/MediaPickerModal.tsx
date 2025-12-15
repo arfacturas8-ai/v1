@@ -252,7 +252,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
 
   // Render camera view
   const renderCameraView = () => (
-    <div className="relative w-full aspect-video bg-black rounded-lg overflow-hidden">
+    <div style={{background: "var(--bg-primary)"}} className="relative w-full aspect-video  rounded-lg overflow-hidden">
       <video
         ref={videoRef}
         autoPlay
@@ -264,7 +264,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           variant="ghost"
           size="icon-lg"
           onClick={handleCloseCameraView}
-          className="bg-black/50 text-white hover:bg-black/70"
+          style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="bg-black/50  hover:/70"
         >
           <X className="h-6 w-6" />
         </Button>
@@ -372,7 +372,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                 {/* Selection indicator */}
                 {file.selected && (
                   <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-                    <Check className="h-4 w-4 text-white" />
+                    <Check style={{color: "var(--text-primary)"}} className="h-4 w-4 " />
                   </div>
                 )}
 
@@ -382,9 +382,9 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                     e.stopPropagation();
                     removeFile(file.id);
                   }}
-                  className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                  style={{background: "var(--bg-primary)"}} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/50 flex items-center justify-center hover:/70 transition-colors"
                 >
-                  <X className="h-4 w-4 text-white" />
+                  <X style={{color: "var(--text-primary)"}} className="h-4 w-4 " />
                 </button>
 
                 {/* Crop button */}
@@ -394,10 +394,10 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                       e.stopPropagation();
                       handleStartCrop(file);
                     }}
-                    className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/50 flex items-center gap-1 hover:bg-black/70 transition-colors"
+                    style={{background: "var(--bg-primary)"}} className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/50 flex items-center gap-1 hover:/70 transition-colors"
                   >
-                    <Crop className="h-3 w-3 text-white" />
-                    <span className="text-xs text-white">Crop</span>
+                    <Crop style={{color: "var(--text-primary)"}} className="h-3 w-3 " />
+                    <span style={{color: "var(--text-primary)"}} className="text-xs ">Crop</span>
                   </button>
                 )}
               </div>
@@ -411,7 +411,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
   // Simple crop view (placeholder - would need full crop implementation)
   const renderCropView = () => (
     <div className="space-y-4">
-      <div className="relative aspect-square bg-black rounded-lg overflow-hidden flex items-center justify-center">
+      <div style={{background: "var(--bg-primary)"}} className="relative aspect-square  rounded-lg overflow-hidden flex items-center justify-center">
         {cropFile && (
           <img
             src={cropFile.preview}

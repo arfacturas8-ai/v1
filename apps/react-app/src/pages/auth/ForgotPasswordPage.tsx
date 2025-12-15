@@ -42,7 +42,7 @@ export default function ForgotPasswordPage() {
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
-        <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+        <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8 text-green-500" />
@@ -84,12 +84,12 @@ export default function ForgotPasswordPage() {
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8">
           {/* Logo and header */}
           <div className="text-center mb-8">
             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-white" />
+              <Sparkles style={{color: "var(--text-primary)"}} className="w-6 h-6 " />
             </div>
             <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Forgot your password?</h1>
             <p className="text-[var(--text-secondary)]">No worries, we'll send you reset instructions</p>

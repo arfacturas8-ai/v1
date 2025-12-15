@@ -179,28 +179,28 @@ export default function AccountRecoveryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117] text-[#c9d1d9] flex items-center justify-center p-4 md:p-6 lg:p-8">
+    <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="min-h-screen   flex items-center justify-center p-4 md:p-6 lg:p-8">
       <div className="w-full max-w-md md:max-w-lg">
         {step === 1 && (
           <button
             onClick={() => navigate('/login')}
-            className="mb-6 md:mb-8 flex items-center gap-2 text-[#8b949e] hover:text-[#c9d1d9] transition-colors text-sm md:text-base min-h-[44px]"
+            style={{color: "var(--text-secondary)"}} style={{color: "var(--text-primary)"}} className="mb-6 md:mb-8 flex items-center gap-2  hover: transition-colors text-sm md:text-base min-h-[44px]"
           >
             <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
             <span>Back to login</span>
           </button>
         )}
 
-        <div className="bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-xl border border-white/10 rounded-xl p-5 md:p-6 lg:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card    border  rounded-xl p-5 md:p-6 lg:p-8 ">
           {/* Step 1: Method Selection */}
           {step === 1 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-[#161b22]/60 backdrop-blur-xl rounded-full mb-3 md:mb-4">
+                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
                   <Shield className="w-6 h-6 md:w-8 md:h-8 text-[#58a6ff]" />
                 </div>
-                <h1 className="text-2xl md:text-3xl font-semibold text-white mb-2">Recover Your Account</h1>
-                <p className="text-sm md:text-base text-[#8b949e] leading-relaxed">Choose a recovery method to regain access to your account</p>
+                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Recover Your Account</h1>
+                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Choose a recovery method to regain access to your account</p>
               </div>
 
               <div className="flex flex-col gap-3 md:gap-4 mb-6 md:mb-8">
@@ -213,14 +213,14 @@ export default function AccountRecoveryPage() {
                   <button
                     key={id}
                     onClick={() => setRecoveryMethod(id)}
-                    className={`w-full min-h-[44px] p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center gap-3 md:gap-4 cursor-pointer transition-all text-left hover:border-[#58a6ff]/50 ${
-                      recoveryMethod === id ? 'border-[#58a6ff] bg-[#161b22]/60 backdrop-blur-xl' : 'border-white/10'
+                    className={`w-full min-h-[44px] p-3 md:p-4 bg-[#161b22]/60  border rounded-2xl  flex items-center gap-3 md:gap-4 cursor-pointer transition-all text-left hover:border-[#58a6ff]/50 ${
+                      recoveryMethod === id ? 'border-[#58a6ff] bg-[#161b22]/60 ' : 'border-white/10'
                     }`}
                   >
                     <Icon className="w-5 h-5 md:w-6 md:h-6 text-[#58a6ff] flex-shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <h3 className="text-sm md:text-base font-medium text-white mb-1">{title}</h3>
-                      <p className="text-xs md:text-sm text-[#8b949e] m-0">{desc}</p>
+                      <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-medium  mb-1">{title}</h3>
+                      <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm  m-0">{desc}</p>
                     </div>
                   </button>
                 ))}
@@ -229,7 +229,7 @@ export default function AccountRecoveryPage() {
               {recoveryMethod === 'email' && (
                 <form onSubmit={handleSendCode} className="mt-6 md:mt-8">
                   <div className="mb-6 md:mb-8">
-                    <label htmlFor="email" className="block text-xs md:text-sm font-medium text-[#c9d1d9] mb-2">Recovery Email</label>
+                    <label htmlFor="email" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Recovery Email</label>
                     <input
                       type="email"
                       id="email"
@@ -238,11 +238,11 @@ export default function AccountRecoveryPage() {
                       placeholder="your-email@example.com"
                       required
                       disabled={loading}
-                      className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#c9d1d9] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   {error && (
-                    <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
+                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
@@ -250,7 +250,7 @@ export default function AccountRecoveryPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     Send Code
                   </button>
@@ -260,7 +260,7 @@ export default function AccountRecoveryPage() {
               {recoveryMethod === 'phone' && (
                 <form onSubmit={handleSendCode} className="mt-6 md:mt-8">
                   <div className="mb-6 md:mb-8">
-                    <label htmlFor="phone" className="block text-xs md:text-sm font-medium text-[#c9d1d9] mb-2">Phone Number</label>
+                    <label htmlFor="phone" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Phone Number</label>
                     <input
                       type="tel"
                       id="phone"
@@ -269,11 +269,11 @@ export default function AccountRecoveryPage() {
                       placeholder="+1 (555) 123-4567"
                       required
                       disabled={loading}
-                      className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#c9d1d9] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   {error && (
-                    <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
+                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
@@ -281,7 +281,7 @@ export default function AccountRecoveryPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     Send Code
                   </button>
@@ -292,7 +292,7 @@ export default function AccountRecoveryPage() {
                 <form onSubmit={handleSecurityQuestions} className="mt-6 md:mt-8">
                   {securityQuestions.map((q, index) => (
                     <div key={index} className="mb-6 md:mb-8">
-                      <label htmlFor={`question-${index}`} className="block text-xs md:text-sm font-medium text-[#c9d1d9] mb-2">{q.question}</label>
+                      <label htmlFor={`question-${index}`} style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">{q.question}</label>
                       <input
                         type="text"
                         id={`question-${index}`}
@@ -303,12 +303,12 @@ export default function AccountRecoveryPage() {
                           setSecurityQuestions(newQuestions)
                         }}
                         disabled={loading}
-                        className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#c9d1d9] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>
                   ))}
                   {error && (
-                    <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
+                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
@@ -316,7 +316,7 @@ export default function AccountRecoveryPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     Verify Answers
                   </button>
@@ -326,7 +326,7 @@ export default function AccountRecoveryPage() {
               {recoveryMethod === 'backup-code' && (
                 <form onSubmit={handleBackupCode} className="mt-6 md:mt-8">
                   <div className="mb-6 md:mb-8">
-                    <label htmlFor="backupCode" className="block text-xs md:text-sm font-medium text-[#c9d1d9] mb-2">Backup Code</label>
+                    <label htmlFor="backupCode" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Backup Code</label>
                     <input
                       type="text"
                       id="backupCode"
@@ -334,12 +334,12 @@ export default function AccountRecoveryPage() {
                       onChange={(e) => setBackupCode(e.target.value)}
                       placeholder="Enter your backup code"
                       disabled={loading}
-                      className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#c9d1d9] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                     />
-                    <p className="mt-2 text-xs text-[#8b949e]">Use one of your MFA backup codes provided during setup</p>
+                    <p style={{color: "var(--text-secondary)"}} className="mt-2 text-xs ">Use one of your MFA backup codes provided during setup</p>
                   </div>
                   {error && (
-                    <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
+                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                       <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
@@ -347,7 +347,7 @@ export default function AccountRecoveryPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     Verify Code
                   </button>
@@ -360,18 +360,18 @@ export default function AccountRecoveryPage() {
           {step === 2 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-[#161b22]/60 backdrop-blur-xl rounded-full mb-3 md:mb-4">
+                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
                   <Mail className="w-6 h-6 md:w-8 md:h-8 text-[#58a6ff]" />
                 </div>
-                <h1 className="text-2xl md:text-3xl font-semibold text-white mb-2">Enter Verification Code</h1>
-                <p className="text-sm md:text-base text-[#8b949e] leading-relaxed">
-                  We sent a 6-digit code to <span className="text-white font-medium">{recoveryMethod === 'email' ? email : phone}</span>
+                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Enter Verification Code</h1>
+                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">
+                  We sent a 6-digit code to <span style={{color: "var(--text-primary)"}} className=" font-medium">{recoveryMethod === 'email' ? email : phone}</span>
                 </p>
               </div>
 
               <form onSubmit={handleVerifyCode} className="mt-6 md:mt-8">
                 <div className="mb-6 md:mb-8">
-                  <label htmlFor="code" className="block text-xs md:text-sm font-medium text-[#c9d1d9] mb-2">Verification Code</label>
+                  <label htmlFor="code" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Verification Code</label>
                   <input
                     type="text"
                     id="code"
@@ -380,11 +380,11 @@ export default function AccountRecoveryPage() {
                     placeholder="000000"
                     maxLength={6}
                     disabled={loading}
-                    className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#c9d1d9] text-lg md:text-2xl outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed text-center font-mono tracking-widest"
+                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-lg md:text-2xl outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed text-center font-mono tracking-widest"
                   />
                 </div>
                 {error && (
-                  <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
+                  <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                     <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
                     <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
@@ -392,7 +392,7 @@ export default function AccountRecoveryPage() {
                 <button
                   type="submit"
                   disabled={loading || verificationCode.length !== 6}
-                  className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   Verify Code
                 </button>
@@ -414,16 +414,16 @@ export default function AccountRecoveryPage() {
           {step === 3 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-[#161b22]/60 backdrop-blur-xl rounded-full mb-3 md:mb-4">
+                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
                   <Key className="w-6 h-6 md:w-8 md:h-8 text-[#58a6ff]" />
                 </div>
-                <h1 className="text-2xl md:text-3xl font-semibold text-white mb-2">Create New Password</h1>
-                <p className="text-sm md:text-base text-[#8b949e] leading-relaxed">Choose a strong password to secure your account</p>
+                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Create New Password</h1>
+                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Choose a strong password to secure your account</p>
               </div>
 
               <form onSubmit={handleResetPassword} className="mt-6 md:mt-8">
                 <div className="mb-6 md:mb-8">
-                  <label htmlFor="newPassword" className="block text-xs md:text-sm font-medium text-[#c9d1d9] mb-2">New Password</label>
+                  <label htmlFor="newPassword" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">New Password</label>
                   <input
                     type="password"
                     id="newPassword"
@@ -431,13 +431,13 @@ export default function AccountRecoveryPage() {
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Enter new password"
                     disabled={loading}
-                    className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#c9d1d9] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                   />
-                  <p className="mt-2 text-xs text-[#8b949e]">Must be at least 8 characters long</p>
+                  <p style={{color: "var(--text-secondary)"}} className="mt-2 text-xs ">Must be at least 8 characters long</p>
                 </div>
 
                 <div className="mb-6 md:mb-8">
-                  <label htmlFor="confirmPassword" className="block text-xs md:text-sm font-medium text-[#c9d1d9] mb-2">Confirm Password</label>
+                  <label htmlFor="confirmPassword" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Confirm Password</label>
                   <input
                     type="password"
                     id="confirmPassword"
@@ -445,12 +445,12 @@ export default function AccountRecoveryPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm new password"
                     disabled={loading}
-                    className="w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-lg text-[#c9d1d9] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
                 {error && (
-                  <div className="p-3 md:p-4 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
+                  <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
                     <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
                     <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
@@ -458,7 +458,7 @@ export default function AccountRecoveryPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
                   Reset Password
                 </button>
@@ -470,25 +470,25 @@ export default function AccountRecoveryPage() {
           {step === 4 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16 bg-[#161b22]/60 backdrop-blur-xl rounded-full mb-3 md:mb-4">
+                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
                   <Check className="w-6 h-6 md:w-8 md:h-8 text-[#3fb950]" />
                 </div>
-                <h1 className="text-2xl md:text-3xl font-semibold text-white mb-2">Password Reset Successful</h1>
-                <p className="text-sm md:text-base text-[#8b949e] leading-relaxed">Your password has been successfully reset</p>
+                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Password Reset Successful</h1>
+                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Your password has been successfully reset</p>
               </div>
 
-              <div className="p-4 md:p-5 bg-[#161b22]/60 backdrop-blur-xl border border-[rgba(88,166,255,0.2)] rounded-lg mb-6 md:mb-8">
-                <h3 className="text-sm md:text-base font-medium text-white mb-3 md:mb-4">Security Recommendations</h3>
+              <div className="card p-4 md:p-5   border border-[rgba(88,166,255,0.2)] rounded-lg mb-6 md:mb-8">
+                <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-medium  mb-3 md:mb-4">Security Recommendations</h3>
                 <ul className="list-none p-0 m-0 space-y-3 md:space-y-4">
-                  <li className="flex items-start gap-2 text-xs md:text-sm text-[#c9d1d9]">
+                  <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
                     <Check className="w-4 h-4 text-[#3fb950] flex-shrink-0 mt-0.5" />
                     <span>Use a unique password for each account</span>
                   </li>
-                  <li className="flex items-start gap-2 text-xs md:text-sm text-[#c9d1d9]">
+                  <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
                     <Check className="w-4 h-4 text-[#3fb950] flex-shrink-0 mt-0.5" />
                     <span>Enable two-factor authentication for added security</span>
                   </li>
-                  <li className="flex items-start gap-2 text-xs md:text-sm text-[#c9d1d9]">
+                  <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
                     <Check className="w-4 h-4 text-[#3fb950] flex-shrink-0 mt-0.5" />
                     <span>Update your recovery methods in settings</span>
                   </li>
@@ -497,7 +497,7 @@ export default function AccountRecoveryPage() {
 
               <button
                 onClick={() => navigate('/login')}
-                className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90"
+                style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90"
               >
                 Continue to Login
               </button>
@@ -507,7 +507,7 @@ export default function AccountRecoveryPage() {
 
         {step === 1 && (
           <div className="mt-5 md:mt-6 text-center">
-            <p className="text-xs md:text-sm text-[#8b949e]">
+            <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm ">
               Still need help?{' '}
               <Link to="/contact" className="text-[#58a6ff] hover:text-[#79c0ff] transition-colors">Contact Support</Link>
             </p>

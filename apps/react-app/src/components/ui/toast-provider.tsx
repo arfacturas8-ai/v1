@@ -166,7 +166,7 @@ function ToastComponent({ toast, onClose }: { toast: Toast; onClose: () => void 
 
     const variantClasses = {
       default: '',
-      glass: 'backdrop-blur-xl bg-background/80 border-border/50',
+      glass: ' bg-background/80 border-border/50',
       gradient: 'bg-gradient-to-br from-background via-background to-primary/10 border-primary/20',
       neon: 'bg-background/90 backdrop-blur-md border-2 border-accent-cyan/40 shadow-accent-cyan/20',
     }[variant];

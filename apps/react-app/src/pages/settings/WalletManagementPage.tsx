@@ -312,7 +312,7 @@ const WalletManagementPage: React.FC = () => {
                     className="w-full p-4 border border-border rounded-lg hover:border-primary/50 hover:bg-accent/30 transition-all flex items-center justify-between"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-bold">
+                      <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center  font-bold">
                         {provider.charAt(0)}
                       </div>
                       <span className="font-medium">{provider}</span>

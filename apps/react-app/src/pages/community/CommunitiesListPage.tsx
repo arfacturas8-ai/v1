@@ -383,7 +383,7 @@ const CommunitiesListPage: React.FC = () => {
             {user && (
               <button
                 onClick={() => navigate('/community/create')}
-                className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white text-sm font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+                style={{color: "var(--text-primary)"}} className="flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl  text-sm font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
               >
                 <Plus size={18} />
                 Create
@@ -410,7 +410,7 @@ const CommunitiesListPage: React.FC = () => {
             {user && (
               <button
                 onClick={() => navigate('/community/create')}
-                className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl text-white font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
+                style={{color: "var(--text-primary)"}} className="px-8 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-xl  font-semibold hover:shadow-[0_0_20px_rgba(88,166,255,0.4)] transition-all"
               >
                 Create Community
               </button>
@@ -442,7 +442,7 @@ const CommunitiesListPage: React.FC = () => {
                           className="w-14 h-14 rounded-xl object-cover border border-[var(--border-subtle)]"
                         />
                       ) : (
-                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-xl font-bold shadow-lg">
+                        <div style={{color: "var(--text-primary)"}} className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  text-xl font-bold shadow-lg">
                           {getInitials(community.displayName || community.name)}
                         </div>
                       )}
@@ -513,7 +513,7 @@ const CommunitiesListPage: React.FC = () => {
                         className="w-16 h-16 rounded-xl object-cover border border-[var(--border-subtle)] flex-shrink-0"
                       />
                     ) : (
-                      <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-xl font-bold shadow-lg flex-shrink-0">
+                      <div style={{color: "var(--text-primary)"}} className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  text-xl font-bold shadow-lg flex-shrink-0">
                         {getInitials(community.displayName || community.name)}
                       </div>
                     )}

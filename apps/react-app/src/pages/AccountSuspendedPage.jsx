@@ -19,7 +19,7 @@ const AccountSuspendedPage = () => {
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4">
-          <button className="flex-1 min-w-[140px] px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-0 rounded-lg text-white text-base font-medium cursor-pointer transition-all hover:opacity-90 flex items-center justify-center gap-2" aria-label="Contact support about suspension">
+          <button style={{color: "var(--text-primary)"}} className="flex-1 min-w-[140px] px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-0 rounded-lg  text-base font-medium cursor-pointer transition-all hover:opacity-90 flex items-center justify-center gap-2" aria-label="Contact support about suspension">
             <Mail className="w-5 h-5" aria-hidden="true" />
             Contact Support
           </button>

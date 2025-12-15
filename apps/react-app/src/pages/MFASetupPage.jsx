@@ -92,7 +92,7 @@ export default function MFASetupPage() {
   }
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7] p-4 md:p-5" role="main" aria-label="Multi-factor authentication setup page">
-      <div className="w-full max-w-full md:max-w-[560px] bg-[#161b22]/95 backdrop-blur-xl rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-4 md:p-10" style={{ border: '1px solid var(--border-subtle)' }}>
+      <div className="card w-full max-w-full md:max-w-[560px] /95  rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-4 md:p-10" style={{ border: '1px solid var(--border-subtle)' }}>
         {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-14 md:w-16 h-14 md:h-16 bg-[#58a6ff]/[0.15] rounded-full mb-4">
@@ -101,7 +101,7 @@ export default function MFASetupPage() {
           <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             Two-Factor Authentication
           </h1>
-          <p className="text-sm text-[#8b949e] leading-relaxed">
+          <p style={{color: "var(--text-secondary)"}} className="text-sm  leading-relaxed">
             Add an extra layer of security to your account
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function MFASetupPage() {
           {[1, 2, 3].map((s) => (
             <div
               key={s}
-              className={`flex-1 h-1 rounded-sm transition-colors ${s <= step ? 'bg-[#58a6ff]' : 'bg-[#161b22]/60 backdrop-blur-xl'}`}
+              className={`flex-1 h-1 rounded-sm transition-colors ${s <= step ? 'bg-[#58a6ff]' : 'bg-[#161b22]/60 '}`}
               aria-label={`Step ${s} ${s === step ? 'current' : s < step ? 'completed' : 'pending'}`}
             />
           ))}
@@ -123,7 +123,7 @@ export default function MFASetupPage() {
             <h2 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
               Step 1: Download Authenticator App
             </h2>
-            <p className="text-sm text-[#8b949e] leading-relaxed mb-4 md:mb-6">
+            <p style={{color: "var(--text-secondary)"}} className="text-sm  leading-relaxed mb-4 md:mb-6">
               Install an authenticator app on your mobile device. We recommend:
             </p>
 
@@ -131,10 +131,10 @@ export default function MFASetupPage() {
               {['Google Authenticator', 'Microsoft Authenticator', 'Authy'].map((app) => (
                 <div
                   key={app}
-                  className="flex items-center gap-3 p-4 bg-[#161b22] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+                  className="card flex items-center gap-3 p-4  rounded-2xl "
                 >
                   <Smartphone className="w-6 h-6 text-[#58a6ff]" />
-                  <span className="text-[15px] font-medium text-[#c9d1d9]">
+                  <span style={{color: "var(--text-primary)"}} className="text-[15px] font-medium ">
                     {app}
                   </span>
                 </div>
@@ -143,7 +143,7 @@ export default function MFASetupPage() {
 
             <button
               onClick={() => setStep(2)}
-              className="w-full px-4 py-3 md:py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-all hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)]"
+              style={{color: "var(--text-primary)"}} className="w-full px-4 py-3 md:py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-all hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)]"
               aria-label="Continue to next step"
             >
               Continue
@@ -157,11 +157,11 @@ export default function MFASetupPage() {
             <h2 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
               Step 2: Scan QR Code
             </h2>
-            <p className="text-sm text-[#8b949e] leading-relaxed mb-4 md:mb-6">
+            <p style={{color: "var(--text-secondary)"}} className="text-sm  leading-relaxed mb-4 md:mb-6">
               Open your authenticator app and scan this QR code:
             </p>
 
-            <div className="flex justify-center p-6 bg-[#161b22] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] mb-6">
+            <div className="card flex justify-center p-6  rounded-2xl  mb-6">
               {qrCode ? (
                 <img
                   src={qrCode}
@@ -169,7 +169,7 @@ export default function MFASetupPage() {
                   className="w-[200px] h-[200px] border-4 border-white rounded-lg"
                 />
               ) : (
-                <div className="w-[200px] h-[200px] flex items-center justify-center bg-[#161b22]/60 backdrop-blur-xl rounded-lg text-[#8b949e]">
+                <div style={{color: "var(--text-secondary)"}} className="card w-[200px] h-[200px] flex items-center justify-center   rounded-lg ">
                 </div>
               )}
             </div>
@@ -179,7 +179,7 @@ export default function MFASetupPage() {
                 <strong>Can't scan?</strong> Enter this code manually:
               </p>
               <div className="flex items-center gap-2 mt-2">
-                <code className="flex-1 px-2 py-2 bg-[#161b22] rounded-md text-sm font-mono text-white overflow-x-auto">
+                <code style={{color: "var(--text-primary)"}} className="card flex-1 px-2 py-2  rounded-md text-sm font-mono  overflow-x-auto">
                   {secret}
                 </code>
                 <button
@@ -187,7 +187,7 @@ export default function MFASetupPage() {
                   className={`px-2 py-2 ${copied ? 'bg-emerald-600' : 'bg-[#21262d]'} border border-white/10 rounded-md cursor-pointer transition-all`}
                   aria-label={copied ? 'Copied' : 'Copy secret key'}
                 >
-                  {copied ? <Check className="w-4 h-4 text-white" /> : <Copy className="w-4 h-4 text-[#c9d1d9]" />}
+                  {copied ? <Check style={{color: "var(--text-primary)"}} className="w-4 h-4 " /> : <Copy style={{color: "var(--text-primary)"}} className="w-4 h-4 " />}
                 </button>
               </div>
             </div>
@@ -196,7 +196,7 @@ export default function MFASetupPage() {
               <div className="mb-6">
                 <label
                   htmlFor="verification-code"
-                  className="block text-sm font-semibold text-[#c9d1d9] mb-2"
+                  style={{color: "var(--text-primary)"}} className="block text-sm font-semibold  mb-2"
                 >
                   Verification Code
                 </label>
@@ -208,7 +208,7 @@ export default function MFASetupPage() {
                   placeholder="Enter 6-digit code"
                   disabled={isLoading}
                   maxLength={6}
-                  className={`w-full px-3.5 py-3.5 text-lg tracking-[0.5em] text-center ${error ? 'border-2 border-red-500' : 'border-2 border-white/10 focus:border-[#58a6ff]'} rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] outline-none transition-all font-mono ${isLoading ? 'bg-[#161b22]' : 'bg-white'}`}
+                  className={`w-full px-3.5 py-3.5 text-lg tracking-[0.5em] text-center ${error ? 'border-2 border-red-500' : 'border-2 border-white/10 focus:border-[#58a6ff]'} rounded-2xl  outline-none transition-all font-mono ${isLoading ? 'bg-[#161b22]' : 'bg-white'}`}
                   aria-label="Enter 6-digit verification code"
                   aria-invalid={error ? 'true' : 'false'}
                   aria-describedby={error ? 'code-error' : undefined}
@@ -228,7 +228,7 @@ export default function MFASetupPage() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  className="flex-1 px-4 py-3.5 bg-[#21262d] text-[#c9d1d9] border-0 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base font-semibold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#30363d] transition-colors"
+                  style={{color: "var(--text-primary)"}} className="flex-1 px-4 py-3.5 bg-[#21262d]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#30363d] transition-colors"
                   aria-label="Go back to previous step"
                 >
                   <ArrowLeft className="w-5 h-5" />
@@ -237,7 +237,7 @@ export default function MFASetupPage() {
                 <button
                   type="submit"
                   disabled={isLoading || verificationCode.length !== 6}
-                  className={`flex-[2] px-4 py-3.5 ${isLoading || verificationCode.length !== 6 ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)]'} text-white border-0 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base font-semibold`}
+                  className={`flex-[2] px-4 py-3.5 ${isLoading || verificationCode.length !== 6 ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)]'} text-white border-0 rounded-2xl  text-base font-semibold`}
                   aria-label={isLoading ? 'Verifying...' : 'Verify code'}
                 >
                   Verify & Continue
@@ -253,16 +253,16 @@ export default function MFASetupPage() {
             <h2 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
               Step 3: Save Backup Codes
             </h2>
-            <p className="text-sm text-[#8b949e] leading-relaxed mb-4 md:mb-6">
+            <p style={{color: "var(--text-secondary)"}} className="text-sm  leading-relaxed mb-4 md:mb-6">
               Save these backup codes in a secure location. You can use them to access your account if you lose your device.
             </p>
 
-            <div className="bg-[#161b22] rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 mb-6">
+            <div className="card  rounded-2xl  p-5 mb-6">
               <div className="grid grid-cols-2 gap-3">
                 {backupCodes.map((code, index) => (
                   <div
                     key={index}
-                    className="px-3 py-3 bg-[#21262d] rounded-lg text-sm font-mono text-center text-[#c9d1d9] font-medium"
+                    style={{color: "var(--text-primary)"}} className="px-3 py-3 bg-[#21262d] rounded-lg text-sm font-mono text-center  font-medium"
                   >
                     {code}
                   </div>
@@ -279,7 +279,7 @@ export default function MFASetupPage() {
             <div className="flex flex-col gap-3">
               <button
                 onClick={downloadBackupCodes}
-                className="w-full px-4 py-3.5 bg-[#21262d] text-[#c9d1d9] border-0 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-base font-semibold cursor-pointer flex items-center justify-center gap-2 transition-colors hover:bg-[#30363d]"
+                style={{color: "var(--text-primary)"}} className="w-full px-4 py-3.5 bg-[#21262d]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 transition-colors hover:bg-[#30363d]"
                 aria-label="Download backup codes"
               >
                 <Download className="w-5 h-5" />
@@ -288,7 +288,7 @@ export default function MFASetupPage() {
 
               <button
                 onClick={() => navigate('/settings')}
-                className="w-full px-4 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] text-white border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)] transition-shadow"
+                style={{color: "var(--text-primary)"}} className="w-full px-4 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)] transition-shadow"
                 aria-label="Complete setup and go to settings"
               >
                 Complete Setup

@@ -345,7 +345,7 @@ export default function ThreadPage() {
     <div className="min-h-screen bg-[var(--bg-primary)] pt-16 pb-20">
       <div className="max-w-3xl mx-auto">
         {/* Header */}
-        <div className="sticky top-16 z-10 bg-white/80 backdrop-blur-xl border-b border-[var(--border-subtle)] px-4 py-3 shadow-sm">
+        <div className="sticky top-16 z-10 bg-white/80  border-b border-[var(--border-subtle)] px-4 py-3 shadow-sm">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate(-1)}
@@ -368,7 +368,7 @@ export default function ThreadPage() {
           className="mx-4 mt-4 p-4 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-xl"
         >
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold flex-shrink-0">
+            <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold flex-shrink-0">
               {threadAuthor.username[0].toUpperCase()}
             </div>
 
@@ -415,7 +415,7 @@ export default function ThreadPage() {
                 {/* Post card */}
                 <div
                   className={cn(
-                    "bg-white backdrop-blur-xl border rounded-2xl shadow-sm overflow-hidden mb-2 transition-all",
+                    "bg-white  border rounded-2xl shadow-sm overflow-hidden mb-2 transition-all",
                     isAuthorHighlighted
                       ? "border-[#58a6ff]/50"
                       : "border-[var(--border-subtle)]",
@@ -438,7 +438,7 @@ export default function ThreadPage() {
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-start gap-3 flex-1">
                         <Link to={`/u/${post.author.username}`}>
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold flex-shrink-0">
+                          <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold flex-shrink-0">
                             {post.author.username[0].toUpperCase()}
                           </div>
                         </Link>
@@ -625,7 +625,7 @@ export default function ThreadPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: thread.length * 0.05 }}
-          className="mx-4 mb-4 p-6 bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl shadow-sm"
+          className="mx-4 mb-4 p-6 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm"
         >
           <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4">Thread Summary</h3>
 
@@ -654,7 +654,7 @@ export default function ThreadPage() {
 
           <div className="mt-6 pt-6 border-t border-[var(--border-subtle)] flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-semibold">
+              <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
                 {threadAuthor.username[0].toUpperCase()}
               </div>
 

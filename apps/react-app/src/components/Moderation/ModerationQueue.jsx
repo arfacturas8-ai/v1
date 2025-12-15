@@ -169,7 +169,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
         <h2 className="text-xl font-semibold text-[var(--text-primary)] m-0">Moderation Queue</h2>
         <div>
           <button
-            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
             onClick={fetchQueueItems}
             disabled={loading}
           >
@@ -239,7 +239,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
             <option value="escalated">Escalate All</option>
           </select>
           <button
-            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
             onClick={handleBulkAction}
             disabled={!bulkAction}
           >
@@ -285,7 +285,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                 </label>
 
                 <div
-                  className="flex items-center justify-center w-7 h-7 rounded-full text-white font-bold text-sm flex-shrink-0"
+                  style={{color: "var(--text-primary)"}} className="flex items-center justify-center w-7 h-7 rounded-full  font-bold text-sm flex-shrink-0"
                   style={{ backgroundColor: getPriorityColor(item.priority) }}
                   title={`Priority: ${getPriorityLabel(item.priority)}`}
                 >
@@ -323,13 +323,13 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
 
                 <div className="flex items-center gap-2 flex-shrink-0">
                   <button
-                    className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                    style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                     onClick={() => setExpandedItem(expandedItem === item.id ? null : item.id)}
                   >
                     {expandedItem === item.id ? '🔼' : '🔽'} Details
                   </button>
                   <button
-                    className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                    style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                     onClick={() => handleAssignToSelf(item.id)}
                     disabled={item.assigned_moderator}
                   >
@@ -373,7 +373,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
 
                   <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-[var(--border-subtle)]">
                     <button
-                      className="bg-[#38a169] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#2f855a] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                      style={{color: "var(--text-primary)"}} className="bg-[#38a169]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#2f855a] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => {
                         const notes = prompt('Add approval notes (optional):');
                         onItemAction(item.id, 'approved', notes);
@@ -383,7 +383,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                     </button>
 
                     <button
-                      className="bg-[#e53e3e] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#c53030] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                      style={{color: "var(--text-primary)"}} className="bg-[#e53e3e]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#c53030] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => {
                         const notes = prompt('Add rejection reason:');
                         if (notes) onItemAction(item.id, 'rejected', notes);
@@ -393,7 +393,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                     </button>
 
                     <button
-                      className="bg-[#f56500] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#dd6b20] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                      style={{color: "var(--text-primary)"}} className="bg-[#f56500]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:bg-[#dd6b20] hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => {
                         const notes = prompt('Add escalation reason:');
                         if (notes) onItemAction(item.id, 'escalated', notes);
@@ -403,14 +403,14 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
                     </button>
 
                     <button
-                      className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                      style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => handleAnalyzeContent(item.content_preview)}
                     >
                       🔍 Re-analyze
                     </button>
 
                     <button
-                      className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
+                      style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px disabled:bg-gray-600 disabled:cursor-not-allowed disabled:transform-none"
                       onClick={() => onUserSelect(item.user_id)}
                     >
                       👤 View User History
@@ -426,7 +426,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
       {pagination.totalPages > 1 && (
         <div className="flex justify-between items-center mt-8 p-4 bg-[var(--bg-secondary)] rounded-lg">
           <button
-            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed"
             onClick={() => setPagination(prev => ({ ...prev, page: Math.max(1, prev.page - 1) }))}
             disabled={pagination.page === 1}
           >
@@ -439,7 +439,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
           </span>
 
           <button
-            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm cursor-pointer transition-all hover:opacity-90 disabled:bg-gray-600 disabled:cursor-not-allowed"
             onClick={() => setPagination(prev => ({ ...prev, page: Math.min(prev.totalPages, prev.page + 1) }))}
             disabled={pagination.page === pagination.totalPages}
           >

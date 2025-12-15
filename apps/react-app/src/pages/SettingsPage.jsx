@@ -665,20 +665,20 @@ function SettingsPage() {
 
                 <form onSubmit={handleProfileSubmit} className="space-y-6">
                   {/* Avatar Upload */}
-                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                     <label className="block text-sm font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>Profile Picture</label>
                     <div className="flex items-center gap-6">
                       <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
                         {avatarPreview ? (
                           <img src={avatarPreview} alt="Avatar preview" loading="lazy" className="w-full h-full object-cover" />
                         ) : (
-                          <div className="text-white text-3xl font-bold">
+                          <div style={{color: "var(--text-primary)"}} className=" text-3xl font-bold">
                             {currentUser?.username?.[0]?.toUpperCase() || 'U'}
                           </div>
                         )}
                       </div>
                       <div className="flex-1">
-                        <label className="touch-target inline-block px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium cursor-pointer hover:opacity-90 transition-opacity">
+                        <label style={{color: "var(--text-primary)"}} className="touch-target inline-block px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium cursor-pointer hover:opacity-90 transition-opacity">
                           Upload New
                           <input
                             type="file"
@@ -825,7 +825,7 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
                     Save Profile
                   </button>
@@ -842,7 +842,7 @@ function SettingsPage() {
                 </div>
 
                 {/* Email */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Email Address</h3>
                   <div>
                     <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Current Email</label>
@@ -858,7 +858,7 @@ function SettingsPage() {
                 </div>
 
                 {/* Password Change */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Change Password</h3>
                   <form onSubmit={handlePasswordSubmit} className="space-y-4">
                     <div>
@@ -959,7 +959,7 @@ function SettingsPage() {
                     <button
                       type="submit"
                       disabled={passwordLoading}
-                      className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                      style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                     >
                       Update Password
                     </button>
@@ -975,7 +975,7 @@ function SettingsPage() {
                   <button
                     onClick={handleDeleteAccount}
                     disabled={loading}
-                    className="touch-target px-6 py-3 bg-red-500 text-white rounded-xl font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    style={{color: "var(--text-primary)"}} className="touch-target px-6 py-3 bg-red-500  rounded-xl font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     Delete My Account
                   </button>
@@ -1034,7 +1034,7 @@ function SettingsPage() {
                     </select>
                   </div>
 
-                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
+                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Show Online Status"
                       description="Let others see when you're online"
@@ -1060,7 +1060,7 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
                     Save Privacy Settings
                   </button>
@@ -1068,13 +1068,13 @@ function SettingsPage() {
 
                 {/* Blocked Users */}
                 {blockedUsers.length > 0 && (
-                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                     <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Blocked Users ({blockedUsers.length})</h3>
                     <div className="space-y-3">
                       {blockedUsers.map(user => (
                         <div key={user._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-bold">
+                            <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-bold">
                               {user.username[0].toUpperCase()}
                             </div>
                             <div>
@@ -1106,7 +1106,7 @@ function SettingsPage() {
                 </div>
 
                 {/* Two-Factor Authentication */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Two-Factor Authentication</h3>
                   <div className="flex items-center justify-between">
                     <div>
@@ -1131,13 +1131,13 @@ function SettingsPage() {
                 </div>
 
                 {/* Passkey Settings */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Passkeys</h3>
                   <PasskeySettings />
                 </div>
 
                 {/* Active Sessions */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Active Sessions</h3>
                   <div className="space-y-3">
                     {activeSessions.map(session => (
@@ -1147,7 +1147,7 @@ function SettingsPage() {
                           <div className="text-sm flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
                             {session.location} • {session.lastActive}
                             {session.current && (
-                              <span className="px-2 py-0.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-xs rounded-full">
+                              <span style={{color: "var(--text-primary)"}} className="px-2 py-0.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-xs rounded-full">
                                 Current
                               </span>
                             )}
@@ -1168,7 +1168,7 @@ function SettingsPage() {
                 </div>
 
                 {/* Login History */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Login History</h3>
                   <div className="space-y-3">
                     {loginHistory.map(login => (
@@ -1203,7 +1203,7 @@ function SettingsPage() {
                 </div>
 
                 <form onSubmit={handleNotificationSubmit} className="space-y-6">
-                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
+                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Friend Requests"
                       description="When someone sends you a friend request"
@@ -1278,7 +1278,7 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={notificationLoading}
-                    className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
                     Save Notification Settings
                   </button>
@@ -1296,7 +1296,7 @@ function SettingsPage() {
 
                 <form onSubmit={handleAppearanceSubmit} className="space-y-6">
                   {/* Theme Toggle */}
-                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                     <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Theme</h3>
                     <div className="flex items-center justify-between">
                       <ThemeToggle />
@@ -1319,7 +1319,7 @@ function SettingsPage() {
                   </div>
 
                   {/* Accessibility Options */}
-                  <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
+                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
                     <ToggleSwitch
                       label="Reduce Motion"
                       description="Minimize animations and transitions"
@@ -1345,7 +1345,7 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={appearanceLoading}
-                    className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
                   >
                     Save Appearance Settings
                   </button>
@@ -1362,13 +1362,13 @@ function SettingsPage() {
                 </div>
 
                 {/* OAuth Settings */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Connected Apps</h3>
                   <OAuthSettings />
                 </div>
 
                 {/* API Keys */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>API Keys</h3>
                   <APIKeysSettings />
                 </div>
@@ -1384,19 +1384,19 @@ function SettingsPage() {
                 </div>
 
                 {/* Wallet Connection */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Wallet Connection</h3>
                   <WalletConnectButton />
                 </div>
 
                 {/* Token Balances */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Token Balances</h3>
                   <TokenBalanceDisplay />
                 </div>
 
                 {/* Wallet Addresses */}
-                <div className="bg-white backdrop-blur-xl border border-[var(--border-subtle)] rounded-2xl p-6">
+                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
                   <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Saved Addresses</h3>
                   <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>No saved wallet addresses yet</p>
                   <button

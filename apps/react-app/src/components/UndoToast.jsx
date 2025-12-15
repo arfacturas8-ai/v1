@@ -56,7 +56,7 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
   if (!isVisible) return null;
 
   return (
-    <div className="relative bg-white backdrop-blur-xl rounded-xl shadow-2xl overflow-hidden min-w-[320px] sm:min-w-[400px]" style={{ border: '1px solid var(--border-subtle)' }}>
+    <div className="relative bg-white  rounded-xl shadow-2xl overflow-hidden min-w-[320px] sm:min-w-[400px]" style={{ border: '1px solid var(--border-subtle)' }}>
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'var(--bg-secondary)' }}>
         <div
@@ -67,7 +67,7 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
 
       <div className="p-4 pt-5 flex items-center gap-3">
         <div className={`flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r ${colorClass} flex items-center justify-center`}>
-          <Icon size={20} className="text-white" />
+          <Icon size={20} style={{color: "var(--text-primary)"}} className="" />
         </div>
 
         <p className="flex-1 text-sm sm:text-base font-medium" style={{ color: 'var(--text-primary)' }}>{message}</p>

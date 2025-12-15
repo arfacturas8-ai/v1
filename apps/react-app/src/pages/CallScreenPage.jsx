@@ -178,7 +178,7 @@ const CallScreenPage = () => {
             className="w-full h-full object-cover"
             aria-label="Your video"
           />
-          <div className="absolute bottom-1 left-1 md:bottom-2 md:left-2 px-1.5 py-0.5 md:px-2 md:py-1 bg-black/60 rounded text-white text-[10px] md:text-xs">
+          <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="absolute bottom-1 left-1 md:bottom-2 md:left-2 px-1.5 py-0.5 md:px-2 md:py-1 /60 rounded  text-[10px] md:text-xs">
             You
           </div>
         </motion.div>
@@ -231,7 +231,7 @@ const CallScreenPage = () => {
             {isAudioEnabled ? (
               <Mic className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
             ) : (
-              <MicOff className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <MicOff style={{color: "var(--text-primary)"}} className="w-5 h-5 md:w-6 md:h-6 " />
             )}
           </motion.button>
 
@@ -251,7 +251,7 @@ const CallScreenPage = () => {
             {isVideoEnabled ? (
               <Video className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
             ) : (
-              <VideoOff className="w-5 h-5 md:w-6 md:h-6 text-white" />
+              <VideoOff style={{color: "var(--text-primary)"}} className="w-5 h-5 md:w-6 md:h-6 " />
             )}
           </motion.button>
 
@@ -263,7 +263,7 @@ const CallScreenPage = () => {
             className="p-5 md:p-8 bg-red-500 hover:bg-red-600 rounded-full transition-all shadow-2xl"
             aria-label="End call"
           >
-            <PhoneOff className="w-6 h-6 md:w-7 md:h-7 text-white" />
+            <PhoneOff style={{color: "var(--text-primary)"}} className="w-6 h-6 md:w-7 md:h-7 " />
           </motion.button>
 
           {/* Screen Share */}

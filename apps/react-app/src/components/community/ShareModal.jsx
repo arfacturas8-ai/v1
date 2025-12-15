@@ -84,7 +84,7 @@ const ShareModal = ({ post, onClose, onShare }) => {
   ]
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/40" onClick={onClose}>
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 flex items-center justify-center p-4 z-50 /40" onClick={onClose}>
       <div
         ref={modalRef}
         className="w-full max-w-lg sm:max-w-xl rounded-2xl bg-white"

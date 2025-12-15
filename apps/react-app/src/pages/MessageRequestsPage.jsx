@@ -56,19 +56,19 @@ export default function MessageRequestsPage() {
     }
   }
   return (
-    <div role="main" aria-label="Message requests page" className="min-h-screen bg-[#0d1117] p-4 md:p-6">
+    <div role="main" aria-label="Message requests page" style={{background: "var(--bg-primary)"}} className="min-h-screen  p-4 md:p-6">
       <div className="max-w-4xl mx-auto">
         <div className="mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-[32px] font-bold text-white mb-2">
+          <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-[32px] font-bold  mb-2">
             Message Requests
           </h1>
-          <p className="text-sm md:text-base text-[#8b949e] leading-relaxed">
+          <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">
             Review messages from people you don't follow
           </p>
         </div>
 
         {/* Filters */}
-        <div className="flex gap-2 mb-6 border-b border-white/10">
+        <div style={{borderColor: "var(--border-subtle)"}} className="flex gap-2 mb-6 border-b ">
           {[
             { id: 'pending', label: 'Pending' },
             { id: 'accepted', label: 'Accepted' },
@@ -92,12 +92,12 @@ export default function MessageRequestsPage() {
 
         {/* Content */}
         {requests.length === 0 && !isLoading ? (
-          <div className="text-center py-12 md:py-20 px-4 md:px-5 bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card text-center py-12 md:py-20 px-4 md:px-5   rounded-2xl  border ">
             <MessageCircle size={isMobile ? 48 : 64} color="#8b949e" className="mx-auto mb-4 md:mb-6" />
-            <h3 className="text-lg md:text-xl font-semibold text-white mb-3 md:mb-4">
+            <h3 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-semibold  mb-3 md:mb-4">
               No {filter} message requests
             </h3>
-            <p className="text-sm md:text-base text-[#8b949e] leading-relaxed">
+            <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">
               When people send you messages, they'll appear here
             </p>
           </div>

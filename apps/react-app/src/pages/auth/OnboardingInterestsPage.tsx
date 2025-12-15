@@ -96,7 +96,7 @@ export default function OnboardingInterestsPage() {
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-4xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-4xl bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-8">
@@ -166,7 +166,7 @@ export default function OnboardingInterestsPage() {
                     {/* Selection indicator */}
                     {isSelected && (
                       <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg style={{color: "var(--text-primary)"}} className="w-4 h-4 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
                       </div>

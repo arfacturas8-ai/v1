@@ -98,10 +98,10 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
 
   if (!isSharing) {
     return (
-      <div className="relative w-full h-full bg-black text-white font-['Inter',-apple-system,BlinkMacSystemFont,sans-serif] overflow-hidden">
+      <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="relative w-full h-full   font-['Inter',-apple-system,BlinkMacSystemFont,sans-serif] overflow-hidden">
         <div className="flex items-center justify-center h-full bg-gradient-to-br from-[#1e293b] to-[#0f172a]">
           <div className="bg-[#1e293b]/90 backdrop-blur-[20px] rounded-2xl p-10 text-center border border-[#334155]/50 min-w-[500px]">
-            <h3 className="m-0 mb-2 text-2xl font-semibold text-white">Share Your Screen</h3>
+            <h3 style={{color: "var(--text-primary)"}} className="m-0 mb-2 text-2xl font-semibold ">Share Your Screen</h3>
             <p className="m-0 mb-8 text-[#94a3b8] text-base">Choose what you'd like to share</p>
 
             <div className="grid grid-cols-3 gap-4 mb-8">
@@ -136,13 +136,13 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
             <div className="flex gap-4 justify-center">
               <button
                 onClick={startScreenShare}
-                className="px-6 py-3 rounded-lg text-sm font-medium cursor-pointer border-none transition-all duration-200 min-w-[120px] bg-[#58a6ff] text-white hover:bg-[#1a6fc7] hover:-translate-y-px"
+                style={{color: "var(--text-primary)"}} className="px-6 py-3 rounded-lg text-sm font-medium cursor-pointer border-none transition-all duration-200 min-w-[120px] bg-[#58a6ff]  hover:bg-[#1a6fc7] hover:-translate-y-px"
               >
                 Start Sharing
               </button>
               <button
                 onClick={onClose}
-                className="px-6 py-3 rounded-lg text-sm font-medium cursor-pointer border-none transition-all duration-200 min-w-[120px] bg-[#334155]/80 text-[#cbd5e1] border border-[#475569]/50 hover:bg-[#475569]/90 hover:text-white"
+                style={{color: "var(--text-primary)"}} className="px-6 py-3 rounded-lg text-sm font-medium cursor-pointer border-none transition-all duration-200 min-w-[120px] bg-[#334155]/80 text-[#cbd5e1] border border-[#475569]/50 hover:bg-[#475569]/90 hover:"
               >
                 Cancel
               </button>
@@ -156,7 +156,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
   return (
     <div className="relative w-full h-full flex flex-col">
       {/* Video Container */}
-      <div className="relative flex-1 bg-black overflow-hidden">
+      <div style={{background: "var(--bg-primary)"}} className="relative flex-1  overflow-hidden">
         <video
           ref={videoRef}
           autoPlay
@@ -214,7 +214,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
 
         {/* Actions */}
         <div className="flex items-center gap-2 pr-4 border-r border-[#334155]/50">
-          <button className="bg-[#334155]/60 border-none rounded-lg text-[#cbd5e1] cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#475569]/80 hover:text-white">
+          <button style={{color: "var(--text-primary)"}} className="bg-[#334155]/60 border-none rounded-lg text-[#cbd5e1] cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#475569]/80 hover:">
             <Trash2 size={14} />
             Clear
           </button>
@@ -235,10 +235,10 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
         <div className="flex items-center gap-2 pr-4 border-r border-[#334155]/50">
           <button
             onClick={() => setShowCollabPanel(!showCollabPanel)}
-            className="bg-[#334155]/60 border-none rounded-lg text-[#cbd5e1] cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#475569]/80 hover:text-white relative"
+            style={{color: "var(--text-primary)"}} className="bg-[#334155]/60 border-none rounded-lg text-[#cbd5e1] cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#475569]/80 hover: relative"
           >
             <Users size={14} />
-            <span className="bg-[#22c55e] text-white rounded-full text-[10px] font-semibold min-w-[16px] h-4 flex items-center justify-center ml-1">
+            <span style={{color: "var(--text-primary)"}} className="bg-[#22c55e]  rounded-full text-[10px] font-semibold min-w-[16px] h-4 flex items-center justify-center ml-1">
               {collaborators.length}
             </span>
           </button>
@@ -246,7 +246,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
 
         {/* Export */}
         <div className="flex items-center gap-2 pr-4 border-r border-[#334155]/50 relative group">
-          <button className="bg-[#334155]/60 border-none rounded-lg text-[#cbd5e1] cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#475569]/80 hover:text-white">
+          <button style={{color: "var(--text-primary)"}} className="bg-[#334155]/60 border-none rounded-lg text-[#cbd5e1] cursor-pointer flex items-center justify-center gap-1.5 px-2 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#475569]/80 hover:">
             <Download size={14} />
             Export
           </button>
@@ -255,7 +255,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
         {/* Stop Sharing */}
         <button
           onClick={stopScreenShare}
-          className="bg-[#dc2626] text-white border-none rounded-lg cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#b91c1c]"
+          style={{color: "var(--text-primary)"}} className="bg-[#dc2626]  border-none rounded-lg cursor-pointer flex items-center justify-center gap-1.5 px-3 py-2 text-xs font-medium transition-all duration-200 hover:bg-[#b91c1c]"
         >
           <X size={14} />
           Stop Sharing
@@ -266,10 +266,10 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
       {showCollabPanel && (
         <div className="absolute top-0 right-0 bottom-0 w-[300px] bg-[#0f172a]/95 backdrop-blur-[20px] border-l border-[#334155]/50 z-[150] flex flex-col">
           <div className="px-5 py-5 border-b border-[#334155]/50 flex justify-between items-center">
-            <h4 className="m-0 text-base font-semibold text-white">Collaborators</h4>
+            <h4 style={{color: "var(--text-primary)"}} className="m-0 text-base font-semibold ">Collaborators</h4>
             <button
               onClick={() => setShowCollabPanel(false)}
-              className="bg-transparent border-none text-[#94a3b8] cursor-pointer p-1 rounded transition-colors hover:text-white"
+              style={{color: "var(--text-primary)"}} className="bg-transparent border-none text-[#94a3b8] cursor-pointer p-1 rounded transition-colors hover:"
             >
               <X size={18} />
             </button>
@@ -293,10 +293,10 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
       {showLayersPanel && (
         <div className="absolute top-0 right-0 bottom-0 w-[300px] bg-[#0f172a]/95 backdrop-blur-[20px] border-l border-[#334155]/50 z-[150] flex flex-col">
           <div className="px-5 py-5 border-b border-[#334155]/50 flex justify-between items-center">
-            <h4 className="m-0 text-base font-semibold text-white">Layers</h4>
+            <h4 style={{color: "var(--text-primary)"}} className="m-0 text-base font-semibold ">Layers</h4>
             <button
               onClick={() => setShowLayersPanel(false)}
-              className="bg-transparent border-none text-[#94a3b8] cursor-pointer p-1 rounded transition-colors hover:text-white"
+              style={{color: "var(--text-primary)"}} className="bg-transparent border-none text-[#94a3b8] cursor-pointer p-1 rounded transition-colors hover:"
             >
               <X size={18} />
             </button>

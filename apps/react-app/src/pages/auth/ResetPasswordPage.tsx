@@ -84,7 +84,7 @@ export default function ResetPasswordPage() {
           <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10 " />
         </div>
 
-        <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+        <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-green-500/20 flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8 text-green-500" />
@@ -102,7 +102,7 @@ export default function ResetPasswordPage() {
   if (!token) {
     return (
       <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-[var(--bg-primary)]">
-        <Card className="w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+        <Card className="w-full max-w-md bg-white  border-[var(--border-subtle)]">
           <CardContent className="p-8 text-center">
             <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-red-500/20 flex items-center justify-center">
               <AlertCircle className="w-8 h-8 text-red-500" />
@@ -132,11 +132,11 @@ export default function ResetPasswordPage() {
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8">
           <div className="text-center mb-8">
             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-white" />
+              <Sparkles style={{color: "var(--text-primary)"}} className="w-6 h-6 " />
             </div>
             <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Reset your password</h1>
             <p className="text-[var(--text-secondary)]">Create a new secure password</p>
@@ -162,7 +162,7 @@ export default function ResetPasswordPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    style={{color: "var(--text-primary)"}} className="text-gray-400 hover: transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -200,7 +200,7 @@ export default function ResetPasswordPage() {
                   <button
                     type="button"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    style={{color: "var(--text-primary)"}} className="text-gray-400 hover: transition-colors"
                   >
                     {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>

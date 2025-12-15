@@ -63,9 +63,9 @@ const TagPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0d1117] pt-16" role="main" aria-label="Tag page">
+    <div style={{background: "var(--bg-primary)"}} className="min-h-screen  pt-16" role="main" aria-label="Tag page">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white">
+      <div style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] ">
         <div className={`max-w-7xl mx-auto ${isMobile ? 'py-6 px-4' : 'py-12 px-6'}`}>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -102,9 +102,9 @@ const TagPage = () => {
             {/* Follow Button */}
             <button
               onClick={() => setIsFollowing(!isFollowing)}
-              className={`${isMobile ? 'py-3 px-6' : 'py-3 px-8'} rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold transition-all ${
+              className={`${isMobile ? 'py-3 px-6' : 'py-3 px-8'} rounded-2xl  font-semibold transition-all ${
                 isFollowing
-                  ? 'bg-[#161b22]/60 backdrop-blur-xl hover:bg-[#161b22]/60 backdrop-blur-xl backdrop-blur-sm text-white'
+                  ? 'bg-[#161b22]/60  hover:bg-[#161b22]/60  backdrop-blur-sm text-white'
                   : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:opacity-90'
               }`}
             >
@@ -125,7 +125,7 @@ const TagPage = () => {
       </div>
 
       {/* Controls */}
-      <div className="bg-[#161b22]/60 backdrop-blur-xl border-b border-white/10">
+      <div style={{borderColor: "var(--border-subtle)"}} className="card   border-b ">
         <div className={`max-w-7xl mx-auto flex items-center justify-between ${isMobile ? 'p-3' : 'p-4'}`}>
           <div className="flex items-center gap-4">
             <select
@@ -139,14 +139,14 @@ const TagPage = () => {
             </select>
 
             {!isMobile && (
-              <button className="flex items-center gap-2 px-4 py-2 hover:bg-[#21262d] rounded-lg transition-colors text-[#8b949e]">
+              <button style={{color: "var(--text-secondary)"}} className="flex items-center gap-2 px-4 py-2 hover:bg-[#21262d] rounded-lg transition-colors ">
                 <Filter className="w-4 h-4" />
                 Filters
               </button>
             )}
           </div>
 
-          <div className="flex gap-1 bg-[#21262d] border border-white/10 rounded-lg p-1">
+          <div style={{borderColor: "var(--border-subtle)"}} className="flex gap-1 bg-[#21262d] border  rounded-lg p-1">
             <button
               onClick={() => setViewMode('grid')}
               className={`p-2 rounded ${viewMode === 'grid' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e]'}`}
@@ -180,7 +180,7 @@ const TagPage = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => navigate(`/post/${post.id}`)}
-                className="bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden hover:border-[#58a6ff]/30 transition-all cursor-pointer"
+                style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  overflow-hidden hover:border-[#58a6ff]/30 transition-all cursor-pointer"
               >
                 <div className="aspect-video bg-[#21262d]">
                   <img src={post.image} alt={post.title} className="w-full h-full object-cover" />

@@ -71,7 +71,7 @@ const AnalyticsPanel = () => {
       <div className="bg-white backdrop-blur-[10px] rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-[var(--border-subtle)]">
         <div className="flex flex-col items-center p-12 text-red-600">
           <span>Failed to load analytics data</span>
-          <button onClick={fetchAnalytics} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px">
+          <button onClick={fetchAnalytics} style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px">
             Retry
           </button>
         </div>
@@ -94,7 +94,7 @@ const AnalyticsPanel = () => {
             <option value="30d">Last 30 Days</option>
             <option value="90d">Last 90 Days</option>
           </select>
-          <button onClick={fetchAnalytics} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px">
+          <button onClick={fetchAnalytics} style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none px-4 py-2 rounded-md text-sm font-medium cursor-pointer transition-all inline-flex items-center gap-2 hover:opacity-90 hover:-translate-y-px">
             🔄 Refresh
           </button>
         </div>
@@ -147,28 +147,28 @@ const AnalyticsPanel = () => {
         {selectedMetric === 'overview' && (
           <div>
             <div className="grid grid-cols-4 gap-4 mb-6">
-              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 ">
                 <div className="text-4xl mb-2">📊</div>
                 <div className="text-2xl font-bold text-[var(--text-primary)] mb-1">{formatNumber(analytics.summary?.total_reports || 0)}</div>
                 <div className="text-sm text-[var(--text-secondary)] mb-1">Total Reports</div>
                 <div className="text-xs text-green-500">+{formatNumber(analytics.summary?.new_reports || 0)} new</div>
               </div>
 
-              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 ">
                 <div className="text-4xl mb-2">⚡</div>
                 <div className="text-2xl font-bold text-[var(--text-primary)] mb-1">{formatNumber(analytics.summary?.total_actions || 0)}</div>
                 <div className="text-sm text-[var(--text-secondary)] mb-1">Moderation Actions</div>
                 <div className="text-xs text-[var(--text-secondary)]">{formatPercentage(analytics.summary?.auto_action_rate || 0)} automated</div>
               </div>
 
-              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 ">
                 <div className="text-4xl mb-2">🎯</div>
                 <div className="text-2xl font-bold text-[var(--text-primary)] mb-1">{formatPercentage(analytics.ai_accuracy?.accuracy || 0)}</div>
                 <div className="text-sm text-[var(--text-secondary)] mb-1">AI Accuracy</div>
                 <div className="text-xs text-green-500">{formatPercentage(analytics.ai_accuracy?.precision || 0)} precision</div>
               </div>
 
-              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 shadow-[0_8px_32px_rgba(0,0,0,0.1)]">
+              <div className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4 ">
                 <div className="text-4xl mb-2">⏱️</div>
                 <div className="text-2xl font-bold text-[var(--text-primary)] mb-1">{analytics.summary?.avg_response_time || 0}m</div>
                 <div className="text-sm text-[var(--text-secondary)] mb-1">Avg Response Time</div>
@@ -311,7 +311,7 @@ const AnalyticsPanel = () => {
               {analytics.moderator_performance?.map((moderator, index) => (
                 <div key={index} className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 rounded-full bg-[#58a6ff] flex items-center justify-center text-white font-bold">
+                    <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-[#58a6ff] flex items-center justify-center  font-bold">
                       {moderator.username?.[0]?.toUpperCase() || 'M'}
                     </div>
                     <div>

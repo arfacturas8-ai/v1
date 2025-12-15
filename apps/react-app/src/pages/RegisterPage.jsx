@@ -124,7 +124,7 @@ export default function RegisterPage() {
           <div className="text-center mb-3 sm:mb-2.5">
             <div className="flex justify-center mb-1.5 sm:mb-[5px]">
               <div className="w-11 h-11 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center" aria-hidden="true">
-                <Sparkles className="h-5.5 w-5.5 sm:h-5 sm:w-5 text-white" aria-hidden="true" />
+                <Sparkles style={{color: "var(--text-primary)"}} className="h-5.5 w-5.5 sm:h-5 sm:w-5 " aria-hidden="true" />
               </div>
             </div>
             <h1 className="text-xl sm:text-lg font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Create your account</h1>

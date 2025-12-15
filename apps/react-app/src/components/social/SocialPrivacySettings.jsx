@@ -168,19 +168,19 @@ const SocialPrivacySettings = ({ onClose }) => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-5 text-white/60">
-        <div className="w-8 h-8 border-[3px] border-white/10 border-t-green-400 rounded-full  mb-4" />
+      <div style={{color: "var(--text-primary)"}} className="flex flex-col items-center justify-center py-16 px-5 /60">
+        <div style={{borderColor: "var(--border-subtle)"}} className="w-8 h-8 border-[3px]  border-t-green-400 rounded-full  mb-4" />
         <p>Loading privacy settings...</p>
       </div>
     )
   }
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-[20px] flex items-center justify-center z-[1000] p-5">
-      <div className="w-full max-w-[800px] max-h-[90vh] bg-[#1a1a1a] rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden">
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /80 backdrop-blur-[20px] flex items-center justify-center z-[1000] p-5">
+      <div style={{borderColor: "var(--border-subtle)"}} className="w-full max-w-[800px] max-h-[90vh] bg-[#1a1a1a] rounded-2xl border  shadow-[0_20px_60px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-white/10">
-          <div className="flex items-center gap-3 text-white">
+        <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between px-6 py-5 border-b ">
+          <div style={{color: "var(--text-primary)"}} className="flex items-center gap-3 ">
             <Shield size={24} />
             <h2 className="m-0 text-xl font-semibold">Privacy & Safety</h2>
           </div>
@@ -193,7 +193,7 @@ const SocialPrivacySettings = ({ onClose }) => {
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-white/10 bg-white/[0.02]">
+        <div style={{borderColor: "var(--border-subtle)"}} className="flex border-b  bg-white/[0.02]">
           <button
             className={`flex-1 min-h-[44px] px-5 py-4 border-none bg-transparent text-sm font-medium transition-all relative flex items-center justify-center gap-2 ${
               activeTab === 'profile'
@@ -238,7 +238,7 @@ const SocialPrivacySettings = ({ onClose }) => {
             <UserX size={16} />
             Blocking
             {blockedUsers.length > 0 && (
-              <span className="bg-red-500 text-white text-[10px] font-semibold px-1.5 py-0.5 rounded-lg min-w-4 text-center">
+              <span style={{color: "var(--text-primary)"}} className="bg-red-500  text-[10px] font-semibold px-1.5 py-0.5 rounded-lg min-w-4 text-center">
                 {blockedUsers.length}
               </span>
             )}
@@ -251,22 +251,22 @@ const SocialPrivacySettings = ({ onClose }) => {
           {activeTab === 'profile' && (
             <div className="max-w-[600px] mx-auto">
               <div className="mb-6 text-center">
-                <h3 className="m-0 mb-2 text-lg font-semibold text-white">Profile Visibility</h3>
-                <p className="m-0 text-sm text-white/60">Control who can see your profile information</p>
+                <h3 style={{color: "var(--text-primary)"}} className="m-0 mb-2 text-lg font-semibold ">Profile Visibility</h3>
+                <p style={{color: "var(--text-primary)"}} className="m-0 text-sm /60">Control who can see your profile information</p>
               </div>
 
               <PrivacyLevel level="high">
-                <div className="flex items-center justify-between py-4 border-b border-white/10 last:border-b-0">
+                <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b  last:border-b-0">
                   <div className="flex-1 min-w-0">
-                    <label className="block text-sm font-medium text-white mb-1">Profile Visibility</label>
-                    <span className="text-xs text-white/60 leading-snug">
+                    <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Profile Visibility</label>
+                    <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                       Who can see your profile
                     </span>
                   </div>
                   <select
                     value={privacySettings.profileVisibility}
                     onChange={(e) => handleSettingChange('profileVisibility', null, e.target.value)}
-                    className="min-h-[44px] px-3 py-2 border border-white/20 rounded-md bg-white/5 text-white text-sm cursor-pointer min-w-[120px] focus:outline-none focus:border-green-400"
+                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="min-h-[44px] px-3 py-2 border  rounded-md bg-white/5  text-sm cursor-pointer min-w-[120px] focus:outline-none focus:border-green-400"
                   >
                     <option value="public">Public</option>
                     <option value="friends">Friends Only</option>
@@ -275,10 +275,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </div>
               </PrivacyLevel>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Show Email Address</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Show Email Address</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Display your email on your profile
                   </span>
                 </div>
@@ -294,10 +294,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Show Location</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Show Location</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Display your location on your profile
                   </span>
                 </div>
@@ -313,10 +313,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Show Join Date</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Show Join Date</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Display when you joined CRYB
                   </span>
                 </div>
@@ -332,10 +332,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Show Online Status</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Show Online Status</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Let others see when you're online
                   </span>
                 </div>
@@ -357,15 +357,15 @@ const SocialPrivacySettings = ({ onClose }) => {
           {activeTab === 'social' && (
             <div className="max-w-[600px] mx-auto">
               <div className="mb-6 text-center">
-                <h3 className="m-0 mb-2 text-lg font-semibold text-white">Social Connections</h3>
-                <p className="m-0 text-sm text-white/60">Control your social interactions and connections</p>
+                <h3 style={{color: "var(--text-primary)"}} className="m-0 mb-2 text-lg font-semibold ">Social Connections</h3>
+                <p style={{color: "var(--text-primary)"}} className="m-0 text-sm /60">Control your social interactions and connections</p>
               </div>
 
               <PrivacyLevel level="medium">
-                <div className="flex items-center justify-between py-4 border-b border-white/10 last:border-b-0">
+                <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b  last:border-b-0">
                   <div className="flex-1 min-w-0">
-                    <label className="block text-sm font-medium text-white mb-1">Allow Following</label>
-                    <span className="text-xs text-white/60 leading-snug">
+                    <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Allow Following</label>
+                    <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                       Let others follow you
                     </span>
                   </div>
@@ -382,10 +382,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </div>
               </PrivacyLevel>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Require Follow Approval</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Require Follow Approval</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Manually approve follow requests
                   </span>
                 </div>
@@ -401,10 +401,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Show Followers</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Show Followers</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Display your followers list
                   </span>
                 </div>
@@ -420,10 +420,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Show Following</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Show Following</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Display who you're following
                   </span>
                 </div>
@@ -439,10 +439,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Show Friends</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Show Friends</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Display your friends list
                   </span>
                 </div>
@@ -464,14 +464,14 @@ const SocialPrivacySettings = ({ onClose }) => {
           {activeTab === 'interactions' && (
             <div className="max-w-[600px] mx-auto">
               <div className="mb-6 text-center">
-                <h3 className="m-0 mb-2 text-lg font-semibold text-white">Interaction Settings</h3>
-                <p className="m-0 text-sm text-white/60">Control how others can interact with you</p>
+                <h3 style={{color: "var(--text-primary)"}} className="m-0 mb-2 text-lg font-semibold ">Interaction Settings</h3>
+                <p style={{color: "var(--text-primary)"}} className="m-0 text-sm /60">Control how others can interact with you</p>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Allow Messages</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Allow Messages</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Let others send you direct messages
                   </span>
                 </div>
@@ -487,10 +487,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Allow Friend Requests</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Allow Friend Requests</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Let others send you friend requests
                   </span>
                 </div>
@@ -506,10 +506,10 @@ const SocialPrivacySettings = ({ onClose }) => {
                 </button>
               </div>
 
-              <div className="flex items-center justify-between py-4 border-b border-white/10">
+              <div style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b ">
                 <div className="flex-1 min-w-0">
-                  <label className="block text-sm font-medium text-white mb-1">Allow Mentions</label>
-                  <span className="text-xs text-white/60 leading-snug">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-1">Allow Mentions</label>
+                  <span style={{color: "var(--text-primary)"}} className="text-xs /60 leading-snug">
                     Let others mention you in posts and comments
                   </span>
                 </div>
@@ -526,13 +526,13 @@ const SocialPrivacySettings = ({ onClose }) => {
               </div>
 
               {/* Notification Settings */}
-              <div className="mt-8 pt-6 border-t border-white/10">
-                <h4 className="m-0 mb-4 text-base font-semibold text-white">Notification Preferences</h4>
+              <div style={{borderColor: "var(--border-subtle)"}} className="mt-8 pt-6 border-t ">
+                <h4 style={{color: "var(--text-primary)"}} className="m-0 mb-4 text-base font-semibold ">Notification Preferences</h4>
 
                 {Object.entries(privacySettings.socialNotifications).map(([key, value]) => (
-                  <div key={key} className="flex items-center justify-between py-4 border-b border-white/10 last:border-b-0">
+                  <div key={key} style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between py-4 border-b  last:border-b-0">
                     <div className="flex-1 min-w-0">
-                      <label className="block text-sm font-medium text-white">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</label>
+                      <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium ">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</label>
                     </div>
                     <button
                       className={`flex items-center justify-center w-10 h-10 min-h-[44px] rounded-lg border-2 transition-all ${
@@ -554,14 +554,14 @@ const SocialPrivacySettings = ({ onClose }) => {
           {activeTab === 'blocking' && (
             <div className="max-w-[600px] mx-auto">
               <div className="mb-6 text-center">
-                <h3 className="m-0 mb-2 text-lg font-semibold text-white">Blocked Users</h3>
-                <p className="m-0 text-sm text-white/60">Manage users you've blocked</p>
+                <h3 style={{color: "var(--text-primary)"}} className="m-0 mb-2 text-lg font-semibold ">Blocked Users</h3>
+                <p style={{color: "var(--text-primary)"}} className="m-0 text-sm /60">Manage users you've blocked</p>
               </div>
 
               {blockedUsers.length > 0 ? (
                 <div className="mb-6">
                   {blockedUsers.map(user => (
-                    <div key={user.id} className="flex items-center justify-between px-4 py-4 mb-3 bg-white/[0.02] border border-white/10 rounded-xl transition-all hover:bg-white/5">
+                    <div key={user.id} style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between px-4 py-4 mb-3 bg-white/[0.02] border  rounded-xl transition-all hover:bg-white/5">
                       <div className="flex items-center gap-3 flex-1">
                         <div className="flex-shrink-0">
                           {user.avatar ? (
@@ -577,9 +577,9 @@ const SocialPrivacySettings = ({ onClose }) => {
                           )}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="m-0 mb-1 text-sm font-semibold text-white">{user.displayName}</h4>
-                          <span className="block text-xs text-white/60 mb-0.5">@{user.username}</span>
-                          <span className="text-[11px] text-white/40">
+                          <h4 style={{color: "var(--text-primary)"}} className="m-0 mb-1 text-sm font-semibold ">{user.displayName}</h4>
+                          <span style={{color: "var(--text-primary)"}} className="block text-xs /60 mb-0.5">@{user.username}</span>
+                          <span style={{color: "var(--text-primary)"}} className="text-[11px] /40">
                             Blocked {new Date(user.blockedAt).toLocaleDateString()}
                           </span>
                         </div>
@@ -595,9 +595,9 @@ const SocialPrivacySettings = ({ onClose }) => {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center py-10 px-5 text-center text-white/60">
+                <div style={{color: "var(--text-primary)"}} className="flex flex-col items-center justify-center py-10 px-5 text-center /60">
                   <UserX size={48} className="mb-4 opacity-50" />
-                  <h3 className="m-0 mb-2 text-base text-white/80">No blocked users</h3>
+                  <h3 style={{color: "var(--text-primary)"}} className="m-0 mb-2 text-base /80">No blocked users</h3>
                   <p className="m-0 text-sm">Users you block will appear here</p>
                 </div>
               )}
@@ -606,7 +606,7 @@ const SocialPrivacySettings = ({ onClose }) => {
                 <AlertTriangle size={20} className="text-yellow-400 mt-0.5 flex-shrink-0" />
                 <div>
                   <h4 className="m-0 mb-1 text-sm font-semibold text-yellow-400">About Blocking</h4>
-                  <p className="m-0 text-xs text-white/80 leading-snug">
+                  <p style={{color: "var(--text-primary)"}} className="m-0 text-xs /80 leading-snug">
                     Blocked users cannot see your profile, send you messages,
                     or interact with your content. You won't see their content either.
                   </p>
@@ -617,8 +617,8 @@ const SocialPrivacySettings = ({ onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex sm:flex-row flex-col sm:items-center items-start justify-between gap-3 px-6 py-4 border-t border-white/10 bg-white/[0.02]">
-          <div className="flex items-center gap-2 text-xs text-white/60">
+        <div style={{borderColor: "var(--border-subtle)"}} className="flex sm:flex-row flex-col sm:items-center items-start justify-between gap-3 px-6 py-4 border-t  bg-white/[0.02]">
+          <div style={{color: "var(--text-primary)"}} className="flex items-center gap-2 text-xs /60">
             <Info size={16} />
             <span>Changes are saved automatically</span>
           </div>

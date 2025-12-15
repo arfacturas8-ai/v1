@@ -161,12 +161,12 @@ export default function SignupPage() {
         <div className="absolute w-96 h-96 rounded-full blur-3xl opacity-20 bg-[#a371f7] bottom-20 right-10" />
       </div>
 
-      <Card className="relative z-10 w-full max-w-md bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-md bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8">
           {/* Logo and header */}
           <div className="text-center mb-8">
             <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-              <Sparkles className="w-6 h-6 text-white" />
+              <Sparkles style={{color: "var(--text-primary)"}} className="w-6 h-6 " />
             </div>
             <h1 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Create your account</h1>
             <p className="text-[var(--text-secondary)]">Join the CRYB community</p>
@@ -177,7 +177,7 @@ export default function SignupPage() {
             <div className="mb-6 p-4 bg-gradient-to-r from-[#58a6ff]/10 to-[#a371f7]/10 border border-[#58a6ff]/30 rounded-lg">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center flex-shrink-0">
-                  <Gift className="w-5 h-5 text-white" />
+                  <Gift style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-[var(--text-primary)] mb-1">
@@ -288,7 +288,7 @@ export default function SignupPage() {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="text-gray-400 hover:text-white transition-colors"
+                        style={{color: "var(--text-primary)"}} className="text-gray-400 hover: transition-colors"
                       >
                         {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>
@@ -327,7 +327,7 @@ export default function SignupPage() {
                       <button
                         type="button"
                         onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                        className="text-gray-400 hover:text-white transition-colors"
+                        style={{color: "var(--text-primary)"}} className="text-gray-400 hover: transition-colors"
                       >
                         {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                       </button>

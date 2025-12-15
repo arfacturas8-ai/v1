@@ -243,7 +243,7 @@ export default function OnboardingPage() {
 
       {/* Progress Bar */}
       <div className="px-5 py-5 md:px-10 md:py-5 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
-        <div className="w-full h-1 bg-[#161b22]/60 backdrop-blur-xl rounded-sm overflow-hidden">
+        <div className="card w-full h-1   rounded-sm overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-sm"
             initial={{ width: 0 }}
@@ -292,15 +292,15 @@ export default function OnboardingPage() {
                   govern with DAOs, and build the web3-native future.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 mt-6 md:mt-8">
-                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div className="card  rounded-2xl  p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
                     <Users size={isMobile ? 20 : 24} color="#58a6ff" />
                     <span className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Join Communities</span>
                   </div>
-                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div className="card  rounded-2xl  p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
                     <Sparkles size={isMobile ? 20 : 24} color="#58a6ff" />
                     <span className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Create Content</span>
                   </div>
-                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div className="card  rounded-2xl  p-5 md:p-6 flex flex-col items-center gap-3 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
                     <Wallet size={isMobile ? 20 : 24} color="#58a6ff" />
                     <span className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-primary)' }}>Web3 Ready</span>
                   </div>
@@ -344,7 +344,7 @@ export default function OnboardingPage() {
                     value={preferences.username}
                     onChange={(e) => setPreferences(prev => ({ ...prev, username: e.target.value }))}
                     placeholder="@yourusername"
-                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
+                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
                     style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   />
                 </div>
@@ -356,7 +356,7 @@ export default function OnboardingPage() {
                     value={preferences.displayName}
                     onChange={(e) => setPreferences(prev => ({ ...prev, displayName: e.target.value }))}
                     placeholder="Your Name"
-                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
+                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 min-h-[44px]"
                     style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   />
                 </div>
@@ -368,7 +368,7 @@ export default function OnboardingPage() {
                     onChange={(e) => setPreferences(prev => ({ ...prev, bio: e.target.value }))}
                     placeholder="Tell us about yourself..."
                     rows={4}
-                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 resize-y font-inherit"
+                    className="w-full px-3 py-3 md:px-4 md:py-3 bg-[#21262d]/60 rounded-2xl  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff]/50 focus:bg-[#21262d]/80 resize-y font-inherit"
                     style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                   />
                 </div>
@@ -390,7 +390,7 @@ export default function OnboardingPage() {
                     return (
                       <motion.div
                         key={interest.id}
-                        className={`bg-[#161b22]/60 border-2 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex flex-col items-center gap-2 cursor-pointer transition-all relative ${
+                        className={`bg-[#161b22]/60 border-2 rounded-2xl  p-4 md:p-5 flex flex-col items-center gap-2 cursor-pointer transition-all relative ${
                           isSelected
                             ? 'bg-gradient-to-br from-[#58a6ff]/10 to-[#a371f7]/10 border-[#58a6ff]'
                             : ''
@@ -432,11 +432,11 @@ export default function OnboardingPage() {
                     return (
                       <motion.div
                         key={community.id}
-                        className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all"
+                        className="card  rounded-2xl  p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all"
                         style={{ border: '1px solid var(--border-subtle)' }}
                         whileHover={{ scale: 1.02 }}
                       >
-                        <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] bg-[#2a2a2a] flex items-center justify-center text-2xl md:text-3xl shrink-0">
+                        <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-2xl  bg-[#2a2a2a] flex items-center justify-center text-2xl md:text-3xl shrink-0">
                           {community.avatar}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -482,7 +482,7 @@ export default function OnboardingPage() {
                     return (
                       <motion.div
                         key={user.id}
-                        className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all"
+                        className="card  rounded-2xl  p-4 md:p-5 flex items-center gap-3 md:gap-4 transition-all"
                         style={{ border: '1px solid var(--border-subtle)' }}
                         whileHover={{ scale: 1.02 }}
                       >
@@ -528,7 +528,7 @@ export default function OnboardingPage() {
                 </div>
 
                 <div className="flex flex-col gap-3 md:gap-4 mt-5 md:mt-6">
-                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div className="card  rounded-2xl  p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
                     <div className="flex gap-3 md:gap-4 items-start flex-1">
                       <Zap size={isMobile ? 20 : 24} color="#58a6ff" className="shrink-0 mt-0.5" />
                       <div>
@@ -548,11 +548,11 @@ export default function OnboardingPage() {
                         }))}
                         className="sr-only peer"
                       />
-                      <span className="absolute cursor-pointer inset-0 bg-[#2a2a2a] transition-all rounded-full peer-checked:bg-[#58a6ff] before:content-[''] before:absolute before:h-4 before:w-4 md:before:h-5 md:before:w-5 before:left-1 before:bottom-1 before:bg-[#161b22] before:transition-all before:rounded-full peer-checked:before:translate-x-6"></span>
+                      <span className="card absolute cursor-pointer inset-0 bg-[#2a2a2a] transition-all rounded-full peer-checked:bg-[#58a6ff] before:content-[''] before:absolute before:h-4 before:w-4 md:before:h-5 md:before:w-5 before:left-1 before:bottom-1 before: before:transition-all before:rounded-full peer-checked:before:translate-x-6"></span>
                     </label>
                   </div>
 
-                  <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
+                  <div className="card  rounded-2xl  p-5 md:p-6 flex justify-between items-center gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
                     <div className="flex gap-3 md:gap-4 items-start flex-1">
                       <Bell size={isMobile ? 20 : 24} color="#58a6ff" className="shrink-0 mt-0.5" />
                       <div>
@@ -572,7 +572,7 @@ export default function OnboardingPage() {
                         }))}
                         className="sr-only peer"
                       />
-                      <span className="absolute cursor-pointer inset-0 bg-[#2a2a2a] transition-all rounded-full peer-checked:bg-[#58a6ff] before:content-[''] before:absolute before:h-4 before:w-4 md:before:h-5 md:before:w-5 before:left-1 before:bottom-1 before:bg-[#161b22] before:transition-all before:rounded-full peer-checked:before:translate-x-6"></span>
+                      <span className="card absolute cursor-pointer inset-0 bg-[#2a2a2a] transition-all rounded-full peer-checked:bg-[#58a6ff] before:content-[''] before:absolute before:h-4 before:w-4 md:before:h-5 md:before:w-5 before:left-1 before:bottom-1 before: before:transition-all before:rounded-full peer-checked:before:translate-x-6"></span>
                     </label>
                   </div>
                 </div>
@@ -588,7 +588,7 @@ export default function OnboardingPage() {
                   <p className="text-sm md:text-base text-[#8a939b]">Connect your Web3 wallet to unlock features</p>
                 </div>
 
-                <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-5 md:p-6 text-center mt-5 md:mt-6 mb-6 md:mb-8" style={{ border: '1px solid var(--border-subtle)' }}>
+                <div className="card  rounded-2xl  p-5 md:p-6 text-center mt-5 md:mt-6 mb-6 md:mb-8" style={{ border: '1px solid var(--border-subtle)' }}>
                   <Shield size={isMobile ? 28 : 32} color="#8a939b" className="inline-block" />
                   <p className="text-xs md:text-sm text-[#8a939b] leading-relaxed mt-3 md:mt-4">
                     Connecting your wallet allows you to collect NFTs, participate in token-gated
@@ -598,7 +598,7 @@ export default function OnboardingPage() {
 
                 <div className="flex flex-col gap-2 md:gap-3">
                   <motion.button
-                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
+                    className="card px-5 py-3.5 md:px-6 md:py-4  rounded-2xl  text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
                     style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -613,7 +613,7 @@ export default function OnboardingPage() {
                   </motion.button>
 
                   <motion.button
-                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
+                    className="card px-5 py-3.5 md:px-6 md:py-4  rounded-2xl  text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
                     style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -628,7 +628,7 @@ export default function OnboardingPage() {
                   </motion.button>
 
                   <motion.button
-                    className="px-5 py-3.5 md:px-6 md:py-4 bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
+                    className="card px-5 py-3.5 md:px-6 md:py-4  rounded-2xl  text-sm md:text-base font-semibold transition-all flex items-center justify-center gap-2 md:gap-3 min-h-[44px]"
                     style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -647,7 +647,7 @@ export default function OnboardingPage() {
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mt-5 md:mt-6 px-4 py-3.5 md:py-4 bg-[#10b981]/10 border border-[#10b981]/30 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] flex items-center justify-center gap-2"
+                    className="mt-5 md:mt-6 px-4 py-3.5 md:py-4 bg-[#10b981]/10 border border-[#10b981]/30 rounded-2xl  flex items-center justify-center gap-2"
                   >
                     <Check size={20} color="#10b981" />
                     <span className="text-xs md:text-sm text-[#10b981] font-semibold">Wallet connected successfully!</span>
@@ -676,7 +676,7 @@ export default function OnboardingPage() {
                   Welcome to the Cryb.ai community. You're ready to explore, create, and own your space.
                 </p>
 
-                <div className="bg-[#161b22]/60 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] p-6 md:p-8 flex flex-col gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
+                <div className="card  rounded-2xl  p-6 md:p-8 flex flex-col gap-3 md:gap-4" style={{ border: '1px solid var(--border-subtle)' }}>
                   <div className="flex items-center justify-center gap-2 md:gap-3 text-sm md:text-base" style={{ color: 'var(--text-primary)' }}>
                     <Heart size={isMobile ? 18 : 20} color="#58a6ff" />
                     <span>{preferences.interests.length} interests selected</span>
@@ -727,7 +727,7 @@ export default function OnboardingPage() {
 
         <button
           onClick={handleNext}
-          className="px-6 py-3 md:px-8 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-lg text-xs md:text-sm font-semibold text-white transition-all flex items-center gap-1.5 hover:opacity-90 min-h-[44px]"
+          style={{color: "var(--text-primary)"}} className="px-6 py-3 md:px-8 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-lg text-xs md:text-sm font-semibold  transition-all flex items-center gap-1.5 hover:opacity-90 min-h-[44px]"
         >
           {currentStep === ONBOARDING_STEPS.length - 1 ? 'Get Started' : 'Next'}
           <ChevronRight size={20} />

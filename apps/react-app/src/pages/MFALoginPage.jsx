@@ -169,7 +169,7 @@ export default function MFALoginPage() {
           <span>Back to login</span>
         </button>
 
-        <div className="bg-white backdrop-blur-xl rounded-[10px] shadow-sm p-5 md:p-6 lg:p-5" style={{ border: '1px solid var(--border-subtle)' }}>
+        <div className="bg-white  rounded-[10px] shadow-sm p-5 md:p-6 lg:p-5" style={{ border: '1px solid var(--border-subtle)' }}>
           <div className="text-center mb-4 md:mb-5 lg:mb-4">
             <div className="inline-flex items-center justify-center w-11 h-11 bg-[#58a6ff]/10 rounded-full mb-3 md:mb-2.5 lg:mb-2">
               <Shield className="w-5.5 h-5.5 text-[#58a6ff]" />
@@ -276,7 +276,7 @@ export default function MFALoginPage() {
                     checked={rememberDevice}
                     onChange={(e) => setRememberDevice(e.target.checked)}
                     disabled={loading}
-                    className="w-4 h-4 rounded border border-white/10 bg-[#202225]/60 cursor-pointer"
+                    style={{borderColor: "var(--border-subtle)"}} className="w-4 h-4 rounded border  bg-[#202225]/60 cursor-pointer"
                   />
                   <span className="text-xs text-[#A0A0A0]">
                     Remember this device for 30 days
@@ -286,7 +286,7 @@ export default function MFALoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full px-3 py-2.5 md:py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-0 rounded-[10px] text-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{color: "var(--text-primary)"}} className="w-full px-3 py-2.5 md:py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-0 rounded-[10px] text-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Verify Backup Code
                 </button>

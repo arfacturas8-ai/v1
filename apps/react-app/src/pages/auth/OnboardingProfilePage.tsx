@@ -126,7 +126,7 @@ export default function OnboardingProfilePage() {
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-2xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-2xl bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Header */}
           <div className="text-center mb-8">
@@ -166,7 +166,7 @@ export default function OnboardingProfilePage() {
                   onClick={() => fileInputRef.current?.click()}
                   className="absolute bottom-0 right-0 w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center shadow-lg hover:opacity-90 transition-opacity"
                 >
-                  <Camera className="w-5 h-5 text-white" />
+                  <Camera style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
                 </button>
                 <input
                   ref={fileInputRef}

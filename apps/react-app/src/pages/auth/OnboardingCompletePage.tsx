@@ -78,7 +78,7 @@ export default function OnboardingCompletePage() {
         </div>
       </div>
 
-      <Card className="relative z-10 w-full max-w-2xl bg-white backdrop-blur-xl border-[var(--border-subtle)]">
+      <Card className="relative z-10 w-full max-w-2xl bg-white  border-[var(--border-subtle)]">
         <CardContent className="p-8 md:p-12">
           {/* Loading phase */}
           {animationPhase === 'loading' && (
@@ -86,7 +86,7 @@ export default function OnboardingCompletePage() {
               <div className="w-24 h-24 mx-auto mb-8 relative">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] opacity-20 animate-ping" />
                 <div className="relative w-full h-full rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-                  <Sparkles className="w-12 h-12 text-white " />
+                  <Sparkles style={{color: "var(--text-primary)"}} className="w-12 h-12  " />
                 </div>
               </div>
               <h2 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Setting up your profile...</h2>
@@ -112,7 +112,7 @@ export default function OnboardingCompletePage() {
           {animationPhase === 'ready' && (
             <div className="text-center">
               <div className="w-24 h-24 mx-auto mb-8 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-                <Sparkles className="w-12 h-12 text-white" />
+                <Sparkles style={{color: "var(--text-primary)"}} className="w-12 h-12 " />
               </div>
 
               <h1 className="text-3xl md:text-4xl font-bold mb-3 text-[var(--text-primary)]">

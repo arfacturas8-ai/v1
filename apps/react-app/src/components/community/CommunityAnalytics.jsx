@@ -108,7 +108,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
           <p className="mb-3">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           <button
             onClick={loadAnalytics}
-            className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90"
           >
             Retry
           </button>
@@ -141,7 +141,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
             ))}
           </select>
 
-          <button className="flex items-center gap-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90">
+          <button style={{color: "var(--text-primary)"}} className="flex items-center gap-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-4 py-2 rounded-lg font-medium transition-all hover:opacity-90">
             <Download size={16} />
             Export
           </button>
@@ -299,7 +299,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
           <div className="flex flex-col gap-3">
             {analytics?.topContributors?.slice(0, 5).map((contributor, index) => (
               <div key={contributor.id} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-semibold">
+                <div style={{color: "var(--text-primary)"}} className="w-6 h-6 bg-blue-500  rounded-full flex items-center justify-center text-xs font-semibold">
                   #{index + 1}
                 </div>
                 <img
@@ -436,13 +436,13 @@ function EngagementChart({ data }) {
       <div className="bg-gray-50 rounded-lg p-5 min-h-[200px] flex items-center justify-center">
         <div className="w-full h-[200px]">
           <div className="flex justify-around items-center h-full">
-            <div className="w-20 h-20 rounded-full bg-red-500 flex items-center justify-center text-white font-semibold cursor-pointer hover:scale-110 transition-transform" title="Likes">
+            <div style={{color: "var(--text-primary)"}} className="w-20 h-20 rounded-full bg-red-500 flex items-center justify-center  font-semibold cursor-pointer hover:scale-110 transition-transform" title="Likes">
               <span>{data?.likes || 0}</span>
             </div>
-            <div className="w-20 h-20 rounded-full bg-blue-500 flex items-center justify-center text-white font-semibold cursor-pointer hover:scale-110 transition-transform" title="Comments">
+            <div style={{color: "var(--text-primary)"}} className="w-20 h-20 rounded-full bg-blue-500 flex items-center justify-center  font-semibold cursor-pointer hover:scale-110 transition-transform" title="Comments">
               <span>{data?.comments || 0}</span>
             </div>
-            <div className="w-20 h-20 rounded-full bg-emerald-500 flex items-center justify-center text-white font-semibold cursor-pointer hover:scale-110 transition-transform" title="Shares">
+            <div style={{color: "var(--text-primary)"}} className="w-20 h-20 rounded-full bg-emerald-500 flex items-center justify-center  font-semibold cursor-pointer hover:scale-110 transition-transform" title="Shares">
               <span>{data?.shares || 0}</span>
             </div>
           </div>

@@ -18,9 +18,9 @@ const IntegrationsPage = () => {
   return (
     <div className={`min-h-screen ${isMobile ? 'p-6' : 'p-5'} bg-[#0d1117] pt-20`} role="main" aria-label="Integrations page">
       <div className="max-w-7xl mx-auto">
-        <div className={`bg-[#161b22]/60 backdrop-blur-xl border border-white/10 rounded-xl ${isMobile ? 'p-5' : 'p-6'} shadow-2xl`}>
+        <div className={`bg-[#161b22]/60  border border-white/10 rounded-xl ${isMobile ? 'p-5' : 'p-6'} shadow-2xl`}>
           <h1 className={`${isMobile ? 'text-xl' : 'text-2xl'} font-bold mb-6 text-white`}>IntegrationsPage</h1>
-          <p className="text-base text-[#c9d1d9] leading-relaxed">This is the IntegrationsPage page. Content will be implemented here.</p>
+          <p style={{color: "var(--text-primary)"}} className="text-base  leading-relaxed">This is the IntegrationsPage page. Content will be implemented here.</p>
         </div>
       </div>
     </div>

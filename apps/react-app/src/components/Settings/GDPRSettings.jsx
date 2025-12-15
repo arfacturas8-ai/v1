@@ -6,7 +6,7 @@
 const GDPRSettings = (props) => {
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
-      <div className="bg-white backdrop-blur-xl rounded-2xl border border-[var(--border-subtle)] shadow-sm p-6 sm:p-8">
+      <div className="bg-white  rounded-2xl border border-[var(--border-subtle)] shadow-sm p-6 sm:p-8">
         <h1 className="text-xl sm:text-2xl font-bold text-[var(--text-primary)] mb-4">GDPRSettings</h1>
         <p className="text-[var(--text-secondary)]">Component placeholder - functional but needs full implementation</p>
       </div>

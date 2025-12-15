@@ -100,7 +100,7 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
 
   if (isLoading) {
     return (
-      <div className="flex flex-col justify-center items-center h-screen bg-black text-white gap-5">
+      <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="flex flex-col justify-center items-center h-screen   gap-5">
         <div className="w-10 h-10 border-3 border-white/30 border-t-[#5865f2] rounded-full "></div>
         <p>Loading video call...</p>
       </div>
@@ -111,9 +111,9 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
     <div className={`flex flex-col h-screen bg-black text-white font-['-apple-system',BlinkMacSystemFont,'Segoe_UI','Roboto',sans-serif] relative overflow-hidden select-none ${isPipMode ? 'pip-mode' : ''}`}>
       {/* Status Bar */}
       {!isPipMode && (
-        <div className="flex justify-between items-center px-4 py-3 bg-black/80 backdrop-blur-[10px] absolute top-0 left-0 right-0 z-[100] text-sm">
+        <div style={{background: "var(--bg-primary)"}} className="flex justify-between items-center px-4 py-3 /80 backdrop-blur-[10px] absolute top-0 left-0 right-0 z-[100] text-sm">
           <div className="flex flex-col gap-0.5">
-            <div className="font-semibold text-white">{roomId}</div>
+            <div style={{color: "var(--text-primary)"}} className="font-semibold ">{roomId}</div>
             <div className="text-xs text-[#b0b3b8]">{participants.length + 1} participants</div>
           </div>
 
@@ -137,18 +137,18 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
                 autoPlay
                 muted
                 playsInline
-                className="w-full h-full object-cover bg-black"
+                style={{background: "var(--bg-primary)"}} className="w-full h-full object-cover "
               />
               {isVideoOff && (
                 <div className="absolute inset-0 bg-[#2c2f33] flex items-center justify-center">
-                  <div className="w-20 h-20 rounded-full bg-[#5865f2] flex items-center justify-center text-white font-semibold text-2xl">
+                  <div style={{color: "var(--text-primary)"}} className="w-20 h-20 rounded-full bg-[#5865f2] flex items-center justify-center  font-semibold text-2xl">
                     U
                   </div>
                 </div>
               )}
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-3 flex justify-between items-end opacity-0 hover:opacity-100 transition-opacity duration-300">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">You</span>
+                  <span style={{color: "var(--text-primary)"}} className="text-sm font-semibold  drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">You</span>
                   {isMuted && <MicOff size={12} className="text-[#ff4757]" />}
                 </div>
               </div>
@@ -161,18 +161,18 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
                   ref={el => remoteVideoRefs.current[participant.id] = el}
                   autoPlay
                   playsInline
-                  className="w-full h-full object-cover bg-black"
+                  style={{background: "var(--bg-primary)"}} className="w-full h-full object-cover "
                 />
                 {!participant.videoEnabled && (
                   <div className="absolute inset-0 bg-[#2c2f33] flex items-center justify-center">
-                    <div className="w-20 h-20 rounded-full bg-[#5865f2] flex items-center justify-center text-white font-semibold text-2xl">
+                    <div style={{color: "var(--text-primary)"}} className="w-20 h-20 rounded-full bg-[#5865f2] flex items-center justify-center  font-semibold text-2xl">
                       {participant.name?.charAt(0) || '?'}
                     </div>
                   </div>
                 )}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-3 flex justify-between items-end opacity-0 hover:opacity-100 transition-opacity duration-300">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{participant.name}</span>
+                    <span style={{color: "var(--text-primary)"}} className="text-sm font-semibold  drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{participant.name}</span>
                     {!participant.audioEnabled && <MicOff size={12} className="text-[#ff4757]" />}
                   </div>
                 </div>
@@ -188,12 +188,12 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
                 autoPlay
                 muted={!activeSpeaker}
                 playsInline
-                className="w-full h-full object-cover bg-black"
+                style={{background: "var(--bg-primary)"}} className="w-full h-full object-cover "
               />
             </div>
 
             {/* Thumbnail Strip */}
-            <div className="flex gap-2 px-4 py-2 bg-black/80 overflow-x-auto">
+            <div style={{background: "var(--bg-primary)"}} className="flex gap-2 px-4 py-2 /80 overflow-x-auto">
               <div className="min-w-[80px] w-20 h-15 rounded-lg overflow-hidden relative cursor-pointer transition-transform hover:scale-105 border-2 border-[#5865f2]">
                 <video ref={localVideoRef} autoPlay muted playsInline className="w-full h-full object-cover" />
               </div>
@@ -209,7 +209,7 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
 
       {/* Controls */}
       {!isPipMode && (
-        <div className="px-5 py-5 bg-black/90 backdrop-blur-[20px] flex flex-col gap-4">
+        <div style={{background: "var(--bg-primary)"}} className="px-5 py-5 /90 backdrop-blur-[20px] flex flex-col gap-4">
           <div className="flex justify-center gap-5">
             <button
               onClick={toggleMute}
@@ -227,7 +227,7 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
 
             <button
               onClick={() => onLeave()}
-              className="w-14 h-14 border-none rounded-full bg-[#ff4757]/80 text-white cursor-pointer transition-all duration-200 flex items-center justify-center text-2xl active:scale-95 hover:bg-[#ff4757]/90"
+              style={{color: "var(--text-primary)"}} className="w-14 h-14 border-none rounded-full bg-[#ff4757]/80  cursor-pointer transition-all duration-200 flex items-center justify-center text-2xl active:scale-95 hover:bg-[#ff4757]/90"
             >
               <PhoneOff />
             </button>
@@ -236,21 +236,21 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
           <div className="flex justify-center gap-4">
             <button
               onClick={switchCamera}
-              className="w-11 h-11 border-none rounded-full bg-white/10 text-white cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
+              style={{color: "var(--text-primary)"}} className="w-11 h-11 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
             >
               <RotateCw size={18} />
             </button>
 
             <button
               onClick={() => setLayout(layout === 'grid' ? 'speaker' : 'grid')}
-              className="w-11 h-11 border-none rounded-full bg-white/10 text-white cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
+              style={{color: "var(--text-primary)"}} className="w-11 h-11 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
             >
               <Grid3x3 size={18} />
             </button>
 
             <button
               onClick={() => setIsPipMode(!isPipMode)}
-              className="w-11 h-11 border-none rounded-full bg-white/10 text-white cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
+              style={{color: "var(--text-primary)"}} className="w-11 h-11 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
             >
               <Maximize2 size={18} />
             </button>

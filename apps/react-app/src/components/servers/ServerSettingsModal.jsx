@@ -147,14 +147,14 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
   ]
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center p-4 z-50 bg-black/70 backdrop-blur-sm" onClick={onClose}>
+    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 flex items-center justify-center p-4 z-50 /70 backdrop-blur-sm" onClick={onClose}>
       <div
-        className="w-full max-w-md sm:max-w-lg md:max-w-4xl bg-[rgba(22,27,34,0.6)] backdrop-blur-xl rounded-2xl border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.4),0_8px_32px_rgba(0,82,255,0.1)] overflow-hidden flex flex-col max-h-[90vh]"
+        style={{borderColor: "var(--border-subtle)"}} className="w-full max-w-md sm:max-w-lg md:max-w-4xl bg-[rgba(22,27,34,0.6)]  rounded-2xl border  shadow-[0_20px_60px_rgba(0,0,0,0.4),0_8px_32px_rgba(0,82,255,0.1)] overflow-hidden flex flex-col max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="px-4 sm:px-6 py-4 flex items-center justify-between border-b border-white/10">
-          <h2 className="font-bold text-lg sm:text-xl text-white">
+        <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 flex items-center justify-between border-b ">
+          <h2 style={{color: "var(--text-primary)"}} className="font-bold text-lg sm:text-xl ">
             Server Settings
           </h2>
           <button
@@ -167,7 +167,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
 
         <div className="flex flex-1 overflow-hidden flex-col md:flex-row">
           {/* Sidebar - horizontal on mobile, vertical on desktop */}
-          <div className="md:w-48 border-b md:border-b-0 md:border-r border-white/10 bg-white/5">
+          <div style={{borderColor: "var(--border-subtle)"}} className="md:w-48 border-b md:border-b-0 md:border-r  bg-white/5">
             <nav className="flex md:flex-col overflow-x-auto md:overflow-x-visible p-2 sm:p-4 gap-1">
               {tabs.map((tab) => (
                 <button
@@ -205,7 +205,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
             {activeTab === 'general' && (
               <div className="space-y-4 sm:space-y-6">
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-2">
                     Server Name
                   </label>
                   <Input
@@ -218,7 +218,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-2">
                     Description
                   </label>
                   <textarea
@@ -227,17 +227,17 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                     onChange={handleInputChange}
                     rows={3}
                     maxLength={200}
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/10 rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent-cyan/50 resize-none"
+                    style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border  rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent-cyan/50 resize-none"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-2">
                     Server Icon
                   </label>
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div
-                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden cursor-pointer hover:bg-white/10 transition-colors"
+                      style={{borderColor: "var(--border-subtle)"}} className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-white/5 border  flex items-center justify-center overflow-hidden cursor-pointer hover:bg-white/10 transition-colors"
                       onClick={() => iconInputRef.current?.click()}
                     >
                       {iconPreview ? (
@@ -267,11 +267,11 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-white mb-2">
+                  <label style={{color: "var(--text-primary)"}} className="block text-sm font-medium  mb-2">
                     Server Banner
                   </label>
                   <div
-                    className="w-full h-24 sm:h-32 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden cursor-pointer hover:bg-white/10 transition-colors"
+                    style={{borderColor: "var(--border-subtle)"}} className="w-full h-24 sm:h-32 rounded-xl bg-white/5 border  flex items-center justify-center overflow-hidden cursor-pointer hover:bg-white/10 transition-colors"
                     onClick={() => bannerInputRef.current?.click()}
                   >
                     {bannerPreview ? (
@@ -301,9 +301,9 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                       name="isPublic"
                       checked={formData.isPublic}
                       onChange={(e) => setFormData(prev => ({ ...prev, isPublic: e.target.checked }))}
-                      className="w-4 h-4 sm:w-5 sm:h-5 rounded border-white/20"
+                      style={{borderColor: "var(--border-default)"}} className="w-4 h-4 sm:w-5 sm:h-5 rounded "
                     />
-                    <span className="text-sm sm:text-base font-medium text-white">
+                    <span style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">
                       Public Server
                     </span>
                   </label>
@@ -312,14 +312,14 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-white/10">
+                <div style={{borderColor: "var(--border-subtle)"}} className="pt-4 border-t ">
                   <h3 className="text-base sm:text-lg font-bold text-error mb-3">
                     Danger Zone
                   </h3>
                   <div className="p-3 sm:p-4 border border-error/30 rounded-xl bg-error/5">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
                       <div>
-                        <p className="text-sm sm:text-base font-medium text-white mb-1">
+                        <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium  mb-1">
                           Delete Server
                         </p>
                         <p className="text-xs sm:text-sm text-error">
@@ -345,14 +345,14 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
             {/* Members Tab */}
             {activeTab === 'members' && (
               <div className="space-y-4">
-                <h3 className="text-base sm:text-lg font-bold text-white">
+                <h3 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-bold ">
                   Server Members ({server.members?.length || 0})
                 </h3>
 
                 {server.members && server.members.length > 0 ? (
                   <div className="space-y-2">
                     {server.members.map((member) => (
-                      <div key={member.id} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border border-white/10 bg-white/5">
+                      <div key={member.id} style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border  bg-white/5">
                         <div className="flex items-center gap-3 min-w-0 flex-1">
                           {member.user.avatar ? (
                             <img
@@ -361,12 +361,12 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                               className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0"
                             />
                           ) : (
-                            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center font-semibold text-white text-sm flex-shrink-0">
+                            <div style={{color: "var(--text-primary)"}} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center font-semibold  text-sm flex-shrink-0">
                               {member.user.displayName?.[0]?.toUpperCase() || member.user.username[0].toUpperCase()}
                             </div>
                           )}
                           <div className="min-w-0 flex-1">
-                            <p className="text-sm sm:text-base font-medium text-white truncate">
+                            <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium  truncate">
                               {member.user.displayName || member.user.username}
                             </p>
                             <p className="text-xs sm:text-sm text-secondary truncate">
@@ -414,8 +414,8 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                   </p>
                 )}
 
-                <div className="mt-6 pt-4 border-t border-white/10">
-                  <h4 className="text-sm sm:text-base font-semibold text-white mb-2">
+                <div style={{borderColor: "var(--border-subtle)"}} className="mt-6 pt-4 border-t ">
+                  <h4 style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-semibold  mb-2">
                     Invite Members
                   </h4>
                   <p className="text-xs sm:text-sm text-secondary mb-3">
@@ -447,37 +447,37 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
             {/* Moderation Tab */}
             {activeTab === 'moderation' && (
               <div className="space-y-4 sm:space-y-6">
-                <h3 className="text-base sm:text-lg font-bold text-white">
+                <h3 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-bold ">
                   Moderation Tools
                 </h3>
 
                 <div className="space-y-4 sm:space-y-6">
                   {/* Auto-Moderation */}
                   <div>
-                    <h4 className="text-sm sm:text-base font-semibold text-white mb-2">
+                    <h4 style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-semibold  mb-2">
                       Auto-Moderation
                     </h4>
                     <p className="text-xs sm:text-sm text-secondary mb-3">
                       Automatically moderate content based on rules
                     </p>
                     <div className="space-y-2">
-                      <label className="flex items-center justify-between p-3 sm:p-4 rounded-xl border border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
+                      <label style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border  bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
                         <div className="flex-1 min-w-0 mr-3">
-                          <p className="text-sm sm:text-base font-medium text-white">Profanity Filter</p>
+                          <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Profanity Filter</p>
                           <p className="text-xs sm:text-sm text-secondary">Block messages containing profanity</p>
                         </div>
                         <input type="checkbox" className="w-5 h-5 rounded flex-shrink-0" />
                       </label>
-                      <label className="flex items-center justify-between p-3 sm:p-4 rounded-xl border border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
+                      <label style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border  bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
                         <div className="flex-1 min-w-0 mr-3">
-                          <p className="text-sm sm:text-base font-medium text-white">Spam Detection</p>
+                          <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Spam Detection</p>
                           <p className="text-xs sm:text-sm text-secondary">Automatically detect and remove spam</p>
                         </div>
                         <input type="checkbox" className="w-5 h-5 rounded flex-shrink-0" />
                       </label>
-                      <label className="flex items-center justify-between p-3 sm:p-4 rounded-xl border border-white/10 bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
+                      <label style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border  bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
                         <div className="flex-1 min-w-0 mr-3">
-                          <p className="text-sm sm:text-base font-medium text-white">Link Filtering</p>
+                          <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Link Filtering</p>
                           <p className="text-xs sm:text-sm text-secondary">Restrict external links</p>
                         </div>
                         <input type="checkbox" className="w-5 h-5 rounded flex-shrink-0" />
@@ -487,7 +487,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
 
                   {/* Banned Words */}
                   <div>
-                    <h4 className="text-sm sm:text-base font-semibold text-white mb-2">
+                    <h4 style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-semibold  mb-2">
                       Banned Words
                     </h4>
                     <p className="text-xs sm:text-sm text-secondary mb-3">
@@ -510,13 +510,13 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
 
                   {/* Slow Mode */}
                   <div>
-                    <h4 className="text-sm sm:text-base font-semibold text-white mb-2">
+                    <h4 style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-semibold  mb-2">
                       Slow Mode
                     </h4>
                     <p className="text-xs sm:text-sm text-secondary mb-3">
                       Limit how often members can send messages
                     </p>
-                    <select className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border border-white/10 rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent-cyan/50">
+                    <select style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-white/5 border  rounded-xl text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-accent-cyan/50">
                       <option value="0">Off</option>
                       <option value="5">5 seconds</option>
                       <option value="10">10 seconds</option>
@@ -526,7 +526,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                     </select>
                   </div>
 
-                  <div className="pt-4 border-t border-white/10">
+                  <div style={{borderColor: "var(--border-subtle)"}} className="pt-4 border-t ">
                     <Button
                       variant="primary"
                       onClick={() => {
@@ -545,7 +545,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
         </div>
 
         {/* Footer */}
-        <div className="px-4 sm:px-6 py-4 border-t border-white/10">
+        <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 border-t ">
           <div className="flex flex-col-reverse sm:flex-row gap-2 sm:gap-3 sm:justify-end">
             <Button
               variant="ghost"

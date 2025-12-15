@@ -249,7 +249,7 @@ function UsersPage() {
           <p className="text-sm text-secondary">Manage and monitor platform users</p>
         </div>
         <button
-          className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"
+          style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-indigo-500/30 transition-all"
           onClick={handleExportUsers}
         >
           <Download size={20} />
@@ -259,7 +259,7 @@ function UsersPage() {
 
       {/* Message Toast */}
       {message && (
-        <div className={`fixed top-6 right-6 px-6 py-4 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] font-semibold z-50 animate-slide-in ${
+        <div className={`fixed top-6 right-6 px-6 py-4 rounded-2xl  font-semibold z-50 animate-slide-in ${
           message.type === 'success'
             ? 'bg-emerald-500/20 border border-emerald-500/50 text-emerald-300'
             : 'bg-red-500/20 border border-red-500/50 text-red-300'
@@ -415,7 +415,7 @@ function UsersPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white font-bold">
+                          <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-bold">
                             {user.avatarUrl ? (
                               <img src={user.avatarUrl} alt={user.username} className="w-full h-full object-cover" />
                             ) : (
@@ -512,7 +512,7 @@ function UsersPage() {
 
       {/* User Detail Modal */}
       {showUserModal && selectedUser && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setShowUserModal(false)}>
+        <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 /50 flex items-center justify-center z-50 p-4" onClick={() => setShowUserModal(false)}>
           <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-5 border-b border-rgb(var(--color-neutral-200)) flex justify-between items-center sticky top-0 bg-white">
               <h2 className="text-xl font-bold">User Profile</h2>
@@ -523,7 +523,7 @@ function UsersPage() {
 
             <div className="p-6">
               <div className="flex items-start gap-6 mb-8 pb-6 border-b border-rgb(var(--color-neutral-200))">
-                <div className="w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center text-white text-3xl font-bold flex-shrink-0">
+                <div style={{color: "var(--text-primary)"}} className="w-20 h-20 rounded-full overflow-hidden bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  text-3xl font-bold flex-shrink-0">
                   {selectedUser.avatarUrl ? (
                     <img src={selectedUser.avatarUrl} alt={selectedUser.username} className="w-full h-full object-cover" />
                   ) : (

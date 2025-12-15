@@ -62,7 +62,7 @@ function PrivacyPage() {
                 className={`bg-transparent border-none text-sm p-2 px-3 text-left cursor-pointer rounded-md transition-all duration-200 font-inherit outline-none ${
                   activeSection === section.id
                     ? 'text-[#58a6ff] bg-[#58a6ff]/10 font-medium border-l-2 border-[#58a6ff] pl-2.5'
-                    : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 backdrop-blur-xl'
+                    : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 '
                 }`}
               >
                 {section.title}
@@ -82,7 +82,7 @@ function PrivacyPage() {
         </div>
 
         <section id="introduction" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Introduction</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               Welcome to Cryb.ai. We are committed to protecting your privacy and ensuring you have a positive experience on our platform. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our services.
@@ -94,7 +94,7 @@ function PrivacyPage() {
         </section>
 
         <section id="data-collection" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Data Collection</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-3">Information You Provide</h3>
@@ -125,7 +125,7 @@ function PrivacyPage() {
         </section>
 
         <section id="data-usage" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">How We Use Your Data</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">We use the information we collect to:</p>
             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -142,7 +142,7 @@ function PrivacyPage() {
         </section>
 
         <section id="data-sharing" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Data Sharing</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-3">When We Share Your Information</h3>
@@ -163,7 +163,7 @@ function PrivacyPage() {
         </section>
 
         <section id="your-rights" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Your Rights</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">You have the following rights regarding your personal data:</p>
             <ul className="list-disc pl-6 mb-4 space-y-2">
@@ -181,7 +181,7 @@ function PrivacyPage() {
         </section>
 
         <section id="cookies" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Cookies & Tracking Technologies</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               We use cookies and similar tracking technologies to track activity on our service and hold certain information. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent.
@@ -198,7 +198,7 @@ function PrivacyPage() {
         </section>
 
         <section id="international" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">International Data Transfers</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               Your information may be transferred to and maintained on computers located outside of your state, province, country, or other governmental jurisdiction where data protection laws may differ.
@@ -210,7 +210,7 @@ function PrivacyPage() {
         </section>
 
         <section id="children" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Children's Privacy</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               Our service is not intended for users under the age of 13. We do not knowingly collect personally identifiable information from children under 13. If you are a parent or guardian and you are aware that your child has provided us with personal data, please contact us.
@@ -222,7 +222,7 @@ function PrivacyPage() {
         </section>
 
         <section id="security" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Data Security</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               We implement appropriate technical and organizational security measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. These measures include:
@@ -240,7 +240,7 @@ function PrivacyPage() {
         </section>
 
         <section id="changes" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Changes to This Privacy Policy</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date at the top of this policy.
@@ -252,7 +252,7 @@ function PrivacyPage() {
         </section>
 
         <section id="contact" className="mb-6">
-          <div className="bg-[var(--color-bg-secondary)]/60 backdrop-blur-xl border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
             <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-3 border-b-2 border-[#58a6ff]/20">Contact Us</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               If you have any questions about this Privacy Policy, please contact us:

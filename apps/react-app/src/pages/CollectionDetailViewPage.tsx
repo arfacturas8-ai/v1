@@ -417,7 +417,7 @@ export function CollectionDetailViewPage() {
           alt={collection.name}
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/20" />
+        <div style={{background: "var(--bg-primary)"}} className="absolute inset-0 /20" />
         <Button
           variant="glass"
           size="icon"
