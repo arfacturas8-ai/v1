@@ -9,18 +9,35 @@ function CommunityCard({ community }) {
   return (
     <Link
       to={`/community/${community.name}`}
-      className="block p-5 bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 no-underline text-inherit transition-all hover:border-[#58a6ff]/30"
+      className="card card-interactive"
+      style={{
+        display: 'block',
+        padding: 'var(--space-5)',
+        textDecoration: 'none',
+      }}
     >
-      <h3 className="text-lg font-semibold text-white mb-2">
+      <h3 style={{
+        fontSize: 'var(--text-lg)',
+        fontWeight: 'var(--font-semibold)',
+        color: 'var(--text-primary)',
+        marginBottom: 'var(--space-2)',
+      }}>
         {community.displayName || community.name}
       </h3>
       {community.description && (
-        <p className="text-sm text-[#8b949e] mb-3">
+        <p style={{
+          fontSize: 'var(--text-sm)',
+          color: 'var(--text-secondary)',
+          marginBottom: 'var(--space-3)',
+        }}>
           {community.description}
         </p>
       )}
       {community.memberCount !== undefined && (
-        <span className="text-[13px] text-[#8b949e]">
+        <span style={{
+          fontSize: 'var(--text-xs)',
+          color: 'var(--text-tertiary)',
+        }}>
           {community.memberCount} members
         </span>
       )}
@@ -32,11 +49,30 @@ function TagChip({ tag }) {
   return (
     <Link
       to={`/tag/${tag.name}`}
-      className="inline-flex items-center gap-2 px-4 py-2 bg-[#58a6ff]/10 rounded-full no-underline text-[#58a6ff] text-sm font-medium transition-all border border-[#58a6ff]/30 hover:bg-[#58a6ff]/20"
+      className="badge"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 'var(--space-2)',
+        padding: 'var(--space-2) var(--space-4)',
+        background: 'var(--color-info-light)',
+        color: 'var(--brand-primary)',
+        fontSize: 'var(--text-sm)',
+        fontWeight: 'var(--font-medium)',
+        textDecoration: 'none',
+        transition: 'all var(--transition-normal)',
+        border: '1px solid var(--brand-primary)',
+        opacity: 0.8,
+      }}
+      onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+      onMouseLeave={(e) => e.currentTarget.style.opacity = '0.8'}
     >
       #{tag.name}
       {tag.postCount !== undefined && (
-        <span className="text-xs text-[#8b949e]">
+        <span style={{
+          fontSize: 'var(--text-xs)',
+          color: 'var(--text-secondary)',
+        }}>
           {tag.postCount}
         </span>
       )}
@@ -48,21 +84,42 @@ function UserCard({ user }) {
   return (
     <Link
       to={`/profile/${user.username}`}
-      className="block p-5 bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10 no-underline text-inherit transition-all hover:border-[#58a6ff]/30"
+      className="card card-interactive"
+      style={{
+        display: 'block',
+        padding: 'var(--space-5)',
+        textDecoration: 'none',
+      }}
     >
-      <h3 className="text-base font-semibold text-white mb-1">
+      <h3 style={{
+        fontSize: 'var(--text-base)',
+        fontWeight: 'var(--font-semibold)',
+        color: 'var(--text-primary)',
+        marginBottom: 'var(--space-1)',
+      }}>
         {user.displayName || user.username}
       </h3>
-      <p className="text-sm text-[#8b949e] mb-2">
+      <p style={{
+        fontSize: 'var(--text-sm)',
+        color: 'var(--text-secondary)',
+        marginBottom: 'var(--space-2)',
+      }}>
         @{user.username}
       </p>
       {user.bio && (
-        <p className="text-sm text-[#c9d1d9] mb-2">
+        <p style={{
+          fontSize: 'var(--text-sm)',
+          color: 'var(--text-primary)',
+          marginBottom: 'var(--space-2)',
+        }}>
           {user.bio}
         </p>
       )}
       {user.followers !== undefined && (
-        <span className="text-[13px] text-[#8b949e]">
+        <span style={{
+          fontSize: 'var(--text-xs)',
+          color: 'var(--text-tertiary)',
+        }}>
           {user.followers} followers
         </span>
       )}
@@ -123,45 +180,97 @@ export default function DiscoverPage() {
     <div
       role="main"
       aria-label="Discover page"
-      className="min-h-screen bg-[#0d1117] pt-20"
+      style={{
+        minHeight: '100vh',
+        background: 'var(--bg-primary)',
+        paddingTop: '80px',
+      }}
     >
-      <div className={`max-w-[1200px] mx-auto ${isMobile ? 'px-3' : 'px-4'} py-8`}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: isMobile ? 'var(--space-8) var(--space-3)' : 'var(--space-8) var(--space-4)',
+      }}>
         {/* Header */}
-        <div className="mb-8">
-          <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold text-white mb-2`}>
+        <div style={{ marginBottom: 'var(--space-8)' }}>
+          <h1 style={{
+            fontSize: isMobile ? 'var(--text-2xl)' : 'var(--text-3xl)',
+            fontWeight: 'var(--font-bold)',
+            color: 'var(--text-primary)',
+            marginBottom: 'var(--space-2)',
+          }}>
             Discover
           </h1>
-          <p className="text-base text-[#8b949e] leading-relaxed">
+          <p style={{
+            fontSize: 'var(--text-base)',
+            color: 'var(--text-secondary)',
+            lineHeight: 'var(--leading-relaxed)',
+          }}>
             Explore trending communities, topics, and people
           </p>
         </div>
 
         {/* Search bar */}
-        <div className="relative mb-8">
+        <div style={{
+          position: 'relative',
+          marginBottom: 'var(--space-8)',
+        }}>
           <Search
             size={20}
             aria-hidden="true"
-            className={`absolute ${isMobile ? 'left-3' : 'left-4'} top-1/2 -translate-y-1/2 text-[#8b949e]`}
+            style={{
+              position: 'absolute',
+              left: isMobile ? '12px' : '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: 'var(--text-tertiary)',
+            }}
           />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search communities, tags, or people..."
-            className={`w-full ${isMobile ? 'py-3 px-3' : 'py-3.5 px-4'} pl-12 text-base border border-white/10 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] outline-none transition-all bg-[#161b22]/60 backdrop-blur-xl text-white focus:border-[#58a6ff]`}
+            className="input search-input"
+            style={{
+              width: '100%',
+              padding: isMobile ? '12px 12px 12px 44px' : '14px 16px 14px 44px',
+              fontSize: 'var(--text-base)',
+            }}
             aria-label="Search discover page"
           />
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-8 border-b border-white/10 overflow-x-auto">
+        <div style={{
+          display: 'flex',
+          gap: 'var(--space-2)',
+          marginBottom: 'var(--space-8)',
+          borderBottom: '1px solid var(--border-subtle)',
+          overflowX: 'auto',
+        }}>
           {tabs.map(tab => {
             const Icon = tab.icon
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 ${isMobile ? 'py-2.5 px-3' : 'py-3 px-5'} bg-transparent border-none ${activeTab === tab.id ? 'border-b-2 border-[#58a6ff] text-[#58a6ff]' : 'border-b-2 border-transparent text-[#8b949e]'} text-sm font-semibold cursor-pointer -mb-px transition-all whitespace-nowrap`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 'var(--space-2)',
+                  padding: isMobile ? '10px 12px' : '12px 20px',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: activeTab === tab.id ? '2px solid var(--brand-primary)' : '2px solid transparent',
+                  color: activeTab === tab.id ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                  fontSize: 'var(--text-sm)',
+                  fontWeight: 'var(--font-semibold)',
+                  cursor: 'pointer',
+                  marginBottom: '-1px',
+                  transition: 'all var(--transition-normal)',
+                  whiteSpace: 'nowrap',
+                }}
                 aria-label={`View ${tab.label}`}
                 aria-pressed={activeTab === tab.id}
               >
@@ -179,21 +288,39 @@ export default function DiscoverPage() {
             {activeTab === 'trending' && (
               <div className="flex flex-col gap-8">
                 <section>
-                  <h2 className="text-xl font-semibold text-white mb-4">
+                  <h2 style={{
+                    fontSize: 'var(--text-xl)',
+                    fontWeight: 'var(--font-semibold)',
+                    color: 'var(--text-primary)',
+                    marginBottom: 'var(--space-4)',
+                  }}>
                     Trending Communities
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+                    gap: 'var(--space-4)',
+                  }}>
                     {trendingCommunities.slice(0, 6).map((community, index) => (
                       <CommunityCard key={community.id || index} community={community} />
                     ))}
                   </div>
                 </section>
 
-                <section>
-                  <h2 className="text-xl font-semibold text-white mb-4">
+                <section style={{ marginTop: 'var(--space-8)' }}>
+                  <h2 style={{
+                    fontSize: 'var(--text-xl)',
+                    fontWeight: 'var(--font-semibold)',
+                    color: 'var(--text-primary)',
+                    marginBottom: 'var(--space-4)',
+                  }}>
                     Trending Tags
                   </h2>
-                  <div className={`flex flex-wrap ${isMobile ? 'gap-2' : 'gap-3'}`}>
+                  <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: isMobile ? 'var(--space-2)' : 'var(--space-3)',
+                  }}>
                     {trendingTags.slice(0, 12).map((tag, index) => (
                       <TagChip key={tag.name || index} tag={tag} />
                     ))}
@@ -204,7 +331,11 @@ export default function DiscoverPage() {
 
             {/* Communities Tab */}
             {activeTab === 'communities' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+                gap: 'var(--space-4)',
+              }}>
                 {trendingCommunities.map((community, index) => (
                   <CommunityCard key={community.id || index} community={community} />
                 ))}
@@ -213,7 +344,11 @@ export default function DiscoverPage() {
 
             {/* Tags Tab */}
             {activeTab === 'tags' && (
-              <div className={`flex flex-wrap ${isMobile ? 'gap-2' : 'gap-3'}`}>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: isMobile ? 'var(--space-2)' : 'var(--space-3)',
+              }}>
                 {trendingTags.map((tag, index) => (
                   <TagChip key={tag.name || index} tag={tag} />
                 ))}
@@ -222,7 +357,11 @@ export default function DiscoverPage() {
 
             {/* People Tab */}
             {activeTab === 'people' && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+                gap: 'var(--space-4)',
+              }}>
                 {suggestedUsers.map((user, index) => (
                   <UserCard key={user.id || index} user={user} />
                 ))}
@@ -236,13 +375,29 @@ export default function DiscoverPage() {
               <div
                 role="status"
                 aria-live="polite"
-                className={`text-center ${isMobile ? 'py-12 px-3' : 'py-16 px-5'} bg-[#161b22]/60 backdrop-blur-xl rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border border-white/10`}
+                className="card"
+                style={{
+                  textAlign: 'center',
+                  padding: isMobile ? 'var(--space-12) var(--space-3)' : 'var(--space-16) var(--space-5)',
+                }}
               >
-                <Filter size={48} color="#8b949e" aria-hidden="true" className="mb-4 mx-auto" />
-                <h3 className="text-lg font-semibold text-white mb-2">
+                <Filter size={48} color="var(--text-tertiary)" aria-hidden="true" style={{
+                  marginBottom: 'var(--space-4)',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }} />
+                <h3 style={{
+                  fontSize: 'var(--text-lg)',
+                  fontWeight: 'var(--font-semibold)',
+                  color: 'var(--text-primary)',
+                  marginBottom: 'var(--space-2)',
+                }}>
                   No results found
                 </h3>
-                <p className="text-sm text-[#8b949e]">
+                <p style={{
+                  fontSize: 'var(--text-sm)',
+                  color: 'var(--text-secondary)',
+                }}>
                   Try adjusting your search or check back later
                 </p>
               </div>
