@@ -654,7 +654,7 @@ const StakingDashboard = () => {
               <div style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                 <h4 style={{
   fontWeight: '600'
@@ -777,7 +777,7 @@ const StakingDashboard = () => {
             <div style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
               <div style={{
   display: 'flex',
@@ -850,7 +850,7 @@ const StakingDashboard = () => {
             <div style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
               <p className="text-sm text-blue-800">
                 Unstaking will also claim any pending rewards.

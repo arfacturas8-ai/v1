@@ -531,7 +531,7 @@ const NavMenuItemComponent: React.FC<{ item: NavMenuItem }> = ({ item }) => {
   display: 'grid',
   gap: '24px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
             {item.items?.map((subItem, index) => (
               <a
@@ -658,7 +658,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
         <DropdownMenu.Content
           style={{
   width: '224px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '4px'
 }}
           align="end"
@@ -683,7 +683,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
                 </div>
               </DropdownMenu.Label>
               <DropdownMenu.Separator style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   marginTop: '4px',
   marginBottom: '4px'
 }} />
@@ -693,7 +693,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
           {menuItems.map((item, index) => {
             if (item.separator) {
               return <DropdownMenu.Separator key={index} style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   marginTop: '4px',
   marginBottom: '4px'
 }} />;

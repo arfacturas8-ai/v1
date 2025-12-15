@@ -178,7 +178,7 @@ const CommentActions = ({
             {showMoreMenu && (
               <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                 {visibleMoreActions.map((action) => (
                   <button

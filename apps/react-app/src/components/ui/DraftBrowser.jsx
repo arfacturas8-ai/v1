@@ -287,7 +287,7 @@ const DraftBrowser = ({
   width: '100%',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             />
@@ -304,7 +304,7 @@ const DraftBrowser = ({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
           >
@@ -329,7 +329,7 @@ const DraftBrowser = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             >
@@ -350,7 +350,7 @@ const DraftBrowser = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             >
@@ -371,7 +371,7 @@ const DraftBrowser = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             >

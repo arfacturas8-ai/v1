@@ -236,7 +236,7 @@ const RichTextEditor = ({
 
   return (
     <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }} role="group" aria-label="Rich text editor">
       {/* Toolbar */}
@@ -469,7 +469,7 @@ const RichTextEditor = ({
                   id="emoji-picker"
                   style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '8px'
 }}
@@ -599,7 +599,7 @@ const RichTextEditor = ({
   padding: '16px'
 }} role="dialog" aria-modal="true" aria-labelledby="link-dialog-title">
           <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px',
   width: '100%'
@@ -625,7 +625,7 @@ const RichTextEditor = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                   autoFocus
@@ -651,7 +651,7 @@ const RichTextEditor = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                   aria-describedby="link-text-help"
@@ -688,7 +688,7 @@ const RichTextEditor = ({
                   }}
                   style={{
   flex: '1',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   paddingTop: '8px',
   paddingBottom: '8px',
   paddingLeft: '16px',

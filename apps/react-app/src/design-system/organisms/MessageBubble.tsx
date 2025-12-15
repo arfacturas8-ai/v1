@@ -155,7 +155,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
                 width: '56px',
                 height: '56px',
                 borderRadius: radii.full,
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                backgroundColor: 'var(--bg-tertiary)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',

@@ -101,7 +101,7 @@ function CallTimer({
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <div style={{
   display: 'flex',
@@ -142,7 +142,7 @@ function CallTimer({
   paddingTop: '12px',
   paddingBottom: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
       {/* Timer Display */}
       <div style={{
@@ -193,7 +193,7 @@ function CallTimer({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
           <div style={{
@@ -226,7 +226,7 @@ function CallTimer({
             style={{
   padding: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   color: '#ffffff'
 }}
             title={isRecording ? 'Stop recording' : 'Start recording'}
@@ -252,7 +252,7 @@ function CallTimer({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '50%'
 }}>
               <span style={{

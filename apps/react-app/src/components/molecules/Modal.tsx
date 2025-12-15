@@ -110,7 +110,7 @@ const Modal: React.FC<ModalProps> = ({
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          backgroundColor: 'var(--bg-tertiary)',
           backdropFilter: 'blur(4px)',
           animation: isOpen
             ? `fadeIn ${animation.duration.normal} ${animation.easing.easeOut}`

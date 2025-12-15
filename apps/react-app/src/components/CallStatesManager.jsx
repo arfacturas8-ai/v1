@@ -386,7 +386,7 @@ export function CallStateIndicator({ compact = false, showDetails = false }) {
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <IconComponent 
           size={12} 
@@ -405,7 +405,7 @@ export function CallStateIndicator({ compact = false, showDetails = false }) {
     <div style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
       <div style={{
   display: 'flex',

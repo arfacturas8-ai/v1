@@ -93,7 +93,7 @@ function Web3Integration({
   if (state.isInitializing) {
     return (
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '24px'
 }}>
@@ -131,7 +131,7 @@ function Web3Integration({
   return (
     <Web3ErrorBoundary>
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   overflow: 'hidden'
 }}>

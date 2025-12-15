@@ -80,7 +80,7 @@ export const OnlineStatusIndicator: React.FC<OnlineStatusIndicatorProps> = ({
             width: dotSize,
             height: dotSize,
             borderRadius: '50%',
-            backgroundColor: '#00D26A',
+            backgroundColor: 'var(--bg-primary)',
             opacity: 0.5,
             animation: 'pulse 2s infinite',
           }}

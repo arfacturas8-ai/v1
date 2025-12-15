@@ -55,7 +55,7 @@ export const Toast = ({
         paddingTop: '12px',
         paddingBottom: '12px',
         borderRadius: '12px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        border: '1px solid var(--border-subtle)',
         background: 'rgba(20, 20, 20, 0.9)',
         backdropFilter: 'blur(12px)',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',

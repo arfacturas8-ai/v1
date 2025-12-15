@@ -219,7 +219,7 @@ function TransactionConfirmation({
   padding: '16px'
 }}>
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   width: '100%'
 }}>
@@ -422,7 +422,7 @@ function TransactionConfirmation({
           {/* Error Display */}
           {error && (
             <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -460,7 +460,7 @@ function TransactionConfirmation({
           {/* Success Message */}
           {txState === TRANSACTION_STATES.CONFIRMED && (
             <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px',
   textAlign: 'center'
@@ -592,7 +592,7 @@ function TransactionConfirmation({
       {copied && (
         <div style={{
   position: 'fixed',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   paddingLeft: '16px',
   paddingRight: '16px',
   paddingTop: '8px',

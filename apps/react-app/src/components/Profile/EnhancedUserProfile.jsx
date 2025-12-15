@@ -245,7 +245,7 @@ const EnhancedUserProfile = ({
       <div style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <div style={{
   display: 'flex',
@@ -334,7 +334,7 @@ const EnhancedUserProfile = ({
       <div style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <div style={{
   display: 'flex',
@@ -371,7 +371,7 @@ const EnhancedUserProfile = ({
             <div key={achievement.id} style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
               <div style={{
   display: 'flex',
@@ -406,7 +406,7 @@ const EnhancedUserProfile = ({
         <div style={{
   borderRadius: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   textAlign: 'center'
 }}>
           <FileText style={{
@@ -421,7 +421,7 @@ const EnhancedUserProfile = ({
         <div style={{
   borderRadius: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   textAlign: 'center'
 }}>
           <MessageSquare style={{
@@ -436,7 +436,7 @@ const EnhancedUserProfile = ({
         <div style={{
   borderRadius: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   textAlign: 'center'
 }}>
           <Award style={{
@@ -451,7 +451,7 @@ const EnhancedUserProfile = ({
         <div style={{
   borderRadius: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   textAlign: 'center'
 }}>
           <Gift style={{
@@ -473,7 +473,7 @@ const EnhancedUserProfile = ({
       <div style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <h3 style={{
   fontWeight: '600'
@@ -616,7 +616,7 @@ const EnhancedUserProfile = ({
       <div style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         {/* Banner */}
         <div style={{
@@ -776,7 +776,7 @@ const EnhancedUserProfile = ({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
                   Edit Profile
@@ -792,7 +792,7 @@ const EnhancedUserProfile = ({
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   color: '#ffffff'
 }}
                 >
@@ -800,7 +800,7 @@ const EnhancedUserProfile = ({
                 </button>
                 <button style={{
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
                   <MoreHorizontal style={{
@@ -859,7 +859,7 @@ const EnhancedUserProfile = ({
       {/* Content Tabs */}
       <div style={{
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <div className="border-b border-border-primary/30">
           <div style={{

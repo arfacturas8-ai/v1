@@ -165,7 +165,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
   marginLeft: '24px',
   marginRight: '24px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
             {typeof error === 'string' ? error : 'An error occurred'}
@@ -225,7 +225,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
   paddingRight: isMobile ? '12px' : '16px',
   paddingTop: '12px',
   paddingBottom: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   minHeight: isMobile ? '96px' : '80px'
 }}
@@ -249,7 +249,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
   alignItems: 'flex-start',
   gap: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
                     <input
@@ -288,7 +288,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
   alignItems: 'flex-start',
   gap: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
                     <input
@@ -465,7 +465,7 @@ function CreateServerModal({ onClose, onServerCreated }) {
                 <div style={{
   borderRadius: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                   <div style={{
   display: 'flex',

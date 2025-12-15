@@ -156,7 +156,7 @@ function CryptoTippingButton({
                       }}
                       style={{
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                     >
                       <div style={{
@@ -193,7 +193,7 @@ function CryptoTippingButton({
                         onChange={(e) => setCustomAmount(e.target.value)}
                         style={{
   flex: '1',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                       />
@@ -217,7 +217,7 @@ function CryptoTippingButton({
                   placeholder="Say something nice..."
                   style={{
   width: '100%',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                   rows="3"

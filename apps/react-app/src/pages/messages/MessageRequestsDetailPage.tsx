@@ -606,7 +606,7 @@ const MessageRequestsDetailPage: React.FC = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
+              background: 'var(--bg-tertiary)',
               zIndex: 1000,
             }}
           />
@@ -712,7 +712,7 @@ const MessageRequestsDetailPage: React.FC = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
+              background: 'var(--bg-tertiary)',
               zIndex: 1000,
             }}
           />
@@ -817,7 +817,7 @@ const MessageRequestsDetailPage: React.FC = () => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0, 0, 0, 0.7)',
+              background: 'var(--bg-tertiary)',
               zIndex: 1000,
             }}
           />

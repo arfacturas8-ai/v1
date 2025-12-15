@@ -105,7 +105,7 @@ function CallQualityIndicator({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
         title={`${qualityInfo.label} - ${qualityInfo.description}`}
       >
@@ -133,7 +133,7 @@ function CallQualityIndicator({
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
         title="Click for detailed network stats"
       >
@@ -203,7 +203,7 @@ function CallQualityIndicator({
   position: 'absolute',
   width: '256px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   overflow: 'hidden'
 }}>

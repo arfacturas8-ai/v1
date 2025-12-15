@@ -100,7 +100,7 @@ export const Modal: React.FC<ModalProps> = ({
         position: 'fixed',
         inset: 0,
         zIndex: 'var(--z-modal-backdrop)',
-        background: 'rgba(0, 0, 0, 0.5)',
+        background: 'var(--bg-tertiary)',
         backdropFilter: 'blur(4px)',
         display: 'flex',
         alignItems: 'center',

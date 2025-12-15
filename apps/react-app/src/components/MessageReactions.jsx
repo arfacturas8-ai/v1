@@ -42,7 +42,7 @@ function MessageReactions({ reactions = {}, onAddReaction, onRemoveReaction, cur
   paddingBottom: '4px',
   borderRadius: '50%',
   fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   color: '#ffffff'
 }}
             title={`${reaction.users.length} reaction${reaction.users.length !== 1 ? 's' : ''}`}
@@ -63,7 +63,7 @@ function MessageReactions({ reactions = {}, onAddReaction, onRemoveReaction, cur
   height: '24px',
   borderRadius: '50%',
   color: '#ffffff',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
         title="Add reaction"
       >

@@ -365,7 +365,7 @@ function Sidebar() {
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0, 0, 0, 0.3)',
+            background: 'var(--bg-tertiary)',
             backdropFilter: 'blur(4px)',
             zIndex: 'var(--z-modal-backdrop)'
           }}

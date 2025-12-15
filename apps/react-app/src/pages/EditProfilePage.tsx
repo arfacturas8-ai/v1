@@ -155,7 +155,7 @@ export default function EditProfilePage() {
               height: '48px',
               borderRadius: '50%',
               border: 'none',
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backgroundColor: 'var(--bg-tertiary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',

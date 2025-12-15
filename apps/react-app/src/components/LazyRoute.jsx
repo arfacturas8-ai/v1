@@ -20,7 +20,7 @@ function LazyRoute({ component: Component, name = 'Route', fallback, ...props })
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#0A0A0B'
+      backgroundColor: 'var(--bg-primary)'
     }}>
       <PageLoader fullScreen />
     </div>

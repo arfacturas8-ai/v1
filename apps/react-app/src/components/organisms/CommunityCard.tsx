@@ -243,7 +243,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
                 position: 'absolute',
                 top: spacing[3],
                 right: spacing[3],
-                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                backgroundColor: 'var(--bg-tertiary)',
                 backdropFilter: 'blur(8px)',
                 borderRadius: radii.full,
                 padding: `${spacing[2]} ${spacing[3]}`,

@@ -18,7 +18,7 @@ export const SkeletonDashboard = ({ className }) => {
           <div key={i} style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
             <div style={{
   height: '16px',
@@ -43,7 +43,7 @@ export const SkeletonDashboard = ({ className }) => {
       <div style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <div style={{
   height: '24px',
@@ -60,7 +60,7 @@ export const SkeletonDashboard = ({ className }) => {
       <div style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <div style={{
   height: '24px',

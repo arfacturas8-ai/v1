@@ -110,7 +110,7 @@ const ConfirmDialog = ({
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0, 0, 0, 0.8)',
+              background: 'var(--bg-tertiary)',
               backdropFilter: 'blur(4px)'
             }}
           />
@@ -125,7 +125,7 @@ const ConfirmDialog = ({
               width: '100%',
               maxWidth: '480px',
               padding: '24px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              border: '1px solid var(--border-subtle)',
               boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
             }}
           >
@@ -198,7 +198,7 @@ const ConfirmDialog = ({
                   paddingBottom: '10px',
                   color: '#666666',
                   background: 'rgba(20, 20, 20, 0.6)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  border: '1px solid var(--border-subtle)',
                   borderRadius: '12px',
                   fontSize: '14px',
                   fontWeight: '500',

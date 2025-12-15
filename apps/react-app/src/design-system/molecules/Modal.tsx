@@ -70,7 +70,7 @@ export const Modal: React.FC<ModalProps> = ({
         style={{
           position: 'fixed',
           inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.7)',
+          backgroundColor: 'var(--bg-tertiary)',
           zIndex: 1000,
           display: 'flex',
           alignItems: 'center',

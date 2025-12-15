@@ -330,7 +330,7 @@ function NetworkSwitcher({
   gap: '8px',
   borderRadius: '12px',
   fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
         >
           <AlertTriangle style={{
@@ -344,7 +344,7 @@ function NetworkSwitcher({
         <div style={{
   position: 'absolute',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
           {switchError}
@@ -367,7 +367,7 @@ function NetworkSwitcher({
   gap: '8px',
   borderRadius: '12px',
   fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
         >
           <AlertTriangle style={{
@@ -385,7 +385,7 @@ function NetworkSwitcher({
         {isOpen && (
           <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -483,7 +483,7 @@ function NetworkSwitcher({
       {isOpen && showDropdown && (
         <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -498,7 +498,7 @@ function NetworkSwitcher({
           {currentNetwork && (
             <div style={{
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
               <div style={{

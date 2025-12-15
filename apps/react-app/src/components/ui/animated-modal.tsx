@@ -531,7 +531,7 @@ const styles = {
   card: {
     background: 'rgba(20, 20, 20, 0.6)',
     backdropFilter: 'blur(12px)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
+    border: '1px solid var(--border-subtle)',
     borderRadius: '12px',
     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
     padding: '16px'
@@ -547,7 +547,7 @@ const styles = {
     boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
   },
   container: {
-    background: '#0D0D0D',
+    background: 'var(--bg-primary)',
     padding: '16px'
   },
   title: {

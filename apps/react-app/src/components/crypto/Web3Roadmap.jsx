@@ -372,7 +372,7 @@ function Web3Roadmap() {
   display: 'inline-flex',
   alignItems: 'center',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <Calendar style={{
   height: '16px',
@@ -840,7 +840,7 @@ function Web3Roadmap() {
 }}>
         <div style={{
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h3 style={{
   fontWeight: 'bold'

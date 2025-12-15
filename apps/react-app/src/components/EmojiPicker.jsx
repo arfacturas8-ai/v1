@@ -129,7 +129,7 @@ function EmojiPicker({
                     justifyContent: 'center',
                     padding: '8px',
                     borderRadius: '24px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    border: '1px solid var(--border-subtle)',
                     animation: `emojiPop 0.3s ease-out ${index * 0.05}s both`
                   }}
                 >

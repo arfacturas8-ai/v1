@@ -477,7 +477,7 @@ const ActiveCallPage: React.FC = () => {
             left: '50%',
             transform: 'translateX(-50%)',
             padding: `${spacing[2]} ${spacing[4]}`,
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            backgroundColor: 'var(--bg-tertiary)',
             backdropFilter: 'blur(10px)',
             borderRadius: radii.full,
             display: 'flex',
@@ -590,7 +590,7 @@ const ActiveCallPage: React.FC = () => {
               bottom: spacing[20],
               left: spacing[4],
               padding: spacing[4],
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              backgroundColor: 'var(--bg-tertiary)',
               backdropFilter: 'blur(10px)',
               borderRadius: radii.lg,
               minWidth: '200px',
@@ -682,7 +682,7 @@ const ActiveCallPage: React.FC = () => {
       <div
         style={{
           padding: `${spacing[6]} ${spacing[4]}`,
-          backgroundColor: 'rgba(0, 0, 0, 0.9)',
+          backgroundColor: 'var(--bg-tertiary)',
           backdropFilter: 'blur(10px)',
           display: 'flex',
           flexDirection: 'column',

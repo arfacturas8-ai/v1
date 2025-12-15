@@ -1007,7 +1007,7 @@ const CommunitySettingsPage: React.FC = () => {
             style={{
               position: 'fixed',
               inset: 0,
-              background: 'rgba(0, 0, 0, 0.5)',
+              background: 'var(--bg-tertiary)',
               backdropFilter: 'blur(4px)',
               display: 'flex',
               alignItems: 'center',

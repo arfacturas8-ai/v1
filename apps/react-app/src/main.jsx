@@ -39,7 +39,7 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       return (
         <div style={{
-          background: '#0A0A0B',
+          background: 'var(--bg-primary)',
           color: '#00D4FF',
           minHeight: '100vh',
           display: 'flex',

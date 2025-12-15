@@ -300,7 +300,7 @@ function TransactionHistory({
   if (loading) {
     return (
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '24px'
 }}>
@@ -370,7 +370,7 @@ function TransactionHistory({
   if (error) {
     return (
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '24px'
 }}>
@@ -399,7 +399,7 @@ function TransactionHistory({
 
   return (
     <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
       {/* Header */}
@@ -479,7 +479,7 @@ function TransactionHistory({
   width: '100%',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
               />
@@ -494,7 +494,7 @@ function TransactionHistory({
                 value={filters.type}
                 onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
                 style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -513,7 +513,7 @@ function TransactionHistory({
                 value={filters.status}
                 onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
                 style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -531,7 +531,7 @@ function TransactionHistory({
                 value={filters.token}
                 onChange={(e) => setFilters(prev => ({ ...prev, token: e.target.value }))}
                 style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -550,7 +550,7 @@ function TransactionHistory({
                 value={filters.dateRange}
                 onChange={(e) => setFilters(prev => ({ ...prev, dateRange: e.target.value }))}
                 style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px',
   paddingLeft: '12px',
   paddingRight: '12px',

@@ -262,7 +262,7 @@ const FollowerSystem = ({ userId, type = 'followers', onClose }) => {
   gap: '16px',
   padding: '16px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         {/* Avatar */}
         <div style={{
@@ -424,7 +424,7 @@ const FollowerSystem = ({ userId, type = 'followers', onClose }) => {
   paddingRight: '12px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
               >
@@ -453,7 +453,7 @@ const FollowerSystem = ({ userId, type = 'followers', onClose }) => {
   paddingRight: '12px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                 >
@@ -485,7 +485,7 @@ const FollowerSystem = ({ userId, type = 'followers', onClose }) => {
   padding: '16px'
 }}>
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   width: '100%',
   overflow: 'hidden',
@@ -577,7 +577,7 @@ const FollowerSystem = ({ userId, type = 'followers', onClose }) => {
   width: '100%',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
               />
@@ -591,7 +591,7 @@ const FollowerSystem = ({ userId, type = 'followers', onClose }) => {
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             >
@@ -610,7 +610,7 @@ const FollowerSystem = ({ userId, type = 'followers', onClose }) => {
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             >

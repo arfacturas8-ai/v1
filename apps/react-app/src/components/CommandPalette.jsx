@@ -132,7 +132,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'rgba(0, 0, 0, 0.8)',
+              background: 'var(--bg-tertiary)',
               backdropFilter: 'blur(4px)',
               zIndex: 50
             }}
@@ -158,7 +158,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                 background: 'rgba(22, 27, 34, 0.6)',
                 backdropFilter: 'blur(12px)',
                 borderRadius: '24px',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
+                border: '1px solid var(--border-subtle)',
                 overflow: 'hidden',
                 boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
               }}
@@ -172,7 +172,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                 paddingRight: '16px',
                 paddingTop: '16px',
                 paddingBottom: '16px',
-                borderBottom: '1px solid rgba(255, 255, 255, 0.1)'
+                borderBottom: '1px solid var(--border-subtle)'
               }}>
                 <Search style={{
                   width: '20px',
@@ -209,7 +209,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                     background: 'rgba(22, 27, 34, 0.6)',
                     borderRadius: '4px',
                     fontSize: '11px',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    border: '1px solid var(--border-subtle)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '4px'
@@ -307,7 +307,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                               background: 'rgba(22, 27, 34, 0.6)',
                               borderRadius: '4px',
                               fontSize: '11px',
-                              border: '1px solid rgba(255, 255, 255, 0.1)',
+                              border: '1px solid var(--border-subtle)',
                               color: '#666666'
                             }}>
                               Enter
@@ -329,7 +329,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                borderTop: '1px solid var(--border-subtle)',
                 fontSize: '12px',
                 color: '#666666'
               }}>
@@ -351,7 +351,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                       background: 'rgba(22, 27, 34, 0.6)',
                       borderRadius: '4px',
                       fontSize: '11px',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                      border: '1px solid var(--border-subtle)'
                     }}>↑</kbd>
                     <kbd style={{
                       paddingLeft: '6px',
@@ -361,7 +361,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                       background: 'rgba(22, 27, 34, 0.6)',
                       borderRadius: '4px',
                       fontSize: '11px',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                      border: '1px solid var(--border-subtle)'
                     }}>↓</kbd>
                     <span style={{ marginLeft: '4px' }}>Navigate</span>
                   </div>
@@ -378,7 +378,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                       background: 'rgba(22, 27, 34, 0.6)',
                       borderRadius: '4px',
                       fontSize: '11px',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                      border: '1px solid var(--border-subtle)'
                     }}>Enter</kbd>
                     <span style={{ marginLeft: '4px' }}>Select</span>
                   </div>
@@ -395,7 +395,7 @@ const CommandPalette = ({ isOpen, onClose }) => {
                       background: 'rgba(22, 27, 34, 0.6)',
                       borderRadius: '4px',
                       fontSize: '11px',
-                      border: '1px solid rgba(255, 255, 255, 0.1)'
+                      border: '1px solid var(--border-subtle)'
                     }}>Esc</kbd>
                     <span style={{ marginLeft: '4px' }}>Close</span>
                   </div>

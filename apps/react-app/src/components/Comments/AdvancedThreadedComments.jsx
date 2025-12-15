@@ -303,7 +303,7 @@ const AdvancedThreadedComments = ({
         {/* Comment Card */}
         <div 
           style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}
@@ -496,7 +496,7 @@ const AdvancedThreadedComments = ({
                       style={{
   width: '100%',
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                       rows={3}
@@ -515,7 +515,7 @@ const AdvancedThreadedComments = ({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                       >
@@ -760,7 +760,7 @@ const AdvancedThreadedComments = ({
                     style={{
   width: '100%',
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                     rows={3}
@@ -778,7 +778,7 @@ const AdvancedThreadedComments = ({
   paddingRight: '12px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                     >
@@ -938,7 +938,7 @@ return (
             style={{
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px',
   width: '160px'
 }}
@@ -954,7 +954,7 @@ return (
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
         >
@@ -975,7 +975,7 @@ return (
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
         >
@@ -996,7 +996,7 @@ return (
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
         >
@@ -1048,7 +1048,7 @@ return (
         style={{
   width: '100%',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
         rows={4}

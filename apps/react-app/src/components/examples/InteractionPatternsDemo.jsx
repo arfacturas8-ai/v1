@@ -117,7 +117,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'
@@ -178,7 +178,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'
@@ -250,7 +250,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'
@@ -290,7 +290,7 @@ export const InteractionPatternsDemo = () => {
               <div style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                 <LoadingState
                   type={loadingType}
@@ -317,7 +317,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'
@@ -384,7 +384,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'
@@ -410,7 +410,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'
@@ -440,7 +440,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'
@@ -519,7 +519,7 @@ export const InteractionPatternsDemo = () => {
         <div style={{
   borderRadius: '12px',
   padding: '32px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h2 style={{
   fontWeight: '600'

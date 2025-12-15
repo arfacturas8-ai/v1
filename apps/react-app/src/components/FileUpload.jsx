@@ -532,7 +532,7 @@ function FileUpload({
         <div style={{
   padding: '16px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <h5 style={{
   fontWeight: '500',

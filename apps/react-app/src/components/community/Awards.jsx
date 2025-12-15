@@ -111,7 +111,7 @@ const Awards = ({ awards = [], size = 'md', maxVisible = 5 }) => {
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
           title={`${award.count} ${getAwardName(award.type)}${award.count > 1 ? 's' : ''}`}
         >
@@ -138,7 +138,7 @@ const Awards = ({ awards = [], size = 'md', maxVisible = 5 }) => {
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
           title={`${hiddenCount} more award${hiddenCount > 1 ? 's' : ''}`}
         >

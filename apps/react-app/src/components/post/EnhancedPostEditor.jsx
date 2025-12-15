@@ -311,7 +311,7 @@ const EnhancedPostEditor = ({
   overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         {/* Header */}
         <div style={{
@@ -389,7 +389,7 @@ const EnhancedPostEditor = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   flex: '1'
 }}
@@ -411,7 +411,7 @@ const EnhancedPostEditor = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                   >
@@ -777,7 +777,7 @@ const EnhancedPostEditor = ({
                 <div className="space-y-3">
                   {linkPreviews.map(preview => (
                     <div key={preview.url} style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   overflow: 'hidden'
 }}>
@@ -851,7 +851,7 @@ const EnhancedPostEditor = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                 onKeyPress={(e) => {
@@ -962,7 +962,7 @@ const EnhancedPostEditor = ({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
               disabled={isSubmitting}

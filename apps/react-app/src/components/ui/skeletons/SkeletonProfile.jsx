@@ -115,7 +115,7 @@ export function SkeletonProfileHeader({ compact = false, className = '' }) {
       style={{
   background: 'rgba(22, 27, 34, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '24px'
 }}
     >
@@ -169,7 +169,7 @@ export function SkeletonProfileStats({ className = '' }) {
       style={{
   background: 'rgba(22, 27, 34, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '24px'
 }}
     >
@@ -198,7 +198,7 @@ export function SkeletonProfileActivity({ items = 5, className = '' }) {
       style={{
   background: 'rgba(22, 27, 34, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
     >
       <div style={{
@@ -246,7 +246,7 @@ export function SkeletonProfileBadges({ count = 6, className = '' }) {
       style={{
   background: 'rgba(22, 27, 34, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '24px'
 }}
     >

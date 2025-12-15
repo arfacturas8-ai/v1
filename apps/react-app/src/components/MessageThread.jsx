@@ -279,7 +279,7 @@ function MessageThread({
   paddingBottom: '8px',
   borderRadius: '12px',
   color: '#ffffff',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                           {reply.content}
                         </div>

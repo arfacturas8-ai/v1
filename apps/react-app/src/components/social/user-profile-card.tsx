@@ -552,7 +552,7 @@ const ProfileActions: React.FC<{
           <DropdownMenu.Content
             style={{
   width: '192px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '4px'
 }}
             align="end"

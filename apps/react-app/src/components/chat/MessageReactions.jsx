@@ -63,7 +63,7 @@ const MessageReactions = ({
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
             title={`${data.users?.join(', ')} reacted with ${emoji}`}
           >
@@ -88,7 +88,7 @@ const MessageReactions = ({
   width: '28px',
   height: '28px',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
           title="Add reaction"
         >
@@ -104,7 +104,7 @@ const MessageReactions = ({
           <div style={{
   position: 'absolute',
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
             <div style={{

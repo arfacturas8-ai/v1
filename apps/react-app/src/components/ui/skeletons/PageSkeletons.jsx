@@ -12,7 +12,7 @@ export function HomePageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0D0D0D'
+      background: 'var(--bg-primary)'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -44,11 +44,8 @@ export function HomePageSkeleton({ className = '' }) {
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
+                className="card"
                 style={{
-                  background: 'rgba(20, 20, 20, 0.6)',
-                  backdropFilter: 'blur(12px)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
                   padding: '24px',
                   textAlign: 'center'
                 }}
@@ -82,7 +79,7 @@ export function CommunitiesPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0D0D0D'
+      background: 'var(--bg-primary)'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -133,7 +130,7 @@ export function ProfilePageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0D0D0D'
+      background: 'var(--bg-primary)'
     }}>
       <div className="max-w-5xl mx-auto">
         {/* Profile Header */}
@@ -154,11 +151,8 @@ export function ProfilePageSkeleton({ className = '' }) {
             <div className="lg:col-span-1 space-y-6">
               <SkeletonProfileStats />
               <div
+                className="card"
                 style={{
-                  background: 'rgba(20, 20, 20, 0.6)',
-                  backdropFilter: 'blur(12px)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
                   padding: '24px'
                 }}
               >
@@ -193,7 +187,7 @@ export function PostDetailPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0D0D0D'
+      background: 'var(--bg-primary)'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -205,11 +199,8 @@ export function PostDetailPageSkeleton({ className = '' }) {
       }}>
         {/* Post */}
         <div
+          className="card"
           style={{
-            background: 'rgba(20, 20, 20, 0.6)',
-            backdropFilter: 'blur(12px)',
-            borderRadius: '12px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
             overflow: 'hidden',
             marginBottom: '24px'
           }}
@@ -272,11 +263,8 @@ export function PostDetailPageSkeleton({ className = '' }) {
 
         {/* Comments */}
         <div
+          className="card"
           style={{
-            background: 'rgba(20, 20, 20, 0.6)',
-            backdropFilter: 'blur(12px)',
-            borderRadius: '12px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
             padding: '24px'
           }}
         >
@@ -316,7 +304,7 @@ export function SearchPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0D0D0D'
+      background: 'var(--bg-primary)'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -356,7 +344,7 @@ export function SettingsPageSkeleton({ className = '' }) {
   return (
     <div style={{
       minHeight: '100vh',
-      background: '#0D0D0D'
+      background: 'var(--bg-primary)'
     }}>
       <div style={{
         paddingLeft: '16px',
@@ -382,13 +370,11 @@ export function SettingsPageSkeleton({ className = '' }) {
           <div
             className="lg:col-span-1"
           >
-            <div style={{
-              background: 'rgba(20, 20, 20, 0.6)',
-              backdropFilter: 'blur(12px)',
-              borderRadius: '12px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              padding: '16px'
-            }}>
+            <div
+              className="card"
+              style={{
+                padding: '16px'
+              }}>
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <Skeleton key={i} width="100%" height="40px" rounded="lg" className="mb-2" />
               ))}
@@ -402,11 +388,8 @@ export function SettingsPageSkeleton({ className = '' }) {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
+                className="card"
                 style={{
-                  background: 'rgba(20, 20, 20, 0.6)',
-                  backdropFilter: 'blur(12px)',
-                  borderRadius: '12px',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
                   padding: '24px'
                 }}
               >

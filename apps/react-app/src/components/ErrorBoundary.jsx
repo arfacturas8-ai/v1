@@ -83,7 +83,7 @@ class ErrorBoundary extends React.Component {
   width: '100%'
 }}>
             <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '32px'
 }}>
@@ -130,7 +130,7 @@ class ErrorBoundary extends React.Component {
               {error && (
                 <div style={{
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
                   <div className="text-sm font-mono text-red-400 mb-2">
@@ -287,7 +287,7 @@ export function SimpleErrorFallback({ error, reset }) {
   return (
     <div style={{
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
       <div style={{

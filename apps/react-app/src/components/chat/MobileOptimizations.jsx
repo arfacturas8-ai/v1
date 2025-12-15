@@ -806,7 +806,7 @@ export const MobileModal = ({
   return (
     <div style={{
   position: 'fixed',
-  background: 'rgba(0, 0, 0, 0.5)'
+  background: 'var(--bg-tertiary)'
 }}>
       <div style={{
   background: 'white',

@@ -33,7 +33,7 @@ const StatCard = React.memo(({ icon: Icon, label, value, trend, color }) => (
     style={{
   borderRadius: '12px',
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
     role="article"
     aria-label={`${label}: ${value}`}
@@ -82,7 +82,7 @@ const CommunityCard = React.memo(({ community, onClick }) => (
     style={{
   borderRadius: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
     onClick={onClick}
     role="article"
@@ -143,7 +143,7 @@ const PostCard = React.memo(({ post, onClick }) => (
     style={{
   borderRadius: '12px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
     onClick={onClick}
     role="article"
@@ -449,7 +449,7 @@ function OptimizedHomePage() {
             role="alert"
             aria-live="assertive"
             style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}

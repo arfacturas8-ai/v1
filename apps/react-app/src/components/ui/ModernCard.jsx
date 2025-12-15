@@ -66,7 +66,7 @@ const ModernCard = ({
   if (variant === 'gradient') {
     return (
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <div className="gradient-border-content">
           {children}

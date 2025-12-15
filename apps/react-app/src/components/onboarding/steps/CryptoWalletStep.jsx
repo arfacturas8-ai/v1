@@ -110,7 +110,7 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
                 style={{
   width: '100%',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   display: 'flex',
   alignItems: 'center'
@@ -158,7 +158,7 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
                 style={{
   width: '100%',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   display: 'flex',
   alignItems: 'center'
@@ -206,7 +206,7 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
                 style={{
   width: '100%',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   display: 'flex',
   alignItems: 'center'

@@ -298,7 +298,7 @@ function Web3ErrorHandler({
 
   return (
     <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -485,7 +485,7 @@ export class Web3ErrorBoundary extends React.Component {
       return (
         <div style={{
   padding: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
           <div style={{

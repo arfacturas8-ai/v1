@@ -218,7 +218,7 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ message }) => {
         position: 'fixed',
         inset: 0,
         zIndex: 'var(--z-modal-backdrop)',
-        background: 'rgba(0, 0, 0, 0.3)',
+        background: 'var(--bg-tertiary)',
         backdropFilter: 'blur(4px)',
         display: 'flex',
         flexDirection: 'column',

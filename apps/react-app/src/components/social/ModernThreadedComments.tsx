@@ -325,7 +325,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                 <DropdownMenu.Content
                   style={{
   width: '192px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '4px'
 }}
@@ -372,7 +372,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                       <DropdownMenu.Separator style={{
   marginTop: '4px',
   marginBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }} />
                     </>
                   )}
@@ -643,7 +643,7 @@ export const ModernThreadedComments: React.FC<ModernThreadedCommentsProps> = ({
   paddingRight: '12px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
           >
             {sortOptions.map((option) => (

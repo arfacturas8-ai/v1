@@ -536,7 +536,7 @@ const MultiChainManager = () => {
         <div style={{
   padding: '16px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <div style={{
   display: 'flex',
@@ -1025,7 +1025,7 @@ const MultiChainManager = () => {
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                 value={bridgeAmount}
                 onChange={(e) => setBridgeAmount(e.target.value)}
@@ -1043,7 +1043,7 @@ const MultiChainManager = () => {
               <div style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                 <div style={{
   display: 'flex',

@@ -233,7 +233,7 @@ function GasEstimator({
   if (isLoading) {
     return (
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -274,7 +274,7 @@ function GasEstimator({
   if (error) {
     return (
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -307,7 +307,7 @@ function GasEstimator({
 
   return (
     <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -400,7 +400,7 @@ function GasEstimator({
   justifyContent: 'space-between',
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
             >
               <div style={{
@@ -468,7 +468,7 @@ function GasEstimator({
                 step="0.1"
                 style={{
   width: '100%',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -489,7 +489,7 @@ function GasEstimator({
                 step="1000"
                 style={{
   width: '100%',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -598,7 +598,7 @@ function GasEstimator({
       {/* Gas Savings Tip */}
       {networkStatus.congestion === 'high' && (
         <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '12px'
 }}>

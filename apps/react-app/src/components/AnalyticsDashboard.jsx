@@ -237,15 +237,15 @@ const AnalyticsDashboard = ({ user, community, onClose }) => {
               <PieChart size={120} />
               <div className="pie-legend">
                 <div className="legend-item">
-                  <span className="legend-dot" style={{ background: '#0052FF' }} />
+                  <span className="legend-dot" style={{ background: 'var(--bg-primary)' }} />
                   <span>Posts (45%)</span>
                 </div>
                 <div className="legend-item">
-                  <span className="legend-dot" style={{ background: '#00D4FF' }} />
+                  <span className="legend-dot" style={{ background: 'var(--bg-primary)' }} />
                   <span>Comments (30%)</span>
                 </div>
                 <div className="legend-item">
-                  <span className="legend-dot" style={{ background: '#00FF88' }} />
+                  <span className="legend-dot" style={{ background: 'var(--bg-primary)' }} />
                   <span>Media (25%)</span>
                 </div>
               </div>

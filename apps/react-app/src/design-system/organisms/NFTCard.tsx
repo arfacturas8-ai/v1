@@ -273,7 +273,7 @@ export const NFTCard: React.FC<NFTCardProps> = ({
             width: '36px',
             height: '36px',
             borderRadius: 'var(--radius-full)',
-            backgroundColor: 'rgba(0, 0, 0, 0.6)',
+            backgroundColor: 'var(--bg-tertiary)',
             padding: 0,
           }}
         >

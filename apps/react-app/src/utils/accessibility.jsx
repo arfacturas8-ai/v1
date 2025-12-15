@@ -227,7 +227,7 @@ export const AccessibleModal = ({
         aria-hidden="true"
       />
       <div className="relative z-10 flex items-center justify-center min-h-screen p-4">
-        <div className="rounded-xl max-w-2xl w-full p-6" style={{ background: 'rgba(22, 27, 34, 0.95)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+        <div className="rounded-xl max-w-2xl w-full p-6" style={{ background: 'rgba(22, 27, 34, 0.95)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
           <h2 id={titleId} className="text-2xl font-bold mb-4 text-white">
             {title}
           </h2>

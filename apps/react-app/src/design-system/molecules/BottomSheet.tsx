@@ -108,7 +108,7 @@ export const BottomSheet: React.FC<BottomSheetProps> = ({
         style={{
           position: 'fixed',
           inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backgroundColor: 'var(--bg-tertiary)',
           zIndex: 1000,
           animation: 'fadeIn 200ms ease-out',
         }}

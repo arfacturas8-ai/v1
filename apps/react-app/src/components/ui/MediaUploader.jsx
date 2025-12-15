@@ -447,7 +447,7 @@ const MediaUploader = ({
               <li
                 key={fileObj.id}
                 style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '12px'
 }}
@@ -849,7 +849,7 @@ const MediaUploader = ({
                   onClick={() => setImageEditor({ open: false, file: null, transforms: {} })}
                   style={{
   flex: '1',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   paddingTop: '8px',
   paddingBottom: '8px',
   paddingLeft: '16px',

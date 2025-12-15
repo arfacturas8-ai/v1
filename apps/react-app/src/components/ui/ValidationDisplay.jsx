@@ -109,7 +109,7 @@ const ValidationDisplay = ({
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
         <Icon size={14} className={style.textClass} />
         <span className={style.textClass}>
@@ -123,7 +123,7 @@ const ValidationDisplay = ({
 
   return (
     <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
       {/* Header */}

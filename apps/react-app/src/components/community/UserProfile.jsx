@@ -63,7 +63,7 @@ const UserProfile = ({
 
   return (
     <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
       <div style={{
@@ -171,7 +171,7 @@ const UserProfile = ({
   paddingBottom: '0px',
   borderRadius: '50%',
   fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                     ✓ Verified
                   </span>
@@ -186,7 +186,7 @@ const UserProfile = ({
   paddingBottom: '0px',
   borderRadius: '50%',
   fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                     🛡️ Moderator
                   </span>
@@ -201,7 +201,7 @@ const UserProfile = ({
   paddingBottom: '0px',
   borderRadius: '50%',
   fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                     ⚙️ Admin
                   </span>
@@ -222,7 +222,7 @@ const UserProfile = ({
   alignItems: 'center',
   fontWeight: '500',
   color: '#ffffff',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                 >
                   {followLoading ? (
@@ -254,7 +254,7 @@ const UserProfile = ({
   display: 'flex',
   alignItems: 'center',
   fontWeight: '500',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                 >
                   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -270,7 +270,7 @@ const UserProfile = ({
           <div style={{
   display: 'grid',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
             <div style={{
   textAlign: 'center'

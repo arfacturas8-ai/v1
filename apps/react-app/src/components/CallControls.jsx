@@ -174,7 +174,7 @@ function CallControls({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
         >
@@ -193,7 +193,7 @@ function CallControls({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
         >
@@ -212,7 +212,7 @@ function CallControls({
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
         >
@@ -232,7 +232,7 @@ function CallControls({
 }}>
       <div style={{
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   overflow: 'hidden'
 }}>
@@ -326,7 +326,7 @@ function CallControls({
 }}>
               <div style={{
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -362,7 +362,7 @@ function CallControls({
 }}>
                 <div style={{
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -397,7 +397,7 @@ function CallControls({
 }}>
               <div style={{
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -431,7 +431,7 @@ function CallControls({
 }}>
               <div style={{
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   paddingLeft: '12px',
   paddingRight: '12px',
@@ -457,7 +457,7 @@ function CallControls({
             style={{
   padding: '12px',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   color: '#ffffff'
 }}
             title="More options"
@@ -475,7 +475,7 @@ function CallControls({
   padding: '12px',
   borderRadius: '50%',
   position: 'relative',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   color: '#ffffff'
 }}
               title="Participants"
@@ -506,7 +506,7 @@ function CallControls({
 }}>
                 <div style={{
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   overflow: 'hidden'
 }}>
@@ -571,7 +571,7 @@ function CallControls({
   padding: '12px',
   borderRadius: '50%',
   color: '#ffffff',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
             title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
           >
@@ -602,7 +602,7 @@ function CallControls({
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   color: '#ffffff'
 }}
                   title={isRecording ? 'Stop recording' : 'Start recording'}
@@ -637,7 +637,7 @@ function CallControls({
   paddingBottom: '8px',
   borderRadius: '12px',
   color: '#ffffff',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                   title="Toggle speaker"
                 >

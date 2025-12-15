@@ -43,7 +43,7 @@ function ComingSoonWrapper({
   position: 'relative'
 }}>
         <Card style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           <div style={{
   textAlign: 'center'
@@ -69,7 +69,7 @@ function ComingSoonWrapper({
                   <span style={{
   display: 'inline-flex',
   alignItems: 'center',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '50%',
   fontWeight: '500'
 }}>
@@ -103,7 +103,7 @@ function ComingSoonWrapper({
 }}>
             {/* Expected Launch */}
             <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
               <div style={{
@@ -146,7 +146,7 @@ function ComingSoonWrapper({
             {/* Development Note */}
             {isDevelopment && (
               <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   textAlign: 'left'
 }}>

@@ -13,7 +13,7 @@ export const Skeleton = ({ width = '100%', height = '20px', radius = '4px', clas
       width,
       height,
       borderRadius: radius,
-      background: 'linear-gradient(90deg, #1A1A1A 25%, #30363d 50%, #1A1A1A 75%)',
+      background: 'linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-hover) 50%, var(--bg-tertiary) 75%)',
       backgroundSize: '200% 100%',
       animation: 'shimmer 1.5s infinite',
       ...style
@@ -23,7 +23,7 @@ export const Skeleton = ({ width = '100%', height = '20px', radius = '4px', clas
 
 // Post Card Skeleton
 export const PostCardSkeleton = () => (
-  <div style={{ padding: '16px', background: '#141414', borderRadius: '8px', marginBottom: '16px' }}>
+  <div className="card" style={{ marginBottom: '16px' }}>
     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
       <Skeleton width="40px" height="40px" radius="50%" />
       <div style={{ marginLeft: '12px', flex: 1 }}>
@@ -44,7 +44,7 @@ export const PostCardSkeleton = () => (
 
 // User Card Skeleton
 export const UserCardSkeleton = () => (
-  <div style={{ padding: '16px', background: '#141414', borderRadius: '8px' }}>
+  <div className="card">
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <Skeleton width="48px" height="48px" radius="50%" />
       <div style={{ marginLeft: '12px', flex: 1 }}>
@@ -73,7 +73,7 @@ export const MessageSkeleton = () => (
 
 // Community Card Skeleton
 export const CommunityCardSkeleton = () => (
-  <div style={{ padding: '16px', background: '#141414', borderRadius: '8px' }}>
+  <div className="card">
     <Skeleton width="100%" height="120px" radius="8px" style={{ marginBottom: '12px' }} />
     <Skeleton width="70%" height="20px" style={{ marginBottom: '8px' }} />
     <Skeleton width="100%" height="16px" style={{ marginBottom: '6px' }} />
@@ -87,7 +87,7 @@ export const CommunityCardSkeleton = () => (
 
 // Table Row Skeleton
 export const TableRowSkeleton = ({ columns = 4 }) => (
-  <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: '16px', padding: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+  <div style={{ display: 'grid', gridTemplateColumns: `repeat(${columns}, 1fr)`, gap: '16px', padding: '16px', borderBottom: '1px solid var(--border-subtle)' }}>
     {Array.from({ length: columns }).map((_, i) => (
       <Skeleton key={i} width="90%" height="20px" />
     ))}
@@ -129,7 +129,7 @@ export const PageSkeleton = ({ type = 'default' }) => {
     return (
       <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         {/* Header */}
-        <div style={{ padding: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+        <div style={{ padding: '16px', borderBottom: '1px solid var(--border-subtle)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
             <Skeleton width="40px" height="40px" radius="50%" />
             <Skeleton width="150px" height="20px" />
@@ -140,7 +140,7 @@ export const PageSkeleton = ({ type = 'default' }) => {
           {[1, 2, 3, 4, 5, 6].map(i => <MessageSkeleton key={i} />)}
         </div>
         {/* Input */}
-        <div style={{ padding: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+        <div style={{ padding: '16px', borderTop: '1px solid var(--border-subtle)' }}>
           <Skeleton width="100%" height="48px" radius="24px" />
         </div>
       </div>
@@ -175,7 +175,7 @@ export const LoadingSpinner = ({ size = 40, color = '#58a6ff' }) => (
     style={{
       width: `${size}px`,
       height: `${size}px`,
-      border: `4px solid #1A1A1A`,
+      border: `4px solid var(--border-subtle)`,
       borderTop: `4px solid ${color}`,
       borderRadius: '50%',
       animation: 'spin 1s linear infinite'

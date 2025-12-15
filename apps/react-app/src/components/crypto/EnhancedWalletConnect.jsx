@@ -486,7 +486,7 @@ const EnhancedWalletConnect = ({ onConnect, onDisconnect, showNetworkSwitcher = 
         {error && (
           <div style={{
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
             <div style={{

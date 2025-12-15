@@ -670,7 +670,7 @@ function VoiceChannelInterface({
   paddingTop: '8px',
   paddingBottom: '8px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
               >
@@ -702,7 +702,7 @@ function VoiceChannelInterface({
   paddingTop: '8px',
   paddingBottom: '8px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
               >

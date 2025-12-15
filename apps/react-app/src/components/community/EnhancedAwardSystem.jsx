@@ -290,7 +290,7 @@ const EnhancedAwardSystem = ({
   padding: '16px'
 }}>
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   width: '100%'
 }}>
@@ -447,7 +447,7 @@ const EnhancedAwardSystem = ({
             <div style={{
   padding: '16px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
               <div style={{
   display: 'flex',
@@ -481,7 +481,7 @@ const EnhancedAwardSystem = ({
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                       rows={3}

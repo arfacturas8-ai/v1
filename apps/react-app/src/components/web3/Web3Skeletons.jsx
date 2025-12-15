@@ -66,7 +66,7 @@ export function WalletConnectSkeleton({ size = 'md', className = '' }) {
 export function TokenBalanceSkeleton({ showUSD = true, className = '' }) {
   return (
     <SkeletonBase style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -153,7 +153,7 @@ export function NetworkSwitcherSkeleton({ size = 'md', className = '' }) {
 export function GasEstimatorSkeleton({ className = '' }) {
   return (
     <SkeletonBase style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -202,7 +202,7 @@ export function GasEstimatorSkeleton({ className = '' }) {
         <div className="space-y-2">
           {[...Array(3)].map((_, i) => (
             <div key={i} style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '12px'
 }}>
@@ -248,7 +248,7 @@ export function TransactionConfirmationSkeleton({ className = '' }) {
   padding: '16px'
 }}>
       <SkeletonBase style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   width: '100%'
 }}>
@@ -378,7 +378,7 @@ export function TransactionConfirmationSkeleton({ className = '' }) {
 export function TransactionHistorySkeleton({ itemCount = 5, className = '' }) {
   return (
     <SkeletonBase style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
       {/* Header */}
@@ -541,7 +541,7 @@ export function CryptoTippingSkeleton({ className = '' }) {
   return (
     <SkeletonBase className={className}>
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px'
 }}>
@@ -647,7 +647,7 @@ export function Web3OperationSkeleton({
 }) {
   return (
     <SkeletonBase style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '24px'
 }}>

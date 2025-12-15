@@ -18,7 +18,7 @@ export function SkeletonCard({
       style={{
   background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '16px'
 }}
     >
@@ -78,7 +78,7 @@ export function SkeletonPostCard({
       style={{
   background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   overflow: 'hidden'
 }}
     >
@@ -182,7 +182,7 @@ export function SkeletonCommunityCard({ className = '' }) {
       style={{
   background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   overflow: 'hidden'
 }}
     >
@@ -236,7 +236,7 @@ export function SkeletonUserCard({ showBio = true, className = '' }) {
       style={{
   background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '16px'
 }}
     >

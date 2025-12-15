@@ -311,7 +311,7 @@ const CommentOptionsMenu: React.FC<{
         <DropdownMenu.Content
           style={{
   width: '192px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '4px'
 }}
           align="end"
@@ -755,7 +755,7 @@ const CommentSortControls: React.FC<{
           </DropdownMenu.Trigger>
           <DropdownMenu.Portal>
             <DropdownMenu.Content style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   padding: '4px'
 }}>
               {sortOptions.map((option) => (
@@ -888,7 +888,7 @@ const CommentSystem = React.forwardRef<HTMLDivElement, CommentSystemProps>(
         {/* Comments List */}
         {sortedComments.length > 0 ? (
           <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
             {sortedComments.map((comment) => (
               <Comment

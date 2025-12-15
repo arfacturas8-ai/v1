@@ -79,7 +79,7 @@ const RichTextToolbar = ({ onFormat, isMobile }) => {
   alignItems: 'center',
   gap: '4px',
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
       style={{
@@ -108,7 +108,7 @@ const RichTextToolbar = ({ onFormat, isMobile }) => {
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
               {label}
               <br />
@@ -157,7 +157,7 @@ const RichTextToolbar = ({ onFormat, isMobile }) => {
           <div style={{
   width: '16px',
   height: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
             <div style={{
   width: '100%'
@@ -173,7 +173,7 @@ const RichTextToolbar = ({ onFormat, isMobile }) => {
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
           Code Block
           <br />

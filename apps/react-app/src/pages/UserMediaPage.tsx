@@ -338,7 +338,7 @@ export default function UserMediaPage() {
                       top: spacing[2],
                       right: spacing[2],
                       padding: `${spacing[1]} ${spacing[2]}`,
-                      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                      backgroundColor: 'var(--bg-tertiary)',
                       borderRadius: '6px',
                       display: 'flex',
                       alignItems: 'center',
@@ -355,7 +355,7 @@ export default function UserMediaPage() {
                   style={{
                     position: 'absolute',
                     inset: 0,
-                    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                    backgroundColor: 'var(--bg-tertiary)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',

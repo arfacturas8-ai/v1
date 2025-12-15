@@ -292,7 +292,7 @@ const AwardNotificationSystem = ({ userId, onClose }) => {
   padding: '16px'
 }}>
       <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   width: '100%',
   overflow: 'hidden',
@@ -449,7 +449,7 @@ const AwardNotificationSystem = ({ userId, onClose }) => {
   position: 'relative',
   padding: '16px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                   onClick={() => {
                     if (!notification.read) markAsRead(notification.id)

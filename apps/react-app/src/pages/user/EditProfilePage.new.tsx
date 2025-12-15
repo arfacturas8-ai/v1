@@ -421,7 +421,7 @@ export const EditProfilePage: React.FC = () => {
               height: '48px',
               borderRadius: radii.full,
               border: 'none',
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              backgroundColor: 'var(--bg-tertiary)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -904,7 +904,7 @@ const ImageCropModal: React.FC<{
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
+        backgroundColor: 'var(--bg-tertiary)',
         zIndex: 10000,
         display: 'flex',
         flexDirection: 'column',

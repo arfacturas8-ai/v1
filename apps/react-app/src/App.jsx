@@ -171,7 +171,7 @@ function AnalyticsWrapper({ children }) {
 // Layout wrapper for authenticated pages
 function AppLayout({ children }) {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0A0A0B' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-primary)' }}>
       {/* Desktop Header */}
       <div className="hidden md:block">
         <Header />

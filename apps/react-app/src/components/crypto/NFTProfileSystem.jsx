@@ -373,7 +373,7 @@ const NFTProfileSystem = () => {
                   style={{
   width: '100%',
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                   rows={2}
@@ -390,7 +390,7 @@ const NFTProfileSystem = () => {
                     placeholder="Location"
                     style={{
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                   />
@@ -401,7 +401,7 @@ const NFTProfileSystem = () => {
                     placeholder="Website"
                     style={{
   padding: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                   />

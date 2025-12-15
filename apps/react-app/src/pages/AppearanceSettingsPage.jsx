@@ -19,7 +19,7 @@ const AppearanceSettingsPage = () => {
       role="main"
       aria-label="Appearance settings page"
       className="min-h-screen p-4 sm:p-6"
-      style={{ background: '#0d1117' }}
+      style={{ background: 'var(--bg-primary)' }}
     >
       <div className="max-w-3xl mx-auto">
         {/* Header */}
@@ -48,7 +48,7 @@ const AppearanceSettingsPage = () => {
           style={{
             background: 'rgba(22, 27, 34, 0.6)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
+            border: '1px solid var(--border-subtle)'
           }}
         >
           <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold  mb-3 sm:mb-4">
@@ -83,7 +83,7 @@ const AppearanceSettingsPage = () => {
           style={{
             background: 'rgba(22, 27, 34, 0.6)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
+            border: '1px solid var(--border-subtle)'
           }}
         >
           <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold  mb-3 sm:mb-4">

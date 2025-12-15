@@ -79,7 +79,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
             style={{
   width: '100%',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             maxLength={200}
@@ -106,7 +106,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
             style={{
   width: '100%',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             rows={6}

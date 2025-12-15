@@ -164,7 +164,7 @@ const IncomingCallModal: React.FC<IncomingCallModalProps> = ({
         style={{
           position: 'absolute',
           inset: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.95)',
+          backgroundColor: 'var(--bg-tertiary)',
           backdropFilter: 'blur(20px)',
           animation: isOpen
             ? `fadeIn ${animation.duration.normal} ${animation.easing.easeOut}`

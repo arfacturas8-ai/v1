@@ -223,7 +223,7 @@ function MessageSearch({
     <div style={{
   position: 'fixed',
   display: 'flex'
-}} style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+}} style={{ backgroundColor: 'var(--bg-tertiary)' }}>
       {isMobile ? (
         /* Mobile full-screen search */
         <div style={{
@@ -316,7 +316,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                     style={{
                       backgroundColor: 'var(--bg-primary)',
@@ -340,7 +340,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                     style={{
                       backgroundColor: 'var(--bg-primary)',
@@ -376,7 +376,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                       style={{
                         backgroundColor: 'var(--bg-primary)',
@@ -400,7 +400,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                       style={{
                         backgroundColor: 'var(--bg-primary)',
@@ -645,7 +645,7 @@ function MessageSearch({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                         style={{
@@ -668,7 +668,7 @@ function MessageSearch({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                         style={{
@@ -704,7 +704,7 @@ function MessageSearch({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                         style={{
@@ -728,7 +728,7 @@ function MessageSearch({
   paddingRight: '8px',
   paddingTop: '4px',
   paddingBottom: '4px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
                         style={{

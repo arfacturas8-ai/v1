@@ -107,7 +107,7 @@ const SortControls = ({
           style={{
   display: 'flex',
   alignItems: 'center',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
           aria-label="Sort posts"
           aria-expanded={showSortMenu}
@@ -135,7 +135,7 @@ const SortControls = ({
         {showSortMenu && (
           <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
             {sortOptions.map((option) => (
               <button
@@ -186,7 +186,7 @@ const SortControls = ({
             style={{
   display: 'flex',
   alignItems: 'center',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
             aria-label="Time filter"
             aria-expanded={showTimeMenu}
@@ -214,7 +214,7 @@ const SortControls = ({
           {showTimeMenu && (
             <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
               {timeOptions.map((option) => (
                 <button

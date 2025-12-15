@@ -220,7 +220,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
             style={{
   width: '100%',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   minHeight: isMobile ? '96px' : '80px'
 }}
@@ -256,7 +256,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
               style={{
   width: '100%',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             />
@@ -278,7 +278,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
               style={{
   width: '100%',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
             />
@@ -307,7 +307,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
                 style={{
   padding: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   color: '#A0A0A0'
 }}
               >

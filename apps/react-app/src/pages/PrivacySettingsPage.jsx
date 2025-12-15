@@ -17,7 +17,7 @@ const PrivacySettingsPage = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-6" style={{ background: '#0D0D0D' }} role="main" aria-label="Privacy settings page">
+    <div className="min-h-screen p-4 sm:p-6" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Privacy settings page">
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           {/* Header */}
@@ -32,7 +32,7 @@ const PrivacySettingsPage = () => {
           </div>
 
           {/* Profile Visibility */}
-          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-[#58a6ff]" />
               <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Profile Visibility</h2>
@@ -49,7 +49,7 @@ const PrivacySettingsPage = () => {
           </div>
 
           {/* Toggle Settings */}
-          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
             <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold  mb-3 sm:mb-4">Activity & Status</h2>
             <div className="space-y-3 sm:space-y-4">
               {[
@@ -64,7 +64,7 @@ const PrivacySettingsPage = () => {
                       <p className="text-xs sm:text-sm text-[#666666]">{item.desc}</p>
                     </div>
                   </div>
-                  <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#1A1A1A', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                  <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
                     <div className="w-5 h-5 rounded-full bg-white transition-transform" style={{ transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }} />
                   </button>
                 </div>
@@ -73,13 +73,13 @@ const PrivacySettingsPage = () => {
           </div>
 
           {/* Direct Messages */}
-          <div className="rounded-2xl  p-4 sm:p-6" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <div className="rounded-2xl  p-4 sm:p-6" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
               <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-[#a371f7]" />
               <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Direct Messages</h2>
             </div>
             <p className="text-sm sm:text-base text-[#666666] mb-3 sm:mb-4">Control who can send you direct messages</p>
-            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} style={{color: "var(--text-primary)"}} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base  outline-none" style={{ background: '#1A1A1A', border: '1px solid rgba(255, 255, 255, 0.1)' }}>
+            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} style={{color: "var(--text-primary)"}} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base  outline-none" style={{ background: '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
               <option value="everyone">Everyone</option>
               <option value="friends">Friends Only</option>
               <option value="none">No One</option>

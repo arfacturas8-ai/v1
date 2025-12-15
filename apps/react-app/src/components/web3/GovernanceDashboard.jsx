@@ -826,7 +826,7 @@ const GovernanceDashboard = () => {
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
                 placeholder="Enter proposal title..."
                 value={newProposal.title}
@@ -879,7 +879,7 @@ const GovernanceDashboard = () => {
             <div style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
               <div style={{
   display: 'flex',
@@ -1028,7 +1028,7 @@ const GovernanceDashboard = () => {
               <div style={{
   padding: '12px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                 <p className="text-sm text-blue-800">
                   Your voting power: {formatVotes(votingPower)} CRYB

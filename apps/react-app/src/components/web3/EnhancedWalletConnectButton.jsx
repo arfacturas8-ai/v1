@@ -510,7 +510,7 @@ function InstallWalletModal({ provider, onClose, onInstallComplete }) {
     <div style={{
       position: 'fixed',
       inset: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: 'var(--bg-tertiary)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

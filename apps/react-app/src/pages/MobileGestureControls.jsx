@@ -20,7 +20,7 @@ const MobileGestureControls = () => {
     container: {
       minHeight: '100vh',
       padding: isMobile ? `${spacing.lg}px` : '20px',
-      background: '#0D0D0D'
+      background: 'var(--bg-primary)'
     },
     wrapper: {
       maxWidth: containerMaxWidth.lg,
@@ -29,7 +29,7 @@ const MobileGestureControls = () => {
     card: {
       background: 'rgba(20, 20, 20, 0.6)',
       backdropFilter: 'blur(12px)',
-      border: '1px solid rgba(255, 255, 255, 0.1)',
+      border: '1px solid var(--border-subtle)',
       borderRadius: '12px',
       padding: padding.card,
       boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
@@ -54,7 +54,7 @@ const MobileGestureControls = () => {
     gestureItem: {
       padding: `${spacing.md}px`,
       borderRadius: '12px',
-      border: '1px solid rgba(255, 255, 255, 0.1)'
+      border: '1px solid var(--border-subtle)'
     },
     gestureTitle: {
       fontWeight: '600',

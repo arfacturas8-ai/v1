@@ -128,7 +128,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
             maxHeight: '80vh',
             background: 'rgba(22, 27, 34, 0.95)',
             backdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid var(--border-subtle)',
             borderRadius: '16px',
             overflow: 'hidden'
           }}

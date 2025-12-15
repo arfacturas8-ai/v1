@@ -92,7 +92,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
       <div className="space-y-6">
         {/* Email Notifications */}
         <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '24px'
 }}>
@@ -132,7 +132,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
   height: '24px',
   background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}></div>
             </label>
           </div>
@@ -171,7 +171,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
 
         {/* Push Notifications */}
         <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '24px'
 }}>
@@ -231,7 +231,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
   height: '24px',
   background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}></div>
               </label>
             </div>
@@ -282,7 +282,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
 
         {/* In-App Notifications */}
         <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '24px'
 }}>
@@ -322,7 +322,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
   height: '24px',
   background: 'rgba(20, 20, 20, 0.6)',
   borderRadius: '50%',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}></div>
             </label>
           </div>

@@ -214,7 +214,7 @@ const AppearanceSettingsPage: React.FC = () => {
                     width: '48px',
                     height: '48px',
                     borderRadius: 'var(--radius-lg)',
-                    background: '#111827',
+                    background: 'var(--bg-secondary)',
                     border: '1px solid #374151',
                     display: 'flex',
                     alignItems: 'center',

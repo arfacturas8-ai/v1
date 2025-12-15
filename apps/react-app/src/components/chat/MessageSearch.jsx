@@ -383,7 +383,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
           />
@@ -428,7 +428,7 @@ function MessageSearch({
           {showHistory && searchHistory.length > 0 && !query && (
             <div style={{
   position: 'absolute',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
               <div style={{
@@ -502,7 +502,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
               >
@@ -534,7 +534,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
               >
@@ -565,7 +565,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
               >
@@ -596,7 +596,7 @@ function MessageSearch({
   paddingTop: '8px',
   paddingBottom: '8px',
   background: 'rgba(22, 27, 34, 0.6)',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '4px'
 }}
               >

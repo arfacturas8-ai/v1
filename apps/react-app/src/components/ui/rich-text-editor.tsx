@@ -244,7 +244,7 @@ const EditorToolbar: React.FC<{
               orientation="vertical"
               style={{
   height: '24px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   marginLeft: '4px',
   marginRight: '4px'
 }}
@@ -284,7 +284,7 @@ const EditorToolbar: React.FC<{
         <Popover.Content style={{
   width: '320px',
   padding: '16px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
           <div className="space-y-3">
@@ -302,7 +302,7 @@ const EditorToolbar: React.FC<{
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -367,7 +367,7 @@ const EmojiPicker: React.FC<{
   return (
     <div
       style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '16px',
   width: '320px'
@@ -386,7 +386,7 @@ const EmojiPicker: React.FC<{
   paddingRight: '12px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
         />
       </div>
@@ -463,7 +463,7 @@ const MentionPicker: React.FC<{
   return (
     <div
       style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
     >

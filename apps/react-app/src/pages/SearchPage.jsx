@@ -442,7 +442,7 @@ function SearchPage() {
           maxWidth: '1200px',
           margin: '0 auto',
           minHeight: '100vh',
-          backgroundColor: '#0D0D0D'
+          backgroundColor: 'var(--bg-primary)'
         }}
       >
       {/* Search Header */}
@@ -494,9 +494,9 @@ function SearchPage() {
               width: '100%',
               padding: isMobile ? '10px 12px 10px 44px' : '12px 16px 12px 48px',
               fontSize: `${fontSize.base}px`,
-              border: '1px solid rgba(255, 255, 255, 0.1)',
+              border: '1px solid var(--border-subtle)',
               borderRadius: '12px',
-              backgroundColor: '#0D0D0D',
+              backgroundColor: 'var(--bg-primary)',
               color: '#ffffff',
               outline: 'none',
               transition: 'all 0.2s ease'
@@ -516,7 +516,7 @@ function SearchPage() {
         <div style={{
           display: 'flex',
           gap: isMobile ? '4px' : '8px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          borderBottom: '1px solid var(--border-subtle)',
           marginBottom: `${spacing.lg}px`
         }}>
           {tabs.map(tab => (

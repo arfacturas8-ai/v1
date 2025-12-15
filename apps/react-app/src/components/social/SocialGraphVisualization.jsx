@@ -603,7 +603,7 @@ const SocialGraphVisualization = ({ userId, onClose }) => {
         {/* Legend */}
         <div className="graph-legend">
           <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#00FF88' }}></div>
+            <div className="legend-color" style={{ backgroundColor: 'var(--bg-primary)' }}></div>
             <span>Friends</span>
           </div>
           <div className="legend-item">
@@ -611,7 +611,7 @@ const SocialGraphVisualization = ({ userId, onClose }) => {
             <span>Followers</span>
           </div>
           <div className="legend-item">
-            <div className="legend-color" style={{ backgroundColor: '#00BBFF' }}></div>
+            <div className="legend-color" style={{ backgroundColor: 'var(--bg-primary)' }}></div>
             <span>Following</span>
           </div>
           <div className="legend-item">

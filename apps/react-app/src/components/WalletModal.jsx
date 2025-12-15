@@ -92,7 +92,7 @@ const WalletModal = ({ isOpen, onClose }) => {
         justifyContent: 'center',
         padding: 'var(--space-4)',
         zIndex: 'var(--z-modal)',
-        background: 'rgba(0, 0, 0, 0.7)',
+        background: 'var(--bg-tertiary)',
         backdropFilter: 'blur(8px)'
       }}
       onClick={onClose}

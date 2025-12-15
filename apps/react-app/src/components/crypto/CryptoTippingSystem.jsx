@@ -327,7 +327,7 @@ const CryptoTippingSystem = ({
                 style={{
   width: '100%',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}
                 placeholder={`0.00 ${selectedToken}`}

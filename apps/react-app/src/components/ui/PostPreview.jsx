@@ -98,7 +98,7 @@ const PostPreview = ({
 
   return (
     <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>
       {/* Post Header */}
@@ -281,7 +281,7 @@ const PostPreview = ({
             {/* Link Content */}
             {type === 'link' && url && (
               <div style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   overflow: 'hidden'
 }}>
@@ -359,7 +359,7 @@ const PostPreview = ({
                     <div key={index} style={{
   borderRadius: '12px',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}>
                       <div style={{
   display: 'flex',
@@ -380,7 +380,7 @@ const PostPreview = ({
                     <div style={{
   borderRadius: '12px',
   padding: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -408,7 +408,7 @@ const PostPreview = ({
                   <div 
                     key={index}
                     style={{
-  border: '1px solid rgba(255, 255, 255, 0.1)',
+  border: '1px solid var(--border-subtle)',
   borderRadius: '12px',
   padding: '12px'
 }}

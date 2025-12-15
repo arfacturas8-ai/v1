@@ -108,7 +108,7 @@ const LiveTicker = ({ className = '', speed = 30 }) => {
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  border: '1px solid rgba(255, 255, 255, 0.1)'
+  border: '1px solid var(--border-subtle)'
 }}
           >
             {item.type === 'price' ? (

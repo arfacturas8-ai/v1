@@ -293,7 +293,7 @@ export const TabletDrawer = ({
     left: 0,
     width: '100vw',
     height: '100vh',
-    background: 'rgba(0, 0, 0, 0.5)',
+    background: 'var(--bg-tertiary)',
     zIndex: 'var(--z-modal-backdrop)',
     opacity: isOpen ? 1 : 0,
     visibility: isOpen ? 'visible' : 'hidden',
