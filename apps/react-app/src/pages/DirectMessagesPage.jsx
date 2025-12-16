@@ -112,11 +112,11 @@ const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) =>
           <div className="conversation-preview">
             <span className="last-message">
               {conversation.lastMessage.type === 'image' ? (
-                <><ImageIcon size={14} /> Image</>
+                <><ImageIcon size={24} /> Image</>
               ) : conversation.lastMessage.type === 'video' ? (
-                <><Video size={14} /> Video</>
+                <><Video size={24} /> Video</>
               ) : conversation.lastMessage.type === 'file' ? (
-                <><File size={14} /> File</>
+                <><File size={24} /> File</>
               ) : (
                 conversation.lastMessage.content
               )}
@@ -158,10 +158,10 @@ ConversationItem.propTypes = {
 // Memoized message component
 const Message = memo(({ message, isOwn, user }) => {
   const getMessageStatus = () => {
-    if (message.read) return <CheckCheck size={14} className="message-status read" />
-    if (message.delivered) return <CheckCheck size={14} className="message-status delivered" />
-    if (message.sent) return <Check size={14} className="message-status sent" />
-    return <Loader size={14} className="message-status sending" />
+    if (message.read) return <CheckCheck size={24} className="message-status read" />
+    if (message.delivered) return <CheckCheck size={24} className="message-status delivered" />
+    if (message.sent) return <Check size={24} className="message-status sent" />
+    return <Loader size={24} className="message-status sending" />
   }
 
   return (
@@ -292,13 +292,13 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
             className="modal-close-btn touch-target"
             aria-label="Close modal"
           >
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
 
         <div className="modal-body">
           <div className="search-input-wrapper">
-            <Search size={18} className="search-icon" />
+            <Search size={24} className="search-icon" />
             <input
               type="text"
               placeholder="Search users..."
@@ -722,7 +722,7 @@ function DirectMessagesPage() {
     return (
       <div className="dm-page">
         <div className="empty-state-container">
-          <AlertCircle size={64} />
+          <AlertCircle size={48} />
           <h2>Authentication Required</h2>
           <p>Please log in to access direct messages.</p>
         </div>
@@ -1606,12 +1606,12 @@ function DirectMessagesPage() {
               onClick={() => setShowNewConversation(true)}
               aria-label="Start new conversation"
             >
-              <Plus size={20} />
+              <Plus size={24} />
             </button>
           </div>
 
           <div className="search-container">
-            <Search size={18} className="search-icon" />
+            <Search size={24} className="search-icon" />
             <input
               type="text"
               placeholder="Search conversations..."
@@ -1651,7 +1651,7 @@ function DirectMessagesPage() {
                   onClick={handleBackToList}
                   aria-label="Back to conversations"
                 >
-                  <ArrowLeft size={20} />
+                  <ArrowLeft size={24} />
                 </button>
 
                 <div
@@ -1698,20 +1698,20 @@ function DirectMessagesPage() {
                   onClick={handleVoiceCall}
                   aria-label="Start voice call"
                 >
-                  <Phone size={20} />
+                  <Phone size={24} />
                 </button>
                 <button
                   className="action-btn touch-target"
                   onClick={handleVideoCall}
                   aria-label="Start video call"
                 >
-                  <Video size={20} />
+                  <Video size={24} />
                 </button>
                 <button
                   className="action-btn touch-target"
                   aria-label="More options"
                 >
-                  <MoreVertical size={20} />
+                  <MoreVertical size={24} />
                 </button>
               </div>
             </div>
@@ -1719,7 +1719,7 @@ function DirectMessagesPage() {
             <div className="messages-container" role="log" aria-label="Messages">
               {messagesLoading ? (
                 <div className="loading-container">
-                  <Loader size={32} className="spinner" />
+                  <Loader size={24} className="spinner" />
                   <p>Loading messages...</p>
                 </div>
               ) : messages.length > 0 ? (
@@ -1733,7 +1733,7 @@ function DirectMessagesPage() {
                 ))
               ) : (
                 <div className="empty-state-container">
-                  <MessageSquare size={64} />
+                  <MessageSquare size={48} />
                   <h2>Start the conversation!</h2>
                   <p>Send a message to {currentConversation.user.displayName}</p>
                 </div>
@@ -1755,7 +1755,7 @@ function DirectMessagesPage() {
                   ) : filePreview.type === 'video' ? (
                     <video src={filePreview.preview} controls className="file-preview-video" style={{maxWidth: '200px', maxHeight: '200px', borderRadius: '8px'}} />
                   ) : (
-                    <File size={32} />
+                    <File size={24} />
                   )}
                   <div className="file-preview-info">
                     <div className="file-preview-name">{filePreview.file.name}</div>
@@ -1768,14 +1768,14 @@ function DirectMessagesPage() {
                     onClick={handleFileCancel}
                     aria-label="Cancel file upload"
                   >
-                    <X size={20} />
+                    <X size={24} />
                   </button>
                   <button
                     className="send-btn touch-target"
                     onClick={handleFileSend}
                     aria-label="Send file"
                   >
-                    <Send size={20} />
+                    <Send size={24} />
                   </button>
                 </div>
               )}
@@ -1787,14 +1787,14 @@ function DirectMessagesPage() {
                     onClick={() => fileInputRef.current?.click()}
                     aria-label="Attach file"
                   >
-                    <Paperclip size={20} />
+                    <Paperclip size={24} />
                   </button>
                   <button
                     className="composer-btn touch-target"
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                     aria-label="Add emoji"
                   >
-                    <Smile size={20} />
+                    <Smile size={24} />
                   </button>
                 </div>
 
@@ -1814,7 +1814,7 @@ function DirectMessagesPage() {
                   disabled={!messageInput.trim()}
                   aria-label="Send message"
                 >
-                  <Send size={20} />
+                  <Send size={24} />
                 </button>
               </div>
 
