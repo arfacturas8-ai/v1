@@ -1,35 +1,123 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useResponsive } from '../hooks/useResponsive'
 
 export default function ForbiddenPage() {
   const navigate = useNavigate()
+  const { isMobile } = useResponsive()
 
   return (
-    <div style={{background: "var(--bg-primary)"}} className="min-h-screen flex items-center justify-center  px-3 sm:px-4" role="main" aria-label="Forbidden page">
-      <div style={{color: "var(--text-primary)"}} className="text-center  max-w-2xl">
-        <div className="text-[80px] sm:text-[120px] font-bold leading-none mb-5 sm:mb-6 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" aria-hidden="true">
+    <div
+      role="main"
+      aria-label="Forbidden page"
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingLeft: isMobile ? '12px' : '16px',
+        paddingRight: isMobile ? '12px' : '16px',
+        background: 'var(--bg-primary)'
+      }}
+    >
+      <div style={{
+        textAlign: 'center',
+        maxWidth: '800px',
+        color: 'var(--text-primary)'
+      }}>
+        <div
+          aria-hidden="true"
+          style={{
+            fontSize: isMobile ? '80px' : '120px',
+            fontWeight: 'bold',
+            lineHeight: '1',
+            marginBottom: isMobile ? '20px' : '24px',
+            background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            color: 'transparent'
+          }}
+        >
           403
         </div>
 
-        <h1 style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 ">
+        <h1 style={{
+          color: 'var(--text-primary)',
+          fontSize: isMobile ? '20px' : '24px',
+          fontWeight: '600',
+          marginBottom: isMobile ? '16px' : '24px'
+        }}>
           Access Forbidden
         </h1>
 
-        <p style={{color: "var(--text-primary)"}} className="text-base sm:text-lg  mb-6 sm:mb-8 leading-relaxed">
+        <p style={{
+          color: 'var(--text-primary)',
+          fontSize: isMobile ? '16px' : '18px',
+          marginBottom: isMobile ? '24px' : '32px',
+          lineHeight: '1.6'
+        }}>
           You don't have permission to access this page.
         </p>
 
-        <nav className="flex gap-4 justify-center flex-wrap" aria-label="Navigation">
+        <nav
+          aria-label="Navigation"
+          style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}
+        >
           <button
             onClick={() => navigate(-1)}
-            style={{color: "var(--text-primary)"}} className="px-6 sm:px-8 py-3 sm:py-3.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none rounded-xl font-semibold text-base  cursor-pointer transition-transform hover:scale-105"
+            style={{
+              paddingLeft: isMobile ? '24px' : '32px',
+              paddingRight: isMobile ? '24px' : '32px',
+              paddingTop: '12px',
+              paddingBottom: '12px',
+              height: '48px',
+              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              border: 'none',
+              borderRadius: '12px',
+              color: 'var(--text-inverse)',
+              fontSize: '16px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'transform 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             Go Back
           </button>
 
           <Link
             to="/"
-            style={{borderColor: "var(--border-subtle)"}} className="card card px-6 sm:px-8 py-3 sm:py-3.5 /60   text-[#58a6ff] border  rounded-2xl  no-underline font-semibold text-base transition-all inline-block hover: "
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingLeft: isMobile ? '24px' : '32px',
+              paddingRight: isMobile ? '24px' : '32px',
+              paddingTop: '12px',
+              paddingBottom: '12px',
+              height: '48px',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '12px',
+              color: '#58a6ff',
+              fontSize: '16px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = 'var(--bg-tertiary)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = 'var(--bg-secondary)'
+            }}
           >
             Go Home
           </Link>
@@ -38,4 +126,3 @@ export default function ForbiddenPage() {
     </div>
   )
 }
-
