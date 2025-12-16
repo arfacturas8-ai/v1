@@ -215,7 +215,7 @@ function EnhancedPost({
 }}
             style={{ backgroundColor: `${postType.color}15`, color: postType.color }}
           >
-            <PostTypeIcon size={14} />
+            <PostTypeIcon size={24} />
             {postType.label}
           </span>
 
@@ -230,7 +230,7 @@ function EnhancedPost({
                 onClick={() => setShowAnalyticsModal(true)}
                 aria-label="View analytics"
               >
-                <BarChart3 size={16} />
+                <BarChart3 size={24} />
               </IconButton>
             )}
 
@@ -239,7 +239,7 @@ function EnhancedPost({
               size="icon-sm"
               aria-label="More options"
             >
-              <MoreHorizontal size={16} />
+              <MoreHorizontal size={24} />
             </IconButton>
           </div>
         </div>
@@ -288,7 +288,7 @@ function EnhancedPost({
   alignItems: 'center',
   gap: '4px'
 }}>
-                <Eye size={12} />
+                <Eye size={24} />
                 {formatNumber(post.views)}
               </span>
             </div>
@@ -317,7 +317,7 @@ function EnhancedPost({
   paddingTop: '4px',
   paddingBottom: '4px'
 }}>
-                <Hash size={10} />
+                <Hash size={24} />
                 {tag}
               </span>
             ))}
@@ -381,7 +381,7 @@ function EnhancedPost({
               variant="ghost"
               size="sm"
               onClick={() => setShowComments(!showComments)}
-              leftIcon={<MessageSquare size={16} />}
+              leftIcon={<MessageSquare size={24} />}
               className={showComments ? 'text-primary' : ''}
             >
               {formatNumber(post.commentCount || 0)}
@@ -390,7 +390,7 @@ function EnhancedPost({
             <Button
               variant="ghost"
               size="sm"
-              leftIcon={<Share size={16} />}
+              leftIcon={<Share size={24} />}
             >
               Share
             </Button>
@@ -400,7 +400,7 @@ function EnhancedPost({
               size="icon-sm"
               aria-label="Bookmark"
             >
-              <Bookmark size={16} />
+              <Bookmark size={24} />
             </IconButton>
           </div>
 
@@ -416,7 +416,7 @@ function EnhancedPost({
   borderRadius: '50%',
   fontWeight: '500'
 }}>
-              <Award size={14} />
+              <Award size={24} />
               {post.rewards} CRYB
             </div>
           )}
@@ -528,7 +528,7 @@ function EnhancedPostsFeed({
       {/* Enhanced Feed Header */}
       <div className="feed-header">
         <div className="feed-title">
-          <Hash size={20} />
+          <Hash size={24} />
           <h2>Community Posts</h2>
         </div>
         
@@ -540,9 +540,9 @@ function EnhancedPostsFeed({
                 className={`sort-btn ${sortBy === option ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
                 onClick={() => setSortBy(option)}
               >
-                {option === 'hot' && <Flame size={14} />}
-                {option === 'new' && <Clock size={14} />}
-                {option === 'top' && <TrendingUp size={14} />}
+                {option === 'hot' && <Flame size={24} />}
+                {option === 'new' && <Clock size={24} />}
+                {option === 'top' && <TrendingUp size={24} />}
                 <span>{option.charAt(0).toUpperCase() + option.slice(1)}</span>
               </button>
             ))}
@@ -554,14 +554,14 @@ function EnhancedPostsFeed({
               onClick={() => setShowTrending(!showTrending)}
               title="Show Trending"
             >
-              <TrendingUp size={14} />
+              <TrendingUp size={24} />
             </button>
             
             <button
               className="create-post-btn"
               onClick={() => setShowCreateModal(true)}
             >
-              <Plus size={16} />
+              <Plus size={24} />
               <span>Create Post</span>
             </button>
           </div>

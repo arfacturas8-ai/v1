@@ -148,7 +148,7 @@ const CollectionCard: React.FC<CollectionCardProps> = ({
           fontWeight: typography.fontWeight.medium,
         }}
       >
-        {isPositive ? <TrendingUpIcon size={14} /> : <TrendingDownIcon size={14} />}
+        {isPositive ? <TrendingUpIcon size={24} /> : <TrendingDownIcon size={24} />}
         <span>{isPositive ? '+' : ''}{value.toFixed(2)}%</span>
       </div>
     );

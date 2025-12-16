@@ -273,7 +273,7 @@ const UserCard: React.FC<UserCardProps> = ({
                   variant="ghost"
                   size="sm"
                   iconOnly
-                  icon={<MessageIcon size={18} />}
+                  icon={<MessageIcon size={24} />}
                   onClick={(e) => {
                     e?.stopPropagation();
                     onMessage();
@@ -286,7 +286,7 @@ const UserCard: React.FC<UserCardProps> = ({
                   variant="ghost"
                   size="sm"
                   iconOnly
-                  icon={<MoreIcon size={18} />}
+                  icon={<MoreIcon size={24} />}
                   onClick={(e) => {
                     e?.stopPropagation();
                     onMore();

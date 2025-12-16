@@ -20,7 +20,7 @@ function AnalyticsCard({ title, value, subtitle, icon: Icon, trend, color, onCli
           style={{color: "var(--text-primary)"}} className="flex items-center justify-center w-9 h-9 rounded-lg "
           style={{ backgroundColor: color }}
         >
-          <Icon size={20} />
+          <Icon size={24} />
         </div>
         <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide">{title}</div>
       </div>
@@ -31,7 +31,7 @@ function AnalyticsCard({ title, value, subtitle, icon: Icon, trend, color, onCli
 
       {trend && (
         <div className={`flex items-center gap-1 text-[11px] font-semibold uppercase tracking-wide ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
-          {trend === 'up' ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+          {trend === 'up' ? <TrendingUp size={24} /> : <TrendingDown size={24} />}
           <span>{trend === 'up' ? 'Trending up' : 'Trending down'}</span>
         </div>
       )}
@@ -162,7 +162,7 @@ function TrendingContent({ contentType, onViewContent }) {
     <div className="trending-content">
       <div className="trending-header">
         <h3>
-          <Flame size={20} />
+          <Flame size={24} />
           Trending {contentType}
         </h3>
         
@@ -197,15 +197,15 @@ function TrendingContent({ contentType, onViewContent }) {
                 
                 <div className="trending-stats">
                   <div className="stat">
-                    <TrendingUp size={14} />
+                    <TrendingUp size={24} />
                     <span>{formatTrendScore(item.trend_score)} trend</span>
                   </div>
                   <div className="stat">
-                    <Activity size={14} />
+                    <Activity size={24} />
                     <span>{item.total_reactions} reactions</span>
                   </div>
                   <div className="stat">
-                    <Users size={14} />
+                    <Users size={24} />
                     <span>{item.total_unique_users} users</span>
                   </div>
                 </div>
@@ -215,7 +215,7 @@ function TrendingContent({ contentType, onViewContent }) {
                 className="view-content-btn"
                 onClick={() => onViewContent(item)}
               >
-                <ChevronRight size={16} />
+                <ChevronRight size={24} />
               </button>
             </div>
           ))}
@@ -269,7 +269,7 @@ function ReactionLeaderboard({ timeframe = '30d', limit = 10 }) {
     <div className="reaction-leaderboard">
       <div className="leaderboard-header">
         <h3>
-          <Award size={20} />
+          <Award size={24} />
           Top Reactors
         </h3>
         <span className="timeframe-label">{timeframe}</span>
@@ -315,7 +315,7 @@ function ReactionLeaderboard({ timeframe = '30d', limit = 10 }) {
               <div className="achievements">
                 {user.reaction_streak > 7 && (
                   <div className="achievement" title={`${user.reaction_streak} day streak`}>
-                    <Flame size={12} />
+                    <Flame size={24} />
                     <span>{user.reaction_streak}</span>
                   </div>
                 )}
@@ -428,7 +428,7 @@ function ReactionAnalytics({
                 className={`tab ${activeTab === tab.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
                 onClick={() => setActiveTab(tab.id)}
               >
-                <IconComponent size={16} />
+                <IconComponent size={24} />
                 <span>{tab.label}</span>
               </button>
             );

@@ -288,7 +288,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
           aria-label={`${liked ? 'Unlike' : 'Like'} NFT`}
           aria-pressed={liked}
         >
-          <HeartIcon filled={liked} size={16} />
+          <HeartIcon filled={liked} size={24} />
           {likeCount > 0 && <span>{formatNumber(likeCount)}</span>}
         </button>
 
@@ -310,7 +310,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
               color: colors.text.primary,
             }}
           >
-            <ClockIcon size={14} />
+            <ClockIcon size={24} />
             <span>Auction ends soon</span>
           </div>
         )}
@@ -350,7 +350,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
           >
             {collection.name}
           </span>
-          {collection.verified && <VerifiedIcon size={14} />}
+          {collection.verified && <VerifiedIcon size={24} />}
         </div>
 
         {/* NFT Name */}
@@ -451,7 +451,7 @@ const NFTCard: React.FC<NFTCardProps> = ({
                 >
                   {owner.name}
                 </span>
-                {owner.verified && <VerifiedIcon size={12} />}
+                {owner.verified && <VerifiedIcon size={24} />}
               </div>
             </div>
           </div>

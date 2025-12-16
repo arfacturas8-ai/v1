@@ -345,7 +345,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                   }}
                   aria-label="More options"
                 >
-                  <MoreIcon size={14} />
+                  <MoreIcon size={24} />
                 </button>
               )}
             </div>
@@ -394,7 +394,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                 aria-label={`${liked ? 'Unlike' : 'Like'} comment`}
                 aria-pressed={liked}
               >
-                <HeartIcon filled={liked} size={14} />
+                <HeartIcon filled={liked} size={24} />
                 {likeCount > 0 && <span>{formatNumber(likeCount)}</span>}
               </button>
 
@@ -426,7 +426,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                   }}
                   aria-label="Reply to comment"
                 >
-                  <ReplyIcon size={14} />
+                  <ReplyIcon size={24} />
                   <span>Reply</span>
                 </button>
               )}
@@ -466,7 +466,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                       alignItems: 'center',
                     }}
                   >
-                    <ChevronDownIcon size={14} />
+                    <ChevronDownIcon size={24} />
                   </div>
                   <span>
                     {showNestedReplies ? 'Hide' : 'Show'} {formatNumber(displayReplyCount)}{' '}

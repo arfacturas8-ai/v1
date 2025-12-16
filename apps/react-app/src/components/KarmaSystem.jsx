@@ -93,9 +93,9 @@ const KarmaSystem = ({ user, onClose }) => {
           </div>
           <div className="karma-change">
             {karmaData.weeklyKarma >= 0 ? (
-              <TrendingUp size={20} className="positive" />
+              <TrendingUp size={24} className="positive" />
             ) : (
-              <TrendingDown size={20} className="negative" />
+              <TrendingDown size={24} className="negative" />
             )}
             <span className={karmaData.weeklyKarma >= 0 ? 'positive' : 'negative'}>
               {karmaData.weeklyKarma >= 0 ? '+' : ''}{karmaData.weeklyKarma} this week
@@ -139,7 +139,7 @@ const KarmaSystem = ({ user, onClose }) => {
         <div className="breakdown-items">
           <div className="breakdown-item">
             <div className="item-header">
-              <MessageSquare size={18} />
+              <MessageSquare size={24} />
               <span>Posts</span>
             </div>
             <div className="item-bar">
@@ -153,7 +153,7 @@ const KarmaSystem = ({ user, onClose }) => {
 
           <div className="breakdown-item">
             <div className="item-header">
-              <MessageSquare size={18} />
+              <MessageSquare size={24} />
               <span>Comments</span>
             </div>
             <div className="item-bar">
@@ -167,7 +167,7 @@ const KarmaSystem = ({ user, onClose }) => {
 
           <div className="breakdown-item">
             <div className="item-header">
-              <Award size={18} />
+              <Award size={24} />
               <span>Awards</span>
             </div>
             <div className="item-bar">
@@ -181,7 +181,7 @@ const KarmaSystem = ({ user, onClose }) => {
 
           <div className="breakdown-item">
             <div className="item-header">
-              <Heart size={18} />
+              <Heart size={24} />
               <span>Helpfulness</span>
             </div>
             <div className="item-bar">
@@ -195,7 +195,7 @@ const KarmaSystem = ({ user, onClose }) => {
 
           <div className="breakdown-item">
             <div className="item-header">
-              <Activity size={18} />
+              <Activity size={24} />
               <span>Consistency</span>
             </div>
             <div className="item-bar">
@@ -213,25 +213,25 @@ const KarmaSystem = ({ user, onClose }) => {
         <h3>How to Earn Karma</h3>
         <div className="tips-grid">
           <div className="tip-card">
-            <MessageSquare size={20} />
+            <MessageSquare size={24} />
             <h4>Quality Content</h4>
             <p>Create helpful posts and thoughtful comments</p>
             <span className="karma-reward">+10-50 karma</span>
           </div>
           <div className="tip-card">
-            <Heart size={20} />
+            <Heart size={24} />
             <h4>Get Upvoted</h4>
             <p>Receive upvotes on your contributions</p>
             <span className="karma-reward">+1 karma each</span>
           </div>
           <div className="tip-card">
-            <Award size={20} />
+            <Award size={24} />
             <h4>Earn Awards</h4>
             <p>Receive awards from other users</p>
             <span className="karma-reward">+25-100 karma</span>
           </div>
           <div className="tip-card">
-            <Users size={20} />
+            <Users size={24} />
             <h4>Help Others</h4>
             <p>Answer questions and provide support</p>
             <span className="karma-reward">+5-20 karma</span>
@@ -279,15 +279,15 @@ const KarmaSystem = ({ user, onClose }) => {
           karmaData.history.map((item, index) => (
             <div key={index} className="history-item">
               <div className="history-icon">
-                {item.type === 'post' && <MessageSquare size={16} />}
-                {item.type === 'comment' && <MessageSquare size={16} />}
-                {item.type === 'award' && <Award size={16} />}
-                {item.type === 'upvote' && <Heart size={16} />}
+                {item.type === 'post' && <MessageSquare size={24} />}
+                {item.type === 'comment' && <MessageSquare size={24} />}
+                {item.type === 'award' && <Award size={24} />}
+                {item.type === 'upvote' && <Heart size={24} />}
               </div>
               <div className="history-details">
                 <p>{item.description}</p>
                 <span className="history-time">
-                  <Clock size={12} />
+                  <Clock size={24} />
                   {new Date(item.timestamp).toLocaleString()}
                 </span>
               </div>
@@ -298,7 +298,7 @@ const KarmaSystem = ({ user, onClose }) => {
           ))
         ) : (
           <div className="empty-history">
-            <Activity size={32} />
+            <Activity size={48} />
             <p>No recent karma activity</p>
           </div>
         )}
@@ -342,21 +342,21 @@ const KarmaSystem = ({ user, onClose }) => {
         <h4>Upcoming Milestones</h4>
         <div className="milestone-list">
           <div className="milestone-item">
-            <Trophy size={20} />
+            <Trophy size={24} />
             <div>
               <p>Reach 1,000 Karma</p>
               <span>250 karma away</span>
             </div>
           </div>
           <div className="milestone-item">
-            <Star size={20} />
+            <Star size={24} />
             <div>
               <p>Unlock Member Rank</p>
               <span>Next rank milestone</span>
             </div>
           </div>
           <div className="milestone-item">
-            <Flame size={20} />
+            <Flame size={24} />
             <div>
               <p>7 Day Streak</p>
               <span>3 days to go</span>
@@ -406,8 +406,8 @@ const KarmaSystem = ({ user, onClose }) => {
             </div>
             <div className="entry-karma">
               <span className="karma-amount">{entry.karma.toLocaleString()}</span>
-              {entry.change === 'up' && <ChevronUp size={16} className="change-up" />}
-              {entry.change === 'down' && <ChevronDown size={16} className="change-down" />}
+              {entry.change === 'up' && <ChevronUp size={24} className="change-up" />}
+              {entry.change === 'down' && <ChevronDown size={24} className="change-down" />}
             </div>
           </div>
         ))}
@@ -451,7 +451,7 @@ const KarmaSystem = ({ user, onClose }) => {
                 className={`karma-tab ${activeTab === tab.id ? 'bg-blue-600 text-white shadow-lg' : 'bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white'}`}
                 onClick={() => setActiveTab(tab.id)}
               >
-                <Icon size={18} />
+                <Icon size={24} />
                 <span>{tab.name}</span>
               </button>
             )

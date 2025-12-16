@@ -520,7 +520,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                   }}
                   aria-label="Reply to message"
                 >
-                  <ReplyIcon size={14} />
+                  <ReplyIcon size={24} />
                 </button>
               )}
               {onMore && (
@@ -544,7 +544,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
                   }}
                   aria-label="More options"
                 >
-                  <MoreIcon size={14} />
+                  <MoreIcon size={24} />
                 </button>
               )}
             </div>

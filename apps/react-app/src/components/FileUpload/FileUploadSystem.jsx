@@ -103,7 +103,7 @@ function FilePreview({ file, onRemove }) {
     <BentoCard color="dark" className="file-preview-card">
       <div className="file-preview-header">
         <div className="file-info">
-          <IconComponent size={20} className={`file-icon file-icon-${config.color}`} />
+          <IconComponent size={24} className={`file-icon file-icon-${config.color}`} />
           <div className="file-details">
             <span className="file-name">{file.name}</span>
             <span className="file-size">{formatFileSize(file.size)}</span>
@@ -111,7 +111,7 @@ function FilePreview({ file, onRemove }) {
         </div>
         
         <button onClick={() => onRemove(file)} className="remove-file-btn">
-          <X size={16} />
+          <X size={24} />
         </button>
       </div>
 
@@ -133,11 +133,11 @@ function FilePreview({ file, onRemove }) {
 
       <div className="file-preview-actions">
         <button className="file-action-btn">
-          <Eye size={14} />
+          <Eye size={24} />
           <span>Preview</span>
         </button>
         <button className="file-action-btn">
-          <Download size={14} />
+          <Download size={24} />
           <span>Download</span>
         </button>
       </div>
@@ -185,7 +185,7 @@ function UploadProgress({ files, onCancel, onComplete }) {
       <div className="upload-progress-header">
         <h3>Uploading {files.length} file{files.length > 1 ? 's' : ''}</h3>
         <button onClick={onCancel} className="cancel-upload-btn">
-          <X size={16} />
+          <X size={24} />
         </button>
       </div>
 
@@ -199,7 +199,7 @@ function UploadProgress({ files, onCancel, onComplete }) {
           return (
             <div key={file.name} className="upload-progress-item">
               <div className="upload-file-info">
-                <IconComponent size={16} className={`file-icon file-icon-${config.color}`} />
+                <IconComponent size={24} className={`file-icon file-icon-${config.color}`} />
                 <span className="upload-file-name">{file.name}</span>
                 <span className="upload-file-size">{formatFileSize(file.size)}</span>
               </div>
@@ -214,19 +214,19 @@ function UploadProgress({ files, onCancel, onComplete }) {
               <div className="upload-status">
                 {fileStatus === 'uploading' && (
                   <>
-                    <Loader size={14} className="spinner" />
+                    <Loader size={24} className="spinner" />
                     <span>{Math.round(fileProgress)}%</span>
                   </>
                 )}
                 {fileStatus === 'completed' && (
                   <>
-                    <Check size={14} className="success-icon" />
+                    <Check size={24} className="success-icon" />
                     <span>Done</span>
                   </>
                 )}
                 {fileStatus === 'error' && (
                   <>
-                    <AlertCircle size={14} className="error-icon" />
+                    <AlertCircle size={24} className="error-icon" />
                     <span>Failed</span>
                   </>
                 )}
@@ -352,14 +352,14 @@ function FileUpload({ onFilesUploaded, maxFiles = 10, className = '', compact = 
           className="upload-btn-compact"
           title="Upload Files"
         >
-          <Paperclip size={16} />
+          <Paperclip size={24} />
         </button>
         
         {files.length > 0 && (
           <div className="compact-file-count">
             <span>{files.length}</span>
             <button onClick={() => setFiles([])} className="clear-files-btn">
-              <X size={12} />
+              <X size={24} />
             </button>
           </div>
         )}
@@ -373,7 +373,7 @@ function FileUpload({ onFilesUploaded, maxFiles = 10, className = '', compact = 
       {errors.length > 0 && (
         <BentoCard color="red" className="upload-errors">
           <div className="error-header">
-            <AlertCircle size={16} />
+            <AlertCircle size={24} />
             <span>Upload Errors</span>
           </div>
           <ul className="error-list">
@@ -407,19 +407,19 @@ function FileUpload({ onFilesUploaded, maxFiles = 10, className = '', compact = 
           
           <div className="quick-upload-buttons">
             <button className="quick-upload-btn" title="Upload Images">
-              <Camera size={16} />
+              <Camera size={24} />
               <span>Photos</span>
             </button>
             <button className="quick-upload-btn" title="Upload Videos">
-              <Film size={16} />
+              <Film size={24} />
               <span>Videos</span>
             </button>
             <button className="quick-upload-btn" title="Upload Audio">
-              <Mic size={16} />
+              <Mic size={24} />
               <span>Audio</span>
             </button>
             <button className="quick-upload-btn" title="Upload Files">
-              <File size={16} />
+              <File size={24} />
               <span>Files</span>
             </button>
           </div>
@@ -433,11 +433,11 @@ function FileUpload({ onFilesUploaded, maxFiles = 10, className = '', compact = 
             <h4>{files.length} file{files.length > 1 ? 's' : ''} selected</h4>
             <div className="file-actions">
               <button onClick={() => setFiles([])} className="clear-all-btn">
-                <Trash2 size={14} />
+                <Trash2 size={24} />
                 <span>Clear All</span>
               </button>
               <button onClick={startUpload} className="upload-all-btn">
-                <Upload size={14} />
+                <Upload size={24} />
                 <span>Upload All</span>
               </button>
             </div>
@@ -462,10 +462,10 @@ function FileAttachment({ attachment, compact = false }) {
   if (compact) {
     return (
       <BentoCard color="dark" size="tiny" className="file-attachment-compact">
-        <IconComponent size={14} className={`file-icon file-icon-${config.color}`} />
+        <IconComponent size={24} className={`file-icon file-icon-${config.color}`} />
         <span className="attachment-name">{attachment.name}</span>
         <button className="download-attachment-btn">
-          <Download size={12} />
+          <Download size={24} />
         </button>
       </BentoCard>
     )
@@ -475,7 +475,7 @@ function FileAttachment({ attachment, compact = false }) {
     <BentoCard color="dark" className="file-attachment">
       <div className="attachment-header">
         <div className="attachment-info">
-          <IconComponent size={20} className={`file-icon file-icon-${config.color}`} />
+          <IconComponent size={24} className={`file-icon file-icon-${config.color}`} />
           <div className="attachment-details">
             <span className="attachment-name">{attachment.name}</span>
             <span className="attachment-size">{formatFileSize(attachment.size || 0)}</span>
@@ -484,10 +484,10 @@ function FileAttachment({ attachment, compact = false }) {
         
         <div className="attachment-actions">
           <button className="attachment-action-btn">
-            <Eye size={14} />
+            <Eye size={24} />
           </button>
           <button className="attachment-action-btn">
-            <Download size={14} />
+            <Download size={24} />
           </button>
         </div>
       </div>

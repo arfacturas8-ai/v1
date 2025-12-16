@@ -109,7 +109,7 @@ function CallQualityIndicator({
 }}
         title={`${qualityInfo.label} - ${qualityInfo.description}`}
       >
-        <IconComponent size={14} className={qualityInfo.color} />
+        <IconComponent size={24} className={qualityInfo.color} />
         <span style={{
   fontWeight: '500'
 }}>
@@ -138,7 +138,7 @@ function CallQualityIndicator({
         title="Click for detailed network stats"
       >
         <IconComponent 
-          size={16} 
+          size={24} 
           className={`${qualityInfo.color} ${connectionQuality === 'disconnected' ? '' : ''}`} 
         />
         <div style={{

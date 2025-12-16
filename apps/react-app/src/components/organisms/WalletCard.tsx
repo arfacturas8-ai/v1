@@ -244,7 +244,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
             color: colors.text.secondary,
           }}
         >
-          <WalletIcon size={32} />
+          <WalletIcon size={48} />
         </div>
         <h3
           style={{
@@ -382,7 +382,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
               }}
               aria-label="Copy address"
             >
-              {copied ? <CheckIcon size={14} /> : <CopyIcon size={14} />}
+              {copied ? <CheckIcon size={24} /> : <CopyIcon size={24} />}
             </button>
           </div>
         </div>
@@ -421,7 +421,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
                 alignItems: 'center',
               }}
             >
-              <RefreshIcon size={16} />
+              <RefreshIcon size={24} />
             </div>
           </button>
         )}
@@ -545,7 +545,7 @@ const WalletCard: React.FC<WalletCardProps> = ({
             <Button
               variant="ghost"
               size={isCompact ? 'sm' : 'md'}
-              icon={<DisconnectIcon size={16} />}
+              icon={<DisconnectIcon size={24} />}
               iconOnly={!onViewDetails}
               onClick={onDisconnect}
               aria-label="Disconnect wallet"

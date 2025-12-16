@@ -64,7 +64,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
       >
         <div className="flex items-center gap-3 p-4">
           <div className="w-10 h-10 rounded-full bg-[#5865f2] flex items-center justify-center relative">
-            <Volume2 size={20} style={{color: "var(--text-primary)"}} className="" />
+            <Volume2 size={24} style={{color: "var(--text-primary)"}} className="" />
           </div>
 
           <div className="flex-1 flex flex-col gap-0.5">
@@ -84,7 +84,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
               }}
               className={`w-9 h-9 rounded-full border-none text-base cursor-pointer transition-all duration-200 flex items-center justify-center ${isMuted ? 'bg-[#ff4757]/80' : 'bg-white/10'} text-white`}
             >
-              {isMuted ? <MicOff size={16} /> : <Mic size={16} />}
+              {isMuted ? <MicOff size={24} /> : <Mic size={24} />}
             </button>
           </div>
         </div>
@@ -103,12 +103,12 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
           <div className="flex items-center gap-2">
             <div className={`w-4 h-4 rounded-full relative ${getConnectionClass()}`}></div>
             {isConnected ? (
-              <Wifi size={16} style={{color: "var(--text-primary)"}} className="/60" />
+              <Wifi size={24} style={{color: "var(--text-primary)"}} className="/60" />
             ) : (
-              <WifiOff size={16} className="text-[#ff4757]" />
+              <WifiOff size={24} className="text-[#ff4757]" />
             )}
             {batteryOptimized && (
-              <Battery size={14} className="text-[#f39c12]" />
+              <Battery size={24} className="text-[#f39c12]" />
             )}
           </div>
         </div>
@@ -118,13 +118,13 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
             onClick={handleMinimize}
             style={{color: "var(--text-primary)"}} className="w-9 h-9 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center hover:bg-white/20"
           >
-            <Minimize2 size={18} />
+            <Minimize2 size={24} />
           </button>
           <button
             onClick={handleClose}
             style={{color: "var(--text-primary)"}} className="w-9 h-9 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center hover:bg-[#ff4757]/80"
           >
-            <X size={18} />
+            <X size={24} />
           </button>
         </div>
       </div>
@@ -156,10 +156,10 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
                 </div>
                 <div className="flex justify-center gap-1">
                   {participant.isMuted && (
-                    <MicOff size={12} className="text-[#ff4757] opacity-80" />
+                    <MicOff size={24} className="text-[#ff4757] opacity-80" />
                   )}
                   {participant.isDeafened && (
-                    <VolumeX size={12} className="text-[#f39c12] opacity-80" />
+                    <VolumeX size={24} className="text-[#f39c12] opacity-80" />
                   )}
                 </div>
               </div>

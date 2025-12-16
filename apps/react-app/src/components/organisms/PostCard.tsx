@@ -513,7 +513,7 @@ const PostCard: React.FC<PostCardProps> = ({
           aria-label={`${liked ? 'Unlike' : 'Like'} post`}
           aria-pressed={liked}
         >
-          <HeartIcon filled={liked} size={20} />
+          <HeartIcon filled={liked} size={24} />
           {likeCount > 0 && <span>{formatNumber(likeCount)}</span>}
         </button>
 
@@ -544,7 +544,7 @@ const PostCard: React.FC<PostCardProps> = ({
           }}
           aria-label="Comment on post"
         >
-          <CommentIcon size={20} />
+          <CommentIcon size={24} />
           {comments > 0 && <span>{formatNumber(comments)}</span>}
         </button>
 
@@ -575,7 +575,7 @@ const PostCard: React.FC<PostCardProps> = ({
           }}
           aria-label="Share post"
         >
-          <ShareIcon size={20} />
+          <ShareIcon size={24} />
           {shares > 0 && <span>{formatNumber(shares)}</span>}
         </button>
 
@@ -610,7 +610,7 @@ const PostCard: React.FC<PostCardProps> = ({
           aria-label={`${bookmarked ? 'Remove bookmark' : 'Bookmark'} post`}
           aria-pressed={bookmarked}
         >
-          <BookmarkIcon filled={bookmarked} size={20} />
+          <BookmarkIcon filled={bookmarked} size={24} />
         </button>
       </div>
 

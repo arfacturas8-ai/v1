@@ -173,7 +173,7 @@ function CreatePostModal({ isOpen, onClose, onCreatePost, channelId }) {
 }}
                     style={isSelected ? { backgroundColor: type.color } : {}}
                   >
-                    <IconComponent size={16} />
+                    <IconComponent size={24} />
                     {type.label}
                   </Button>
                 )
@@ -274,7 +274,7 @@ function CreatePostModal({ isOpen, onClose, onCreatePost, channelId }) {
   paddingBottom: '4px',
   borderRadius: '50%'
 }}>
-                    <Hash size={12} />
+                    <Hash size={24} />
                     {tag}
                     <button type="button" onClick={() => removeTag(tag)} className="ml-1 text-primary hover:text-primary-hover">×</button>
                   </span>
@@ -445,7 +445,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
 }}
             style={{ backgroundColor: `${postType.color}15`, color: postType.color }}
           >
-            <PostTypeIcon size={14} />
+            <PostTypeIcon size={24} />
             {postType.label}
           </span>
 
@@ -454,7 +454,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
             size="icon-sm"
             aria-label="More options"
           >
-            <MoreHorizontal size={16} />
+            <MoreHorizontal size={24} />
           </IconButton>
         </div>
 
@@ -502,7 +502,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
   alignItems: 'center',
   gap: '4px'
 }}>
-                <Eye size={12} />
+                <Eye size={24} />
                 {formatNumber(post.views)}
               </span>
             </div>
@@ -531,7 +531,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
   paddingTop: '4px',
   paddingBottom: '4px'
 }}>
-                <Hash size={10} />
+                <Hash size={24} />
                 {tag}
               </span>
             ))}
@@ -597,7 +597,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
               variant="ghost"
               size="sm"
               onClick={() => setShowComments(!showComments)}
-              leftIcon={<MessageSquare size={16} />}
+              leftIcon={<MessageSquare size={24} />}
             >
               {formatNumber(post.commentCount || 0)}
             </Button>
@@ -605,7 +605,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
             <Button
               variant="ghost"
               size="sm"
-              leftIcon={<Share size={16} />}
+              leftIcon={<Share size={24} />}
             >
               Share
             </Button>
@@ -615,7 +615,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
               size="icon-sm"
               aria-label="Bookmark"
             >
-              <Bookmark size={16} />
+              <Bookmark size={24} />
             </IconButton>
           </div>
 
@@ -631,7 +631,7 @@ function Post({ post, onReaction, onComment, onReply, onEditComment, onDeleteCom
   borderRadius: '50%',
   fontWeight: '500'
 }}>
-              <Award size={14} />
+              <Award size={24} />
               {post.rewards} CRYB
             </div>
           )}
@@ -711,7 +711,7 @@ function PostsFeed({ channelId, posts, onCreatePost, onReaction, onComment, onRe
   alignItems: 'center',
   justifyContent: 'center'
 }}>
-                <Hash size={20} />
+                <Hash size={24} />
               </div>
               <CardTitle className="text-2xl">Community Posts</CardTitle>
             </div>
@@ -719,7 +719,7 @@ function PostsFeed({ channelId, posts, onCreatePost, onReaction, onComment, onRe
             <Button
               variant="primary"
               onClick={() => setShowCreateModal(true)}
-              leftIcon={<MessageSquare size={16} />}
+              leftIcon={<MessageSquare size={24} />}
               className="shadow-lg hover:shadow-xl"
             >
               Create Post
@@ -738,9 +738,9 @@ function PostsFeed({ channelId, posts, onCreatePost, onReaction, onComment, onRe
                 size="sm"
                 onClick={() => setSortBy(option)}
                 leftIcon={
-                  option === 'hot' ? <Flame size={14} /> :
-                  option === 'new' ? <Clock size={14} /> :
-                  <TrendingUp size={14} />
+                  option === 'hot' ? <Flame size={24} /> :
+                  option === 'new' ? <Clock size={24} /> :
+                  <TrendingUp size={24} />
                 }
               >
                 {option.charAt(0).toUpperCase() + option.slice(1)}

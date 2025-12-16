@@ -500,7 +500,7 @@ const TransactionItem: React.FC<TransactionItemProps> = ({
                         }}
                         aria-label="View on block explorer"
                       >
-                        <ExternalLinkIcon size={12} />
+                        <ExternalLinkIcon size={24} />
                       </a>
                     )}
                   </div>

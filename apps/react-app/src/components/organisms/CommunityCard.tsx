@@ -255,7 +255,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
                 fontWeight: typography.fontWeight.semibold,
               }}
             >
-              <TrendingIcon size={12} />
+              <TrendingIcon size={24} />
               <span>Trending</span>
             </div>
           )}
@@ -319,7 +319,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
               variant="ghost"
               size="sm"
               iconOnly
-              icon={<MessageIcon size={16} />}
+              icon={<MessageIcon size={24} />}
               onClick={(e) => {
                 e?.stopPropagation();
                 onMessage();
@@ -356,7 +356,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
                   borderRadius: radii.full,
                 }}
               >
-                <LockIcon size={10} />
+                <LockIcon size={24} />
                 <span>Private</span>
               </div>
             )}
@@ -415,7 +415,7 @@ const CommunityCard: React.FC<CommunityCardProps> = ({
           >
             {/* Members */}
             <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2] }}>
-              <UsersIcon size={14} />
+              <UsersIcon size={24} />
               <div>
                 <div
                   style={{

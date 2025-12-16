@@ -469,7 +469,7 @@ const NotificationItem: React.FC<NotificationItemProps> = ({
             }}
             aria-label="Dismiss notification"
           >
-            <CloseIcon size={14} />
+            <CloseIcon size={24} />
           </button>
         )}
       </div>

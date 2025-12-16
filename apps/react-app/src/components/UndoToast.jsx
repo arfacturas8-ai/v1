@@ -67,7 +67,7 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
 
       <div className="p-4 pt-5 flex items-center gap-3">
         <div className={`flex-shrink-0 w-10 h-10 rounded-lg bg-gradient-to-r ${colorClass} flex items-center justify-center`}>
-          <Icon size={20} style={{color: "var(--text-primary)"}} className="" />
+          <Icon size={24} style={{color: "var(--text-primary)"}} className="" />
         </div>
 
         <p className="flex-1 text-sm sm:text-base font-medium" style={{ color: 'var(--text-primary)' }}>{message}</p>
@@ -78,7 +78,7 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
             className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors min-h-[36px] hover:bg-[#F8F9FA]"
             style={{ background: 'var(--bg-secondary)', color: 'var(--text-primary)' }}
           >
-            <RotateCcw size={14} />
+            <RotateCcw size={24} />
             Undo
           </button>
         )}
@@ -88,7 +88,7 @@ const UndoToast = ({ message, onUndo, duration = 5000, type = 'success', onDismi
           className="flex-shrink-0 p-1.5 rounded-lg transition-colors min-h-[36px] min-w-[36px] hover:bg-[#F8F9FA]"
           style={{ color: 'var(--text-secondary)' }}
         >
-          <X size={18} />
+          <X size={24} />
         </button>
       </div>
     </div>

@@ -149,7 +149,7 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-3 flex justify-between items-end opacity-0 hover:opacity-100 transition-opacity duration-300">
                 <div className="flex items-center gap-2">
                   <span style={{color: "var(--text-primary)"}} className="text-sm font-semibold  drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">You</span>
-                  {isMuted && <MicOff size={12} className="text-[#ff4757]" />}
+                  {isMuted && <MicOff size={24} className="text-[#ff4757]" />}
                 </div>
               </div>
             </div>
@@ -173,7 +173,7 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent px-3 py-3 flex justify-between items-end opacity-0 hover:opacity-100 transition-opacity duration-300">
                   <div className="flex items-center gap-2">
                     <span style={{color: "var(--text-primary)"}} className="text-sm font-semibold  drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">{participant.name}</span>
-                    {!participant.audioEnabled && <MicOff size={12} className="text-[#ff4757]" />}
+                    {!participant.audioEnabled && <MicOff size={24} className="text-[#ff4757]" />}
                   </div>
                 </div>
               </div>
@@ -238,21 +238,21 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
               onClick={switchCamera}
               style={{color: "var(--text-primary)"}} className="w-11 h-11 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
             >
-              <RotateCw size={18} />
+              <RotateCw size={24} />
             </button>
 
             <button
               onClick={() => setLayout(layout === 'grid' ? 'speaker' : 'grid')}
               style={{color: "var(--text-primary)"}} className="w-11 h-11 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
             >
-              <Grid3x3 size={18} />
+              <Grid3x3 size={24} />
             </button>
 
             <button
               onClick={() => setIsPipMode(!isPipMode)}
               style={{color: "var(--text-primary)"}} className="w-11 h-11 border-none rounded-full bg-white/10  cursor-pointer transition-all duration-200 flex items-center justify-center text-lg active:scale-95 hover:scale-105 hover:bg-white/20"
             >
-              <Maximize2 size={18} />
+              <Maximize2 size={24} />
             </button>
           </div>
         </div>

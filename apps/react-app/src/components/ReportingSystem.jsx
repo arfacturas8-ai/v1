@@ -185,11 +185,11 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
       <div className="report-container">
         <div className="report-header">
           <div className="header-title">
-            <Flag size={20} />
+            <Flag size={24} />
             <h2>Report {contentType}</h2>
           </div>
           <button className="close-btn" onClick={onClose}>
-            <X size={20} />
+            <X size={24} />
           </button>
         </div>
 
@@ -201,7 +201,7 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
             <div className="preview-content">
               {contentData.author && (
                 <div className="preview-author">
-                  <User size={14} />
+                  <User size={24} />
                   <span>{contentData.author}</span>
                 </div>
               )}
@@ -214,7 +214,7 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
               )}
               {contentData.image && (
                 <div className="preview-image">
-                  <Image size={14} />
+                  <Image size={24} />
                   <span>Contains image</span>
                 </div>
               )}
@@ -244,7 +244,7 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
                     >
                       <div className="category-left">
                         <div className="category-icon">
-                          <Icon size={20} />
+                          <Icon size={24} />
                         </div>
                         <div className="category-info">
                           <span className="category-label">{category.label}</span>
@@ -252,7 +252,7 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
                         </div>
                       </div>
                       <div className="category-arrow">
-                        {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                        {isExpanded ? <ChevronDown size={24} /> : <ChevronRight size={24} />}
                       </div>
                     </button>
                     
@@ -266,7 +266,7 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
                             onClick={() => handleReasonSelect(reason)}
                           >
                             <span className="reason-checkbox">
-                              {reportReason === reason && <Check size={14} />}
+                              {reportReason === reason && <Check size={24} />}
                             </span>
                             <span className="reason-text">{reason}</span>
                           </button>
@@ -306,14 +306,14 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
               <div className="attachments-list">
                 {attachments.map((attachment, index) => (
                   <div key={index} className="attachment-item">
-                    <FileText size={16} />
+                    <FileText size={24} />
                     <span className="attachment-name">{attachment.name}</span>
                     <button
                       type="button"
                       className="remove-attachment"
                       onClick={() => removeAttachment(index)}
                     >
-                      <X size={14} />
+                      <X size={24} />
                     </button>
                   </div>
                 ))}
@@ -329,14 +329,14 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
                   onChange={handleFileUpload}
                   style={{ display: 'none' }}
                 />
-                <Link size={16} />
+                <Link size={24} />
                 <span>Add screenshot or evidence</span>
               </label>
             )}
           </div>
 
           <div className="report-notice">
-            <Info size={16} />
+            <Info size={24} />
             <p>
               False reports may result in action being taken against your account.
               Please ensure your report is accurate and in good faith.
@@ -364,7 +364,7 @@ const ReportingSystem = ({ contentType, contentId, contentData, onClose, onSubmi
                 </>
               ) : (
                 <>
-                  <Send size={16} />
+                  <Send size={24} />
                   Submit Report
                 </>
               )}
