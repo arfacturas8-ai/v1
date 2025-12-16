@@ -27,11 +27,11 @@ function ServersPage() {
   const [message, setMessage] = useState('')
 
   const categories = [
-    { id: 'all', label: 'All Servers', icon: <Globe className="h-4 w-4" /> },
-    { id: 'tech', label: 'Technology', icon: <Hash className="h-4 w-4" /> },
-    { id: 'gaming', label: 'Gaming', icon: <Volume2 className="h-4 w-4" /> },
-    { id: 'crypto', label: 'Crypto', icon: <TrendingUp className="h-4 w-4" /> },
-    { id: 'community', label: 'Community', icon: <Users className="h-4 w-4" /> }
+    { id: 'all', label: 'All Servers', icon: <Globe style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+    { id: 'tech', label: 'Technology', icon: <Hash style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+    { id: 'gaming', label: 'Gaming', icon: <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+    { id: 'crypto', label: 'Crypto', icon: <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+    { id: 'community', label: 'Community', icon: <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} /> }
   ]
 
   useEffect(() => {
