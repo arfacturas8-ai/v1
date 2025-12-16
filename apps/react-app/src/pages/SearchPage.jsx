@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
+import { Search, Users, FileText, Hash } from 'lucide-react'
 import communityService from '../services/communityService'
 import postsService from '../services/postsService'
 import userService from '../services/userService'
@@ -14,7 +15,6 @@ import { useToast } from '../contexts/ToastContext'
 import { SkeletonPost, SkeletonCard } from '../components/ui/SkeletonLoader'
 import { EmptySearch } from '../components/ui/EmptyState'
 import { SearchHighlight } from '../components/ui'
-import { useResponsive } from '../hooks/useResponsive'
 
 // Debounce hook for search input
 const useDebounce = (value, delay) => {
@@ -34,18 +34,6 @@ const useDebounce = (value, delay) => {
 }
 
 function SearchPage() {
-  const { isMobile, isTablet, spacing, fontSize, padding, containerMaxWidth } = useResponsive()
-
-  const compactSpacing = {
-    formGap: isMobile ? 16 : isTablet ? 14 : 12,
-    headerMargin: isMobile ? 20 : isTablet ? 18 : 16,
-    logoMargin: isMobile ? 12 : isTablet ? 10 : 8,
-    labelMargin: isMobile ? 8 : 6,
-    inputPadding: isMobile ? 12 : 10,
-    dividerMargin: isMobile ? 20 : isTablet ? 18 : 14,
-    cardPadding: isMobile ? 20 : isTablet ? 24 : 20,
-    sectionGap: isMobile ? 16 : isTablet ? 14 : 12
-  }
   const location = useLocation()
   const navigate = useNavigate()
   const { showSuccess, showError } = useToast()
@@ -63,6 +51,15 @@ function SearchPage() {
 
   // Cache for search results to avoid duplicate requests
   const searchCacheRef = useRef(new Map())
+
+  // Responsive breakpoints
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
+  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
+
+  // Standard responsive values
+  const pagePadding = isDesktop ? '80px' : isTablet ? '24px' : '16px'
+  const headerPaddingTop = isDesktop || isTablet ? '72px' : '56px'
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
@@ -384,12 +381,21 @@ function SearchPage() {
   }, [results?.users, navigate, showError])
 
   // Memoize tabs with counts
-  const tabs = useMemo(() => [
-    { id: 'all', label: 'All', count: (results?.communities?.length || 0) + (results?.posts?.length || 0) + (results?.users?.length || 0) },
-    { id: 'communities', label: 'Communities', count: results?.communities?.length || 0 },
-    { id: 'posts', label: 'Posts', count: results?.posts?.length || 0 },
-    { id: 'users', label: 'Users', count: results?.users?.length || 0 }
-  ], [results])
+  const tabs = useMemo(() => {
+    const iconMap = {
+      all: Hash,
+      communities: Hash,
+      posts: FileText,
+      users: Users
+    }
+
+    return [
+      { id: 'all', label: 'All', icon: iconMap.all, count: (results?.communities?.length || 0) + (results?.posts?.length || 0) + (results?.users?.length || 0) },
+      { id: 'communities', label: 'Communities', icon: iconMap.communities, count: results?.communities?.length || 0 },
+      { id: 'posts', label: 'Posts', icon: iconMap.posts, count: results?.posts?.length || 0 },
+      { id: 'users', label: 'Users', icon: iconMap.users, count: results?.users?.length || 0 }
+    ]
+  }, [results])
 
   // Memoize total result count
   const totalResults = useMemo(() =>
@@ -425,12 +431,12 @@ function SearchPage() {
           }
 
           input[type="text"]::placeholder {
-            color: #666666;
+            color: var(--text-tertiary);
             opacity: 1;
           }
 
           input[type="text"]:focus::placeholder {
-            color: #6e7681;
+            color: var(--text-muted);
           }
         `}
       </style>
@@ -438,297 +444,326 @@ function SearchPage() {
         role="main"
         aria-label="Search page"
         style={{
-          padding: isMobile ? '12px' : '20px',
+          paddingTop: headerPaddingTop,
+          paddingLeft: pagePadding,
+          paddingRight: pagePadding,
+          paddingBottom: '48px',
           maxWidth: '1200px',
           margin: '0 auto',
           minHeight: '100vh',
           backgroundColor: 'var(--bg-primary)'
         }}
       >
-      {/* Search Header */}
-      <div style={{ marginBottom: `${spacing.xl}px` }}>
-        <h1 style={{
-          fontSize: `${fontSize['3xl']}px`,
-          fontWeight: 'bold',
-          marginBottom: `${spacing.md}px`,
-          background: 'linear-gradient(to right, #58a6ff, #a371f7)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text'
-        }}>
-          Search
-        </h1>
+        {/* Search Header */}
+        <div style={{ marginBottom: '48px' }}>
+          <h1 style={{
+            fontSize: isMobile ? '28px' : '32px',
+            fontWeight: 'bold',
+            marginBottom: '24px',
+            background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            color: 'var(--text-primary)'
+          }}>
+            Search
+          </h1>
 
-        {/* Search Input */}
-        <div style={{ position: 'relative', marginBottom: `${spacing.lg}px` }}>
-          {/* Search Icon */}
-          <svg
-            style={{
-              position: 'absolute',
-              left: '16px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              width: '20px',
-              height: '20px',
-              color: '#666666',
-              pointerEvents: 'none'
-            }}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search for communities, posts, or users..."
-            aria-label="Search input"
-            style={{
-              width: '100%',
-              padding: isMobile ? '10px 12px 10px 44px' : '12px 16px 12px 48px',
-              fontSize: `${fontSize.base}px`,
-              border: '1px solid var(--border-subtle)',
-              borderRadius: '12px',
-              backgroundColor: 'var(--bg-primary)',
-              color: '#ffffff',
-              outline: 'none',
-              transition: 'all 0.2s ease'
-            }}
-            onFocus={(e) => {
-              e.target.style.borderColor = 'rgba(88, 166, 255, 0.3)'
-              e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
-            }}
-            onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-              e.target.style.boxShadow = 'none'
-            }}
-          />
-        </div>
-
-        {/* Tabs */}
-        <div style={{
-          display: 'flex',
-          gap: isMobile ? '4px' : '8px',
-          borderBottom: '1px solid var(--border-subtle)',
-          marginBottom: `${spacing.lg}px`
-        }}>
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              onClick={() => handleTabChange(tab.id)}
-              aria-label={`${tab.label} tab`}
-              aria-selected={activeTab === tab.id}
-              className="touch-target"
+          {/* Search Input */}
+          <div style={{ position: 'relative', marginBottom: '32px' }}>
+            {/* Search Icon */}
+            <div
+              className="absolute flex items-center justify-center"
               style={{
-                padding: isMobile ? '10px 12px' : '12px 16px',
-                fontSize: `${fontSize.sm}px`,
-                fontWeight: activeTab === tab.id ? '600' : '400',
-                color: activeTab === tab.id ? '#58a6ff' : '#666666',
-                backgroundColor: 'transparent',
-                border: 'none',
-                borderBottom: activeTab === tab.id ? '2px solid #58a6ff' : '2px solid transparent',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease'
-              }}
-              onMouseEnter={(e) => {
-                if (activeTab !== tab.id) {
-                  e.target.style.color = '#A0A0A0'
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== tab.id) {
-                  e.target.style.color = '#666666'
-                }
+                left: '16px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '24px',
+                height: '24px',
+                flexShrink: 0,
+                pointerEvents: 'none'
               }}
             >
-              {tab.label}
-              {tab.count > 0 && (
-                <span style={{
-                  marginLeft: '8px',
-                  padding: '2px 8px',
-                  fontSize: '12px',
-                  borderRadius: '12px',
-                  background: activeTab === tab.id ? 'linear-gradient(to right, #58a6ff, #a371f7)' : 'rgba(255, 255, 255, 0.1)',
-                  color: '#ffffff'
-                }}>
-                  {tab.count}
-                </span>
+              <Search
+                size={24}
+                strokeWidth={2}
+                style={{ color: 'var(--text-tertiary)' }}
+                aria-hidden="true"
+              />
+            </div>
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search for communities, posts, or users..."
+              aria-label="Search input"
+              className="w-full outline-none transition-all"
+              style={{
+                height: '48px',
+                paddingLeft: '48px',
+                paddingRight: '16px',
+                fontSize: '16px',
+                lineHeight: '1.5',
+                border: '1px solid var(--border-primary)',
+                borderRadius: '12px',
+                backgroundColor: 'var(--bg-secondary)',
+                color: 'var(--text-primary)'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'rgba(88, 166, 255, 0.5)'
+                e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--border-primary)'
+                e.target.style.boxShadow = 'none'
+              }}
+            />
+          </div>
+
+          {/* Tabs */}
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            flexWrap: 'wrap',
+            borderBottom: '1px solid var(--border-primary)',
+            marginBottom: '32px',
+            paddingBottom: '8px'
+          }}>
+            {tabs.map(tab => {
+              const isActive = activeTab === tab.id
+              const Icon = tab.icon
+
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  aria-label={`${tab.label} tab`}
+                  aria-selected={isActive}
+                  className="touch-target flex items-center transition-all"
+                  style={{
+                    gap: '8px',
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                    height: '48px',
+                    fontSize: '14px',
+                    fontWeight: isActive ? '600' : '500',
+                    color: isActive ? 'var(--text-inverse)' : 'var(--text-secondary)',
+                    backgroundColor: isActive ? 'transparent' : 'transparent',
+                    background: isActive ? 'linear-gradient(to right, #58a6ff, #a371f7)' : 'transparent',
+                    border: 'none',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isActive) {
+                      e.target.style.backgroundColor = 'var(--bg-secondary)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isActive) {
+                      e.target.style.backgroundColor = 'transparent'
+                    }
+                  }}
+                >
+                  <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Icon size={24} strokeWidth={2} aria-hidden="true" />
+                  </div>
+                  {tab.label}
+                  {tab.count > 0 && (
+                    <span style={{
+                      paddingLeft: '8px',
+                      paddingRight: '8px',
+                      paddingTop: '4px',
+                      paddingBottom: '4px',
+                      fontSize: '12px',
+                      borderRadius: '12px',
+                      background: isActive ? 'rgba(255, 255, 255, 0.2)' : 'var(--bg-secondary)',
+                      color: isActive ? 'var(--text-inverse)' : 'var(--text-secondary)',
+                      fontWeight: '600'
+                    }}>
+                      {tab.count}
+                    </span>
+                  )}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Results Count */}
+          {query && (
+            <div style={{ marginBottom: '24px', color: 'var(--text-secondary)', fontSize: '14px' }}>
+              {totalResults > 0 ? (
+                <p>{totalResults} result{totalResults !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;</p>
+              ) : !loading && (
+                <p>No results found for &ldquo;{query}&rdquo;</p>
               )}
-            </button>
-          ))}
+            </div>
+          )}
         </div>
 
-        {/* Results Count */}
-        {query && (
-          <div style={{ marginBottom: `${spacing.md}px`, color: '#666666' }}>
-            {totalResults > 0 ? (
-              <p>{totalResults} result{totalResults !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;</p>
-            ) : !loading && (
-              <p>No results found for &ldquo;{query}&rdquo;</p>
-            )}
+        {/* Loading State */}
+        {loading && (
+          <div className="flex items-center justify-center" style={{ paddingTop: '48px', paddingBottom: '48px' }}>
+            <LoadingSpinner />
           </div>
         )}
-      </div>
 
-      {/* Results */}
-      {!query ? (
-        <EmptySearch />
-      ) : totalResults === 0 ? (
-        <EmptySearch query={query} />
-      ) : (
-        <>
-          {/* Communities */}
-          {filteredResults?.communities?.length > 0 && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="communities-heading">
-              <h2 id="communities-heading" style={{
-                fontSize: `${fontSize.xl}px`,
-                fontWeight: '600',
-                marginBottom: `${spacing.md}px`,
-                color: '#A0A0A0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px'
-              }}>
-                Communities
-                <span style={{
-                  padding: '4px 12px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(to right, #58a6ff, #a371f7)',
-                  color: '#ffffff'
+        {/* Results */}
+        {!query ? (
+          <EmptySearch />
+        ) : !loading && totalResults === 0 ? (
+          <EmptySearch query={query} />
+        ) : !loading && (
+          <>
+            {/* Communities */}
+            {filteredResults?.communities?.length > 0 && (
+              <section style={{ marginBottom: '48px' }} aria-labelledby="communities-heading">
+                <h2 id="communities-heading" className="flex items-center" style={{
+                  fontSize: isMobile ? '20px' : '24px',
+                  fontWeight: '600',
+                  marginBottom: '24px',
+                  color: 'var(--text-primary)',
+                  gap: '16px'
                 }}>
-                  {filteredResults?.communities?.length || 0}
-                </span>
-              </h2>
-              <div style={{
-                display: 'grid',
-                gap: `${spacing.md}px`,
-                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))'
-              }}>
-                {filteredResults?.communities?.map(community => (
-                  <MemoizedCommunityCard
-                    key={community?.id || community?.name}
-                    community={community}
-                    onJoin={() => handleCommunityJoin(community?.name)}
-                    onLeave={() => handleCommunityLeave(community?.name)}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
-
-          {/* Posts */}
-          {filteredResults?.posts?.length > 0 && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="posts-heading">
-              <h2 id="posts-heading" style={{
-                fontSize: `${fontSize.xl}px`,
-                fontWeight: '600',
-                marginBottom: `${spacing.md}px`,
-                color: '#A0A0A0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px'
-              }}>
-                Posts
-                <span style={{
-                  padding: '4px 12px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(to right, #58a6ff, #a371f7)',
-                  color: '#ffffff'
+                  Communities
+                  <span style={{
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                    color: 'var(--text-inverse)'
+                  }}>
+                    {filteredResults?.communities?.length || 0}
+                  </span>
+                </h2>
+                <div style={{
+                  display: 'grid',
+                  gap: '24px',
+                  gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(300px, 1fr))'
                 }}>
-                  {filteredResults?.posts?.length || 0}
-                </span>
-              </h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: `${spacing.md}px` }}>
-                {filteredResults?.posts?.map(post => (
-                  <MemoizedPost
-                    key={post?.id}
-                    post={post}
-                    onVote={(voteType, newVote) => handlePostVote(post?.id, voteType, newVote)}
-                    onShare={() => handlePostShare(post?.id)}
-                    onSave={() => handlePostSave(post?.id)}
-                    onReport={() => handlePostReport(post?.id)}
-                    onAward={() => handlePostAward(post?.id)}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
+                  {filteredResults?.communities?.map(community => (
+                    <MemoizedCommunityCard
+                      key={community?.id || community?.name}
+                      community={community}
+                      onJoin={() => handleCommunityJoin(community?.name)}
+                      onLeave={() => handleCommunityLeave(community?.name)}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
 
-          {/* Users */}
-          {filteredResults?.users?.length > 0 && (
-            <section style={{ marginBottom: `${spacing['2xl']}px` }} aria-labelledby="users-heading">
-              <h2 id="users-heading" style={{
-                fontSize: `${fontSize.xl}px`,
-                fontWeight: '600',
-                marginBottom: `${spacing.md}px`,
-                color: '#A0A0A0',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px'
-              }}>
-                Users
-                <span style={{
-                  padding: '4px 12px',
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(to right, #58a6ff, #a371f7)',
-                  color: '#ffffff'
+            {/* Posts */}
+            {filteredResults?.posts?.length > 0 && (
+              <section style={{ marginBottom: '48px' }} aria-labelledby="posts-heading">
+                <h2 id="posts-heading" className="flex items-center" style={{
+                  fontSize: isMobile ? '20px' : '24px',
+                  fontWeight: '600',
+                  marginBottom: '24px',
+                  color: 'var(--text-primary)',
+                  gap: '16px'
                 }}>
-                  {filteredResults?.users?.length || 0}
-                </span>
-              </h2>
-              <div style={{
-                display: 'grid',
-                gap: `${spacing.md}px`,
-                gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))'
-              }}>
-                {filteredResults?.users?.map(user => (
-                  <MemoizedUserProfile
-                    key={user?.id || user?.username}
-                    user={user}
-                    onFollow={() => handleUserFollow(user?.username)}
-                    onUnfollow={() => handleUserUnfollow(user?.username)}
-                    onMessage={() => handleUserMessage(user?.username)}
-                  />
-                ))}
-              </div>
-            </section>
-          )}
-        </>
-      )}
+                  Posts
+                  <span style={{
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                    color: 'var(--text-inverse)'
+                  }}>
+                    {filteredResults?.posts?.length || 0}
+                  </span>
+                </h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  {filteredResults?.posts?.map(post => (
+                    <MemoizedPost
+                      key={post?.id}
+                      post={post}
+                      onVote={(voteType, newVote) => handlePostVote(post?.id, voteType, newVote)}
+                      onShare={() => handlePostShare(post?.id)}
+                      onSave={() => handlePostSave(post?.id)}
+                      onReport={() => handlePostReport(post?.id)}
+                      onAward={() => handlePostAward(post?.id)}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
 
-      {/* Modals */}
-      {reportModal.isOpen && (
-        <ReportingSystem
-          isOpen={reportModal.isOpen}
-          onClose={() => setReportModal({ isOpen: false, contentType: null, contentId: null, contentData: null })}
-          contentType={reportModal.contentType}
-          contentId={reportModal.contentId}
-          contentData={reportModal.contentData}
-          onSubmit={handleReportSubmit}
-        />
-      )}
+            {/* Users */}
+            {filteredResults?.users?.length > 0 && (
+              <section style={{ marginBottom: '48px' }} aria-labelledby="users-heading">
+                <h2 id="users-heading" className="flex items-center" style={{
+                  fontSize: isMobile ? '20px' : '24px',
+                  fontWeight: '600',
+                  marginBottom: '24px',
+                  color: 'var(--text-primary)',
+                  gap: '16px'
+                }}>
+                  Users
+                  <span style={{
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                    paddingTop: '4px',
+                    paddingBottom: '4px',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    borderRadius: '12px',
+                    background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                    color: 'var(--text-inverse)'
+                  }}>
+                    {filteredResults?.users?.length || 0}
+                  </span>
+                </h2>
+                <div style={{
+                  display: 'grid',
+                  gap: '24px',
+                  gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fill, minmax(280px, 1fr))'
+                }}>
+                  {filteredResults?.users?.map(user => (
+                    <MemoizedUserProfile
+                      key={user?.id || user?.username}
+                      user={user}
+                      onFollow={() => handleUserFollow(user?.username)}
+                      onUnfollow={() => handleUserUnfollow(user?.username)}
+                      onMessage={() => handleUserMessage(user?.username)}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
+        )}
 
-      {awardModal.isOpen && (
-        <AwardModal
-          isOpen={awardModal.isOpen}
-          onClose={() => setAwardModal({ isOpen: false, post: null })}
-          post={awardModal.post}
-          onAward={handleAwardSubmit}
-        />
-      )}
+        {/* Modals */}
+        {reportModal.isOpen && (
+          <ReportingSystem
+            isOpen={reportModal.isOpen}
+            onClose={() => setReportModal({ isOpen: false, contentType: null, contentId: null, contentData: null })}
+            contentType={reportModal.contentType}
+            contentId={reportModal.contentId}
+            contentData={reportModal.contentData}
+            onSubmit={handleReportSubmit}
+          />
+        )}
+
+        {awardModal.isOpen && (
+          <AwardModal
+            isOpen={awardModal.isOpen}
+            onClose={() => setAwardModal({ isOpen: false, post: null })}
+            post={awardModal.post}
+            onAward={handleAwardSubmit}
+          />
+        )}
       </div>
     </>
   )
@@ -737,4 +772,3 @@ function SearchPage() {
 SearchPage.propTypes = {}
 
 export default SearchPage
-
