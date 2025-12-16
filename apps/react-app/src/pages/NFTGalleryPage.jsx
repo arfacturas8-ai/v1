@@ -49,7 +49,7 @@ const NFTCard = ({ nft }) => {
             aria-label={liked ? 'Unlike' : 'Like'}
           >
             <Heart
-              size={20}
+              size={24}
               fill={liked ? 'white' : 'none'}
               style={{ color: liked ? 'white' : 'white' }}
             />
@@ -127,7 +127,7 @@ const NFTListItem = ({ nft }) => {
             />
           ) : (
             <div className="w-full h-full flex items-center justify-center">
-              <Image size={32} style={{ color: 'var(--text-tertiary)' }} />
+              <Image size={48} style={{ color: 'var(--text-tertiary)' }} />
             </div>
           )}
         </div>
@@ -183,7 +183,7 @@ const NFTListItem = ({ nft }) => {
             aria-label={liked ? 'Unlike' : 'Like'}
           >
             <Heart
-              size={18}
+              size={24}
               fill={liked ? '#ef4444' : 'none'}
               style={{ color: liked ? '#ef4444' : 'var(--text-secondary)' }}
             />
@@ -284,7 +284,7 @@ export default function NFTGalleryPage() {
           >
             Browse Marketplace
             <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ExternalLink size={18} />
+              <ExternalLink size={24} />
             </div>
           </Link>
         </div>
@@ -305,7 +305,7 @@ export default function NFTGalleryPage() {
                 pointerEvents: 'none'
               }}
             >
-              <Search size={20} style={{ color: 'var(--text-tertiary)' }} />
+              <Search size={24} style={{ color: 'var(--text-tertiary)' }} />
             </div>
             <input
               type="text"
@@ -338,7 +338,7 @@ export default function NFTGalleryPage() {
           {/* Filter */}
           <div className="flex gap-2 items-center">
             <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Filter size={18} style={{ color: 'var(--text-secondary)' }} />
+              <Filter size={24} style={{ color: 'var(--text-secondary)' }} />
             </div>
             <select
               value={filterBy}
@@ -391,7 +391,7 @@ export default function NFTGalleryPage() {
               aria-label="Grid view"
               aria-pressed={viewMode === 'grid'}
             >
-              <Grid size={18} />
+              <Grid size={24} />
             </button>
             <button
               onClick={() => setViewMode('list')}
@@ -410,7 +410,7 @@ export default function NFTGalleryPage() {
               aria-label="List view"
               aria-pressed={viewMode === 'list'}
             >
-              <List size={18} />
+              <List size={24} />
             </button>
           </div>
         </div>
@@ -465,7 +465,7 @@ export default function NFTGalleryPage() {
               className="mx-auto flex items-center justify-center"
               style={{ width: '64px', height: '64px', marginBottom: '24px' }}
             >
-              <Image size={64} style={{ color: 'var(--text-secondary)' }} />
+              <Image size={48} style={{ color: 'var(--text-secondary)' }} />
             </div>
             <h3
               className="font-semibold mb-3"

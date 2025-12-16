@@ -231,7 +231,7 @@ const BotManagementPage = () => {
           onClick={() => setShowCreateModal(true)}
           aria-label="Add new bot"
         >
-          <Plus size={20} aria-hidden="true" />
+          <Plus size={24} aria-hidden="true" />
           Add New Bot
         </button>
       </div>
@@ -281,7 +281,7 @@ const BotManagementPage = () => {
       {/* Search and Filter */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <div className="flex-1 relative min-w-0 sm:min-w-[300px]">
-          <Search size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-rgb(var(--color-neutral-400))" />
+          <Search size={24} className="absolute left-4 top-1/2 -translate-y-1/2 text-rgb(var(--color-neutral-400))" />
           <input
             type="text"
             placeholder="Search bots..."
@@ -326,7 +326,7 @@ const BotManagementPage = () => {
             style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={loadBots}
           >
-            <RefreshCw size={16} />
+            <RefreshCw size={24} />
             Retry
           </button>
         </div>
@@ -343,7 +343,7 @@ const BotManagementPage = () => {
             onClick={() => setShowCreateModal(true)}
             aria-label="Create your first bot"
           >
-            <Plus size={16} aria-hidden="true" />
+            <Plus size={24} aria-hidden="true" />
             Create Bot
           </button>
         </div>
@@ -369,7 +369,7 @@ const BotManagementPage = () => {
                   {bot?.avatarUrl ? (
                     <img src={bot?.avatarUrl} alt={bot?.name || 'Bot'} className="w-full h-full object-cover rounded-2xl shadow-sm" />
                   ) : (
-                    <Bot size={32} />
+                    <Bot size={48} />
                   )}
                 </div>
                 <div className="flex-1 min-w-0">
@@ -399,11 +399,11 @@ const BotManagementPage = () => {
               {/* Bot Stats */}
               <div className="flex gap-6 mb-4">
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-secondary">
-                  <Activity size={16} className="text-[#58a6ff] flex-shrink-0" />
+                  <Activity size={24} className="text-[#58a6ff] flex-shrink-0" />
                   <span>{bot?.commandsToday || 0} commands today</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-secondary">
-                  <Zap size={16} className="text-[#58a6ff] flex-shrink-0" />
+                  <Zap size={24} className="text-[#58a6ff] flex-shrink-0" />
                   <span>Prefix: {bot?.prefix || '!'}</span>
                 </div>
               </div>
@@ -421,14 +421,14 @@ const BotManagementPage = () => {
                       onClick={() => toggleTokenVisibility(bot?.id)}
                       aria-label={visibleTokens?.[bot?.id] ? 'Hide token' : 'Show token'}
                     >
-                      {visibleTokens?.[bot?.id] ? <EyeOff size={16} /> : <Eye size={16} />}
+                      {visibleTokens?.[bot?.id] ? <EyeOff size={24} /> : <Eye size={24} />}
                     </button>
                     <button
                       className="p-1.5 rounded-md hover:bg-rgb(var(--color-neutral-100)) text-secondary hover:text-primary transition-all"
                       onClick={() => copyToClipboard(bot?.token)}
                       aria-label="Copy token"
                     >
-                      <Copy size={16} />
+                      <Copy size={24} />
                     </button>
                   </div>
                 </div>
@@ -464,7 +464,7 @@ const BotManagementPage = () => {
                   onClick={() => viewActivityLogs(bot)}
                   aria-label={`View activity logs for ${bot?.name || 'bot'}`}
                 >
-                  <Activity size={16} aria-hidden="true" />
+                  <Activity size={24} aria-hidden="true" />
                   Activity
                 </button>
                 <button
@@ -472,7 +472,7 @@ const BotManagementPage = () => {
                   onClick={() => handleRegenerateToken(bot?.id, bot?.name)}
                   aria-label={`Regenerate token for ${bot?.name || 'bot'}`}
                 >
-                  <RefreshCw size={16} aria-hidden="true" />
+                  <RefreshCw size={24} aria-hidden="true" />
                   Regenerate
                 </button>
                 <button
@@ -480,7 +480,7 @@ const BotManagementPage = () => {
                   onClick={() => handleDeleteBot(bot?.id, bot?.name)}
                   aria-label={`Delete ${bot?.name || 'bot'}`}
                 >
-                  <Trash2 size={16} aria-hidden="true" />
+                  <Trash2 size={24} aria-hidden="true" />
                 </button>
               </div>
             </div>
@@ -651,7 +651,7 @@ const BotManagementPage = () => {
                   </table>
                 ) : (
                   <div className="text-center py-12 text-secondary">
-                    <Activity size={32} className="mx-auto mb-4 text-[#58a6ff]" />
+                    <Activity size={48} className="mx-auto mb-4 text-[#58a6ff]" />
                     <p>No activity logs yet</p>
                   </div>
                 )}

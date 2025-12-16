@@ -215,7 +215,7 @@ const EventsCalendarPage = () => {
           style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:opacity-90 transition-all shadow-lg shadow-[#58a6ff]/20"
           aria-label="Create new event"
         >
-          <Plus size={20} aria-hidden="true" />
+          <Plus size={24} aria-hidden="true" />
           New Event
         </button>
       </div>
@@ -247,7 +247,7 @@ const EventsCalendarPage = () => {
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 aria-label="Previous month"
               >
-                <ChevronLeft size={20} className="text-gray-600" />
+                <ChevronLeft size={24} className="text-gray-600" />
               </button>
               <h2 className="text-xl font-bold text-gray-900 min-w-[200px] text-center">
                 {monthNames[currentDate.getMonth()]} {currentDate.getFullYear()}
@@ -257,7 +257,7 @@ const EventsCalendarPage = () => {
                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
                 aria-label="Next month"
               >
-                <ChevronRight size={20} className="text-gray-600" />
+                <ChevronRight size={24} className="text-gray-600" />
               </button>
             </div>
             <button
@@ -284,7 +284,7 @@ const EventsCalendarPage = () => {
           {/* Days grid */}
           {events.length === 0 && !loading ? (
             <div className="text-center py-12">
-              <Calendar size={64} className="mx-auto mb-4 text-[#58a6ff]" />
+              <Calendar size={48} className="mx-auto mb-4 text-[#58a6ff]" />
               <h3 className="text-xl text-gray-900 mb-2">No Events</h3>
               <p className="text-[#666666] mb-6">You don't have any events scheduled yet</p>
               <button
@@ -356,7 +356,7 @@ const EventsCalendarPage = () => {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden h-fit sticky top-6">
           <div className="p-6 border-b border-gray-200">
             <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-              <Clock size={20} className="text-[#58a6ff]" aria-hidden="true" />
+              <Clock size={24} className="text-[#58a6ff]" aria-hidden="true" />
               Upcoming Events
             </h2>
           </div>
@@ -392,7 +392,7 @@ const EventsCalendarPage = () => {
                             {event.title}
                           </h3>
                           <div className="flex items-center gap-2 text-xs text-[#666666] mb-2">
-                            <Clock size={12} aria-hidden="true" />
+                            <Clock size={24} aria-hidden="true" />
                             {eventDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
                           </div>
                           <span className={`inline-block px-2 py-1 text-xs rounded-md ${categoryStyle.bg} ${categoryStyle.text} border ${categoryStyle.border}`}>
@@ -445,18 +445,18 @@ const EventsCalendarPage = () => {
               )}
               <div className="space-y-3">
                 <div className="flex items-center gap-3 text-[#666666]">
-                  <Clock size={18} className="text-[#58a6ff]" aria-hidden="true" />
+                  <Clock size={24} className="text-[#58a6ff]" aria-hidden="true" />
                   <span>{new Date(selectedEvent.startDate).toLocaleString()}</span>
                 </div>
                 {selectedEvent.location && (
                   <div className="flex items-center gap-3 text-[#666666]">
-                    <MapPin size={18} className="text-[#58a6ff]" aria-hidden="true" />
+                    <MapPin size={24} className="text-[#58a6ff]" aria-hidden="true" />
                     <span>{selectedEvent.location}</span>
                   </div>
                 )}
                 {selectedEvent.attendees && selectedEvent.attendees.length > 0 && (
                   <div className="flex items-center gap-3 text-[#666666]">
-                    <Users size={18} className="text-[#58a6ff]" aria-hidden="true" />
+                    <Users size={24} className="text-[#58a6ff]" aria-hidden="true" />
                     <span>{selectedEvent.attendees.length} attendees</span>
                   </div>
                 )}
