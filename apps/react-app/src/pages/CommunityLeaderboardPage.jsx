@@ -3,7 +3,7 @@ import { Trophy, Medal, Crown, Star } from 'lucide-react'
 
 const CommunityLeaderboardPage = () => {
   return (
-    <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="min-h-screen   py-6 px-4 sm:py-10 sm:px-5" role="main" aria-label="Community leaderboard page">
+    <div style={{color: "var(--text-primary)"}} className="min-h-screen   py-6 px-4 sm:py-10 sm:px-5" role="main" aria-label="Community leaderboard page">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-6 sm:mb-10">
           <div className="w-16 h-16 sm:w-[72px] sm:h-[72px] bg-amber-500/10 border border-amber-500/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">

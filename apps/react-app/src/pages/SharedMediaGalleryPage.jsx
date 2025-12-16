@@ -122,7 +122,7 @@ const SharedMediaGalleryPage = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search..."
-              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full pl-10 pr-4 py-2 bg-[#21262d] border  rounded-lg focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
+              style={{borderColor: "var(--border-subtle)"}} className="w-full pl-10 pr-4 py-2 bg-[#21262d] border  rounded-lg focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
             />
           </div>
 

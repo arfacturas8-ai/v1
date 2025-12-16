@@ -100,7 +100,7 @@ const MobileVideoCall = ({ roomId, participants: initialParticipants = [], onLea
 
   if (isLoading) {
     return (
-      <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="flex flex-col justify-center items-center h-screen   gap-5">
+      <div style={{color: "var(--text-primary)"}} className="flex flex-col justify-center items-center h-screen   gap-5">
         <div className="w-10 h-10 border-3 border-white/30 border-t-[#5865f2] rounded-full "></div>
         <p>Loading video call...</p>
       </div>

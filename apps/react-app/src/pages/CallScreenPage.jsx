@@ -178,7 +178,7 @@ const CallScreenPage = () => {
             className="w-full h-full object-cover"
             aria-label="Your video"
           />
-          <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="absolute bottom-1 left-1 md:bottom-2 md:left-2 px-1.5 py-0.5 md:px-2 md:py-1 /60 rounded  text-[10px] md:text-xs">
+          <div style={{color: "var(--text-primary)"}} className="absolute bottom-1 left-1 md:bottom-2 md:left-2 px-1.5 py-0.5 md:px-2 md:py-1 /60 rounded  text-[10px] md:text-xs">
             You
           </div>
         </motion.div>

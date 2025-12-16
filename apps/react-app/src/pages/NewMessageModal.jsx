@@ -156,7 +156,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search users..."
-                style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full pl-10 pr-4 py-3 bg-[#21262d] border  rounded-2xl  focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
+                style={{borderColor: "var(--border-subtle)"}} className="w-full pl-10 pr-4 py-3 bg-[#21262d] border  rounded-2xl  focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
                 aria-label="Search users"
               />
             </div>
@@ -197,7 +197,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
                   placeholder="Group name (optional)"
-                  style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  rounded-2xl  focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  rounded-2xl  focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
                   aria-label="Group name"
                 />
               </motion.div>
@@ -263,7 +263,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
           <div style={{borderColor: "var(--border-subtle)"}} className="p-6 border-t  flex gap-3">
             <button
               onClick={onClose}
-              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-6 py-3 bg-[#21262d] hover:bg-[#30363d]  rounded-2xl  font-medium transition-colors border "
+              style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-6 py-3 bg-[#21262d] hover:bg-[#30363d]  rounded-2xl  font-medium transition-colors border "
             >
               Cancel
             </button>

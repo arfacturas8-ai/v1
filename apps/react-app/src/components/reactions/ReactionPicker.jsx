@@ -306,7 +306,7 @@ function ReactionPicker({
 
                 {/* Tooltip with reaction info */}
                 {hoveredReaction === reaction && (
-                  <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="absolute bottom-full left-1/2 -translate-x-1/2   px-3 py-2 rounded-lg text-xs whitespace-nowrap z-10 mb-2 opacity-0 animate-[tooltipFadeIn_0.2s_ease-out_forwards] after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-black">
+                  <div style={{color: "var(--text-primary)"}} className="absolute bottom-full left-1/2 -translate-x-1/2   px-3 py-2 rounded-lg text-xs whitespace-nowrap z-10 mb-2 opacity-0 animate-[tooltipFadeIn_0.2s_ease-out_forwards] after:content-[''] after:absolute after:top-full after:left-1/2 after:-translate-x-1/2 after:border-4 after:border-transparent after:border-t-black">
                     <span className="mr-1.5">{reaction.emoji}</span>
                     <span>{reaction.label}</span>
                     {reaction.usage_count && (

@@ -135,7 +135,7 @@ export default function ReportsPage() {
                       <button style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-red-600 hover:bg-red-500  text-sm rounded-lg transition-colors">
                         Take Action
                       </button>
-                      <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2 bg-[#21262d] border  hover:bg-[#30363d]  text-sm rounded-lg transition-colors">
+                      <button style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2 bg-[#21262d] border  hover:bg-[#30363d]  text-sm rounded-lg transition-colors">
                         Dismiss
                       </button>
                     </div>
@@ -157,13 +157,13 @@ export default function ReportsPage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
-                <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
+                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
                   <span>Export Reports</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
-                <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
+                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
                   <span>View Analytics</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

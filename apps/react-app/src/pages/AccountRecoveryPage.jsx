@@ -179,12 +179,12 @@ export default function AccountRecoveryPage() {
   }
 
   return (
-    <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="min-h-screen   flex items-center justify-center p-4 md:p-6 lg:p-8">
+    <div style={{color: "var(--text-primary)"}} className="min-h-screen   flex items-center justify-center p-4 md:p-6 lg:p-8">
       <div className="w-full max-w-md md:max-w-lg">
         {step === 1 && (
           <button
             onClick={() => navigate('/login')}
-            style={{color: "var(--text-secondary)"}} style={{color: "var(--text-primary)"}} className="mb-6 md:mb-8 flex items-center gap-2  hover: transition-colors text-sm md:text-base min-h-[44px]"
+            style={{color: "var(--text-primary)"}} className="mb-6 md:mb-8 flex items-center gap-2  hover: transition-colors text-sm md:text-base min-h-[44px]"
           >
             <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
             <span>Back to login</span>
@@ -238,7 +238,7 @@ export default function AccountRecoveryPage() {
                       placeholder="your-email@example.com"
                       required
                       disabled={loading}
-                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   {error && (
@@ -269,7 +269,7 @@ export default function AccountRecoveryPage() {
                       placeholder="+1 (555) 123-4567"
                       required
                       disabled={loading}
-                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                   </div>
                   {error && (
@@ -303,7 +303,7 @@ export default function AccountRecoveryPage() {
                           setSecurityQuestions(newQuestions)
                         }}
                         disabled={loading}
-                        style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                       />
                     </div>
                   ))}
@@ -334,7 +334,7 @@ export default function AccountRecoveryPage() {
                       onChange={(e) => setBackupCode(e.target.value)}
                       placeholder="Enter your backup code"
                       disabled={loading}
-                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                     />
                     <p style={{color: "var(--text-secondary)"}} className="mt-2 text-xs ">Use one of your MFA backup codes provided during setup</p>
                   </div>
@@ -380,7 +380,7 @@ export default function AccountRecoveryPage() {
                     placeholder="000000"
                     maxLength={6}
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-lg md:text-2xl outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed text-center font-mono tracking-widest"
+                    style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-lg md:text-2xl outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed text-center font-mono tracking-widest"
                   />
                 </div>
                 {error && (
@@ -431,7 +431,7 @@ export default function AccountRecoveryPage() {
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Enter new password"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                   <p style={{color: "var(--text-secondary)"}} className="mt-2 text-xs ">Must be at least 8 characters long</p>
                 </div>
@@ -445,7 +445,7 @@ export default function AccountRecoveryPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm new password"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
 

@@ -431,7 +431,7 @@ const AnalyticsDashboard = ({
             <select
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="px-3 py-2 bg-white/10 border  rounded-md  text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
+              style={{borderColor: "var(--border-default)"}} className="px-3 py-2 bg-white/10 border  rounded-md  text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
             >
               <option value="5m">5 minutes</option>
               <option value="1h">1 hour</option>
@@ -611,9 +611,9 @@ const AnalyticsDashboard = ({
                 <input
                   type="text"
                   placeholder="Search participants..."
-                  style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2.5 bg-white/5 border  rounded-md  text-sm w-full md:w-[250px] focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
+                  style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2.5 bg-white/5 border  rounded-md  text-sm w-full md:w-[250px] focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]"
                 />
-                <select style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2.5 bg-white/5 border  rounded-md  text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]">
+                <select style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2.5 bg-white/5 border  rounded-md  text-sm focus:outline-none focus:shadow-[0_0_0_3px_rgba(88,101,242,0.3)]">
                   <option value="all">All</option>
                   <option value="speaking">Speaking</option>
                   <option value="video">Video On</option>
@@ -666,8 +666,8 @@ const AnalyticsDashboard = ({
 
                   {isAdmin && (
                     <div className="flex gap-2">
-                      <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="px-3 py-1.5 border  bg-transparent  rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#f39c12]/10 hover:border-[#f39c12] hover:text-[#f39c12] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Mute</button>
-                      <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="px-3 py-1.5 border  bg-transparent  rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#ff4757]/10 hover:border-[#ff4757] hover:text-[#ff4757] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Kick</button>
+                      <button style={{borderColor: "var(--border-default)"}} className="px-3 py-1.5 border  bg-transparent  rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#f39c12]/10 hover:border-[#f39c12] hover:text-[#f39c12] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Mute</button>
+                      <button style={{borderColor: "var(--border-default)"}} className="px-3 py-1.5 border  bg-transparent  rounded cursor-pointer text-xs transition-all duration-200 hover:bg-[#ff4757]/10 hover:border-[#ff4757] hover:text-[#ff4757] focus:outline-none focus:ring-2 focus:ring-[#5865f2] focus:ring-offset-2">Kick</button>
                     </div>
                   )}
                 </div>

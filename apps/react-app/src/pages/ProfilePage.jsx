@@ -371,7 +371,7 @@ function ProfilePage() {
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className="bg-white rounded-2xl shadow-lg border" style={{ borderColor: 'var(--border-subtle)' }} className="max-w-md mx-4">
+        <div className="bg-white rounded-2xl shadow-lg border max-w-md mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
               <X className="w-8 h-8 text-red-400" />

@@ -3,7 +3,7 @@ import { BarChart3, Users, TrendingUp, Activity } from 'lucide-react'
 
 const CommunityAnalyticsPage = () => {
   return (
-    <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="min-h-screen   py-6 px-4 sm:py-10 sm:px-5" role="main" aria-label="Community analytics page">
+    <div style={{color: "var(--text-primary)"}} className="min-h-screen   py-6 px-4 sm:py-10 sm:px-5" role="main" aria-label="Community analytics page">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-6 sm:mb-10">
           <div className="w-16 h-16 sm:w-[72px] sm:h-[72px] bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">

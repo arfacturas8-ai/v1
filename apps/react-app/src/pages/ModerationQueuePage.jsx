@@ -95,7 +95,7 @@ export default function ModerationQueuePage() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                   <h2 style={{color: "var(--text-primary)"}} className="text-lg sm:text-xl font-bold ">Queue Items</h2>
                   <div className="flex gap-2">
-                    <select style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-3 py-2 bg-[#21262d] border  rounded-lg  text-sm focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none">
+                    <select style={{borderColor: "var(--border-subtle)"}} className="px-3 py-2 bg-[#21262d] border  rounded-lg  text-sm focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none">
                       <option>All Priorities</option>
                       <option>High Priority</option>
                       <option>Normal</option>
@@ -139,7 +139,7 @@ export default function ModerationQueuePage() {
                       <button style={{color: "var(--text-primary)"}} className="px-3 sm:px-4 py-2 bg-red-600 hover:bg-red-500  text-xs sm:text-sm rounded-lg transition-colors">
                         Remove
                       </button>
-                      <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 bg-[#21262d] border  hover:bg-[#30363d]  text-xs sm:text-sm rounded-lg transition-colors">
+                      <button style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 bg-[#21262d] border  hover:bg-[#30363d]  text-xs sm:text-sm rounded-lg transition-colors">
                         Dismiss
                       </button>
                     </div>
@@ -161,13 +161,13 @@ export default function ModerationQueuePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
-                <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group text-sm sm:text-base">
+                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group text-sm sm:text-base">
                   <span>Clear Completed</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
-                <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group text-sm sm:text-base">
+                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group text-sm sm:text-base">
                   <span>Export Queue</span>
                   <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

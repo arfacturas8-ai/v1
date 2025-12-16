@@ -105,7 +105,7 @@ function AdminPage() {
                     <p style={{color: "var(--text-primary)"}} className=" font-medium group-hover:text-[#58a6ff] transition-colors text-sm sm:text-base">Manage Users</p>
                     <p style={{color: "var(--text-secondary)"}} className=" text-xs sm:text-sm truncate">View and manage all users</p>
                   </div>
-                  <svg style={{color: "var(--text-primary)"}} style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -120,7 +120,7 @@ function AdminPage() {
                     <p style={{color: "var(--text-primary)"}} className=" font-medium group-hover:text-emerald-400 transition-colors text-sm sm:text-base">Communities</p>
                     <p style={{color: "var(--text-secondary)"}} className=" text-xs sm:text-sm truncate">Manage communities</p>
                   </div>
-                  <svg style={{color: "var(--text-primary)"}} style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -135,7 +135,7 @@ function AdminPage() {
                     <p style={{color: "var(--text-primary)"}} className=" font-medium group-hover:text-red-400 transition-colors text-sm sm:text-base">Moderation</p>
                     <p style={{color: "var(--text-secondary)"}} className=" text-xs sm:text-sm truncate">Review reports & flags</p>
                   </div>
-                  <svg style={{color: "var(--text-primary)"}} style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -151,7 +151,7 @@ function AdminPage() {
                     <p style={{color: "var(--text-primary)"}} className=" font-medium group-hover:text-amber-400 transition-colors text-sm sm:text-base">Settings</p>
                     <p style={{color: "var(--text-secondary)"}} className=" text-xs sm:text-sm truncate">Platform configuration</p>
                   </div>
-                  <svg style={{color: "var(--text-primary)"}} style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{color: "var(--text-secondary)"}} className="w-5 h-5  group-hover: group-hover:translate-x-1 transition-all shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>

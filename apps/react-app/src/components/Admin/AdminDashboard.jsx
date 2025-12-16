@@ -574,7 +574,7 @@ const AdminDashboard = ({ user, onClose }) => {
                     <div className="setting-item">
                       <label>
                         <span className="setting-label">Platform Name</span>
-                        <input type="text" defaultValue="CRYB" style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-2.5 bg-[#1A1A1A] border  rounded-lg  placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
+                        <input type="text" defaultValue="CRYB" style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-2.5 bg-[#1A1A1A] border  rounded-lg  placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
                       </label>
                     </div>
                     <div className="setting-item">
@@ -632,7 +632,7 @@ const AdminDashboard = ({ user, onClose }) => {
                     <div className="setting-item">
                       <label>
                         <span className="setting-label">Max Upload Size (MB)</span>
-                        <input type="number" defaultValue="10" min="1" max="100" style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-2.5 bg-[#1A1A1A] border  rounded-lg  placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
+                        <input type="number" defaultValue="10" min="1" max="100" style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-2.5 bg-[#1A1A1A] border  rounded-lg  placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
                       </label>
                     </div>
                   </div>
@@ -648,7 +648,7 @@ const AdminDashboard = ({ user, onClose }) => {
                     <div className="setting-item">
                       <label>
                         <span className="setting-label">Session Timeout (minutes)</span>
-                        <input type="number" defaultValue="30" min="5" max="1440" style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-2.5 bg-[#1A1A1A] border  rounded-lg  placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
+                        <input type="number" defaultValue="30" min="5" max="1440" style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-2.5 bg-[#1A1A1A] border  rounded-lg  placeholder-[#666666] focus:outline-none focus:border-[#58a6ff] focus:ring-2 focus:ring-[#58a6ff]/20 transition-all" />
                       </label>
                     </div>
                   </div>

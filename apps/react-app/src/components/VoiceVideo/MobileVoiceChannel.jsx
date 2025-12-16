@@ -60,7 +60,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
     return (
       <div
         onClick={() => setIsMinimized(false)}
-        style={{background: "var(--bg-primary)"}} style={{borderColor: "var(--border-default)"}} className="fixed top-[50px] right-4 w-[280px] /90 backdrop-blur-[20px] rounded-[20px] border  cursor-pointer z-[9999]  transition-all duration-300 hover:scale-105"
+        style={{borderColor: "var(--border-default)"}} className="fixed top-[50px] right-4 w-[280px] /90 backdrop-blur-[20px] rounded-[20px] border  cursor-pointer z-[9999]  transition-all duration-300 hover:scale-105"
       >
         <div className="flex items-center gap-3 p-4">
           <div className="w-10 h-10 rounded-full bg-[#5865f2] flex items-center justify-center relative">

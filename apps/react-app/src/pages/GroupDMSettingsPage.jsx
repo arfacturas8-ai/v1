@@ -103,7 +103,7 @@ const GroupDMSettingsPage = () => {
                 type="text"
                 value={groupName}
                 onChange={(e) => setGroupName(e.target.value)}
-                style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full py-2.5 md:py-3 px-3 md:px-4 /80 border  rounded-2xl  text-sm md:text-base  outline-none"
+                style={{borderColor: "var(--border-subtle)"}} className="card w-full py-2.5 md:py-3 px-3 md:px-4 /80 border  rounded-2xl  text-sm md:text-base  outline-none"
                 disabled={currentUserRole !== 'owner' && currentUserRole !== 'admin'}
               />
             </div>
@@ -174,7 +174,7 @@ const GroupDMSettingsPage = () => {
                     <select
                       value={member.role}
                       onChange={(e) => changeMemberRole(member.id, e.target.value)}
-                      style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card py-1.5 md:py-2 px-2 md:px-3 /80 border  rounded-lg  text-xs md:text-sm cursor-pointer"
+                      style={{borderColor: "var(--border-subtle)"}} className="card py-1.5 md:py-2 px-2 md:px-3 /80 border  rounded-lg  text-xs md:text-sm cursor-pointer"
                     >
                       <option value="member">Member</option>
                       <option value="admin">Admin</option>

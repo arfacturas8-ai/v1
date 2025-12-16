@@ -486,7 +486,7 @@ export default function AuditLogPage() {
                 </div>
                 <button
                   onClick={() => setSelectedLog(null)}
-                  style={{color: "var(--text-primary)"}} style={{color: "var(--text-secondary)"}} className=" hover: transition-colors"
+                  style={{color: "var(--text-secondary)"}} className=" hover: transition-colors"
                 >
                   <XCircle className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>

@@ -385,7 +385,7 @@ function ActivityFeedPage() {
               {filter !== 'all' && (
                 <button
                   onClick={() => setFilter('all')}
-                  style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2 bg-[#21262d] hover:bg-[#30363d] border  rounded-lg  font-medium transition-all"
+                  style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2 bg-[#21262d] hover:bg-[#30363d] border  rounded-lg  font-medium transition-all"
                 >
                   View All Activity
                 </button>
@@ -405,7 +405,7 @@ function ActivityFeedPage() {
         {/* Load More */}
         {activities.length > 0 && activities.length % 10 === 0 && (
           <div className="text-center mt-8">
-            <button style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="px-6 py-3 bg-[#21262d] hover:bg-[#30363d] border  rounded-2xl   font-medium transition-all">
+            <button style={{borderColor: "var(--border-subtle)"}} className="px-6 py-3 bg-[#21262d] hover:bg-[#30363d] border  rounded-2xl   font-medium transition-all">
               Load More Activity
             </button>
           </div>

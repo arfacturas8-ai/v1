@@ -129,7 +129,7 @@ export default function MaintenancePage() {
           </a>
         </p>
 
-        <div style={{color: "var(--text-secondary)"}} style={{borderColor: "var(--border-subtle)"}} className="card mt-6 sm:mt-8 p-4   rounded-lg  border  text-xs ">
+        <div style={{borderColor: "var(--border-subtle)"}} className="card mt-6 sm:mt-8 p-4   rounded-lg  border  text-xs ">
           <p className="m-0">
             Maintenance ID: MAINT-{Math.random().toString(36).substring(7).toUpperCase()}
             <br />

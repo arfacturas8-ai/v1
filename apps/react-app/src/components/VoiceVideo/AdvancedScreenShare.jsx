@@ -98,7 +98,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
 
   if (!isSharing) {
     return (
-      <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="relative w-full h-full   font-['Inter',-apple-system,BlinkMacSystemFont,sans-serif] overflow-hidden">
+      <div style={{color: "var(--text-primary)"}} className="relative w-full h-full   font-['Inter',-apple-system,BlinkMacSystemFont,sans-serif] overflow-hidden">
         <div className="flex items-center justify-center h-full bg-gradient-to-br from-[#1e293b] to-[#0f172a]">
           <div className="bg-[#1e293b]/90 backdrop-blur-[20px] rounded-2xl p-10 text-center border border-[#334155]/50 min-w-[500px]">
             <h3 style={{color: "var(--text-primary)"}} className="m-0 mb-2 text-2xl font-semibold ">Share Your Screen</h3>

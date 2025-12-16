@@ -266,7 +266,7 @@ const SocialPrivacySettings = ({ onClose }) => {
                   <select
                     value={privacySettings.profileVisibility}
                     onChange={(e) => handleSettingChange('profileVisibility', null, e.target.value)}
-                    style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-default)"}} className="min-h-[44px] px-3 py-2 border  rounded-md bg-white/5  text-sm cursor-pointer min-w-[120px] focus:outline-none focus:border-green-400"
+                    style={{borderColor: "var(--border-default)"}} className="min-h-[44px] px-3 py-2 border  rounded-md bg-white/5  text-sm cursor-pointer min-w-[120px] focus:outline-none focus:border-green-400"
                   >
                     <option value="public">Public</option>
                     <option value="friends">Friends Only</option>

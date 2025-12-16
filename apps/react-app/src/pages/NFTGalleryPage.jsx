@@ -72,7 +72,7 @@ export default function NFTGalleryPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search NFTs..."
-              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card w-full pl-11 pr-3 md:pr-4 py-2.5 md:py-3 text-sm md:text-base border  rounded-2xl    focus:border-[#58a6ff] focus:outline-none transition-colors"
+              style={{borderColor: "var(--border-subtle)"}} className="card w-full pl-11 pr-3 md:pr-4 py-2.5 md:py-3 text-sm md:text-base border  rounded-2xl    focus:border-[#58a6ff] focus:outline-none transition-colors"
               aria-label="Search NFTs"
             />
           </div>
@@ -83,7 +83,7 @@ export default function NFTGalleryPage() {
             <select
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
-              style={{color: "var(--text-primary)"}} style={{borderColor: "var(--border-subtle)"}} className="card px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border  rounded-2xl    font-medium cursor-pointer focus:outline-none"
+              style={{borderColor: "var(--border-subtle)"}} className="card px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border  rounded-2xl    font-medium cursor-pointer focus:outline-none"
               aria-label="Filter NFTs"
             >
               <option value="all">All NFTs</option>
