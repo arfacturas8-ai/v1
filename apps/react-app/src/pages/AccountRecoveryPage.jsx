@@ -1,7 +1,7 @@
 /**
  * AccountRecoveryPage.jsx
  * Account recovery screen with multiple recovery methods
- * Redesigned with glassmorphism Help page design system
+ * Rebuilt with master prompt standards
  */
 import React, { useState } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
@@ -179,31 +179,89 @@ export default function AccountRecoveryPage() {
   }
 
   return (
-    <div style={{color: "var(--text-primary)"}} className="min-h-screen   flex items-center justify-center p-4 md:p-6 lg:p-8">
-      <div className="w-full max-w-md md:max-w-lg">
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: isMobile ? '16px' : '24px',
+      color: 'var(--text-primary)'
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: isMobile ? '100%' : '512px'
+      }}>
         {step === 1 && (
           <button
             onClick={() => navigate('/login')}
-            style={{color: "var(--text-primary)"}} className="mb-6 md:mb-8 flex items-center gap-2  hover: transition-colors text-sm md:text-base min-h-[44px]"
+            style={{
+              marginBottom: isMobile ? '24px' : '32px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              color: 'var(--text-primary)',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: isMobile ? '14px' : '16px',
+              minHeight: '48px',
+              padding: 0,
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.opacity = '0.7'}
+            onMouseLeave={(e) => e.target.style.opacity = '1'}
           >
             <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span>Back to login</span>
           </button>
         )}
 
-        <div style={{borderColor: "var(--border-subtle)"}} className="card    border  rounded-xl p-5 md:p-6 lg:p-8 ">
+        <div style={{
+          background: 'var(--bg-secondary)',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: '16px',
+          padding: isMobile ? '20px' : '32px',
+          backdropFilter: 'blur(10px)'
+        }}>
           {/* Step 1: Method Selection */}
           {step === 1 && (
             <>
-              <div className="text-center mb-6 md:mb-8">
-                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                  <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                textAlign: 'center',
+                marginBottom: isMobile ? '24px' : '32px'
+              }}>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(88, 166, 255, 0.1)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 16px'
+                }}>
+                  <Shield style={{ width: "32px", height: "32px", color: 'var(--cryb-primary)', flexShrink: 0 }} />
                 </div>
-                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Recover Your Account</h1>
-                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Choose a recovery method to regain access to your account</p>
+                <h1 style={{
+                  fontSize: isMobile ? '24px' : '30px',
+                  fontWeight: '600',
+                  color: 'var(--text-primary)',
+                  marginBottom: '8px'
+                }}>Recover Your Account</h1>
+                <p style={{
+                  fontSize: isMobile ? '14px' : '16px',
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.6',
+                  margin: 0
+                }}>Choose a recovery method to regain access to your account</p>
               </div>
 
-              <div className="flex flex-col gap-3 md:gap-4 mb-6 md:mb-8">
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: isMobile ? '12px' : '16px',
+                marginBottom: isMobile ? '24px' : '32px'
+              }}>
                 {[
                   { id: 'email', icon: Mail, title: 'Email Verification', desc: 'Send a code to your recovery email' },
                   { id: 'phone', icon: Smartphone, title: 'SMS Verification', desc: 'Send a code to your phone number' },
@@ -213,23 +271,56 @@ export default function AccountRecoveryPage() {
                   <button
                     key={id}
                     onClick={() => setRecoveryMethod(id)}
-                    className={`w-full min-h-[44px] p-3 md:p-4 bg-[#161b22]/60  border rounded-2xl  flex items-center gap-3 md:gap-4 cursor-pointer transition-all text-left hover:border-[#58a6ff]/50 ${
-                      recoveryMethod === id ? 'border-[#58a6ff] bg-[#161b22]/60 ' : 'border-white/10'
-                    }`}
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px' : '16px',
+                      background: 'rgba(22, 27, 34, 0.6)',
+                      border: `1px solid ${recoveryMethod === id ? '#58a6ff' : 'rgba(255, 255, 255, 0.1)'}`,
+                      borderRadius: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: isMobile ? '12px' : '16px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      textAlign: 'left'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (recoveryMethod !== id) e.target.style.borderColor = 'rgba(88, 166, 255, 0.5)'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (recoveryMethod !== id) e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                    }}
                   >
-                    <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                    <div className="flex-1 min-w-0">
-                      <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-medium  mb-1">{title}</h3>
-                      <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm  m-0">{desc}</p>
+                    <Icon style={{ width: "24px", height: "24px", color: 'var(--cryb-primary)', flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <h3 style={{
+                        fontSize: isMobile ? '14px' : '16px',
+                        fontWeight: '500',
+                        color: 'var(--text-primary)',
+                        marginBottom: '4px',
+                        margin: 0
+                      }}>{title}</h3>
+                      <p style={{
+                        fontSize: isMobile ? '12px' : '14px',
+                        color: 'var(--text-secondary)',
+                        margin: 0
+                      }}>{desc}</p>
                     </div>
                   </button>
                 ))}
               </div>
 
               {recoveryMethod === 'email' && (
-                <form onSubmit={handleSendCode} className="mt-6 md:mt-8">
-                  <div className="mb-6 md:mb-8">
-                    <label htmlFor="email" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Recovery Email</label>
+                <form onSubmit={handleSendCode} style={{ marginTop: isMobile ? '24px' : '32px' }}>
+                  <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+                    <label htmlFor="email" style={{
+                      display: 'block',
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: '500',
+                      color: 'var(--text-primary)',
+                      marginBottom: '8px'
+                    }}>Recovery Email</label>
                     <input
                       type="email"
                       id="email"
@@ -238,19 +329,66 @@ export default function AccountRecoveryPage() {
                       placeholder="your-email@example.com"
                       required
                       disabled={loading}
-                      style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{
+                        width: '100%',
+                        minHeight: '48px',
+                        padding: isMobile ? '12px' : '16px',
+                        background: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: '8px',
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: 'var(--text-primary)',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        opacity: loading ? 0.5 : 1,
+                        cursor: loading ? 'not-allowed' : 'text'
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                      onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                     />
                   </div>
                   {error && (
-                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                    <div style={{
+                      background: 'var(--bg-tertiary)',
+                      padding: isMobile ? '12px' : '16px',
+                      border: '1px solid rgba(248, 81, 73, 0.2)',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '8px',
+                      marginBottom: '16px'
+                    }}>
+                      <AlertCircle style={{ width: "24px", height: "24px", color: '#f85149', flexShrink: 0 }} />
+                      <p style={{
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: '#f85149',
+                        margin: 0
+                      }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
                     type="submit"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px 20px' : '14px 24px',
+                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      color: 'var(--text-primary)',
+                      fontSize: isMobile ? '14px' : '16px',
+                      fontWeight: '500',
+                      borderRadius: '12px',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      transition: 'opacity 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}
+                    onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+                    onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
                   >
                     Send Code
                   </button>
@@ -258,9 +396,15 @@ export default function AccountRecoveryPage() {
               )}
 
               {recoveryMethod === 'phone' && (
-                <form onSubmit={handleSendCode} className="mt-6 md:mt-8">
-                  <div className="mb-6 md:mb-8">
-                    <label htmlFor="phone" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Phone Number</label>
+                <form onSubmit={handleSendCode} style={{ marginTop: isMobile ? '24px' : '32px' }}>
+                  <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+                    <label htmlFor="phone" style={{
+                      display: 'block',
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: '500',
+                      color: 'var(--text-primary)',
+                      marginBottom: '8px'
+                    }}>Phone Number</label>
                     <input
                       type="tel"
                       id="phone"
@@ -269,19 +413,66 @@ export default function AccountRecoveryPage() {
                       placeholder="+1 (555) 123-4567"
                       required
                       disabled={loading}
-                      style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{
+                        width: '100%',
+                        minHeight: '48px',
+                        padding: isMobile ? '12px' : '16px',
+                        background: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: '8px',
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: 'var(--text-primary)',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        opacity: loading ? 0.5 : 1,
+                        cursor: loading ? 'not-allowed' : 'text'
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                      onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                     />
                   </div>
                   {error && (
-                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                    <div style={{
+                      background: 'var(--bg-tertiary)',
+                      padding: isMobile ? '12px' : '16px',
+                      border: '1px solid rgba(248, 81, 73, 0.2)',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '8px',
+                      marginBottom: '16px'
+                    }}>
+                      <AlertCircle style={{ width: "24px", height: "24px", color: '#f85149', flexShrink: 0 }} />
+                      <p style={{
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: '#f85149',
+                        margin: 0
+                      }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
                     type="submit"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px 20px' : '14px 24px',
+                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      color: 'var(--text-primary)',
+                      fontSize: isMobile ? '14px' : '16px',
+                      fontWeight: '500',
+                      borderRadius: '12px',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      transition: 'opacity 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}
+                    onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+                    onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
                   >
                     Send Code
                   </button>
@@ -289,10 +480,16 @@ export default function AccountRecoveryPage() {
               )}
 
               {recoveryMethod === 'security-questions' && (
-                <form onSubmit={handleSecurityQuestions} className="mt-6 md:mt-8">
+                <form onSubmit={handleSecurityQuestions} style={{ marginTop: isMobile ? '24px' : '32px' }}>
                   {securityQuestions.map((q, index) => (
-                    <div key={index} className="mb-6 md:mb-8">
-                      <label htmlFor={`question-${index}`} style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">{q.question}</label>
+                    <div key={index} style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+                      <label htmlFor={`question-${index}`} style={{
+                        display: 'block',
+                        fontSize: isMobile ? '12px' : '14px',
+                        fontWeight: '500',
+                        color: 'var(--text-primary)',
+                        marginBottom: '8px'
+                      }}>{q.question}</label>
                       <input
                         type="text"
                         id={`question-${index}`}
@@ -303,20 +500,67 @@ export default function AccountRecoveryPage() {
                           setSecurityQuestions(newQuestions)
                         }}
                         disabled={loading}
-                        style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                        style={{
+                          width: '100%',
+                          minHeight: '48px',
+                          padding: isMobile ? '12px' : '16px',
+                          background: 'var(--bg-tertiary)',
+                          border: '1px solid var(--border-subtle)',
+                          borderRadius: '8px',
+                          fontSize: isMobile ? '14px' : '16px',
+                          color: 'var(--text-primary)',
+                          outline: 'none',
+                          transition: 'border-color 0.2s',
+                          opacity: loading ? 0.5 : 1,
+                          cursor: loading ? 'not-allowed' : 'text'
+                        }}
+                        onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                        onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                       />
                     </div>
                   ))}
                   {error && (
-                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                    <div style={{
+                      background: 'var(--bg-tertiary)',
+                      padding: isMobile ? '12px' : '16px',
+                      border: '1px solid rgba(248, 81, 73, 0.2)',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '8px',
+                      marginBottom: '16px'
+                    }}>
+                      <AlertCircle style={{ width: "24px", height: "24px", color: '#f85149', flexShrink: 0 }} />
+                      <p style={{
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: '#f85149',
+                        margin: 0
+                      }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
                     type="submit"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px 20px' : '14px 24px',
+                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      color: 'var(--text-primary)',
+                      fontSize: isMobile ? '14px' : '16px',
+                      fontWeight: '500',
+                      borderRadius: '12px',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      transition: 'opacity 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}
+                    onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+                    onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
                   >
                     Verify Answers
                   </button>
@@ -324,9 +568,15 @@ export default function AccountRecoveryPage() {
               )}
 
               {recoveryMethod === 'backup-code' && (
-                <form onSubmit={handleBackupCode} className="mt-6 md:mt-8">
-                  <div className="mb-6 md:mb-8">
-                    <label htmlFor="backupCode" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Backup Code</label>
+                <form onSubmit={handleBackupCode} style={{ marginTop: isMobile ? '24px' : '32px' }}>
+                  <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+                    <label htmlFor="backupCode" style={{
+                      display: 'block',
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: '500',
+                      color: 'var(--text-primary)',
+                      marginBottom: '8px'
+                    }}>Backup Code</label>
                     <input
                       type="text"
                       id="backupCode"
@@ -334,20 +584,72 @@ export default function AccountRecoveryPage() {
                       onChange={(e) => setBackupCode(e.target.value)}
                       placeholder="Enter your backup code"
                       disabled={loading}
-                      style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{
+                        width: '100%',
+                        minHeight: '48px',
+                        padding: isMobile ? '12px' : '16px',
+                        background: 'var(--bg-tertiary)',
+                        border: '1px solid var(--border-subtle)',
+                        borderRadius: '8px',
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: 'var(--text-primary)',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        opacity: loading ? 0.5 : 1,
+                        cursor: loading ? 'not-allowed' : 'text'
+                      }}
+                      onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                      onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                     />
-                    <p style={{color: "var(--text-secondary)"}} className="mt-2 text-xs ">Use one of your MFA backup codes provided during setup</p>
+                    <p style={{
+                      marginTop: '8px',
+                      fontSize: '12px',
+                      color: 'var(--text-secondary)',
+                      margin: '8px 0 0 0'
+                    }}>Use one of your MFA backup codes provided during setup</p>
                   </div>
                   {error && (
-                    <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                      <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                    <div style={{
+                      background: 'var(--bg-tertiary)',
+                      padding: isMobile ? '12px' : '16px',
+                      border: '1px solid rgba(248, 81, 73, 0.2)',
+                      borderRadius: '8px',
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '8px',
+                      marginBottom: '16px'
+                    }}>
+                      <AlertCircle style={{ width: "24px", height: "24px", color: '#f85149', flexShrink: 0 }} />
+                      <p style={{
+                        fontSize: isMobile ? '14px' : '16px',
+                        color: '#f85149',
+                        margin: 0
+                      }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
                   <button
                     type="submit"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px 20px' : '14px 24px',
+                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      color: 'var(--text-primary)',
+                      fontSize: isMobile ? '14px' : '16px',
+                      fontWeight: '500',
+                      borderRadius: '12px',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      transition: 'opacity 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px'
+                    }}
+                    onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+                    onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
                   >
                     Verify Code
                   </button>
@@ -359,19 +661,50 @@ export default function AccountRecoveryPage() {
           {/* Step 2: Code Verification */}
           {step === 2 && (
             <>
-              <div className="text-center mb-6 md:mb-8">
-                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                  <Mail style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                textAlign: 'center',
+                marginBottom: isMobile ? '24px' : '32px'
+              }}>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(88, 166, 255, 0.1)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 16px'
+                }}>
+                  <Mail style={{ width: "32px", height: "32px", color: 'var(--cryb-primary)', flexShrink: 0 }} />
                 </div>
-                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Enter Verification Code</h1>
-                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">
-                  We sent a 6-digit code to <span style={{color: "var(--text-primary)"}} className=" font-medium">{recoveryMethod === 'email' ? email : phone}</span>
+                <h1 style={{
+                  fontSize: isMobile ? '24px' : '30px',
+                  fontWeight: '600',
+                  color: 'var(--text-primary)',
+                  marginBottom: '8px'
+                }}>Enter Verification Code</h1>
+                <p style={{
+                  fontSize: isMobile ? '14px' : '16px',
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.6',
+                  margin: 0
+                }}>
+                  We sent a 6-digit code to <span style={{
+                    color: 'var(--text-primary)',
+                    fontWeight: '500'
+                  }}>{recoveryMethod === 'email' ? email : phone}</span>
                 </p>
               </div>
 
-              <form onSubmit={handleVerifyCode} className="mt-6 md:mt-8">
-                <div className="mb-6 md:mb-8">
-                  <label htmlFor="code" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Verification Code</label>
+              <form onSubmit={handleVerifyCode} style={{ marginTop: isMobile ? '24px' : '32px' }}>
+                <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+                  <label htmlFor="code" style={{
+                    display: 'block',
+                    fontSize: isMobile ? '12px' : '14px',
+                    fontWeight: '500',
+                    color: 'var(--text-primary)',
+                    marginBottom: '8px'
+                  }}>Verification Code</label>
                   <input
                     type="text"
                     id="code"
@@ -380,28 +713,90 @@ export default function AccountRecoveryPage() {
                     placeholder="000000"
                     maxLength={6}
                     disabled={loading}
-                    style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-lg md:text-2xl outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed text-center font-mono tracking-widest"
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px' : '16px',
+                      background: 'var(--bg-tertiary)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: '8px',
+                      fontSize: isMobile ? '18px' : '24px',
+                      color: 'var(--text-primary)',
+                      outline: 'none',
+                      transition: 'border-color 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      cursor: loading ? 'not-allowed' : 'text',
+                      textAlign: 'center',
+                      fontFamily: 'monospace',
+                      letterSpacing: '0.1em'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                    onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                   />
                 </div>
                 {error && (
-                  <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                    <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                  <div style={{
+                    background: 'var(--bg-tertiary)',
+                    padding: isMobile ? '12px' : '16px',
+                    border: '1px solid rgba(248, 81, 73, 0.2)',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    marginBottom: '16px'
+                  }}>
+                    <AlertCircle style={{ width: "24px", height: "24px", color: '#f85149', flexShrink: 0 }} />
+                    <p style={{
+                      fontSize: isMobile ? '14px' : '16px',
+                      color: '#f85149',
+                      margin: 0
+                    }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
                 <button
                   type="submit"
                   disabled={loading || verificationCode.length !== 6}
-                  style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{
+                    width: '100%',
+                    minHeight: '48px',
+                    padding: isMobile ? '12px 20px' : '14px 24px',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    color: 'var(--text-primary)',
+                    fontSize: isMobile ? '14px' : '16px',
+                    fontWeight: '500',
+                    borderRadius: '12px',
+                    border: 'none',
+                    cursor: (loading || verificationCode.length !== 6) ? 'not-allowed' : 'pointer',
+                    transition: 'opacity 0.2s',
+                    opacity: (loading || verificationCode.length !== 6) ? 0.5 : 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}
+                  onMouseEnter={(e) => !(loading || verificationCode.length !== 6) && (e.target.style.opacity = '0.9')}
+                  onMouseLeave={(e) => !(loading || verificationCode.length !== 6) && (e.target.style.opacity = '1')}
                 >
                   Verify Code
                 </button>
-                <div className="text-center mt-4">
+                <div style={{ textAlign: 'center', marginTop: '16px' }}>
                   <button
                     type="button"
                     onClick={handleSendCode}
                     disabled={loading}
-                    className="text-xs md:text-sm text-[#58a6ff] hover:text-[#79c0ff] transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px]"
+                    style={{
+                      fontSize: isMobile ? '12px' : '14px',
+                      color: '#58a6ff',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      opacity: loading ? 0.5 : 1,
+                      minHeight: '48px',
+                      padding: 0,
+                      transition: 'color 0.2s'
+                    }}
+                    onMouseEnter={(e) => !loading && (e.target.style.color = '#79c0ff')}
+                    onMouseLeave={(e) => !loading && (e.target.style.color = '#58a6ff')}
                   >
                     Didn't receive a code? Resend
                   </button>
@@ -413,17 +808,45 @@ export default function AccountRecoveryPage() {
           {/* Step 3: Reset Password */}
           {step === 3 && (
             <>
-              <div className="text-center mb-6 md:mb-8">
-                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                  <Key style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                textAlign: 'center',
+                marginBottom: isMobile ? '24px' : '32px'
+              }}>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(88, 166, 255, 0.1)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 16px'
+                }}>
+                  <Key style={{ width: "32px", height: "32px", color: 'var(--cryb-primary)', flexShrink: 0 }} />
                 </div>
-                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Create New Password</h1>
-                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Choose a strong password to secure your account</p>
+                <h1 style={{
+                  fontSize: isMobile ? '24px' : '30px',
+                  fontWeight: '600',
+                  color: 'var(--text-primary)',
+                  marginBottom: '8px'
+                }}>Create New Password</h1>
+                <p style={{
+                  fontSize: isMobile ? '14px' : '16px',
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.6',
+                  margin: 0
+                }}>Choose a strong password to secure your account</p>
               </div>
 
-              <form onSubmit={handleResetPassword} className="mt-6 md:mt-8">
-                <div className="mb-6 md:mb-8">
-                  <label htmlFor="newPassword" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">New Password</label>
+              <form onSubmit={handleResetPassword} style={{ marginTop: isMobile ? '24px' : '32px' }}>
+                <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+                  <label htmlFor="newPassword" style={{
+                    display: 'block',
+                    fontSize: isMobile ? '12px' : '14px',
+                    fontWeight: '500',
+                    color: 'var(--text-primary)',
+                    marginBottom: '8px'
+                  }}>New Password</label>
                   <input
                     type="password"
                     id="newPassword"
@@ -431,13 +854,39 @@ export default function AccountRecoveryPage() {
                     onChange={(e) => setNewPassword(e.target.value)}
                     placeholder="Enter new password"
                     disabled={loading}
-                    style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px' : '16px',
+                      background: 'var(--bg-tertiary)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: '8px',
+                      fontSize: isMobile ? '14px' : '16px',
+                      color: 'var(--text-primary)',
+                      outline: 'none',
+                      transition: 'border-color 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      cursor: loading ? 'not-allowed' : 'text'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                    onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                   />
-                  <p style={{color: "var(--text-secondary)"}} className="mt-2 text-xs ">Must be at least 8 characters long</p>
+                  <p style={{
+                    marginTop: '8px',
+                    fontSize: '12px',
+                    color: 'var(--text-secondary)',
+                    margin: '8px 0 0 0'
+                  }}>Must be at least 8 characters long</p>
                 </div>
 
-                <div className="mb-6 md:mb-8">
-                  <label htmlFor="confirmPassword" style={{color: "var(--text-primary)"}} className="block text-xs md:text-sm font-medium  mb-2">Confirm Password</label>
+                <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
+                  <label htmlFor="confirmPassword" style={{
+                    display: 'block',
+                    fontSize: isMobile ? '12px' : '14px',
+                    fontWeight: '500',
+                    color: 'var(--text-primary)',
+                    marginBottom: '8px'
+                  }}>Confirm Password</label>
                   <input
                     type="password"
                     id="confirmPassword"
@@ -445,20 +894,67 @@ export default function AccountRecoveryPage() {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     placeholder="Confirm new password"
                     disabled={loading}
-                    style={{borderColor: "var(--border-subtle)"}} className="card w-full min-h-[44px] px-3 py-2 md:px-4 md:py-3   border  rounded-lg  text-sm md:text-base outline-none transition-all focus:border-[#58a6ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      width: '100%',
+                      minHeight: '48px',
+                      padding: isMobile ? '12px' : '16px',
+                      background: 'var(--bg-tertiary)',
+                      border: '1px solid var(--border-subtle)',
+                      borderRadius: '8px',
+                      fontSize: isMobile ? '14px' : '16px',
+                      color: 'var(--text-primary)',
+                      outline: 'none',
+                      transition: 'border-color 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      cursor: loading ? 'not-allowed' : 'text'
+                    }}
+                    onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                    onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                   />
                 </div>
 
                 {error && (
-                  <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                    <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                  <div style={{
+                    background: 'var(--bg-tertiary)',
+                    padding: isMobile ? '12px' : '16px',
+                    border: '1px solid rgba(248, 81, 73, 0.2)',
+                    borderRadius: '8px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    marginBottom: '16px'
+                  }}>
+                    <AlertCircle style={{ width: "24px", height: "24px", color: '#f85149', flexShrink: 0 }} />
+                    <p style={{
+                      fontSize: isMobile ? '14px' : '16px',
+                      color: '#f85149',
+                      margin: 0
+                    }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
                 <button
                   type="submit"
                   disabled={loading}
-                  style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                  style={{
+                    width: '100%',
+                    minHeight: '48px',
+                    padding: isMobile ? '12px 20px' : '14px 24px',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    color: 'var(--text-primary)',
+                    fontSize: isMobile ? '14px' : '16px',
+                    fontWeight: '500',
+                    borderRadius: '12px',
+                    border: 'none',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'opacity 0.2s',
+                    opacity: loading ? 0.5 : 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}
+                  onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+                  onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
                 >
                   Reset Password
                 </button>
@@ -469,27 +965,86 @@ export default function AccountRecoveryPage() {
           {/* Step 4: Success */}
           {step === 4 && (
             <>
-              <div className="text-center mb-6 md:mb-8">
-                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                  <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                textAlign: 'center',
+                marginBottom: isMobile ? '24px' : '32px'
+              }}>
+                <div style={{
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(88, 166, 255, 0.1)',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  margin: '0 auto 16px'
+                }}>
+                  <Check style={{ width: "32px", height: "32px", color: 'var(--cryb-primary)', flexShrink: 0 }} />
                 </div>
-                <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Password Reset Successful</h1>
-                <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Your password has been successfully reset</p>
+                <h1 style={{
+                  fontSize: isMobile ? '24px' : '30px',
+                  fontWeight: '600',
+                  color: 'var(--text-primary)',
+                  marginBottom: '8px'
+                }}>Password Reset Successful</h1>
+                <p style={{
+                  fontSize: isMobile ? '14px' : '16px',
+                  color: 'var(--text-secondary)',
+                  lineHeight: '1.6',
+                  margin: 0
+                }}>Your password has been successfully reset</p>
               </div>
 
-              <div className="card p-4 md:p-5   border border-[rgba(88,166,255,0.2)] rounded-lg mb-6 md:mb-8">
-                <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-medium  mb-3 md:mb-4">Security Recommendations</h3>
-                <ul className="list-none p-0 m-0 space-y-3 md:space-y-4">
-                  <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
-                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                background: 'var(--bg-tertiary)',
+                padding: isMobile ? '16px' : '20px',
+                border: '1px solid rgba(88, 166, 255, 0.2)',
+                borderRadius: '8px',
+                marginBottom: isMobile ? '24px' : '32px'
+              }}>
+                <h3 style={{
+                  fontSize: isMobile ? '14px' : '16px',
+                  fontWeight: '500',
+                  color: 'var(--text-primary)',
+                  marginBottom: isMobile ? '12px' : '16px',
+                  margin: '0 0 16px 0'
+                }}>Security Recommendations</h3>
+                <ul style={{
+                  listStyle: 'none',
+                  padding: 0,
+                  margin: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: isMobile ? '12px' : '16px'
+                }}>
+                  <li style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    fontSize: isMobile ? '12px' : '14px',
+                    color: 'var(--text-primary)'
+                  }}>
+                    <Check style={{ width: "16px", height: "16px", color: 'var(--cryb-primary)', flexShrink: 0, marginTop: '2px' }} />
                     <span>Use a unique password for each account</span>
                   </li>
-                  <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
-                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <li style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    fontSize: isMobile ? '12px' : '14px',
+                    color: 'var(--text-primary)'
+                  }}>
+                    <Check style={{ width: "16px", height: "16px", color: 'var(--cryb-primary)', flexShrink: 0, marginTop: '2px' }} />
                     <span>Enable two-factor authentication for added security</span>
                   </li>
-                  <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
-                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <li style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px',
+                    fontSize: isMobile ? '12px' : '14px',
+                    color: 'var(--text-primary)'
+                  }}>
+                    <Check style={{ width: "16px", height: "16px", color: 'var(--cryb-primary)', flexShrink: 0, marginTop: '2px' }} />
                     <span>Update your recovery methods in settings</span>
                   </li>
                 </ul>
@@ -497,7 +1052,21 @@ export default function AccountRecoveryPage() {
 
               <button
                 onClick={() => navigate('/login')}
-                style={{color: "var(--text-primary)"}} className="w-full min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-sm md:text-base font-medium rounded-lg transition-all hover:opacity-90"
+                style={{
+                  width: '100%',
+                  minHeight: '48px',
+                  padding: isMobile ? '12px 20px' : '14px 24px',
+                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  color: 'var(--text-primary)',
+                  fontSize: isMobile ? '14px' : '16px',
+                  fontWeight: '500',
+                  borderRadius: '12px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s'
+                }}
+                onMouseEnter={(e) => e.target.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.target.style.opacity = '1'}
               >
                 Continue to Login
               </button>
@@ -506,10 +1075,24 @@ export default function AccountRecoveryPage() {
         </div>
 
         {step === 1 && (
-          <div className="mt-5 md:mt-6 text-center">
-            <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm ">
+          <div style={{
+            marginTop: isMobile ? '20px' : '24px',
+            textAlign: 'center'
+          }}>
+            <p style={{
+              fontSize: isMobile ? '12px' : '14px',
+              color: 'var(--text-secondary)',
+              margin: 0
+            }}>
               Still need help?{' '}
-              <Link to="/contact" className="text-[#58a6ff] hover:text-[#79c0ff] transition-colors">Contact Support</Link>
+              <Link to="/contact" style={{
+                color: '#58a6ff',
+                textDecoration: 'none',
+                transition: 'color 0.2s'
+              }}
+              onMouseEnter={(e) => e.target.style.color = '#79c0ff'}
+              onMouseLeave={(e) => e.target.style.color = '#58a6ff'}
+              >Contact Support</Link>
             </p>
           </div>
         )}
@@ -517,4 +1100,3 @@ export default function AccountRecoveryPage() {
     </div>
   )
 }
-
