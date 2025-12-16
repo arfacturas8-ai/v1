@@ -262,7 +262,7 @@ const NFTMarketplacePage = () => {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-end pb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full text-[#58a6ff] text-sm font-medium mb-4 w-fit ">
-            <Sparkles size={16} />
+            <Sparkles style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span>Featured Collection</span>
           </div>
           <h1 className="text-5xl font-bold text-[var(--text-primary)] mb-3">{currentFeatured.name}</h1>
@@ -309,7 +309,7 @@ const NFTMarketplacePage = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Flame size={20} />
+                <Flame style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <div>
                 <div className="text-xs text-[var(--text-secondary)]">Floor Price</div>
@@ -318,7 +318,7 @@ const NFTMarketplacePage = () => {
             </div>
             <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Activity size={20} />
+                <Activity style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <div>
                 <div className="text-xs text-[var(--text-secondary)]">Volume 24h</div>
@@ -327,7 +327,7 @@ const NFTMarketplacePage = () => {
             </div>
             <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Grid size={20} />
+                <Grid style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <div>
                 <div className="text-xs text-[var(--text-secondary)]">Total Items</div>
@@ -336,7 +336,7 @@ const NFTMarketplacePage = () => {
             </div>
             <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
               <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Users size={20} />
+                <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <div>
                 <div className="text-xs text-[var(--text-secondary)]">Owners</div>
@@ -351,7 +351,7 @@ const NFTMarketplacePage = () => {
       {!web3State.isConnected && (
         <div className="bg-gradient-to-r from-[#58a6ff]/10 to-[#a371f7]/10 border-b border-[#58a6ff]/20">
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-center gap-4">
-            <Wallet size={20} className="text-[#58a6ff]" />
+            <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} className="text-[#58a6ff]" />
             <span className="text-[var(--text-primary)] font-medium">Connect your wallet to buy, bid, and list NFTs</span>
             <Button
               onClick={handleConnectWallet}
@@ -372,7 +372,7 @@ const NFTMarketplacePage = () => {
             <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6 space-y-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-[var(--text-primary)] font-semibold">
-                  <Filter size={20} />
+                  <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <h2>Filters</h2>
                 </div>
                 <button
@@ -380,7 +380,7 @@ const NFTMarketplacePage = () => {
                   onClick={() => setShowFilters(false)}
                   aria-label="Close filters"
                 >
-                  <X size={20} />
+                  <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </div>
 
@@ -388,7 +388,7 @@ const NFTMarketplacePage = () => {
               <div>
                 <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Search</label>
                 <div className="relative">
-                  <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" />
+                  <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" />
                   <Input
                     type="text"
                     placeholder="Search NFTs..."
@@ -472,11 +472,11 @@ const NFTMarketplacePage = () => {
                             ? 'bg-[#58a6ff] border-[#58a6ff]'
                             : 'border-[var(--border-subtle)]'
                         }`}>
-                          {selectedCollections.has(collection.id) && <CheckCircle size={16} style={{color: "var(--text-primary)"}} className="" />}
+                          {selectedCollections.has(collection.id) && <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0, color: "var(--text-primary)" }} className="" />}
                         </div>
                         <span className="text-[var(--text-primary)] font-medium">{collection.name}</span>
                         {collection.verified && (
-                          <CheckCircle size={14} className="text-[#58a6ff]" />
+                          <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} className="text-[#58a6ff]" />
                         )}
                       </div>
                       <span className="text-sm text-[var(--text-secondary)]">{collection.count.toLocaleString()}</span>
@@ -533,7 +533,7 @@ const NFTMarketplacePage = () => {
               <div>
                 <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Properties</label>
                 <div className="flex items-center justify-center gap-2 py-8 text-[var(--text-secondary)]">
-                  <Clock size={16} />
+                  <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <span className="text-sm">Coming Soon</span>
                 </div>
               </div>
@@ -552,7 +552,7 @@ const NFTMarketplacePage = () => {
                 onClick={() => setShowFilters(!showFilters)}
                 aria-label="Toggle filters"
               >
-                <Filter size={20} />
+                <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <span className="hidden sm:inline">{showFilters ? 'Hide' : 'Show'} Filters</span>
               </button>
               <div className="text-sm text-[var(--text-secondary)]">
@@ -563,7 +563,7 @@ const NFTMarketplacePage = () => {
             <div className="flex items-center gap-3">
               {/* Sort Dropdown */}
               <div className="relative flex items-center gap-2 px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
-                <ArrowUpDown size={18} className="text-[var(--text-secondary)]" />
+                <ArrowUpDown style={{ width: "24px", height: "24px", flexShrink: 0 }} className="text-[var(--text-secondary)]" />
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
@@ -576,7 +576,7 @@ const NFTMarketplacePage = () => {
                     </option>
                   ))}
                 </select>
-                <ChevronDown size={18} className="absolute right-3 text-[var(--text-secondary)] pointer-events-none" />
+                <ChevronDown style={{ width: "24px", height: "24px", flexShrink: 0 }} className="absolute right-3 text-[var(--text-secondary)] pointer-events-none" />
               </div>
 
               {/* View Toggle */}
@@ -591,7 +591,7 @@ const NFTMarketplacePage = () => {
                   aria-label="Grid view"
                   aria-pressed={viewMode === 'grid'}
                 >
-                  <Grid size={18} />
+                  <Grid style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
                 <button
                   className={`p-2 rounded-lg transition-colors ${
@@ -603,7 +603,7 @@ const NFTMarketplacePage = () => {
                   aria-label="List view"
                   aria-pressed={viewMode === 'list'}
                 >
-                  <List size={18} />
+                  <List style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </div>
             </div>
@@ -703,7 +703,7 @@ const NFTMarketplacePage = () => {
                         aria-pressed={isFavorited}
                       >
                         <Heart
-                          size={18}
+                          size={24}
                           fill={isFavorited ? 'currentColor' : 'none'}
                         />
                       </button>
@@ -711,7 +711,7 @@ const NFTMarketplacePage = () => {
                       {/* Rarity Badge */}
                       {rarityScore > 80 && (
                         <div style={{color: "var(--text-primary)"}} className="absolute top-3 left-3 px-3 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center gap-1.5  text-xs font-bold ">
-                          <Sparkles size={14} />
+                          <Sparkles style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           Legendary
                         </div>
                       )}
@@ -766,7 +766,7 @@ const NFTMarketplacePage = () => {
                             style={{color: "var(--text-primary)"}} className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                             onClick={() => handlePlaceBid(nft)}
                           >
-                            <DollarSign size={16} />
+                            <DollarSign size={24} />
                             Place Bid
                           </button>
                         ) : (
@@ -774,7 +774,7 @@ const NFTMarketplacePage = () => {
                             style={{color: "var(--text-primary)"}} className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                             onClick={() => handlePurchase(nft)}
                           >
-                            <ShoppingBag size={16} />
+                            <ShoppingBag size={24} />
                             Buy Now
                           </button>
                         )}
@@ -783,7 +783,7 @@ const NFTMarketplacePage = () => {
                       {/* Auction Timer */}
                       {hasAuction && (
                         <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)] pt-1">
-                          <Clock size={14} />
+                          <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           <span>Ends in 2h 34m</span>
                         </div>
                       )}
