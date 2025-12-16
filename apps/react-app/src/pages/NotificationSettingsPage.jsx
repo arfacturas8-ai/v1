@@ -1,14 +1,54 @@
 import React, { memo } from 'react'
+import { useResponsive } from '../hooks/useResponsive'
 
-const NotificationSettingsPage = (props) => {
+const NotificationSettingsPage = () => {
+  const { isMobile, isTablet } = useResponsive()
+
+  const padding = isMobile ? '16px' : isTablet ? '24px' : '80px'
+  const headerOffset = isMobile ? '56px' : '72px'
+
   return (
-    <div className="p-4 sm:p-6 max-w-7xl mx-auto" style={{ background: 'var(--bg-primary)' }}>
-      <div className="bg-white  rounded-2xl shadow-sm p-6 sm:p-8" style={{ border: '1px solid var(--border-subtle)' }}>
-        <h1 className="text-xl sm:text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>NotificationSettingsPage</h1>
-        <p style={{ color: 'var(--text-secondary)' }}>Component placeholder - functional but needs full implementation</p>
+    <div
+      role="main"
+      aria-label="Notification settings page"
+      style={{
+        minHeight: '100vh',
+        paddingTop: headerOffset,
+        paddingLeft: padding,
+        paddingRight: padding,
+        paddingBottom: '48px',
+        background: 'var(--bg-primary)'
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div
+          style={{
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: '16px',
+            padding: isMobile ? '24px' : '32px',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          <h1 style={{
+            color: 'var(--text-primary)',
+            fontSize: isMobile ? '24px' : '32px',
+            fontWeight: 'bold',
+            marginBottom: '24px'
+          }}>
+            Notification Settings
+          </h1>
+          <p style={{
+            color: 'var(--text-secondary)',
+            fontSize: isMobile ? '14px' : '16px',
+            lineHeight: '1.6'
+          }}>
+            Component placeholder - functional but needs full implementation
+          </p>
+        </div>
       </div>
     </div>
   )
 }
 
-export default NotificationSettingsPage
+export default memo(NotificationSettingsPage)
