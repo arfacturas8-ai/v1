@@ -18,6 +18,26 @@ logEnvironmentStatus()
 initSentry()
 initGoogleAnalytics()
 
+// Handle chunk loading errors (when build hash changes during user session)
+window.addEventListener('error', (event) => {
+  const chunkFailedMessage = /Loading chunk [\d]+ failed|Failed to fetch dynamically imported module/i
+  if (event.message && chunkFailedMessage.test(event.message)) {
+    console.warn('Chunk loading failed, reloading page to get latest build...')
+    event.preventDefault()
+    window.location.reload()
+  }
+})
+
+// Handle unhandled promise rejections from dynamic imports
+window.addEventListener('unhandledrejection', (event) => {
+  const chunkFailedMessage = /Loading chunk [\d]+ failed|Failed to fetch dynamically imported module/i
+  if (event.reason?.message && chunkFailedMessage.test(event.reason.message)) {
+    console.warn('Chunk loading failed in promise, reloading page to get latest build...')
+    event.preventDefault()
+    window.location.reload()
+  }
+})
+
 // Error boundary for production
 class ErrorBoundary extends React.Component {
   constructor(props) {
