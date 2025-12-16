@@ -15,6 +15,7 @@ import { useToast } from '../contexts/ToastContext'
 import { SkeletonPost, SkeletonCard } from '../components/ui/SkeletonLoader'
 import { EmptySearch } from '../components/ui/EmptyState'
 import { SearchHighlight } from '../components/ui'
+import { useResponsive } from '../hooks/useResponsive'
 
 // Debounce hook for search input
 const useDebounce = (value, delay) => {
@@ -34,6 +35,7 @@ const useDebounce = (value, delay) => {
 }
 
 function SearchPage() {
+  const { isMobile, isTablet } = useResponsive()
   const location = useLocation()
   const navigate = useNavigate()
   const { showSuccess, showError } = useToast()
@@ -52,14 +54,9 @@ function SearchPage() {
   // Cache for search results to avoid duplicate requests
   const searchCacheRef = useRef(new Map())
 
-  // Responsive breakpoints
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-
   // Standard responsive values
-  const pagePadding = isDesktop ? '80px' : isTablet ? '24px' : '16px'
-  const headerPaddingTop = isDesktop || isTablet ? '72px' : '56px'
+  const padding = isMobile ? '16px' : isTablet ? '24px' : '80px'
+  const headerOffset = isMobile ? '56px' : '72px'
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
@@ -171,8 +168,6 @@ function SearchPage() {
       showError('Failed to vote. Please try again.')
     }
   }, [])
-
-  // POST ACTION HANDLERS
 
   const handlePostShare = useCallback(async (postId) => {
     try {
@@ -303,8 +298,6 @@ function SearchPage() {
     }
   }, [showSuccess, showError])
 
-  // USER ACTION HANDLERS
-
   const handleUserFollow = useCallback(async (username) => {
     try {
       // Optimistic update
@@ -422,12 +415,8 @@ function SearchPage() {
       <style>
         {`
           @keyframes spin {
-            from {
-              transform: rotate(0deg);
-            }
-            to {
-              transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
           }
 
           input[type="text"]::placeholder {
@@ -444,14 +433,14 @@ function SearchPage() {
         role="main"
         aria-label="Search page"
         style={{
-          paddingTop: headerPaddingTop,
-          paddingLeft: pagePadding,
-          paddingRight: pagePadding,
+          paddingTop: headerOffset,
+          paddingLeft: padding,
+          paddingRight: padding,
           paddingBottom: '48px',
           maxWidth: '1200px',
           margin: '0 auto',
           minHeight: '100vh',
-          backgroundColor: 'var(--bg-primary)'
+          background: 'var(--bg-primary)'
         }}
       >
         {/* Search Header */}
@@ -460,7 +449,7 @@ function SearchPage() {
             fontSize: isMobile ? '28px' : '32px',
             fontWeight: 'bold',
             marginBottom: '24px',
-            background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+            background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -473,21 +462,22 @@ function SearchPage() {
           <div style={{ position: 'relative', marginBottom: '32px' }}>
             {/* Search Icon */}
             <div
-              className="absolute flex items-center justify-center"
               style={{
+                position: 'absolute',
                 left: '16px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 width: '24px',
                 height: '24px',
                 flexShrink: 0,
-                pointerEvents: 'none'
+                pointerEvents: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}
             >
               <Search
-                size={24}
-                strokeWidth={2}
-                style={{ color: 'var(--text-tertiary)' }}
+                style={{ width: '24px', height: '24px', flexShrink: 0, color: 'var(--text-tertiary)' }}
                 aria-hidden="true"
               />
             </div>
@@ -497,8 +487,8 @@ function SearchPage() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search for communities, posts, or users..."
               aria-label="Search input"
-              className="w-full outline-none transition-all"
               style={{
+                width: '100%',
                 height: '48px',
                 paddingLeft: '48px',
                 paddingRight: '16px',
@@ -506,8 +496,10 @@ function SearchPage() {
                 lineHeight: '1.5',
                 border: '1px solid var(--border-primary)',
                 borderRadius: '12px',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)'
+                background: 'var(--bg-secondary)',
+                color: 'var(--text-primary)',
+                outline: 'none',
+                transition: 'all 0.2s'
               }}
               onFocus={(e) => {
                 e.target.style.borderColor = 'rgba(88, 166, 255, 0.5)'
@@ -539,8 +531,9 @@ function SearchPage() {
                   onClick={() => handleTabChange(tab.id)}
                   aria-label={`${tab.label} tab`}
                   aria-selected={isActive}
-                  className="touch-target flex items-center transition-all"
                   style={{
+                    display: 'flex',
+                    alignItems: 'center',
                     gap: '8px',
                     paddingLeft: '16px',
                     paddingRight: '16px',
@@ -548,26 +541,27 @@ function SearchPage() {
                     fontSize: '14px',
                     fontWeight: isActive ? '600' : '500',
                     color: isActive ? 'var(--text-inverse)' : 'var(--text-secondary)',
-                    backgroundColor: isActive ? 'transparent' : 'transparent',
-                    background: isActive ? 'linear-gradient(to right, #58a6ff, #a371f7)' : 'transparent',
+                    background: isActive ? 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)' : 'transparent',
                     border: 'none',
                     borderRadius: '12px',
                     cursor: 'pointer',
-                    whiteSpace: 'nowrap'
+                    whiteSpace: 'nowrap',
+                    transition: 'all 0.2s',
+                    minHeight: '48px'
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.target.style.backgroundColor = 'var(--bg-secondary)'
+                      e.target.style.background = 'var(--bg-secondary)'
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.target.style.backgroundColor = 'transparent'
+                      e.target.style.background = 'transparent'
                     }
                   }}
                 >
                   <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon size={24} strokeWidth={2} aria-hidden="true" />
+                    <Icon style={{ width: '24px', height: '24px', flexShrink: 0 }} aria-hidden="true" />
                   </div>
                   {tab.label}
                   {tab.count > 0 && (
@@ -604,7 +598,7 @@ function SearchPage() {
 
         {/* Loading State */}
         {loading && (
-          <div className="flex items-center justify-center" style={{ paddingTop: '48px', paddingBottom: '48px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: '48px', paddingBottom: '48px' }}>
             <LoadingSpinner />
           </div>
         )}
@@ -619,7 +613,9 @@ function SearchPage() {
             {/* Communities */}
             {filteredResults?.communities?.length > 0 && (
               <section style={{ marginBottom: '48px' }} aria-labelledby="communities-heading">
-                <h2 id="communities-heading" className="flex items-center" style={{
+                <h2 id="communities-heading" style={{
+                  display: 'flex',
+                  alignItems: 'center',
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
@@ -635,7 +631,7 @@ function SearchPage() {
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
                     color: 'var(--text-inverse)'
                   }}>
                     {filteredResults?.communities?.length || 0}
@@ -661,7 +657,9 @@ function SearchPage() {
             {/* Posts */}
             {filteredResults?.posts?.length > 0 && (
               <section style={{ marginBottom: '48px' }} aria-labelledby="posts-heading">
-                <h2 id="posts-heading" className="flex items-center" style={{
+                <h2 id="posts-heading" style={{
+                  display: 'flex',
+                  alignItems: 'center',
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
@@ -677,7 +675,7 @@ function SearchPage() {
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
                     color: 'var(--text-inverse)'
                   }}>
                     {filteredResults?.posts?.length || 0}
@@ -702,7 +700,9 @@ function SearchPage() {
             {/* Users */}
             {filteredResults?.users?.length > 0 && (
               <section style={{ marginBottom: '48px' }} aria-labelledby="users-heading">
-                <h2 id="users-heading" className="flex items-center" style={{
+                <h2 id="users-heading" style={{
+                  display: 'flex',
+                  alignItems: 'center',
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
@@ -718,7 +718,7 @@ function SearchPage() {
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
                     color: 'var(--text-inverse)'
                   }}>
                     {filteredResults?.users?.length || 0}
