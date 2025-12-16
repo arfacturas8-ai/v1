@@ -881,7 +881,7 @@ function SettingsPage() {
                           style={{ color: 'var(--text-secondary)' }}
                           aria-label={showCurrentPassword ? 'Hide password' : 'Show password'}
                         >
-                          {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                          {showCurrentPassword ? <EyeOff size={24} /> : <Eye size={24} />}
                         </button>
                       </div>
                       {passwordErrors.currentPassword && (
@@ -909,7 +909,7 @@ function SettingsPage() {
                           style={{ color: 'var(--text-secondary)' }}
                           aria-label={showNewPassword ? 'Hide password' : 'Show password'}
                         >
-                          {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                          {showNewPassword ? <EyeOff size={24} /> : <Eye size={24} />}
                         </button>
                       </div>
                       {passwordData.newPassword && (
@@ -948,7 +948,7 @@ function SettingsPage() {
                           style={{ color: 'var(--text-secondary)' }}
                           aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                         >
-                          {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                          {showConfirmPassword ? <EyeOff size={24} /> : <Eye size={24} />}
                         </button>
                       </div>
                       {passwordErrors.confirmPassword && (
