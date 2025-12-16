@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClient } from './lib/queryClient'
+import { HeroUIProvider } from '@heroui/react'
 
 // Production Context Providers
 import { AuthProvider, useAuth } from './contexts/AuthContext.jsx'
@@ -220,13 +221,14 @@ export default function App() {
   return (
     <ErrorBoundary name="App">
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider>
-          <NavigationProvider>
-            <AuthProvider>
-              <ToastProvider>
-                <OnboardingProvider>
-                  <Web3Provider autoConnect={false}>
-                    <AnalyticsWrapper>
+        <HeroUIProvider>
+          <ThemeProvider>
+            <NavigationProvider>
+              <AuthProvider>
+                <ToastProvider>
+                  <OnboardingProvider>
+                    <Web3Provider autoConnect={false}>
+                      <AnalyticsWrapper>
                     {/* Global UI Components */}
                     <CookieConsent />
                     <TermsAcceptanceModal />
@@ -808,13 +810,14 @@ export default function App() {
                   {/* ========== 404 NOT FOUND ========== */}
                   <Route path="*" element={<LazyRoute component={NotFoundPage} name="NotFoundPage" />} />
                       </Routes>
-                  </AnalyticsWrapper>
-                </Web3Provider>
-              </OnboardingProvider>
-            </ToastProvider>
-          </AuthProvider>
-        </NavigationProvider>
-      </ThemeProvider>
+                    </AnalyticsWrapper>
+                  </Web3Provider>
+                </OnboardingProvider>
+              </ToastProvider>
+            </AuthProvider>
+          </NavigationProvider>
+        </ThemeProvider>
+        </HeroUIProvider>
       </QueryClientProvider>
     </ErrorBoundary>
   )
