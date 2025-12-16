@@ -1,15 +1,58 @@
 import React, { memo } from 'react'
+import { useResponsive } from '../hooks/useResponsive'
 
 const AccountSettingsPage = () => {
+  const { isMobile, isTablet } = useResponsive()
+
+  const padding = isMobile ? '16px' : isTablet ? '24px' : '80px'
+  const headerOffset = isMobile ? '56px' : '72px'
+
   return (
-    <div className="min-h-screen px-4 py-6 sm:px-5 sm:py-8 md:py-10" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Account settings page">
-      <div className="max-w-7xl mx-auto">
-        <div className="rounded-xl p-6 sm:p-8 shadow-2xl" style={{ background: 'rgba(22, 27, 34, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)' }}>
-          <div className="mb-6">
-            <h1 style={{color: "var(--text-primary)"}} className="text-2xl sm:text-3xl font-semibold  mb-2">Account Settings</h1>
-            <p style={{color: "var(--text-secondary)"}} className="text-sm sm:text-base ">Manage your account preferences and settings</p>
+    <div
+      role="main"
+      aria-label="Account settings page"
+      style={{
+        minHeight: '100vh',
+        paddingTop: headerOffset,
+        paddingLeft: padding,
+        paddingRight: padding,
+        paddingBottom: '48px',
+        background: 'var(--bg-primary)'
+      }}
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        <div
+          style={{
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border-subtle)',
+            borderRadius: '16px',
+            padding: isMobile ? '24px' : '32px',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          <div style={{ marginBottom: '24px' }}>
+            <h1 style={{
+              color: 'var(--text-primary)',
+              fontSize: isMobile ? '24px' : '32px',
+              fontWeight: '600',
+              marginBottom: '8px'
+            }}>
+              Account Settings
+            </h1>
+            <p style={{
+              color: 'var(--text-secondary)',
+              fontSize: isMobile ? '14px' : '16px'
+            }}>
+              Manage your account preferences and settings
+            </p>
           </div>
-          <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base leading-relaxed ">This is the AccountSettingsPage page. Content will be implemented here.</p>
+          <p style={{
+            color: 'var(--text-primary)',
+            fontSize: isMobile ? '14px' : '16px',
+            lineHeight: '1.6'
+          }}>
+            This is the Account Settings page. Content will be implemented here.
+          </p>
         </div>
       </div>
     </div>
@@ -17,4 +60,3 @@ const AccountSettingsPage = () => {
 }
 
 export default memo(AccountSettingsPage)
-
