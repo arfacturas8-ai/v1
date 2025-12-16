@@ -375,7 +375,7 @@ export default function ProfileDemoPage() {
                 return (
                   <div key={index} className="flex items-start gap-4 pb-6 border-b border-slate-800/50 last:border-0">
                     <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
-                      <ActivityIcon style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <ActivityIcon style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
                     </div>
                     <div className="flex-1">
                       <p style={{color: "var(--text-primary)"}} className=" mb-1">{activity.action}</p>

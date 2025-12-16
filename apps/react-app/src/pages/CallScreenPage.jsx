@@ -231,7 +231,7 @@ const CallScreenPage = () => {
             {isAudioEnabled ? (
               <Mic style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             ) : (
-              <MicOff style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <MicOff style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
             )}
           </motion.button>
 
@@ -251,7 +251,7 @@ const CallScreenPage = () => {
             {isVideoEnabled ? (
               <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             ) : (
-              <VideoOff style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <VideoOff style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
             )}
           </motion.button>
 
@@ -263,7 +263,7 @@ const CallScreenPage = () => {
             className="p-5 md:p-8 bg-red-500 hover:bg-red-600 rounded-full transition-all shadow-2xl"
             aria-label="End call"
           >
-            <PhoneOff style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+            <PhoneOff style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
           </motion.button>
 
           {/* Screen Share */}

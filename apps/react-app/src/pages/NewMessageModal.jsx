@@ -150,7 +150,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
           {/* Search */}
           <div style={{borderColor: "var(--border-subtle)"}} className="p-6 border-b ">
             <div className="relative">
-              <Search style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <Search style={{ color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0 }} />
               <input
                 type="text"
                 value={searchQuery}

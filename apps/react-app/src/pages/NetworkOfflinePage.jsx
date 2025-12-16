@@ -10,7 +10,7 @@ const NetworkOfflinePage = () => {
     >
       <div style={{color: "var(--text-primary)"}} className="text-center max-w-lg w-full ">
         <div className="w-24 h-24 md:w-30 md:h-30 bg-[#8b949e]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <WifiOff style={{color: "var(--text-secondary)"}} style={{ width: "64px", height: "64px", flexShrink: 0 }} aria-hidden="true" />
+          <WifiOff style={{ color: "var(--text-secondary)", width: "64px", height: "64px", flexShrink: 0 }} aria-hidden="true" />
         </div>
         <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-bold mb-4 ">
           No Internet Connection

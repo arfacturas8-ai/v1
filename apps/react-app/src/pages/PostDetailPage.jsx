@@ -582,7 +582,7 @@ export default function PostDetailPage() {
                         />
                       ) : (
                         <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                          <Users style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <Users style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
@@ -624,7 +624,7 @@ export default function PostDetailPage() {
                           loading="lazy"
                         />
                       ) : (
-                        <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                        <div style={{ color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0 }}>
                           {post.author.username?.[0]?.toUpperCase() || 'U'}
                         </div>
                       )}

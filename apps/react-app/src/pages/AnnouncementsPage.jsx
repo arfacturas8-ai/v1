@@ -61,7 +61,7 @@ const AnnouncementsPage = () => {
                     <span>{announcement.date}</span>
                   </div>
                 </div>
-                <ChevronRight style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
+                <ChevronRight style={{ color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               </div>
             </motion.div>
           ))}

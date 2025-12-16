@@ -256,7 +256,7 @@ export default function AuditLogPage() {
           {/* Search bar */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mb-4">
             <div className="flex-1 relative">
-              <Search style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <Search style={{ color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0 }} />
               <input
                 type="text"
                 value={searchTerm}
@@ -395,7 +395,7 @@ export default function AuditLogPage() {
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4">
                           <div className="flex items-center gap-2">
-                            <User style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                            <User style={{ color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0 }} />
                             <span className="text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none">{log.user}</span>
                           </div>
                         </td>
@@ -426,7 +426,7 @@ export default function AuditLogPage() {
                 ) : (
                   <tr>
                     <td colSpan={7} className="px-3 sm:px-6 py-8 sm:py-12 text-center">
-                      <FileText style={{color: "var(--text-secondary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+                      <FileText style={{ color: "var(--text-secondary)", width: "48px", height: "48px", flexShrink: 0 }} />
                       <p style={{color: "var(--text-secondary)"}} className="text-sm sm:text-base ">No logs found matching your filters</p>
                     </td>
                   </tr>

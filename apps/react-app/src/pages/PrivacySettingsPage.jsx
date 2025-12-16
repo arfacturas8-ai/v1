@@ -24,7 +24,7 @@ const PrivacySettingsPage = () => {
           <div className="mb-6 sm:mb-8">
             <div className="flex items-center gap-3 mb-2">
               <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
-                <Shield style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <Shield style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-bold ">Privacy Settings</h1>
             </div>

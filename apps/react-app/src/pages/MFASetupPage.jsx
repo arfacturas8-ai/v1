@@ -187,7 +187,7 @@ export default function MFASetupPage() {
                   className={`px-2 py-2 ${copied ? 'bg-emerald-600' : 'bg-[#21262d]'} border border-white/10 rounded-md cursor-pointer transition-all`}
                   aria-label={copied ? 'Copied' : 'Copy secret key'}
                 >
-                  {copied ? <Check style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <Copy style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
+                  {copied ? <Check style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} /> : <Copy style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />}
                 </button>
               </div>
             </div>

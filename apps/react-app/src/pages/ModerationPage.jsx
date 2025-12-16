@@ -191,7 +191,7 @@ export default function ModerationPage() {
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
@@ -204,7 +204,7 @@ export default function ModerationPage() {
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
@@ -217,7 +217,7 @@ export default function ModerationPage() {
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -230,7 +230,7 @@ export default function ModerationPage() {
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>

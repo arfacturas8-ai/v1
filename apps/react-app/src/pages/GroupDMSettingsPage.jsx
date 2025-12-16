@@ -113,7 +113,7 @@ const GroupDMSettingsPage = () => {
                 {notificationsEnabled ? (
                   <Bell style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <BellOff style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <BellOff style={{ color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0 }} />
                 )}
                 <div>
                   <div style={{color: "var(--text-primary)"}} className="font-medium  mb-1 text-sm md:text-base">Notifications</div>
