@@ -143,14 +143,14 @@ const NewMessageModal = ({ isOpen, onClose }) => {
               style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg transition-colors "
               aria-label="Close modal"
             >
-              <X className="w-5 h-5" />
+              <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </div>
 
           {/* Search */}
           <div style={{borderColor: "var(--border-subtle)"}} className="p-6 border-b ">
             <div className="relative">
-              <Search style={{color: "var(--text-secondary)"}} className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 " />
+              <Search style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <input
                 type="text"
                 value={searchQuery}
@@ -178,7 +178,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                       className="p-1 hover:bg-[#58a6ff]/30 rounded"
                       aria-label={`Remove ${user.username}`}
                     >
-                      <X className="w-4 h-4" />
+                      <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </button>
                   </motion.div>
                 ))}
@@ -208,7 +208,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
           <div className="overflow-y-auto max-h-96">
             {isLoading ? (
               <div className="flex items-center justify-center py-12">
-                <div className="w-8 h-8 border-4 border-[#58a6ff] border-t-transparent rounded-full " />
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} />
               </div>
             ) : error ? (
               <div className="p-6 text-center text-red-400" role="alert">
@@ -236,7 +236,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                       <div className="relative">
                         <div className="text-3xl">{user.avatar}</div>
                         <div
-                          className="absolute bottom-0 right-0 w-3 h-3 rounded-full border-2 border-[#161b22]"
+                          style={{ width: "24px", height: "24px", flexShrink: 0 }}
                           style={{ backgroundColor: getStatusColor(user.status) }}
                           aria-label={`Status: ${user.status}`}
                         />
@@ -250,7 +250,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                         </div>
                       </div>
                       {isSelected && (
-                        <Check className="w-5 h-5 text-[#58a6ff]" />
+                        <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       )}
                     </button>
                   )
@@ -287,10 +287,10 @@ const NewMessageModal = ({ isOpen, onClose }) => {
               }}
             >
               {isLoading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full " />
+                <div style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               ) : (
                 <>
-                  {isGroupDM ? <Users className="w-5 h-5" /> : <UserPlus className="w-5 h-5" />}
+                  {isGroupDM ? <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
                   {isGroupDM ? 'Create Group' : 'Start Chat'}
                 </>
               )}

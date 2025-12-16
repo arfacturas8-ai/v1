@@ -17,7 +17,7 @@ const BrowserNotSupportedPage = () => {
         className="text-center max-w-2xl w-full"
       >
         <div className="w-24 h-24 md:w-30 md:h-30 bg-amber-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <AlertTriangle className="w-12 h-12 md:w-16 md:h-16 text-amber-500" aria-hidden="true" />
+          <AlertTriangle style={{ width: "64px", height: "64px", flexShrink: 0 }} aria-hidden="true" />
         </div>
         <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-bold  mb-4">
           Browser Not Supported

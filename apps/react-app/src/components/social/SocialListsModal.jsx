@@ -433,7 +433,7 @@ const SocialListsModal = ({
                     className="user-main"
                     onClick={() => onUserSelect && onUserSelect(user)}
                   >
-                    <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-2xl flex-shrink-0">
+                    <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                       {user.avatar ? (
                         typeof user.avatar === 'string' && user.avatar.startsWith('http') ? (
                           <img src={user.avatar} alt={user.username} />

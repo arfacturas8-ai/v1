@@ -37,37 +37,37 @@ const REPORT_TYPE_CONFIG: Record<
 > = {
   spam: {
     label: 'Spam',
-    icon: <MessageSquare className="h-5 w-5" />,
+    icon: <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     description: 'Repetitive, unwanted, or promotional content',
     color: 'text-orange-500',
   },
   abuse: {
     label: 'Abuse',
-    icon: <AlertTriangle className="h-5 w-5" />,
+    icon: <AlertTriangle style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     description: 'Harmful or offensive behavior',
     color: 'text-red-500',
   },
   harassment: {
     label: 'Harassment',
-    icon: <Ban className="h-5 w-5" />,
+    icon: <Ban style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     description: 'Targeted bullying or threatening behavior',
     color: 'text-red-600',
   },
   fraud: {
     label: 'Fraud/Scam',
-    icon: <ShieldAlert className="h-5 w-5" />,
+    icon: <ShieldAlert style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     description: 'Deceptive or fraudulent activity',
     color: 'text-purple-500',
   },
   inappropriate: {
     label: 'Inappropriate Content',
-    icon: <AlertCircle className="h-5 w-5" />,
+    icon: <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     description: 'Content that violates community guidelines',
     color: 'text-yellow-500',
   },
   other: {
     label: 'Other',
-    icon: <Flag className="h-5 w-5" />,
+    icon: <Flag style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     description: 'Other issues not listed above',
     color: 'text-gray-500',
   },
@@ -209,7 +209,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
                       </div>
                     </div>
                     {selectedType === type && (
-                      <Check className="h-5 w-5 text-primary flex-shrink-0" />
+                      <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     )}
                   </button>
                 )
@@ -261,7 +261,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
         <Button
           onClick={handleSubmit}
           disabled={!selectedType}
-          leftIcon={<Flag className="h-4 w-4" />}
+          leftIcon={<Flag style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
         >
           Submit Report
         </Button>
@@ -290,7 +290,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
     <ModalBody>
       <div className="flex flex-col items-center justify-center py-12">
         <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mb-6">
-          <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
+          <Check style={{ width: "48px", height: "48px", flexShrink: 0 }} />
         </div>
         <h3 className="text-lg font-semibold mb-2">Report Submitted</h3>
         <p className="text-sm text-muted-foreground text-center max-w-sm mb-4">
@@ -311,7 +311,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
       <ModalBody>
         <div className="flex flex-col items-center justify-center py-12">
           <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
-            <AlertCircle className="w-10 h-10 text-destructive" />
+            <AlertCircle style={{ width: "48px", height: "48px", flexShrink: 0 }} />
           </div>
           <h3 className="text-lg font-semibold mb-2">Submission Failed</h3>
           <p className="text-sm text-muted-foreground text-center mb-6 max-w-sm">
@@ -342,7 +342,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({
       <ModalHeader>
         <ModalTitle>
           <div className="flex items-center gap-2">
-            <Flag className="h-5 w-5" />
+            <Flag style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             {state === 'form' && `Report ${entityTypeLabel}`}
             {state === 'submitting' && 'Submitting Report'}
             {state === 'success' && 'Report Submitted'}

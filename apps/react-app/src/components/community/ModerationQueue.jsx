@@ -216,7 +216,7 @@ export default function ModerationQueue({
     return (
       <div className="max-w-4xl mx-auto p-4 md:p-6">
         <div className="flex flex-col items-center justify-center py-16 text-[var(--text-secondary)]">
-          <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-500 rounded-full  mb-4"></div>
+          <div style={{ width: "48px", height: "48px", flexShrink: 0 }}></div>
           <p>Loading moderation queue...</p>
         </div>
       </div>
@@ -340,12 +340,12 @@ export default function ModerationQueue({
                 type="checkbox"
                 checked={selectedItems.has(item.id)}
                 onChange={() => toggleItemSelection(item.id)}
-                className="w-4 h-4 cursor-pointer min-w-[44px] min-h-[44px] md:min-w-0 md:min-h-0"
+                style={{ width: "24px", height: "24px", flexShrink: 0 }}
               />
             </div>
 
             {/* Type Icon */}
-            <div className="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-gray-100 flex-shrink-0" style={{ color: getItemTypeColor(item.type) }}>
+            <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: getItemTypeColor(item.type) }}>
               {getItemTypeIcon(item.type)}
             </div>
 
@@ -369,7 +369,7 @@ export default function ModerationQueue({
                   <img
                     src={item.author?.avatar || '/default-avatar.png'}
                     alt={item.author?.username}
-                    className="w-5 h-5 rounded-full"
+                    style={{ width: "24px", height: "24px", flexShrink: 0 }}
                   />
                   <span className="text-sm text-[var(--text-secondary)]">@{item.author?.username}</span>
                 </div>
@@ -415,7 +415,7 @@ export default function ModerationQueue({
             {/* Actions */}
             <div className="flex md:flex-col gap-1.5 self-center">
               <button
-                style={{color: "var(--text-primary)"}} className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-green-500 text-green-500 hover:bg-green-500 hover: rounded-lg transition-all"
+                style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.APPROVE)}
                 title="Approve"
               >
@@ -423,7 +423,7 @@ export default function ModerationQueue({
               </button>
 
               <button
-                style={{color: "var(--text-primary)"}} className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-red-500 text-red-500 hover:bg-red-500 hover: rounded-lg transition-all"
+                style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.REMOVE, 'Removed by moderator')}
                 title="Remove"
               >
@@ -431,14 +431,14 @@ export default function ModerationQueue({
               </button>
 
               <button
-                style={{color: "var(--text-primary)"}} className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-blue-500 hover: hover:border-blue-500 rounded-lg transition-all"
+                style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 title="View Full Content"
               >
                 <Eye size={16} />
               </button>
 
               <div className="relative group">
-                <button className="flex items-center justify-center min-w-[44px] w-8 h-8 border border-[var(--border-subtle)] text-[var(--text-secondary)] hover:bg-gray-100 hover:text-[var(--text-primary)] rounded-lg transition-all">
+                <button style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                   <MoreVertical size={16} />
                 </button>
                 <div className="hidden group-hover:block absolute top-full right-0 mt-1 bg-white border border-[var(--border-subtle)] rounded-lg py-1 min-w-[140px] z-50 shadow-xl">

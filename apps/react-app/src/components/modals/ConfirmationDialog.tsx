@@ -80,31 +80,31 @@ const TYPE_CONFIG: Record<
   }
 > = {
   info: {
-    icon: <Info className="h-6 w-6" />,
+    icon: <Info style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'text-blue-600 dark:text-blue-400',
     bgColor: 'bg-blue-500/10',
     defaultConfirmVariant: 'primary',
   },
   warning: {
-    icon: <AlertTriangle className="h-6 w-6" />,
+    icon: <AlertTriangle style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'text-yellow-600 dark:text-yellow-400',
     bgColor: 'bg-yellow-500/10',
     defaultConfirmVariant: 'warning',
   },
   error: {
-    icon: <AlertCircle className="h-6 w-6" />,
+    icon: <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'text-red-600 dark:text-red-400',
     bgColor: 'bg-red-500/10',
     defaultConfirmVariant: 'destructive',
   },
   success: {
-    icon: <CheckCircle2 className="h-6 w-6" />,
+    icon: <CheckCircle2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'text-green-600 dark:text-green-400',
     bgColor: 'bg-green-500/10',
     defaultConfirmVariant: 'success',
   },
   question: {
-    icon: <HelpCircle className="h-6 w-6" />,
+    icon: <HelpCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'text-purple-600 dark:text-purple-400',
     bgColor: 'bg-purple-500/10',
     defaultConfirmVariant: 'primary',
@@ -113,9 +113,9 @@ const TYPE_CONFIG: Record<
 
 // ===== ACTION TYPE CONFIGURATIONS =====
 const ACTION_CONFIG: Record<DialogAction, { icon?: React.ReactNode }> = {
-  delete: { icon: <Trash2 className="h-4 w-4" /> },
-  logout: { icon: <LogOut className="h-4 w-4" /> },
-  cancel: { icon: <XCircle className="h-4 w-4" /> },
+  delete: { icon: <Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+  logout: { icon: <LogOut style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+  cancel: { icon: <XCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
   default: {},
 };
 

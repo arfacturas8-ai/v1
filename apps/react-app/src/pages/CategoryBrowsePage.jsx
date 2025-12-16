@@ -62,7 +62,7 @@ const CategoryBrowsePage = () => {
           className="mb-12"
         >
           <div className="flex items-center gap-3 mb-6">
-            <TrendingUp className="w-6 h-6 text-[#58a6ff]" />
+            <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <h2 className="text-2xl font-bold text-primary">Trending Topics</h2>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

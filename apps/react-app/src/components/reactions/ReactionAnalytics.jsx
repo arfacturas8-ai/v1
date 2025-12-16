@@ -295,7 +295,7 @@ function ReactionLeaderboard({ timeframe = '30d', limit = 10 }) {
               
               <div className="flex-1 min-w-0">
                 {user.avatar ? (
-                  <img src={user.avatar} alt={user.username} className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-2xl flex-shrink-0" />
+                  <img src={user.avatar} alt={user.username} style={{ width: "64px", height: "64px", flexShrink: 0 }} />
                 ) : (
                   <div className="user-avatar-placeholder">
                     {(user.display_name || user.username)[0].toUpperCase()}

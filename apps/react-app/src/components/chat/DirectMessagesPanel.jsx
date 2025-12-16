@@ -381,7 +381,7 @@ function DirectMessagesPanel({
     return (
       <div className="flex items-center justify-center h-full" style={{ background: 'var(--bg-primary)' }}>
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full  mx-auto mb-4"></div>
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}></div>
           <div style={{ color: 'var(--text-secondary)' }}>Loading conversation...</div>
         </div>
       </div>
@@ -397,11 +397,11 @@ function DirectMessagesPanel({
             {/* Avatar/Group Icon */}
             <div className="relative">
               {conversation?.type === 'group' ? (
-                <div className="w-10 h-10 rounded-full bg-white border flex items-center justify-center" style={{ borderColor: 'var(--border-subtle)' }}>
-                  <Users className="w-5 h-5" style={{ color: 'var(--text-primary)' }} />
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ borderColor: 'var(--border-subtle)' }}>
+                  <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--text-primary)' }} />
                 </div>
               ) : (
-                <div className="w-10 h-10 rounded-full bg-white border flex items-center justify-center" style={{ borderColor: 'var(--border-subtle)' }}>
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ borderColor: 'var(--border-subtle)' }}>
                   {participants[0]?.avatar ? (
                     <img
                       src={participants[0].avatar}
@@ -418,7 +418,7 @@ function DirectMessagesPanel({
 
               {/* Status indicator for DMs */}
               {conversation?.type === 'direct' && participants[0] && (
-                <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-green-500 border-2" style={{ borderColor: 'var(--bg-secondary)' }} />
+                <div style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ borderColor: 'var(--bg-secondary)' }} />
               )}
             </div>
 
@@ -445,7 +445,7 @@ function DirectMessagesPanel({
                   onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                 >
-                  <Phone className="w-5 h-5" />
+                  <Phone style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
                 <button
                   onClick={() => startCall('video')}
@@ -455,7 +455,7 @@ function DirectMessagesPanel({
                   onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                   onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                 >
-                  <Video className="w-5 h-5" />
+                  <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </>
             )}
@@ -469,7 +469,7 @@ function DirectMessagesPanel({
                 onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                 onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
               >
-                <UserPlus className="w-5 h-5" />
+                <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
             )}
 
@@ -481,7 +481,7 @@ function DirectMessagesPanel({
               onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
-              <Search className="w-5 h-5" />
+              <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
 
             {/* Info */}
@@ -493,7 +493,7 @@ function DirectMessagesPanel({
               onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
-              <Info className="w-5 h-5" />
+              <Info style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
 
             {/* More options */}
@@ -503,7 +503,7 @@ function DirectMessagesPanel({
               onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
-              <MoreHorizontal className="w-5 h-5" />
+              <MoreHorizontal style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
 
             {/* Close */}
@@ -514,7 +514,7 @@ function DirectMessagesPanel({
               onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
-              <X className="w-5 h-5" />
+              <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </div>
         </div>
@@ -525,9 +525,9 @@ function DirectMessagesPanel({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 {callType === 'video' ? (
-                  <Video className="w-5 h-5 text-[#58a6ff]" />
+                  <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <Phone className="w-5 h-5 text-[#58a6ff]" />
+                  <Phone style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 )}
                 <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
                   {callType === 'video' ? 'Video call' : 'Voice call'} in progress
@@ -586,7 +586,7 @@ function DirectMessagesPanel({
                   {participants.map(participant => (
                     <div key={participant.id} className="flex items-center gap-3 p-2 rounded-xl transition-colors" style={{ ':hover': { background: 'var(--bg-primary)' } }}>
                       <div className="relative">
-                        <div className="w-8 h-8 rounded-full bg-white border flex items-center justify-center" style={{ borderColor: 'var(--border-subtle)' }}>
+                        <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ borderColor: 'var(--border-subtle)' }}>
                           {participant.avatar ? (
                             <img
                               src={participant.avatar}
@@ -626,7 +626,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.notifications}
                       onChange={(e) => updateSetting('notifications', e.target.checked)}
-                      className="w-4 h-4 rounded text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                       style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
                     />
                   </label>
@@ -637,7 +637,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.pinned}
                       onChange={(e) => updateSetting('pinned', e.target.checked)}
-                      className="w-4 h-4 rounded text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                       style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
                     />
                   </label>
@@ -648,7 +648,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.starred}
                       onChange={(e) => updateSetting('starred', e.target.checked)}
-                      className="w-4 h-4 rounded text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                       style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
                     />
                   </label>
@@ -659,7 +659,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.archived}
                       onChange={(e) => updateSetting('archived', e.target.checked)}
-                      className="w-4 h-4 rounded text-[#58a6ff] focus:ring-[#58a6ff]/50"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                       style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
                     />
                   </label>

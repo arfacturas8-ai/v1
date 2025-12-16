@@ -47,7 +47,7 @@ const AnnouncementsPage = () => {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-2">
                     {announcement.pinned && (
-                      <Pin className="w-4 h-4 text-[#58a6ff] flex-shrink-0" aria-hidden="true" />
+                      <Pin style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
                     )}
                     <h3 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold  break-words">
                       {announcement.title}
@@ -61,7 +61,7 @@ const AnnouncementsPage = () => {
                     <span>{announcement.date}</span>
                   </div>
                 </div>
-                <ChevronRight style={{color: "var(--text-secondary)"}} className="w-5 h-5  flex-shrink-0" aria-hidden="true" />
+                <ChevronRight style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               </div>
             </motion.div>
           ))}

@@ -16,11 +16,11 @@ const CryptoTippingModal = ({ isOpen, onClose, recipient }) => {
           <div className="p-6" style={{ color: "var(--text-primary)", background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <DollarSign className="w-8 h-8" />
+                <DollarSign style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                 <h2 id="tip-modal-title" className="text-2xl font-bold">Send Tip</h2>
               </div>
               <button onClick={onClose} className="card p-2 hover:  rounded-lg transition-colors">
-                <X className="w-5 h-5" />
+                <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
             </div>
           </div>
@@ -41,7 +41,7 @@ const CryptoTippingModal = ({ isOpen, onClose, recipient }) => {
               <textarea value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Add a note..." rows={3} className="w-full px-4 py-3 rounded-2xl outline-none resize-none" style={{ color: "var(--text-primary)", background: '#21262d', border: '1px solid var(--border-subtle)' }} />
             </div>
             <button className="w-full py-3 rounded-2xl font-semibold flex items-center justify-center gap-2 transition-opacity hover:opacity-90" style={{ color: "var(--text-primary)", background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
-              <Send className="w-5 h-5" />
+              <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Send Tip
             </button>
           </div>

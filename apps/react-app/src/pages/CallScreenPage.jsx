@@ -200,13 +200,13 @@ const CallScreenPage = () => {
               className="p-2 md:p-3 bg-white/90 hover:bg-white rounded-lg md:rounded-2xl shadow-lg backdrop-blur-sm transition-colors border border-gray-200"
               aria-label="Participants"
             >
-              <Users className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
+              <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
             <button
               className="p-2 md:p-3 bg-white/90 hover:bg-white rounded-lg md:rounded-2xl shadow-lg backdrop-blur-sm transition-colors border border-gray-200"
               aria-label="More options"
             >
-              <MoreVertical className="w-4 h-4 md:w-5 md:h-5 text-gray-900" />
+              <MoreVertical style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </div>
         </div>
@@ -229,9 +229,9 @@ const CallScreenPage = () => {
             aria-pressed={!isAudioEnabled}
           >
             {isAudioEnabled ? (
-              <Mic className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+              <Mic style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             ) : (
-              <MicOff style={{color: "var(--text-primary)"}} className="w-5 h-5 md:w-6 md:h-6 " />
+              <MicOff style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             )}
           </motion.button>
 
@@ -249,9 +249,9 @@ const CallScreenPage = () => {
             aria-pressed={!isVideoEnabled}
           >
             {isVideoEnabled ? (
-              <Video className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+              <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             ) : (
-              <VideoOff style={{color: "var(--text-primary)"}} className="w-5 h-5 md:w-6 md:h-6 " />
+              <VideoOff style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             )}
           </motion.button>
 
@@ -263,7 +263,7 @@ const CallScreenPage = () => {
             className="p-5 md:p-8 bg-red-500 hover:bg-red-600 rounded-full transition-all shadow-2xl"
             aria-label="End call"
           >
-            <PhoneOff style={{color: "var(--text-primary)"}} className="w-6 h-6 md:w-7 md:h-7 " />
+            <PhoneOff style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </motion.button>
 
           {/* Screen Share */}
@@ -292,9 +292,9 @@ const CallScreenPage = () => {
             aria-pressed={!isSpeakerOn}
           >
             {isSpeakerOn ? (
-              <Volume2 className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+              <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             ) : (
-              <VolumeX className="w-5 h-5 md:w-6 md:h-6 text-gray-900" />
+              <VolumeX style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             )}
           </motion.button>
         </div>

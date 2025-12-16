@@ -365,7 +365,7 @@ const AdvancedSearch = ({ onClose, initialQuery = '' }) => {
               <img
                 src={result.avatar || '/default-avatar.png'}
                 alt={result.username}
-                className="w-12 h-12 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center text-2xl flex-shrink-0"
+                style={{ width: "64px", height: "64px", flexShrink: 0 }}
               />
               <div className="flex-1 min-w-0">
                 <h4 className="user-name">

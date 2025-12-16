@@ -92,7 +92,7 @@ const NFTDetailPage = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center" role="status" aria-live="polite">
-        <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full " />
+        <div style={{ width: "64px", height: "64px", flexShrink: 0 }} />
         <span className="sr-only">Loading NFT details...</span>
       </div>
     )
@@ -155,7 +155,7 @@ const NFTDetailPage = () => {
             className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg text-[var(--text-secondary)] transition-colors"
             aria-label="Go back"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
           <div className="flex-1">
             <h1 className="text-2xl font-bold text-[var(--text-primary)]">{nftData.name}</h1>
@@ -166,13 +166,13 @@ const NFTDetailPage = () => {
             className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg text-[var(--text-secondary)] transition-colors"
             aria-label="Share NFT"
           >
-            <Share2 className="w-5 h-5" />
+            <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
           <button
             className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg text-[var(--text-secondary)] transition-colors"
             aria-label="More options"
           >
-            <MoreVertical className="w-5 h-5" />
+            <MoreVertical style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
         </div>
       </div>
@@ -192,17 +192,17 @@ const NFTDetailPage = () => {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4">
               <div className="p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all text-center">
-                <Eye className="w-5 h-5 mx-auto mb-2 text-[var(--text-secondary)]" />
+                <Eye style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <div className="text-xl font-bold text-[var(--text-primary)]">{nftData.stats.views}</div>
                 <div className="text-sm text-[var(--text-secondary)]">Views</div>
               </div>
               <div className="p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all text-center">
-                <Heart className="w-5 h-5 mx-auto mb-2 text-red-400" />
+                <Heart style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <div className="text-xl font-bold text-[var(--text-primary)]">{nftData.stats.likes}</div>
                 <div className="text-sm text-[var(--text-secondary)]">Likes</div>
               </div>
               <div className="p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all text-center">
-                <Tag className="w-5 h-5 mx-auto mb-2 text-[#58a6ff]" />
+                <Tag style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <div className="text-xl font-bold text-[var(--text-primary)]">{nftData.stats.offers}</div>
                 <div className="text-sm text-[var(--text-secondary)]">Offers</div>
               </div>
@@ -242,7 +242,7 @@ const NFTDetailPage = () => {
                   style={{color: "var(--text-primary)"}} className="py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-xl font-semibold transition-opacity flex items-center justify-center gap-2"
                   aria-label="Buy this NFT now"
                 >
-                  <ShoppingCart className="w-5 h-5" />
+                  <ShoppingCart style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Buy Now
                 </button>
                 <button
@@ -261,14 +261,14 @@ const NFTDetailPage = () => {
                 <div>
                   <div className="text-sm text-[var(--text-secondary)] mb-2">Creator</div>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full" />
+                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                     <div className="font-semibold text-[var(--text-primary)]">{nftData.creator}</div>
                   </div>
                 </div>
                 <div>
                   <div className="text-sm text-[var(--text-secondary)] mb-2">Owner</div>
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-gradient-to-br from-[#a371f7] to-[#58a6ff] rounded-full" />
+                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                     <div className="font-semibold text-[var(--text-primary)]">{nftData.owner}</div>
                   </div>
                 </div>
@@ -305,7 +305,7 @@ const NFTDetailPage = () => {
                         <div className="text-sm text-[var(--text-secondary)] mb-1">Contract</div>
                         <div className="font-mono text-sm text-[var(--text-primary)] flex items-center gap-2">
                           {nftData.contract}
-                          <ExternalLink className="w-4 h-4 text-[#58a6ff]" />
+                          <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         </div>
                       </div>
                       <div>

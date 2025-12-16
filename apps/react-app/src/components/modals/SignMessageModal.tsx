@@ -148,7 +148,7 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
           {/* Security Warning */}
           <div className="rounded-lg bg-yellow-500/10 border border-yellow-500/20 p-4">
             <div className="flex gap-3">
-              <AlertTriangle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+              <AlertTriangle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <div className="space-y-2">
                 <h4 className="font-semibold text-sm text-yellow-600 dark:text-yellow-400">
                   Signature Request
@@ -166,7 +166,7 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
 
           {/* Requesting App */}
           <div className="flex items-center gap-2 text-sm">
-            <Shield className="h-4 w-4 text-muted-foreground" />
+            <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span className="text-muted-foreground">Requested by:</span>
             <span className="font-medium">{appName}</span>
           </div>
@@ -181,9 +181,9 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
                 className="text-muted-foreground hover:text-foreground transition-colors p-1 rounded hover:bg-accent"
               >
                 {copied ? (
-                  <CheckCircle className="h-4 w-4 text-green-500" />
+                  <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <Copy className="h-4 w-4" />
+                  <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 )}
               </button>
             </div>
@@ -199,12 +199,12 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
               >
                 {copied ? (
                   <>
-                    <CheckCircle className="h-3 w-3" />
+                    <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Copied
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3 w-3" />
+                    <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Copy
                   </>
                 )}
@@ -242,7 +242,7 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
         <Button variant="outline" onClick={handleReject}>
           Reject
         </Button>
-        <Button onClick={handleSign} leftIcon={<FileSignature className="h-4 w-4" />}>
+        <Button onClick={handleSign} leftIcon={<FileSignature style={{ width: "24px", height: "24px", flexShrink: 0 }} />}>
           Sign Message
         </Button>
       </ModalFooter>
@@ -270,7 +270,7 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
     <ModalBody>
       <div className="flex flex-col items-center justify-center py-12">
         <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mb-6">
-          <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
+          <Check style={{ width: "48px", height: "48px", flexShrink: 0 }} />
         </div>
         <h3 className="text-lg font-semibold mb-2">Message Signed!</h3>
         <p className="text-sm text-muted-foreground text-center mb-4">
@@ -284,7 +284,7 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
                 onClick={() => handleCopy(signature)}
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"
               >
-                <Copy className="h-3 w-3" />
+                <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Copy
               </button>
             </div>
@@ -303,7 +303,7 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
       <ModalBody>
         <div className="flex flex-col items-center justify-center py-12">
           <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
-            <AlertCircle className="w-10 h-10 text-destructive" />
+            <AlertCircle style={{ width: "48px", height: "48px", flexShrink: 0 }} />
           </div>
           <h3 className="text-lg font-semibold mb-2">Signature Failed</h3>
           <p className="text-sm text-muted-foreground text-center mb-6 max-w-sm">
@@ -334,7 +334,7 @@ export const SignMessageModal: React.FC<SignMessageModalProps> = ({
       <ModalHeader>
         <ModalTitle>
           <div className="flex items-center gap-2">
-            <FileSignature className="h-5 w-5" />
+            <FileSignature style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             {state === 'confirm' && 'Sign Message'}
             {state === 'signing' && 'Signing...'}
             {state === 'success' && 'Signature Complete'}

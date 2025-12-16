@@ -98,7 +98,7 @@ function ContactPage() {
         <main id="main-content" className="max-w-2xl mx-auto text-center" role="main" aria-label="Page content">
           <div className="bg-[var(--color-bg-secondary)]/60  rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] border border-black/10 px-8 py-12">
             <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-10 h-10 text-emerald-500" fill="currentColor" viewBox="0 0 24 24">
+              <svg style={{ width: "48px", height: "48px", flexShrink: 0 }} fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
               </svg>
             </div>
@@ -249,7 +249,7 @@ function ContactPage() {
 
             {submitError && (
               <div className="bg-red-500/10 border border-red-500/30 rounded-2xl shadow-[0_4px_16px_rgba(0,0,0,0.05)] p-4 mb-5 flex items-start gap-3">
-                <svg className="w-5 h-5 text-red-500 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                 </svg>
                 <div>

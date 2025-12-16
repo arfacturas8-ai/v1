@@ -42,7 +42,7 @@ const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {
     id: 'twitter',
     name: 'Twitter',
-    icon: <Twitter className="h-5 w-5" />,
+    icon: <Twitter style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'hover:bg-[#1DA1F2]/10 hover:text-[#1DA1F2]',
     getUrl: (url, text) =>
       `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text || '')}`,
@@ -50,14 +50,14 @@ const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {
     id: 'facebook',
     name: 'Facebook',
-    icon: <Facebook className="h-5 w-5" />,
+    icon: <Facebook style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'hover:bg-[#1877F2]/10 hover:text-[#1877F2]',
     getUrl: (url) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
   },
   {
     id: 'telegram',
     name: 'Telegram',
-    icon: <Send className="h-5 w-5" />,
+    icon: <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'hover:bg-[#0088cc]/10 hover:text-[#0088cc]',
     getUrl: (url, text) =>
       `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text || '')}`,
@@ -65,7 +65,7 @@ const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {
     id: 'whatsapp',
     name: 'WhatsApp',
-    icon: <MessageCircle className="h-5 w-5" />,
+    icon: <MessageCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     color: 'hover:bg-[#25D366]/10 hover:text-[#25D366]',
     getUrl: (url, text) =>
       `https://wa.me/?text=${encodeURIComponent(`${text || ''} ${url}`)}`,
@@ -176,12 +176,12 @@ export const ShareModal: React.FC<ShareModalProps> = ({
           >
             {copied ? (
               <>
-                <CheckCircle className="h-4 w-4 mr-2 text-green-500" />
+                <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Copied!
               </>
             ) : (
               <>
-                <Copy className="h-4 w-4 mr-2" />
+                <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Copy
               </>
             )}
@@ -225,7 +225,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         ) : (
           <div className="w-64 h-64 flex items-center justify-center bg-gray-100 rounded">
             <div className="text-center text-gray-500">
-              <QrCode className="w-16 h-16 mx-auto mb-2" />
+              <QrCode style={{ width: "80px", height: "80px", flexShrink: 0 }} />
               <p className="text-sm">QR Code</p>
             </div>
           </div>
@@ -237,7 +237,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       <Button
         variant="outline"
         onClick={handleCopyLink}
-        leftIcon={copied ? <CheckCircle className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+        leftIcon={copied ? <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
       >
         {copied ? 'Link Copied!' : 'Copy Link'}
       </Button>
@@ -265,12 +265,12 @@ export const ShareModal: React.FC<ShareModalProps> = ({
         >
           {embedCopied ? (
             <>
-              <CheckCircle className="h-4 w-4 mr-1 text-green-500" />
+              <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Copied
             </>
           ) : (
             <>
-              <Copy className="h-4 w-4 mr-1" />
+              <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Copy
             </>
           )}
@@ -291,7 +291,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
       <ModalHeader>
         <ModalTitle>
           <div className="flex items-center gap-2">
-            <Share2 className="h-5 w-5" />
+            <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Share
           </div>
         </ModalTitle>
@@ -312,7 +312,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
               )}
             >
               <div className="flex items-center gap-2">
-                <Share2 className="h-4 w-4" />
+                <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Share
               </div>
               {activeTab === 'share' && (
@@ -331,7 +331,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <QrCode className="h-4 w-4" />
+                  <QrCode style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   QR Code
                 </div>
                 {activeTab === 'qr' && (
@@ -351,7 +351,7 @@ export const ShareModal: React.FC<ShareModalProps> = ({
                 )}
               >
                 <div className="flex items-center gap-2">
-                  <Code className="h-4 w-4" />
+                  <Code style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Embed
                 </div>
                 {activeTab === 'embed' && (

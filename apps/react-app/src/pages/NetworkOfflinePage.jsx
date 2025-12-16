@@ -10,7 +10,7 @@ const NetworkOfflinePage = () => {
     >
       <div style={{color: "var(--text-primary)"}} className="text-center max-w-lg w-full ">
         <div className="w-24 h-24 md:w-30 md:h-30 bg-[#8b949e]/10 rounded-full flex items-center justify-center mx-auto mb-6">
-          <WifiOff style={{color: "var(--text-secondary)"}} className="w-12 h-12 md:w-16 md:h-16 " aria-hidden="true" />
+          <WifiOff style={{color: "var(--text-secondary)"}} style={{ width: "64px", height: "64px", flexShrink: 0 }} aria-hidden="true" />
         </div>
         <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-bold mb-4 ">
           No Internet Connection
@@ -23,7 +23,7 @@ const NetworkOfflinePage = () => {
           style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  border-0 rounded-2xl  text-base font-semibold cursor-pointer transition-opacity hover:opacity-90"
           aria-label="Reload page"
         >
-          <RefreshCw className="w-5 h-5" aria-hidden="true" />
+          <RefreshCw style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
           Try Again
         </button>
       </div>

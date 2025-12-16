@@ -267,9 +267,9 @@ const VoiceMessagesPage = () => {
                       aria-label={isPlaying ? 'Pause' : 'Play'}
                     >
                       {isPlaying ? (
-                        <Pause className="w-5 h-5 md:w-6 md:h-6" />
+                        <Pause style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       ) : (
-                        <Play className="w-5 h-5 md:w-6 md:h-6 ml-0.5" />
+                        <Play style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       )}
                     </button>
 
@@ -294,7 +294,7 @@ const VoiceMessagesPage = () => {
                       className="p-3 md:p-4 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-2xl shadow-md transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
                       aria-label="Delete recording"
                     >
-                      <Trash2 className="w-4 h-4 md:w-5 md:h-5" />
+                      <Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>Delete</span>
                     </button>
 
@@ -303,7 +303,7 @@ const VoiceMessagesPage = () => {
                       className="p-3 md:p-4 bg-gray-100 border border-gray-200 hover:bg-gray-200 text-gray-900 rounded-2xl shadow-md transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
                       aria-label="Download recording"
                     >
-                      <Download className="w-4 h-4 md:w-5 md:h-5" />
+                      <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>Download</span>
                     </button>
 
@@ -312,7 +312,7 @@ const VoiceMessagesPage = () => {
                       style={{color: "var(--text-primary)"}} className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-2xl shadow-lg transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm font-medium"
                       aria-label="Send voice message"
                     >
-                      <Send className="w-4 h-4 md:w-5 md:h-5" />
+                      <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>Send</span>
                     </button>
                   </div>

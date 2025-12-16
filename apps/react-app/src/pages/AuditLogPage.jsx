@@ -196,18 +196,18 @@ export default function AuditLogPage() {
   const getSeverityIcon = (severity) => {
     switch (severity) {
       case 'error':
-        return <XCircle className="w-5 h-5 text-red-500" />
+        return <XCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
       case 'warning':
-        return <AlertCircle className="w-5 h-5 text-yellow-500" />
+        return <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
       default:
-        return <Info className="w-5 h-5 text-[#58a6ff]" />
+        return <Info style={{ width: "24px", height: "24px", flexShrink: 0 }} />
     }
   }
 
   const getActionIcon = (action) => {
     const actionType = actionTypes.find(a => a.value === action)
     const Icon = actionType?.icon || Activity
-    return <Icon className="w-4 h-4" />
+    return <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
   }
 
   const formatTimestamp = (timestamp) => {
@@ -230,7 +230,7 @@ export default function AuditLogPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}>
         <div className="text-center">
-          <Loader2 className="w-12 h-12  text-[#58a6ff] mx-auto mb-4" />
+          <Loader2 style={{ width: "64px", height: "64px", flexShrink: 0 }} />
           <p style={{color: "var(--text-secondary)"}} className="">Loading audit logs...</p>
         </div>
       </div>
@@ -243,7 +243,7 @@ export default function AuditLogPage() {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <Shield className="w-6 h-6 sm:w-8 sm:h-8 text-[#58a6ff]" />
+            <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <h1 className="text-2xl sm:text-3xl font-bold">Audit Log</h1>
           </div>
           <p style={{color: "var(--text-secondary)"}} className="text-sm sm:text-base ">
@@ -256,7 +256,7 @@ export default function AuditLogPage() {
           {/* Search bar */}
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-4 mb-4">
             <div className="flex-1 relative">
-              <Search style={{color: "var(--text-secondary)"}} className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 " />
+              <Search style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <input
                 type="text"
                 value={searchTerm}
@@ -270,9 +270,9 @@ export default function AuditLogPage() {
                 onClick={() => setShowFilters(!showFilters)}
                 style={{borderColor: "var(--border-subtle)"}} className="flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
               >
-                <Filter className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <span className="hidden sm:inline">Filters</span>
-                {showFilters ? <ChevronUp className="w-3 h-3 sm:w-4 sm:h-4" /> : <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />}
+                {showFilters ? <ChevronUp style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <ChevronDown style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
               </button>
               <button
                 onClick={loadLogs}
@@ -287,7 +287,7 @@ export default function AuditLogPage() {
                 disabled={exporting || filteredLogs.length === 0}
                 className="px-3 sm:px-4 py-2 sm:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 text-sm sm:text-base whitespace-nowrap"
               >
-                <Download className="w-4 h-4 sm:w-5 sm:h-5" />
+                <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <span className="hidden sm:inline">Export</span>
               </button>
             </div>
@@ -358,7 +358,7 @@ export default function AuditLogPage() {
         {/* Error message */}
         {error && (
           <div className="mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-lg flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+            <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <p className="text-red-400">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
           </div>
         )}
@@ -395,7 +395,7 @@ export default function AuditLogPage() {
                         </td>
                         <td className="px-3 sm:px-6 py-3 sm:py-4">
                           <div className="flex items-center gap-2">
-                            <User style={{color: "var(--text-secondary)"}} className="w-3 h-3 sm:w-4 sm:h-4  flex-shrink-0" />
+                            <User style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             <span className="text-xs sm:text-sm truncate max-w-[100px] sm:max-w-none">{log.user}</span>
                           </div>
                         </td>
@@ -416,7 +416,7 @@ export default function AuditLogPage() {
                             onClick={() => setSelectedLog(log)}
                             className="text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1"
                           >
-                            <Eye className="w-3 h-3 sm:w-4 sm:h-4" />
+                            <Eye style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             <span className="text-xs sm:text-sm">View</span>
                           </button>
                         </td>
@@ -426,7 +426,7 @@ export default function AuditLogPage() {
                 ) : (
                   <tr>
                     <td colSpan={7} className="px-3 sm:px-6 py-8 sm:py-12 text-center">
-                      <FileText style={{color: "var(--text-secondary)"}} className="w-8 h-8 sm:w-12 sm:h-12  mx-auto mb-3" />
+                      <FileText style={{color: "var(--text-secondary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                       <p style={{color: "var(--text-secondary)"}} className="text-sm sm:text-base ">No logs found matching your filters</p>
                     </td>
                   </tr>
@@ -488,7 +488,7 @@ export default function AuditLogPage() {
                   onClick={() => setSelectedLog(null)}
                   style={{color: "var(--text-secondary)"}} className=" hover: transition-colors"
                 >
-                  <XCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <XCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </div>
 

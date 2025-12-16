@@ -17,7 +17,7 @@ const CommunityAnalyticsPage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-5 sm:p-6 text-center">
-            <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl  flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <Users size={24} className="text-[#58a6ff]" />
             </div>
             <div style={{color: "var(--text-primary)"}} className="text-2xl sm:text-3xl font-bold  mb-1">0</div>
@@ -25,7 +25,7 @@ const CommunityAnalyticsPage = () => {
           </div>
 
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-5 sm:p-6 text-center">
-            <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl  flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <TrendingUp size={24} className="text-emerald-500" />
             </div>
             <div style={{color: "var(--text-primary)"}} className="text-2xl sm:text-3xl font-bold  mb-1">0%</div>
@@ -33,7 +33,7 @@ const CommunityAnalyticsPage = () => {
           </div>
 
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-5 sm:p-6 text-center sm:col-span-2 lg:col-span-1">
-            <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl  flex items-center justify-center mx-auto mb-3 sm:mb-4">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <Activity size={24} className="text-[#a371f7]" />
             </div>
             <div style={{color: "var(--text-primary)"}} className="text-2xl sm:text-3xl font-bold  mb-1">0</div>

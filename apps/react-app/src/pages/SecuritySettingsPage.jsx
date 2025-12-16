@@ -20,8 +20,8 @@ const SecuritySettingsPage = () => {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl  flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                <Shield style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <Shield style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl md:text-2xl font-bold ">Security Settings</h1>
             </div>

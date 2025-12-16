@@ -29,7 +29,7 @@ const AppearanceSettingsPage = () => {
           className="mb-6 sm:mb-8"
         >
           <div className="flex items-center gap-3 mb-2">
-            <Palette className="w-6 h-6 sm:w-7 sm:h-7 text-[#58a6ff]" />
+            <Palette style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <h1 style={{color: "var(--text-primary)"}} className="text-2xl sm:text-3xl font-bold  m-0">
               Appearance
             </h1>
@@ -65,7 +65,7 @@ const AppearanceSettingsPage = () => {
                   border: theme === t.id ? '2px solid #58a6ff' : '2px solid rgba(255, 255, 255, 0.1)'
                 }}
               >
-                <t.icon className="w-5 h-5 sm:w-6 sm:h-6" style={{ color: theme === t.id ? '#58a6ff' : '#8b949e' }} />
+                <t.icon style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: theme === t.id ? '#58a6ff' : '#8b949e' }} />
                 <span className="text-xs sm:text-sm font-medium" style={{ color: theme === t.id ? '#ffffff' : '#c9d1d9' }}>
                   {t.label}
                 </span>
@@ -94,13 +94,13 @@ const AppearanceSettingsPage = () => {
               <button
                 key={color}
                 onClick={() => setAccentColor(color)}
-                className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  cursor-pointer flex items-center justify-center transition-all duration-200"
+                style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 style={{
                   background: color,
                   border: accentColor === color ? '3px solid #ffffff' : '3px solid transparent'
                 }}
               >
-                {accentColor === color && <Check style={{color: "var(--text-primary)"}} className="w-4 h-4 sm:w-5 sm:h-5 " />}
+                {accentColor === color && <Check style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
               </button>
             ))}
           </div>

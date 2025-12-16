@@ -260,7 +260,7 @@ function CommunityPage() {
         <div className=" rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
-              <Shield className="w-8 h-8 text-red-500" />
+              <Shield style={{ width: "48px", height: "48px", flexShrink: 0 }} />
             </div>
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Error Loading Community</h2>
             <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
@@ -284,7 +284,7 @@ function CommunityPage() {
         <div className=" rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full inline-flex mb-6" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
-              <Users className="w-8 h-8" style={{ color: 'var(--text-tertiary)' }} />
+              <Users style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: 'var(--text-tertiary)' }} />
             </div>
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Community Not Found</h2>
             <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>c/{communityName} doesn't exist yet.</p>
@@ -362,7 +362,7 @@ function CommunityPage() {
         {isOffline && (
           <div className="bg-yellow-900/50 border-b border-yellow-700/50 px-4 py-2 text-center">
             <div className="flex items-center justify-center gap-2 text-yellow-400">
-              <WifiOff className="w-4 h-4" />
+              <WifiOff style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <span className="text-sm">You're offline. Viewing cached content.</span>
             </div>
           </div>
@@ -385,16 +385,16 @@ function CommunityPage() {
                   </h1>
                   <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                     <span className="flex items-center gap-1">
-                      <Users className="w-4 h-4" />
+                      <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       {community?.memberCount?.toLocaleString()} members
                     </span>
                     <span className="flex items-center gap-1">
-                      <Eye className="w-4 h-4" />
+                      <Eye style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       {community?.onlineCount} online
                     </span>
                     {community?.trending && (
                       <span className="flex items-center gap-1 text-[#58a6ff]">
-                        <TrendingUp className="w-4 h-4" />
+                        <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         Trending
                       </span>
                     )}
@@ -416,12 +416,12 @@ function CommunityPage() {
               >
                 {isJoined ? (
                   <>
-                    <CheckCircle className="w-4 h-4" />
+                    <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Joined
                   </>
                 ) : (
                   <>
-                    <UserPlus className="w-4 h-4" />
+                    <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Join Community
                   </>
                 )}
@@ -449,7 +449,7 @@ function CommunityPage() {
                       className="w-full px-4 py-3 rounded-xl text-left hover:opacity-80 transition-all flex items-center gap-3"
                       style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
                     >
-                      <Plus className="w-5 h-5" />
+                      <Plus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       Create a post
                     </button>
                   ) : (
@@ -518,7 +518,7 @@ function CommunityPage() {
                         style={isActive ? { color: 'var(--text-inverse)' } : { background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
                         aria-pressed={isActive}
                       >
-                        <Icon className="w-4 h-4" />
+                        <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         {option.label}
                       </button>
                     )
@@ -530,7 +530,7 @@ function CommunityPage() {
               <div className="space-y-4">
                 {sortedPosts.length === 0 ? (
                   <div className=" rounded-2xl p-12 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-                    <MessageSquare className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-tertiary)' }} />
+                    <MessageSquare style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-tertiary)' }} />
                     <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No posts yet</h3>
                     <p style={{ color: 'var(--text-secondary)' }}>Be the first to post in this community!</p>
                   </div>
@@ -553,7 +553,7 @@ function CommunityPage() {
                               style={userVotes[post.id] !== 'up' ? { color: 'var(--text-tertiary)' } : {}}
                               aria-label={`Upvote post: ${post.title}`}
                             >
-                              <ChevronUp className="w-6 h-6" />
+                              <ChevronUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             </button>
                             <span className={`text-sm font-bold ${
                               post.score > 0 ? 'text-[#58a6ff]' : post.score < 0 ? 'text-[#a371f7]' : ''
@@ -569,7 +569,7 @@ function CommunityPage() {
                               style={userVotes[post.id] !== 'down' ? { color: 'var(--text-tertiary)' } : {}}
                               aria-label={`Downvote post: ${post.title}`}
                             >
-                              <ChevronDown className="w-6 h-6" />
+                              <ChevronDown style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             </button>
                           </div>
 
@@ -609,15 +609,15 @@ function CommunityPage() {
                                 className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors"
                                 style={{ color: 'var(--text-secondary)' }}
                               >
-                                <MessageSquare className="w-4 h-4" />
+                                <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 <span>{post.comments} comments</span>
                               </Link>
                               <button className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors" style={{ color: 'var(--text-secondary)' }}>
-                                <Share2 className="w-4 h-4" />
+                                <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 <span>Share</span>
                               </button>
                               <button className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors" style={{ color: 'var(--text-secondary)' }}>
-                                <Bookmark className="w-4 h-4" />
+                                <Bookmark style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 <span>Save</span>
                               </button>
                             </div>
@@ -641,7 +641,7 @@ function CommunityPage() {
                     return (
                       <div key={index} className="flex items-center justify-between">
                         <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                          <Icon className="w-4 h-4" />
+                          <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           <span>{stat.label}</span>
                         </div>
                         <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{stat.value}</span>
@@ -651,7 +651,7 @@ function CommunityPage() {
                   {community?.createdAt && (
                     <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--border-subtle)' }}>
                       <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                        <Calendar className="w-4 h-4" />
+                        <Calendar style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <span>Created</span>
                       </div>
                       <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
@@ -666,7 +666,7 @@ function CommunityPage() {
               {displayRules.length > 0 && (
                 <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
                   <h2 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                    <Shield className="w-5 h-5 text-[#58a6ff]" />
+                    <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Rules
                   </h2>
                   <ol className="space-y-3">
@@ -692,7 +692,7 @@ function CommunityPage() {
                         className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors"
                         style={{ color: 'var(--text-secondary)' }}
                       >
-                        <div className="w-8 h-8 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-full flex items-center justify-center text-xs font-bold shadow-lg" style={{ color: 'var(--text-inverse)' }}>
+                        <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: 'var(--text-inverse)' }}>
                           {mod[0].toUpperCase()}
                         </div>
                         <span>u/{mod}</span>

@@ -206,7 +206,7 @@ function CreatePostPage() {
                 </select>
                 {errors.community && (
                   <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
-                    <AlertCircle className="w-4 h-4" />
+                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>{errors.community}</span>
                   </div>
                 )}
@@ -242,7 +242,7 @@ function CreatePostPage() {
                         }}
                         aria-pressed={isSelected}
                       >
-                        <Icon className="w-6 h-6" style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)' }} />
+                        <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)' }} />
                         <span className="font-medium" style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-primary)' }}>
                           {type.label}
                         </span>
@@ -288,7 +288,7 @@ function CreatePostPage() {
                 <div className="mt-2 flex items-center justify-between">
                   {errors.title ? (
                     <div className="flex items-center gap-2 text-red-500 text-sm">
-                      <AlertCircle className="w-4 h-4" />
+                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>{errors.title}</span>
                     </div>
                   ) : (
@@ -331,7 +331,7 @@ function CreatePostPage() {
                   />
                   {errors.content && (
                     <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
-                      <AlertCircle className="w-4 h-4" />
+                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>{errors.content}</span>
                     </div>
                   )}
@@ -369,7 +369,7 @@ function CreatePostPage() {
                   />
                   {errors.url && (
                     <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
-                      <AlertCircle className="w-4 h-4" />
+                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>{errors.url}</span>
                     </div>
                   )}
@@ -419,7 +419,7 @@ function CreatePostPage() {
                         background: errors.image ? 'rgba(239, 68, 68, 0.05)' : 'var(--bg-tertiary)'
                       }}
                     >
-                      <ImageIcon className="w-12 h-12 mb-4" style={{ color: 'var(--text-secondary)' }} />
+                      <ImageIcon style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
                       <label className="cursor-pointer">
                         <input
                           type="file"
@@ -457,7 +457,7 @@ function CreatePostPage() {
                           ×
                         </button>
                         <div className="mt-3 text-sm flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                          <CheckCircle className="w-4 h-4 text-green-500" />
+                          <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           {formData.image.name}
                         </div>
                       </div>
@@ -465,7 +465,7 @@ function CreatePostPage() {
 
                     {errors.image && (
                       <div className="flex items-center gap-2 text-red-500 text-sm">
-                        <AlertCircle className="w-4 h-4" />
+                        <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <span>{errors.image}</span>
                       </div>
                     )}
@@ -499,7 +499,7 @@ function CreatePostPage() {
               <Card className="rounded-2xl" style={{ border: '1px solid rgba(239, 68, 68, 0.5)', background: 'rgba(239, 68, 68, 0.1)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
                 <CardContent className="pt-6">
                   <div className="flex items-center gap-2 text-red-500">
-                    <AlertCircle className="w-5 h-5" />
+                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span className="font-medium">{errors.submit}</span>
                   </div>
                 </CardContent>
@@ -523,12 +523,12 @@ function CreatePostPage() {
                   >
                     {loading ? (
                       <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full " />
+                        <div style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <span>Creating Post...</span>
                       </>
                     ) : (
                       <>
-                        <CheckCircle className="w-5 h-5" />
+                        <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <span>Post</span>
                       </>
                     )}
@@ -557,7 +557,7 @@ function CreatePostPage() {
                 {/* Tips */}
                 <div className="mt-6 p-4 rounded-xl" style={{ background: 'rgba(88, 166, 255, 0.1)', border: '1px solid rgba(88, 166, 255, 0.3)' }}>
                   <h4 className="font-medium mb-2 flex items-center gap-2" style={{ color: 'var(--color-primary)' }}>
-                    <AlertCircle className="w-4 h-4" />
+                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Posting Tips
                   </h4>
                   <ul className="text-sm space-y-1 ml-6 list-disc" style={{ color: 'var(--text-secondary)' }}>

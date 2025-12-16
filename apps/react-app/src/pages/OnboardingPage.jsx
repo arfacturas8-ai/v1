@@ -401,7 +401,7 @@ export default function OnboardingPage() {
                         whileTap={{ scale: 0.95 }}
                       >
                         {isSelected && (
-                          <div className="absolute top-2 right-2 w-5 h-5 md:w-6 md:h-6 rounded-full bg-[#58a6ff] flex items-center justify-center">
+                          <div style={{ width: "24px", height: "24px", flexShrink: 0 }}>
                             <Check size={isMobile ? 14 : 16} color="#fff" strokeWidth={3} />
                           </div>
                         )}
@@ -436,7 +436,7 @@ export default function OnboardingPage() {
                         style={{ border: '1px solid var(--border-subtle)' }}
                         whileHover={{ scale: 1.02 }}
                       >
-                        <div className="w-12 h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-2xl  bg-[#2a2a2a] flex items-center justify-center text-2xl md:text-3xl shrink-0">
+                        <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                           {community.avatar}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -486,14 +486,14 @@ export default function OnboardingPage() {
                         style={{ border: '1px solid var(--border-subtle)' }}
                         whileHover={{ scale: 1.02 }}
                       >
-                        <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#2a2a2a] flex items-center justify-center text-2xl md:text-3xl shrink-0">
+                        <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                           {user.avatar}
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5 mb-0.5">
                             <span className="text-sm md:text-base font-semibold" style={{ color: 'var(--text-primary)' }}>{user.name}</span>
                             {user.verified && (
-                              <div className="w-4 h-4 md:w-[18px] md:h-[18px] rounded-full bg-[#58a6ff] flex items-center justify-center shrink-0">
+                              <div style={{ width: "24px", height: "24px", flexShrink: 0 }}>
                                 <Check size={isMobile ? 10 : 12} color="#fff" strokeWidth={3} />
                               </div>
                             )}
@@ -607,7 +607,7 @@ export default function OnboardingPage() {
                     <img
                       src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTI3LjUgMTZDMjcuNSAyMi4zNTEzIDIyLjM1MTMgMjcuNSAxNiAyNy41QzkuNjQ4NzMgMjcuNSA0LjUgMjIuMzUxMyA0LjUgMTZDNC41IDkuNjQ4NzMgOS42NDg3MyA0LjUgMTYgNC41QzIyLjM1MTMgNC41IDI3LjUgOS42NDg3MyAyNy41IDE2WiIgZmlsbD0iIzYyNzdGNSIgc3Ryb2tlPSIjNjI3N0Y1Ii8+Cjwvc3ZnPgo="
                       alt="MetaMask"
-                      className="w-6 h-6 md:w-8 md:h-8"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                     />
                     <span>Connect MetaMask</span>
                   </motion.button>
@@ -622,7 +622,7 @@ export default function OnboardingPage() {
                     <img
                       src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTIiIGZpbGw9IiMzQjk5RkMiLz4KPC9zdmc+Cg=="
                       alt="WalletConnect"
-                      className="w-6 h-6 md:w-8 md:h-8"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                     />
                     <span>WalletConnect</span>
                   </motion.button>
@@ -637,7 +637,7 @@ export default function OnboardingPage() {
                     <img
                       src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMTYiIGN5PSIxNiIgcj0iMTIiIGZpbGw9IiM1MzUyRkYiLz4KPC9zdmc+Cg=="
                       alt="Coinbase Wallet"
-                      className="w-6 h-6 md:w-8 md:h-8"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                     />
                     <span>Coinbase Wallet</span>
                   </motion.button>

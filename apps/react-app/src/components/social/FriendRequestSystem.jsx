@@ -280,7 +280,7 @@ const FriendRequestSystem = ({ onClose, initialTab = 'received' }) => {
               {filteredRequests.map(request => (
                 <div key={request.id} className="request-card">
                   <div className="request-user">
-                    <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-2xl flex-shrink-0">
+                    <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                       {request.user.avatar ? (
                         typeof request.user.avatar === 'string' && request.user.avatar.startsWith('http') ? (
                           <img src={request.user.avatar} alt={request.user.username} />

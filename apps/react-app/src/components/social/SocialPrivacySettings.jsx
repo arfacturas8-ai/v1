@@ -169,7 +169,7 @@ const SocialPrivacySettings = ({ onClose }) => {
   if (loading) {
     return (
       <div style={{color: "var(--text-primary)"}} className="flex flex-col items-center justify-center py-16 px-5 /60">
-        <div style={{borderColor: "var(--border-subtle)"}} className="w-8 h-8 border-[3px]  border-t-green-400 rounded-full  mb-4" />
+        <div style={{borderColor: "var(--border-subtle)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />
         <p>Loading privacy settings...</p>
       </div>
     )
@@ -186,7 +186,7 @@ const SocialPrivacySettings = ({ onClose }) => {
           </div>
           <button
             onClick={onClose}
-            className="flex items-center justify-center w-8 h-8 min-h-[44px] rounded-md bg-red-500/10 text-red-500 transition-all hover:bg-red-500/20"
+            style={{ width: "48px", height: "48px", flexShrink: 0 }}
           >
             <X size={20} />
           </button>
@@ -566,12 +566,12 @@ const SocialPrivacySettings = ({ onClose }) => {
                         <div className="flex-shrink-0">
                           {user.avatar ? (
                             typeof user.avatar === 'string' && user.avatar.startsWith('http') ? (
-                              <img src={user.avatar} alt={user.username} className="w-10 h-10 rounded-lg" />
+                              <img src={user.avatar} alt={user.username} style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                             ) : (
-                              <span className="w-10 h-10 rounded-lg flex items-center justify-center text-base">{user.avatar}</span>
+                              <span style={{ width: "48px", height: "48px", flexShrink: 0 }}>{user.avatar}</span>
                             )
                           ) : (
-                            <div className="w-10 h-10 rounded-lg bg-red-500/20 flex items-center justify-center text-red-500">
+                            <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                               <UserX size={16} />
                             </div>
                           )}

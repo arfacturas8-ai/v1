@@ -215,7 +215,7 @@ export default function MFALoginPage() {
                   checked={rememberDevice}
                   onChange={(e) => setRememberDevice(e.target.checked)}
                   disabled={loading}
-                  className="w-4 h-4 rounded cursor-pointer"
+                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
                   style={{ border: '1px solid var(--border-subtle)' }}
                 />
                 <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
@@ -276,7 +276,7 @@ export default function MFALoginPage() {
                     checked={rememberDevice}
                     onChange={(e) => setRememberDevice(e.target.checked)}
                     disabled={loading}
-                    style={{borderColor: "var(--border-subtle)"}} className="w-4 h-4 rounded border  bg-[#202225]/60 cursor-pointer"
+                    style={{borderColor: "var(--border-subtle)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}
                   />
                   <span className="text-xs text-[#A0A0A0]">
                     Remember this device for 30 days

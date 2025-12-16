@@ -23,8 +23,8 @@ const PrivacySettingsPage = () => {
           {/* Header */}
           <div className="mb-6 sm:mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-2xl  flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
-                <Shield style={{color: "var(--text-primary)"}} className="w-4 h-4 sm:w-5 sm:h-5 " />
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
+                <Shield style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-bold ">Privacy Settings</h1>
             </div>
@@ -34,14 +34,14 @@ const PrivacySettingsPage = () => {
           {/* Profile Visibility */}
           <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
-              <Globe className="w-4 h-4 sm:w-5 sm:h-5 text-[#58a6ff]" />
+              <Globe style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Profile Visibility</h2>
             </div>
             <div className="space-y-2 sm:space-y-3">
               {['public', 'friends', 'private'].map(option => (
                 <label key={option} className="flex items-center gap-3 p-2 sm:p-3 rounded-lg cursor-pointer" style={{ background: settings.profileVisibility === option ? 'rgba(88, 166, 255, 0.1)' : 'transparent', border: settings.profileVisibility === option ? '1px solid rgba(88, 166, 255, 0.3)' : '1px solid transparent' }}>
                   <input type="radio" name="visibility" checked={settings.profileVisibility === option} onChange={() => updateSetting('profileVisibility', option)} className="sr-only" />
-                  <div className="w-4 h-4 rounded-full border-2 flex-shrink-0" style={{ borderColor: settings.profileVisibility === option ? '#58a6ff' : '#666666', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
+                  <div style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ borderColor: settings.profileVisibility === option ? '#58a6ff' : '#666666', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
                   <span style={{color: "var(--text-primary)"}} className="text-sm sm:text-base  capitalize">{option}</span>
                 </label>
               ))}
@@ -58,14 +58,14 @@ const PrivacySettingsPage = () => {
               ].map(item => (
                 <div key={item.key} className="flex items-center justify-between gap-3 p-3 rounded-lg" style={{ background: '#1A1A1A' }}>
                   <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                    <item.icon className="w-4 h-4 sm:w-5 sm:h-5 text-[#666666] flex-shrink-0" />
+                    <item.icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <div className="min-w-0">
                       <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base  font-medium">{item.label}</p>
                       <p className="text-xs sm:text-sm text-[#666666]">{item.desc}</p>
                     </div>
                   </div>
                   <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
-                    <div className="w-5 h-5 rounded-full bg-white transition-transform" style={{ transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }} />
+                    <div style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }} />
                   </button>
                 </div>
               ))}
@@ -75,7 +75,7 @@ const PrivacySettingsPage = () => {
           {/* Direct Messages */}
           <div className="rounded-2xl  p-4 sm:p-6" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center gap-3 mb-3 sm:mb-4">
-              <MessageSquare className="w-4 h-4 sm:w-5 sm:h-5 text-[#a371f7]" />
+              <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Direct Messages</h2>
             </div>
             <p className="text-sm sm:text-base text-[#666666] mb-3 sm:mb-4">Control who can send you direct messages</p>

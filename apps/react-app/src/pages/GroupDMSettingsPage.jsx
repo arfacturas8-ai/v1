@@ -50,9 +50,9 @@ const GroupDMSettingsPage = () => {
   const getRoleBadge = (role) => {
     switch (role) {
       case 'owner':
-        return <Crown className="w-4 h-4 text-amber-500" />
+        return <Crown style={{ width: "24px", height: "24px", flexShrink: 0 }} />
       case 'admin':
-        return <Shield className="w-4 h-4 text-[#58a6ff]" />
+        return <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
       default:
         return null
     }
@@ -69,7 +69,7 @@ const GroupDMSettingsPage = () => {
             style={{color: "var(--text-primary)"}} className="card p-2 bg-transparent border-none  cursor-pointer rounded-lg hover:  transition-colors flex items-center justify-center"
             aria-label="Go back"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
           <div>
             <h1 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-bold  m-0">Group Settings</h1>
@@ -81,7 +81,7 @@ const GroupDMSettingsPage = () => {
       <div className="max-w-3xl mx-auto px-3 md:px-6 py-4 md:py-8 flex flex-col gap-5 md:gap-6">
         <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-xl p-5 md:p-8 ">
           <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold mb-3 md:mb-4  flex items-center gap-2">
-            <Settings className="w-5 h-5" />
+            <Settings style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Group Information
           </h2>
 
@@ -91,7 +91,7 @@ const GroupDMSettingsPage = () => {
               <div className="flex items-center gap-3 md:gap-4">
                 <div className="text-5xl md:text-6xl">{groupIcon}</div>
                 <button style={{color: "var(--text-primary)"}} className="py-2 md:py-2.5 px-3 md:px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none rounded-lg cursor-pointer flex items-center gap-2 text-xs md:text-sm font-medium">
-                  <Image className="w-4 h-4" />
+                  <Image style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Change Icon
                 </button>
               </div>
@@ -111,9 +111,9 @@ const GroupDMSettingsPage = () => {
             <div className="card flex items-center justify-between p-3 md:p-4 /80 rounded-2xl ">
               <div className="flex items-center gap-2 md:gap-3">
                 {notificationsEnabled ? (
-                  <Bell className="w-5 h-5 text-[#58a6ff]" />
+                  <Bell style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <BellOff style={{color: "var(--text-secondary)"}} className="w-5 h-5 " />
+                  <BellOff style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 )}
                 <div>
                   <div style={{color: "var(--text-primary)"}} className="font-medium  mb-1 text-sm md:text-base">Notifications</div>
@@ -138,12 +138,12 @@ const GroupDMSettingsPage = () => {
         <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-xl p-5 md:p-8 ">
           <div className="flex items-center justify-between mb-3 md:mb-4">
             <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold  flex items-center gap-2 m-0">
-              <Users className="w-5 h-5" />
+              <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Members ({members.length})
             </h2>
             {(currentUserRole === 'owner' || currentUserRole === 'admin') && (
               <button style={{color: "var(--text-primary)"}} className="py-2 md:py-2.5 px-3 md:px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-none rounded-lg cursor-pointer flex items-center gap-2 text-xs md:text-sm font-medium">
-                <UserPlus className="w-4 h-4" />
+                <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Add Members
               </button>
             )}
@@ -155,7 +155,7 @@ const GroupDMSettingsPage = () => {
                 <div className="flex items-center gap-3 md:gap-4">
                   <div className="relative">
                     <div className="text-2xl md:text-3xl">{member.avatar}</div>
-                    {member.isOnline && <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 rounded-full border-2 border-[#161b22]/60" />}
+                    {member.isOnline && <div style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
                   </div>
                   <div>
                     <div style={{color: "var(--text-primary)"}} className="flex items-center gap-2 font-medium  text-sm md:text-base">
@@ -184,7 +184,7 @@ const GroupDMSettingsPage = () => {
                       className="card p-2 bg-transparent border-none text-red-500 cursor-pointer rounded-lg hover:  transition-colors flex items-center justify-center"
                       aria-label={`Remove ${member.username}`}
                     >
-                      <UserMinus className="w-4 h-4" />
+                      <UserMinus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </button>
                   </div>
                 )}
@@ -201,7 +201,7 @@ const GroupDMSettingsPage = () => {
               onClick={leaveGroup}
               className="w-full py-3 md:py-4 px-4 bg-red-500/10 text-red-500 border border-red-500/30 rounded-2xl  cursor-pointer flex items-center justify-center gap-2 text-sm md:text-base font-medium hover:bg-red-500/20 transition-colors"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Leave Group
             </button>
 
@@ -210,7 +210,7 @@ const GroupDMSettingsPage = () => {
                 onClick={deleteGroup}
                 className="w-full py-3 md:py-4 px-4 bg-red-500/20 text-red-500 border border-red-500/40 rounded-2xl  cursor-pointer flex items-center justify-center gap-2 text-sm md:text-base font-medium hover:bg-red-500/30 transition-colors"
               >
-                <Trash2 className="w-5 h-5" />
+                <Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Delete Group
               </button>
             )}

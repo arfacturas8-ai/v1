@@ -141,9 +141,9 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
   }
 
   const tabs = [
-    { id: 'general', label: 'General', icon: <Settings className="w-4 h-4" /> },
-    { id: 'members', label: 'Members', icon: <Users className="w-4 h-4" /> },
-    { id: 'moderation', label: 'Moderation', icon: <Shield className="w-4 h-4" /> }
+    { id: 'general', label: 'General', icon: <Settings style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+    { id: 'members', label: 'Members', icon: <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} /> },
+    { id: 'moderation', label: 'Moderation', icon: <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} /> }
   ]
 
   return (
@@ -161,7 +161,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
             onClick={onClose}
             className="p-2 rounded-xl hover:bg-white/5 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
           >
-            <X className="w-5 h-5" />
+            <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
         </div>
 
@@ -237,13 +237,13 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                   </label>
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div
-                      style={{borderColor: "var(--border-subtle)"}} className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl bg-white/5 border  flex items-center justify-center overflow-hidden cursor-pointer hover:bg-white/10 transition-colors"
+                      style={{borderColor: "var(--border-subtle)"}} style={{ width: "80px", height: "80px", flexShrink: 0 }}
                       onClick={() => iconInputRef.current?.click()}
                     >
                       {iconPreview ? (
                         <img src={iconPreview} alt="Server icon" className="w-full h-full object-cover" />
                       ) : (
-                        <ImageIcon className="w-6 h-6 sm:w-8 sm:h-8 text-tertiary" />
+                        <ImageIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       )}
                     </div>
                     <Button
@@ -253,7 +253,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                       onClick={() => iconInputRef.current?.click()}
                       className="min-h-[44px]"
                     >
-                      <Upload className="w-4 h-4 mr-2" />
+                      <Upload style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span className="text-sm">Change Icon</span>
                     </Button>
                     <input
@@ -278,7 +278,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                       <img src={bannerPreview} alt="Server banner" className="w-full h-full object-cover" />
                     ) : (
                       <div className="text-center">
-                        <Upload className="w-6 h-6 sm:w-8 sm:h-8 mx-auto mb-2 text-tertiary" />
+                        <Upload style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <p className="text-xs sm:text-sm text-secondary">
                           Click to upload banner
                         </p>
@@ -301,7 +301,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                       name="isPublic"
                       checked={formData.isPublic}
                       onChange={(e) => setFormData(prev => ({ ...prev, isPublic: e.target.checked }))}
-                      style={{borderColor: "var(--border-default)"}} className="w-4 h-4 sm:w-5 sm:h-5 rounded "
+                      style={{borderColor: "var(--border-default)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}
                     />
                     <span style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">
                       Public Server
@@ -333,7 +333,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                         loading={loading}
                         className="w-full sm:w-auto min-h-[44px] flex-shrink-0"
                       >
-                        <Trash2 className="w-4 h-4 mr-2" />
+                        <Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <span className="text-sm">Delete</span>
                       </Button>
                     </div>
@@ -358,10 +358,10 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                             <img
                               src={member.user.avatar}
                               alt={member.user.username}
-                              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex-shrink-0"
+                              style={{ width: "48px", height: "48px", flexShrink: 0 }}
                             />
                           ) : (
-                            <div style={{color: "var(--text-primary)"}} className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center font-semibold  text-sm flex-shrink-0">
+                            <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                               {member.user.displayName?.[0]?.toUpperCase() || member.user.username[0].toUpperCase()}
                             </div>
                           )}
@@ -466,21 +466,21 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                           <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Profanity Filter</p>
                           <p className="text-xs sm:text-sm text-secondary">Block messages containing profanity</p>
                         </div>
-                        <input type="checkbox" className="w-5 h-5 rounded flex-shrink-0" />
+                        <input type="checkbox" style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       </label>
                       <label style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border  bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
                         <div className="flex-1 min-w-0 mr-3">
                           <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Spam Detection</p>
                           <p className="text-xs sm:text-sm text-secondary">Automatically detect and remove spam</p>
                         </div>
-                        <input type="checkbox" className="w-5 h-5 rounded flex-shrink-0" />
+                        <input type="checkbox" style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       </label>
                       <label style={{borderColor: "var(--border-subtle)"}} className="flex items-center justify-between p-3 sm:p-4 rounded-xl border  bg-white/5 cursor-pointer hover:bg-white/10 transition-colors">
                         <div className="flex-1 min-w-0 mr-3">
                           <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Link Filtering</p>
                           <p className="text-xs sm:text-sm text-secondary">Restrict external links</p>
                         </div>
-                        <input type="checkbox" className="w-5 h-5 rounded flex-shrink-0" />
+                        <input type="checkbox" style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       </label>
                     </div>
                   </div>

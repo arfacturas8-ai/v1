@@ -230,7 +230,7 @@ export default function MemberDirectory({
     return (
       <div className="max-w-screen-xl mx-auto p-6">
         <div className="flex flex-col items-center justify-center py-16 text-text-secondary">
-          <div className="w-8 h-8 border-3 border-border-primary border-t-accent-primary rounded-full  mb-4"></div>
+          <div style={{ width: "48px", height: "48px", flexShrink: 0 }}></div>
           <p>Loading members...</p>
         </div>
       </div>
@@ -299,7 +299,7 @@ export default function MemberDirectory({
       <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-5 mb-6">
         {members.map(member => (
           <div key={member.id} className="bg-card border border-border-primary rounded-xl p-5 transition-all relative hover:border-accent-primary/30 hover:shadow-lg hover:-translate-y-0.5">
-            <div className="relative w-16 h-16 mx-auto mb-4">
+            <div style={{ width: "80px", height: "80px", flexShrink: 0 }}>
               <img 
                 src={member.avatar || '/default-avatar.png'} 
                 alt={member.username}
@@ -308,7 +308,7 @@ export default function MemberDirectory({
                 }}
               />
               <div 
-                className="absolute -bottom-0.5 -right-0.5 w-6 h-6 rounded-full flex items-center justify-center border-2 border-card" 
+                style={{ width: "24px", height: "24px", flexShrink: 0 }} 
                 style={{ backgroundColor: getRoleColor(member.role) }}
               >
                 {getRoleIcon(member.role)}
@@ -506,7 +506,7 @@ function InviteMembersModal({ communityId, onClose, onInviteSent }) {
       <div className="bg-card rounded-xl w-full max-w-lg max-h-[90vh] overflow-hidden flex flex-col">
         <div className="flex items-center justify-between p-5 border-b border-border-primary">
           <h3>Invite Members</h3>
-          <button className="bg-transparent border-none text-2xl text-text-secondary cursor-pointer w-8 h-8 flex items-center justify-center rounded transition-all hover:bg-hover hover:text-text-primary" onClick={onClose}>×</button>
+          <button style={{ width: "48px", height: "48px", flexShrink: 0 }} onClick={onClose}>×</button>
         </div>
 
         <div className="flex-1 p-5 overflow-y-auto">

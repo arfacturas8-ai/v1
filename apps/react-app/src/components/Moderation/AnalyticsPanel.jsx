@@ -59,7 +59,7 @@ const AnalyticsPanel = () => {
     return (
       <div className="bg-white backdrop-blur-[10px] rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-[var(--border-subtle)]">
         <div className="flex justify-center items-center p-12 text-[var(--text-secondary)]">
-          <div className="inline-block w-5 h-5 border-2 border-[var(--border-subtle)] rounded-full border-t-[#58a6ff] "></div>
+          <div style={{ width: "24px", height: "24px", flexShrink: 0 }}></div>
           <span>Loading moderation analytics...</span>
         </div>
       </div>
@@ -201,15 +201,15 @@ const AnalyticsPanel = () => {
                 <h4 className="text-base font-semibold text-[var(--text-primary)] mb-3">Resolution Status</h4>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-green-500"></span>
+                    <span style={{ width: "24px", height: "24px", flexShrink: 0 }}></span>
                     <span className="text-[var(--text-secondary)]">Resolved: {analytics.summary?.resolved_reports || 0}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-yellow-500"></span>
+                    <span style={{ width: "24px", height: "24px", flexShrink: 0 }}></span>
                     <span className="text-[var(--text-secondary)]">Pending: {analytics.summary?.pending_reports || 0}</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-orange-500"></span>
+                    <span style={{ width: "24px", height: "24px", flexShrink: 0 }}></span>
                     <span className="text-[var(--text-secondary)]">Escalated: {analytics.summary?.escalated_reports || 0}</span>
                   </div>
                 </div>
@@ -311,7 +311,7 @@ const AnalyticsPanel = () => {
               {analytics.moderator_performance?.map((moderator, index) => (
                 <div key={index} className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-[#58a6ff] flex items-center justify-center  font-bold">
+                    <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                       {moderator.username?.[0]?.toUpperCase() || 'M'}
                     </div>
                     <div>

@@ -89,8 +89,8 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
           {/* Header */}
           <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-6 border-b border-[var(--border-subtle)]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                <Keyboard className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <Keyboard style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <div>
                 <h2 className="text-lg sm:text-xl font-bold text-[var(--text-primary)] m-0">Keyboard Shortcuts</h2>
@@ -101,7 +101,7 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
               onClick={onClose}
               className="p-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-lg cursor-pointer flex items-center justify-center min-h-[44px] min-w-[44px] hover:bg-white/50 transition-colors"
             >
-              <X className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--text-secondary)]" />
+              <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </div>
 
@@ -124,7 +124,7 @@ const KeyboardShortcutsModal = ({ isOpen, onClose }) => {
                           {shortcut.keys.map((key, keyIndex) => (
                             <React.Fragment key={keyIndex}>
                               <kbd className="px-2 py-1 bg-white text-[var(--text-secondary)] rounded border border-[var(--border-subtle)] text-xs font-mono inline-flex items-center justify-center min-w-[28px]">
-                                {key === '⌘' ? <Command className="w-3 h-3" /> : key}
+                                {key === '⌘' ? <Command style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : key}
                               </kbd>
                               {keyIndex < shortcut.keys.length - 1 && (
                                 <span className="text-[var(--text-secondary)] text-xs">+</span>

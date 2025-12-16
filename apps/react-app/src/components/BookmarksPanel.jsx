@@ -158,7 +158,7 @@ const BookmarksPanel = ({ user, onClose }) => {
       <div className="flex-1 overflow-y-auto p-4">
         {loading ? (
           <div className="loading-state text-center py-12">
-            <div className="spinner w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }} />
             <p style={{ color: 'var(--text-secondary)' }}>Loading saved posts...</p>
           </div>
         ) : filteredBookmarks.length > 0 ? (

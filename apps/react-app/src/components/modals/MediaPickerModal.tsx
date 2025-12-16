@@ -266,15 +266,15 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           onClick={handleCloseCameraView}
           style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="bg-black/50  hover:/70"
         >
-          <X className="h-6 w-6" />
+          <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </Button>
         <Button
           variant="primary"
           size="icon-lg"
           onClick={handleCapturePhoto}
-          className="w-16 h-16 rounded-full"
+          style={{ width: "80px", height: "80px", flexShrink: 0 }}
         >
-          <Camera className="h-8 w-8" />
+          <Camera style={{ width: "48px", height: "48px", flexShrink: 0 }} />
         </Button>
       </div>
     </div>
@@ -293,7 +293,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
           )}
         >
-          <Upload className="h-8 w-8 text-muted-foreground" />
+          <Upload style={{ width: "48px", height: "48px", flexShrink: 0 }} />
           <span className="text-sm font-medium">Choose Files</span>
           <span className="text-xs text-muted-foreground">
             {multiple ? `Up to ${maxFiles} files` : 'Select one file'}
@@ -309,7 +309,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
               'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring'
             )}
           >
-            <Camera className="h-8 w-8 text-muted-foreground" />
+            <Camera style={{ width: "48px", height: "48px", flexShrink: 0 }} />
             <span className="text-sm font-medium">Take Photo</span>
             <span className="text-xs text-muted-foreground">Use camera</span>
           </button>
@@ -371,8 +371,8 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
 
                 {/* Selection indicator */}
                 {file.selected && (
-                  <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-primary flex items-center justify-center">
-                    <Check style={{color: "var(--text-primary)"}} className="h-4 w-4 " />
+                  <div style={{ width: "24px", height: "24px", flexShrink: 0 }}>
+                    <Check style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </div>
                 )}
 
@@ -382,9 +382,9 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                     e.stopPropagation();
                     removeFile(file.id);
                   }}
-                  style={{background: "var(--bg-primary)"}} className="absolute top-2 right-2 w-6 h-6 rounded-full bg-black/50 flex items-center justify-center hover:/70 transition-colors"
+                  style={{background: "var(--bg-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}
                 >
-                  <X style={{color: "var(--text-primary)"}} className="h-4 w-4 " />
+                  <X style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
 
                 {/* Crop button */}
@@ -396,7 +396,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                     }}
                     style={{background: "var(--bg-primary)"}} className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/50 flex items-center gap-1 hover:/70 transition-colors"
                   >
-                    <Crop style={{color: "var(--text-primary)"}} className="h-3 w-3 " />
+                    <Crop style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span style={{color: "var(--text-primary)"}} className="text-xs ">Crop</span>
                   </button>
                 )}
@@ -429,7 +429,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           onClick={() => {}}
           aria-label="Zoom out"
         >
-          <ZoomOut className="h-4 w-4" />
+          <ZoomOut style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </Button>
         <Button
           variant="outline"
@@ -437,7 +437,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           onClick={() => {}}
           aria-label="Zoom in"
         >
-          <ZoomIn className="h-4 w-4" />
+          <ZoomIn style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </Button>
         <Button
           variant="outline"
@@ -445,7 +445,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           onClick={() => {}}
           aria-label="Rotate"
         >
-          <RotateCw className="h-4 w-4" />
+          <RotateCw style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </Button>
         <Button
           variant="outline"
@@ -453,7 +453,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           onClick={() => {}}
           aria-label="Aspect ratio"
         >
-          <Grid3x3 className="h-4 w-4" />
+          <Grid3x3 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </Button>
       </div>
 
@@ -484,7 +484,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
       <ModalHeader>
         <ModalTitle>
           <div className="flex items-center gap-2">
-            <ImageIcon className="h-5 w-5" />
+            <ImageIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             {view === 'picker' && 'Select Media'}
             {view === 'crop' && 'Crop Image'}
           </div>

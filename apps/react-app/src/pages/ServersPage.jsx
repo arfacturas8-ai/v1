@@ -118,11 +118,11 @@ function ServersPage() {
             <img
               src={server?.icon}
               alt={server?.name || 'Server'}
-              className="w-12 h-12 md:w-16 md:h-16 rounded-2xl  object-cover"
+              style={{ width: "64px", height: "64px", flexShrink: 0 }}
             />
           ) : (
             <div
-              style={{color: "var(--text-primary)"}} className="w-12 h-12 md:w-16 md:h-16 rounded-2xl  flex items-center justify-center  text-xl md:text-2xl font-bold bg-gradient-to-br from-[#58a6ff] to-[#a371f7]"
+              style={{color: "var(--text-primary)"}} style={{ width: "64px", height: "64px", flexShrink: 0 }}
             >
               {server?.name?.charAt(0)?.toUpperCase() || 'S'}
             </div>
@@ -138,9 +138,9 @@ function ServersPage() {
                   {server?.name || 'Unnamed Server'}
                 </h3>
                 {server?.isPublic ? (
-                  <Globe className="h-4 w-4 text-[#58a6ff] flex-shrink-0" />
+                  <Globe style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <Lock style={{color: "var(--text-secondary)"}} className="h-4 w-4  flex-shrink-0" />
+                  <Lock style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 )}
               </div>
               {server?.description && (
@@ -168,7 +168,7 @@ function ServersPage() {
                 className="min-h-[44px] flex-shrink-0"
               >
                 <span className="hidden md:inline">Open</span>
-                <ArrowRight className="h-4 w-4 md:ml-1" />
+                <ArrowRight style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </Button>
             )}
           </div>
@@ -176,7 +176,7 @@ function ServersPage() {
           {/* Server Stats */}
           <div style={{color: "var(--text-secondary)"}} className="flex items-center gap-3 md:gap-4 text-sm ">
             <div className="flex items-center gap-1">
-              <Users className="h-4 w-4 flex-shrink-0" />
+              <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <span className="text-xs md:text-sm">{server?.memberCount || 0} members</span>
             </div>
             {server?.onlineCount !== undefined && (
@@ -216,7 +216,7 @@ function ServersPage() {
                 onClick={() => setShowCreateModal(true)}
                 className="min-h-[44px] whitespace-nowrap"
               >
-                <Plus className="h-4 w-4 mr-2" />
+                <Plus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Create Server
               </Button>
             </div>
@@ -225,7 +225,7 @@ function ServersPage() {
           {/* Search Bar */}
           <form onSubmit={handleSearch} className="mb-6 md:mb-8">
             <div className="relative">
-              <Search className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 h-4 w-4 md:h-5 md:w-5 text-rgb(var(--color-neutral-400))" />
+              <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <Input
                 type="text"
                 placeholder="Search servers..."
@@ -308,14 +308,14 @@ function ServersPage() {
           </div>
         ) : loading ? (
           <div className="text-center py-12 md:py-16 lg:py-20">
-            <div className="inline-block  rounded-full h-10 w-10 md:h-12 md:w-12 border-4 border-primary border-t-transparent"></div>
+            <div style={{ width: "48px", height: "48px", flexShrink: 0 }}></div>
             <p className="text-sm md:text-base text-secondary mt-3 md:mt-4">Loading servers...</p>
           </div>
         ) : (
           <div className="grid gap-4 md:gap-5 lg:gap-6">
             {activeTab === 'discover' && (publicServers?.length || 0) === 0 && (
               <div className="text-center py-12 md:py-16 lg:py-20">
-                <Globe className="h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 text-rgb(var(--color-neutral-300)) mx-auto mb-3 md:mb-4" />
+                <Globe style={{ width: "64px", height: "64px", flexShrink: 0 }} />
                 <h3 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-bold  mb-2 md:mb-3">
                   No servers found
                 </h3>
@@ -327,7 +327,7 @@ function ServersPage() {
 
             {activeTab === 'myServers' && (myServers?.length || 0) === 0 && (
               <div className="text-center py-12 md:py-16 lg:py-20">
-                <Users className="h-12 w-12 md:h-14 md:w-14 lg:h-16 lg:w-16 text-rgb(var(--color-neutral-300)) mx-auto mb-3 md:mb-4" />
+                <Users style={{ width: "64px", height: "64px", flexShrink: 0 }} />
                 <h3 style={{color: "var(--text-primary)"}} className="text-lg md:text-xl font-bold  mb-2 md:mb-3">
                   You haven't joined any servers yet
                 </h3>

@@ -390,7 +390,7 @@ const ReportingSystem = ({ isOpen, onClose, contentId, contentType, reportedUser
             >
               {loading ? (
                 <>
-                  <span className="inline-block w-4 h-4 border-2 border-white/30 rounded-full border-t-white "></span>
+                  <span style={{ width: "24px", height: "24px", flexShrink: 0 }}></span>
                   Submitting...
                 </>
               ) : (

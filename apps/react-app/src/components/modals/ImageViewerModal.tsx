@@ -270,7 +270,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                   disabled={zoom <= 0.5}
                   style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 >
-                  <ZoomOut className="h-4 w-4" />
+                  <ZoomOut style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </Button>
                 <span style={{color: "var(--text-primary)"}} className=" text-sm min-w-12 text-center">
                   {Math.round(zoom * 100)}%
@@ -282,7 +282,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                   disabled={zoom >= 3}
                   style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 >
-                  <ZoomIn className="h-4 w-4" />
+                  <ZoomIn style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </Button>
               </div>
 
@@ -294,7 +294,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 aria-label="Rotate"
               >
-                <RotateCw className="h-5 w-5" />
+                <RotateCw style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </Button>
 
               {/* Fullscreen */}
@@ -306,9 +306,9 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
               >
                 {isFullscreen ? (
-                  <Minimize className="h-5 w-5" />
+                  <Minimize style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <Maximize className="h-5 w-5" />
+                  <Maximize style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 )}
               </Button>
 
@@ -321,7 +321,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                   style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                   aria-label="Download"
                 >
-                  <Download className="h-5 w-5" />
+                  <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </Button>
               )}
 
@@ -334,7 +334,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                   style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                   aria-label="Share"
                 >
-                  <Share2 className="h-5 w-5" />
+                  <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </Button>
               )}
 
@@ -346,7 +346,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                 style={{color: "var(--text-primary)"}} className=" hover:bg-white/20"
                 aria-label="Close"
               >
-                <X className="h-5 w-5" />
+                <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </Button>
             </div>
           </div>
@@ -399,7 +399,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
               )}
               aria-label="Previous"
             >
-              <ChevronLeft className="h-6 w-6" />
+              <ChevronLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
 
             <button
@@ -415,7 +415,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
               )}
               aria-label="Next"
             >
-              <ChevronRight className="h-6 w-6" />
+              <ChevronRight style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </>
         )}

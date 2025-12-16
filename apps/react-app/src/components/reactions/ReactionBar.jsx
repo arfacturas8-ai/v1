@@ -97,7 +97,7 @@ function ReactionDisplay({
             {users.slice(0, 5).map((user, index) => (
               <div key={user.id || index} className="user-preview">
                 {user.avatar ? (
-                  <img src={user.avatar} alt={user.username} className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-2xl flex-shrink-0" />
+                  <img src={user.avatar} alt={user.username} style={{ width: "64px", height: "64px", flexShrink: 0 }} />
                 ) : (
                   <div className="user-avatar-placeholder">
                     {(user.username || user.display_name || 'U')[0].toUpperCase()}

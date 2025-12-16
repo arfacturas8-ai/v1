@@ -72,7 +72,7 @@ export default function MobileBottomNav() {
             >
               <div className="relative">
                 <Icon
-                  className="w-6 h-6 transition-transform"
+                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
                   style={{
                     transform: isActive ? 'scale(1.1)' : 'scale(1)',
                     strokeWidth: isActive ? 2.5 : 2

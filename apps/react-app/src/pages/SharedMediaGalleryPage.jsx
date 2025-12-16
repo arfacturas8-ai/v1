@@ -77,7 +77,7 @@ const SharedMediaGalleryPage = () => {
               style={{color: "var(--text-primary)"}} className="p-2 hover:bg-[#21262d] rounded-lg  transition-colors"
               aria-label="Go back"
             >
-              <ArrowLeft className="w-5 h-5" />
+              <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
             <div>
               <h1 style={{color: "var(--text-primary)"}} className="text-2xl font-bold ">
@@ -101,7 +101,7 @@ const SharedMediaGalleryPage = () => {
                 aria-selected={activeTab === tab.id}
                 role="tab"
               >
-                <tab.icon className="w-5 h-5" />
+                <tab.icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 {tab.label}
                 <span className="px-2 py-0.5 bg-[#21262d] rounded-full text-xs">
                   {tab.count}
@@ -116,7 +116,7 @@ const SharedMediaGalleryPage = () => {
       <div style={{borderColor: "var(--border-subtle)"}} className="card   border-b ">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
           <div className="relative flex-1">
-            <Search style={{color: "var(--text-secondary)"}} className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 " />
+            <Search style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <input
               type="text"
               value={searchQuery}
@@ -127,7 +127,7 @@ const SharedMediaGalleryPage = () => {
           </div>
 
           <button style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg ">
-            <Filter className="w-5 h-5" />
+            <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
 
           <div style={{borderColor: "var(--border-subtle)"}} className="flex gap-1 bg-[#21262d] border  rounded-lg p-1">
@@ -138,7 +138,7 @@ const SharedMediaGalleryPage = () => {
               }`}
               aria-label="Grid view"
             >
-              <Grid className="w-5 h-5" />
+              <Grid style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
             <button
               onClick={() => setViewMode('list')}
@@ -147,7 +147,7 @@ const SharedMediaGalleryPage = () => {
               }`}
               aria-label="List view"
             >
-              <List className="w-5 h-5" />
+              <List style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </div>
         </div>
@@ -176,17 +176,17 @@ const SharedMediaGalleryPage = () => {
                     )}
                     <div style={{background: "var(--bg-primary)"}} className="absolute inset-0 /60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                       <button className="card card p-3 /60  hover:  rounded-lg backdrop-blur-sm">
-                        <Download style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
+                        <Download style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       </button>
                       <button className="card card p-3 /60  hover:  rounded-lg backdrop-blur-sm">
-                        <ExternalLink style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
+                        <ExternalLink style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       </button>
                     </div>
                   </div>
                 ) : (
                   <>
                     <div style={{borderColor: "var(--border-subtle)"}} className="w-16 h-16 bg-[#21262d] rounded-lg flex items-center justify-center border ">
-                      {item.type === 'image' && <Image style={{color: "var(--text-secondary)"}} className="w-8 h-8 " />}
+                      {item.type === 'image' && <Image style={{color: "var(--text-secondary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />}
                       {item.type === 'video' && <span className="text-3xl">🎥</span>}
                     </div>
                     <div className="flex-1">
@@ -194,7 +194,7 @@ const SharedMediaGalleryPage = () => {
                       <div style={{color: "var(--text-secondary)"}} className="text-sm ">{item.size} • {item.date}</div>
                     </div>
                     <button style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg ">
-                      <Download className="w-5 h-5" />
+                      <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </button>
                   </>
                 )}
@@ -213,14 +213,14 @@ const SharedMediaGalleryPage = () => {
                 style={{borderColor: "var(--border-subtle)"}} className="card flex items-center gap-4 p-4   border  rounded-2xl  hover:border-[#58a6ff]/30 transition-all"
               >
                 <div className={`w-12 h-12 flex items-center justify-center ${getFileIcon(item.type)}`}>
-                  <File className="w-8 h-8" />
+                  <File style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                 </div>
                 <div className="flex-1">
                   <div style={{color: "var(--text-primary)"}} className="font-medium ">{item.name}</div>
                   <div style={{color: "var(--text-secondary)"}} className="text-sm ">{item.type} • {item.size} • {item.date}</div>
                 </div>
                 <button style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg ">
-                  <Download className="w-5 h-5" />
+                  <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </motion.div>
             ))}
@@ -236,8 +236,8 @@ const SharedMediaGalleryPage = () => {
                 animate={{ opacity: 1, x: 0 }}
                 style={{borderColor: "var(--border-subtle)"}} className="card flex items-center gap-4 p-4   border  rounded-2xl  hover:border-[#58a6ff]/30 transition-all"
               >
-                <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-lg flex items-center justify-center">
-                  <Link className="w-6 h-6 text-[#58a6ff]" />
+                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                  <Link style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </div>
                 <div className="flex-1">
                   <div style={{color: "var(--text-primary)"}} className="font-medium ">{item.title}</div>
@@ -250,7 +250,7 @@ const SharedMediaGalleryPage = () => {
                   rel="noopener noreferrer"
                   style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg "
                 >
-                  <ExternalLink className="w-5 h-5" />
+                  <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </a>
               </motion.div>
             ))}

@@ -384,19 +384,19 @@ function ChatInterface({
                   style={{ color: 'var(--text-secondary)' }}
                   aria-label="Show sidebar"
                 >
-                  <Hash className="w-5 h-5" />
+                  <Hash style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               )}
 
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 flex items-center justify-center" style={{
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{
                   borderRadius: 'var(--radius-lg)',
                   background: 'var(--bg-tertiary)'
                 }}>
                   {isVoiceChannel ? (
-                    <Volume2 className="w-5 h-5" style={{ color: 'var(--brand-primary)' }} />
+                    <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--brand-primary)' }} />
                   ) : (
-                    <Hash className="w-5 h-5" style={{ color: 'var(--brand-primary)' }} />
+                    <Hash style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--brand-primary)' }} />
                   )}
                 </div>
                 <div>
@@ -417,10 +417,10 @@ function ChatInterface({
               {isVoiceChannel && (
                 <>
                   <button className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Start voice call">
-                    <Phone className="w-5 h-5" />
+                    <Phone style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </button>
                   <button className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Start video call">
-                    <Video className="w-5 h-5" />
+                    <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </button>
                 </>
               )}
@@ -435,7 +435,7 @@ function ChatInterface({
                 style={{ color: 'var(--text-secondary)' }}
                 aria-label="Search messages"
               >
-                <Search className="w-5 h-5" />
+                <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
 
               {/* Members */}
@@ -447,7 +447,7 @@ function ChatInterface({
                 className="hidden md:flex items-center gap-1 btn-ghost"
                 style={{ color: 'var(--text-secondary)' }}
               >
-                <Users className="w-5 h-5" />
+                <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <span className="text-sm">{channelMembers}</span>
               </button>
 
@@ -462,7 +462,7 @@ function ChatInterface({
                   style={{ color: 'var(--text-secondary)' }}
                   aria-label="Notifications"
                 >
-                  <Bell className="w-5 h-5" />
+                  <Bell style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
                 {notifications.length > 0 && (
                   <span className="badge-count" style={{ position: 'absolute', top: '-4px', right: '-4px' }}>
@@ -473,13 +473,13 @@ function ChatInterface({
 
               {/* Settings */}
               <button className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Settings">
-                <Settings className="w-5 h-5" />
+                <Settings style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
 
               {/* Close (mobile) */}
               {isMobile && onClose && (
                 <button onClick={onClose} className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Close chat">
-                  <X className="w-5 h-5" />
+                  <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               )}
             </div>
@@ -493,7 +493,7 @@ function ChatInterface({
             borderBottom: '1px solid var(--border-subtle)'
           }}>
             <div className="flex items-center gap-2">
-              <Pin className="w-4 h-4" style={{ color: 'var(--brand-primary)' }} />
+              <Pin style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--brand-primary)' }} />
               <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 {pinnedMessages.length} pinned message{pinnedMessages.length > 1 ? 's' : ''}
               </span>

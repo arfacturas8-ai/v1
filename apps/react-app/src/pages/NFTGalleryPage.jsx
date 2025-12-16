@@ -41,7 +41,7 @@ const NFTCard = ({ nft }) => {
               e.preventDefault()
               setLiked(!liked)
             }}
-            className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full backdrop-blur-sm transition-all"
+            style={{ width: "48px", height: "48px", flexShrink: 0 }}
             style={{
               backgroundColor: liked ? 'rgba(239, 68, 68, 0.9)' : 'rgba(0, 0, 0, 0.5)',
               border: '1px solid rgba(255, 255, 255, 0.1)'
@@ -174,7 +174,7 @@ const NFTListItem = ({ nft }) => {
               e.preventDefault()
               setLiked(!liked)
             }}
-            className="w-10 h-10 flex items-center justify-center rounded-full transition-all flex-shrink-0"
+            style={{ width: "48px", height: "48px", flexShrink: 0 }}
             style={{
               backgroundColor: liked ? 'rgba(239, 68, 68, 0.1)' : 'var(--bg-tertiary)',
               border: '1px solid var(--border-primary)',

@@ -196,7 +196,7 @@ export const CardImage = forwardRef(
         ) : (
           <div className="flex h-full w-full items-center justify-center">
             <svg
-              className="h-12 w-12"
+              style={{ width: "64px", height: "64px", flexShrink: 0 }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

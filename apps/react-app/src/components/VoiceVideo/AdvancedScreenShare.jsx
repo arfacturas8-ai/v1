@@ -127,7 +127,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
                   type="checkbox"
                   checked={includeAudio}
                   onChange={(e) => setIncludeAudio(e.target.checked)}
-                  className="accent-[#58a6ff] w-4 h-4"
+                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
                 />
                 Share System Audio
               </label>
@@ -196,7 +196,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
             type="color"
             value={annotationColor}
             onChange={(e) => setAnnotationColor(e.target.value)}
-            className="w-8 h-8 border-none rounded-md cursor-pointer bg-none"
+            style={{ width: "48px", height: "48px", flexShrink: 0 }}
           />
         </div>
 
@@ -277,7 +277,7 @@ const AdvancedScreenShare = ({ onClose, onStartShare, onStopShare }) => {
           <div className="flex-1 overflow-y-auto p-4">
             <div className="mb-6 pb-4 border-b border-[#334155]/50">
               <label className="flex items-center gap-2 text-[#cbd5e1] text-sm cursor-pointer">
-                <input type="checkbox" className="accent-[#58a6ff] w-4 h-4" />
+                <input type="checkbox" style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Allow annotations from all
               </label>
             </div>

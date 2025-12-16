@@ -495,7 +495,7 @@ const BotManagementPage = () => {
             <div className="px-6 py-5 border-b border-rgb(var(--color-neutral-200)) flex justify-between items-center">
               <h2 className="text-xl font-semibold text-primary">Create New Bot</h2>
               <button
-                className="text-secondary hover:bg-rgb(var(--color-neutral-100)) hover:text-primary w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
+                style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 onClick={() => setShowCreateModal(false)}
                 aria-label="Close create bot modal"
               >
@@ -610,7 +610,7 @@ const BotManagementPage = () => {
             <div className="px-6 py-5 border-b border-rgb(var(--color-neutral-200)) flex justify-between items-center">
               <h2 className="text-xl font-semibold text-primary">Activity Logs - {selectedBot?.name || 'Bot'}</h2>
               <button
-                className="text-secondary hover:bg-rgb(var(--color-neutral-100)) hover:text-primary w-8 h-8 flex items-center justify-center rounded-lg text-2xl leading-none transition-all"
+                style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 onClick={() => setShowActivityModal(false)}
                 aria-label="Close activity modal"
               >

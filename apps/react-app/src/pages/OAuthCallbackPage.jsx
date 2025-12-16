@@ -87,10 +87,10 @@ export default function OAuthCallbackPage() {
             </>
           )}
           {status === 'success' && (
-            <CheckCircle className="w-12 h-12 animate-scale-in" />
+            <CheckCircle style={{ width: "64px", height: "64px", flexShrink: 0 }} />
           )}
           {status === 'error' && (
-            <XCircle className="w-12 h-12 animate-scale-in" />
+            <XCircle style={{ width: "64px", height: "64px", flexShrink: 0 }} />
           )}
         </div>
 

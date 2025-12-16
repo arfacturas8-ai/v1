@@ -185,7 +185,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
                 {truncateAddress(transaction.from)}
               </p>
             </div>
-            <ArrowRight className="h-5 w-5 text-muted-foreground mx-4" />
+            <ArrowRight style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <div className="flex-1 text-right">
               <p className="text-xs text-muted-foreground mb-1">To</p>
               <p className="font-mono text-sm font-medium">
@@ -199,7 +199,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
             {transaction.gasEstimate && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Fuel className="h-4 w-4" />
+                  <Fuel style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Gas Estimate
                 </div>
                 <div className="font-medium">{transaction.gasEstimate}</div>
@@ -209,7 +209,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
             {transaction.gasPriceGwei && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <DollarSign className="h-4 w-4" />
+                  <DollarSign style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Gas Price
                 </div>
                 <div className="font-medium">{transaction.gasPriceGwei} Gwei</div>
@@ -219,7 +219,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
             {transaction.estimatedTime && (
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="h-4 w-4" />
+                  <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Estimated Time
                 </div>
                 <div className="font-medium">{transaction.estimatedTime}</div>
@@ -238,7 +238,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
           {transaction.warnings && transaction.warnings.length > 0 && (
             <div className="rounded-lg bg-yellow-500/10 border border-yellow-500/20 p-4">
               <div className="flex gap-2">
-                <AlertCircle className="h-5 w-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5" />
+                <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <div className="space-y-1">
                   {transaction.warnings.map((warning, i) => (
                     <p key={i} className="text-sm text-yellow-600 dark:text-yellow-400">
@@ -301,7 +301,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
             variant="outline"
             size="sm"
             onClick={() => window.open(explorerUrl, '_blank')}
-            rightIcon={<ExternalLink className="h-4 w-4" />}
+            rightIcon={<ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
           >
             View on Explorer
           </Button>
@@ -316,7 +316,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
       <ModalBody>
         <div className="flex flex-col items-center justify-center py-12">
           <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mb-6">
-            <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
+            <Check style={{ width: "48px", height: "48px", flexShrink: 0 }} />
           </div>
           <h3 className="text-lg font-semibold mb-2">Transaction Successful!</h3>
           <p className="text-sm text-muted-foreground text-center mb-2">
@@ -331,7 +331,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
             <Button
               variant="outline"
               onClick={() => window.open(explorerUrl, '_blank')}
-              rightIcon={<ExternalLink className="h-4 w-4" />}
+              rightIcon={<ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
             >
               View on Explorer
             </Button>
@@ -353,7 +353,7 @@ export const TransactionConfirmationModal: React.FC<TransactionConfirmationModal
       <ModalBody>
         <div className="flex flex-col items-center justify-center py-12">
           <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
-            <AlertCircle className="w-10 h-10 text-destructive" />
+            <AlertCircle style={{ width: "48px", height: "48px", flexShrink: 0 }} />
           </div>
           <h3 className="text-lg font-semibold mb-2">Transaction Failed</h3>
           <p className="text-sm text-muted-foreground text-center mb-6 max-w-sm">

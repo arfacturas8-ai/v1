@@ -206,7 +206,7 @@ export default function ProfileDemoPage() {
                     <p className="text-slate-400">@{currentProfile.username}</p>
                   </div>
                   <Button style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  hover:shadow-lg hover:shadow-blue-500/25">
-                    <UserPlus className="w-4 h-4 mr-2" />
+                    <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Follow
                   </Button>
                 </div>
@@ -216,24 +216,24 @@ export default function ProfileDemoPage() {
                 <div className="flex flex-wrap gap-4 text-sm mb-4">
                   {currentProfile.location && (
                     <div className="flex items-center gap-2 text-slate-400">
-                      <MapPin className="w-4 h-4" />
+                      <MapPin style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>{currentProfile.location}</span>
                     </div>
                   )}
                   {currentProfile.website && (
                     <a href={currentProfile.website} className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors">
-                      <LinkIcon className="w-4 h-4" />
+                      <LinkIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>{currentProfile.website}</span>
                     </a>
                   )}
                   {currentProfile.ensName && (
                     <div className="flex items-center gap-2 text-slate-400">
-                      <Wallet className="w-4 h-4" />
+                      <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span>{currentProfile.ensName}</span>
                     </div>
                   )}
                   <div className="flex items-center gap-2 text-slate-400">
-                    <Calendar className="w-4 h-4" />
+                    <Calendar style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>Joined {new Date(currentProfile.joinedAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
                   </div>
                 </div>
@@ -241,22 +241,22 @@ export default function ProfileDemoPage() {
                 {/* Stats */}
                 <div className="flex flex-wrap gap-6 text-sm">
                   <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-slate-400" />
+                    <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.followerCount.toLocaleString()}</span>
                     <span className="text-slate-400">Followers</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Users className="w-4 h-4 text-slate-400" />
+                    <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.followingCount.toLocaleString()}</span>
                     <span className="text-slate-400">Following</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Trophy className="w-4 h-4 text-slate-400" />
+                    <Trophy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.karma.toLocaleString()}</span>
                     <span className="text-slate-400">Karma</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Image className="w-4 h-4 text-slate-400" />
+                    <Image style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.nftCount}</span>
                     <span className="text-slate-400">NFTs</span>
                   </div>
@@ -272,7 +272,7 @@ export default function ProfileDemoPage() {
                           key={badge.id}
                           className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-900/50 to-purple-900/50 border border-blue-700/50 rounded-lg text-sm"
                         >
-                          <BadgeIcon className="w-4 h-4 text-blue-400" />
+                          <BadgeIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           <span className="text-blue-300">{badge.name}</span>
                         </div>
                       )
@@ -295,7 +295,7 @@ export default function ProfileDemoPage() {
                   : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
               }`}
             >
-              <Grid3x3 className="w-4 h-4" />
+              <Grid3x3 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               NFT Collection
             </button>
             <button
@@ -306,7 +306,7 @@ export default function ProfileDemoPage() {
                   : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
               }`}
             >
-              <Activity className="w-4 h-4" />
+              <Activity style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Activity
             </button>
             <button
@@ -317,7 +317,7 @@ export default function ProfileDemoPage() {
                   : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
               }`}
             >
-              <Wallet className="w-4 h-4" />
+              <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Wallet
             </button>
           </div>
@@ -348,11 +348,11 @@ export default function ProfileDemoPage() {
                   <p className="text-slate-400 text-sm mb-3">{nft.collection}</p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <Wallet className="w-4 h-4 text-slate-500" />
+                      <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span style={{color: "var(--text-primary)"}} className=" font-semibold">{nft.price}</span>
                     </div>
                     <button className="p-2 hover:bg-[#21262d] rounded-lg transition-colors">
-                      <ExternalLink className="w-4 h-4 text-slate-400" />
+                      <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </button>
                   </div>
                 </div>
@@ -374,8 +374,8 @@ export default function ProfileDemoPage() {
                 const ActivityIcon = activity.icon
                 return (
                   <div key={index} className="flex items-start gap-4 pb-6 border-b border-slate-800/50 last:border-0">
-                    <div className="w-10 h-10 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-lg flex items-center justify-center flex-shrink-0">
-                      <ActivityIcon style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
+                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                      <ActivityIcon style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </div>
                     <div className="flex-1">
                       <p style={{color: "var(--text-primary)"}} className=" mb-1">{activity.action}</p>
@@ -394,7 +394,7 @@ export default function ProfileDemoPage() {
               <div className="flex items-center justify-between mb-6">
                 <h3 style={{color: "var(--text-primary)"}} className="text-xl font-bold ">Wallet Address</h3>
                 <button className="p-2 hover:bg-[#21262d] rounded-lg transition-colors">
-                  <Copy className="w-5 h-5 text-slate-400" />
+                  <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </div>
               <div className="bg-[#21262d]/50 border border-slate-700/50 rounded-lg p-4 mb-4">
@@ -402,7 +402,7 @@ export default function ProfileDemoPage() {
               </div>
               {currentProfile.ensName && (
                 <div className="flex items-center gap-2 text-blue-400">
-                  <CheckCircle className="w-5 h-5" />
+                  <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <span className="font-medium">{currentProfile.ensName}</span>
                 </div>
               )}

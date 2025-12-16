@@ -162,7 +162,7 @@ export default function PasskeySetupPage() {
           <div className="card   rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/10 rounded-full mb-4">
-                <AlertCircle className="w-8 h-8 text-red-500" />
+                <AlertCircle style={{ width: "48px", height: "48px", flexShrink: 0 }} />
               </div>
               <h1 className="text-2xl font-bold mb-2">Browser Not Supported</h1>
               <p style={{color: "var(--text-secondary)"}} className=" mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
@@ -190,7 +190,7 @@ export default function PasskeySetupPage() {
           onMouseLeave={(e) => e.currentTarget.style.color = '#8b949e'}
           aria-label="Go back"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           <span>Back</span>
         </button>
 
@@ -201,7 +201,7 @@ export default function PasskeySetupPage() {
             <>
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-[#58a6ff]/10 rounded-full mb-4">
-                  <Fingerprint className="w-8 h-8 text-[#58a6ff]" />
+                  <Fingerprint style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                 </div>
                 <h1 className="text-2xl font-bold mb-2">Set Up Passkey</h1>
                 <p style={{color: "var(--text-secondary)"}} className="">
@@ -212,7 +212,7 @@ export default function PasskeySetupPage() {
               {/* Benefits */}
               <div className="space-y-4 mb-8">
                 <div className="flex items-start gap-3 p-4 bg-[#21262d] rounded-lg">
-                  <Shield className="w-5 h-5 text-[#58a6ff] flex-shrink-0 mt-0.5" />
+                  <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <div>
                     <h3 className="font-medium mb-1">More Secure</h3>
                     <p style={{color: "var(--text-secondary)"}} className="text-sm ">
@@ -222,7 +222,7 @@ export default function PasskeySetupPage() {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-[#21262d] rounded-lg">
-                  <Fingerprint className="w-5 h-5 text-[#58a6ff] flex-shrink-0 mt-0.5" />
+                  <Fingerprint style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <div>
                     <h3 className="font-medium mb-1">Faster Sign-In</h3>
                     <p style={{color: "var(--text-secondary)"}} className="text-sm ">
@@ -232,7 +232,7 @@ export default function PasskeySetupPage() {
                 </div>
 
                 <div className="flex items-start gap-3 p-4 bg-[#21262d] rounded-lg">
-                  <Key className="w-5 h-5 text-[#58a6ff] flex-shrink-0 mt-0.5" />
+                  <Key style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <div>
                     <h3 className="font-medium mb-1">No Password Needed</h3>
                     <p style={{color: "var(--text-secondary)"}} className="text-sm ">
@@ -256,7 +256,7 @@ export default function PasskeySetupPage() {
             <>
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-[#58a6ff]/10 rounded-full mb-4">
-                  <Smartphone className="w-8 h-8 text-[#58a6ff]" />
+                  <Smartphone style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                 </div>
                 <h1 className="text-2xl font-bold mb-2">Name Your Device</h1>
                 <p style={{color: "var(--text-secondary)"}} className="">
@@ -294,7 +294,7 @@ export default function PasskeySetupPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <QrCode className="w-5 h-5 text-[#58a6ff]" />
+                        <QrCode style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <h3 className="font-medium">Set Up on Mobile</h3>
                       </div>
                       <p style={{color: "var(--text-secondary)"}} className="text-sm ">
@@ -308,7 +308,7 @@ export default function PasskeySetupPage() {
               {/* Error message */}
               {error && (
                 <div className="mb-6 p-3 bg-red-500/10 border border-red-500/50 rounded-lg flex items-start gap-2">
-                  <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                  <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <p className="text-red-400 text-sm">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                 </div>
               )}
@@ -337,7 +337,7 @@ export default function PasskeySetupPage() {
             <>
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/10 rounded-full mb-4">
-                  <Check className="w-8 h-8 text-green-500" />
+                  <Check style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                 </div>
                 <h1 className="text-2xl font-bold mb-2">Passkey Created!</h1>
                 <p style={{color: "var(--text-secondary)"}} className="">
@@ -349,15 +349,15 @@ export default function PasskeySetupPage() {
                 <h3 className="font-medium mb-4">What's Next?</h3>
                 <ul style={{color: "var(--text-secondary)"}} className="space-y-3 text-sm ">
                   <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>You can now sign in using biometric authentication</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>Set up passkeys on your other devices for seamless access</span>
                   </li>
                   <li className="flex items-start gap-2">
-                    <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>You can manage your passkeys in Security Settings</span>
                   </li>
                 </ul>

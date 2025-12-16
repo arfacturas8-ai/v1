@@ -92,7 +92,7 @@ function InviteModal({ onClose, onJoin }) {
             onClick={onClose}
             className="p-2 hover:bg-white/10 rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
           >
-            <X className="h-5 w-5 text-gray-400" />
+            <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
         </div>
 
@@ -137,7 +137,7 @@ function InviteModal({ onClose, onJoin }) {
           {/* Error Message */}
           {error && (
             <div className="p-3 sm:p-4 border border-red-500/20 bg-red-500/10 rounded-xl flex items-start gap-3">
-              <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+              <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <p className="text-sm sm:text-base text-red-300 flex-1">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             </div>
           )}
@@ -147,7 +147,7 @@ function InviteModal({ onClose, onJoin }) {
             <div className="space-y-4">
               <div style={{borderColor: "var(--border-subtle)"}} className="rounded-xl p-3 sm:p-4 border  bg-white/5 space-y-4">
                 <div className="flex items-start gap-3">
-                  <CheckCircle className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
+                  <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <div className="flex-1">
                     <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">Valid Invite</p>
                     <p className="text-xs sm:text-sm text-gray-300 mt-1">
@@ -164,10 +164,10 @@ function InviteModal({ onClose, onJoin }) {
                         <img
                           src={inviteData.server.icon}
                           alt={inviteData.server.name}
-                          className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl object-cover"
+                          style={{ width: "48px", height: "48px", flexShrink: 0 }}
                         />
                       ) : (
-                        <div style={{color: "var(--text-primary)"}} className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center  font-bold text-sm sm:text-base">
+                        <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                           {inviteData.server?.name?.charAt(0).toUpperCase() || 'S'}
                         </div>
                       )}
@@ -180,9 +180,9 @@ function InviteModal({ onClose, onJoin }) {
                           {inviteData.server?.name || 'Unknown Server'}
                         </h4>
                         {inviteData.server?.isPublic ? (
-                          <Globe className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                          <Globe style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         ) : (
-                          <Lock className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                          <Lock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         )}
                       </div>
 
@@ -194,7 +194,7 @@ function InviteModal({ onClose, onJoin }) {
 
                       <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-gray-400 mt-2 flex-wrap">
                         <div className="flex items-center gap-1">
-                          <Users className="h-3 w-3" />
+                          <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           <span>{inviteData.server?.memberCount || 0} members</span>
                         </div>
                         {inviteData.server?.onlineCount !== undefined && (

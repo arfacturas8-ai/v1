@@ -15,8 +15,8 @@ const UserManagementPage = () => {
     <div style={{background: "var(--bg-primary)"}} className="min-h-screen  p-4 sm:p-6" role="main" aria-label="User management page">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
         <h1 className={`font-bold flex items-center text-white mb-6 sm:mb-8 gap-3 sm:gap-4 ${isMobile ? 'text-xl' : 'text-2xl'}`}>
-          <div className="w-10 h-10 rounded-2xl  flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-            <Users style={{color: "var(--text-primary)"}} className="w-5 h-5 " aria-hidden="true" />
+          <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+            <Users style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
           </div>
           User Management
         </h1>

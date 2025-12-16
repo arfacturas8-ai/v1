@@ -304,7 +304,7 @@ export default function UserSearch({
                   type="checkbox"
                   checked={filters.verified}
                   onChange={(e) => handleFilterChange('verified', e.target.checked)}
-                  className="w-4 h-4 accent-accent"
+                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
                 />
                 <span>Verified users only</span>
               </label>
@@ -314,7 +314,7 @@ export default function UserSearch({
                   type="checkbox"
                   checked={filters.hasAvatar}
                   onChange={(e) => handleFilterChange('hasAvatar', e.target.checked)}
-                  className="w-4 h-4 accent-accent"
+                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
                 />
                 <span>Has profile picture</span>
               </label>

@@ -156,7 +156,7 @@ const ModerationQueue = ({ socket, filters, onFiltersChange, onItemAction, onUse
     return (
       <div className="bg-white backdrop-blur-[10px] rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-[var(--border-subtle)]">
         <div className="flex justify-center items-center p-12 text-[var(--text-secondary)]">
-          <div className="inline-block w-5 h-5 border-2 border-[var(--border-subtle)] rounded-full border-t-[#58a6ff] "></div>
+          <div style={{ width: "24px", height: "24px", flexShrink: 0 }}></div>
           <span>Loading moderation queue...</span>
         </div>
       </div>

@@ -94,7 +94,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
     return (
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6">
         <div className="flex flex-col items-center justify-center py-16 text-[var(--text-secondary)]">
-          <div className="w-8 h-8 border-3 border-gray-300 border-t-blue-500 rounded-full  mb-4"></div>
+          <div style={{ width: "48px", height: "48px", flexShrink: 0 }}></div>
           <p>Loading analytics...</p>
         </div>
       </div>
@@ -299,13 +299,13 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
           <div className="flex flex-col gap-3">
             {analytics?.topContributors?.slice(0, 5).map((contributor, index) => (
               <div key={contributor.id} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div style={{color: "var(--text-primary)"}} className="w-6 h-6 bg-blue-500  rounded-full flex items-center justify-center text-xs font-semibold">
+                <div style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}>
                   #{index + 1}
                 </div>
                 <img
                   src={contributor.avatar || '/default-avatar.png'}
                   alt={contributor.username}
-                  className="w-8 h-8 rounded-full object-cover"
+                  style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 />
                 <div className="flex-1 flex flex-col gap-0.5">
                   <span className="text-[var(--text-primary)] font-medium text-sm">{contributor.username}</span>

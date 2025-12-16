@@ -275,7 +275,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
         <div className="flex-1 overflow-y-auto p-6">
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 text-[var(--text-secondary)]">
-              <div className="w-10 h-10 border-3 border-gray-300 border-t-blue-500 rounded-full  mb-4" />
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }} />
               <p></p>
             </div>
           ) : activeTab === 'keywords' ? (
@@ -311,7 +311,7 @@ const BlockMuteSystem = ({ currentUser, onClose }) => {
             <div className="flex flex-col gap-4">
               {filteredData().map(user => (
                 <div key={user.id} className="flex items-start gap-4 p-4 bg-white border border-[var(--border-subtle)] rounded-xl hover:bg-[var(--bg-secondary)] transition-all">
-                  <div className="w-12 h-12 rounded-full bg-[var(--bg-secondary)] flex items-center justify-center text-2xl flex-shrink-0">
+                  <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                     <span className="text-2xl">{user.avatar}</span>
                   </div>
 

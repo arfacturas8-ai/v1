@@ -77,7 +77,7 @@ const TagPage = () => {
               <h1 className={`${isMobile ? 'text-2xl' : 'text-4xl'} font-bold`}>{tag}</h1>
               {tagStats.trending && (
                 <span className={`px-3 py-1 bg-yellow-400 text-yellow-900 rounded-full flex items-center gap-1 ${isMobile ? 'text-xs' : 'text-sm'} font-semibold`}>
-                  <TrendingUp className="w-4 h-4" />
+                  <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Trending
                 </span>
               )}
@@ -110,12 +110,12 @@ const TagPage = () => {
             >
               {isFollowing ? (
                 <>
-                  <Star className="inline w-5 h-5 mr-2 fill-current" />
+                  <Star style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Following
                 </>
               ) : (
                 <>
-                  <Star className="inline w-5 h-5 mr-2" />
+                  <Star style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Follow Tag
                 </>
               )}
@@ -140,7 +140,7 @@ const TagPage = () => {
 
             {!isMobile && (
               <button style={{color: "var(--text-secondary)"}} className="flex items-center gap-2 px-4 py-2 hover:bg-[#21262d] rounded-lg transition-colors ">
-                <Filter className="w-4 h-4" />
+                <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Filters
               </button>
             )}
@@ -152,14 +152,14 @@ const TagPage = () => {
               className={`p-2 rounded ${viewMode === 'grid' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e]'}`}
               aria-label="Grid view"
             >
-              <Grid className="w-5 h-5" />
+              <Grid style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
             <button
               onClick={() => setViewMode('list')}
               className={`p-2 rounded ${viewMode === 'list' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e]'}`}
               aria-label="List view"
             >
-              <List className="w-5 h-5" />
+              <List style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </div>
         </div>
@@ -169,7 +169,7 @@ const TagPage = () => {
       <div className={`max-w-7xl mx-auto ${isMobile ? 'p-4' : 'p-8'}`}>
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
-            <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full " />
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }} />
           </div>
         ) : (
           <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-4'}>

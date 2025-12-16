@@ -176,7 +176,7 @@ function VoiceChatPage() {
           <div className="bg-white border-b border-gray-200 p-3 md:p-4 lg:p-6">
             <div className="max-w-7xl mx-auto flex items-center justify-between">
               <div className="flex items-center gap-3 md:gap-4">
-                <Phone className="w-5 h-5 md:w-6 md:h-6 text-[#58a6ff]" aria-hidden="true" />
+                <Phone style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
                 <div>
                   <h1 className="font-bold text-lg md:text-xl text-gray-900">{currentChannel?.name}</h1>
                   <p className="text-gray-600 text-xs md:text-sm">{currentChannel?.description}</p>
@@ -193,7 +193,7 @@ function VoiceChatPage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 md:p-6">
               <h2 className="font-semibold flex items-center text-base md:text-lg mb-4 gap-2 text-gray-900">
-                <Users className="w-5 h-5" aria-hidden="true" />
+                <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
                 Participants ({participants.length})
               </h2>
 
@@ -216,12 +216,12 @@ function VoiceChatPage() {
                           <div className="font-medium text-gray-900">{participant.username}</div>
                           <div className="flex items-center gap-2 text-sm">
                             {participant.isMuted ? (
-                              <MicOff className="w-4 h-4 text-red-500" />
+                              <MicOff style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             ) : (
-                              <Mic className="w-4 h-4 text-green-500" />
+                              <Mic style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             )}
                             {participant.isDeafened && (
-                              <Volume className="w-4 h-4 text-red-500" />
+                              <Volume style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             )}
                           </div>
                         </div>
@@ -231,7 +231,7 @@ function VoiceChatPage() {
                 </div>
               ) : (
                 <div className="text-center py-12 text-gray-600">
-                  <Phone className="w-12 h-12 mx-auto mb-3 " />
+                  <Phone style={{ width: "64px", height: "64px", flexShrink: 0 }} />
                   <p>Connecting to voice channel...</p>
                 </div>
               )}
@@ -253,7 +253,7 @@ function VoiceChatPage() {
                   aria-label={isMuted ? 'Unmute microphone' : 'Mute microphone'}
                   aria-pressed={isMuted}
                 >
-                  {isMuted ? <MicOff className="w-5 h-5" aria-hidden="true" /> : <Mic className="w-5 h-5" aria-hidden="true" />}
+                  {isMuted ? <MicOff style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <Mic style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
                   {isMuted ? 'Unmute' : 'Mute'}
                 </button>
 
@@ -269,7 +269,7 @@ function VoiceChatPage() {
                   aria-label={isDeafened ? 'Undeafen audio' : 'Deafen audio'}
                   aria-pressed={isDeafened}
                 >
-                  {isDeafened ? <Volume className="w-5 h-5" aria-hidden="true" /> : <Headphones className="w-5 h-5" aria-hidden="true" />}
+                  {isDeafened ? <Volume style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <Headphones style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
                   {isDeafened ? 'Undeafen' : 'Deafen'}
                 </button>
 
@@ -285,7 +285,7 @@ function VoiceChatPage() {
                   aria-label={isVideoEnabled ? 'Turn off video' : 'Turn on video'}
                   aria-pressed={isVideoEnabled}
                 >
-                  {isVideoEnabled ? <Video className="w-5 h-5" aria-hidden="true" /> : <VideoOff className="w-5 h-5" aria-hidden="true" />}
+                  {isVideoEnabled ? <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <VideoOff style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
                   Video
                 </button>
 
@@ -301,7 +301,7 @@ function VoiceChatPage() {
                   aria-label={isScreenSharing ? 'Stop screen sharing' : 'Start screen sharing'}
                   aria-pressed={isScreenSharing}
                 >
-                  {isScreenSharing ? <Monitor className="w-5 h-5" aria-hidden="true" /> : <MonitorOff className="w-5 h-5" aria-hidden="true" />}
+                  {isScreenSharing ? <Monitor style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <MonitorOff style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
                   Screen Share
                 </button>
               </div>
@@ -309,7 +309,7 @@ function VoiceChatPage() {
               {/* Volume Control */}
               <div className="mt-6">
                 <label className="flex items-center gap-2 text-sm font-medium mb-2 text-gray-900">
-                  {volume > 0 ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+                  {volume > 0 ? <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <VolumeX style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
                   Volume: {volume}%
                 </label>
                 <input
@@ -353,7 +353,7 @@ function VoiceChatPage() {
               <div className="mt-6 pt-6 border-t border-gray-200">
                 <h4 className="text-sm font-semibold mb-3 text-gray-600">Quick Actions</h4>
                 <button className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm flex items-center gap-2 mb-2 text-gray-900">
-                  <Settings className="w-4 h-4" />
+                  <Settings style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Voice Settings
                 </button>
                 <button

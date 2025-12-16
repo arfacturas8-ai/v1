@@ -67,7 +67,7 @@ export const Primary = {
 // Icon-only button (requires aria-label)
 export const IconOnly = {
   args: {
-    icon: <Search className="w-4 h-4" />,
+    icon: <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     ariaLabel: 'Search',
     variant: 'ghost'
   }
@@ -76,7 +76,7 @@ export const IconOnly = {
 // Button with icon and text
 export const WithIcon = {
   args: {
-    icon: <Send className="w-4 h-4" />,
+    icon: <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     children: 'Send Message',
     variant: 'primary'
   }
@@ -102,7 +102,7 @@ export const Disabled = {
 export const Destructive = {
   args: {
     variant: 'destructive',
-    icon: <Trash2 className="w-4 h-4" />,
+    icon: <Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     children: 'Delete',
     ariaLabel: 'Delete item'
   }
@@ -121,7 +121,7 @@ export const WithExpandedState = {
 // Button with toggle state
 export const ToggleButton = {
   args: {
-    icon: <Plus className="w-4 h-4" />,
+    icon: <Plus style={{ width: "24px", height: "24px", flexShrink: 0 }} />,
     children: 'Follow',
     ariaPressed: false
   },
@@ -155,11 +155,11 @@ export const AccessibilityTest = () => (
       <h3 className="font-semibold">Screen Reader Announcements</h3>
       <div className="flex gap-2">
         <AccessibleButton
-          icon={<Download className="w-4 h-4" />}
+          icon={<Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
           ariaLabel="Download report as PDF"
         />
         <AccessibleButton
-          icon={<Trash2 className="w-4 h-4" />}
+          icon={<Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
           ariaLabel="Delete selected items"
           variant="destructive"
         />

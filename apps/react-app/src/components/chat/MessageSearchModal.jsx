@@ -82,7 +82,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
         {/* Header */}
         <div style={{borderColor: "var(--border-subtle)"}} className="px-4 sm:px-6 py-4 flex items-center justify-between border-b ">
           <div className="flex items-center gap-3">
-            <Search className="w-5 h-5 sm:w-6 sm:h-6" />
+            <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <h3 className="font-semibold text-base sm:text-lg">Search Messages</h3>
           </div>
           <button
@@ -96,7 +96,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
         {/* Search Input */}
         <div className="px-4 sm:px-6 py-4">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-tertiary" />
+            <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <input
               type="text"
               placeholder="Search messages, users, or content..."
@@ -188,7 +188,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
                   >
                     {/* Message Header */}
                     <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                      <div style={{color: "var(--text-primary)"}} className="w-8 h-8 rounded-full bg-gradient-to-br from-accent-cyan to-accent-purple flex items-center justify-center font-semibold  text-sm">
+                      <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                         {message.username?.[0] || '?'}
                       </div>
                       <span className="font-medium text-sm sm:text-base">

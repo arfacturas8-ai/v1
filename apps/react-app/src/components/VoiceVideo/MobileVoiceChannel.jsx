@@ -63,7 +63,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
         style={{borderColor: "var(--border-default)"}} className="fixed top-[50px] right-4 w-[280px] /90 backdrop-blur-[20px] rounded-[20px] border  cursor-pointer z-[9999]  transition-all duration-300 hover:scale-105"
       >
         <div className="flex items-center gap-3 p-4">
-          <div className="w-10 h-10 rounded-full bg-[#5865f2] flex items-center justify-center relative">
+          <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
             <Volume2 size={24} style={{color: "var(--text-primary)"}} className="" />
           </div>
 
@@ -137,7 +137,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
               key={participant.id || idx}
               className={`flex flex-col items-center px-3 py-4 bg-white/5 rounded-2xl transition-all duration-300 relative min-h-[120px] ${speakingParticipants.has(participant.id) ? 'bg-[#00d2d3]/15 border-2 border-[#00d2d3] shadow-[0_0_20px_rgba(0,210,211,0.3)] ' : ''}`}
             >
-              <div className="w-16 h-16 rounded-full overflow-hidden relative mb-3 bg-[#5865f2]">
+              <div style={{ width: "80px", height: "80px", flexShrink: 0 }}>
                 {participant.avatar ? (
                   <img src={participant.avatar} alt={participant.name} className="w-full h-full object-cover" />
                 ) : (
@@ -146,7 +146,7 @@ const MobileVoiceChannel = ({ roomTitle, participants: initialParticipants = [],
                   </div>
                 )}
                 {speakingParticipants.has(participant.id) && (
-                  <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 bg-[#00d2d3] border-3 border-[#1a1a2e] rounded-full animate-bounce"></div>
+                  <div style={{ width: "24px", height: "24px", flexShrink: 0 }}></div>
                 )}
               </div>
 

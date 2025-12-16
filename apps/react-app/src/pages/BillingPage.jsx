@@ -18,7 +18,7 @@ const BillingPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
           <div className={`bg-[#161b22]/60  border border-white/10 rounded-2xl  ${isMobile ? 'p-5' : 'p-6'}`}>
-            <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl  flex items-center justify-center mb-4">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <Receipt size={24} className="text-[#58a6ff]" />
             </div>
             <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold  mb-2">Current Plan</h3>
@@ -27,7 +27,7 @@ const BillingPage = () => {
           </div>
 
           <div className={`bg-[#161b22]/60  border border-white/10 rounded-2xl  ${isMobile ? 'p-5' : 'p-6'}`}>
-            <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl  flex items-center justify-center mb-4">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <TrendingUp size={24} className="text-green-500" />
             </div>
             <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold  mb-2">Usage This Month</h3>
@@ -38,7 +38,7 @@ const BillingPage = () => {
           </div>
 
           <div className={`bg-[#161b22]/60  border border-white/10 rounded-2xl  ${isMobile ? 'p-5' : 'p-6'}`}>
-            <div className="w-12 h-12 bg-[#58a6ff]/10 rounded-2xl  flex items-center justify-center mb-4">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <Clock size={24} className="text-[#a371f7]" />
             </div>
             <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold  mb-2">Next Billing</h3>

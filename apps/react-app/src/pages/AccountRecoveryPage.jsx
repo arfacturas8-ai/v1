@@ -186,7 +186,7 @@ export default function AccountRecoveryPage() {
             onClick={() => navigate('/login')}
             style={{color: "var(--text-primary)"}} className="mb-6 md:mb-8 flex items-center gap-2  hover: transition-colors text-sm md:text-base min-h-[44px]"
           >
-            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+            <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span>Back to login</span>
           </button>
         )}
@@ -196,8 +196,8 @@ export default function AccountRecoveryPage() {
           {step === 1 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
-                  <Shield className="w-6 h-6 md:w-8 md:h-8 text-[#58a6ff]" />
+                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                  <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </div>
                 <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Recover Your Account</h1>
                 <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Choose a recovery method to regain access to your account</p>
@@ -217,7 +217,7 @@ export default function AccountRecoveryPage() {
                       recoveryMethod === id ? 'border-[#58a6ff] bg-[#161b22]/60 ' : 'border-white/10'
                     }`}
                   >
-                    <Icon className="w-5 h-5 md:w-6 md:h-6 text-[#58a6ff] flex-shrink-0" />
+                    <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <div className="flex-1 min-w-0">
                       <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-medium  mb-1">{title}</h3>
                       <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm  m-0">{desc}</p>
@@ -243,7 +243,7 @@ export default function AccountRecoveryPage() {
                   </div>
                   {error && (
                     <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
+                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
@@ -274,7 +274,7 @@ export default function AccountRecoveryPage() {
                   </div>
                   {error && (
                     <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
+                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
@@ -309,7 +309,7 @@ export default function AccountRecoveryPage() {
                   ))}
                   {error && (
                     <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
+                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
@@ -340,7 +340,7 @@ export default function AccountRecoveryPage() {
                   </div>
                   {error && (
                     <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                      <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
+                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                     </div>
                   )}
@@ -360,8 +360,8 @@ export default function AccountRecoveryPage() {
           {step === 2 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
-                  <Mail className="w-6 h-6 md:w-8 md:h-8 text-[#58a6ff]" />
+                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                  <Mail style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </div>
                 <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Enter Verification Code</h1>
                 <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">
@@ -385,7 +385,7 @@ export default function AccountRecoveryPage() {
                 </div>
                 {error && (
                   <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                    <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
+                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
@@ -414,8 +414,8 @@ export default function AccountRecoveryPage() {
           {step === 3 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
-                  <Key className="w-6 h-6 md:w-8 md:h-8 text-[#58a6ff]" />
+                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                  <Key style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </div>
                 <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Create New Password</h1>
                 <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Choose a strong password to secure your account</p>
@@ -451,7 +451,7 @@ export default function AccountRecoveryPage() {
 
                 {error && (
                   <div className="card p-3 md:p-4   border border-[rgba(248,81,73,0.2)] rounded-lg flex items-start gap-2 mb-4">
-                    <AlertCircle className="w-5 h-5 md:w-6 md:h-6 text-[#f85149] flex-shrink-0 mt-0.5" />
+                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <p className="text-sm md:text-base text-[#f85149]">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
@@ -470,8 +470,8 @@ export default function AccountRecoveryPage() {
           {step === 4 && (
             <>
               <div className="text-center mb-6 md:mb-8">
-                <div className="card inline-flex items-center justify-center w-12 h-12 md:w-16 md:h-16   rounded-full mb-3 md:mb-4">
-                  <Check className="w-6 h-6 md:w-8 md:h-8 text-[#3fb950]" />
+                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                  <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </div>
                 <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold  mb-2">Password Reset Successful</h1>
                 <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  leading-relaxed">Your password has been successfully reset</p>
@@ -481,15 +481,15 @@ export default function AccountRecoveryPage() {
                 <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-medium  mb-3 md:mb-4">Security Recommendations</h3>
                 <ul className="list-none p-0 m-0 space-y-3 md:space-y-4">
                   <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
-                    <Check className="w-4 h-4 text-[#3fb950] flex-shrink-0 mt-0.5" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>Use a unique password for each account</span>
                   </li>
                   <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
-                    <Check className="w-4 h-4 text-[#3fb950] flex-shrink-0 mt-0.5" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>Enable two-factor authentication for added security</span>
                   </li>
                   <li style={{color: "var(--text-primary)"}} className="flex items-start gap-2 text-xs md:text-sm ">
-                    <Check className="w-4 h-4 text-[#3fb950] flex-shrink-0 mt-0.5" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     <span>Update your recovery methods in settings</span>
                   </li>
                 </ul>

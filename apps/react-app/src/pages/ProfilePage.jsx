@@ -374,7 +374,7 @@ function ProfilePage() {
         <div className="bg-white rounded-2xl shadow-lg border max-w-md mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
-              <X className="w-8 h-8 text-red-400" />
+              <X style={{ width: "48px", height: "48px", flexShrink: 0 }} />
             </div>
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Error Loading Profile</h2>
             <p style={{ color: 'var(--text-secondary)' }} className="mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
@@ -396,7 +396,7 @@ function ProfilePage() {
         <div className="bg-white rounded-2xl shadow-lg border max-w-md mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full border inline-flex mb-6" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
-              <User className="w-8 h-8" style={{ color: 'var(--text-secondary)' }} />
+              <User style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
             </div>
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>User not found</h2>
             <p style={{ color: 'var(--text-secondary)' }} className="mb-6">The user you're looking for doesn't exist or has been deleted.</p>
@@ -451,7 +451,7 @@ function ProfilePage() {
                   </div>
                   {user.isVerified && (
                     <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 shadow-lg" style={{ borderColor: 'var(--bg-primary)' }}>
-                      <CheckCircle style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
+                      <CheckCircle style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </div>
                   )}
                 </div>
@@ -470,7 +470,7 @@ function ProfilePage() {
                               className="inline-flex items-center gap-1 text-sm px-2 py-1 rounded-lg bg-[#58a6ff]/10 border border-[#58a6ff]/20"
                               title={badge.name}
                             >
-                              <BadgeIcon className="w-4 h-4 text-[#58a6ff]" />
+                              <BadgeIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             </span>
                           )
                         })}
@@ -484,7 +484,7 @@ function ProfilePage() {
                       <div className="flex flex-wrap gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                         {user.location && (
                           <div className="flex items-center gap-1">
-                            <MapPin className="w-4 h-4" />
+                            <MapPin style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             <span>{user.location}</span>
                           </div>
                         )}
@@ -495,12 +495,12 @@ function ProfilePage() {
                             rel="noopener noreferrer"
                             className="flex items-center gap-1 hover:text-[#58a6ff] transition-colors"
                           >
-                            <LinkIcon className="w-4 h-4" />
+                            <LinkIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             <span>{user.website.replace(/^https?:\/\//, '')}</span>
                           </a>
                         )}
                         <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
+                          <Calendar style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           <span>Joined {new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
                         </div>
                       </div>
@@ -515,7 +515,7 @@ function ProfilePage() {
                           style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                           aria-label="Edit profile"
                         >
-                          <Edit3 className="w-4 h-4" />
+                          <Edit3 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           Edit Profile
                         </button>
                       ) : (
@@ -532,12 +532,12 @@ function ProfilePage() {
                           >
                             {isFollowing ? (
                               <>
-                                <UserMinus className="w-4 h-4" />
+                                <UserMinus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 Following
                               </>
                             ) : (
                               <>
-                                <UserPlus className="w-4 h-4" />
+                                <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 Follow
                               </>
                             )}
@@ -548,7 +548,7 @@ function ProfilePage() {
                             style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                             aria-label="Send message"
                           >
-                            <Mail className="w-4 h-4" />
+                            <Mail style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           </button>
                         </>
                       )}
@@ -558,7 +558,7 @@ function ProfilePage() {
                         style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
                         aria-label="Share profile"
                       >
-                        <Share2 className="w-4 h-4" />
+                        <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       </button>
                     </div>
                   </div>
@@ -571,7 +571,7 @@ function ProfilePage() {
                         <div key={idx} className="text-center">
                           <div className="flex items-center gap-2 mb-1">
                             <div className={`p-1.5 rounded-lg bg-gradient-to-r ${stat.color} bg-opacity-20`}>
-                              <StatIcon className="w-4 h-4 text-[#58a6ff]" />
+                              <StatIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             </div>
                             <span className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{stat.value}</span>
                           </div>
@@ -608,7 +608,7 @@ function ProfilePage() {
                     aria-label={`View ${tab.label}`}
                     aria-current={activeTab === tab.id ? 'page' : undefined}
                   >
-                    <TabIcon className="w-4 h-4" />
+                    <TabIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     {tab.label}
                     {tab.count !== undefined && (
                       <span className="text-xs px-2 py-0.5 bg-white rounded-full border" style={{ borderColor: 'var(--border-subtle)' }}>
@@ -648,15 +648,15 @@ function ProfilePage() {
                             )}
                             <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                               <div className="flex items-center gap-1">
-                                <ChevronUp className="w-4 h-4" />
+                                <ChevronUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 <span>{post.upvotes || 0}</span>
                               </div>
                               <div className="flex items-center gap-1">
-                                <MessageSquare className="w-4 h-4" />
+                                <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 <span>{post.commentCount || 0}</span>
                               </div>
                               <div className="flex items-center gap-1">
-                                <Award className="w-4 h-4" />
+                                <Award style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                                 <span>{post.awardCount || 0}</span>
                               </div>
                               <span>{formatTimeAgo(post.created)}</span>
@@ -684,7 +684,7 @@ function ProfilePage() {
                         <p className="mb-3" style={{ color: 'var(--text-secondary)' }}>{comment.content}</p>
                         <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
                           <div className="flex items-center gap-1">
-                            <ChevronUp className="w-4 h-4" />
+                            <ChevronUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             <span>{comment.upvotes || 0}</span>
                           </div>
                           <span>{formatTimeAgo(comment.created)}</span>
@@ -696,7 +696,7 @@ function ProfilePage() {
                     ))
                   ) : (
                     <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <MessageSquare className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-secondary)' }} />
+                      <MessageSquare style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
                       <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No comments yet</h3>
                       <p style={{ color: 'var(--text-secondary)' }}>
                         {isOwnProfile ? "You haven't commented on any posts yet." : "This user hasn't commented on anything yet."}
@@ -723,7 +723,7 @@ function ProfilePage() {
                     ))
                   ) : (
                     <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <Bookmark className="w-12 h-12 mx-auto mb-4" style={{ color: 'var(--text-secondary)' }} />
+                      <Bookmark style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
                       <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No saved posts</h3>
                       <p style={{ color: 'var(--text-secondary)' }}>
                         {isOwnProfile ? "You haven't saved any posts yet." : "This user hasn't saved any posts."}
@@ -739,7 +739,7 @@ function ProfilePage() {
                   {/* Bio Section */}
                   <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
                     <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                      <User className="w-5 h-5" />
+                      <User style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       About
                     </h3>
                     <p style={{ color: 'var(--text-secondary)' }}>
@@ -751,7 +751,7 @@ function ProfilePage() {
                   {(user.socialLinks && Object.keys(user.socialLinks).length > 0) && (
                     <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
                       <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                        <LinkIcon className="w-5 h-5" />
+                        <LinkIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         Social Links
                       </h3>
                       <div className="space-y-3">
@@ -763,7 +763,7 @@ function ProfilePage() {
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
                           >
-                            <ExternalLink className="w-4 h-4" />
+                            <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             <span className="capitalize">{platform}</span>
                           </a>
                         ))}
@@ -775,7 +775,7 @@ function ProfilePage() {
                   {user.walletAddress && (
                     <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
                       <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                        <Wallet className="w-5 h-5" />
+                        <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         Wallet Address
                       </h3>
                       <button
@@ -785,9 +785,9 @@ function ProfilePage() {
                       >
                         <span className="truncate">{user.walletAddress}</span>
                         {copiedAddress ? (
-                          <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0" />
+                          <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         ) : (
-                          <Copy className="w-4 h-4 flex-shrink-0" />
+                          <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         )}
                       </button>
                     </div>
@@ -802,7 +802,7 @@ function ProfilePage() {
               {user.badges && user.badges.length > 0 && (
                 <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
                   <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                    <Trophy className="w-5 h-5 text-yellow-400" />
+                    <Trophy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Achievements
                   </h3>
                   <div className="space-y-3">
@@ -815,7 +815,7 @@ function ProfilePage() {
                           style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
                         >
                           <div className="p-2 rounded-lg bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20">
-                            <BadgeIcon className="w-5 h-5 text-[#58a6ff]" />
+                            <BadgeIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           </div>
                           <div className="flex-1">
                             <h4 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{badge.name}</h4>
@@ -831,7 +831,7 @@ function ProfilePage() {
               {/* Followers/Following */}
               <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                  <Users className="w-5 h-5" />
+                  <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Connections
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
@@ -854,7 +854,7 @@ function ProfilePage() {
               {displayNfts.length > 0 && (
                 <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
                   <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                    <Image className="w-5 h-5" />
+                    <Image style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     NFT Collection
                   </h3>
                   <div className="grid grid-cols-2 gap-3">
@@ -872,7 +872,7 @@ function ProfilePage() {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                            <Image style={{color: "var(--text-primary)"}} className="w-8 h-8 " />
+                            <Image style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />
                           </div>
                         )}
                       </div>
@@ -893,7 +893,7 @@ function ProfilePage() {
               {/* Activity Stats */}
               <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
                 <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                  <Activity className="w-5 h-5" />
+                  <Activity style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Activity
                 </h3>
                 <div className="space-y-3">
@@ -936,7 +936,7 @@ function ProfilePage() {
                 style={{ color: 'var(--text-secondary)' }}
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5" />
+                <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
             </div>
 
@@ -1010,7 +1010,7 @@ function ProfilePage() {
               {saveSuccess && (
                 <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
                   <p className="text-green-400 text-sm flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" />
+                    <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Profile updated successfully!
                   </p>
                 </div>
@@ -1054,7 +1054,7 @@ function ProfilePage() {
                 style={{ color: 'var(--text-secondary)' }}
                 aria-label="Close modal"
               >
-                <X className="w-5 h-5" />
+                <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
             </div>
 

@@ -133,7 +133,7 @@ export default function MFASetupPage() {
                   key={app}
                   className="card flex items-center gap-3 p-4  rounded-2xl "
                 >
-                  <Smartphone className="w-6 h-6 text-[#58a6ff]" />
+                  <Smartphone style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   <span style={{color: "var(--text-primary)"}} className="text-[15px] font-medium ">
                     {app}
                   </span>
@@ -187,7 +187,7 @@ export default function MFASetupPage() {
                   className={`px-2 py-2 ${copied ? 'bg-emerald-600' : 'bg-[#21262d]'} border border-white/10 rounded-md cursor-pointer transition-all`}
                   aria-label={copied ? 'Copied' : 'Copy secret key'}
                 >
-                  {copied ? <Check style={{color: "var(--text-primary)"}} className="w-4 h-4 " /> : <Copy style={{color: "var(--text-primary)"}} className="w-4 h-4 " />}
+                  {copied ? <Check style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <Copy style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
                 </button>
               </div>
             </div>
@@ -231,7 +231,7 @@ export default function MFASetupPage() {
                   style={{color: "var(--text-primary)"}} className="flex-1 px-4 py-3.5 bg-[#21262d]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#30363d] transition-colors"
                   aria-label="Go back to previous step"
                 >
-                  <ArrowLeft className="w-5 h-5" />
+                  <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Back
                 </button>
                 <button
@@ -282,7 +282,7 @@ export default function MFASetupPage() {
                 style={{color: "var(--text-primary)"}} className="w-full px-4 py-3.5 bg-[#21262d]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 transition-colors hover:bg-[#30363d]"
                 aria-label="Download backup codes"
               >
-                <Download className="w-5 h-5" />
+                <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Download Codes
               </button>
 

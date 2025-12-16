@@ -181,7 +181,7 @@ const HomeFeed = ({ user }) => {
                   className="flex items-center gap-3 px-2.5 py-2.5 bg-transparent border-none rounded-lg cursor-pointer transition-all text-left hover:bg-hover"
                   onClick={() => {/* Navigate to community */}}
                 >
-                  <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
+                  <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                     {community.icon ? (
                       <img src={community.icon} alt={community.name} />
                     ) : (

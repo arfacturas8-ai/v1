@@ -850,7 +850,7 @@ function MessageComposer({
               onMouseEnter={(e) => !disabled && (e.currentTarget.style.color = '#58a6ff')}
               onMouseLeave={(e) => !disabled && (e.currentTarget.style.color = 'var(--text-secondary)')}
             >
-              <Paperclip className="w-5 h-5" />
+              <Paperclip style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
             <input
               ref={fileInputRef}
@@ -960,7 +960,7 @@ function MessageComposer({
               onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
               onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
-              <Code className="w-5 h-5" />
+              <Code style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
 
             {/* Emoji Picker */}
@@ -972,7 +972,7 @@ function MessageComposer({
                 onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                 onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
               >
-                <Smile className="w-5 h-5" />
+                <Smile style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
 
               {showEmojiPicker && (
@@ -997,7 +997,7 @@ function MessageComposer({
                 onMouseEnter={(e) => !disabled && (e.currentTarget.style.color = '#58a6ff')}
                 onMouseLeave={(e) => !disabled && (e.currentTarget.style.color = 'var(--text-secondary)')}
               >
-                <Mic className="w-5 h-5" />
+                <Mic style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </button>
             )}
 
@@ -1008,7 +1008,7 @@ function MessageComposer({
               style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  disabled:opacity-50"
               style={{ borderRadius: 'var(--radius-lg)', padding: 'var(--space-2)' }}
             >
-              <Send className="w-5 h-5" />
+              <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           </div>
         </div>

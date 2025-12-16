@@ -102,7 +102,7 @@ const MobilePostCard = ({
         <>
           {/* Left Swipe Action (Save/Unsave) */}
           {swipeOffset < 0 && (
-            <div className="absolute right-full mr-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 bg-accent/20 rounded-full">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-accent">
                 <path d="M2 2a2 2 0 012-2h16a2 2 0 012 2v20l-10-6-10 6V2z"/>
               </svg>
@@ -111,7 +111,7 @@ const MobilePostCard = ({
 
           {/* Right Swipe Action (Upvote) */}
           {swipeOffset > 0 && (
-            <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 flex items-center justify-center w-12 h-12 bg-orange-500/20 rounded-full">
+            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-orange-500">
                 <path d="M12 2l6 6h-4v6h-4V8H6l6-6z"/>
               </svg>
@@ -208,7 +208,7 @@ const MobilePostCard = ({
                 <img
                   src={post.linkThumbnail}
                   alt=""
-                  className="w-12 h-12 rounded object-cover flex-shrink-0"
+                  style={{ width: "64px", height: "64px", flexShrink: 0 }}
                 />
               )}
               <div className="flex-1 min-w-0">

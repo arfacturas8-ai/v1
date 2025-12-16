@@ -584,7 +584,7 @@ function SettingsPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-[#58a6ff] border-t-transparent rounded-full mx-auto mb-4"></div>
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}></div>
           <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>Loading settings...</p>
         </div>
       </div>
@@ -1074,7 +1074,7 @@ function SettingsPage() {
                       {blockedUsers.map(user => (
                         <div key={user._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
                           <div className="flex items-center gap-3">
-                            <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-bold">
+                            <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                               {user.username[0].toUpperCase()}
                             </div>
                             <div>

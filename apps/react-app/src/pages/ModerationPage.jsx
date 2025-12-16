@@ -143,7 +143,7 @@ export default function ModerationPage() {
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Moderation page">
         <div className="text-center">
-          <div className=" rounded-full h-12 w-12 border-t-2 border-b-2 border-[#58a6ff] mx-auto mb-4"></div>
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}></div>
           <p className="text-[#666666]">Loading moderation dashboard...</p>
         </div>
       </div>
@@ -190,8 +190,8 @@ export default function ModerationPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-red-500 rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
@@ -203,8 +203,8 @@ export default function ModerationPage() {
 
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-[#58a6ff] to-blue-500 rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
@@ -216,8 +216,8 @@ export default function ModerationPage() {
 
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-600 to-green-500 rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -229,8 +229,8 @@ export default function ModerationPage() {
 
           <div className="bg-white  rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 transition-all" style={{ border: '1px solid var(--border-subtle)' }}>
             <div className="flex items-center justify-between mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-600 to-[#a371f7] rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
@@ -323,7 +323,7 @@ export default function ModerationPage() {
                   aria-label="Ban user"
                 >
                   <span>Ban User</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -334,7 +334,7 @@ export default function ModerationPage() {
                   aria-label="Remove content"
                 >
                   <span>Remove Content</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -345,7 +345,7 @@ export default function ModerationPage() {
                   aria-label="Issue warning"
                 >
                   <span>Issue Warning</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -356,7 +356,7 @@ export default function ModerationPage() {
                   aria-label="View audit log"
                 >
                   <span>View Audit Log</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -391,25 +391,25 @@ export default function ModerationPage() {
               <h3 className="text-lg font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Guidelines</h3>
               <ul className="space-y-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Review context before action</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Document all decisions</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Escalate serious violations</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Maintain professionalism</span>

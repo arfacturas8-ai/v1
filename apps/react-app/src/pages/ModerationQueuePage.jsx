@@ -35,8 +35,8 @@ export default function ModerationQueuePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 sm:p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-yellow-600 to-yellow-500 rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-5 h-5 sm:w-6 sm:h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
@@ -48,8 +48,8 @@ export default function ModerationQueuePage() {
 
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 sm:p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-red-600 to-red-500 rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-5 h-5 sm:w-6 sm:h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
@@ -61,8 +61,8 @@ export default function ModerationQueuePage() {
 
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 sm:p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-600 to-green-500 rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-5 h-5 sm:w-6 sm:h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -74,8 +74,8 @@ export default function ModerationQueuePage() {
 
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 sm:p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-[#58a6ff] to-blue-500 rounded-lg flex items-center justify-center">
-                <svg style={{color: "var(--text-primary)"}} className="w-5 h-5 sm:w-6 sm:h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                 </svg>
               </div>
@@ -157,19 +157,19 @@ export default function ModerationQueuePage() {
               <div className="space-y-3">
                 <button style={{color: "var(--text-primary)"}} className="w-full px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg font-medium transition-all text-left flex items-center justify-between group text-sm sm:text-base">
                   <span>Auto-assign Items</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
                 <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group text-sm sm:text-base">
                   <span>Clear Completed</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
                 <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group text-sm sm:text-base">
                   <span>Export Queue</span>
-                  <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
@@ -199,25 +199,25 @@ export default function ModerationQueuePage() {
               <h3 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-bold  mb-3">Quick Tips</h3>
               <ul style={{color: "var(--text-secondary)"}} className="space-y-2 text-xs sm:text-sm ">
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Process high priority items first</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Review full context before action</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Document decisions in audit log</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <svg className="w-4 h-4 text-[#58a6ff] mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   <span>Escalate unclear cases to admin</span>

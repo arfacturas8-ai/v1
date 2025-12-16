@@ -21,8 +21,8 @@ const SystemSettingsPage = () => {
           {/* Header */}
           <div className="mb-6 md:mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl  flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                <Settings style={{color: "var(--text-primary)"}} className="w-5 h-5 " aria-hidden="true" />
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <Settings style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl md:text-2xl font-bold ">System Settings</h1>
             </div>
@@ -32,7 +32,7 @@ const SystemSettingsPage = () => {
           {/* Performance */}
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 md:p-6 mb-4">
             <div className="flex items-center gap-3 mb-4">
-              <Monitor className="w-5 h-5 text-[#58a6ff]" aria-hidden="true" />
+              <Monitor style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Performance</h2>
             </div>
             <div className="space-y-4">
@@ -53,7 +53,7 @@ const SystemSettingsPage = () => {
                     aria-pressed={settings[item.key]}
                   >
                     <div
-                      className="w-5 h-5 rounded-full bg-white transition-transform absolute top-0.5"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                       style={{ transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }}
                     />
                   </button>
@@ -65,7 +65,7 @@ const SystemSettingsPage = () => {
           {/* Audio */}
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 md:p-6 mb-4">
             <div className="flex items-center gap-3 mb-4">
-              <Volume2 className="w-5 h-5 text-[#a371f7]" aria-hidden="true" />
+              <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Audio</h2>
             </div>
             <div className="flex items-center justify-between p-3 rounded-lg bg-[#21262d]">
@@ -81,7 +81,7 @@ const SystemSettingsPage = () => {
                 aria-pressed={settings.soundEffects}
               >
                 <div
-                  className="w-5 h-5 rounded-full bg-white transition-transform absolute top-0.5"
+                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
                   style={{ transform: settings.soundEffects ? 'translateX(26px)' : 'translateX(2px)' }}
                 />
               </button>
@@ -91,7 +91,7 @@ const SystemSettingsPage = () => {
           {/* Storage */}
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 md:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <HardDrive className="w-5 h-5 text-emerald-500" aria-hidden="true" />
+              <HardDrive style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Storage</h2>
             </div>
             <div className="p-4 rounded-lg mb-4 bg-[#21262d]">
@@ -107,7 +107,7 @@ const SystemSettingsPage = () => {
               className="w-full p-3 rounded-lg flex items-center justify-center gap-2 text-red-400 hover:bg-red-500/10 transition-colors border border-red-500/30 text-sm md:text-base"
               aria-label="Clear cache"
             >
-              <Trash2 className="w-4 h-4" aria-hidden="true" />
+              <Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               Clear Cache
             </button>
           </div>

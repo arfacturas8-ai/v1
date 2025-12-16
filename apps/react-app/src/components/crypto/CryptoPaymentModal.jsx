@@ -238,9 +238,9 @@ const CryptoPaymentModal = ({
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 {method.type === 'fiat_to_crypto' ? (
-                  <CreditCard className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 text-brand-primary" />
+                  <CreditCard style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <Wallet className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 text-brand-primary" />
+                  <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 )}
 
                 <div className="min-w-0">
@@ -276,7 +276,7 @@ const CryptoPaymentModal = ({
           disabled={!selectedMethod}
         >
           Continue
-          <ArrowRight className="w-4 h-4 ml-2" />
+          <ArrowRight style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </button>
       </div>
     </div>
@@ -460,7 +460,7 @@ const CryptoPaymentModal = ({
 
       {error && (
         <div className="flex items-center gap-2 p-3 sm:p-4 border border-error bg-error-light rounded-xl">
-          <AlertTriangle className="w-4 h-4 sm:w-5 sm:h-5 text-error flex-shrink-0" />
+          <AlertTriangle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           <span className="text-xs sm:text-sm text-error-dark">{typeof error === "string" ? error : getErrorMessage(error, "")}</span>
         </div>
       )}
@@ -479,13 +479,13 @@ const CryptoPaymentModal = ({
         >
           {isProcessing ? (
             <>
-              <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+              <RefreshCw style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Processing...
             </>
           ) : (
             <>
               Pay {formatCurrency(parseFloat(paymentDetails.amount || 0) + fees.total)}
-              <Zap className="w-4 h-4 ml-2" />
+              <Zap style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </>
           )}
         </button>
@@ -496,8 +496,8 @@ const CryptoPaymentModal = ({
   // Processing Step
   const ProcessingStep = () => (
     <div className="text-center space-y-6 py-4">
-      <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-brand-primary/10 flex items-center justify-center">
-        <RefreshCw className="w-8 h-8 sm:w-10 sm:h-10 text-brand-primary animate-spin" />
+      <div style={{ width: "80px", height: "80px", flexShrink: 0 }}>
+        <RefreshCw style={{ width: "48px", height: "48px", flexShrink: 0 }} />
       </div>
 
       <div className="space-y-2">
@@ -508,7 +508,7 @@ const CryptoPaymentModal = ({
       {selectedMethod?.type === 'fiat_to_crypto' && (
         <div className="p-4 sm:p-4 bg-info-light border border-info rounded-xl">
           <div className="flex items-center gap-3">
-            <Info className="w-4 h-4 sm:w-5 sm:h-5 text-info-dark flex-shrink-0" />
+            <Info style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span className="text-xs sm:text-sm text-info-dark">
               You will be redirected to {selectedMethod.provider} to complete your payment
             </span>
@@ -519,7 +519,7 @@ const CryptoPaymentModal = ({
       {selectedMethod?.type === 'direct_crypto' && (
         <div className="p-4 sm:p-4 bg-warning-light border border-warning rounded-xl">
           <div className="flex items-center gap-3">
-            <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-warning-dark flex-shrink-0" />
+            <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span className="text-xs sm:text-sm text-warning-dark">
               Please confirm the transaction in your wallet
             </span>
@@ -532,8 +532,8 @@ const CryptoPaymentModal = ({
   // Complete Step
   const CompleteStep = () => (
     <div className="text-center space-y-6 py-4">
-      <div className="mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-success-light flex items-center justify-center">
-        <CheckCircle className="w-8 h-8 sm:w-10 sm:h-10 text-success" />
+      <div style={{ width: "80px", height: "80px", flexShrink: 0 }}>
+        <CheckCircle style={{ width: "48px", height: "48px", flexShrink: 0 }} />
       </div>
 
       <div className="space-y-2">
@@ -557,7 +557,7 @@ const CryptoPaymentModal = ({
                   className="btn-ghost p-1 min-h-[32px] min-w-[32px]"
                   onClick={() => navigator.clipboard.writeText(transactionResult.transactionHash)}
                 >
-                  <Copy className="w-3 h-3" />
+                  <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </div>
             </div>
@@ -588,7 +588,7 @@ const CryptoPaymentModal = ({
             className="btn-secondary w-full min-h-[44px]"
             onClick={() => window.open(`https://etherscan.io/tx/${transactionResult.transactionHash}`, '_blank')}
           >
-            <ExternalLink className="w-4 h-4 mr-2" />
+            <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             View on Explorer
           </button>
         )}
@@ -607,7 +607,7 @@ const CryptoPaymentModal = ({
             className="btn-ghost min-h-[44px] min-w-[44px]"
             onClick={onClose}
           >
-            <X className="w-5 h-5" />
+            <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           </button>
         </div>
 

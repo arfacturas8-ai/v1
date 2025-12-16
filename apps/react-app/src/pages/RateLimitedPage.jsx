@@ -34,7 +34,7 @@ export default function RateLimitedPage() {
     <div id="main-content" role="main" aria-label="429 Rate Limited" style={{background: "var(--bg-primary)"}} className="min-h-screen flex items-center justify-center  p-3 md:p-5">
       <div style={{color: "var(--text-primary)"}} className="text-center  max-w-2xl w-full">
         <div className="inline-flex items-center justify-center w-24 h-24 md:w-30 md:h-30 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full mb-6 md:mb-8 backdrop-blur-sm relative" aria-hidden="true">
-          <Clock size={64} aria-hidden="true" className="w-12 h-12 md:w-16 md:h-16 text-[#58a6ff]" />
+          <Clock size={64} aria-hidden="true" style={{ width: "64px", height: "64px", flexShrink: 0 }} />
           <div className="absolute inset-0 rounded-full border-4 border-[#58a6ff]/30 border-t-[#58a6ff] " aria-hidden="true" />
         </div>
 

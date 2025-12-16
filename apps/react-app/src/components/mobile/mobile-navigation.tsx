@@ -593,7 +593,7 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
           )}
           aria-label={text || 'Action button'}
         >
-          <IconComponent className="h-6 w-6" />
+          <IconComponent style={{ width: "24px", height: "24px", flexShrink: 0 }} />
           {extended && text && (
             <span className="text-sm font-semibold">{text}</span>
           )}

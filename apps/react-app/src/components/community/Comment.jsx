@@ -93,7 +93,7 @@ const Comment = ({
           {/* Collapse Button */}
           <button
             onClick={handleToggleCollapse}
-            className="w-5 h-5 flex items-center justify-center rounded hover:bg-white/5 flex-shrink-0"
+            style={{ width: "24px", height: "24px", flexShrink: 0 }}
             aria-label={isCollapsed ? 'Expand comment' : 'Collapse comment'}
           >
             {isCollapsed ? (
@@ -277,7 +277,7 @@ const Comment = ({
                   href={`/c/${comment.community}/comments/${comment.postId}/${comment.id}`}
                   className="inline-flex items-center gap-1 text-accent hover:underline text-xs sm:text-sm"
                 >
-                  <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                   Continue thread

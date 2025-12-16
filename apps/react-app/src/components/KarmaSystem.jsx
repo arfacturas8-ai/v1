@@ -399,7 +399,7 @@ const KarmaSystem = ({ user, onClose }) => {
               <img
                 src={`/avatar-${entry.rank}.png`}
                 alt={`${entry.username} avatar`}
-                className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-2xl flex-shrink-0"
+                style={{ width: "64px", height: "64px", flexShrink: 0 }}
                 onError={(e) => e.target.src = '/default-avatar.png'}
               />
               <span className="username">{entry.username}</span>

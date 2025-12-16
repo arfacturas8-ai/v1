@@ -271,7 +271,7 @@ function UsersPage() {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
         <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
             <Users size={24} />
           </div>
           <div>
@@ -280,7 +280,7 @@ function UsersPage() {
           </div>
         </div>
         <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-emerald-500 to-emerald-600 flex items-center justify-center">
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
             <UserCheck size={24} />
           </div>
           <div>
@@ -289,7 +289,7 @@ function UsersPage() {
           </div>
         </div>
         <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-cyan-500 to-cyan-600 flex items-center justify-center">
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
             <UserPlus size={24} />
           </div>
           <div>
@@ -298,7 +298,7 @@ function UsersPage() {
           </div>
         </div>
         <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:-translate-y-1 hover:border-purple-500/50 transition-all">
-          <div className="w-12 h-12 rounded-2xl shadow-sm bg-gradient-to-br from-red-500 to-red-600 flex items-center justify-center">
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
             <Ban size={24} />
           </div>
           <div>
@@ -369,7 +369,7 @@ function UsersPage() {
       {/* Users Table */}
       {loading ? (
         <div className="text-center py-20 text-secondary">
-          <div className="w-12 h-12 border-4 border-rgb(var(--color-neutral-200)) border-t-[#a371f7] rounded-full  mx-auto mb-4"></div>
+          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}></div>
           <p>Loading users...</p>
         </div>
       ) : users.length === 0 ? (
@@ -415,7 +415,7 @@ function UsersPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-3">
-                          <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-bold">
+                          <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                             {user.avatarUrl ? (
                               <img src={user.avatarUrl} alt={user.username} className="w-full h-full object-cover" />
                             ) : (
@@ -516,7 +516,7 @@ function UsersPage() {
           <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-xl max-w-2xl w-full max-h-[80vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
             <div className="px-6 py-5 border-b border-rgb(var(--color-neutral-200)) flex justify-between items-center sticky top-0 bg-white">
               <h2 className="text-xl font-bold">User Profile</h2>
-              <button className="text-3xl leading-none hover:bg-rgb(var(--color-neutral-50)) rounded-lg w-8 h-8 flex items-center justify-center transition-colors" onClick={() => setShowUserModal(false)}>
+              <button style={{ width: "48px", height: "48px", flexShrink: 0 }} onClick={() => setShowUserModal(false)}>
                 &times;
               </button>
             </div>

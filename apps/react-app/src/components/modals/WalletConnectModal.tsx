@@ -228,19 +228,19 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
                   <div className="font-medium">{provider.name}</div>
                   {isInstalled && (
                     <div className="text-xs text-green-600 dark:text-green-400 flex items-center gap-1">
-                      <Check className="h-3 w-3" />
+                      <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       Detected
                     </div>
                   )}
                   {!isInstalled && provider.mobileOnly && !isMobile && (
                     <div className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Smartphone className="h-3 w-3" />
+                      <Smartphone style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       Mobile only
                     </div>
                   )}
                 </div>
               </div>
-              <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              <ChevronRight style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>
           );
         })}
@@ -259,7 +259,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
         ) : (
           <div className="w-64 h-64 flex items-center justify-center bg-gray-100 rounded">
             <div className="text-center text-gray-500">
-              <QrCode className="w-16 h-16 mx-auto mb-2" />
+              <QrCode style={{ width: "80px", height: "80px", flexShrink: 0 }} />
               <p className="text-sm">QR Code will appear here</p>
             </div>
           </div>
@@ -295,7 +295,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
   const renderSuccess = () => (
     <div className="flex flex-col items-center justify-center py-12">
       <div className="w-20 h-20 rounded-full bg-green-500/10 flex items-center justify-center mb-6">
-        <Check className="w-10 h-10 text-green-600 dark:text-green-400" />
+        <Check style={{ width: "48px", height: "48px", flexShrink: 0 }} />
       </div>
       <h3 className="text-lg font-semibold mb-2">Connected!</h3>
       <p className="text-sm text-muted-foreground text-center">
@@ -308,7 +308,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
   const renderError = () => (
     <div className="flex flex-col items-center justify-center py-12">
       <div className="w-20 h-20 rounded-full bg-destructive/10 flex items-center justify-center mb-6">
-        <AlertCircle className="w-10 h-10 text-destructive" />
+        <AlertCircle style={{ width: "48px", height: "48px", flexShrink: 0 }} />
       </div>
       <h3 className="text-lg font-semibold mb-2">Connection Failed</h3>
       <p className="text-sm text-muted-foreground text-center mb-6 max-w-sm">
@@ -324,7 +324,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
         >
           Choose Another Wallet
         </Button>
-        <Button onClick={handleRetry} leftIcon={<RefreshCw className="h-4 w-4" />}>
+        <Button onClick={handleRetry} leftIcon={<RefreshCw style={{ width: "24px", height: "24px", flexShrink: 0 }} />}>
           Try Again
         </Button>
       </div>
@@ -341,7 +341,7 @@ export const WalletConnectModal: React.FC<WalletConnectModalProps> = ({
         <div>
           <ModalTitle>
             <div className="flex items-center gap-2">
-              <Wallet className="h-5 w-5" />
+              <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               {title}
             </div>
           </ModalTitle>

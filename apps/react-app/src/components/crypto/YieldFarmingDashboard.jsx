@@ -255,7 +255,7 @@ const YieldFarmingDashboard = () => {
         <div className="card">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/10 to-purple-500/10">
-              <DollarSign className="w-5 h-5 text-blue-600" />
+              <DollarSign style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </div>
             <div className="flex-1">
               <p className="text-sm text-secondary">Portfolio Value</p>
@@ -269,7 +269,7 @@ const YieldFarmingDashboard = () => {
         <div className="card">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-gradient-to-br from-purple-500/10 to-blue-500/10">
-              <Shield className="w-5 h-5 text-purple-600" />
+              <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </div>
             <div className="flex-1">
               <p className="text-sm text-secondary">Total Staked</p>
@@ -283,7 +283,7 @@ const YieldFarmingDashboard = () => {
         <div className="card">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-gradient-to-br from-green-500/10 to-blue-500/10">
-              <TrendingUp className="w-5 h-5 text-green-600" />
+              <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </div>
             <div className="flex-1">
               <p className="text-sm text-secondary">Total Farmed</p>
@@ -297,7 +297,7 @@ const YieldFarmingDashboard = () => {
         <div className="card">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-xl bg-gradient-to-br from-yellow-500/10 to-orange-500/10">
-              <Zap className="w-5 h-5 text-yellow-600" />
+              <Zap style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </div>
             <div className="flex-1">
               <p className="text-sm text-secondary">Pending Rewards</p>
@@ -344,7 +344,7 @@ const YieldFarmingDashboard = () => {
             className="btn-primary flex flex-col items-center justify-center gap-2 h-20"
             onClick={() => setActionModal({ open: true, type: 'stake', pool: 'basic' })}
           >
-            <PlusCircle className="w-5 h-5" />
+            <PlusCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span className="text-sm font-medium">Stake CRYB</span>
           </button>
 
@@ -352,7 +352,7 @@ const YieldFarmingDashboard = () => {
             className="btn-secondary flex flex-col items-center justify-center gap-2 h-20"
             onClick={() => setActiveTab('staking')}
           >
-            <Target className="w-5 h-5" />
+            <Target style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span className="text-sm font-medium">View Pools</span>
           </button>
 
@@ -360,7 +360,7 @@ const YieldFarmingDashboard = () => {
             className="btn-secondary flex flex-col items-center justify-center gap-2 h-20"
             onClick={() => setActiveTab('farming')}
           >
-            <TrendingUp className="w-5 h-5" />
+            <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span className="text-sm font-medium">Farm LP</span>
           </button>
 
@@ -368,7 +368,7 @@ const YieldFarmingDashboard = () => {
             className="btn-secondary flex flex-col items-center justify-center gap-2 h-20"
             disabled={userPortfolio.pendingRewards === BigInt(0)}
           >
-            <Zap className="w-5 h-5" />
+            <Zap style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             <span className="text-sm font-medium">Claim All</span>
           </button>
         </div>
@@ -440,7 +440,7 @@ const YieldFarmingDashboard = () => {
                 pool: pool
               })}
             >
-              <PlusCircle className="w-4 h-4" />
+              <PlusCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Stake
             </button>
 
@@ -455,7 +455,7 @@ const YieldFarmingDashboard = () => {
                   })}
                   disabled={pool.timeToUnlock > 0}
                 >
-                  <MinusCircle className="w-4 h-4" />
+                  <MinusCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Unstake
                 </button>
 
@@ -468,7 +468,7 @@ const YieldFarmingDashboard = () => {
                   })}
                   disabled={!pool.pendingRewards || pool.pendingRewards === BigInt(0)}
                 >
-                  <RefreshCw className="w-4 h-4" />
+                  <RefreshCw style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Compound
                 </button>
               </>
@@ -494,7 +494,7 @@ const YieldFarmingDashboard = () => {
                 </Badge>
                 {farm.impermanentLoss > 2 && (
                   <Badge color="yellow">
-                    <AlertTriangle className="w-3 h-3" />
+                    <AlertTriangle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     IL: {farm.impermanentLoss.toFixed(1)}%
                   </Badge>
                 )}
@@ -546,7 +546,7 @@ const YieldFarmingDashboard = () => {
                 pool: farm
               })}
             >
-              <PlusCircle className="w-4 h-4" />
+              <PlusCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               Deposit LP
             </button>
 
@@ -560,7 +560,7 @@ const YieldFarmingDashboard = () => {
                     pool: farm
                   })}
                 >
-                  <MinusCircle className="w-4 h-4" />
+                  <MinusCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Withdraw
                 </button>
 
@@ -569,7 +569,7 @@ const YieldFarmingDashboard = () => {
                   onClick={() => handleFarmAction(farm.id, 'harvest', '0')}
                   disabled={!farm.pendingRewards || farm.pendingRewards === BigInt(0)}
                 >
-                  <Zap className="w-4 h-4" />
+                  <Zap style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   Harvest
                 </button>
               </>
@@ -643,7 +643,7 @@ const YieldFarmingDashboard = () => {
               >
                 {isProcessing ? (
                   <>
-                    <RefreshCw className="w-4 h-4 animate-spin" />
+                    <RefreshCw style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     Processing...
                   </>
                 ) : (
@@ -660,7 +660,7 @@ const YieldFarmingDashboard = () => {
   if (!walletManager.isConnected) {
     return (
       <div className="card text-center py-12">
-        <TrendingUp className="w-16 h-16 mx-auto mb-4 text-tertiary" />
+        <TrendingUp style={{ width: "80px", height: "80px", flexShrink: 0 }} />
         <h2 className="text-2xl font-bold text-primary mb-2">Connect Wallet</h2>
         <p className="text-secondary mb-6">
           Connect your wallet to access DeFi yield farming features
@@ -675,7 +675,7 @@ const YieldFarmingDashboard = () => {
   if (isLoading) {
     return (
       <div className="card text-center py-12">
-        <RefreshCw className="w-8 h-8 mx-auto mb-4 animate-spin text-brand-primary" />
+        <RefreshCw style={{ width: "48px", height: "48px", flexShrink: 0 }} />
         <p className="text-secondary">Loading DeFi dashboard...</p>
       </div>
     );
@@ -691,11 +691,11 @@ const YieldFarmingDashboard = () => {
         </div>
         <div className="flex gap-2">
           <button className="btn-secondary" onClick={loadDashboardData}>
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Refresh
           </button>
           <button className="btn-secondary">
-            <Settings className="w-4 h-4" />
+            <Settings style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Settings
           </button>
         </div>
@@ -705,15 +705,15 @@ const YieldFarmingDashboard = () => {
       <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
         <Tabs.List>
           <Tabs.Trigger value="overview">
-            <DollarSign className="w-4 h-4" />
+            <DollarSign style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Overview
           </Tabs.Trigger>
           <Tabs.Trigger value="staking">
-            <Shield className="w-4 h-4" />
+            <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Staking Pools
           </Tabs.Trigger>
           <Tabs.Trigger value="farming">
-            <TrendingUp className="w-4 h-4" />
+            <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Yield Farming
           </Tabs.Trigger>
         </Tabs.List>

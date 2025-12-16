@@ -254,7 +254,7 @@ const AwardModal = ({ post, onClose, onAward }) => {
           >
             {isSubmitting ? (
               <>
-                <div className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full  mr-2" />
+                <div style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Giving Award...
               </>
             ) : (

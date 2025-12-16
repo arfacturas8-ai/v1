@@ -22,8 +22,8 @@ const WalletSettingsPage = () => {
           {/* Header */}
           <div className="mb-6 md:mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl  flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                <Wallet style={{color: "var(--text-primary)"}} className="w-5 h-5 " />
+              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                <Wallet style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl md:text-2xl font-bold ">Wallet Settings</h1>
             </div>
@@ -35,15 +35,15 @@ const WalletSettingsPage = () => {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Connected Wallets</h2>
               <button style={{color: "var(--text-primary)"}} className="px-4 py-2 rounded-lg text-sm font-medium  bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 transition-opacity">
-                <span className="flex items-center justify-center gap-2"><Link2 className="w-4 h-4" /> Connect Wallet</span>
+                <span className="flex items-center justify-center gap-2"><Link2 style={{ width: "24px", height: "24px", flexShrink: 0 }} /> Connect Wallet</span>
               </button>
             </div>
             <div className="space-y-3">
               {wallets.map(wallet => (
                 <div key={wallet.id} className="flex items-center justify-between p-3 md:p-4 bg-[#21262d] rounded-lg">
                   <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-lg flex items-center justify-center bg-[#58a6ff]/10 flex-shrink-0">
-                      <Wallet className="w-5 h-5 text-[#58a6ff]" />
+                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                      <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </div>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
@@ -53,13 +53,13 @@ const WalletSettingsPage = () => {
                       <div style={{color: "var(--text-secondary)"}} className="flex items-center gap-2 text-xs md:text-sm ">
                         <span className="truncate">{wallet.address}</span>
                         <button onClick={() => copyAddress(wallet.address)} style={{color: "var(--text-primary)"}} className="hover: transition-colors flex-shrink-0">
-                          {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                          {copied ? <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
                         </button>
                       </div>
                     </div>
                   </div>
                   <button className="card p-2 rounded-lg hover:  transition-colors text-red-400 flex-shrink-0">
-                    <Unlink className="w-5 h-5" />
+                    <Unlink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </button>
                 </div>
               ))}
@@ -69,12 +69,12 @@ const WalletSettingsPage = () => {
           {/* Security */}
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 md:p-6">
             <div className="flex items-center gap-3 mb-4">
-              <Shield className="w-5 h-5 text-emerald-500" />
+              <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Security</h2>
             </div>
             <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  mb-4">Your wallet connections are encrypted and secured. We never store your private keys.</p>
             <a href="https://docs.example.com/wallet-security" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm md:text-base text-[#58a6ff] hover:text-[#3d9df0] transition-colors">
-              Learn more about wallet security <ExternalLink className="w-4 h-4" />
+              Learn more about wallet security <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </a>
           </div>
         </motion.div>

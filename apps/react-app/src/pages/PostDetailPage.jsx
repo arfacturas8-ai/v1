@@ -282,7 +282,7 @@ export default function PostDetailPage() {
               className="mb-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 flex items-center gap-2 text-amber-600"
               style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}
             >
-              <WifiOff className="w-4 h-4" />
+              <WifiOff style={{ width: "24px", height: "24px", flexShrink: 0 }} />
               <span className="text-sm font-medium">You are offline. Some features may be limited.</span>
             </motion.div>
           )}
@@ -295,7 +295,7 @@ export default function PostDetailPage() {
             style={{ color: 'var(--text-secondary)' }}
             aria-label="Go back to previous page"
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             Back
           </Button>
 
@@ -336,7 +336,7 @@ export default function PostDetailPage() {
                           </span>
                           <span>•</span>
                           <time dateTime={post.createdAt} className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
+                            <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             {formatTimeAgo(post.createdAt)}
                           </time>
                         </div>
@@ -393,7 +393,7 @@ export default function PostDetailPage() {
                             className="inline-flex items-center gap-2 hover:underline mb-4"
                             style={{ color: 'var(--color-primary)' }}
                           >
-                            <ExternalLink className="w-4 h-4" />
+                            <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                             {new URL(post.url).hostname}
                           </a>
                         )
@@ -423,7 +423,7 @@ export default function PostDetailPage() {
 
                       {/* Comment count */}
                       <div className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
-                        <MessageSquare className="w-4 h-4" />
+                        <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         <span className="text-sm font-medium">
                           {formatNumber(post.commentCount || comments.length)} comments
                         </span>
@@ -440,7 +440,7 @@ export default function PostDetailPage() {
                           announce('Link copied to clipboard')
                         }}
                       >
-                        <Share2 className="w-4 h-4" />
+                        <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         Share
                       </Button>
 
@@ -456,14 +456,14 @@ export default function PostDetailPage() {
                         }}
                         aria-label="Save post"
                       >
-                        <Bookmark className="w-4 h-4" />
+                        <Bookmark style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         Save
                       </Button>
 
                       {/* View count */}
                       {post.viewCount && (
                         <div className="flex items-center gap-1.5 ml-auto" style={{ color: 'var(--text-secondary)' }}>
-                          <Eye className="w-4 h-4" />
+                          <Eye style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                           <span className="text-sm">{formatNumber(post.viewCount)} views</span>
                         </div>
                       )}
@@ -577,12 +577,12 @@ export default function PostDetailPage() {
                         <img
                           src={post.community.icon}
                           alt=""
-                          className="w-12 h-12 rounded-full"
+                          style={{ width: "64px", height: "64px", flexShrink: 0 }}
                           loading="lazy"
                         />
                       ) : (
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
-                          <Users style={{color: "var(--text-primary)"}} className="w-6 h-6 " />
+                        <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
+                          <Users style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                         </div>
                       )}
                       <div className="flex-1 min-w-0">
@@ -620,11 +620,11 @@ export default function PostDetailPage() {
                         <img
                           src={post.author.avatar}
                           alt=""
-                          className="w-10 h-10 rounded-full"
+                          style={{ width: "48px", height: "48px", flexShrink: 0 }}
                           loading="lazy"
                         />
                       ) : (
-                        <div style={{color: "var(--text-primary)"}} className="w-10 h-10 rounded-full bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  font-semibold">
+                        <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                           {post.author.username?.[0]?.toUpperCase() || 'U'}
                         </div>
                       )}

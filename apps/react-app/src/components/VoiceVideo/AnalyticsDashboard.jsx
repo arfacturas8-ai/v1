@@ -410,7 +410,7 @@ const AnalyticsDashboard = ({
   if (isLoading) {
     return (
       <div style={{color: "var(--text-primary)"}} className="flex flex-col justify-center items-center h-screen bg-gradient-to-br from-[#1a1a2e] to-[#16213e]  gap-5">
-        <div className="w-10 h-10 border-3 border-white/30 border-t-[#5865f2] rounded-full "></div>
+        <div style={{ width: "48px", height: "48px", flexShrink: 0 }}></div>
         <p>Loading analytics...</p>
       </div>
     );
@@ -448,7 +448,7 @@ const AnalyticsDashboard = ({
                 type="checkbox"
                 checked={autoRefresh}
                 onChange={(e) => setAutoRefresh(e.target.checked)}
-                className="w-4 h-4 accent-[#5865f2]"
+                style={{ width: "24px", height: "24px", flexShrink: 0 }}
               />
               Auto Refresh
             </label>
@@ -494,7 +494,7 @@ const AnalyticsDashboard = ({
                 </div>
                 <button
                   onClick={() => dismissAlert(alert.id)}
-                  style={{color: "var(--text-primary)"}} className="bg-transparent border-none text-[#7f8c8d] cursor-pointer text-lg p-0 w-5 h-5 flex items-center justify-center hover:"
+                  style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}
                 >
                   ×
                 </button>
@@ -625,7 +625,7 @@ const AnalyticsDashboard = ({
             <div className="flex flex-col gap-3">
               {participants.map(participant => (
                 <div key={participant.id} className="flex flex-col md:flex-row items-stretch md:items-center gap-4 px-4 py-4 bg-white/5 rounded-xl transition-all duration-200 hover:bg-white/10">
-                  <div className="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                  <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                     {participant.avatar ? (
                       <img src={participant.avatar} alt={participant.name} className="w-full h-full object-cover" />
                     ) : (

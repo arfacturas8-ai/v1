@@ -111,7 +111,7 @@ function QuickReactionBar({ reactions, userReactions, onReactionSelect, classNam
         />
       ))}
       <button
-        style={{color: "var(--text-primary)"}} className="flex items-center justify-center w-8 h-8 bg-transparent border border-zinc-700 rounded-full text-gray-500 cursor-pointer transition-all duration-200 hover:bg-zinc-800 hover: hover:scale-110"
+        style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
         title="More reactions"
       >
         <Plus size={16} />

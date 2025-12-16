@@ -59,7 +59,7 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
           onClick={onClose}
           className="absolute top-4 right-4 p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-secondary)] rounded-lg transition-colors"
         >
-          <X className="w-5 h-5" />
+          <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </button>
 
         <div className="p-6">
@@ -91,18 +91,18 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
               >
                 {copied ? (
                   <>
-                    <Check className="w-4 h-4" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </>
                 ) : (
                   <>
-                    <Copy className="w-4 h-4" />
+                    <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </>
                 )}
               </Button>
             </div>
             {copied && (
               <p className="mt-2 text-xs text-green-500 flex items-center gap-1">
-                <Check className="w-3 h-3" />
+                <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Copied to clipboard!
               </p>
             )}
@@ -119,7 +119,7 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
                 placeholder="friend@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                leftIcon={<Mail className="w-4 h-4" />}
+                leftIcon={<Mail style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
                 disabled={sending || sent}
                 required
               />
@@ -133,18 +133,18 @@ export function InviteFriendsModal({ isOpen, onClose, userInviteCode = 'CRYB-DEM
               >
                 {sent ? (
                   <>
-                    <Check className="w-4 h-4" />
+                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </>
                 ) : (
                   <>
-                    <Send className="w-4 h-4" />
+                    <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                   </>
                 )}
               </Button>
             </form>
             {sent && (
               <p className="mt-2 text-xs text-green-500 flex items-center gap-1">
-                <Check className="w-3 h-3" />
+                <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Invitation sent successfully!
               </p>
             )}

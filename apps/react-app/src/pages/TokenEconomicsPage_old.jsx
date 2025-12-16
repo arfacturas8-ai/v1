@@ -329,7 +329,7 @@ function TokenEconomicsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center flex-shrink-0">
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                   <Coins size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -341,7 +341,7 @@ function TokenEconomicsPage() {
 
             <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-green-500 to-teal-600 flex items-center justify-center flex-shrink-0">
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                   <TrendingUp size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -353,7 +353,7 @@ function TokenEconomicsPage() {
 
             <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                   <DollarSign size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -366,7 +366,7 @@ function TokenEconomicsPage() {
 
             <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.03] backdrop-blur-sm border  rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/30">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                   <BarChart3 size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -378,7 +378,7 @@ function TokenEconomicsPage() {
 
             <div className="bg-gradient-to-br from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-2xl  p-4 sm:p-6 transition-all hover:border-purple-500/50 sm:col-span-2 lg:col-span-1">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl  bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                   <Wallet size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -427,7 +427,7 @@ function TokenEconomicsPage() {
                 {tokenDistribution.map((item, index) => (
                   <div key={index} className="flex items-center gap-3 sm:gap-4 bg-white/[0.02] p-3 sm:p-4 rounded-2xl  hover:bg-white/[0.05] transition-colors">
                     <div
-                      className="w-4 h-4 sm:w-5 sm:h-5 rounded-md flex-shrink-0"
+                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
                       style={{ backgroundColor: item.color }}
                     ></div>
                     <div className="flex-1 min-w-0">
@@ -447,7 +447,7 @@ function TokenEconomicsPage() {
               {/* Staking Stats */}
               <div className="space-y-4">
                 <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.02] border  rounded-2xl  p-4 sm:p-5 flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center flex-shrink-0">
+                  <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                     <Lock size={isMobile ? 18 : 20} />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -457,7 +457,7 @@ function TokenEconomicsPage() {
                 </div>
 
                 <div style={{borderColor: "var(--border-subtle)"}} className="bg-white/[0.02] border  rounded-2xl  p-4 sm:p-5 flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                  <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                     <TrendingUp size={isMobile ? 18 : 20} />
                   </div>
                   <div className="flex-1 min-w-0">
@@ -467,7 +467,7 @@ function TokenEconomicsPage() {
                 </div>
 
                 <div className="bg-gradient-to-br from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl  p-4 sm:p-5 flex items-center gap-4">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+                  <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
                     <Gift size={isMobile ? 18 : 20} />
                   </div>
                   <div className="flex-1 min-w-0">
