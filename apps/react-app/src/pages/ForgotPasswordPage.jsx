@@ -1,82 +1,172 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { Mail, ArrowLeft, CheckCircle } from 'lucide-react'
-import { useResponsive } from '../hooks/useResponsive'
+/**
+ * Cryb.ai - Forgot Password Page
+ * Request password reset email
+ * Master Prompt Standards Applied:
+ * - Spacing scale: 4, 8, 16, 24, 32, 48, 64px only
+ * - Icons: All exactly 24px in fixed containers
+ * - Input heights: 48px
+ * - Button heights: 56px (lg), 48px (md)
+ * - Responsive padding: 16px mobile, 24px tablet, 80px desktop
+ */
+
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function ForgotPasswordPage() {
-  const { isMobile } = useResponsive()
-  const [email, setEmail] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [isSubmitted, setIsSubmitted] = useState(false)
-  const [error, setError] = useState('')
+  const { isMobile } = useResponsive();
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
+    e.preventDefault();
+    setError('');
 
     if (!email) {
-      setError('Email is required')
-      return
+      setError('Email is required');
+      return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      setError('Please enter a valid email address')
-      return
+      setError('Please enter a valid email address');
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://api.cryb.ai/api/v1'}/auth/forgot-password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
-      })
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'https://api.cryb.ai/api/v1'}/auth/forgot-password`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok && data?.success) {
-        setIsSubmitted(true)
+        setIsSubmitted(true);
       } else {
-        setError(data?.error || data?.message || 'Failed to send reset email')
+        setError(data?.error || data?.message || 'Failed to send reset email');
       }
     } catch (err) {
-      console.error('Forgot password error:', err)
-      setError('An error occurred. Please try again.')
+      console.error('Forgot password error:', err);
+      setError('An error occurred. Please try again.');
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
+
+  // Determine responsive values
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
+  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
+  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4 md:p-6" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Password reset confirmation">
-        <div className="card card-elevated w-full max-w-md md:max-w-lg rounded-xl p-5 md:p-6">
-          <div className="flex justify-center mb-3 md:mb-4">
-            <div className="inline-flex items-center justify-center w-11 h-11 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded-full" aria-hidden="true">
-              <CheckCircle size={22} color="#fff" aria-hidden="true" />
+      <div
+        className="min-h-screen flex items-center justify-center"
+        style={{
+          background: 'var(--bg-primary)',
+          paddingLeft: pagePadding,
+          paddingRight: pagePadding,
+          paddingTop: '48px',
+          paddingBottom: '48px',
+        }}
+        role="main"
+        aria-label="Password reset confirmation"
+      >
+        <div
+          className="card card-elevated w-full"
+          style={{
+            maxWidth: '480px',
+            borderRadius: '16px',
+            padding: isDesktop ? '48px' : isTabletView ? '32px' : '24px',
+            background: 'var(--bg-elevated)',
+            boxShadow: 'var(--shadow-lg)',
+          }}
+        >
+          <div
+            className="flex justify-center"
+            style={{
+              marginBottom: '24px',
+            }}
+          >
+            <div
+              className="inline-flex items-center justify-center rounded-full"
+              style={{
+                width: '48px',
+                height: '48px',
+                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              }}
+              aria-hidden="true"
+            >
+              <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+                <CheckCircle size={24} strokeWidth={2} style={{ color: '#fff' }} aria-hidden="true" />
+              </div>
             </div>
           </div>
 
-          <h1 className="text-lg md:text-xl font-bold mb-2 text-center" style={{ color: 'var(--text-primary)' }}>
+          <h1
+            className="font-bold text-center"
+            style={{
+              fontSize: isDesktop ? '24px' : '20px',
+              lineHeight: '1.4',
+              marginBottom: '16px',
+              color: 'var(--text-primary)',
+            }}
+          >
             Check Your Email
           </h1>
 
-          <p className="text-sm md:text-base leading-relaxed mb-4 md:mb-5 text-center" style={{ color: 'var(--text-secondary)' }}>
+          <p
+            className="text-center"
+            style={{
+              fontSize: '14px',
+              lineHeight: '1.5',
+              marginBottom: '24px',
+              color: 'var(--text-secondary)',
+            }}
+          >
             We've sent password reset instructions to <strong>{email}</strong>
           </p>
 
-          <div className="rounded-lg p-3 md:p-4 mb-4 md:mb-5" style={{ background: 'var(--bg-tertiary)' }}>
-            <p className="text-xs md:text-sm leading-relaxed m-0" style={{ color: 'var(--text-secondary)' }}>
+          <div
+            className="rounded-xl"
+            style={{
+              padding: '16px',
+              marginBottom: '24px',
+              background: 'var(--bg-tertiary)',
+            }}
+          >
+            <p
+              style={{
+                fontSize: '12px',
+                lineHeight: '1.5',
+                margin: 0,
+                color: 'var(--text-secondary)',
+              }}
+            >
               Didn't receive the email? Check your spam folder or{' '}
               <button
                 onClick={() => setIsSubmitted(false)}
                 className="font-semibold underline transition-colors"
-                style={{ color: 'var(--brand-primary)' }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  cursor: 'pointer',
+                  color: 'var(--brand-primary)',
+                }}
                 aria-label="Try sending reset email again"
               >
                 try again
@@ -86,36 +176,121 @@ export default function ForgotPasswordPage() {
 
           <Link
             to="/login"
-            className="btn btn-secondary flex items-center justify-center gap-2 min-h-[44px] w-full"
+            className="inline-flex items-center justify-center font-semibold transition-all w-full"
+            style={{
+              height: '48px',
+              paddingLeft: '24px',
+              paddingRight: '24px',
+              fontSize: '14px',
+              lineHeight: '1.5',
+              gap: '8px',
+              color: 'var(--text-primary)',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-primary)',
+              borderRadius: '12px',
+              textDecoration: 'none',
+            }}
             aria-label="Back to login page"
           >
-            <ArrowLeft size={18} aria-hidden="true" />
+            <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+              <ArrowLeft size={24} strokeWidth={2} aria-hidden="true" />
+            </div>
             Back to Login
           </Link>
         </div>
       </div>
-    )
+    );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 md:p-6" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Forgot password page">
-      <div className="card card-elevated w-full max-w-md md:max-w-lg rounded-xl p-5 md:p-6">
-        <div className="text-center mb-5 md:mb-6">
-          <h1 className="text-lg md:text-xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        background: 'var(--bg-primary)',
+        paddingLeft: pagePadding,
+        paddingRight: pagePadding,
+        paddingTop: '48px',
+        paddingBottom: '48px',
+      }}
+      role="main"
+      aria-label="Forgot password page"
+    >
+      <div
+        className="card card-elevated w-full"
+        style={{
+          maxWidth: '480px',
+          borderRadius: '16px',
+          padding: isDesktop ? '48px' : isTabletView ? '32px' : '24px',
+          background: 'var(--bg-elevated)',
+          boxShadow: 'var(--shadow-lg)',
+        }}
+      >
+        <div
+          className="text-center"
+          style={{
+            marginBottom: '32px',
+          }}
+        >
+          <h1
+            className="font-bold"
+            style={{
+              fontSize: isDesktop ? '24px' : '20px',
+              lineHeight: '1.4',
+              marginBottom: '8px',
+              color: 'var(--text-primary)',
+            }}
+          >
             Forgot Password?
           </h1>
-          <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+          <p
+            style={{
+              fontSize: '14px',
+              lineHeight: '1.5',
+              color: 'var(--text-secondary)',
+            }}
+          >
             No worries! Enter your email and we'll send you reset instructions.
           </p>
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4 md:mb-5">
-            <label htmlFor="email" className="block text-xs md:text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <div
+            className="flex flex-col"
+            style={{
+              marginBottom: '24px',
+              gap: '8px',
+            }}
+          >
+            <label
+              htmlFor="email"
+              className="block font-semibold"
+              style={{
+                fontSize: '14px',
+                lineHeight: '1.5',
+                color: 'var(--text-primary)',
+              }}
+            >
               Email Address
             </label>
             <div className="relative">
-              <Mail size={18} className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2" style={{ color: 'var(--text-tertiary)' }} aria-hidden="true" />
+              <div
+                className="absolute flex items-center justify-center"
+                style={{
+                  left: '16px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  width: '24px',
+                  height: '24px',
+                  flexShrink: 0,
+                }}
+              >
+                <Mail
+                  size={24}
+                  strokeWidth={2}
+                  style={{ color: 'var(--text-tertiary)' }}
+                  aria-hidden="true"
+                />
+              </div>
               <input
                 id="email"
                 type="email"
@@ -123,16 +298,34 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your.email@example.com"
                 disabled={isLoading}
-                className={`input w-full min-h-[44px] pl-10 md:pl-11 pr-3 py-2 md:pr-4 md:py-3 text-sm md:text-base ${
-                  error ? 'border-[#FF3B3B]' : ''
-                }`}
+                className="input w-full"
+                style={{
+                  height: '48px',
+                  paddingLeft: '48px',
+                  paddingRight: '16px',
+                  fontSize: '14px',
+                  lineHeight: '1.5',
+                  borderRadius: '12px',
+                  background: 'var(--bg-secondary)',
+                  border: error ? '1px solid #FF3B3B' : '1px solid var(--border-primary)',
+                  color: 'var(--text-primary)',
+                }}
                 aria-label="Email address"
                 aria-invalid={error ? 'true' : 'false'}
                 aria-describedby={error ? 'email-error' : undefined}
               />
             </div>
             {error && (
-              <p id="email-error" role="alert" className="mt-2 text-xs md:text-sm text-[#FF3B3B]">
+              <p
+                id="email-error"
+                role="alert"
+                style={{
+                  fontSize: '12px',
+                  lineHeight: '1.5',
+                  color: '#FF3B3B',
+                  margin: 0,
+                }}
+              >
                 {typeof error === 'string' ? error : 'An error occurred'}
               </p>
             )}
@@ -141,41 +334,92 @@ export default function ForgotPasswordPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="btn btn-primary w-full min-h-[44px] mb-4 md:mb-5"
+            className="w-full inline-flex items-center justify-center font-semibold transition-all"
+            style={{
+              height: '56px',
+              paddingLeft: '32px',
+              paddingRight: '32px',
+              fontSize: '16px',
+              lineHeight: '1.5',
+              marginBottom: '24px',
+              color: 'white',
+              background: isLoading
+                ? 'var(--bg-tertiary)'
+                : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              borderRadius: '12px',
+              border: 'none',
+              cursor: isLoading ? 'not-allowed' : 'pointer',
+              opacity: isLoading ? 0.6 : 1,
+              boxShadow: isLoading ? 'none' : 'var(--shadow-sm)',
+            }}
             aria-label={isLoading ? 'Sending reset email...' : 'Send reset email'}
           >
-            Send Reset Link
+            {isLoading ? 'Sending...' : 'Send Reset Link'}
           </button>
 
           <div className="text-center">
             <Link
               to="/login"
-              className="inline-flex items-center gap-2 text-xs md:text-sm font-semibold min-h-[44px] transition-colors"
-              style={{ color: 'var(--brand-primary)' }}
+              className="inline-flex items-center font-semibold transition-colors"
+              style={{
+                fontSize: '14px',
+                lineHeight: '1.5',
+                gap: '8px',
+                color: 'var(--brand-primary)',
+                textDecoration: 'none',
+              }}
               aria-label="Back to login page"
             >
-              <ArrowLeft size={14} aria-hidden="true" />
+              <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+                <ArrowLeft size={24} strokeWidth={2} aria-hidden="true" />
+              </div>
               Back to Login
             </Link>
           </div>
         </form>
 
-        <div className="mt-5 md:mt-6 pt-3 md:pt-4 text-center" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-          <p className="text-xs md:text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
+        <div
+          className="text-center"
+          style={{
+            marginTop: '32px',
+            paddingTop: '24px',
+            borderTop: '1px solid var(--border-primary)',
+          }}
+        >
+          <p
+            style={{
+              fontSize: '14px',
+              lineHeight: '1.5',
+              marginBottom: '16px',
+              color: 'var(--text-secondary)',
+            }}
+          >
             Don't have an account?
           </p>
           <Link
             to="/register"
-            className="btn btn-secondary inline-block px-3 py-2 md:px-4 md:py-2.5 text-xs md:text-sm min-h-[44px]"
+            className="inline-flex items-center justify-center font-semibold transition-all"
+            style={{
+              height: '48px',
+              paddingLeft: '24px',
+              paddingRight: '24px',
+              fontSize: '14px',
+              lineHeight: '1.5',
+              color: 'var(--text-primary)',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-primary)',
+              borderRadius: '12px',
+              textDecoration: 'none',
+            }}
           >
             Create Account
           </Link>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-ForgotPasswordPage.propTypes = {}
+ForgotPasswordPage.propTypes = {};
 
-export { ForgotPasswordPage }
+export { ForgotPasswordPage };

@@ -1,116 +1,206 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useSearchParams, Link } from 'react-router-dom'
-import { CheckCircle, XCircle, Clock } from 'lucide-react'
-import authService from '../services/authService'
-import { useResponsive } from '../hooks/useResponsive'
+/**
+ * Cryb.ai - Email Verification Page
+ * Email verification status display
+ * Master Prompt Standards Applied:
+ * - Spacing scale: 4, 8, 16, 24, 32, 48, 64px only
+ * - Icons: All exactly 24px in fixed containers
+ * - Button heights: 48px (md), 56px (lg)
+ * - Responsive padding: 16px mobile, 24px tablet, 80px desktop
+ */
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { CheckCircle, XCircle, Clock } from 'lucide-react';
+import authService from '../services/authService';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function EmailVerificationPage() {
-  const { isMobile } = useResponsive()
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
-  const [status, setStatus] = useState('verifying')
-  const [message, setMessage] = useState('')
-  const token = searchParams.get('token')
+  const { isMobile } = useResponsive();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const [status, setStatus] = useState('verifying');
+  const [message, setMessage] = useState('');
+  const token = searchParams.get('token');
 
   useEffect(() => {
     if (!token) {
-      setStatus('error')
-      setMessage('Invalid verification link. No token provided.')
-      return
+      setStatus('error');
+      setMessage('Invalid verification link. No token provided.');
+      return;
     }
 
-    verifyEmail(token)
-  }, [token])
+    verifyEmail(token);
+  }, [token]);
 
   const verifyEmail = async (token) => {
     try {
-      const result = await authService.verifyEmail(token)
+      const result = await authService.verifyEmail(token);
 
       if (result.success) {
-        setStatus('success')
-        setMessage(result.message || 'Email verified successfully!')
+        setStatus('success');
+        setMessage(result.message || 'Email verified successfully!');
 
         setTimeout(() => {
-          navigate('/home')
-        }, 3000)
+          navigate('/home');
+        }, 3000);
       } else {
-        setStatus('expired')
-        setMessage(result.error || 'This verification link has expired or is invalid.')
+        setStatus('expired');
+        setMessage(result.error || 'This verification link has expired or is invalid.');
       }
     } catch (error) {
-      setStatus('error')
-      setMessage('An error occurred while verifying your email. Please try again.')
-      console.error('Email verification error:', error)
+      setStatus('error');
+      setMessage('An error occurred while verifying your email. Please try again.');
+      console.error('Email verification error:', error);
     }
-  }
+  };
 
   const resendVerification = async () => {
-    setStatus('verifying')
-    setMessage('Sending new verification email...')
+    setStatus('verifying');
+    setMessage('Sending new verification email...');
 
     try {
-      const result = await authService.resendVerification()
+      const result = await authService.resendVerification();
 
       if (result.success) {
-        setStatus('success')
-        setMessage(result.message || 'A new verification email has been sent! Check your inbox.')
+        setStatus('success');
+        setMessage(result.message || 'A new verification email has been sent! Check your inbox.');
       } else {
-        setStatus('error')
-        setMessage(result.error || 'Failed to resend verification email. Please try again later.')
+        setStatus('error');
+        setMessage(result.error || 'Failed to resend verification email. Please try again later.');
       }
     } catch (error) {
-      setStatus('error')
-      setMessage('Failed to resend verification email. Please try again later.')
-      console.error('Resend verification error:', error)
+      setStatus('error');
+      setMessage('Failed to resend verification email. Please try again later.');
+      console.error('Resend verification error:', error);
     }
-  }
+  };
 
   const getIcon = () => {
     switch (status) {
       case 'verifying':
         return (
           <div
-            className="w-20 h-20 rounded-full border-4 border-[#58a6ff] border-t-transparent "
+            className="rounded-full"
+            style={{
+              width: '64px',
+              height: '64px',
+              border: '4px solid #58a6ff',
+              borderTopColor: 'transparent',
+              animation: 'spin 1s linear infinite',
+            }}
             role="status"
             aria-label="Verifying email"
           />
-        )
+        );
       case 'success':
         return (
-          <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
-            <CheckCircle className="w-10 h-10 text-emerald-500" />
+          <div
+            className="rounded-full flex items-center justify-center"
+            style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(16, 185, 129, 0.1)',
+            }}
+            aria-hidden="true"
+          >
+            <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+              <CheckCircle size={24} strokeWidth={2} style={{ color: '#10b981' }} />
+            </div>
           </div>
-        )
+        );
       case 'error':
         return (
-          <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
-            <XCircle className="w-10 h-10 text-red-400" />
+          <div
+            className="rounded-full flex items-center justify-center"
+            style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(239, 68, 68, 0.1)',
+            }}
+            aria-hidden="true"
+          >
+            <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+              <XCircle size={24} strokeWidth={2} style={{ color: '#ef4444' }} />
+            </div>
           </div>
-        )
+        );
       case 'expired':
         return (
-          <div className="w-20 h-20 bg-amber-500/10 rounded-full flex items-center justify-center" aria-hidden="true">
-            <Clock className="w-10 h-10 text-amber-500" />
+          <div
+            className="rounded-full flex items-center justify-center"
+            style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(245, 158, 11, 0.1)',
+            }}
+            aria-hidden="true"
+          >
+            <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+              <Clock size={24} strokeWidth={2} style={{ color: '#f59e0b' }} />
+            </div>
           </div>
-        )
+        );
       default:
-        return null
+        return null;
     }
-  }
+  };
+
+  // Determine responsive values
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
+  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
+  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-3 md:p-4"
-      style={{ background: 'var(--bg-primary)' }}
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        background: 'var(--bg-primary)',
+        paddingLeft: pagePadding,
+        paddingRight: pagePadding,
+        paddingTop: '48px',
+        paddingBottom: '48px',
+      }}
       role="main"
       aria-label="Email verification page"
     >
-      <div className="bg-white  rounded-xl p-5 md:p-6 lg:p-8 max-w-md md:max-w-lg w-full text-center shadow-sm" style={{ border: '1px solid var(--border-subtle)' }}>
-        <div className="flex justify-center mb-6 md:mb-8">
+      <style>
+        {`
+          @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+          }
+        `}
+      </style>
+
+      <div
+        className="card card-elevated w-full text-center"
+        style={{
+          maxWidth: '480px',
+          borderRadius: '16px',
+          padding: isDesktop ? '48px' : isTabletView ? '32px' : '24px',
+          background: 'var(--bg-elevated)',
+          boxShadow: 'var(--shadow-lg)',
+          border: '1px solid var(--border-primary)',
+        }}
+      >
+        <div
+          className="flex justify-center"
+          style={{
+            marginBottom: '32px',
+          }}
+        >
           {getIcon()}
         </div>
 
-        <h1 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4" style={{ color: 'var(--text-primary)' }}>
+        <h1
+          className="font-bold"
+          style={{
+            fontSize: isDesktop ? '24px' : '20px',
+            lineHeight: '1.4',
+            marginBottom: '16px',
+            color: 'var(--text-primary)',
+          }}
+        >
           {status === 'verifying' && 'Verifying Email'}
           {status === 'success' && 'Email Verified!'}
           {status === 'error' && 'Verification Failed'}
@@ -118,25 +208,49 @@ export default function EmailVerificationPage() {
         </h1>
 
         <p
-          className="text-sm md:text-base leading-relaxed mb-6 md:mb-8"
-          style={{ color: 'var(--text-secondary)' }}
+          style={{
+            fontSize: '14px',
+            lineHeight: '1.5',
+            marginBottom: '32px',
+            color: 'var(--text-secondary)',
+          }}
           role={status === 'error' || status === 'expired' ? 'alert' : 'status'}
           aria-live="polite"
         >
           {message}
         </p>
 
-        <div className="flex flex-col gap-2 md:gap-3">
+        <div className="flex flex-col" style={{ gap: '16px' }}>
           {status === 'success' && (
             <>
               <Link
                 to="/home"
-                style={{color: "var(--text-primary)"}} className="inline-block min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold text-sm md:text-base shadow-[0_4px_12px_rgba(88,166,255,0.4)] transition-all hover:opacity-90"
+                className="inline-flex items-center justify-center font-semibold transition-all"
+                style={{
+                  height: '56px',
+                  paddingLeft: '32px',
+                  paddingRight: '32px',
+                  fontSize: '16px',
+                  lineHeight: '1.5',
+                  color: 'white',
+                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                  boxShadow: 'var(--shadow-sm)',
+                }}
                 aria-label="Go to home page"
               >
                 Go to Home →
               </Link>
-              <p className="text-xs md:text-sm italic m-0" style={{ color: 'var(--text-secondary)' }}>
+              <p
+                style={{
+                  fontSize: '12px',
+                  lineHeight: '1.5',
+                  fontStyle: 'italic',
+                  margin: 0,
+                  color: 'var(--text-secondary)',
+                }}
+              >
                 Redirecting automatically in 3 seconds...
               </p>
             </>
@@ -146,7 +260,20 @@ export default function EmailVerificationPage() {
             <>
               <button
                 onClick={resendVerification}
-                style={{color: "var(--text-primary)"}} className="min-h-[44px] px-5 py-2.5 md:px-6 md:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold text-sm md:text-base shadow-sm transition-all hover:opacity-90 border-none cursor-pointer"
+                className="inline-flex items-center justify-center font-semibold transition-all"
+                style={{
+                  height: '56px',
+                  paddingLeft: '32px',
+                  paddingRight: '32px',
+                  fontSize: '16px',
+                  lineHeight: '1.5',
+                  color: 'white',
+                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  borderRadius: '12px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: 'var(--shadow-sm)',
+                }}
                 aria-label="Resend verification email"
               >
                 Resend Verification Email
@@ -154,7 +281,19 @@ export default function EmailVerificationPage() {
 
               <Link
                 to="/"
-                className="inline-block min-h-[44px] px-3 py-2 md:px-4 md:py-3 bg-transparent text-[#58a6ff] border-2 border-[#58a6ff] rounded-2xl shadow-sm font-semibold text-xs md:text-sm transition-all hover:border-[#79c0ff] hover:text-[#79c0ff]"
+                className="inline-flex items-center justify-center font-semibold transition-all"
+                style={{
+                  height: '48px',
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
+                  fontSize: '14px',
+                  lineHeight: '1.5',
+                  color: '#58a6ff',
+                  background: 'transparent',
+                  border: '2px solid #58a6ff',
+                  borderRadius: '12px',
+                  textDecoration: 'none',
+                }}
                 aria-label="Back to home page"
               >
                 Back to Home
@@ -163,17 +302,46 @@ export default function EmailVerificationPage() {
           )}
 
           {status === 'verifying' && (
-            <p className="text-xs md:text-sm italic m-0" style={{ color: 'var(--text-secondary)' }}>
+            <p
+              style={{
+                fontSize: '12px',
+                lineHeight: '1.5',
+                fontStyle: 'italic',
+                margin: 0,
+                color: 'var(--text-secondary)',
+              }}
+            >
               This may take a few seconds...
             </p>
           )}
         </div>
 
-        <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t text-xs md:text-sm" style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}>
-          <p>Having trouble? <Link to="/help" className="text-[#58a6ff] hover:text-[#79c0ff] underline transition-colors">Contact Support</Link></p>
+        <div
+          className="text-center"
+          style={{
+            marginTop: '32px',
+            paddingTop: '24px',
+            borderTop: '1px solid var(--border-primary)',
+            fontSize: '14px',
+            lineHeight: '1.5',
+            color: 'var(--text-secondary)',
+          }}
+        >
+          <p style={{ margin: 0 }}>
+            Having trouble?{' '}
+            <Link
+              to="/help"
+              className="underline transition-colors"
+              style={{
+                color: '#58a6ff',
+                textDecoration: 'underline',
+              }}
+            >
+              Contact Support
+            </Link>
+          </p>
         </div>
       </div>
     </div>
-  )
+  );
 }
-
