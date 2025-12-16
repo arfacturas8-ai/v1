@@ -122,7 +122,7 @@ function ServersPage() {
             />
           ) : (
             <div
-              style={{color: "var(--text-primary)"}} style={{ width: "64px", height: "64px", flexShrink: 0 }}
+              style={{color: "var(--text-primary)", width: "64px", height: "64px", flexShrink: 0}}
             >
               {server?.name?.charAt(0)?.toUpperCase() || 'S'}
             </div>
@@ -140,7 +140,7 @@ function ServersPage() {
                 {server?.isPublic ? (
                   <Globe style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 ) : (
-                  <Lock style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <Lock style={{color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0}} />
                 )}
               </div>
               {server?.description && (

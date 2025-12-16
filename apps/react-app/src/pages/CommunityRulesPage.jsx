@@ -50,7 +50,7 @@ const CommunityRulesPage = () => {
             <div className="flex flex-col gap-4 sm:gap-5">
               {rules.map((rule, index) => (
                 <div key={rule.id} className="flex gap-3 sm:gap-4">
-                  <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: 'var(--text-inverse)' }}>
+                  <div style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-inverse)'}}>
                     {index + 1}
                   </div>
                   <div className="flex-1">

@@ -264,7 +264,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
           variant="ghost"
           size="icon-lg"
           onClick={handleCloseCameraView}
-          style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="bg-black/50  hover:/70"
+          style={{background: "var(--bg-primary)", color: "var(--text-primary)"}} className="bg-black/50  hover:/70"
         >
           <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
         </Button>
@@ -372,7 +372,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                 {/* Selection indicator */}
                 {file.selected && (
                   <div style={{ width: "24px", height: "24px", flexShrink: 0 }}>
-                    <Check style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <Check style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
                   </div>
                 )}
 
@@ -382,9 +382,9 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                     e.stopPropagation();
                     removeFile(file.id);
                   }}
-                  style={{background: "var(--bg-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}
+                  style={{background: "var(--bg-primary)", width: "24px", height: "24px", flexShrink: 0}}
                 >
-                  <X style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <X style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
                 </button>
 
                 {/* Crop button */}
@@ -396,7 +396,7 @@ export const MediaPickerModal: React.FC<MediaPickerModalProps> = ({
                     }}
                     style={{background: "var(--bg-primary)"}} className="absolute bottom-2 right-2 px-2 py-1 rounded bg-black/50 flex items-center gap-1 hover:/70 transition-colors"
                   >
-                    <Crop style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <Crop style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
                     <span style={{color: "var(--text-primary)"}} className="text-xs ">Crop</span>
                   </button>
                 )}

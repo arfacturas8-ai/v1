@@ -116,7 +116,7 @@ const SharedMediaGalleryPage = () => {
       <div style={{borderColor: "var(--border-subtle)"}} className="card   border-b ">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
           <div className="relative flex-1">
-            <Search style={{color: "var(--text-secondary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+            <Search style={{color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0}} />
             <input
               type="text"
               value={searchQuery}
@@ -176,17 +176,17 @@ const SharedMediaGalleryPage = () => {
                     )}
                     <div style={{background: "var(--bg-primary)"}} className="absolute inset-0 /60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
                       <button className="card card p-3 /60  hover:  rounded-lg backdrop-blur-sm">
-                        <Download style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Download style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
                       </button>
                       <button className="card card p-3 /60  hover:  rounded-lg backdrop-blur-sm">
-                        <ExternalLink style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <ExternalLink style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
                       </button>
                     </div>
                   </div>
                 ) : (
                   <>
                     <div style={{borderColor: "var(--border-subtle)"}} className="w-16 h-16 bg-[#21262d] rounded-lg flex items-center justify-center border ">
-                      {item.type === 'image' && <Image style={{color: "var(--text-secondary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />}
+                      {item.type === 'image' && <Image style={{color: "var(--text-secondary)", width: "48px", height: "48px", flexShrink: 0}} />}
                       {item.type === 'video' && <span className="text-3xl">🎥</span>}
                     </div>
                     <div className="flex-1">

@@ -329,7 +329,7 @@ function TokenEconomicsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <div className="card card-interactive">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--brand-gradient)' }}>
+                <div style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--brand-gradient)'}}>
                   <Coins size={isMobile ? 20 : 24} style={{ color: 'var(--text-inverse)' }} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -341,7 +341,7 @@ function TokenEconomicsPage() {
 
             <div className="card card-interactive">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--color-success)', color: 'var(--text-inverse)' }}>
+                <div style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--color-success)', color: 'var(--text-inverse)'}}>
                   <TrendingUp size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -353,7 +353,7 @@ function TokenEconomicsPage() {
 
             <div className="card card-interactive">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--color-warning)', color: 'var(--text-inverse)' }}>
+                <div style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--color-warning)', color: 'var(--text-inverse)'}}>
                   <DollarSign size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -366,7 +366,7 @@ function TokenEconomicsPage() {
 
             <div className="card card-interactive">
               <div className="flex items-start gap-3 sm:gap-4">
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: '#ec4899', color: 'var(--text-inverse)' }}>
+                <div style={{width: "48px", height: "48px", flexShrink: 0, background: '#ec4899', color: 'var(--text-inverse)'}}>
                   <BarChart3 size={isMobile ? 20 : 24} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -378,7 +378,7 @@ function TokenEconomicsPage() {
 
             <div className="card card-elevated sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-gradient-subtle)' }}>
               <div className="flex items-start gap-3 sm:gap-4">
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--brand-gradient)' }}>
+                <div style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--brand-gradient)'}}>
                   <Wallet size={isMobile ? 20 : 24} style={{ color: 'var(--text-inverse)' }} />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -427,7 +427,7 @@ function TokenEconomicsPage() {
                 {tokenDistribution.map((item, index) => (
                   <div key={index} className="card card-compact" style={{ background: 'var(--bg-tertiary)' }}>
                     <div className="flex items-center gap-3 sm:gap-4">
-                      <div style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ backgroundColor: item.color }}></div>
+                      <div style={{width: "24px", height: "24px", flexShrink: 0, backgroundColor: item.color}}></div>
                       <div className="flex-1 min-w-0">
                         <div className="text-sm sm:text-base font-medium truncate" style={{ color: 'var(--text-primary)' }}>{item.category}</div>
                       </div>
@@ -447,7 +447,7 @@ function TokenEconomicsPage() {
               <div className="space-y-4">
                 <div className="card">
                   <div className="flex items-center gap-4">
-                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--brand-gradient)' }}>
+                    <div style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--brand-gradient)'}}>
                       <Lock size={isMobile ? 18 : 20} style={{ color: 'var(--text-inverse)' }} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -459,7 +459,7 @@ function TokenEconomicsPage() {
 
                 <div className="card">
                   <div className="flex items-center gap-4">
-                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--color-success)' }}>
+                    <div style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--color-success)'}}>
                       <TrendingUp size={isMobile ? 18 : 20} style={{ color: 'var(--text-inverse)' }} />
                     </div>
                     <div className="flex-1 min-w-0">
@@ -471,7 +471,7 @@ function TokenEconomicsPage() {
 
                 <div className="card card-elevated" style={{ background: 'var(--color-warning-light)' }}>
                   <div className="flex items-center gap-4">
-                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--color-warning)' }}>
+                    <div style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--color-warning)'}}>
                       <Gift size={isMobile ? 18 : 20} style={{ color: 'var(--text-inverse)' }} />
                     </div>
                     <div className="flex-1 min-w-0">

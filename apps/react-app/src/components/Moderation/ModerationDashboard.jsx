@@ -187,7 +187,7 @@ const ModerationDashboard = () => {
         <div className="flex items-center gap-4">
           {notifications.length > 0 && (
             <div className="relative cursor-pointer group">
-              <span style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}>
+              <span style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}}>
                 {notifications.length}
               </span>
               <div className="hidden group-hover:block absolute top-full right-0 bg-white rounded-lg shadow-[0_10px_25px_rgba(0,0,0,0.1)] min-w-[300px] max-w-[400px] z-[1000] border border-[var(--border-subtle)]">

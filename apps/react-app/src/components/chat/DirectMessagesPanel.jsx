@@ -397,11 +397,11 @@ function DirectMessagesPanel({
             {/* Avatar/Group Icon */}
             <div className="relative">
               {conversation?.type === 'group' ? (
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ borderColor: 'var(--border-subtle)' }}>
-                  <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--text-primary)' }} />
+                <div style={{width: "48px", height: "48px", flexShrink: 0, borderColor: 'var(--border-subtle)'}}>
+                  <Users style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-primary)'}} />
                 </div>
               ) : (
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ borderColor: 'var(--border-subtle)' }}>
+                <div style={{width: "48px", height: "48px", flexShrink: 0, borderColor: 'var(--border-subtle)'}}>
                   {participants[0]?.avatar ? (
                     <img
                       src={participants[0].avatar}
@@ -418,7 +418,7 @@ function DirectMessagesPanel({
 
               {/* Status indicator for DMs */}
               {conversation?.type === 'direct' && participants[0] && (
-                <div style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ borderColor: 'var(--bg-secondary)' }} />
+                <div style={{width: "24px", height: "24px", flexShrink: 0, borderColor: 'var(--bg-secondary)'}} />
               )}
             </div>
 
@@ -586,7 +586,7 @@ function DirectMessagesPanel({
                   {participants.map(participant => (
                     <div key={participant.id} className="flex items-center gap-3 p-2 rounded-xl transition-colors" style={{ ':hover': { background: 'var(--bg-primary)' } }}>
                       <div className="relative">
-                        <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ borderColor: 'var(--border-subtle)' }}>
+                        <div style={{width: "48px", height: "48px", flexShrink: 0, borderColor: 'var(--border-subtle)'}}>
                           {participant.avatar ? (
                             <img
                               src={participant.avatar}
@@ -626,8 +626,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.notifications}
                       onChange={(e) => updateSetting('notifications', e.target.checked)}
-                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                      style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
+                      style={{width: "24px", height: "24px", flexShrink: 0, borderColor: 'var(--border-subtle)', background: 'white'}}
                     />
                   </label>
 
@@ -637,8 +636,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.pinned}
                       onChange={(e) => updateSetting('pinned', e.target.checked)}
-                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                      style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
+                      style={{width: "24px", height: "24px", flexShrink: 0, borderColor: 'var(--border-subtle)', background: 'white'}}
                     />
                   </label>
 
@@ -648,8 +646,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.starred}
                       onChange={(e) => updateSetting('starred', e.target.checked)}
-                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                      style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
+                      style={{width: "24px", height: "24px", flexShrink: 0, borderColor: 'var(--border-subtle)', background: 'white'}}
                     />
                   </label>
 
@@ -659,8 +656,7 @@ function DirectMessagesPanel({
                       type="checkbox"
                       checked={conversationSettings.archived}
                       onChange={(e) => updateSetting('archived', e.target.checked)}
-                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                      style={{ borderColor: 'var(--border-subtle)', background: 'white' }}
+                      style={{width: "24px", height: "24px", flexShrink: 0, borderColor: 'var(--border-subtle)', background: 'white'}}
                     />
                   </label>
                 </div>

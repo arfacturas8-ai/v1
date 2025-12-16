@@ -23,7 +23,7 @@ const PrivacySettingsPage = () => {
           {/* Header */}
           <div className="mb-6 sm:mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
+              <div style={{ width: "48px", height: "48px", flexShrink: 0, background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
                 <Shield style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-bold ">Privacy Settings</h1>
@@ -41,7 +41,7 @@ const PrivacySettingsPage = () => {
               {['public', 'friends', 'private'].map(option => (
                 <label key={option} className="flex items-center gap-3 p-2 sm:p-3 rounded-lg cursor-pointer" style={{ background: settings.profileVisibility === option ? 'rgba(88, 166, 255, 0.1)' : 'transparent', border: settings.profileVisibility === option ? '1px solid rgba(88, 166, 255, 0.3)' : '1px solid transparent' }}>
                   <input type="radio" name="visibility" checked={settings.profileVisibility === option} onChange={() => updateSetting('profileVisibility', option)} className="sr-only" />
-                  <div style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ borderColor: settings.profileVisibility === option ? '#58a6ff' : '#666666', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
+                  <div style={{ width: "24px", height: "24px", flexShrink: 0, borderColor: settings.profileVisibility === option ? '#58a6ff' : '#666666', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
                   <span style={{color: "var(--text-primary)"}} className="text-sm sm:text-base  capitalize">{option}</span>
                 </label>
               ))}
@@ -65,7 +65,7 @@ const PrivacySettingsPage = () => {
                     </div>
                   </div>
                   <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }} />
+                    <div style={{ width: "24px", height: "24px", flexShrink: 0, transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }} />
                   </button>
                 </div>
               ))}
@@ -79,7 +79,7 @@ const PrivacySettingsPage = () => {
               <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Direct Messages</h2>
             </div>
             <p className="text-sm sm:text-base text-[#666666] mb-3 sm:mb-4">Control who can send you direct messages</p>
-            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} style={{color: "var(--text-primary)"}} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base  outline-none" style={{ background: '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
+            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base  outline-none" style={{ color: "var(--text-primary)", background: '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
               <option value="everyone">Everyone</option>
               <option value="friends">Friends Only</option>
               <option value="none">No One</option>

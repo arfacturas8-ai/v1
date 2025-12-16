@@ -311,7 +311,7 @@ const AnalyticsPanel = () => {
               {analytics.moderator_performance?.map((moderator, index) => (
                 <div key={index} className="bg-white backdrop-blur-[12px] border border-[var(--border-subtle)] rounded-xl p-4">
                   <div className="flex items-center gap-3 mb-3">
-                    <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                    <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                       {moderator.username?.[0]?.toUpperCase() || 'M'}
                     </div>
                     <div>

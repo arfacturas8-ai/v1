@@ -36,7 +36,7 @@ export default function ReportsPage() {
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                 </svg>
               </div>
@@ -49,7 +49,7 @@ export default function ReportsPage() {
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
@@ -62,7 +62,7 @@ export default function ReportsPage() {
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
@@ -75,7 +75,7 @@ export default function ReportsPage() {
           <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                <svg style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
                 </svg>
               </div>

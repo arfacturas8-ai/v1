@@ -345,7 +345,7 @@ export default function ModerationQueue({
             </div>
 
             {/* Type Icon */}
-            <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: getItemTypeColor(item.type) }}>
+            <div style={{width: "48px", height: "48px", flexShrink: 0, color: getItemTypeColor(item.type)}}>
               {getItemTypeIcon(item.type)}
             </div>
 
@@ -415,7 +415,7 @@ export default function ModerationQueue({
             {/* Actions */}
             <div className="flex md:flex-col gap-1.5 self-center">
               <button
-                style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
+                style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}
                 onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.APPROVE)}
                 title="Approve"
               >
@@ -423,7 +423,7 @@ export default function ModerationQueue({
               </button>
 
               <button
-                style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
+                style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}
                 onClick={() => handleModerateItem(item.id, MODERATION_ACTIONS.REMOVE, 'Removed by moderator')}
                 title="Remove"
               >
@@ -431,7 +431,7 @@ export default function ModerationQueue({
               </button>
 
               <button
-                style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
+                style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}
                 title="View Full Content"
               >
                 <Eye size={16} />

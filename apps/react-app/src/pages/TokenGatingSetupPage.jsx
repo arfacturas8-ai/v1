@@ -16,8 +16,8 @@ const TokenGatingSetupPage = () => {
       <div className="max-w-4xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="card card-elevated">
           <div className="flex items-center gap-3 mb-6">
-            <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ background: 'var(--brand-gradient)' }}>
-              <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--text-inverse)' }} />
+            <div style={{ width: "48px", height: "48px", flexShrink: 0, background: 'var(--brand-gradient)' }}>
+              <Shield style={{ width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-inverse)' }} />
             </div>
             <h1 className="text-xl md:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Token Gating Setup</h1>
           </div>
@@ -28,14 +28,14 @@ const TokenGatingSetupPage = () => {
               <div key={gate.id} className="card" style={{ background: 'var(--color-info-light)', borderColor: 'var(--brand-primary)' }}>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 md:gap-4 min-w-0">
-                    <Lock style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--brand-primary)' }} />
+                    <Lock style={{ width: "24px", height: "24px", flexShrink: 0, color: 'var(--brand-primary)' }} />
                     <div className="min-w-0">
                       <div className="text-sm md:text-base font-semibold truncate" style={{ color: 'var(--text-primary)' }}>{gate.name}</div>
                       <div className="text-xs md:text-sm" style={{ color: 'var(--text-secondary)' }}>Min {gate.amount} tokens required</div>
                     </div>
                   </div>
                   <button onClick={() => setGates(gates.filter(g => g.id !== gate.id))} className="btn-ghost p-2 rounded-lg flex-shrink-0">
-                    <X style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--color-error)' }} />
+                    <X style={{ width: "24px", height: "24px", flexShrink: 0, color: 'var(--color-error)' }} />
                   </button>
                 </div>
               </div>

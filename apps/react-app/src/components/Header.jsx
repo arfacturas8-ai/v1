@@ -149,7 +149,7 @@ function Header() {
             {/* Desktop Search */}
             <form onSubmit={handleSearch} className="hidden lg:block flex-1 max-w-md mx-8">
               <div className="relative">
-                <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
+                <Search style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-secondary)'}} />
                 <input
                   type="search"
                   placeholder="Search CRYB..."
@@ -169,15 +169,14 @@ function Header() {
                   <div className="relative" ref={notificationRef}>
                     <button
                       onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                      style={{ width: "48px", height: "48px", flexShrink: 0 }}
-                      style={{ color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)' }}
+                      style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)'}}
                       aria-label="Notifications"
                       onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                     >
                       <Bell size={18} />
                       {unreadCount > 0 && (
-                        <span style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}>
+                        <span style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}}>
                           {unreadCount}
                         </span>
                       )}
@@ -247,7 +246,7 @@ function Header() {
                       className="flex items-center gap-2 p-1 pr-2 bg-white border rounded-lg hover:border-[#58a6ff]/30 transition-all"
                       style={{ borderColor: 'var(--border-subtle)' }}
                     >
-                      <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                      <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                         {user?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
                       <ChevronDown size={14} className="hidden sm:block" style={{ color: 'var(--text-secondary)' }} />
@@ -257,7 +256,7 @@ function Header() {
                       <div className="absolute right-0 mt-2 w-56 bg-white  border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
                         <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <div className="flex items-center gap-3">
-                            <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                            <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
@@ -311,8 +310,7 @@ function Header() {
                   {/* Mobile Menu Button */}
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    style={{ width: "48px", height: "48px", flexShrink: 0 }}
-                    style={{ color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)' }}
+                    style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)'}}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
                     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                   >
@@ -347,7 +345,7 @@ function Header() {
               {/* Mobile Search */}
               <form onSubmit={handleSearch} className="mb-4">
                 <div className="relative">
-                  <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
+                  <Search style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-secondary)'}} />
                   <input
                     type="search"
                     placeholder="Search CRYB..."

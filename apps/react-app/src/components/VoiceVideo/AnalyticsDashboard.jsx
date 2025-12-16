@@ -494,7 +494,7 @@ const AnalyticsDashboard = ({
                 </div>
                 <button
                   onClick={() => dismissAlert(alert.id)}
-                  style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}
+                  style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}}
                 >
                   ×
                 </button>

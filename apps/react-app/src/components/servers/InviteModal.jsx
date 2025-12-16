@@ -167,7 +167,7 @@ function InviteModal({ onClose, onJoin }) {
                           style={{ width: "48px", height: "48px", flexShrink: 0 }}
                         />
                       ) : (
-                        <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                        <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                           {inviteData.server?.name?.charAt(0).toUpperCase() || 'S'}
                         </div>
                       )}

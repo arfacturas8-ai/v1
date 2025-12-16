@@ -396,7 +396,7 @@ function ProfilePage() {
         <div className="bg-white rounded-2xl shadow-lg border max-w-md mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full border inline-flex mb-6" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
-              <User style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
+              <User style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-secondary)'}} />
             </div>
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>User not found</h2>
             <p style={{ color: 'var(--text-secondary)' }} className="mb-6">The user you're looking for doesn't exist or has been deleted.</p>
@@ -451,7 +451,7 @@ function ProfilePage() {
                   </div>
                   {user.isVerified && (
                     <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 shadow-lg" style={{ borderColor: 'var(--bg-primary)' }}>
-                      <CheckCircle style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <CheckCircle style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
                     </div>
                   )}
                 </div>
@@ -696,7 +696,7 @@ function ProfilePage() {
                     ))
                   ) : (
                     <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <MessageSquare style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
+                      <MessageSquare style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-secondary)'}} />
                       <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No comments yet</h3>
                       <p style={{ color: 'var(--text-secondary)' }}>
                         {isOwnProfile ? "You haven't commented on any posts yet." : "This user hasn't commented on anything yet."}
@@ -723,7 +723,7 @@ function ProfilePage() {
                     ))
                   ) : (
                     <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <Bookmark style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
+                      <Bookmark style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-secondary)'}} />
                       <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No saved posts</h3>
                       <p style={{ color: 'var(--text-secondary)' }}>
                         {isOwnProfile ? "You haven't saved any posts yet." : "This user hasn't saved any posts."}
@@ -872,7 +872,7 @@ function ProfilePage() {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                            <Image style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+                            <Image style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}} />
                           </div>
                         )}
                       </div>

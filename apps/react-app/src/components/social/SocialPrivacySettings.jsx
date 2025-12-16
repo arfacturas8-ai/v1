@@ -169,7 +169,7 @@ const SocialPrivacySettings = ({ onClose }) => {
   if (loading) {
     return (
       <div style={{color: "var(--text-primary)"}} className="flex flex-col items-center justify-center py-16 px-5 /60">
-        <div style={{borderColor: "var(--border-subtle)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+        <div style={{borderColor: "var(--border-subtle)", width: "48px", height: "48px", flexShrink: 0}} />
         <p>Loading privacy settings...</p>
       </div>
     )

@@ -237,7 +237,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                   </label>
                   <div className="flex items-center gap-3 sm:gap-4">
                     <div
-                      style={{borderColor: "var(--border-subtle)"}} style={{ width: "80px", height: "80px", flexShrink: 0 }}
+                      style={{borderColor: "var(--border-subtle)", width: "80px", height: "80px", flexShrink: 0}}
                       onClick={() => iconInputRef.current?.click()}
                     >
                       {iconPreview ? (
@@ -301,7 +301,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                       name="isPublic"
                       checked={formData.isPublic}
                       onChange={(e) => setFormData(prev => ({ ...prev, isPublic: e.target.checked }))}
-                      style={{borderColor: "var(--border-default)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}
+                      style={{borderColor: "var(--border-default)", width: "24px", height: "24px", flexShrink: 0}}
                     />
                     <span style={{color: "var(--text-primary)"}} className="text-sm sm:text-base font-medium ">
                       Public Server
@@ -361,7 +361,7 @@ function ServerSettingsModal({ server, onClose, onUpdate }) {
                               style={{ width: "48px", height: "48px", flexShrink: 0 }}
                             />
                           ) : (
-                            <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                            <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                               {member.user.displayName?.[0]?.toUpperCase() || member.user.username[0].toUpperCase()}
                             </div>
                           )}

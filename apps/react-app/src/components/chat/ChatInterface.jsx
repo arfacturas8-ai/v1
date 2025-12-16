@@ -389,14 +389,12 @@ function ChatInterface({
               )}
 
               <div className="flex items-center gap-2">
-                <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{
-                  borderRadius: 'var(--radius-lg)',
-                  background: 'var(--bg-tertiary)'
-                }}>
+                <div style={{width: "48px", height: "48px", flexShrink: 0, borderRadius: 'var(--radius-lg)',
+                  background: 'var(--bg-tertiary)'}}>
                   {isVoiceChannel ? (
-                    <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--brand-primary)' }} />
+                    <Volume2 style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--brand-primary)'}} />
                   ) : (
-                    <Hash style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--brand-primary)' }} />
+                    <Hash style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--brand-primary)'}} />
                   )}
                 </div>
                 <div>
@@ -493,7 +491,7 @@ function ChatInterface({
             borderBottom: '1px solid var(--border-subtle)'
           }}>
             <div className="flex items-center gap-2">
-              <Pin style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--brand-primary)' }} />
+              <Pin style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--brand-primary)'}} />
               <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                 {pinnedMessages.length} pinned message{pinnedMessages.length > 1 ? 's' : ''}
               </span>

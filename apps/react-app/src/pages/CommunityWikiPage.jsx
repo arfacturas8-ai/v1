@@ -27,7 +27,7 @@ const CommunityWikiPage = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
           <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-            <div style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{width: "64px", height: "64px", flexShrink: 0, boxShadow: 'var(--shadow-sm)'}}>
               <FileText size={24} className="text-[#58a6ff]" />
             </div>
             <h3 className="text-sm sm:text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Getting Started</h3>
@@ -35,7 +35,7 @@ const CommunityWikiPage = () => {
           </div>
 
           <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-            <div style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{width: "64px", height: "64px", flexShrink: 0, boxShadow: 'var(--shadow-sm)'}}>
               <FileText size={24} className="text-emerald-500" />
             </div>
             <h3 className="text-sm sm:text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Community Guidelines</h3>
@@ -43,7 +43,7 @@ const CommunityWikiPage = () => {
           </div>
 
           <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80 sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-            <div style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ boxShadow: 'var(--shadow-sm)' }}>
+            <div style={{width: "64px", height: "64px", flexShrink: 0, boxShadow: 'var(--shadow-sm)'}}>
               <FileText size={24} className="text-[#a371f7]" />
             </div>
             <h3 className="text-sm sm:text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>FAQ</h3>

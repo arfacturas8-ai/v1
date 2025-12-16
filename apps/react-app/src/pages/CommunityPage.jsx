@@ -284,7 +284,7 @@ function CommunityPage() {
         <div className=" rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
           <div className="p-8 text-center">
             <div className="p-4 rounded-full inline-flex mb-6" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
-              <Users style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: 'var(--text-tertiary)' }} />
+              <Users style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-tertiary)'}} />
             </div>
             <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Community Not Found</h2>
             <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>c/{communityName} doesn't exist yet.</p>
@@ -530,7 +530,7 @@ function CommunityPage() {
               <div className="space-y-4">
                 {sortedPosts.length === 0 ? (
                   <div className=" rounded-2xl p-12 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-                    <MessageSquare style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-tertiary)' }} />
+                    <MessageSquare style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-tertiary)'}} />
                     <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No posts yet</h3>
                     <p style={{ color: 'var(--text-secondary)' }}>Be the first to post in this community!</p>
                   </div>
@@ -692,7 +692,7 @@ function CommunityPage() {
                         className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors"
                         style={{ color: 'var(--text-secondary)' }}
                       >
-                        <div style={{ width: "48px", height: "48px", flexShrink: 0 }} style={{ color: 'var(--text-inverse)' }}>
+                        <div style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-inverse)'}}>
                           {mod[0].toUpperCase()}
                         </div>
                         <span>u/{mod}</span>

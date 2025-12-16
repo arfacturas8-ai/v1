@@ -188,7 +188,7 @@ const MessageSearchModal = ({ isOpen, onClose, messages, onJumpToMessage }) => {
                   >
                     {/* Message Header */}
                     <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
-                      <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                      <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                         {message.username?.[0] || '?'}
                       </div>
                       <span className="font-medium text-sm sm:text-base">

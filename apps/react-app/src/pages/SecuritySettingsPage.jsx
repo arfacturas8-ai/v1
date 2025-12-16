@@ -21,7 +21,7 @@ const SecuritySettingsPage = () => {
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
               <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
-                <Shield style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <Shield style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl md:text-2xl font-bold ">Security Settings</h1>
             </div>

@@ -415,7 +415,7 @@ function UsersPage() {
                       </td>
                       <td className="px-4 py-4">
                         <div className="flex items-center gap-3">
-                          <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                          <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                             {user.avatarUrl ? (
                               <img src={user.avatarUrl} alt={user.username} className="w-full h-full object-cover" />
                             ) : (

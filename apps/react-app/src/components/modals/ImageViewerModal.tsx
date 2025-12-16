@@ -442,7 +442,7 @@ export const ImageViewerModal: React.FC<ImageViewerModalProps> = ({
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div style={{background: "var(--bg-primary)"}} style={{color: "var(--text-primary)"}} className="w-full h-full /50 flex items-center justify-center ">
+                    <div style={{background: "var(--bg-primary)", color: "var(--text-primary)"}} className="w-full h-full /50 flex items-center justify-center ">
                       <span className="text-2xl">▶</span>
                     </div>
                   )}

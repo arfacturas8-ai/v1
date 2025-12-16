@@ -242,7 +242,7 @@ function CreatePostPage() {
                         }}
                         aria-pressed={isSelected}
                       >
-                        <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)' }} />
+                        <Icon style={{width: "24px", height: "24px", flexShrink: 0, color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)'}} />
                         <span className="font-medium" style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-primary)' }}>
                           {type.label}
                         </span>
@@ -419,7 +419,7 @@ function CreatePostPage() {
                         background: errors.image ? 'rgba(239, 68, 68, 0.05)' : 'var(--bg-tertiary)'
                       }}
                     >
-                      <ImageIcon style={{ width: "64px", height: "64px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
+                      <ImageIcon style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-secondary)'}} />
                       <label className="cursor-pointer">
                         <input
                           type="file"

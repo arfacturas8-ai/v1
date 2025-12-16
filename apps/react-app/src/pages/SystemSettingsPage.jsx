@@ -22,7 +22,7 @@ const SystemSettingsPage = () => {
           <div className="mb-6 md:mb-8">
             <div className="flex items-center gap-3 mb-2">
               <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
-                <Settings style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
+                <Settings style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               </div>
               <h1 style={{color: "var(--text-primary)"}} className="text-xl md:text-2xl font-bold ">System Settings</h1>
             </div>
@@ -47,14 +47,12 @@ const SystemSettingsPage = () => {
                   </div>
                   <button
                     onClick={() => updateSetting(item.key, !settings[item.key])}
-                    style={{borderColor: "var(--border-subtle)"}} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
-                    style={{ background: settings[item.key] ? '#58a6ff' : '#21262d' }}
+                    style={{ borderColor: "var(--border-subtle)", background: settings[item.key] ? '#58a6ff' : '#21262d' }} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
                     aria-label={`Toggle ${item.label}`}
                     aria-pressed={settings[item.key]}
                   >
                     <div
-                      style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                      style={{ transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }}
+                      style={{ width: "24px", height: "24px", flexShrink: 0, transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }}
                     />
                   </button>
                 </div>
@@ -75,14 +73,12 @@ const SystemSettingsPage = () => {
               </div>
               <button
                 onClick={() => updateSetting('soundEffects', !settings.soundEffects)}
-                style={{borderColor: "var(--border-subtle)"}} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
-                style={{ background: settings.soundEffects ? '#58a6ff' : '#21262d' }}
+                style={{ borderColor: "var(--border-subtle)", background: settings.soundEffects ? '#58a6ff' : '#21262d' }} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
                 aria-label="Toggle sound effects"
                 aria-pressed={settings.soundEffects}
               >
                 <div
-                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                  style={{ transform: settings.soundEffects ? 'translateX(26px)' : 'translateX(2px)' }}
+                  style={{ width: "24px", height: "24px", flexShrink: 0, transform: settings.soundEffects ? 'translateX(26px)' : 'translateX(2px)' }}
                 />
               </button>
             </div>

@@ -65,7 +65,7 @@ const AppearanceSettingsPage = () => {
                   border: theme === t.id ? '2px solid #58a6ff' : '2px solid rgba(255, 255, 255, 0.1)'
                 }}
               >
-                <t.icon style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: theme === t.id ? '#58a6ff' : '#8b949e' }} />
+                <t.icon style={{ width: "24px", height: "24px", flexShrink: 0, color: theme === t.id ? '#58a6ff' : '#8b949e' }} />
                 <span className="text-xs sm:text-sm font-medium" style={{ color: theme === t.id ? '#ffffff' : '#c9d1d9' }}>
                   {t.label}
                 </span>
@@ -94,13 +94,15 @@ const AppearanceSettingsPage = () => {
               <button
                 key={color}
                 onClick={() => setAccentColor(color)}
-                style={{ width: "48px", height: "48px", flexShrink: 0 }}
                 style={{
+                  width: "48px",
+                  height: "48px",
+                  flexShrink: 0,
                   background: color,
                   border: accentColor === color ? '3px solid #ffffff' : '3px solid transparent'
                 }}
               >
-                {accentColor === color && <Check style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
+                {accentColor === color && <Check style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />}
               </button>
             ))}
           </div>

@@ -299,7 +299,7 @@ export default function CommunityAnalytics({ communityId, timeRange = '30d' }) {
           <div className="flex flex-col gap-3">
             {analytics?.topContributors?.slice(0, 5).map((contributor, index) => (
               <div key={contributor.id} className="flex items-center gap-3 p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                <div style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}>
+                <div style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}}>
                   #{index + 1}
                 </div>
                 <img

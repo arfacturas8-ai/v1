@@ -109,13 +109,12 @@ function MobileHeader() {
                   {/* Notifications */}
                   <Link
                     to="/notifications"
-                    style={{ width: "48px", height: "48px", flexShrink: 0 }}
-                    style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                    style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)'}}
                     aria-label={`Notifications${unreadNotifications > 0 ? ` (${unreadNotifications} unread)` : ''}`}
                   >
                     <Bell size={18} />
                     {unreadNotifications > 0 && (
-                      <span style={{color: "var(--text-primary)"}} style={{ width: "24px", height: "24px", flexShrink: 0 }}>
+                      <span style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}}>
                         {unreadNotifications > 9 ? '9+' : unreadNotifications}
                       </span>
                     )}
@@ -125,7 +124,7 @@ function MobileHeader() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}
+                      style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}
                     >
                       {user?.username?.charAt(0).toUpperCase() || 'U'}
                     </button>
@@ -134,7 +133,7 @@ function MobileHeader() {
                       <div className="absolute right-0 mt-2 w-56  border rounded-xl shadow-lg overflow-hidden" style={{ background: 'white', borderColor: 'var(--border-subtle)' }}>
                         <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <div className="flex items-center gap-3">
-                            <div style={{color: "var(--text-primary)"}} style={{ width: "48px", height: "48px", flexShrink: 0 }}>
+                            <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
@@ -187,8 +186,7 @@ function MobileHeader() {
 
                   {/* Hamburger Menu */}
                   <button
-                    style={{ width: "48px", height: "48px", flexShrink: 0 }}
-                    style={{ background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                    style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)'}}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label="Menu"
                   >
@@ -220,7 +218,7 @@ function MobileHeader() {
             <div className="pb-3">
               <form onSubmit={handleSearch}>
                 <div className="relative">
-                  <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} style={{ color: 'var(--text-secondary)' }} />
+                  <Search style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-secondary)'}} />
                   <input
                     type="search"
                     placeholder="Search CRYB..."
