@@ -25,6 +25,14 @@ import {
 
 /**
  * ChatPage - Complete professional real-time chat interface
+ *
+ * Master Prompt Standards Applied:
+ * - All icons 24px in shrink-0 containers
+ * - Channel header height: 72px desktop/tablet, 56px mobile
+ * - Standard gaps: 16px inline elements, 8px small elements
+ * - Consistent use of CSS variables
+ * - Z-index scale for overlays (50, 60)
+ *
  * Integrates all 12 major components for a premium chat experience:
  * - ChatInterface: Main layout and orchestration
  * - ChannelSidebar: Server/channel navigation
@@ -41,7 +49,7 @@ import {
 
 function ChatPage({ user, onNavigate }) {
   const { user: currentUser } = useAuth()
-  const { isMobile: isResponsiveMobile, isTablet } = useResponsive()
+  const { isMobile: isResponsiveMobile, isTablet, isDesktop } = useResponsive()
 
   // Core state
   const [activeServer, setActiveServer] = useState(null)
@@ -63,6 +71,7 @@ function ChatPage({ user, onNavigate }) {
 
   // UI state
   const isMobile = useIsMobile()
+  const headerHeight = isDesktop || isTablet ? '72px' : '56px'
 
   // Accessibility: Announce loading and error states to screen readers
   useLoadingAnnouncement(loading, 'Loading chat')
@@ -125,7 +134,7 @@ function ChatPage({ user, onNavigate }) {
 
     loadMessages()
   }, [activeServer, activeChannel])
-  
+
   // Memoize current server and channel data
   const currentServer = useMemo(() =>
     servers?.find(s => s?.id === activeServer) || servers?.[0],
@@ -156,12 +165,12 @@ function ChatPage({ user, onNavigate }) {
       setActiveChannel(server?.channels?.[0]?.id)
     }
   }, [servers])
-  
+
   const handleChannelChange = useCallback((channelId) => {
     setActiveChannel(channelId)
     setActiveThread(null) // Close any open thread
   }, [])
-  
+
   const handleMessageSend = useCallback((message) => {
     const newMessage = {
       id: `msg-${Date.now()}`,
@@ -172,32 +181,32 @@ function ChatPage({ user, onNavigate }) {
       type: 'message',
       attachments: message.attachments || []
     }
-    
+
     setMessages(prev => [...prev, newMessage])
-    
+
     // Emit via socket
     socketService.emit('message_send', {
       channelId: activeChannel,
       message: newMessage
     })
   }, [activeChannel, currentUser])
-  
+
   const handleThreadOpen = useCallback((messageId) => {
     setActiveThread(messageId)
   }, [])
-  
+
   const handleDirectMessageOpen = useCallback(() => {
     setShowDirectMessages(true)
   }, [])
-  
+
   const handleNotificationOpen = useCallback(() => {
     setShowNotifications(true)
   }, [])
-  
+
   const handleSearchOpen = useCallback(() => {
     setShowSearch(true)
   }, [])
-  
+
   const handleVoiceJoin = useCallback((channelId) => {
     setShowVoiceInterface(true)
     // Voice channel logic would go here
@@ -209,7 +218,7 @@ function ChatPage({ user, onNavigate }) {
     socketService.on('message_received', (data) => {
       if (data.channelId === activeChannel) {
         setMessages(prev => [...prev, data.message])
-        
+
         // Add notification
         setNotifications(prev => [...(prev || []), {
           id: Date.now().toString(),
@@ -221,7 +230,7 @@ function ChatPage({ user, onNavigate }) {
         }])
       }
     })
-    
+
     socketService.on('user_joined', (data) => {
       setNotifications(prev => [...(prev || []), {
         id: Date.now().toString(),
@@ -231,7 +240,7 @@ function ChatPage({ user, onNavigate }) {
         timestamp: Date.now()
       }])
     })
-    
+
     return () => {
       socketService.off('message_received')
       socketService.off('user_joined')
@@ -242,14 +251,74 @@ function ChatPage({ user, onNavigate }) {
   // Show error state if data loading failed
   if (error) {
     return (
-      <div className="h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Chat error">
-        <div className="card-elevated text-center max-w-md p-8" role="alert" aria-live="assertive">
-          <div className="text-6xl mb-4" aria-hidden="true">⚠️</div>
-          <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Something went wrong</h2>
-          <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'var(--bg-primary)'
+        }}
+        role="main"
+        aria-label="Chat error"
+      >
+        <div
+          style={{
+            backgroundColor: 'var(--bg-secondary)',
+            borderWidth: '1px',
+            borderStyle: 'solid',
+            borderColor: 'var(--border-primary)',
+            borderRadius: '12px',
+            padding: '48px',
+            maxWidth: '448px',
+            textAlign: 'center',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+          }}
+          role="alert"
+          aria-live="assertive"
+        >
+          <div
+            style={{
+              fontSize: '48px',
+              marginBottom: '16px'
+            }}
+            aria-hidden="true"
+          >
+            ⚠️
+          </div>
+          <h2
+            style={{
+              fontSize: '24px',
+              fontWeight: 700,
+              color: 'var(--text-primary)',
+              marginBottom: '8px'
+            }}
+          >
+            Something went wrong
+          </h2>
+          <p
+            style={{
+              color: 'var(--text-secondary)',
+              marginBottom: '24px'
+            }}
+          >
+            {typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}
+          </p>
           <button
             onClick={loadChatData}
-            className="btn-primary"
+            style={{
+              height: '48px',
+              padding: '0 24px',
+              borderRadius: '12px',
+              border: 'none',
+              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              color: 'white',
+              fontSize: '14px',
+              fontWeight: 500,
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            className="hover:opacity-90"
             aria-label="Try loading chat again"
           >
             Try Again
@@ -262,15 +331,40 @@ function ChatPage({ user, onNavigate }) {
   // Show loading indicator during initial data load
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Chat loading" aria-live="polite" aria-busy="true">
-        <div className="text-center">
-          <div className="spinner mx-auto mb-4" role="status" aria-hidden="true"></div>
-          <p style={{ color: 'var(--text-secondary)' }} aria-live="polite">Loading chat...</p>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'var(--bg-primary)'
+        }}
+        role="main"
+        aria-label="Chat loading"
+        aria-live="polite"
+        aria-busy="true"
+      >
+        <div style={{ textAlign: 'center' }}>
+          <div
+            style={{
+              width: '48px',
+              height: '48px',
+              margin: '0 auto 16px',
+              border: '4px solid var(--border-primary)',
+              borderTopColor: '#58a6ff',
+              borderRadius: '50%',
+              animation: 'spin 1s linear infinite'
+            }}
+            role="status"
+            aria-hidden="true"
+          />
+          <p style={{ color: 'var(--text-secondary)' }} aria-live="polite">
+            Loading chat...
+          </p>
         </div>
       </div>
     )
   }
-
 
   return (
     <>
@@ -282,8 +376,13 @@ function ChatPage({ user, onNavigate }) {
       />
 
       <div
-        className="h-screen flex overflow-hidden"
-        style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
+        style={{
+          height: '100vh',
+          display: 'flex',
+          overflow: 'hidden',
+          backgroundColor: 'var(--bg-primary)',
+          color: 'var(--text-primary)'
+        }}
         role="main"
         aria-label="Chat application"
       >
@@ -300,63 +399,201 @@ function ChatPage({ user, onNavigate }) {
         />
 
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
           {activeChannel && currentChannel ? (
             <>
               {/* Channel Header */}
-              <div className="h-14 flex items-center justify-between px-4 glass-strong" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
-                <div className="flex items-center min-w-0 flex-1">
+              <div
+                style={{
+                  height: headerHeight,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '0 16px',
+                  backdropFilter: 'blur(8px)',
+                  backgroundColor: 'rgba(var(--bg-secondary-rgb), 0.95)',
+                  borderBottomWidth: '1px',
+                  borderBottomStyle: 'solid',
+                  borderBottomColor: 'var(--border-primary)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', minWidth: 0, flex: 1 }}>
                   {isMobile && (
                     <button
                       onClick={() => setActiveChannel(null)}
-                      className="btn-ghost mr-3"
+                      style={{
+                        width: '48px',
+                        height: '48px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginRight: '12px',
+                        borderRadius: '8px',
+                        border: 'none',
+                        backgroundColor: 'transparent',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                        color: 'var(--text-secondary)'
+                      }}
+                      className="hover:bg-white/5"
                       aria-label="Back to channels"
                     >
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg
+                        style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                       </svg>
                     </button>
                   )}
-                  <div className="flex items-center min-w-0">
-                    <span className="mr-2" style={{ color: 'var(--brand-primary)' }} aria-hidden="true">#</span>
-                    <h2 className="font-semibold truncate" style={{ color: 'var(--text-primary)' }}>{currentChannel?.name || 'Channel'}</h2>
+                  <div style={{ display: 'flex', alignItems: 'center', minWidth: 0 }}>
+                    <span
+                      style={{
+                        marginRight: '8px',
+                        color: '#58a6ff',
+                        fontSize: '20px'
+                      }}
+                      aria-hidden="true"
+                    >
+                      #
+                    </span>
+                    <h2
+                      style={{
+                        fontWeight: 600,
+                        fontSize: '16px',
+                        color: 'var(--text-primary)',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      {currentChannel?.name || 'Channel'}
+                    </h2>
                   </div>
                   {currentChannel?.description && (
-                    <div className="hidden md:flex items-center ml-4 text-sm pl-4" style={{ color: 'var(--text-secondary)', borderLeft: '1px solid var(--border-subtle)' }}>
-                      <span className="truncate">{currentChannel?.description}</span>
+                    <div
+                      style={{
+                        display: isDesktop ? 'flex' : 'none',
+                        alignItems: 'center',
+                        marginLeft: '16px',
+                        paddingLeft: '16px',
+                        fontSize: '14px',
+                        color: 'var(--text-secondary)',
+                        borderLeftWidth: '1px',
+                        borderLeftStyle: 'solid',
+                        borderLeftColor: 'var(--border-primary)'
+                      }}
+                    >
+                      <span
+                        style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}
+                      >
+                        {currentChannel?.description}
+                      </span>
                     </div>
                   )}
                 </div>
-                <div className="flex items-center gap-2 ml-4">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginLeft: '16px' }}>
                   <button
                     onClick={handleSearchOpen}
-                    className="btn-ghost"
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '8px',
+                      border: 'none',
+                      backgroundColor: 'transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      color: 'var(--text-secondary)'
+                    }}
+                    className="hover:bg-white/5"
                     aria-label="Search messages"
                     title="Search (Ctrl+K)"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                   </button>
                   <button
                     onClick={handleNotificationOpen}
-                    className="btn-ghost relative"
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '8px',
+                      border: 'none',
+                      backgroundColor: 'transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      color: 'var(--text-secondary)',
+                      position: 'relative'
+                    }}
+                    className="hover:bg-white/5"
                     aria-label={`Notifications ${notifications.length > 0 ? `(${notifications.length} unread)` : ''}`}
                     title="Notifications"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                     </svg>
                     {(notifications?.length || 0) > 0 && (
-                      <span className="badge-count" style={{ position: 'absolute', top: '4px', right: '4px' }} aria-hidden="true"></span>
+                      <span
+                        style={{
+                          position: 'absolute',
+                          top: '8px',
+                          right: '8px',
+                          width: '8px',
+                          height: '8px',
+                          backgroundColor: '#ef4444',
+                          borderRadius: '50%'
+                        }}
+                        aria-hidden="true"
+                      />
                     )}
                   </button>
                   <button
-                    className="btn-ghost hidden md:block"
+                    style={{
+                      width: '48px',
+                      height: '48px',
+                      display: isDesktop ? 'flex' : 'none',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      borderRadius: '8px',
+                      border: 'none',
+                      backgroundColor: 'transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      color: 'var(--text-secondary)'
+                    }}
+                    className="hover:bg-white/5"
                     aria-label="Channel members"
                     title="Members"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                     </svg>
                   </button>
@@ -385,22 +622,76 @@ function ChatPage({ user, onNavigate }) {
             </>
           ) : (
             /* Empty State - No Channel Selected */
-            <div className="flex-1 flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-              <div className="text-center max-w-md px-6" role="status" aria-live="polite">
-                <div className="mb-6" aria-hidden="true">
-                  <svg className="w-24 h-24 mx-auto" style={{ color: 'var(--text-tertiary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'var(--bg-primary)'
+              }}
+            >
+              <div
+                style={{
+                  textAlign: 'center',
+                  maxWidth: '448px',
+                  padding: '0 24px'
+                }}
+                role="status"
+                aria-live="polite"
+              >
+                <div style={{ marginBottom: '24px' }} aria-hidden="true">
+                  <svg
+                    style={{
+                      width: '96px',
+                      height: '96px',
+                      margin: '0 auto',
+                      color: 'var(--text-secondary)',
+                      opacity: 0.5
+                    }}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+                <h2
+                  style={{
+                    fontSize: '24px',
+                    fontWeight: 700,
+                    color: 'var(--text-primary)',
+                    marginBottom: '12px'
+                  }}
+                >
                   Select a channel to start chatting
                 </h2>
-                <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>
+                <p
+                  style={{
+                    color: 'var(--text-secondary)',
+                    marginBottom: '24px'
+                  }}
+                >
                   Choose a channel from the sidebar to view messages and join the conversation.
                 </p>
                 {(servers?.length || 0) === 0 && (
-                  <div className="card mt-8">
-                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                  <div
+                    style={{
+                      marginTop: '32px',
+                      padding: '16px',
+                      backgroundColor: 'var(--bg-secondary)',
+                      borderWidth: '1px',
+                      borderStyle: 'solid',
+                      borderColor: 'var(--border-primary)',
+                      borderRadius: '12px'
+                    }}
+                  >
+                    <p
+                      style={{
+                        fontSize: '14px',
+                        color: 'var(--text-secondary)'
+                      }}
+                    >
                       No servers available. Create or join a server to get started.
                     </p>
                   </div>
@@ -470,4 +761,3 @@ function ChatPage({ user, onNavigate }) {
 }
 
 export default ChatPage
-
