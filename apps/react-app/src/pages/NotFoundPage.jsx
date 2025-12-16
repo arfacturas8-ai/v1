@@ -1,50 +1,153 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useResponsive } from '../hooks/useResponsive'
 
 export default function NotFoundPage() {
+  const { isMobile } = useResponsive()
+
   return (
-    <div id="main-content" role="main" aria-label="404 Page Not Found" className="min-h-screen flex items-center justify-center px-4 sm:px-5" style={{ background: 'var(--bg-primary)' }}>
-      <div className="text-center max-w-2xl" style={{ color: 'var(--text-primary)' }}>
+    <div
+      id="main-content"
+      role="main"
+      aria-label="404 Page Not Found"
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingLeft: isMobile ? '16px' : '20px',
+        paddingRight: isMobile ? '16px' : '20px',
+        background: 'var(--bg-primary)'
+      }}
+    >
+      <div style={{
+        textAlign: 'center',
+        maxWidth: '800px',
+        color: 'var(--text-primary)'
+      }}>
         <div
-          className="text-[80px] sm:text-[120px] font-bold leading-none mb-4 sm:mb-5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"
           aria-hidden="true"
+          style={{
+            fontSize: isMobile ? '80px' : '120px',
+            fontWeight: 'bold',
+            lineHeight: '1',
+            marginBottom: isMobile ? '16px' : '20px',
+            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            color: 'transparent'
+          }}
         >
           404
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6">
+        <h1 style={{
+          fontSize: isMobile ? '24px' : '32px',
+          fontWeight: '600',
+          marginBottom: isMobile ? '16px' : '24px',
+          color: 'var(--text-primary)'
+        }}>
           Page Not Found
         </h1>
 
-        <p className="text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        <p style={{
+          fontSize: isMobile ? '16px' : '18px',
+          marginBottom: isMobile ? '24px' : '32px',
+          lineHeight: '1.6',
+          color: 'var(--text-secondary)'
+        }}>
           The page you're looking for doesn't exist or has been moved.
         </p>
 
-        <nav className="flex gap-4 justify-center flex-wrap" aria-label="Error page actions">
+        <nav
+          aria-label="Error page actions"
+          style={{
+            display: 'flex',
+            gap: '16px',
+            justifyContent: 'center',
+            flexWrap: 'wrap'
+          }}
+        >
           <Link
             to="/"
-            style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  rounded-xl no-underline font-semibold text-base shadow-lg transition-all hover:scale-105"
             aria-label="Back to Home page"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingLeft: '24px',
+              paddingRight: '24px',
+              paddingTop: '12px',
+              paddingBottom: '12px',
+              height: '48px',
+              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              borderRadius: '12px',
+              color: 'var(--text-inverse)',
+              fontSize: '16px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           >
             ← Back to Home
           </Link>
 
           <Link
             to="/help"
-            className="px-6 py-3 bg-white text-[#58a6ff] border rounded-2xl shadow-sm no-underline font-semibold text-base transition-all"
-            style={{ borderColor: 'var(--border-subtle)' }}
             aria-label="Get help"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingLeft: '24px',
+              paddingRight: '24px',
+              paddingTop: '12px',
+              paddingBottom: '12px',
+              height: '48px',
+              background: 'var(--bg-secondary)',
+              border: '1px solid var(--border-subtle)',
+              borderRadius: '12px',
+              color: '#58a6ff',
+              fontSize: '16px',
+              fontWeight: '600',
+              textDecoration: 'none',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.target.style.background = 'var(--bg-tertiary)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.background = 'var(--bg-secondary)'
+            }}
           >
             Get Help
           </Link>
         </nav>
 
-        <div className="mt-8 sm:mt-10 text-sm" style={{ color: 'var(--text-secondary)' }}>
-          <p>Lost? Try searching or visit our <Link to="/communities" className="text-[#58a6ff] underline">communities page</Link></p>
+        <div style={{
+          marginTop: isMobile ? '32px' : '40px',
+          fontSize: '14px',
+          color: 'var(--text-secondary)'
+        }}>
+          <p>
+            Lost? Try searching or visit our{' '}
+            <Link
+              to="/communities"
+              style={{
+                color: '#58a6ff',
+                textDecoration: 'underline'
+              }}
+            >
+              communities page
+            </Link>
+          </p>
         </div>
       </div>
     </div>
   )
 }
-
-
