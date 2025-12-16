@@ -613,7 +613,7 @@ function CommunitiesPage() {
                       }}
                     >
                       <div style={{ width: '16px', height: '16px', flexShrink: 0 }}>
-                        <Hash size={16} strokeWidth={2} aria-hidden="true" />
+                        <Hash size={24} strokeWidth={2} aria-hidden="true" />
                       </div>
                       {community.category || 'general'}
                     </div>
@@ -692,7 +692,7 @@ function CommunitiesPage() {
                     }}
                   >
                     <div style={{ width: '16px', height: '16px', flexShrink: 0 }}>
-                      <Users size={16} strokeWidth={2} aria-hidden="true" />
+                      <Users size={24} strokeWidth={2} aria-hidden="true" />
                     </div>
                     {formatNumber(community.members || community.memberCount || 0)} members
                   </div>
@@ -703,7 +703,7 @@ function CommunitiesPage() {
                     }}
                   >
                     <div style={{ width: '16px', height: '16px', flexShrink: 0 }}>
-                      <Sparkles size={16} strokeWidth={2} aria-hidden="true" />
+                      <Sparkles size={24} strokeWidth={2} aria-hidden="true" />
                     </div>
                     {formatNumber(community.postCount || 0)} posts
                   </div>
