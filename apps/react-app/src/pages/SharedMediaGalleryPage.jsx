@@ -1,3 +1,13 @@
+/**
+ * SharedMediaGalleryPage - iOS Modern Aesthetic
+ * Shared media gallery with clean iOS design patterns
+ * - #FAFAFA background, #000 text, #666 secondary text, white cards
+ * - No Tailwind classes, pure inline styles
+ * - iOS-style shadows and border radius
+ * - 52px inputs, 56px/48px buttons, 20px icons
+ * - Smooth hover animations with translateY
+ */
+
 import React, { useState, memo } from 'react'
 import { motion } from 'framer-motion'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -7,27 +17,12 @@ import {
 } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
 
-/**
- * SharedMediaGalleryPage Component
- * View all shared media, files, and links in a conversation
- */
 const SharedMediaGalleryPage = () => {
-  const { isMobile, isTablet, spacing, fontSize, padding, containerMaxWidth } = useResponsive()
-
-  const compactSpacing = {
-    formGap: isMobile ? 16 : isTablet ? 14 : 12,
-    headerMargin: isMobile ? 20 : isTablet ? 18 : 16,
-    logoMargin: isMobile ? 12 : isTablet ? 10 : 8,
-    labelMargin: isMobile ? 8 : 6,
-    inputPadding: isMobile ? 12 : 10,
-    dividerMargin: isMobile ? 20 : isTablet ? 18 : 14,
-    cardPadding: isMobile ? 20 : isTablet ? 24 : 20,
-    sectionGap: isMobile ? 16 : isTablet ? 14 : 12
-  }
+  const { isMobile } = useResponsive()
   const navigate = useNavigate()
   const { conversationId } = useParams()
-  const [activeTab, setActiveTab] = useState('media') // media, files, links
-  const [viewMode, setViewMode] = useState('grid') // grid, list
+  const [activeTab, setActiveTab] = useState('media')
+  const [viewMode, setViewMode] = useState('grid')
   const [searchQuery, setSearchQuery] = useState('')
 
   const mediaItems = [
@@ -52,12 +47,12 @@ const SharedMediaGalleryPage = () => {
 
   const getFileIcon = (type) => {
     const colors = {
-      PDF: 'text-red-500',
-      Excel: 'text-green-500',
-      Word: 'text-[#58a6ff]',
-      ZIP: 'text-purple-500'
+      PDF: '#EF4444',
+      Excel: '#10B981',
+      Word: '#6366F1',
+      ZIP: '#8B5CF6'
     }
-    return colors[type] || 'text-[#8b949e]'
+    return colors[type] || '#666666'
   }
 
   const tabs = [
@@ -67,43 +62,88 @@ const SharedMediaGalleryPage = () => {
   ]
 
   return (
-    <div style={{background: "var(--bg-primary)"}} className="min-h-screen " role="main" aria-label="Shared media gallery page">
+    <div role="main" aria-label="Shared media gallery page" style={{ minHeight: '100vh', background: '#FAFAFA', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
       {/* Header */}
-      <div style={{borderColor: "var(--border-subtle)"}} className="card   border-b ">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center gap-4 mb-4">
+      <div style={{ background: '#FFFFFF', borderBottom: '1px solid #E0E0E0' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '16px 24px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
             <button
               onClick={() => navigate(-1)}
-              style={{color: "var(--text-primary)"}} className="p-2 hover:bg-[#21262d] rounded-lg  transition-colors"
               aria-label="Go back"
+              style={{
+                background: 'transparent',
+                border: 'none',
+                color: '#000000',
+                cursor: 'pointer',
+                padding: '8px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = '#F5F5F5'
+                e.currentTarget.style.transform = 'translateY(-1px)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent'
+                e.currentTarget.style.transform = 'translateY(0)'
+              }}
             >
-              <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <ArrowLeft size={20} />
             </button>
             <div>
-              <h1 style={{color: "var(--text-primary)"}} className="text-2xl font-bold ">
+              <h1 style={{ fontSize: '24px', fontWeight: 600, color: '#000000', margin: 0 }}>
                 Shared Media
               </h1>
-              <p style={{color: "var(--text-secondary)"}} className="text-sm ">All shared content from this conversation</p>
+              <p style={{ fontSize: '14px', color: '#666666', margin: 0 }}>All shared content from this conversation</p>
             </div>
           </div>
 
           {/* Tabs */}
-          <div className="flex items-center gap-1">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-6 py-3 rounded-t-xl font-medium transition-all ${
-                  activeTab === tab.id
-                    ? 'bg-[#58a6ff]/10 text-[#58a6ff] border-b-2 border-[#58a6ff]'
-                    : 'text-[#8b949e] hover:bg-[#21262d]'
-                }`}
                 aria-selected={activeTab === tab.id}
                 role="tab"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '12px 24px',
+                  borderRadius: '12px 12px 0 0',
+                  fontWeight: 500,
+                  transition: 'all 0.2s',
+                  background: activeTab === tab.id ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)' : 'transparent',
+                  color: activeTab === tab.id ? '#6366F1' : '#666666',
+                  border: 'none',
+                  borderBottom: activeTab === tab.id ? '2px solid #6366F1' : '2px solid transparent',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.currentTarget.style.background = '#F5F5F5'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.currentTarget.style.background = 'transparent'
+                  }
+                }}
               >
-                <tab.icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <tab.icon size={20} />
                 {tab.label}
-                <span className="px-2 py-0.5 bg-[#21262d] rounded-full text-xs">
+                <span style={{
+                  padding: '2px 8px',
+                  background: activeTab === tab.id ? '#6366F1' : '#E0E0E0',
+                  color: activeTab === tab.id ? '#FFFFFF' : '#666666',
+                  borderRadius: '12px',
+                  fontSize: '12px',
+                  fontWeight: 600
+                }}>
                   {tab.count}
                 </span>
               </button>
@@ -113,88 +153,220 @@ const SharedMediaGalleryPage = () => {
       </div>
 
       {/* Toolbar */}
-      <div style={{borderColor: "var(--border-subtle)"}} className="card   border-b ">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
-          <div className="relative flex-1">
-            <Search style={{color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0}} />
+      <div style={{ background: '#FFFFFF', borderBottom: '1px solid #E0E0E0' }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <div style={{ position: 'relative', flex: 1 }}>
+            <Search size={20} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#666666', pointerEvents: 'none' }} />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search..."
-              style={{borderColor: "var(--border-subtle)"}} className="w-full pl-10 pr-4 py-2 bg-[#21262d] border  rounded-lg focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
+              style={{
+                width: '100%',
+                height: '52px',
+                padding: '0 16px 0 48px',
+                background: '#FAFAFA',
+                border: '1px solid #E0E0E0',
+                borderRadius: '16px',
+                color: '#000000',
+                fontSize: '15px',
+                outline: 'none',
+                transition: 'all 0.2s'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#6366F1'
+                e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#E0E0E0'
+                e.target.style.boxShadow = 'none'
+              }}
             />
           </div>
 
-          <button style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg ">
-            <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+          <button
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#666666',
+              cursor: 'pointer',
+              padding: '10px',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#F5F5F5'
+              e.currentTarget.style.color = '#000000'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.color = '#666666'
+            }}
+          >
+            <Filter size={20} />
           </button>
 
-          <div style={{borderColor: "var(--border-subtle)"}} className="flex gap-1 bg-[#21262d] border  rounded-lg p-1">
+          <div style={{ display: 'flex', gap: '4px', background: '#FAFAFA', border: '1px solid #E0E0E0', borderRadius: '12px', padding: '4px' }}>
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 rounded ${
-                viewMode === 'grid' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e]'
-              }`}
               aria-label="Grid view"
+              style={{
+                padding: '8px',
+                borderRadius: '8px',
+                background: viewMode === 'grid' ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)' : 'transparent',
+                color: viewMode === 'grid' ? '#6366F1' : '#666666',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
             >
-              <Grid style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <Grid size={20} />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded ${
-                viewMode === 'list' ? 'bg-[#58a6ff]/20 text-[#58a6ff]' : 'text-[#8b949e]'
-              }`}
               aria-label="List view"
+              style={{
+                padding: '8px',
+                borderRadius: '8px',
+                background: viewMode === 'list' ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)' : 'transparent',
+                color: viewMode === 'list' ? '#6366F1' : '#666666',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s'
+              }}
             >
-              <List style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <List size={20} />
             </button>
           </div>
         </div>
       </div>
 
       {/* Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '32px 24px' }}>
         {activeTab === 'media' && (
-          <div className={viewMode === 'grid' ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4' : 'space-y-3'}>
+          <div style={viewMode === 'grid' ? { display: 'grid', gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' } : { display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {mediaItems.map(item => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className={viewMode === 'grid' ? 'aspect-square' : 'flex items-center gap-4 p-4 bg-[#161b22]/60  border border-white/10 rounded-2xl '}
+                style={viewMode === 'grid' ? {
+                  aspectRatio: '1',
+                  position: 'relative',
+                  background: '#FFFFFF',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  border: '1px solid #E0E0E0',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                } : {
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  padding: '16px',
+                  background: '#FFFFFF',
+                  borderRadius: '16px',
+                  border: '1px solid #E0E0E0',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
               >
                 {viewMode === 'grid' ? (
-                  <div style={{borderColor: "var(--border-subtle)"}} className="relative h-full bg-[#21262d] rounded-2xl  overflow-hidden group cursor-pointer border ">
+                  <>
                     {item.type === 'image' && (
-                      <img src={item.url} alt={item.name} className="w-full h-full object-cover" />
+                      <img src={item.url} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     )}
                     {item.type === 'video' && (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-6xl">🎥</div>
-                      </div>
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '60px' }}>🎥</div>
                     )}
-                    <div style={{background: "var(--bg-primary)"}} className="absolute inset-0 /60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-                      <button className="card card p-3 /60  hover:  rounded-lg backdrop-blur-sm">
-                        <Download style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
+                    <div style={{
+                      position: 'absolute',
+                      inset: 0,
+                      background: 'rgba(0,0,0,0.6)',
+                      backdropFilter: 'blur(8px)',
+                      opacity: 0,
+                      transition: 'opacity 0.2s',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '12px'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+                    onMouseLeave={(e) => e.currentTarget.style.opacity = '0'}
+                    >
+                      <button style={{
+                        padding: '12px',
+                        background: 'rgba(255,255,255,0.9)',
+                        borderRadius: '12px',
+                        backdropFilter: 'blur(8px)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#000000'
+                      }}>
+                        <Download size={20} />
                       </button>
-                      <button className="card card p-3 /60  hover:  rounded-lg backdrop-blur-sm">
-                        <ExternalLink style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
+                      <button style={{
+                        padding: '12px',
+                        background: 'rgba(255,255,255,0.9)',
+                        borderRadius: '12px',
+                        backdropFilter: 'blur(8px)',
+                        border: 'none',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: '#000000'
+                      }}>
+                        <ExternalLink size={20} />
                       </button>
                     </div>
-                  </div>
+                  </>
                 ) : (
                   <>
-                    <div style={{borderColor: "var(--border-subtle)"}} className="w-16 h-16 bg-[#21262d] rounded-lg flex items-center justify-center border ">
-                      {item.type === 'image' && <Image style={{color: "var(--text-secondary)", width: "48px", height: "48px", flexShrink: 0}} />}
-                      {item.type === 'video' && <span className="text-3xl">🎥</span>}
+                    <div style={{ width: '64px', height: '64px', background: '#FAFAFA', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid #E0E0E0', flexShrink: 0 }}>
+                      {item.type === 'image' && <Image size={32} style={{ color: '#666666' }} />}
+                      {item.type === 'video' && <span style={{ fontSize: '32px' }}>🎥</span>}
                     </div>
-                    <div className="flex-1">
-                      <div style={{color: "var(--text-primary)"}} className="font-medium ">{item.name}</div>
-                      <div style={{color: "var(--text-secondary)"}} className="text-sm ">{item.size} • {item.date}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 500, color: '#000000', marginBottom: '4px' }}>{item.name}</div>
+                      <div style={{ fontSize: '14px', color: '#666666' }}>{item.size} • {item.date}</div>
                     </div>
-                    <button style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg ">
-                      <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <button style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#666666',
+                      cursor: 'pointer',
+                      padding: '8px',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#F5F5F5'
+                      e.currentTarget.style.color = '#000000'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                    }}
+                    >
+                      <Download size={20} />
                     </button>
                   </>
                 )}
@@ -204,23 +376,64 @@ const SharedMediaGalleryPage = () => {
         )}
 
         {activeTab === 'files' && (
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {fileItems.map(item => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                style={{borderColor: "var(--border-subtle)"}} className="card flex items-center gap-4 p-4   border  rounded-2xl  hover:border-[#58a6ff]/30 transition-all"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  padding: '20px',
+                  background: '#FFFFFF',
+                  border: '1px solid #E0E0E0',
+                  borderRadius: '16px',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#6366F1'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#E0E0E0'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'
+                }}
               >
-                <div className={`w-12 h-12 flex items-center justify-center ${getFileIcon(item.type)}`}>
-                  <File style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+                <div style={{ width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <File size={32} style={{ color: getFileIcon(item.type) }} />
                 </div>
-                <div className="flex-1">
-                  <div style={{color: "var(--text-primary)"}} className="font-medium ">{item.name}</div>
-                  <div style={{color: "var(--text-secondary)"}} className="text-sm ">{item.type} • {item.size} • {item.date}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 500, color: '#000000', marginBottom: '4px' }}>{item.name}</div>
+                  <div style={{ fontSize: '14px', color: '#666666' }}>{item.type} • {item.size} • {item.date}</div>
                 </div>
-                <button style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg ">
-                  <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <button
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#666666',
+                    cursor: 'pointer',
+                    padding: '10px',
+                    borderRadius: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F5F5F5'
+                    e.currentTarget.style.color = '#000000'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#666666'
+                  }}
+                >
+                  <Download size={20} />
                 </button>
               </motion.div>
             ))}
@@ -228,29 +441,69 @@ const SharedMediaGalleryPage = () => {
         )}
 
         {activeTab === 'links' && (
-          <div className="space-y-3">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             {linkItems.map(item => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                style={{borderColor: "var(--border-subtle)"}} className="card flex items-center gap-4 p-4   border  rounded-2xl  hover:border-[#58a6ff]/30 transition-all"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  padding: '20px',
+                  background: '#FFFFFF',
+                  border: '1px solid #E0E0E0',
+                  borderRadius: '16px',
+                  transition: 'all 0.2s',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#6366F1'
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.1)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = '#E0E0E0'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'
+                }}
               >
-                <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                  <Link style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{ width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Link size={32} style={{ color: '#6366F1' }} />
                 </div>
-                <div className="flex-1">
-                  <div style={{color: "var(--text-primary)"}} className="font-medium ">{item.title}</div>
-                  <div className="text-sm text-[#58a6ff] hover:underline">{item.url}</div>
-                  <div style={{color: "var(--text-secondary)"}} className="text-xs  mt-1">{item.date}</div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontWeight: 500, color: '#000000', marginBottom: '4px' }}>{item.title}</div>
+                  <div style={{ fontSize: '14px', color: '#6366F1', marginBottom: '4px' }}>{item.url}</div>
+                  <div style={{ fontSize: '12px', color: '#666666' }}>{item.date}</div>
                 </div>
                 <a
                   href={item.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg "
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#666666',
+                    cursor: 'pointer',
+                    padding: '10px',
+                    borderRadius: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s',
+                    textDecoration: 'none'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F5F5F5'
+                    e.currentTarget.style.color = '#000000'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#666666'
+                  }}
                 >
-                  <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <ExternalLink size={20} />
                 </a>
               </motion.div>
             ))}
@@ -262,4 +515,3 @@ const SharedMediaGalleryPage = () => {
 }
 
 export default memo(SharedMediaGalleryPage)
-

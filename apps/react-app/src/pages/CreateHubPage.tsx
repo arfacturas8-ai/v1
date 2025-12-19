@@ -1,8 +1,20 @@
+/**
+ * CreateHubPage - Create hub with options for posts, communities, NFTs
+ *
+ * iOS Design System:
+ * - Background: #FAFAFA (light gray)
+ * - Text: #000 (primary), #666 (secondary)
+ * - Cards: white with subtle shadows
+ * - Border radius: 16-24px for modern iOS feel
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Icons: 20px standard size
+ * - Hover: translateY(-2px) for interactive elements
+ */
+
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FileText, Users, Image, Package } from 'lucide-react';
-import { colors, spacing, radii, shadows, typography } from '../design-system/tokens';
-import { Text } from '../design-system/atoms';
 
 interface CreateOption {
   title: string;
@@ -14,6 +26,7 @@ interface CreateOption {
 
 export function CreateHubPage() {
   const navigate = useNavigate();
+  const [hoveredCard, setHoveredCard] = React.useState<number | null>(null);
 
   const createOptions: CreateOption[] = [
     {
@@ -46,113 +59,85 @@ export function CreateHubPage() {
     },
   ];
 
-  const containerStyle: React.CSSProperties = {
-    minHeight: '100vh',
-    backgroundColor: colors['bg-primary'],
-    padding: spacing[6],
-  };
-
-  const maxWidthStyle: React.CSSProperties = {
-    maxWidth: '800px',
-    margin: '0 auto',
-  };
-
-  const headerStyle: React.CSSProperties = {
-    marginBottom: spacing[8],
-  };
-
-  const gridStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-    gap: spacing[4],
-  };
-
-  const cardStyle = (isLive: boolean): React.CSSProperties => ({
-    backgroundColor: colors['bg-secondary'],
-    border: `1px solid ${colors['border-default']}`,
-    borderRadius: radii.lg,
-    padding: spacing[6],
-    cursor: 'pointer',
-    transition: 'all 150ms ease-out',
-    position: 'relative',
-    opacity: isLive ? 1 : 0.7,
-  });
-
-  const cardHoverStyle = {
-    transform: 'translateY(-2px)',
-    boxShadow: shadows.md,
-    borderColor: colors['brand-primary'],
-  };
-
-  const iconWrapperStyle: React.CSSProperties = {
-    width: '64px',
-    height: '64px',
-    backgroundColor: colors['bg-elevated'],
-    borderRadius: radii.md,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: spacing[4],
-    color: colors['brand-primary'],
-  };
-
-  const badgeStyle: React.CSSProperties = {
-    position: 'absolute',
-    top: spacing[3],
-    right: spacing[3],
-    padding: `${spacing[1]} ${spacing[2]}`,
-    backgroundColor: colors['warning-bg'],
-    color: colors['warning'],
-    borderRadius: radii.full,
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.semibold,
-    textTransform: 'uppercase',
-    letterSpacing: '0.5px',
-  };
-
-  const [hoveredCard, setHoveredCard] = React.useState<number | null>(null);
-
   return (
-    <div style={containerStyle}>
-      <div style={maxWidthStyle}>
-        <div style={headerStyle}>
-          <Text size="3xl" weight="bold" style={{ marginBottom: spacing[2] }}>
+    <div style={{
+      minHeight: '100vh',
+      background: '#FAFAFA',
+      padding: '24px',
+    }}>
+      <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '32px' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>
             Create
-          </Text>
-          <Text size="lg" variant="secondary">
+          </h1>
+          <p style={{ fontSize: '18px', color: '#666' }}>
             Share your creativity with the world
-          </Text>
+          </p>
         </div>
 
-        <div style={gridStyle}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '16px',
+        }}>
           {createOptions.map((option, index) => (
             <div
               key={index}
               style={{
-                ...cardStyle(option.isLive),
-                ...(hoveredCard === index ? cardHoverStyle : {}),
+                background: '#fff',
+                border: '1px solid rgba(0,0,0,0.06)',
+                borderRadius: '24px',
+                padding: '24px',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
+                position: 'relative',
+                opacity: option.isLive ? 1 : 0.7,
+                boxShadow: hoveredCard === index ? '0 4px 16px rgba(0,0,0,0.08)' : '0 2px 8px rgba(0,0,0,0.04)',
+                transform: hoveredCard === index ? 'translateY(-2px)' : 'translateY(0)',
               }}
               onMouseEnter={() => setHoveredCard(index)}
               onMouseLeave={() => setHoveredCard(null)}
               onClick={() => navigate(option.route)}
             >
               {!option.isLive && (
-                <div style={badgeStyle}>
+                <div style={{
+                  position: 'absolute',
+                  top: '12px',
+                  right: '12px',
+                  padding: '4px 8px',
+                  background: '#fef3c7',
+                  color: '#f59e0b',
+                  borderRadius: '12px',
+                  fontSize: '12px',
+                  fontWeight: '600',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.5px',
+                }}>
                   Coming Soon
                 </div>
               )}
 
-              <div style={iconWrapperStyle}>
+              <div style={{
+                width: '64px',
+                height: '64px',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                borderRadius: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginBottom: '16px',
+                color: '#fff',
+              }}>
                 {option.icon}
               </div>
 
-              <Text size="xl" weight="bold" style={{ marginBottom: spacing[2] }}>
+              <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>
                 {option.title}
-              </Text>
+              </h2>
 
-              <Text variant="secondary" size="base">
+              <p style={{ fontSize: '14px', color: '#666', margin: 0 }}>
                 {option.description}
-              </Text>
+              </p>
             </div>
           ))}
         </div>

@@ -1,3 +1,7 @@
+/**
+ * AdminPage.jsx
+ * iOS-styled admin dashboard with modern card-based interface
+ */
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
@@ -26,7 +30,7 @@ function AdminPage() {
   return (
     <div
       style={{
-        background: 'var(--bg-primary)',
+        background: '#FAFAFA',
         minHeight: '100vh',
         paddingTop: headerOffset
       }}
@@ -47,17 +51,18 @@ function AdminPage() {
               fontSize: isMobile ? '28px' : '40px',
               fontWeight: 'bold',
               marginBottom: '8px',
-              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
+              backgroundClip: 'text',
+              color: '#000000'
             }}
           >
             Admin Dashboard
           </h1>
           <p
             style={{
-              color: 'var(--text-secondary)',
+              color: '#666666',
               fontSize: isMobile ? '14px' : '16px',
               margin: 0
             }}
@@ -76,32 +81,32 @@ function AdminPage() {
           }}
         >
           {[
-            { label: 'Total Users', value: '45.2K', change: '+12% from last month', color: '#58a6ff', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+            { label: 'Total Users', value: '45.2K', change: '+12% from last month', color: '#6366F1', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
             { label: 'Communities', value: '892', change: '+8 new this week', color: '#10b981', iconPath: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-            { label: 'Total Posts', value: '128.5K', change: '+234 today', color: '#a371f7', iconPath: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+            { label: 'Total Posts', value: '128.5K', change: '+234 today', color: '#8B5CF6', iconPath: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
             { label: 'Pending Reports', value: '24', change: 'Requires attention', color: '#f59e0b', iconPath: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
           ].map((stat, index) => (
             <div
               key={index}
               style={{
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '16px',
+                background: 'white',
+                borderRadius: '20px',
                 padding: isMobile ? '16px' : '24px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 height: '100px',
                 display: 'flex',
                 flexDirection: 'column',
                 justifyContent: 'space-between',
-                transition: 'all 0.2s',
+                transition: 'all 0.3s ease',
                 cursor: 'pointer'
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-default)'
                 e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)'
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = 'var(--border-subtle)'
                 e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -109,15 +114,15 @@ function AdminPage() {
                   style={{
                     width: '48px',
                     height: '48px',
-                    borderRadius: '12px',
-                    background: 'var(--bg-tertiary)',
+                    borderRadius: '14px',
+                    background: '#FAFAFA',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}
                 >
                   <svg
-                    style={{ width: '24px', height: '24px', flexShrink: 0, color: 'var(--text-primary)' }}
+                    style={{ width: '20px', height: '20px', flexShrink: 0, color: '#000000' }}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -128,8 +133,8 @@ function AdminPage() {
                 <span style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: 'bold', color: stat.color }}>{stat.value}</span>
               </div>
               <div>
-                <h3 style={{ color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', margin: '0 0 4px 0' }}>{stat.label}</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '12px', margin: 0 }}>{stat.change}</p>
+                <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '500', margin: '0 0 4px 0' }}>{stat.label}</h3>
+                <p style={{ color: '#666666', fontSize: '12px', margin: 0 }}>{stat.change}</p>
               </div>
             </div>
           ))}
@@ -147,18 +152,18 @@ function AdminPage() {
           <div style={{ gridColumn: isMobile ? '1' : 'span 2' }}>
             <div
               style={{
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '16px',
-                padding: isMobile ? '16px' : '24px'
+                background: 'white',
+                borderRadius: '20px',
+                padding: isMobile ? '16px' : '24px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
               }}
             >
-              <h2 style={{ color: 'var(--text-primary)', fontSize: isMobile ? '18px' : '20px', fontWeight: 'bold', margin: '0 0 24px 0' }}>
+              <h2 style={{ color: '#000000', fontSize: isMobile ? '18px' : '20px', fontWeight: 'bold', margin: '0 0 24px 0' }}>
                 Quick Actions
               </h2>
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '16px' }}>
                 {[
-                  { label: 'Manage Users', desc: 'View and manage all users', color: '#58a6ff', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                  { label: 'Manage Users', desc: 'View and manage all users', color: '#6366F1', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
                   { label: 'Communities', desc: 'Manage communities', color: '#10b981', iconPath: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
                   { label: 'Moderation', desc: 'Review reports & flags', color: '#ef4444', iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
                   { label: 'Settings', desc: 'Platform configuration', color: '#f59e0b', iconPath: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' }
@@ -170,29 +175,31 @@ function AdminPage() {
                       alignItems: 'center',
                       gap: '16px',
                       padding: '16px',
-                      background: 'var(--bg-tertiary)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: '12px',
+                      background: '#FAFAFA',
+                      border: 'none',
+                      borderRadius: '14px',
                       cursor: 'pointer',
-                      transition: 'all 0.2s',
-                      minHeight: '48px',
+                      transition: 'all 0.3s ease',
+                      minHeight: '56px',
                       textAlign: 'left'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.background = 'var(--bg-primary)'
-                      e.currentTarget.style.borderColor = action.color
+                      e.currentTarget.style.background = 'white'
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.background = 'var(--bg-tertiary)'
-                      e.currentTarget.style.borderColor = 'var(--border-subtle)'
+                      e.currentTarget.style.background = '#FAFAFA'
+                      e.currentTarget.style.boxShadow = 'none'
+                      e.currentTarget.style.transform = 'translateY(0)'
                     }}
                   >
                     <div
                       style={{
                         width: '48px',
                         height: '48px',
-                        borderRadius: '12px',
-                        background: 'var(--bg-primary)',
+                        borderRadius: '14px',
+                        background: 'white',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -200,7 +207,7 @@ function AdminPage() {
                       }}
                     >
                       <svg
-                        style={{ width: '24px', height: '24px', flexShrink: 0, color: 'var(--text-primary)' }}
+                        style={{ width: '20px', height: '20px', flexShrink: 0, color: '#000000' }}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -209,13 +216,13 @@ function AdminPage() {
                       </svg>
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', margin: '0 0 4px 0' }}>
+                      <p style={{ color: '#000000', fontSize: '14px', fontWeight: '500', margin: '0 0 4px 0' }}>
                         {action.label}
                       </p>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '12px', margin: 0 }}>{action.desc}</p>
+                      <p style={{ color: '#666666', fontSize: '12px', margin: 0 }}>{action.desc}</p>
                     </div>
                     <svg
-                      style={{ width: '24px', height: '24px', flexShrink: 0, color: 'var(--text-secondary)' }}
+                      style={{ width: '20px', height: '20px', flexShrink: 0, color: '#666666' }}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -231,13 +238,13 @@ function AdminPage() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? '16px' : '24px' }}>
             <div
               style={{
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '16px',
-                padding: isMobile ? '16px' : '24px'
+                background: 'white',
+                borderRadius: '20px',
+                padding: isMobile ? '16px' : '24px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
               }}
             >
-              <h3 style={{ color: 'var(--text-primary)', fontSize: '16px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
+              <h3 style={{ color: '#000000', fontSize: '16px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
                 System Health
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -248,14 +255,14 @@ function AdminPage() {
                 ].map((item, index) => (
                   <div key={index}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                      <span style={{ color: 'var(--text-secondary)', fontSize: '12px' }}>{item.label}</span>
+                      <span style={{ color: '#666666', fontSize: '12px' }}>{item.label}</span>
                       <span style={{ color: item.color, fontSize: '12px', fontWeight: '600' }}>{item.value}</span>
                     </div>
                     <div
                       style={{
                         width: '100%',
                         height: '8px',
-                        background: 'var(--bg-tertiary)',
+                        background: '#FAFAFA',
                         borderRadius: '4px',
                         overflow: 'hidden'
                       }}
@@ -277,13 +284,13 @@ function AdminPage() {
 
             <div
               style={{
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: '16px',
-                padding: isMobile ? '16px' : '24px'
+                background: 'white',
+                borderRadius: '20px',
+                padding: isMobile ? '16px' : '24px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
               }}
             >
-              <h3 style={{ color: 'var(--text-primary)', fontSize: '16px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
+              <h3 style={{ color: '#000000', fontSize: '16px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
                 Recent Activity
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -296,8 +303,8 @@ function AdminPage() {
                   <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span style={{ fontSize: '20px', flexShrink: 0 }}>{item.icon}</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ color: 'var(--text-primary)', fontSize: '13px', margin: '0 0 2px 0' }}>{item.action}</p>
-                      <p style={{ color: 'var(--text-secondary)', fontSize: '11px', margin: 0 }}>{item.time}</p>
+                      <p style={{ color: '#000000', fontSize: '13px', margin: '0 0 2px 0' }}>{item.action}</p>
+                      <p style={{ color: '#666666', fontSize: '11px', margin: 0 }}>{item.time}</p>
                     </div>
                   </div>
                 ))}
@@ -309,35 +316,41 @@ function AdminPage() {
         {/* Coming Soon Banner */}
         <div
           style={{
-            background: 'linear-gradient(90deg, rgba(88, 166, 255, 0.1) 0%, rgba(163, 113, 247, 0.1) 50%, rgba(88, 166, 255, 0.1) 100%)',
-            border: '1px solid rgba(88, 166, 255, 0.3)',
-            borderRadius: '16px',
+            background: 'white',
+            borderRadius: '20px',
             padding: isMobile ? '24px' : '32px',
-            textAlign: 'center'
+            textAlign: 'center',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
           }}
         >
-          <h3 style={{ color: 'var(--text-primary)', fontSize: isMobile ? '18px' : '20px', fontWeight: 'bold', margin: '0 0 8px 0' }}>
+          <h3 style={{ color: '#000000', fontSize: isMobile ? '18px' : '20px', fontWeight: 'bold', margin: '0 0 8px 0' }}>
             Full Admin Panel Coming Soon
           </h3>
-          <p style={{ color: 'var(--text-primary)', fontSize: isMobile ? '14px' : '16px', margin: '0 0 16px 0', opacity: 0.8 }}>
+          <p style={{ color: '#666666', fontSize: isMobile ? '14px' : '16px', margin: '0 0 16px 0' }}>
             Advanced analytics, detailed reporting, and more powerful tools are being developed.
           </p>
           <button
             style={{
-              padding: '12px 24px',
-              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              padding: '14px 28px',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
               color: 'white',
               border: 'none',
-              borderRadius: '12px',
+              borderRadius: '14px',
               fontSize: '14px',
               fontWeight: '500',
               cursor: 'pointer',
               height: '48px',
               minWidth: '140px',
-              transition: 'opacity 0.2s'
+              transition: 'all 0.3s ease'
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9' }}
-            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)'
+              e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.08)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
           >
             View Roadmap
           </button>

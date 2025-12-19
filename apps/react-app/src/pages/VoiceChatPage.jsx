@@ -1,3 +1,25 @@
+/**
+ * VoiceChatPage - Dedicated voice and video chat interface
+ *
+ * iOS Design System:
+ * - Background: #FAFAFA (light gray)
+ * - Text: #000 (primary), #666 (secondary)
+ * - Cards: white with subtle shadows
+ * - Border radius: 16-24px for modern iOS feel
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Icons: 20px standard size
+ * - Hover: translateY(-2px) for interactive elements
+ *
+ * Features:
+ * - WebRTC voice/video calling
+ * - Screen sharing
+ * - Participant management
+ * - Audio controls (mute, deafen, volume)
+ * - Channel switching
+ * - Mobile-responsive design
+ */
+
 import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import EnhancedVoiceChannel from '../components/VoiceVideo/EnhancedVoiceChannel'
@@ -20,40 +42,23 @@ import {
   Volume
 } from 'lucide-react'
 
-/**
- * VoiceChatPage - Dedicated voice and video chat interface
- * Features:
- * - WebRTC voice/video calling
- * - Screen sharing
- * - Participant management
- * - Audio controls (mute, deafen, volume)
- * - Channel switching
- * - Mobile-responsive design
- */
-
 function VoiceChatPage() {
   const navigate = useNavigate()
   const { user, isAuthenticated } = useAuth()
 
-  // Voice state
   const [activeChannel, setActiveChannel] = useState(null)
   const [isMuted, setIsMuted] = useState(false)
   const [isDeafened, setIsDeafened] = useState(false)
   const [isVideoEnabled, setIsVideoEnabled] = useState(false)
   const [isScreenSharing, setIsScreenSharing] = useState(false)
   const [volume, setVolume] = useState(100)
-
-  // Data state - fetch from API
   const [channels, setChannels] = useState([])
   const [participants, setParticipants] = useState([])
   const [connected, setConnected] = useState(false)
   const [loading, setLoading] = useState(true)
 
-  // Get current channel
   const currentChannel = channels.find(c => c.id === activeChannel) || channels[0]
 
-
-  // Fetch voice channels from API
   useEffect(() => {
     const fetchChannels = async () => {
       try {
@@ -81,7 +86,6 @@ function VoiceChatPage() {
     }
   }, [isAuthenticated])
 
-  // Auto-connect to voice channel
   useEffect(() => {
     if (isAuthenticated && activeChannel) {
       setTimeout(() => {
@@ -91,7 +95,6 @@ function VoiceChatPage() {
     }
   }, [activeChannel, isAuthenticated, user])
 
-  // Handle voice channel events
   useEffect(() => {
     socketService.on('voice_user_joined', (data) => {
       setParticipants(prev => [...prev, data.user])
@@ -114,7 +117,6 @@ function VoiceChatPage() {
     }
   }, [])
 
-  // Event handlers
   const handleMuteToggle = useCallback(() => {
     const newMutedState = !isMuted
     setIsMuted(newMutedState)
@@ -129,7 +131,7 @@ function VoiceChatPage() {
     const newDeafenedState = !isDeafened
     setIsDeafened(newDeafenedState)
     if (newDeafenedState) {
-      setIsMuted(true) // Auto-mute when deafened
+      setIsMuted(true)
     }
   }, [isDeafened])
 
@@ -153,11 +155,11 @@ function VoiceChatPage() {
     setConnected(false)
   }, [activeChannel, user])
 
-  // Check if user has admin/moderator permissions
   const isAdmin = user?.role === 'admin' || user?.isAdmin === true
   const isModerator = user?.role === 'moderator' || user?.isModerator === true
+
   return (
-    <div className="min-h-screen" role="main">
+    <div style={{ minHeight: '100vh', background: '#FAFAFA' }} role="main">
       {connected ? (
         <EnhancedVoiceChannel
           channel={currentChannel}
@@ -171,207 +173,304 @@ function VoiceChatPage() {
           }}
         />
       ) : (
-        <div className="min-h-screen text-gray-900">
+        <div style={{ minHeight: '100vh', color: '#000' }}>
           {/* Header */}
-          <div className="bg-white border-b border-gray-200 p-3 md:p-4 lg:p-6">
-            <div className="max-w-7xl mx-auto flex items-center justify-between">
-              <div className="flex items-center gap-3 md:gap-4">
-                <Phone style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
+          <div style={{
+            background: '#fff',
+            borderBottom: '1px solid rgba(0,0,0,0.06)',
+            padding: '16px 24px'
+          }}>
+            <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                <Phone size={20} aria-hidden="true" style={{ color: '#6366F1', flexShrink: 0 }} />
                 <div>
-                  <h1 className="font-bold text-lg md:text-xl text-gray-900">{currentChannel?.name}</h1>
-                  <p className="text-gray-600 text-xs md:text-sm">{currentChannel?.description}</p>
+                  <h1 style={{ fontWeight: '600', fontSize: '20px', color: '#000', margin: 0 }}>{currentChannel?.name}</h1>
+                  <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>{currentChannel?.description}</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Main Content */}
-          <div className="max-w-7xl mx-auto p-4 md:p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
 
-          {/* Participants Panel */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 md:p-6">
-              <h2 className="font-semibold flex items-center text-base md:text-lg mb-4 gap-2 text-gray-900">
-                <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
-                Participants ({participants.length})
-              </h2>
+              {/* Participants Panel */}
+              <div style={{ gridColumn: 'span 2' }}>
+                <div style={{
+                  background: '#fff',
+                  borderRadius: '24px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  padding: '24px'
+                }}>
+                  <h2 style={{ fontWeight: '600', fontSize: '18px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: '#000' }}>
+                    <Users size={20} aria-hidden="true" style={{ flexShrink: 0 }} />
+                    Participants ({participants.length})
+                  </h2>
 
-              {connected ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {participants.map((participant) => (
-                    <div
-                      key={participant.id}
-                      className={`
-                        bg-gray-50 rounded-lg p-4 border-2 transition-all
-                        ${participant.isSpeaking
-                          ? 'border-green-500 shadow-lg shadow-green-500/20'
-                          : 'border-transparent'
-                        }
-                      `}
-                    >
-                      <div className="flex items-center gap-3">
-                        <div className="text-3xl">{participant.avatar}</div>
-                        <div className="flex-1">
-                          <div className="font-medium text-gray-900">{participant.username}</div>
-                          <div className="flex items-center gap-2 text-sm">
-                            {participant.isMuted ? (
-                              <MicOff style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                            ) : (
-                              <Mic style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                            )}
-                            {participant.isDeafened && (
-                              <Volume style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                            )}
+                  {connected ? (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '16px' }}>
+                      {participants.map((participant) => (
+                        <div
+                          key={participant.id}
+                          style={{
+                            background: '#FAFAFA',
+                            borderRadius: '16px',
+                            padding: '16px',
+                            border: participant.isSpeaking ? '2px solid #10b981' : '2px solid transparent',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{ fontSize: '32px' }}>{participant.avatar}</div>
+                            <div style={{ flex: 1 }}>
+                              <div style={{ fontWeight: '500', color: '#000' }}>{participant.username}</div>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px' }}>
+                                {participant.isMuted ? (
+                                  <MicOff size={20} style={{ flexShrink: 0, color: '#666' }} />
+                                ) : (
+                                  <Mic size={20} style={{ flexShrink: 0, color: '#666' }} />
+                                )}
+                                {participant.isDeafened && (
+                                  <Volume size={20} style={{ flexShrink: 0, color: '#666' }} />
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  ))}
+                  ) : (
+                    <div style={{ textAlign: 'center', padding: '48px 0', color: '#666' }}>
+                      <Phone size={48} style={{ margin: '0 auto 16px', opacity: 0.3 }} />
+                      <p>Connecting to voice channel...</p>
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div className="text-center py-12 text-gray-600">
-                  <Phone style={{ width: "64px", height: "64px", flexShrink: 0 }} />
-                  <p>Connecting to voice channel...</p>
+
+                {/* Voice Controls */}
+                <div style={{
+                  background: '#fff',
+                  borderRadius: '24px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  padding: '24px',
+                  marginTop: '24px'
+                }}>
+                  <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '16px', color: '#000' }}>Voice Controls</h3>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+                    <button
+                      onClick={handleMuteToggle}
+                      style={{
+                        padding: '12px 24px',
+                        borderRadius: '16px',
+                        fontWeight: '500',
+                        transition: 'transform 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#fff',
+                        background: isMuted ? '#ef4444' : '#666',
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                      aria-label={isMuted ? 'Unmute microphone' : 'Mute microphone'}
+                      aria-pressed={isMuted}
+                    >
+                      {isMuted ? <MicOff size={20} aria-hidden="true" style={{ flexShrink: 0 }} /> : <Mic size={20} aria-hidden="true" style={{ flexShrink: 0 }} />}
+                      {isMuted ? 'Unmute' : 'Mute'}
+                    </button>
+
+                    <button
+                      onClick={handleDeafenToggle}
+                      style={{
+                        padding: '12px 24px',
+                        borderRadius: '16px',
+                        fontWeight: '500',
+                        transition: 'transform 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#fff',
+                        background: isDeafened ? '#ef4444' : '#666',
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                      aria-label={isDeafened ? 'Undeafen audio' : 'Deafen audio'}
+                      aria-pressed={isDeafened}
+                    >
+                      {isDeafened ? <Volume size={20} aria-hidden="true" style={{ flexShrink: 0 }} /> : <Headphones size={20} aria-hidden="true" style={{ flexShrink: 0 }} />}
+                      {isDeafened ? 'Undeafen' : 'Deafen'}
+                    </button>
+
+                    <button
+                      onClick={handleVideoToggle}
+                      style={{
+                        padding: '12px 24px',
+                        borderRadius: '16px',
+                        fontWeight: '500',
+                        transition: 'transform 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#fff',
+                        background: isVideoEnabled ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#666',
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                      aria-label={isVideoEnabled ? 'Turn off video' : 'Turn on video'}
+                      aria-pressed={isVideoEnabled}
+                    >
+                      {isVideoEnabled ? <Video size={20} aria-hidden="true" style={{ flexShrink: 0 }} /> : <VideoOff size={20} aria-hidden="true" style={{ flexShrink: 0 }} />}
+                      Video
+                    </button>
+
+                    <button
+                      onClick={handleScreenShareToggle}
+                      style={{
+                        padding: '12px 24px',
+                        borderRadius: '16px',
+                        fontWeight: '500',
+                        transition: 'transform 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#fff',
+                        background: isScreenSharing ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#666',
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                      aria-label={isScreenSharing ? 'Stop screen sharing' : 'Start screen sharing'}
+                      aria-pressed={isScreenSharing}
+                    >
+                      {isScreenSharing ? <Monitor size={20} aria-hidden="true" style={{ flexShrink: 0 }} /> : <MonitorOff size={20} aria-hidden="true" style={{ flexShrink: 0 }} />}
+                      Screen Share
+                    </button>
+                  </div>
+
+                  {/* Volume Control */}
+                  <div style={{ marginTop: '24px' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', fontWeight: '500', marginBottom: '8px', color: '#000' }}>
+                      {volume > 0 ? <Volume2 size={20} style={{ flexShrink: 0 }} /> : <VolumeX size={20} style={{ flexShrink: 0 }} />}
+                      Volume: {volume}%
+                    </label>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={volume}
+                      onChange={(e) => setVolume(Number(e.target.value))}
+                      style={{ width: '100%', accentColor: '#6366F1' }}
+                    />
+                  </div>
                 </div>
-              )}
-            </div>
-
-            {/* Voice Controls */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-4 md:p-6 mt-6">
-              <h3 className="text-base md:text-lg font-semibold mb-4 text-gray-900">Voice Controls</h3>
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={handleMuteToggle}
-                  className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
-                    ${isMuted
-                      ? 'bg-red-600 hover:bg-red-700'
-                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
-                    }
-                  `}
-                  aria-label={isMuted ? 'Unmute microphone' : 'Mute microphone'}
-                  aria-pressed={isMuted}
-                >
-                  {isMuted ? <MicOff style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <Mic style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
-                  {isMuted ? 'Unmute' : 'Mute'}
-                </button>
-
-                <button
-                  onClick={handleDeafenToggle}
-                  className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
-                    ${isDeafened
-                      ? 'bg-red-600 hover:bg-red-700'
-                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
-                    }
-                  `}
-                  aria-label={isDeafened ? 'Undeafen audio' : 'Deafen audio'}
-                  aria-pressed={isDeafened}
-                >
-                  {isDeafened ? <Volume style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <Headphones style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
-                  {isDeafened ? 'Undeafen' : 'Deafen'}
-                </button>
-
-                <button
-                  onClick={handleVideoToggle}
-                  className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
-                    ${isVideoEnabled
-                      ? 'bg-[#58a6ff] hover:bg-blue-700'
-                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
-                    }
-                  `}
-                  aria-label={isVideoEnabled ? 'Turn off video' : 'Turn on video'}
-                  aria-pressed={isVideoEnabled}
-                >
-                  {isVideoEnabled ? <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <VideoOff style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
-                  Video
-                </button>
-
-                <button
-                  onClick={handleScreenShareToggle}
-                  className={`
-                    px-6 py-3 rounded-lg font-medium transition-all flex items-center gap-2 text-white
-                    ${isScreenSharing
-                      ? 'bg-[#a371f7] hover:bg-purple-700'
-                      : 'bg-gray-200 hover:bg-gray-300 text-gray-900'
-                    }
-                  `}
-                  aria-label={isScreenSharing ? 'Stop screen sharing' : 'Start screen sharing'}
-                  aria-pressed={isScreenSharing}
-                >
-                  {isScreenSharing ? <Monitor style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" /> : <MonitorOff style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />}
-                  Screen Share
-                </button>
               </div>
 
-              {/* Volume Control */}
-              <div className="mt-6">
-                <label className="flex items-center gap-2 text-sm font-medium mb-2 text-gray-900">
-                  {volume > 0 ? <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <VolumeX style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
-                  Volume: {volume}%
-                </label>
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  value={volume}
-                  onChange={(e) => setVolume(Number(e.target.value))}
-                  className="w-full accent-blue-600"
-                />
+              {/* Available Channels Sidebar */}
+              <div>
+                <div style={{
+                  background: '#fff',
+                  borderRadius: '24px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  padding: '24px'
+                }}>
+                  <h3 style={{ fontSize: '18px', fontWeight: '600', marginBottom: '16px', color: '#000' }}>Voice Channels</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {channels.map((channel) => (
+                      <button
+                        key={channel.id}
+                        onClick={() => handleChannelSwitch(channel.id)}
+                        style={{
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: '12px',
+                          borderRadius: '16px',
+                          transition: 'all 0.2s ease',
+                          background: channel.id === activeChannel ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FAFAFA',
+                          color: channel.id === activeChannel ? '#fff' : '#000',
+                          border: 'none',
+                          cursor: 'pointer'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (channel.id !== activeChannel) {
+                            e.currentTarget.style.transform = 'translateY(-2px)'
+                            e.currentTarget.style.background = '#f0f0f0'
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (channel.id !== activeChannel) {
+                            e.currentTarget.style.transform = 'translateY(0)'
+                            e.currentTarget.style.background = '#FAFAFA'
+                          }
+                        }}
+                      >
+                        <div style={{ fontWeight: '500' }}>{channel.name}</div>
+                        <div style={{ fontSize: '12px', opacity: 0.75, marginTop: '4px' }}>
+                          {channel.participants.length}/{channel.maxParticipants} participants
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                    <h4 style={{ fontSize: '14px', fontWeight: '600', marginBottom: '12px', color: '#666' }}>Quick Actions</h4>
+                    <button
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: '#FAFAFA',
+                        borderRadius: '16px',
+                        fontSize: '14px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        marginBottom: '8px',
+                        color: '#000',
+                        border: 'none',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                    >
+                      <Settings size={20} style={{ flexShrink: 0 }} />
+                      Voice Settings
+                    </button>
+                    <button
+                      onClick={() => navigate('/chat')}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: '#FAFAFA',
+                        borderRadius: '16px',
+                        fontSize: '14px',
+                        color: '#000',
+                        border: 'none',
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                    >
+                      Back to Chat
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
-          {/* Available Channels Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold mb-4 text-gray-900">Voice Channels</h3>
-              <div className="space-y-2">
-                {channels.map((channel) => (
-                  <button
-                    key={channel.id}
-                    onClick={() => handleChannelSwitch(channel.id)}
-                    className={`
-                      w-full text-left p-3 rounded-lg transition-all
-                      ${channel.id === activeChannel
-                        ? 'bg-[#58a6ff] text-white'
-                        : 'bg-gray-100 hover:bg-gray-200 text-gray-900'
-                      }
-                    `}
-                  >
-                    <div className="font-medium">{channel.name}</div>
-                    <div className="text-xs opacity-75 mt-1">
-                      {channel.participants.length}/{channel.maxParticipants} participants
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              {/* Quick Actions */}
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <h4 className="text-sm font-semibold mb-3 text-gray-600">Quick Actions</h4>
-                <button className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm flex items-center gap-2 mb-2 text-gray-900">
-                  <Settings style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                  Voice Settings
-                </button>
-                <button
-                  onClick={() => navigate('/chat')}
-                  className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-900"
-                >
-                  Back to Chat
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
         </div>
       )}
     </div>
   )
 }
-
 
 export default VoiceChatPage

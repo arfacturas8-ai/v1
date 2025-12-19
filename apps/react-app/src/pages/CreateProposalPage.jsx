@@ -1,6 +1,11 @@
+/**
+ * CreateProposalPage.jsx
+ * iOS-inspired modern design with clean aesthetics
+ * Updated: 2025-12-19
+ */
+
 import React, { useState, memo } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
-import PropTypes from 'prop-types'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Vote, Loader, AlertCircle } from 'lucide-react'
@@ -16,7 +21,6 @@ const CreateProposalPage = () => {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(false)
 
-  // Accessibility announcements
   useLoadingAnnouncement(loading, 'Submitting proposal')
   useErrorAnnouncement(error)
 
@@ -25,7 +29,6 @@ const CreateProposalPage = () => {
     setError(null)
     setSuccess(false)
 
-    // Validation
     if (!title.trim()) {
       setError('Please enter a proposal title')
       return
@@ -63,7 +66,6 @@ const CreateProposalPage = () => {
 
       if (response.success) {
         setSuccess(true)
-        // Redirect to proposals page after a short delay
         setTimeout(() => {
           navigate('/proposals')
         }, 2000)
@@ -82,53 +84,77 @@ const CreateProposalPage = () => {
     <div
       role="main"
       aria-label="Create proposal page"
-      className="min-h-screen p-4 md:p-6"
-      style={{ background: 'var(--bg-primary)' }}
+      style={{ minHeight: '100vh', padding: '48px 16px', background: '#FAFAFA' }}
     >
-      <div className="max-w-3xl mx-auto">
+      <div style={{ maxWidth: '768px', margin: '0 auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border rounded-2xl shadow-lg p-5 md:p-8"
-          style={{ borderColor: 'var(--border-subtle)' }}
+          style={{
+            background: 'white',
+            borderRadius: '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            padding: '48px 40px'
+          }}
         >
-          <div className="flex items-center gap-3 mb-6">
-            <Vote className="w-7 h-7 md:w-8 md:h-8 text-[#58a6ff]" aria-hidden="true" />
-            <h1 className="text-xl md:text-2xl font-bold m-0" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+            <Vote style={{ width: '32px', height: '32px', color: '#6366F1' }} aria-hidden="true" />
+            <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#000', margin: 0 }}>
               Create Proposal
             </h1>
           </div>
 
-          {/* Success Message */}
           {success && (
-            <div className="mb-6 p-4 bg-green-500/20 border border-green-500 text-green-400 rounded-xl" role="alert">
-              <p className="font-medium">Proposal created successfully!</p>
-              <p className="text-sm mt-1">Redirecting to proposals page...</p>
+            <div style={{
+              marginBottom: '24px',
+              padding: '16px',
+              background: 'rgba(34, 197, 94, 0.1)',
+              border: '1px solid rgba(34, 197, 94, 0.3)',
+              color: '#22C55E',
+              borderRadius: '16px'
+            }} role="alert">
+              <p style={{ fontWeight: '600', marginBottom: '4px' }}>Proposal created successfully!</p>
+              <p style={{ fontSize: '14px', marginTop: '4px' }}>Redirecting to proposals page...</p>
             </div>
           )}
 
-          {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-500/20 border border-red-500 text-red-400 rounded-xl flex items-start gap-3" role="alert">
-              <AlertCircle size={20} className="flex-shrink-0 mt-0.5" aria-hidden="true" />
-              <div className="flex-1">
+            <div style={{
+              marginBottom: '24px',
+              padding: '16px',
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.3)',
+              color: '#EF4444',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'start',
+              gap: '12px'
+            }} role="alert">
+              <AlertCircle size={20} style={{ flexShrink: 0, marginTop: '2px' }} aria-hidden="true" />
+              <div style={{ flex: 1 }}>
                 <p>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               </div>
               <button
                 onClick={() => setError(null)}
-                className="text-red-400 hover:text-red-300 transition-colors"
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#EF4444',
+                  cursor: 'pointer',
+                  padding: '0',
+                  fontSize: '20px',
+                  lineHeight: 1
+                }}
                 aria-label="Dismiss error"
               >
-                <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                ×
               </button>
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <div>
-              <label htmlFor="proposal-title" className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+              <label htmlFor="proposal-title" style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#666' }}>
                 Title *
               </label>
               <input
@@ -137,17 +163,26 @@ const CreateProposalPage = () => {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder="Proposal title (min. 10 characters)"
-                className="w-full px-4 py-3 bg-white border rounded-2xl shadow-sm text-base outline-none focus:border-[#58a6ff]/50 transition-colors"
-                style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 disabled={loading}
                 required
                 minLength={10}
+                style={{
+                  width: '100%',
+                  height: '52px',
+                  padding: '0 16px',
+                  background: 'white',
+                  border: '1px solid #E5E5E5',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  outline: 'none',
+                  color: '#000'
+                }}
                 aria-label="Proposal title"
               />
-              <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>{title.length}/10 minimum characters</p>
+              <p style={{ fontSize: '12px', marginTop: '8px', color: '#666' }}>{title.length}/10 minimum characters</p>
             </div>
             <div>
-              <label htmlFor="proposal-description" className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+              <label htmlFor="proposal-description" style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#666' }}>
                 Description *
               </label>
               <textarea
@@ -156,17 +191,27 @@ const CreateProposalPage = () => {
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe your proposal in detail (min. 50 characters)"
                 rows={6}
-                className="w-full px-4 py-3 bg-white border rounded-2xl shadow-sm text-base outline-none resize-y focus:border-[#58a6ff]/50 transition-colors"
-                style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 disabled={loading}
                 required
                 minLength={50}
+                style={{
+                  width: '100%',
+                  padding: '16px',
+                  background: 'white',
+                  border: '1px solid #E5E5E5',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  outline: 'none',
+                  resize: 'vertical',
+                  color: '#000',
+                  lineHeight: '1.5'
+                }}
                 aria-label="Proposal description"
               />
-              <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>{description.length}/50 minimum characters</p>
+              <p style={{ fontSize: '12px', marginTop: '8px', color: '#666' }}>{description.length}/50 minimum characters</p>
             </div>
             <div>
-              <label htmlFor="voting-duration" className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+              <label htmlFor="voting-duration" style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px', color: '#666' }}>
                 Voting Duration (days) *
               </label>
               <input
@@ -176,21 +221,66 @@ const CreateProposalPage = () => {
                 onChange={(e) => setDuration(e.target.value)}
                 min="1"
                 max="30"
-                className="w-full px-4 py-3 bg-white border rounded-2xl shadow-sm text-base outline-none focus:border-[#58a6ff]/50 transition-colors"
-                style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                 disabled={loading}
                 required
+                style={{
+                  width: '100%',
+                  height: '52px',
+                  padding: '0 16px',
+                  background: 'white',
+                  border: '1px solid #E5E5E5',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  outline: 'none',
+                  color: '#000'
+                }}
                 aria-label="Voting duration in days"
               />
-              <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>Between 1 and 30 days</p>
+              <p style={{ fontSize: '12px', marginTop: '8px', color: '#666' }}>Between 1 and 30 days</p>
             </div>
             <button
               type="submit"
               disabled={loading}
-              style={{color: "var(--text-primary)"}} className="w-full px-6 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-0 rounded-2xl shadow-lg  text-base font-semibold cursor-pointer transition-opacity hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              style={{
+                width: '100%',
+                height: '56px',
+                padding: '0 24px',
+                background: loading ? '#E5E5E5' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '16px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: loading ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.3)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px'
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.target.style.transform = 'translateY(-2px)'
+                  e.target.style.boxShadow = '0 8px 20px rgba(99, 102, 241, 0.4)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) {
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                }
+              }}
               aria-label={loading ? 'Submitting proposal' : 'Submit proposal'}
             >
-              Submit Proposal
+              {loading ? (
+                <>
+                  <Loader size={20} style={{ animation: 'spin 1s linear infinite' }} />
+                  Submitting...
+                </>
+              ) : (
+                'Submit Proposal'
+              )}
             </button>
           </form>
         </motion.div>
@@ -199,7 +289,4 @@ const CreateProposalPage = () => {
   )
 }
 
-CreateProposalPage.propTypes = {}
-
 export default memo(CreateProposalPage)
-

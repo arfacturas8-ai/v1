@@ -1,3 +1,11 @@
+/*
+ * CreatePostPage.jsx
+ *
+ * Modern iOS-styled post creation page
+ * Features: Clean #FAFAFA background, white cards with subtle shadows,
+ * gradient accent buttons, and smooth hover animations
+ */
+
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Plus, FileText, AlertCircle, CheckCircle, Link as LinkIcon, Image as ImageIcon, Loader } from 'lucide-react'
@@ -35,7 +43,6 @@ function CreatePostPage() {
         setCommunities(result.communities || [])
       } catch (error) {
         console.error('Error loading communities:', error)
-        // Fallback to sample communities
         setCommunities([
           { id: '1', name: 'technology', displayName: 'Technology' },
           { id: '2', name: 'gaming', displayName: 'Gaming' },
@@ -55,8 +62,7 @@ function CreatePostPage() {
       ...prev,
       [name]: files ? files[0] : value
     }))
-    
-    // Clear error when user starts typing
+
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }))
     }
@@ -107,23 +113,16 @@ function CreatePostPage() {
         url: formData.type === 'link' ? formData.url : undefined
       }
 
-      // Handle image upload
       if (formData.type === 'image' && formData.image) {
-        // Create FormData for file upload
         const uploadFormData = new FormData()
         uploadFormData.append('file', formData.image)
         uploadFormData.append('type', 'post-image')
-
-        // Upload image first (this would go to /api/v1/uploads)
-        // For now, we'll include the image in the post creation
         postData.media = formData.image
       }
 
-      // Use the posts service to create the post
       const result = await postsService.createPost(postData)
 
       if (result.success) {
-        // Navigate to the new post or community
         const postId = result.data?.post?.id || result.post?.id
         if (postId) {
           navigate(`/post/${postId}`)
@@ -151,31 +150,46 @@ function CreatePostPage() {
     <div
       role="main"
       aria-label="Create post page"
-      className="min-h-screen py-8 px-4"
-      style={{ background: 'var(--bg-primary)' }}
+      style={{
+        minHeight: '100vh',
+        background: '#FAFAFA',
+        padding: '32px 16px'
+      }}
     >
-      <div className="max-w-4xl mx-auto">
+      <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
           {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <h1 style={{
+              fontSize: '32px',
+              fontWeight: '700',
+              color: '#000000',
+              marginBottom: '8px'
+            }}>
               Create a Post
             </h1>
-            <p style={{ color: 'var(--text-secondary)' }}>
+            <p style={{ color: '#666666', fontSize: '16px' }}>
               Share your thoughts, links, or images with the community
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             {/* Community Selector */}
-            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+            <Card style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '20px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+            }}>
               <CardHeader>
-                <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Choose a Community</CardTitle>
-                <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                <CardTitle style={{ fontSize: '18px', color: '#000000', fontWeight: '600' }}>
+                  Choose a Community
+                </CardTitle>
+                <CardDescription style={{ color: '#666666' }}>
                   Select the community where you want to post
                 </CardDescription>
               </CardHeader>
@@ -184,15 +198,16 @@ function CreatePostPage() {
                   name="community"
                   value={formData.community}
                   onChange={handleInputChange}
-                  className={cn(
-                    "w-full px-4 py-3 rounded-xl border",
-                    "focus:outline-none transition-all duration-200",
-                    errors.community && "border-red-500"
-                  )}
                   style={{
-                    background: 'var(--bg-tertiary)',
-                    color: 'var(--text-primary)',
-                    borderColor: errors.community ? '#ef4444' : 'var(--border-primary)'
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '16px',
+                    border: errors.community ? '1px solid #EF4444' : '1px solid #E5E5E5',
+                    background: '#FAFAFA',
+                    color: '#000000',
+                    fontSize: '15px',
+                    outline: 'none',
+                    transition: 'all 0.2s ease'
                   }}
                   aria-label="Select community"
                   aria-invalid={!!errors.community}
@@ -205,8 +220,15 @@ function CreatePostPage() {
                   ))}
                 </select>
                 {errors.community && (
-                  <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
-                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <div style={{
+                    marginTop: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: '#EF4444',
+                    fontSize: '14px'
+                  }}>
+                    <AlertCircle size={20} />
                     <span>{errors.community}</span>
                   </div>
                 )}
@@ -214,15 +236,26 @@ function CreatePostPage() {
             </Card>
 
             {/* Post Type Selection */}
-            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+            <Card style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '20px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+            }}>
               <CardHeader>
-                <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Post Type</CardTitle>
-                <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                <CardTitle style={{ fontSize: '18px', color: '#000000', fontWeight: '600' }}>
+                  Post Type
+                </CardTitle>
+                <CardDescription style={{ color: '#666666' }}>
                   Choose the type of content you want to share
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+                  gap: '16px'
+                }}>
                   {postTypes.map((type) => {
                     const Icon = type.icon
                     const isSelected = formData.type === type.id
@@ -231,22 +264,52 @@ function CreatePostPage() {
                         key={type.id}
                         type="button"
                         onClick={() => setFormData(prev => ({ ...prev, type: type.id }))}
-                        className={cn(
-                          "p-4 rounded-xl border-2 transition-all duration-200",
-                          "flex flex-col items-center gap-2 text-center"
-                        )}
                         style={{
-                          borderColor: isSelected ? 'var(--color-primary)' : 'var(--border-primary)',
-                          background: isSelected ? 'rgba(88, 166, 255, 0.1)' : 'var(--bg-tertiary)',
-                          boxShadow: isSelected ? '0 0 0 3px rgba(88, 166, 255, 0.1)' : 'none'
+                          padding: '16px',
+                          borderRadius: '16px',
+                          border: isSelected
+                            ? '2px solid transparent'
+                            : '2px solid #E5E5E5',
+                          background: isSelected
+                            ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                            : '#FAFAFA',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          gap: '8px',
+                          textAlign: 'center',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease',
+                          boxShadow: isSelected
+                            ? '0 4px 12px rgba(99, 102, 241, 0.3)'
+                            : 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          if (!isSelected) {
+                            e.currentTarget.style.transform = 'translateY(-2px)'
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isSelected) {
+                            e.currentTarget.style.transform = 'translateY(0)'
+                            e.currentTarget.style.boxShadow = 'none'
+                          }
                         }}
                         aria-pressed={isSelected}
                       >
-                        <Icon style={{width: "24px", height: "24px", flexShrink: 0, color: isSelected ? 'var(--color-primary)' : 'var(--text-secondary)'}} />
-                        <span className="font-medium" style={{ color: isSelected ? 'var(--color-primary)' : 'var(--text-primary)' }}>
+                        <Icon size={20} style={{ color: isSelected ? '#FFFFFF' : '#666666' }} />
+                        <span style={{
+                          fontWeight: '600',
+                          color: isSelected ? '#FFFFFF' : '#000000',
+                          fontSize: '15px'
+                        }}>
                           {type.label}
                         </span>
-                        <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                        <span style={{
+                          fontSize: '13px',
+                          color: isSelected ? 'rgba(255,255,255,0.9)' : '#666666'
+                        }}>
                           {type.description}
                         </span>
                       </button>
@@ -257,10 +320,17 @@ function CreatePostPage() {
             </Card>
 
             {/* Title Input */}
-            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+            <Card style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '20px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+            }}>
               <CardHeader>
-                <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Title</CardTitle>
-                <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                <CardTitle style={{ fontSize: '18px', color: '#000000', fontWeight: '600' }}>
+                  Title
+                </CardTitle>
+                <CardDescription style={{ color: '#666666' }}>
                   Create an engaging title for your post (max 300 characters)
                 </CardDescription>
               </CardHeader>
@@ -272,27 +342,39 @@ function CreatePostPage() {
                   onChange={handleInputChange}
                   placeholder="Enter your post title..."
                   maxLength={300}
-                  className={cn(
-                    "w-full px-4 py-3 rounded-xl border",
-                    "focus:outline-none transition-all duration-200",
-                    errors.title && "border-red-500"
-                  )}
                   style={{
-                    background: 'var(--bg-tertiary)',
-                    color: 'var(--text-primary)',
-                    borderColor: errors.title ? '#ef4444' : 'var(--border-primary)'
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '16px',
+                    border: errors.title ? '1px solid #EF4444' : '1px solid #E5E5E5',
+                    background: '#FAFAFA',
+                    color: '#000000',
+                    fontSize: '15px',
+                    outline: 'none',
+                    transition: 'all 0.2s ease'
                   }}
                   aria-label="Post title"
                   aria-invalid={!!errors.title}
                 />
-                <div className="mt-2 flex items-center justify-between">
+                <div style={{
+                  marginTop: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}>
                   {errors.title ? (
-                    <div className="flex items-center gap-2 text-red-500 text-sm">
-                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      color: '#EF4444',
+                      fontSize: '14px'
+                    }}>
+                      <AlertCircle size={20} />
                       <span>{errors.title}</span>
                     </div>
                   ) : (
-                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                    <div style={{ fontSize: '14px', color: '#666666' }}>
                       {formData.title.length}/300 characters
                     </div>
                   )}
@@ -302,10 +384,17 @@ function CreatePostPage() {
 
             {/* Content Based on Post Type */}
             {formData.type === 'text' && (
-              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+              <Card style={{
+                background: '#FFFFFF',
+                border: 'none',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
                 <CardHeader>
-                  <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Content</CardTitle>
-                  <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                  <CardTitle style={{ fontSize: '18px', color: '#000000', fontWeight: '600' }}>
+                    Content
+                  </CardTitle>
+                  <CardDescription style={{ color: '#666666' }}>
                     Write your post content with rich text formatting
                   </CardDescription>
                 </CardHeader>
@@ -319,19 +408,23 @@ function CreatePostPage() {
                       }
                     }}
                     placeholder="Share your thoughts..."
-                    className={cn(
-                      "rounded-xl",
-                      errors.content && "border-red-500"
-                    )}
                     style={{
-                      background: 'var(--bg-tertiary)',
-                      borderColor: errors.content ? '#ef4444' : 'var(--border-primary)',
-                      color: 'var(--text-primary)'
+                      background: '#FAFAFA',
+                      borderRadius: '16px',
+                      border: errors.content ? '1px solid #EF4444' : '1px solid #E5E5E5',
+                      color: '#000000'
                     }}
                   />
                   {errors.content && (
-                    <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
-                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <div style={{
+                      marginTop: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      color: '#EF4444',
+                      fontSize: '14px'
+                    }}>
+                      <AlertCircle size={20} />
                       <span>{errors.content}</span>
                     </div>
                   )}
@@ -340,10 +433,17 @@ function CreatePostPage() {
             )}
 
             {formData.type === 'link' && (
-              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+              <Card style={{
+                background: '#FFFFFF',
+                border: 'none',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
                 <CardHeader>
-                  <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Link URL</CardTitle>
-                  <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                  <CardTitle style={{ fontSize: '18px', color: '#000000', fontWeight: '600' }}>
+                    Link URL
+                  </CardTitle>
+                  <CardDescription style={{ color: '#666666' }}>
                     Enter the URL you want to share
                   </CardDescription>
                 </CardHeader>
@@ -354,29 +454,42 @@ function CreatePostPage() {
                     value={formData.url}
                     onChange={handleInputChange}
                     placeholder="https://example.com"
-                    className={cn(
-                      "w-full px-4 py-3 rounded-xl border",
-                      "focus:outline-none transition-all duration-200",
-                      errors.url && "border-red-500"
-                    )}
                     style={{
-                      background: 'var(--bg-tertiary)',
-                      color: 'var(--text-primary)',
-                      borderColor: errors.url ? '#ef4444' : 'var(--border-primary)'
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: '16px',
+                      border: errors.url ? '1px solid #EF4444' : '1px solid #E5E5E5',
+                      background: '#FAFAFA',
+                      color: '#000000',
+                      fontSize: '15px',
+                      outline: 'none',
+                      transition: 'all 0.2s ease'
                     }}
                     aria-label="Link URL"
                     aria-invalid={!!errors.url}
                   />
                   {errors.url && (
-                    <div className="mt-2 flex items-center gap-2 text-red-500 text-sm">
-                      <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <div style={{
+                      marginTop: '8px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      color: '#EF4444',
+                      fontSize: '14px'
+                    }}>
+                      <AlertCircle size={20} />
                       <span>{errors.url}</span>
                     </div>
                   )}
 
-                  {/* Optional description for link posts */}
-                  <div className="mt-4">
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                  <div style={{ marginTop: '16px' }}>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: '500',
+                      color: '#666666',
+                      marginBottom: '8px'
+                    }}>
                       Description (optional)
                     </label>
                     <textarea
@@ -385,11 +498,17 @@ function CreatePostPage() {
                       onChange={handleInputChange}
                       placeholder="Add a description or your thoughts about this link..."
                       rows={4}
-                      className="w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-200 resize-y"
                       style={{
-                        background: 'var(--bg-tertiary)',
-                        color: 'var(--text-primary)',
-                        borderColor: 'var(--border-primary)'
+                        width: '100%',
+                        padding: '12px 16px',
+                        borderRadius: '16px',
+                        border: '1px solid #E5E5E5',
+                        background: '#FAFAFA',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        resize: 'vertical',
+                        transition: 'all 0.2s ease'
                       }}
                     />
                   </div>
@@ -398,81 +517,143 @@ function CreatePostPage() {
             )}
 
             {formData.type === 'image' && (
-              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+              <Card style={{
+                background: '#FFFFFF',
+                border: 'none',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
                 <CardHeader>
-                  <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>Image Upload</CardTitle>
-                  <CardDescription style={{ color: 'var(--text-secondary)' }}>
+                  <CardTitle style={{ fontSize: '18px', color: '#000000', fontWeight: '600' }}>
+                    Image Upload
+                  </CardTitle>
+                  <CardDescription style={{ color: '#666666' }}>
                     Upload an image to share with the community
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div
-                      className={cn(
-                        "border-2 border-dashed rounded-xl p-8",
-                        "flex flex-col items-center justify-center",
-                        "transition-all duration-200 cursor-pointer",
-                        errors.image && "border-red-500 bg-red-500/5"
-                      )}
                       style={{
-                        borderColor: errors.image ? '#ef4444' : 'var(--border-primary)',
-                        background: errors.image ? 'rgba(239, 68, 68, 0.05)' : 'var(--bg-tertiary)'
+                        border: errors.image ? '2px dashed #EF4444' : '2px dashed #E5E5E5',
+                        borderRadius: '16px',
+                        padding: '32px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: errors.image ? 'rgba(239, 68, 68, 0.05)' : '#FAFAFA',
+                        transition: 'all 0.2s ease',
+                        cursor: 'pointer'
                       }}
                     >
-                      <ImageIcon style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-secondary)'}} />
-                      <label className="cursor-pointer">
+                      <ImageIcon size={64} style={{ color: '#666666', marginBottom: '12px' }} />
+                      <label style={{ cursor: 'pointer' }}>
                         <input
                           type="file"
                           name="image"
                           accept="image/*"
                           onChange={handleInputChange}
-                          className="hidden"
+                          style={{ display: 'none' }}
                           aria-label="Upload image"
                         />
-                        <span className="font-medium transition-colors" style={{ color: 'var(--color-primary)' }}>
+                        <span style={{
+                          fontWeight: '600',
+                          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                          WebkitBackgroundClip: 'text',
+                          WebkitTextFillColor: 'transparent',
+                          fontSize: '15px'
+                        }}>
                           Choose an image
                         </span>
                       </label>
-                      <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>
+                      <p style={{ fontSize: '14px', color: '#666666', marginTop: '8px' }}>
                         or drag and drop
                       </p>
-                      <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)', opacity: 0.7 }}>
+                      <p style={{ fontSize: '12px', color: '#999999', marginTop: '4px' }}>
                         PNG, JPG, GIF up to 10MB
                       </p>
                     </div>
 
                     {formData.image && (
-                      <div className="relative rounded-xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+                      <div style={{
+                        position: 'relative',
+                        borderRadius: '16px',
+                        padding: '16px',
+                        background: '#FAFAFA',
+                        border: '1px solid #E5E5E5'
+                      }}>
                         <img
                           src={URL.createObjectURL(formData.image)}
                           alt="Preview"
-                          className="w-full max-h-96 object-contain rounded-lg"
+                          style={{
+                            width: '100%',
+                            maxHeight: '384px',
+                            objectFit: 'contain',
+                            borderRadius: '12px'
+                          }}
                         />
                         <button
                           type="button"
                           onClick={() => setFormData(prev => ({ ...prev, image: null }))}
-                          style={{color: "var(--text-primary)"}} className="absolute top-6 right-6 bg-red-500  p-2 rounded-lg hover:bg-red-600 transition-colors shadow-lg"
+                          style={{
+                            position: 'absolute',
+                            top: '24px',
+                            right: '24px',
+                            background: '#EF4444',
+                            color: '#FFFFFF',
+                            padding: '8px',
+                            borderRadius: '12px',
+                            border: 'none',
+                            cursor: 'pointer',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                            fontSize: '20px',
+                            lineHeight: '1',
+                            width: '36px',
+                            height: '36px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
                           aria-label="Remove image"
                         >
                           ×
                         </button>
-                        <div className="mt-3 text-sm flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                          <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <div style={{
+                          marginTop: '12px',
+                          fontSize: '14px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          color: '#666666'
+                        }}>
+                          <CheckCircle size={20} style={{ color: '#10B981' }} />
                           {formData.image.name}
                         </div>
                       </div>
                     )}
 
                     {errors.image && (
-                      <div className="flex items-center gap-2 text-red-500 text-sm">
-                        <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#EF4444',
+                        fontSize: '14px'
+                      }}>
+                        <AlertCircle size={20} />
                         <span>{errors.image}</span>
                       </div>
                     )}
 
-                    {/* Optional caption for images */}
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                      <label style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: '500',
+                        color: '#666666',
+                        marginBottom: '8px'
+                      }}>
                         Caption (optional)
                       </label>
                       <textarea
@@ -481,11 +662,17 @@ function CreatePostPage() {
                         onChange={handleInputChange}
                         placeholder="Add a caption or description for your image..."
                         rows={3}
-                        className="w-full px-4 py-3 rounded-xl border focus:outline-none transition-all duration-200 resize-y"
                         style={{
-                          background: 'var(--bg-tertiary)',
-                          color: 'var(--text-primary)',
-                          borderColor: 'var(--border-primary)'
+                          width: '100%',
+                          padding: '12px 16px',
+                          borderRadius: '16px',
+                          border: '1px solid #E5E5E5',
+                          background: '#FAFAFA',
+                          color: '#000000',
+                          fontSize: '15px',
+                          outline: 'none',
+                          resize: 'vertical',
+                          transition: 'all 0.2s ease'
                         }}
                       />
                     </div>
@@ -496,39 +683,77 @@ function CreatePostPage() {
 
             {/* Submit Error */}
             {errors.submit && (
-              <Card className="rounded-2xl" style={{ border: '1px solid rgba(239, 68, 68, 0.5)', background: 'rgba(239, 68, 68, 0.1)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                <CardContent className="pt-6">
-                  <div className="flex items-center gap-2 text-red-500">
-                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                    <span className="font-medium">{errors.submit}</span>
+              <Card style={{
+                background: 'rgba(239, 68, 68, 0.1)',
+                border: '1px solid rgba(239, 68, 68, 0.5)',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
+                <CardContent style={{ paddingTop: '24px' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: '#EF4444'
+                  }}>
+                    <AlertCircle size={20} />
+                    <span style={{ fontWeight: '600' }}>{errors.submit}</span>
                   </div>
                 </CardContent>
               </Card>
             )}
 
             {/* Action Buttons */}
-            <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-              <CardContent className="pt-6">
-                <div className="flex items-center gap-4">
+            <Card style={{
+              background: '#FFFFFF',
+              border: 'none',
+              borderRadius: '20px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+            }}>
+              <CardContent style={{ paddingTop: '24px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                   <Button
                     type="submit"
                     disabled={loading}
-                    className={cn(
-                      "flex-1 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white",
-                      "px-6 py-3 rounded-xl font-medium",
-                      "transition-all duration-200 shadow-lg hover:shadow-xl",
-                      "disabled:opacity-50 disabled:cursor-not-allowed",
-                      "flex items-center justify-center gap-2"
-                    )}
+                    style={{
+                      flex: 1,
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      color: '#FFFFFF',
+                      padding: '14px 24px',
+                      borderRadius: '16px',
+                      fontWeight: '600',
+                      fontSize: '15px',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      opacity: loading ? 0.5 : 1,
+                      boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(99, 102, 241, 0.4)'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                      }
+                    }}
                   >
                     {loading ? (
                       <>
-                        <div style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Loader size={20} />
                         <span>Creating Post...</span>
                       </>
                     ) : (
                       <>
-                        <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <CheckCircle size={20} />
                         <span>Post</span>
                       </>
                     )}
@@ -538,16 +763,29 @@ function CreatePostPage() {
                     type="button"
                     onClick={() => navigate(-1)}
                     disabled={loading}
-                    variant="outline"
-                    className={cn(
-                      "px-6 py-3 rounded-xl font-medium",
-                      "border transition-all duration-200",
-                      "disabled:opacity-50 disabled:cursor-not-allowed"
-                    )}
                     style={{
-                      borderColor: 'var(--border-primary)',
-                      color: 'var(--text-secondary)',
-                      background: 'var(--bg-tertiary)'
+                      padding: '14px 24px',
+                      borderRadius: '16px',
+                      fontWeight: '600',
+                      fontSize: '15px',
+                      border: '1px solid #E5E5E5',
+                      background: '#FAFAFA',
+                      color: '#666666',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      opacity: loading ? 0.5 : 1,
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) {
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.background = '#F5F5F5'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.background = '#FAFAFA'
+                      }
                     }}
                   >
                     Cancel
@@ -555,12 +793,34 @@ function CreatePostPage() {
                 </div>
 
                 {/* Tips */}
-                <div className="mt-6 p-4 rounded-xl" style={{ background: 'rgba(88, 166, 255, 0.1)', border: '1px solid rgba(88, 166, 255, 0.3)' }}>
-                  <h4 className="font-medium mb-2 flex items-center gap-2" style={{ color: 'var(--color-primary)' }}>
-                    <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{
+                  marginTop: '24px',
+                  padding: '16px',
+                  borderRadius: '16px',
+                  background: 'rgba(99, 102, 241, 0.08)',
+                  border: '1px solid rgba(99, 102, 241, 0.2)'
+                }}>
+                  <h4 style={{
+                    fontWeight: '600',
+                    marginBottom: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: '#6366F1',
+                    fontSize: '15px'
+                  }}>
+                    <AlertCircle size={20} />
                     Posting Tips
                   </h4>
-                  <ul className="text-sm space-y-1 ml-6 list-disc" style={{ color: 'var(--text-secondary)' }}>
+                  <ul style={{
+                    fontSize: '14px',
+                    marginLeft: '24px',
+                    listStyle: 'disc',
+                    color: '#666666',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '4px'
+                  }}>
                     <li>Choose a clear and descriptive title</li>
                     <li>Select the most relevant community for your content</li>
                     <li>Follow community guidelines and be respectful</li>
@@ -577,4 +837,3 @@ function CreatePostPage() {
 }
 
 export default CreatePostPage
-

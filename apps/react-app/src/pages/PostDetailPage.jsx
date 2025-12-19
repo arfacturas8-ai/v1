@@ -1,3 +1,11 @@
+/*
+ * PostDetailPage.jsx
+ *
+ * Modern iOS-styled post detail page with comments
+ * Features: Clean #FAFAFA background, white cards with subtle shadows,
+ * gradient accents, and smooth hover animations
+ */
+
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useParams, Link, useNavigate } from 'react-router-dom'
@@ -42,7 +50,6 @@ export default function PostDetailPage() {
       loadPostAndComments()
     }
 
-    // Add offline listener
     const handleOnline = () => setIsOffline(false)
     const handleOffline = () => setIsOffline(true)
 
@@ -60,13 +67,11 @@ export default function PostDetailPage() {
       setLoading(true)
       setError(null)
 
-      // 1. Load from cache instantly
       const cachedPost = await offlineStorage.getPost(postId)
       if (cachedPost) {
         setPost(cachedPost)
       }
 
-      // 2. Fetch fresh data from API
       const API_BASE = import.meta.env.VITE_API_URL || 'https://api.cryb.ai/api/v1';
       const postResponse = await fetch(`${API_BASE}/posts/${postId}`)
       if (!postResponse.ok) {
@@ -76,13 +81,11 @@ export default function PostDetailPage() {
 
       if (postData.success) {
         setPost(postData.data)
-        // 3. Save fresh data to cache
         await offlineStorage.savePost(postData.data)
       } else {
         throw new Error(postData.error || 'Failed to load post')
       }
 
-      // Load comments
       const commentsResponse = await fetch(`${API_BASE}/posts/${postId}/comments`)
       if (commentsResponse.ok) {
         const commentsData = await commentsResponse.json()
@@ -107,13 +110,12 @@ export default function PostDetailPage() {
 
     try {
       setSubmittingComment(true)
-      
+
       const API_BASE = import.meta.env.VITE_API_URL || 'https://api.cryb.ai/api/v1';
       const response = await fetch(`${API_BASE}/comments`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          // In a real app, add auth header
         },
         body: JSON.stringify({
           content: newComment.trim(),
@@ -126,7 +128,7 @@ export default function PostDetailPage() {
         if (result.success) {
           setNewComment('')
           showSuccess('Comment posted successfully')
-          loadPostAndComments() // Reload to show new comment
+          loadPostAndComments()
         } else {
           throw new Error(getErrorMessage(result.error, 'Failed to post comment'))
         }
@@ -160,7 +162,7 @@ export default function PostDetailPage() {
         const result = await response.json()
         if (result.success) {
           showSuccess('Reply posted successfully')
-          loadPostAndComments() // Reload to show new reply
+          loadPostAndComments()
         } else {
           throw new Error(getErrorMessage(result.error, 'Failed to post reply'))
         }
@@ -182,12 +184,12 @@ export default function PostDetailPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          type: reaction // 'up' or 'down'
+          type: reaction
         })
       })
 
       if (response.ok) {
-        loadPostAndComments() // Reload to show updated scores
+        loadPostAndComments()
       } else {
         throw new Error('Failed to vote on comment')
       }
@@ -197,12 +199,18 @@ export default function PostDetailPage() {
     }
   }
 
-
   if (error) {
     return (
       <>
         <SkipToContent targetId="main-content" />
-        <main id="main-content" className="min-h-screen flex items-center justify-center pt-20" role="main" aria-label="Page content">
+        <main id="main-content" style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: '80px',
+          background: '#FAFAFA'
+        }} role="main" aria-label="Page content">
           <EmptyState
             icon="alert"
             title="Error Loading Post"
@@ -226,7 +234,14 @@ export default function PostDetailPage() {
       <div
         role="status"
         aria-live="polite"
-        className="min-h-screen flex items-center justify-center pt-20"
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: '80px',
+          background: '#FAFAFA'
+        }}
       >
         <EmptyState
           icon="file"
@@ -263,27 +278,42 @@ export default function PostDetailPage() {
     return num.toString()
   }
 
-
   return (
     <>
       <SkipToContent targetId="main-content" />
-      <div className="min-h-screen pt-16" style={{ background: 'var(--bg-primary)' }}>
+      <div style={{ minHeight: '100vh', paddingTop: '64px', background: '#FAFAFA' }}>
         <main
           id="main-content"
           role="main"
           aria-label="Post detail page"
-          className="max-w-5xl mx-auto px-4 py-6"
+          style={{
+            maxWidth: '1280px',
+            margin: '0 auto',
+            padding: isMobile ? '16px' : '24px'
+          }}
         >
           {/* Offline indicator */}
           {isOffline && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-4 bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 flex items-center gap-2 text-amber-600"
-              style={{ boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}
+              style={{
+                marginBottom: '16px',
+                background: 'rgba(245, 158, 11, 0.1)',
+                border: '1px solid rgba(245, 158, 11, 0.3)',
+                borderRadius: '20px',
+                padding: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#D97706',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}
             >
-              <WifiOff style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              <span className="text-sm font-medium">You are offline. Some features may be limited.</span>
+              <WifiOff size={20} />
+              <span style={{ fontSize: '14px', fontWeight: '600' }}>
+                You are offline. Some features may be limited.
+              </span>
             </motion.div>
           )}
 
@@ -291,33 +321,86 @@ export default function PostDetailPage() {
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
-            className="mb-4 -ml-2"
-            style={{ color: 'var(--text-secondary)' }}
+            style={{
+              marginBottom: '16px',
+              marginLeft: '-8px',
+              color: '#666666',
+              background: 'transparent',
+              border: 'none',
+              padding: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              cursor: 'pointer',
+              fontSize: '15px',
+              fontWeight: '500',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)'
+              e.currentTarget.style.color = '#000000'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.color = '#666666'
+            }}
             aria-label="Go back to previous page"
           >
-            <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+            <ArrowLeft size={20} />
             Back
           </Button>
 
           {/* Main content grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : isTablet ? '1fr' : '1fr 350px',
+            gap: '24px'
+          }}>
             {/* Left column - Post */}
-            <div className="lg:col-span-2 space-y-6">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {/* Post card */}
-              <Card className="overflow-hidden rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                <CardContent className="p-0">
+              <Card style={{
+                background: '#FFFFFF',
+                border: 'none',
+                borderRadius: '24px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                overflow: 'hidden'
+              }}>
+                <CardContent style={{ padding: 0 }}>
                   {/* Post header */}
-                  <div className="p-4" style={{ borderBottom: '1px solid var(--border-primary)' }}>
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 min-w-0">
-                        {/* Community and author info */}
-                        <div className="flex items-center gap-2 text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
+                  <div style={{
+                    padding: '16px',
+                    borderBottom: '1px solid #F0F0F0'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      justifyContent: 'space-between',
+                      gap: '16px'
+                    }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          fontSize: '14px',
+                          color: '#666666',
+                          marginBottom: '8px',
+                          flexWrap: 'wrap'
+                        }}>
                           {post.community && (
                             <>
                               <Link
                                 to={`/c/${post.community.name}`}
-                                className="font-semibold hover:underline"
-                                style={{ color: 'var(--color-primary)' }}
+                                style={{
+                                  fontWeight: '600',
+                                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                                  WebkitBackgroundClip: 'text',
+                                  WebkitTextFillColor: 'transparent',
+                                  textDecoration: 'none'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                                onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
                               >
                                 c/{post.community.name}
                               </Link>
@@ -328,27 +411,49 @@ export default function PostDetailPage() {
                             Posted by{' '}
                             <Link
                               to={`/u/${post.author?.username || 'unknown'}`}
-                              className="hover:underline"
-                              style={{ color: 'var(--text-secondary)' }}
+                              style={{
+                                color: '#666666',
+                                textDecoration: 'none'
+                              }}
+                              onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                              onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
                             >
                               u/{post.author?.username || 'unknown'}
                             </Link>
                           </span>
                           <span>•</span>
-                          <time dateTime={post.createdAt} className="flex items-center gap-1">
-                            <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <time dateTime={post.createdAt} style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px'
+                          }}>
+                            <Clock size={20} />
                             {formatTimeAgo(post.createdAt)}
                           </time>
                         </div>
 
-                        {/* Post title */}
-                        <h1 className="text-2xl font-bold mb-3 break-words" style={{ color: 'var(--text-primary)' }}>
+                        <h1 style={{
+                          fontSize: isMobile ? '22px' : '28px',
+                          fontWeight: '700',
+                          marginBottom: '12px',
+                          color: '#000000',
+                          wordBreak: 'break-word'
+                        }}>
                           {post.title}
                         </h1>
 
-                        {/* Post flair/tags */}
                         {post.flair && (
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-[#58a6ff]/20 text-[#58a6ff] mb-3">
+                          <span style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            padding: '4px 10px',
+                            borderRadius: '12px',
+                            fontSize: '12px',
+                            fontWeight: '600',
+                            background: 'rgba(99, 102, 241, 0.1)',
+                            color: '#6366F1',
+                            marginBottom: '12px'
+                          }}>
                             {post.flair}
                           </span>
                         )}
@@ -357,22 +462,36 @@ export default function PostDetailPage() {
                   </div>
 
                   {/* Post content */}
-                  <div className="p-4">
-                    {/* Media content */}
+                  <div style={{ padding: '16px' }}>
                     {post.mediaUrl && (
-                      <div className="mb-4 rounded-2xl overflow-hidden" style={{ background: 'var(--bg-tertiary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
+                      <div style={{
+                        marginBottom: '16px',
+                        borderRadius: '20px',
+                        overflow: 'hidden',
+                        background: '#FAFAFA',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                      }}>
                         {post.mediaType === 'image' ? (
                           <img
                             src={post.mediaUrl}
                             alt={post.title}
-                            className="w-full h-auto max-h-[600px] object-contain"
+                            style={{
+                              width: '100%',
+                              height: 'auto',
+                              maxHeight: '600px',
+                              objectFit: 'contain'
+                            }}
                             loading="lazy"
                           />
                         ) : post.mediaType === 'video' ? (
                           <video
                             src={post.mediaUrl}
                             controls
-                            className="w-full h-auto max-h-[600px]"
+                            style={{
+                              width: '100%',
+                              height: 'auto',
+                              maxHeight: '600px'
+                            }}
                             preload="metadata"
                             poster={post.thumbnailUrl}
                           >
@@ -382,7 +501,6 @@ export default function PostDetailPage() {
                       </div>
                     )}
 
-                    {/* External link */}
                     {post.url && (() => {
                       try {
                         return (
@@ -390,10 +508,21 @@ export default function PostDetailPage() {
                             href={post.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 hover:underline mb-4"
-                            style={{ color: 'var(--color-primary)' }}
+                            style={{
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              marginBottom: '16px',
+                              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                              WebkitBackgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              textDecoration: 'none',
+                              fontWeight: '500'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                            onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
                           >
-                            <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                            <ExternalLink size={20} />
                             {new URL(post.url).hostname}
                           </a>
                         )
@@ -402,18 +531,30 @@ export default function PostDetailPage() {
                       }
                     })()}
 
-                    {/* Text content */}
                     {post.content && (
-                      <div className="prose prose-sm max-w-none whitespace-pre-wrap break-words" style={{ color: 'var(--text-secondary)' }}>
+                      <div style={{
+                        color: '#666666',
+                        fontSize: '15px',
+                        lineHeight: '1.6',
+                        whiteSpace: 'pre-wrap',
+                        wordBreak: 'break-word'
+                      }}>
                         {post.content}
                       </div>
                     )}
                   </div>
 
                   {/* Post actions */}
-                  <div className="px-4 pb-4 pt-3" style={{ borderTop: '1px solid var(--border-primary)' }}>
-                    <div className="flex items-center gap-4 flex-wrap">
-                      {/* Vote buttons */}
+                  <div style={{
+                    padding: '12px 16px',
+                    borderTop: '1px solid #F0F0F0'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '16px',
+                      flexWrap: 'wrap'
+                    }}>
                       <VoteButtons
                         postId={post._id}
                         initialVotes={post.votes || 0}
@@ -421,57 +562,106 @@ export default function PostDetailPage() {
                         size="md"
                       />
 
-                      {/* Comment count */}
-                      <div className="flex items-center gap-1.5" style={{ color: 'var(--text-secondary)' }}>
-                        <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                        <span className="text-sm font-medium">
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        color: '#666666',
+                        fontSize: '14px'
+                      }}>
+                        <MessageSquare size={20} />
+                        <span style={{ fontWeight: '600' }}>
                           {formatNumber(post.commentCount || comments.length)} comments
                         </span>
                       </div>
 
-                      {/* Share button */}
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target"
-                        style={{ color: 'var(--text-secondary)' }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          color: '#666666',
+                          background: 'transparent',
+                          border: 'none',
+                          padding: '8px 12px',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          borderRadius: '12px',
+                          transition: 'all 0.2s ease'
+                        }}
                         onClick={() => {
                           navigator.clipboard.writeText(window.location.href)
                           announce('Link copied to clipboard')
                         }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#FAFAFA'
+                          e.currentTarget.style.transform = 'translateY(-2px)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent'
+                          e.currentTarget.style.transform = 'translateY(0)'
+                        }}
                       >
-                        <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Share2 size={20} />
                         Share
                       </Button>
 
-                      {/* Save button */}
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="gap-1.5 touch-target"
-                        style={{ color: 'var(--text-secondary)' }}
-                        onClick={() => {
-                          // Save logic would go here
-                          announce('Post saved')
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          color: '#666666',
+                          background: 'transparent',
+                          border: 'none',
+                          padding: '8px 12px',
+                          cursor: 'pointer',
+                          fontSize: '14px',
+                          fontWeight: '500',
+                          borderRadius: '12px',
+                          transition: 'all 0.2s ease'
+                        }}
+                        onClick={() => announce('Post saved')}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.background = '#FAFAFA'
+                          e.currentTarget.style.transform = 'translateY(-2px)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.background = 'transparent'
+                          e.currentTarget.style.transform = 'translateY(0)'
                         }}
                         aria-label="Save post"
                       >
-                        <Bookmark style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Bookmark size={20} />
                         Save
                       </Button>
 
-                      {/* View count */}
                       {post.viewCount && (
-                        <div className="flex items-center gap-1.5 ml-auto" style={{ color: 'var(--text-secondary)' }}>
-                          <Eye style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                          <span className="text-sm">{formatNumber(post.viewCount)} views</span>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          marginLeft: 'auto',
+                          color: '#666666',
+                          fontSize: '14px'
+                        }}>
+                          <Eye size={20} />
+                          <span>{formatNumber(post.viewCount)} views</span>
                         </div>
                       )}
                     </div>
 
-                    {/* Awards display */}
                     {post.awards && post.awards.length > 0 && (
-                      <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--border-primary)' }}>
+                      <div style={{
+                        marginTop: '12px',
+                        paddingTop: '12px',
+                        borderTop: '1px solid #F0F0F0'
+                      }}>
                         <AwardDisplay awards={post.awards} />
                       </div>
                     )}
@@ -481,11 +671,20 @@ export default function PostDetailPage() {
 
               {/* Comment composer */}
               {user ? (
-                <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                  <CardContent className="p-4 safe-area-bottom">
-                    <form onSubmit={handleCommentSubmit} className="space-y-3">
+                <Card style={{
+                  background: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '20px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}>
+                  <CardContent style={{ padding: '16px' }}>
+                    <form onSubmit={handleCommentSubmit} style={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '12px'
+                    }}>
                       <div>
-                        <label htmlFor="comment-input" className="sr-only">
+                        <label htmlFor="comment-input" style={{ display: 'none' }}>
                           Add a comment
                         </label>
                         <textarea
@@ -495,22 +694,52 @@ export default function PostDetailPage() {
                           placeholder="What are your thoughts?"
                           rows={4}
                           disabled={submittingComment}
-                          className="w-full px-3 py-2 rounded-2xl resize-none text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                           style={{
-                            border: '1px solid var(--border-primary)',
-                            background: 'var(--bg-tertiary)',
-                            color: 'var(--text-primary)',
-                            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)'
+                            width: '100%',
+                            padding: '12px 16px',
+                            borderRadius: '16px',
+                            resize: 'none',
+                            fontSize: '15px',
+                            border: '1px solid #E5E5E5',
+                            background: '#FAFAFA',
+                            color: '#000000',
+                            outline: 'none',
+                            transition: 'all 0.2s ease',
+                            opacity: submittingComment ? 0.5 : 1,
+                            cursor: submittingComment ? 'not-allowed' : 'text'
                           }}
                         />
                       </div>
-                      <div className="flex justify-end">
+                      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                         <Button
                           type="submit"
                           disabled={!newComment.trim() || submittingComment}
                           size="sm"
-                          className="touch-target"
-                          style={{ background: 'var(--color-primary)', color: 'white' }}
+                          style={{
+                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            color: '#FFFFFF',
+                            padding: '10px 20px',
+                            borderRadius: '12px',
+                            border: 'none',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            cursor: (!newComment.trim() || submittingComment) ? 'not-allowed' : 'pointer',
+                            opacity: (!newComment.trim() || submittingComment) ? 0.5 : 1,
+                            boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (newComment.trim() && !submittingComment) {
+                              e.currentTarget.style.transform = 'translateY(-2px)'
+                              e.currentTarget.style.boxShadow = '0 6px 16px rgba(99, 102, 241, 0.4)'
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (newComment.trim() && !submittingComment) {
+                              e.currentTarget.style.transform = 'translateY(0)'
+                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                            }
+                          }}
                         >
                           Comment
                         </Button>
@@ -519,17 +748,47 @@ export default function PostDetailPage() {
                   </CardContent>
                 </Card>
               ) : (
-                <Card className="rounded-2xl border-dashed" style={{ background: 'var(--bg-secondary)', border: '1px dashed var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                  <CardContent className="p-6 text-center">
-                    <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>
+                <Card style={{
+                  background: '#FFFFFF',
+                  border: '2px dashed #E5E5E5',
+                  borderRadius: '20px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}>
+                  <CardContent style={{
+                    padding: '24px',
+                    textAlign: 'center'
+                  }}>
+                    <p style={{
+                      marginBottom: '16px',
+                      color: '#666666',
+                      fontSize: '15px'
+                    }}>
                       Sign in to join the discussion
                     </p>
                     <Button
                       variant="primary"
                       onClick={() => navigate('/login')}
                       size="sm"
-                      className="touch-target"
-                      style={{ background: 'var(--color-primary)', color: 'white' }}
+                      style={{
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        color: '#FFFFFF',
+                        padding: '10px 20px',
+                        borderRadius: '12px',
+                        border: 'none',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 6px 16px rgba(99, 102, 241, 0.4)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                      }}
                     >
                       Sign In
                     </Button>
@@ -538,16 +797,28 @@ export default function PostDetailPage() {
               )}
 
               {/* Comments section */}
-              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                <CardHeader style={{ borderBottom: '1px solid var(--border-primary)' }}>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg" style={{ color: 'var(--text-primary)' }}>
+              <Card style={{
+                background: '#FFFFFF',
+                border: 'none',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
+                <CardHeader style={{ borderBottom: '1px solid #F0F0F0' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between'
+                  }}>
+                    <CardTitle style={{
+                      fontSize: '18px',
+                      color: '#000000',
+                      fontWeight: '600'
+                    }}>
                       Comments ({comments.length})
                     </CardTitle>
-                    {/* Sort options can be added here */}
                   </div>
                 </CardHeader>
-                <CardContent className="p-0">
+                <CardContent style={{ padding: 0 }}>
                   {comments.length > 0 ? (
                     <ModernThreadedComments
                       comments={comments}
@@ -567,146 +838,342 @@ export default function PostDetailPage() {
             </div>
 
             {/* Right column - Sidebar */}
-            <div className="lg:col-span-1 space-y-4">
-              {/* Community info */}
-              {post.community && (
-                <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center gap-3">
-                      {post.community.icon ? (
-                        <img
-                          src={post.community.icon}
-                          alt=""
-                          style={{ width: "64px", height: "64px", flexShrink: 0 }}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-                          <Users style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <CardTitle className="text-base truncate" style={{ color: 'var(--text-primary)' }}>
-                          c/{post.community.name}
-                        </CardTitle>
-                        <CardDescription className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                          {formatNumber(post?.community?.memberCount || 0)} members
-                        </CardDescription>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="pt-0">
-                    <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>
-                      {post?.community?.description || 'No description available.'}
-                    </p>
-                    <Link to={`/c/${post.community.name}`}>
-                      <Button variant="primary" size="sm" className="w-full touch-target" style={{ background: 'var(--color-primary)', color: 'white' }}>
-                        View Community
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              )}
-
-              {/* Author info */}
-              {post.author && (
-                <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-base" style={{ color: 'var(--text-primary)' }}>About the Author</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex items-center gap-3 mb-3">
-                      {post.author.avatar ? (
-                        <img
-                          src={post.author.avatar}
-                          alt=""
-                          style={{ width: "48px", height: "48px", flexShrink: 0 }}
-                          loading="lazy"
-                        />
-                      ) : (
-                        <div style={{ color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0 }}>
-                          {post.author.username?.[0]?.toUpperCase() || 'U'}
-                        </div>
-                      )}
-                      <div className="flex-1 min-w-0">
-                        <Link
-                          to={`/u/${post.author.username}`}
-                          className="font-semibold hover:underline truncate block"
-                          style={{ color: 'var(--text-primary)' }}
-                        >
-                          u/{post.author.username}
-                        </Link>
-                        {post.author.karma && (
-                          <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
-                            {formatNumber(post.author.karma)} karma
-                          </p>
+            {!isMobile && !isTablet && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                {/* Community info */}
+                {post.community && (
+                  <Card style={{
+                    background: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '20px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                  }}>
+                    <CardHeader style={{ paddingBottom: '12px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px'
+                      }}>
+                        {post.community.icon ? (
+                          <img
+                            src={post.community.icon}
+                            alt=""
+                            style={{
+                              width: '64px',
+                              height: '64px',
+                              borderRadius: '16px',
+                              objectFit: 'cover'
+                            }}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div style={{
+                            width: '64px',
+                            height: '64px',
+                            borderRadius: '16px',
+                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>
+                            <Users size={20} style={{ color: '#FFFFFF' }} />
+                          </div>
                         )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <CardTitle style={{
+                            fontSize: '16px',
+                            color: '#000000',
+                            fontWeight: '600',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}>
+                            c/{post.community.name}
+                          </CardTitle>
+                          <CardDescription style={{
+                            fontSize: '12px',
+                            color: '#666666'
+                          }}>
+                            {formatNumber(post?.community?.memberCount || 0)} members
+                          </CardDescription>
+                        </div>
                       </div>
-                    </div>
-                    <Link to={`/u/${post.author.username}`}>
-                      <Button variant="outline" size="sm" className="w-full touch-target" style={{ borderColor: 'var(--border-primary)', color: 'var(--text-secondary)' }}>
-                        View Profile
-                      </Button>
-                    </Link>
-                  </CardContent>
-                </Card>
-              )}
+                    </CardHeader>
+                    <CardContent style={{ paddingTop: 0 }}>
+                      <p style={{
+                        fontSize: '14px',
+                        marginBottom: '16px',
+                        color: '#666666',
+                        lineHeight: '1.5'
+                      }}>
+                        {post?.community?.description || 'No description available.'}
+                      </p>
+                      <Link to={`/c/${post.community.name}`}>
+                        <Button
+                          variant="primary"
+                          size="sm"
+                          style={{
+                            width: '100%',
+                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            color: '#FFFFFF',
+                            padding: '10px',
+                            borderRadius: '12px',
+                            border: 'none',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-2px)'
+                            e.currentTarget.style.boxShadow = '0 6px 16px rgba(99, 102, 241, 0.4)'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)'
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                          }}
+                        >
+                          View Community
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                )}
 
-              {/* Post metadata */}
-              <Card className="rounded-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base" style={{ color: 'var(--text-primary)' }}>Post Info</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span style={{ color: 'var(--text-secondary)' }}>Posted</span>
-                    <time dateTime={post.createdAt} className="font-medium" style={{ color: 'var(--text-primary)' }}>
-                      {new Date(post.createdAt).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </time>
-                  </div>
-                  {post.updatedAt && post.updatedAt !== post.createdAt && (
-                    <div className="flex justify-between">
-                      <span style={{ color: 'var(--text-secondary)' }}>Last edited</span>
-                      <time dateTime={post.updatedAt} className="font-medium" style={{ color: 'var(--text-primary)' }}>
-                        {formatTimeAgo(post.updatedAt)}
+                {/* Author info */}
+                {post.author && (
+                  <Card style={{
+                    background: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '20px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                  }}>
+                    <CardHeader style={{ paddingBottom: '12px' }}>
+                      <CardTitle style={{
+                        fontSize: '16px',
+                        color: '#000000',
+                        fontWeight: '600'
+                      }}>
+                        About the Author
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        marginBottom: '12px'
+                      }}>
+                        {post.author.avatar ? (
+                          <img
+                            src={post.author.avatar}
+                            alt=""
+                            style={{
+                              width: '48px',
+                              height: '48px',
+                              borderRadius: '50%',
+                              objectFit: 'cover'
+                            }}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div style={{
+                            width: '48px',
+                            height: '48px',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#FFFFFF',
+                            fontWeight: '700',
+                            fontSize: '18px'
+                          }}>
+                            {post.author.username?.[0]?.toUpperCase() || 'U'}
+                          </div>
+                        )}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <Link
+                            to={`/u/${post.author.username}`}
+                            style={{
+                              fontWeight: '600',
+                              color: '#000000',
+                              textDecoration: 'none',
+                              display: 'block',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              fontSize: '15px'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                            onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                          >
+                            u/{post.author.username}
+                          </Link>
+                          {post.author.karma && (
+                            <p style={{
+                              fontSize: '12px',
+                              color: '#666666'
+                            }}>
+                              {formatNumber(post.author.karma)} karma
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <Link to={`/u/${post.author.username}`}>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          style={{
+                            width: '100%',
+                            padding: '10px',
+                            borderRadius: '12px',
+                            border: '1px solid #E5E5E5',
+                            background: '#FAFAFA',
+                            color: '#666666',
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-2px)'
+                            e.currentTarget.style.background = '#F5F5F5'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)'
+                            e.currentTarget.style.background = '#FAFAFA'
+                          }}
+                        >
+                          View Profile
+                        </Button>
+                      </Link>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Post metadata */}
+                <Card style={{
+                  background: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '20px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}>
+                  <CardHeader style={{ paddingBottom: '12px' }}>
+                    <CardTitle style={{
+                      fontSize: '16px',
+                      color: '#000000',
+                      fontWeight: '600'
+                    }}>
+                      Post Info
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '8px',
+                    fontSize: '14px'
+                  }}>
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between'
+                    }}>
+                      <span style={{ color: '#666666' }}>Posted</span>
+                      <time dateTime={post.createdAt} style={{
+                        fontWeight: '600',
+                        color: '#000000'
+                      }}>
+                        {new Date(post.createdAt).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
                       </time>
                     </div>
-                  )}
-                  <div className="flex justify-between">
-                    <span style={{ color: 'var(--text-secondary)' }}>Comments</span>
-                    <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{comments.length}</span>
-                  </div>
-                  {post.viewCount && (
-                    <div className="flex justify-between">
-                      <span style={{ color: 'var(--text-secondary)' }}>Views</span>
-                      <span className="font-medium" style={{ color: 'var(--text-primary)' }}>{formatNumber(post.viewCount)}</span>
+                    {post.updatedAt && post.updatedAt !== post.createdAt && (
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}>
+                        <span style={{ color: '#666666' }}>Last edited</span>
+                        <time dateTime={post.updatedAt} style={{
+                          fontWeight: '600',
+                          color: '#000000'
+                        }}>
+                          {formatTimeAgo(post.updatedAt)}
+                        </time>
+                      </div>
+                    )}
+                    <div style={{
+                      display: 'flex',
+                      justifyContent: 'space-between'
+                    }}>
+                      <span style={{ color: '#666666' }}>Comments</span>
+                      <span style={{
+                        fontWeight: '600',
+                        color: '#000000'
+                      }}>
+                        {comments.length}
+                      </span>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
+                    {post.viewCount && (
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between'
+                      }}>
+                        <span style={{ color: '#666666' }}>Views</span>
+                        <span style={{
+                          fontWeight: '600',
+                          color: '#000000'
+                        }}>
+                          {formatNumber(post.viewCount)}
+                        </span>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
 
-              {/* Report option */}
-              <Card className="rounded-2xl" style={{ border: '1px solid rgba(239, 68, 68, 0.3)', background: 'rgba(239, 68, 68, 0.1)', boxShadow: '0 1px 3px rgba(0, 0, 0, 0.1)' }}>
-                <CardContent className="p-4">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full text-red-500 hover:text-red-400 hover:bg-red-500/20 touch-target"
-                    onClick={() => {
-                      // Report logic would go here
-                      announce('Report submitted')
-                    }}
-                    aria-label="Report this post"
-                  >
-                    Report Post
-                  </Button>
-                </CardContent>
-              </Card>
-            </div>
+                {/* Report option */}
+                <Card style={{
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '20px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                }}>
+                  <CardContent style={{ padding: '16px' }}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      style={{
+                        width: '100%',
+                        color: '#EF4444',
+                        background: 'transparent',
+                        border: 'none',
+                        padding: '10px',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease'
+                      }}
+                      onClick={() => announce('Report submitted')}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }}
+                      aria-label="Report this post"
+                    >
+                      Report Post
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
           </div>
         </main>
       </div>

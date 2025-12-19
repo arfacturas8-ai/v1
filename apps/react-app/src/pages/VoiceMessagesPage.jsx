@@ -1,14 +1,20 @@
+/**
+ * VoiceMessagesPage - iOS Modern Aesthetic
+ * Voice recording interface with clean iOS design patterns
+ * - #FAFAFA background, #000 text, #666 secondary text, white cards
+ * - No Tailwind classes, pure inline styles
+ * - iOS-style shadows and border radius
+ * - 52px inputs, 56px/48px buttons, 20px icons
+ * - Smooth hover animations with translateY
+ */
+
 import React, { useState, useEffect, useRef, memo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Mic, StopCircle, Play, Pause, Send, Trash2, Download } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
 
-/**
- * VoiceMessagesPage Component
- * UI for recording, playing, and sending voice messages
- */
 const VoiceMessagesPage = () => {
-  const { isMobile, isTablet, spacing, fontSize, padding, containerMaxWidth } = useResponsive()
+  const { isMobile } = useResponsive()
   const [isRecording, setIsRecording] = useState(false)
   const [recordingTime, setRecordingTime] = useState(0)
   const [audioBlob, setAudioBlob] = useState(null)
@@ -174,62 +180,102 @@ const VoiceMessagesPage = () => {
   }, [])
 
   return (
-    <div className="min-h-screen p-4 md:p-6 bg-white" role="main" aria-label="Voice messages page">
-      <div className="max-w-2xl mx-auto">
+    <div role="main" aria-label="Voice messages page" style={{ minHeight: '100vh', padding: isMobile ? '16px' : '24px', background: '#FAFAFA', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+      <div style={{ maxWidth: '640px', margin: '0 auto' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-gray-200 rounded-3xl shadow-lg overflow-hidden"
+          style={{
+            background: '#FFFFFF',
+            border: '1px solid #E0E0E0',
+            borderRadius: '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            overflow: 'hidden'
+          }}
         >
           {/* Header */}
-          <div style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  p-5 md:p-8">
-            <h1 className="font-bold text-xl md:text-2xl mb-2 md:mb-3">Voice Messages</h1>
-            <p className="opacity-90 text-sm md:text-base">Record and send audio messages</p>
+          <div style={{
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            color: '#FFFFFF',
+            padding: isMobile ? '20px 24px' : '32px'
+          }}>
+            <h1 style={{ fontWeight: 600, fontSize: isMobile ? '20px' : '24px', marginBottom: isMobile ? '8px' : '12px', margin: '0 0 12px 0' }}>Voice Messages</h1>
+            <p style={{ opacity: 0.9, fontSize: isMobile ? '14px' : '15px', margin: 0 }}>Record and send audio messages</p>
           </div>
 
           {/* Content */}
-          <div className="p-5 md:p-8">
+          <div style={{ padding: isMobile ? '20px 24px' : '32px' }}>
             {error && (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mb-6 p-4 bg-red-50 text-red-600 rounded-2xl shadow-md border border-red-200"
                 role="alert"
+                style={{
+                  marginBottom: '24px',
+                  padding: '16px',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  color: '#EF4444',
+                  borderRadius: '16px',
+                  boxShadow: '0 2px 8px rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.2)',
+                  fontSize: '14px'
+                }}
               >
                 {typeof error === 'string' ? error : 'An error occurred'}
               </motion.div>
             )}
 
             {/* Recording UI */}
-            <div className="text-center">
+            <div style={{ textAlign: 'center' }}>
               {!audioBlob && (
                 <motion.div
                   initial={{ scale: 0.9 }}
                   animate={{ scale: 1 }}
-                  className="mb-8"
+                  style={{ marginBottom: '32px' }}
                 >
-                  <div className="relative inline-block">
+                  <div style={{ position: 'relative', display: 'inline-block' }}>
                     <motion.button
                       onClick={isRecording ? stopRecording : startRecording}
-                      className={`relative w-28 h-28 md:w-32 md:h-32 rounded-full transition-all ${
-                        isRecording
-                          ? 'bg-red-500 hover:bg-red-600'
-                          : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90'
-                      } shadow-2xl flex items-center justify-center`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       aria-label={isRecording ? 'Stop recording' : 'Start recording'}
+                      style={{
+                        position: 'relative',
+                        width: isMobile ? '112px' : '128px',
+                        height: isMobile ? '112px' : '128px',
+                        borderRadius: '50%',
+                        transition: 'all 0.3s',
+                        background: isRecording ? '#EF4444' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: '#FFFFFF'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.boxShadow = isRecording ? '0 12px 32px rgba(239, 68, 68, 0.4)' : '0 12px 32px rgba(99, 102, 241, 0.4)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.3)'
+                      }}
                     >
                       {isRecording ? (
-                        <StopCircle style={{color: "var(--text-primary)"}} className="w-14 h-14 md:w-16 md:h-16 " />
+                        <StopCircle size={isMobile ? 56 : 64} />
                       ) : (
-                        <Mic style={{color: "var(--text-primary)"}} className="w-14 h-14 md:w-16 md:h-16 " />
+                        <Mic size={isMobile ? 56 : 64} />
                       )}
                     </motion.button>
 
                     {isRecording && (
                       <motion.div
-                        className="absolute inset-0 rounded-full border-4 border-red-500"
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          borderRadius: '50%',
+                          border: '4px solid #EF4444'
+                        }}
                         animate={{
                           scale: [1, 1.2, 1],
                           opacity: [1, 0, 1]
@@ -242,11 +288,11 @@ const VoiceMessagesPage = () => {
                     )}
                   </div>
 
-                  <div className="mt-5 md:mt-6">
-                    <div className="font-bold text-gray-900 text-3xl md:text-4xl">
+                  <div style={{ marginTop: isMobile ? '20px' : '24px' }}>
+                    <div style={{ fontWeight: 600, color: '#000000', fontSize: isMobile ? '32px' : '40px' }}>
                       {formatTime(recordingTime)}
                     </div>
-                    <div className="text-gray-600 mt-2 md:mt-3 text-sm md:text-base">
+                    <div style={{ color: '#666666', marginTop: isMobile ? '8px' : '12px', fontSize: isMobile ? '14px' : '15px' }}>
                       {isRecording ? 'Recording...' : 'Tap to record'}
                     </div>
                   </div>
@@ -258,68 +304,176 @@ const VoiceMessagesPage = () => {
                 <motion.div
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="space-y-6"
+                  style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}
                 >
-                  <div className="flex items-center gap-3 md:gap-4 p-4 md:p-6 bg-gray-50 border border-gray-200 rounded-2xl shadow-md">
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: isMobile ? '12px' : '16px',
+                    padding: isMobile ? '16px' : '24px',
+                    background: '#FAFAFA',
+                    border: '1px solid #E0E0E0',
+                    borderRadius: '16px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+                  }}>
                     <button
                       onClick={isPlaying ? pauseAudio : playAudio}
-                      style={{color: "var(--text-primary)"}} className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-full  transition-all flex-shrink-0"
                       aria-label={isPlaying ? 'Pause' : 'Play'}
+                      style={{
+                        padding: isMobile ? '12px' : '16px',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        color: '#FFFFFF',
+                        borderRadius: '50%',
+                        transition: 'all 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'scale(1.05)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'scale(1)'
+                        e.currentTarget.style.boxShadow = 'none'
+                      }}
                     >
                       {isPlaying ? (
-                        <Pause style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Pause size={20} />
                       ) : (
-                        <Play style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Play size={20} />
                       )}
                     </button>
 
-                    <div className="flex-1 min-w-0">
-                      <div className="flex justify-between text-xs md:text-sm text-gray-600 mb-2">
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: isMobile ? '12px' : '13px', color: '#666666', marginBottom: '8px' }}>
                         <span>{formatTime(playbackTime)}</span>
                         <span>{formatTime(duration)}</span>
                       </div>
-                      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                      <div style={{ height: '8px', background: '#E0E0E0', borderRadius: '4px', overflow: 'hidden' }}>
                         <motion.div
-                          className="h-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7]"
-                          style={{ width: `${(playbackTime / duration) * 100}%` }}
+                          style={{
+                            height: '100%',
+                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            width: `${(playbackTime / duration) * 100}%`
+                          }}
                         />
                       </div>
                     </div>
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="grid grid-cols-3 gap-2 md:gap-4">
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: isMobile ? '8px' : '16px' }}>
                     <button
                       onClick={deleteRecording}
-                      className="p-3 md:p-4 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-2xl shadow-md transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
                       aria-label="Delete recording"
+                      style={{
+                        padding: isMobile ? '12px' : '16px',
+                        background: 'rgba(239, 68, 68, 0.1)',
+                        color: '#EF4444',
+                        border: '1px solid rgba(239, 68, 68, 0.2)',
+                        borderRadius: '14px',
+                        boxShadow: '0 2px 8px rgba(239, 68, 68, 0.08)',
+                        transition: 'all 0.2s',
+                        display: 'flex',
+                        flexDirection: isMobile ? 'column' : 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: isMobile ? '4px' : '8px',
+                        fontSize: isMobile ? '12px' : '14px',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.15)'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.15)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(239, 68, 68, 0.08)'
+                      }}
                     >
-                      <Trash2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <Trash2 size={20} />
                       <span>Delete</span>
                     </button>
 
                     <button
                       onClick={downloadRecording}
-                      className="p-3 md:p-4 bg-gray-100 border border-gray-200 hover:bg-gray-200 text-gray-900 rounded-2xl shadow-md transition-colors flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm"
                       aria-label="Download recording"
+                      style={{
+                        padding: isMobile ? '12px' : '16px',
+                        background: '#FAFAFA',
+                        border: '1px solid #E0E0E0',
+                        color: '#000000',
+                        borderRadius: '14px',
+                        boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                        transition: 'all 0.2s',
+                        display: 'flex',
+                        flexDirection: isMobile ? 'column' : 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: isMobile ? '4px' : '8px',
+                        fontSize: isMobile ? '12px' : '14px',
+                        fontWeight: 500,
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#F0F0F0'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#FAFAFA'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'
+                      }}
                     >
-                      <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <Download size={20} />
                       <span>Download</span>
                     </button>
 
                     <button
                       onClick={sendVoiceMessage}
-                      style={{color: "var(--text-primary)"}} className="p-3 md:p-4 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-2xl shadow-lg transition-all flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 text-xs md:text-sm font-medium"
                       aria-label="Send voice message"
+                      style={{
+                        padding: isMobile ? '12px' : '16px',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        color: '#FFFFFF',
+                        borderRadius: '14px',
+                        boxShadow: '0 2px 8px rgba(99, 102, 241, 0.2)',
+                        transition: 'all 0.2s',
+                        display: 'flex',
+                        flexDirection: isMobile ? 'column' : 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: isMobile ? '4px' : '8px',
+                        fontSize: isMobile ? '12px' : '14px',
+                        fontWeight: 500,
+                        border: 'none',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(99, 102, 241, 0.2)'
+                      }}
                     >
-                      <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <Send size={20} />
                       <span>Send</span>
                     </button>
                   </div>
                 </motion.div>
               )}
 
-              <audio ref={audioRef} className="hidden" />
+              <audio ref={audioRef} style={{ display: 'none' }} />
             </div>
           </div>
         </motion.div>
@@ -329,4 +483,3 @@ const VoiceMessagesPage = () => {
 }
 
 export default memo(VoiceMessagesPage)
-

@@ -1,90 +1,145 @@
+/**
+ * NFTGalleryPage Component
+ * Displays user's NFT gallery with iOS aesthetic
+ * Features: Grid/list view, search, filters, collection stats
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Image, Grid, List, Filter, Search, ExternalLink, Heart } from 'lucide-react'
 import { PageSkeleton } from '../components/LoadingSkeleton'
 
-// NFT Card Component
 const NFTCard = ({ nft }) => {
   const [liked, setLiked] = useState(false)
 
   return (
     <Link
       to={`/nft/${nft.id}`}
-      className="group block"
       style={{ textDecoration: 'none' }}
     >
       <div
-        className="overflow-hidden transition-all rounded-2xl border"
         style={{
-          borderColor: 'var(--border-primary)',
-          backgroundColor: 'var(--bg-secondary)',
-          minHeight: '280px'
+          overflow: 'hidden',
+          transition: 'all 0.2s',
+          borderRadius: '20px',
+          border: '1px solid #E5E7EB',
+          background: '#FFFFFF',
+          minHeight: '280px',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-2px)'
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = 'none'
         }}
       >
-        {/* Image */}
-        <div className="relative overflow-hidden aspect-square bg-gradient-to-br from-blue-500/10 to-purple-500/10">
+        <div style={{
+          position: 'relative',
+          overflow: 'hidden',
+          aspectRatio: '1',
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)'
+        }}>
           {nft.image ? (
             <img
               src={nft.image}
               alt={nft.name}
-              className="w-full h-full object-cover transition-transform group-hover:scale-105"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                transition: 'transform 0.3s'
+              }}
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <Image size={48} style={{ color: 'var(--text-tertiary)' }} />
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Image size={48} style={{ color: '#999999' }} />
             </div>
           )}
-          {/* Like Button */}
           <button
             onClick={(e) => {
               e.preventDefault()
               setLiked(!liked)
             }}
-            style={{ width: "48px", height: "48px", flexShrink: 0 }}
             style={{
-              backgroundColor: liked ? 'rgba(239, 68, 68, 0.9)' : 'rgba(0, 0, 0, 0.5)',
-              border: '1px solid rgba(255, 255, 255, 0.1)'
+              position: 'absolute',
+              top: '12px',
+              right: '12px',
+              width: '40px',
+              height: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '12px',
+              background: liked ? 'rgba(239, 68, 68, 0.9)' : 'rgba(0, 0, 0, 0.5)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
             }}
             aria-label={liked ? 'Unlike' : 'Like'}
           >
             <Heart
-              size={24}
+              size={20}
               fill={liked ? 'white' : 'none'}
               style={{ color: liked ? 'white' : 'white' }}
             />
           </button>
         </div>
 
-        {/* Content */}
-        <div className="p-4">
-          <h3
-            className="font-semibold mb-1 truncate"
-            style={{ color: 'var(--text-primary)', fontSize: '16px' }}
-          >
+        <div style={{ padding: '16px' }}>
+          <h3 style={{
+            fontWeight: '600',
+            marginBottom: '4px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            color: '#000000',
+            fontSize: '16px'
+          }}>
             {nft.name}
           </h3>
-          <p
-            className="text-sm mb-3 truncate"
-            style={{ color: 'var(--text-secondary)' }}
-          >
+          <p style={{
+            fontSize: '14px',
+            marginBottom: '12px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            color: '#666666'
+          }}>
             {nft.collection}
           </p>
-          <div className="flex items-center justify-between">
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}>
             <div>
-              <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Price</div>
-              <div className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+              <div style={{ fontSize: '12px', color: '#999999' }}>Price</div>
+              <div style={{
+                fontWeight: '600',
+                color: '#000000'
+              }}>
                 {nft.price || '—'}
               </div>
             </div>
             {nft.rarity && (
-              <div
-                className="px-3 py-1 rounded-full text-xs font-medium"
-                style={{
-                  backgroundColor: 'rgba(88, 166, 255, 0.1)',
-                  color: '#58a6ff'
-                }}
-              >
+              <div style={{
+                padding: '6px 12px',
+                borderRadius: '99px',
+                fontSize: '12px',
+                fontWeight: '500',
+                background: 'rgba(99, 102, 241, 0.1)',
+                color: '#6366F1'
+              }}>
                 {nft.rarity}
               </div>
             )}
@@ -95,97 +150,139 @@ const NFTCard = ({ nft }) => {
   )
 }
 
-// NFT List Item Component
 const NFTListItem = ({ nft }) => {
   const [liked, setLiked] = useState(false)
 
   return (
     <Link
       to={`/nft/${nft.id}`}
-      className="group block"
       style={{ textDecoration: 'none' }}
     >
       <div
-        className="flex gap-4 p-4 rounded-2xl border transition-all hover:shadow-lg"
         style={{
-          borderColor: 'var(--border-primary)',
-          backgroundColor: 'var(--bg-secondary)',
-          minHeight: '100px'
+          display: 'flex',
+          gap: '16px',
+          padding: '16px',
+          borderRadius: '20px',
+          border: '1px solid #E5E7EB',
+          background: '#FFFFFF',
+          minHeight: '100px',
+          transition: 'all 0.2s',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-2px)'
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = 'none'
         }}
       >
-        {/* Image */}
-        <div
-          className="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10"
-          style={{ flexShrink: 0 }}
-        >
+        <div style={{
+          width: '96px',
+          height: '96px',
+          borderRadius: '16px',
+          overflow: 'hidden',
+          flexShrink: 0,
+          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)'
+        }}>
           {nft.image ? (
             <img
               src={nft.image}
               alt={nft.name}
-              className="w-full h-full object-cover"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <Image size={48} style={{ color: 'var(--text-tertiary)' }} />
+            <div style={{
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Image size={48} style={{ color: '#999999' }} />
             </div>
           )}
         </div>
 
-        {/* Content */}
-        <div className="flex-1 min-w-0">
-          <h3
-            className="font-semibold mb-1 truncate"
-            style={{ color: 'var(--text-primary)', fontSize: '16px' }}
-          >
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h3 style={{
+            fontWeight: '600',
+            marginBottom: '4px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            color: '#000000',
+            fontSize: '16px'
+          }}>
             {nft.name}
           </h3>
-          <p
-            className="text-sm mb-2 truncate"
-            style={{ color: 'var(--text-secondary)' }}
-          >
+          <p style={{
+            fontSize: '14px',
+            marginBottom: '8px',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            color: '#666666'
+          }}>
             {nft.collection}
           </p>
-          <div className="flex items-center gap-4">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <div>
-              <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Price</div>
-              <div className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>
+              <div style={{ fontSize: '12px', color: '#999999' }}>Price</div>
+              <div style={{
+                fontWeight: '600',
+                fontSize: '14px',
+                color: '#000000'
+              }}>
                 {nft.price || '—'}
               </div>
             </div>
             {nft.rarity && (
-              <div
-                className="px-3 py-1 rounded-full text-xs font-medium"
-                style={{
-                  backgroundColor: 'rgba(88, 166, 255, 0.1)',
-                  color: '#58a6ff'
-                }}
-              >
+              <div style={{
+                padding: '6px 12px',
+                borderRadius: '99px',
+                fontSize: '12px',
+                fontWeight: '500',
+                background: 'rgba(99, 102, 241, 0.1)',
+                color: '#6366F1'
+              }}>
                 {nft.rarity}
               </div>
             )}
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <button
             onClick={(e) => {
               e.preventDefault()
               setLiked(!liked)
             }}
-            style={{ width: "48px", height: "48px", flexShrink: 0 }}
             style={{
-              backgroundColor: liked ? 'rgba(239, 68, 68, 0.1)' : 'var(--bg-tertiary)',
-              border: '1px solid var(--border-primary)',
+              width: '40px',
+              height: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '12px',
+              background: liked ? 'rgba(239, 68, 68, 0.1)' : '#F9FAFB',
+              border: '1px solid #E5E7EB',
+              cursor: 'pointer',
               flexShrink: 0
             }}
             aria-label={liked ? 'Unlike' : 'Like'}
           >
             <Heart
-              size={24}
-              fill={liked ? '#ef4444' : 'none'}
-              style={{ color: liked ? '#ef4444' : 'var(--text-secondary)' }}
+              size={20}
+              fill={liked ? '#EF4444' : 'none'}
+              style={{ color: liked ? '#EF4444' : '#666666' }}
             />
           </button>
         </div>
@@ -201,7 +298,6 @@ export default function NFTGalleryPage() {
   const [filterBy, setFilterBy] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
 
-  // Standard responsive values
   const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
   const isTablet = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
@@ -244,7 +340,7 @@ export default function NFTGalleryPage() {
       role="main"
       aria-label="NFT gallery page"
       style={{
-        background: 'var(--bg-primary)',
+        background: '#FAFAFA',
         paddingTop: headerPaddingTop,
         paddingLeft: pagePadding,
         paddingRight: pagePadding,
@@ -253,107 +349,128 @@ export default function NFTGalleryPage() {
       }}
     >
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        {/* Header */}
-        <div className="flex justify-between items-start flex-wrap gap-4" style={{ marginBottom: '48px' }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'flex-start',
+          flexWrap: 'wrap',
+          gap: '16px',
+          marginBottom: '48px'
+        }}>
           <div>
-            <h1
-              className="font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"
-              style={{ fontSize: isMobile ? '28px' : '32px', marginBottom: '16px' }}
-            >
+            <h1 style={{
+              fontSize: isMobile ? '28px' : '32px',
+              marginBottom: '16px',
+              fontWeight: '700',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text'
+            }}>
               My NFT Gallery
             </h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '16px' }}>
+            <p style={{ color: '#666666', fontSize: '16px' }}>
               View and manage your digital collectibles
             </p>
           </div>
 
           <Link
             to="/nft-marketplace"
-            className="inline-flex items-center justify-center gap-2 rounded-xl font-semibold shadow-lg transition-transform hover:-translate-y-0.5"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              borderRadius: '16px',
+              fontWeight: '600',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+              transition: 'transform 0.2s',
               height: '48px',
-              paddingLeft: '24px',
-              paddingRight: '24px',
-              background: 'linear-gradient(to right, #58a6ff, #a371f7)',
-              color: 'var(--text-inverse)',
+              padding: '0 24px',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              color: '#FFFFFF',
               fontSize: '16px',
-              textDecoration: 'none',
-              boxShadow: '0 0 20px rgba(88, 166, 255, 0.4)'
+              textDecoration: 'none'
             }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             aria-label="Browse marketplace"
           >
             Browse Marketplace
-            <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ExternalLink size={24} />
-            </div>
+            <ExternalLink size={20} />
           </Link>
         </div>
 
-        {/* Controls */}
-        <div className="flex gap-4 flex-wrap items-center" style={{ marginBottom: '32px' }}>
-          {/* Search */}
-          <div className="flex-1" style={{ minWidth: isMobile ? '200px' : '300px', position: 'relative' }}>
-            <div
-              className="absolute flex items-center justify-center"
-              style={{
-                left: '16px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                width: '24px',
-                height: '24px',
-                flexShrink: 0,
-                pointerEvents: 'none'
-              }}
-            >
-              <Search size={24} style={{ color: 'var(--text-tertiary)' }} />
+        <div style={{
+          display: 'flex',
+          gap: '16px',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          marginBottom: '32px'
+        }}>
+          <div style={{
+            flex: 1,
+            minWidth: isMobile ? '200px' : '300px',
+            position: 'relative'
+          }}>
+            <div style={{
+              position: 'absolute',
+              left: '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              pointerEvents: 'none'
+            }}>
+              <Search size={20} style={{ color: '#999999' }} />
             </div>
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search NFTs..."
-              className="w-full outline-none transition-all"
               style={{
+                width: '100%',
+                outline: 'none',
+                transition: 'all 0.2s',
                 height: '48px',
                 paddingLeft: '48px',
                 paddingRight: '16px',
                 fontSize: '16px',
-                border: '1px solid var(--border-primary)',
-                borderRadius: '12px',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)'
+                border: '1px solid #E5E7EB',
+                borderRadius: '16px',
+                background: '#FFFFFF',
+                color: '#000000'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = 'rgba(88, 166, 255, 0.5)'
-                e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
+                e.target.style.borderColor = '#6366F1'
+                e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = 'var(--border-primary)'
+                e.target.style.borderColor = '#E5E7EB'
                 e.target.style.boxShadow = 'none'
               }}
               aria-label="Search NFTs"
             />
           </div>
 
-          {/* Filter */}
-          <div className="flex gap-2 items-center">
-            <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Filter size={24} style={{ color: 'var(--text-secondary)' }} />
-            </div>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+            <Filter size={20} style={{ color: '#666666' }} />
             <select
               value={filterBy}
               onChange={(e) => setFilterBy(e.target.value)}
-              className="outline-none cursor-pointer"
               style={{
+                outline: 'none',
+                cursor: 'pointer',
                 height: '48px',
-                paddingLeft: '16px',
-                paddingRight: '16px',
+                padding: '0 16px',
                 fontSize: '16px',
                 fontWeight: '500',
-                border: '1px solid var(--border-primary)',
-                borderRadius: '12px',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)'
+                border: '1px solid #E5E7EB',
+                borderRadius: '16px',
+                background: '#FFFFFF',
+                color: '#000000'
               }}
               aria-label="Filter NFTs"
             >
@@ -366,131 +483,148 @@ export default function NFTGalleryPage() {
             </select>
           </div>
 
-          {/* View mode */}
-          <div
-            className="flex gap-1 rounded-2xl p-1"
-            style={{
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border-primary)'
-            }}
-          >
+          <div style={{
+            display: 'flex',
+            gap: '4px',
+            borderRadius: '16px',
+            padding: '4px',
+            background: '#FFFFFF',
+            border: '1px solid #E5E7EB'
+          }}>
             <button
               onClick={() => setViewMode('grid')}
-              className="transition-all rounded-lg"
               style={{
                 width: '48px',
                 height: '48px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: viewMode === 'grid' ? 'rgba(88, 166, 255, 0.2)' : 'transparent',
-                color: viewMode === 'grid' ? '#58a6ff' : 'var(--text-secondary)',
+                background: viewMode === 'grid' ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                color: viewMode === 'grid' ? '#6366F1' : '#666666',
                 border: 'none',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                borderRadius: '12px',
+                transition: 'all 0.2s'
               }}
               aria-label="Grid view"
               aria-pressed={viewMode === 'grid'}
             >
-              <Grid size={24} />
+              <Grid size={20} />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className="transition-all rounded-lg"
               style={{
                 width: '48px',
                 height: '48px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: viewMode === 'list' ? 'rgba(88, 166, 255, 0.2)' : 'transparent',
-                color: viewMode === 'list' ? '#58a6ff' : 'var(--text-secondary)',
+                background: viewMode === 'list' ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                color: viewMode === 'list' ? '#6366F1' : '#666666',
                 border: 'none',
-                cursor: 'pointer'
+                cursor: 'pointer',
+                borderRadius: '12px',
+                transition: 'all 0.2s'
               }}
               aria-label="List view"
               aria-pressed={viewMode === 'list'}
             >
-              <List size={24} />
+              <List size={20} />
             </button>
           </div>
         </div>
 
-        {/* Stats */}
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-          style={{ gap: '24px', marginBottom: '48px' }}
-        >
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+          gap: '24px',
+          marginBottom: '48px'
+        }}>
           {[
-            { label: 'Total NFTs', value: filteredNFTs.length, color: '#58a6ff' },
-            { label: 'Collections', value: new Set(filteredNFTs.map(n => n.collection)).size, color: '#a371f7' },
-            { label: 'Total Value', value: '$12,450', color: '#10b981' }
+            { label: 'Total NFTs', value: filteredNFTs.length, color: '#6366F1' },
+            { label: 'Collections', value: new Set(filteredNFTs.map(n => n.collection)).size, color: '#8B5CF6' },
+            { label: 'Total Value', value: '$12,450', color: '#10B981' }
           ].map((stat, index) => (
             <div
               key={index}
-              className="rounded-2xl"
               style={{
-                border: '1px solid var(--border-primary)',
-                backgroundColor: 'var(--bg-secondary)',
+                border: '1px solid #E5E7EB',
+                background: '#FFFFFF',
                 padding: '24px',
-                minHeight: '100px'
+                minHeight: '100px',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
               }}
             >
-              <div
-                className="mb-2 font-medium"
-                style={{ color: 'var(--text-secondary)', fontSize: '14px' }}
-              >
+              <div style={{
+                marginBottom: '8px',
+                fontWeight: '500',
+                color: '#666666',
+                fontSize: '14px'
+              }}>
                 {stat.label}
               </div>
-              <div
-                className="font-bold"
-                style={{ fontSize: isMobile ? '24px' : '28px', color: stat.color }}
-              >
+              <div style={{
+                fontSize: isMobile ? '24px' : '28px',
+                fontWeight: '700',
+                color: stat.color
+              }}>
                 {stat.value}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Content */}
         {filteredNFTs.length === 0 ? (
-          <div
-            className="text-center rounded-2xl"
-            style={{
-              border: '1px solid var(--border-primary)',
-              backgroundColor: 'var(--bg-secondary)',
-              padding: isMobile ? '64px 24px' : '80px 24px'
-            }}
-          >
-            <div
-              className="mx-auto flex items-center justify-center"
-              style={{ width: '64px', height: '64px', marginBottom: '24px' }}
-            >
-              <Image size={48} style={{ color: 'var(--text-secondary)' }} />
+          <div style={{
+            textAlign: 'center',
+            borderRadius: '20px',
+            border: '1px solid #E5E7EB',
+            background: '#FFFFFF',
+            padding: isMobile ? '64px 24px' : '80px 24px'
+          }}>
+            <div style={{
+              margin: '0 auto',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '64px',
+              height: '64px',
+              marginBottom: '24px'
+            }}>
+              <Image size={48} style={{ color: '#666666' }} />
             </div>
-            <h3
-              className="font-semibold mb-3"
-              style={{ fontSize: isMobile ? '18px' : '20px', color: 'var(--text-primary)' }}
-            >
+            <h3 style={{
+              fontWeight: '600',
+              marginBottom: '12px',
+              fontSize: isMobile ? '18px' : '20px',
+              color: '#000000'
+            }}>
               No NFTs Found
             </h3>
-            <p
-              className="mb-6"
-              style={{ fontSize: '16px', color: 'var(--text-secondary)' }}
-            >
+            <p style={{
+              marginBottom: '24px',
+              fontSize: '16px',
+              color: '#666666'
+            }}>
               {searchQuery ? 'Try adjusting your search or filters' : 'Start collecting NFTs to see them here'}
             </p>
             <Link
               to="/nft-marketplace"
-              className="inline-flex items-center justify-center gap-2 rounded-xl font-semibold shadow-lg"
               style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                borderRadius: '16px',
+                fontWeight: '600',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 height: '48px',
-                paddingLeft: '24px',
-                paddingRight: '24px',
-                background: 'linear-gradient(to right, #58a6ff, #a371f7)',
-                color: 'var(--text-inverse)',
+                padding: '0 24px',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                color: '#FFFFFF',
                 fontSize: '16px',
-                textDecoration: 'none',
-                boxShadow: '0 0 20px rgba(88, 166, 255, 0.4)'
+                textDecoration: 'none'
               }}
             >
               Browse Marketplace
@@ -499,16 +633,17 @@ export default function NFTGalleryPage() {
         ) : (
           <>
             {viewMode === 'grid' ? (
-              <div
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-                style={{ gap: '24px' }}
-              >
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+                gap: '24px'
+              }}>
                 {filteredNFTs.map((nft, index) => (
                   <NFTCard key={nft.id || index} nft={nft} />
                 ))}
               </div>
             ) : (
-              <div className="flex flex-col" style={{ gap: '24px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 {filteredNFTs.map((nft, index) => (
                   <NFTListItem key={nft.id || index} nft={nft} />
                 ))}

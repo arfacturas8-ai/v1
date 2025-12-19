@@ -1,3 +1,13 @@
+/**
+ * DirectMessagesPage - iOS Modern Aesthetic
+ * Modernized messaging interface with clean iOS design patterns
+ * - #FAFAFA background, #000 text, #666 secondary text, white cards
+ * - No Tailwind classes, pure inline styles
+ * - iOS-style shadows and border radius
+ * - 52px inputs, 56px/48px buttons, 20px icons
+ * - Smooth hover animations with translateY
+ */
+
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react'
 import PropTypes from 'prop-types'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -35,19 +45,6 @@ import { EmptyMessages } from '../components/ui/EmptyState'
 import usePullToRefresh from '../hooks/usePullToRefresh.jsx'
 import { useResponsive } from '../hooks/useResponsive'
 
-/**
- * DirectMessagesPage - Dedicated direct messaging interface
- * Features:
- * - Private 1-on-1 conversations
- * - Conversation list with search
- * - Real-time messaging via WebSocket
- * - File attachments and media
- * - User presence indicators
- * - Mobile-responsive design
- * - OpenSea-inspired dark theme
- * - Discord-like layout
- */
-
 // Memoized conversation item component
 const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) => {
   const getStatusColor = (status) => {
@@ -55,7 +52,7 @@ const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) =>
       case 'online': return '#10B981'
       case 'away': return '#F59E0B'
       case 'busy': return '#EF4444'
-      default: return '#6B7280'
+      default: return '#666666'
     }
   }
 
@@ -67,16 +64,40 @@ const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) =>
   return (
     <div
       onClick={onClick}
-      className={`conversation-item ${isActive ? 'active' : ''}`}
       role="button"
       tabIndex={0}
       onKeyPress={(e) => e.key === 'Enter' && onClick()}
       aria-label={`Conversation with ${conversation.user.displayName}`}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        padding: '14px 16px',
+        borderRadius: '16px',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        marginBottom: '6px',
+        background: isActive ? '#FFFFFF' : 'transparent',
+        boxShadow: isActive ? '0 2px 8px rgba(0,0,0,0.04)' : 'none'
+      }}
+      onMouseEnter={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.background = '#FFFFFF'
+          e.currentTarget.style.transform = 'translateY(-2px)'
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!isActive) {
+          e.currentTarget.style.background = 'transparent'
+          e.currentTarget.style.transform = 'translateY(0)'
+          e.currentTarget.style.boxShadow = 'none'
+        }
+      }}
     >
       <div
-        className="conversation-avatar-wrapper"
         onClick={handleAvatarClick}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', position: 'relative', flexShrink: 0 }}
         role="button"
         tabIndex={0}
         onKeyPress={(e) => {
@@ -88,35 +109,59 @@ const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) =>
         <img
           src={conversation.user.avatar || '/default-avatar.png'}
           alt={`${conversation.user.displayName}'s avatar`}
-          className="conversation-avatar"
+          style={{
+            width: '48px',
+            height: '48px',
+            borderRadius: '50%',
+            objectFit: 'cover'
+          }}
           loading="lazy"
         />
         <div
-          className="status-indicator"
-          style={{ backgroundColor: getStatusColor(conversation.user.status) }}
+          style={{
+            position: 'absolute',
+            bottom: '0',
+            right: '0',
+            width: '14px',
+            height: '14px',
+            borderRadius: '50%',
+            backgroundColor: getStatusColor(conversation.user.status),
+            border: '3px solid #FAFAFA'
+          }}
           aria-label={`Status: ${conversation.user.status || 'offline'}`}
         />
       </div>
 
-      <div className="conversation-info">
-        <div className="conversation-header">
-          <span className="conversation-name">{conversation.user.displayName}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+          <span style={{ fontWeight: 600, fontSize: '15px', color: '#000000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {conversation.user.displayName}
+          </span>
           {conversation.lastMessage && (
-            <span className="conversation-time">
+            <span style={{ fontSize: '12px', color: '#666666', flexShrink: 0, marginLeft: '8px' }}>
               {formatDistanceToNow(new Date(conversation.lastMessage.timestamp), { addSuffix: false })}
             </span>
           )}
         </div>
 
         {conversation.lastMessage && (
-          <div className="conversation-preview">
-            <span className="last-message">
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{
+              fontSize: '13px',
+              color: '#666666',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
               {conversation.lastMessage.type === 'image' ? (
-                <><ImageIcon size={24} /> Image</>
+                <><ImageIcon size={20} /> Image</>
               ) : conversation.lastMessage.type === 'video' ? (
-                <><Video size={24} /> Video</>
+                <><Video size={20} /> Video</>
               ) : conversation.lastMessage.type === 'file' ? (
-                <><File size={24} /> File</>
+                <><File size={20} /> File</>
               ) : (
                 conversation.lastMessage.content
               )}
@@ -126,7 +171,20 @@ const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) =>
       </div>
 
       {conversation.unreadCount > 0 && (
-        <div className="unread-badge" aria-label={`${conversation.unreadCount} unread messages`}>
+        <div
+          style={{
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            color: '#FFFFFF',
+            fontSize: '12px',
+            fontWeight: 600,
+            padding: '2px 8px',
+            borderRadius: '12px',
+            minWidth: '20px',
+            textAlign: 'center',
+            flexShrink: 0
+          }}
+          aria-label={`${conversation.unreadCount} unread messages`}
+        >
           {conversation.unreadCount}
         </div>
       )}
@@ -141,7 +199,9 @@ ConversationItem.propTypes = {
     user: PropTypes.shape({
       displayName: PropTypes.string.isRequired,
       avatar: PropTypes.string,
-      status: PropTypes.string
+      status: PropTypes.string,
+      username: PropTypes.string,
+      id: PropTypes.string
     }).isRequired,
     lastMessage: PropTypes.shape({
       content: PropTypes.string,
@@ -158,56 +218,94 @@ ConversationItem.propTypes = {
 // Memoized message component
 const Message = memo(({ message, isOwn, user }) => {
   const getMessageStatus = () => {
-    if (message.read) return <CheckCheck size={24} className="message-status read" />
-    if (message.delivered) return <CheckCheck size={24} className="message-status delivered" />
-    if (message.sent) return <Check size={24} className="message-status sent" />
-    return <Loader size={24} className="message-status sending" />
+    if (message.read) return <CheckCheck size={20} style={{ color: 'rgba(255,255,255,0.7)' }} />
+    if (message.delivered) return <CheckCheck size={20} style={{ color: 'rgba(255,255,255,0.5)' }} />
+    if (message.sent) return <Check size={20} style={{ color: 'rgba(255,255,255,0.5)' }} />
+    return <Loader size={20} style={{ color: 'rgba(255,255,255,0.5)', animation: 'spin 1s linear infinite' }} />
   }
 
   return (
-    <div className={`message-wrapper ${isOwn ? 'own' : ''}`}>
+    <div style={{
+      display: 'flex',
+      gap: '12px',
+      maxWidth: '70%',
+      marginLeft: isOwn ? 'auto' : '0',
+      flexDirection: isOwn ? 'row-reverse' : 'row'
+    }}>
       {!isOwn && (
         <img
           src={user?.avatar || '/default-avatar.png'}
           alt={`${user?.displayName}'s avatar`}
-          className="message-avatar"
+          style={{
+            width: '32px',
+            height: '32px',
+            borderRadius: '50%',
+            objectFit: 'cover',
+            flexShrink: 0
+          }}
         />
       )}
 
-      <div className="message-content-wrapper">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
         {!isOwn && (
-          <div className="message-author">{user?.displayName}</div>
+          <div style={{ fontSize: '13px', fontWeight: 600, color: '#666666', padding: '0 12px' }}>
+            {user?.displayName}
+          </div>
         )}
 
-        <div className={`message-bubble ${isOwn ? 'own' : ''}`}>
+        <div style={{
+          background: isOwn ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FFFFFF',
+          padding: '12px 16px',
+          borderRadius: '20px',
+          borderTopLeftRadius: isOwn ? '20px' : '4px',
+          borderTopRightRadius: isOwn ? '4px' : '20px',
+          color: isOwn ? '#FFFFFF' : '#000000',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
           {message.type === 'text' && (
-            <p className="message-text">{message.content}</p>
+            <p style={{ margin: 0, fontSize: '15px', lineHeight: '1.5', wordWrap: 'break-word' }}>
+              {message.content}
+            </p>
           )}
 
           {message.type === 'image' && (
-            <div className="message-image-container">
-              <img src={message.content} alt="Shared image" className="message-image" />
+            <div style={{ maxWidth: '100%', borderRadius: '14px', overflow: 'hidden' }}>
+              <img src={message.content} alt="Shared image" style={{ maxWidth: '100%', height: 'auto', display: 'block' }} />
             </div>
           )}
 
           {message.type === 'video' && (
-            <div className="message-video-container">
-              <video src={message.content} controls className="message-video" style={{maxWidth: '100%', borderRadius: '8px'}} />
+            <div style={{ maxWidth: '100%', borderRadius: '14px', overflow: 'hidden' }}>
+              <video src={message.content} controls style={{ maxWidth: '100%', borderRadius: '14px' }} />
             </div>
           )}
 
           {message.type === 'file' && (
-            <div className="message-file">
-              <File size={24} />
-              <div className="file-info">
-                <div className="file-name">{message.fileName}</div>
-                <div className="file-size">{message.fileSize}</div>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '8px',
+              background: 'rgba(0,0,0,0.1)',
+              borderRadius: '12px',
+              minWidth: '200px'
+            }}>
+              <File size={20} />
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: '14px', fontWeight: 500, marginBottom: '2px' }}>{message.fileName}</div>
+                <div style={{ fontSize: '12px', color: isOwn ? 'rgba(255,255,255,0.7)' : '#666666' }}>{message.fileSize}</div>
               </div>
             </div>
           )}
 
-          <div className="message-meta">
-            <span className="message-time">
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            marginTop: '4px',
+            justifyContent: 'flex-end'
+          }}>
+            <span style={{ fontSize: '11px', color: isOwn ? 'rgba(255,255,255,0.7)' : '#666666' }}>
               {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </span>
             {isOwn && getMessageStatus()}
@@ -276,69 +374,153 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
   if (!isOpen) return null
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0, 0, 0, 0.5)',
+        backdropFilter: 'blur(8px)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 1000,
+        padding: '24px'
+      }}
+      onClick={onClose}
+    >
       <div
         ref={modalRef}
-        className="modal-content"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-labelledby="new-conversation-title"
+        style={{
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          width: '100%',
+          maxWidth: '500px',
+          maxHeight: '600px',
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.08)'
+        }}
       >
-        <div className="modal-header">
-          <h2 id="new-conversation-title">New Conversation</h2>
+        <div style={{
+          padding: '24px',
+          borderBottom: '1px solid #F0F0F0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <h2 id="new-conversation-title" style={{ fontSize: '20px', fontWeight: 600, margin: 0, color: '#000000' }}>
+            New Conversation
+          </h2>
           <button
             onClick={onClose}
-            className="modal-close-btn touch-target"
             aria-label="Close modal"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#666666',
+              cursor: 'pointer',
+              padding: '8px',
+              borderRadius: '12px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.background = '#F5F5F5'
+              e.currentTarget.style.color = '#000000'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = 'transparent'
+              e.currentTarget.style.color = '#666666'
+            }}
           >
-            <X size={24} />
+            <X size={20} />
           </button>
         </div>
 
-        <div className="modal-body">
-          <div className="search-input-wrapper">
-            <Search size={24} className="search-icon" />
+        <div style={{ padding: '24px', flex: 1, overflowY: 'auto' }}>
+          <div style={{ position: 'relative', marginBottom: '16px' }}>
+            <Search size={20} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#666666', pointerEvents: 'none' }} />
             <input
               type="text"
               placeholder="Search users..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="search-input"
               autoFocus
               aria-label="Search users"
+              style={{
+                width: '100%',
+                height: '52px',
+                padding: '0 16px 0 48px',
+                background: '#FAFAFA',
+                border: '1px solid #E0E0E0',
+                borderRadius: '16px',
+                color: '#000000',
+                fontSize: '15px',
+                outline: 'none',
+                transition: 'all 0.2s'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#6366F1'
+                e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#E0E0E0'
+                e.target.style.boxShadow = 'none'
+              }}
             />
           </div>
 
-          <div className="users-list">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
             {loading ? (
-              <div className="loading-container">
-                <Loader size={24} className="spinner" />
-                <p>Searching...</p>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '48px 24px', color: '#666666' }}>
+                <Loader size={20} style={{ animation: 'spin 1s linear infinite' }} />
+                <p style={{ margin: 0 }}>Searching...</p>
               </div>
             ) : users.length > 0 ? (
               users.map(user => (
                 <div
                   key={user.id}
-                  className="user-item"
                   onClick={() => onCreateConversation(user)}
                   role="button"
                   tabIndex={0}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '12px',
+                    borderRadius: '14px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#FAFAFA'
+                    e.currentTarget.style.transform = 'translateY(-1px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
                 >
-                  <img src={user.avatar || '/default-avatar.png'} alt={user.displayName} />
-                  <div className="user-info">
-                    <div className="user-name">{user.displayName}</div>
-                    <div className="user-username">@{user.username}</div>
+                  <img src={user.avatar || '/default-avatar.png'} alt={user.displayName} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '15px', fontWeight: 600, color: '#000000', marginBottom: '2px' }}>{user.displayName}</div>
+                    <div style={{ fontSize: '13px', color: '#666666' }}>@{user.username}</div>
                   </div>
                 </div>
               ))
             ) : searchTerm.length >= 2 ? (
-              <div className="empty-state-small">
-                <p>No users found</p>
+              <div style={{ textAlign: 'center', padding: '48px 24px', color: '#666666' }}>
+                <p style={{ margin: 0 }}>No users found</p>
               </div>
             ) : (
-              <div className="empty-state-small">
-                <p>Type at least 2 characters to search</p>
+              <div style={{ textAlign: 'center', padding: '48px 24px', color: '#666666' }}>
+                <p style={{ margin: 0 }}>Type at least 2 characters to search</p>
               </div>
             )}
           </div>
@@ -720,910 +902,92 @@ function DirectMessagesPage() {
 
   if (!isAuthenticated) {
     return (
-      <div className="dm-page">
-        <div className="empty-state-container">
-          <AlertCircle size={48} />
-          <h2>Authentication Required</h2>
-          <p>Please log in to access direct messages.</p>
+      <div style={{ display: 'flex', height: '100vh', background: '#FAFAFA', color: '#000000', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', padding: '48px 24px', textAlign: 'center' }}>
+          <AlertCircle size={48} style={{ color: '#666666' }} />
+          <h2 style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>Authentication Required</h2>
+          <p style={{ color: '#666666', margin: 0 }}>Please log in to access direct messages.</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="dm-page" role="main" aria-label="Direct messages page">
-      <style>{`
-        .dm-page {
-          display: flex;
-          height: 100vh;
-          background: var(--bg-primary);
-          color: var(--text-primary);
-          font-family: var(--font-sans);
-        }
-
-        /* Left Sidebar - Conversations List */
-        .conversations-sidebar {
-          width: 320px;
-          background: var(--bg-secondary);
-          backdrop-filter: blur(12px);
-          border-right: 1px solid var(--border-subtle);
-          display: flex;
-          flex-direction: column;
-          flex-shrink: 0;
-        }
-
-        .sidebar-header {
-          padding: 16px;
-          border-bottom: 1px solid var(--border-subtle);
-          background: transparent;
-        }
-
-        .sidebar-title {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 12px;
-        }
-
-        .sidebar-title h1 {
-          font-size: var(--text-xl);
-          font-weight: var(--font-semibold);
-          margin: 0;
-          color: var(--text-primary);
-        }
-
-        .new-conversation-btn {
-          background: var(--brand-gradient);
-          border: none;
-          border-radius: var(--radius-lg);
-          width: 36px;
-          height: 36px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: var(--transition-normal);
-          color: var(--text-inverse);
-        }
-
-        .new-conversation-btn:hover {
-          opacity: 0.9;
-          transform: scale(1.05);
-        }
-
-        .search-container {
-          position: relative;
-        }
-
-        .search-icon {
-          position: absolute;
-          left: 12px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #8A8A8A;
-          pointer-events: none;
-        }
-
-        .search-input {
-          width: 100%;
-          padding: 10px 12px 10px 40px;
-          background: var(--bg-secondary);
-          border: 1px solid var(--border-default);
-          border-radius: var(--radius-lg);
-          color: var(--text-primary);
-          font-size: var(--text-sm);
-          outline: none;
-          transition: var(--transition-normal);
-        }
-
-        .search-input:focus {
-          border-color: var(--brand-primary);
-          box-shadow: 0 0 0 3px var(--color-info-light);
-        }
-
-        .search-input::placeholder {
-          color: var(--text-tertiary);
-        }
-
-        .conversations-list {
-          flex: 1;
-          overflow-y: auto;
-          padding: 8px;
-        }
-
-        .conversations-list::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        .conversations-list::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        .conversations-list::-webkit-scrollbar-thumb {
-          background: #2D2D2D;
-          border-radius: 4px;
-        }
-
-        .conversations-list::-webkit-scrollbar-thumb:hover {
-          background: #3D3D3D;
-        }
-
-        .conversation-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 10px;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s;
-          margin-bottom: 4px;
-        }
-
-        .conversation-item:hover {
-          background: #2D2D2D;
-        }
-
-        .conversation-item.active {
-          background: #2D2D2D;
-          border-left: 3px solid #58a6ff;
-          padding-left: 7px;
-        }
-
-        .conversation-avatar-wrapper {
-          position: relative;
-          flex-shrink: 0;
-        }
-
-        .conversation-avatar {
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .status-indicator {
-          position: absolute;
-          bottom: 0;
-          right: 0;
-          width: 14px;
-          height: 14px;
-          border-radius: 50%;
-          border: 3px solid #1A1A1A;
-        }
-
-        .conversation-info {
-          flex: 1;
-          min-width: 0;
-        }
-
-        .conversation-header {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-bottom: 4px;
-        }
-
-        .conversation-name {
-          font-weight: 600;
-          font-size: 15px;
-          color: #FFFFFF;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
-
-        .conversation-time {
-          font-size: 12px;
-          color: #8A8A8A;
-          flex-shrink: 0;
-          margin-left: 8px;
-        }
-
-        .conversation-preview {
-          display: flex;
-          align-items: center;
-        }
-
-        .last-message {
-          font-size: 13px;
-          color: #8A8A8A;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-        }
-
-        .unread-badge {
-          background: #58a6ff;
-          color: #FFFFFF;
-          font-size: 12px;
-          font-weight: 600;
-          padding: 2px 8px;
-          border-radius: 12px;
-          min-width: 20px;
-          text-align: center;
-          flex-shrink: 0;
-        }
-
-        /* Right Panel - Chat */
-        .chat-panel {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          background: var(--bg-primary);
-        }
-
-        .chat-header {
-          padding: 16px 24px;
-          border-bottom: 1px solid var(--border-subtle);
-          background: var(--bg-elevated);
-          backdrop-filter: blur(12px);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-
-        .chat-header-left {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .back-btn {
-          display: none;
-          background: transparent;
-          border: none;
-          color: #FFFFFF;
-          cursor: pointer;
-          padding: 8px;
-          border-radius: 8px;
-          transition: all 0.2s;
-        }
-
-        .back-btn:hover {
-          background: #2D2D2D;
-        }
-
-        .chat-user-info {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 8px;
-          border-radius: 8px;
-          transition: background-color 0.2s;
-        }
-
-        .chat-user-info:hover {
-          background: rgba(255, 255, 255, 0.05);
-        }
-
-        .chat-avatar-wrapper {
-          position: relative;
-        }
-
-        .chat-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .chat-user-details h2 {
-          font-size: 16px;
-          font-weight: 600;
-          margin: 0 0 2px 0;
-        }
-
-        .user-status {
-          font-size: 13px;
-          color: #10B981;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-        }
-
-        .user-status.offline {
-          color: #6B7280;
-        }
-
-        .user-status.away {
-          color: #F59E0B;
-        }
-
-        .chat-actions {
-          display: flex;
-          gap: 8px;
-        }
-
-        .action-btn {
-          background: transparent;
-          border: 1px solid #2D2D2D;
-          color: #FFFFFF;
-          padding: 10px;
-          border-radius: 8px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-        }
-
-        .action-btn:hover {
-          background: #2D2D2D;
-          border-color: #58a6ff;
-          color: #58a6ff;
-        }
-
-        .messages-container {
-          flex: 1;
-          overflow-y: auto;
-          padding: 24px;
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .messages-container::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        .messages-container::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb {
-          background: #2D2D2D;
-          border-radius: 4px;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb:hover {
-          background: #3D3D3D;
-        }
-
-        .typing-indicator {
-          padding: 12px 24px;
-          font-size: 13px;
-          color: #8A8A8A;
-          font-style: italic;
-        }
-
-        .message-wrapper {
-          display: flex;
-          gap: 12px;
-          max-width: 70%;
-        }
-
-        .message-wrapper.own {
-          margin-left: auto;
-          flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          object-fit: cover;
-          flex-shrink: 0;
-        }
-
-        .message-content-wrapper {
-          display: flex;
-          flex-direction: column;
-          gap: 4px;
-        }
-
-        .message-author {
-          font-size: 13px;
-          font-weight: 600;
-          color: #8A8A8A;
-          padding: 0 12px;
-        }
-
-        .message-bubble {
-          background: var(--bg-secondary);
-          border: 1px solid var(--border-subtle);
-          padding: 12px 16px;
-          border-radius: var(--radius-xl);
-          border-top-left-radius: var(--radius-sm);
-        }
-
-        .message-bubble.own {
-          background: var(--brand-gradient);
-          border: none;
-          border-radius: var(--radius-xl);
-          border-top-right-radius: var(--radius-sm);
-          color: var(--text-inverse);
-        }
-
-        .message-text {
-          margin: 0;
-          font-size: 15px;
-          line-height: 1.5;
-          word-wrap: break-word;
-        }
-
-        .message-image-container {
-          max-width: 100%;
-          border-radius: 12px;
-          overflow: hidden;
-        }
-
-        .message-image {
-          max-width: 100%;
-          height: auto;
-          display: block;
-        }
-
-        .message-file {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 8px;
-          background: #0D0D0D;
-          border-radius: 8px;
-          min-width: 200px;
-        }
-
-        .file-info {
-          flex: 1;
-        }
-
-        .file-name {
-          font-size: 14px;
-          font-weight: 500;
-          margin-bottom: 2px;
-        }
-
-        .file-size {
-          font-size: 12px;
-          color: #8A8A8A;
-        }
-
-        .message-meta {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          margin-top: 4px;
-          justify-content: flex-end;
-        }
-
-        .message-time {
-          font-size: 11px;
-          color: rgba(255, 255, 255, 0.5);
-        }
-
-        .message-status {
-          flex-shrink: 0;
-        }
-
-        .message-status.sending {
-          color: #8A8A8A;
-          animation: spin 1s linear infinite;
-        }
-
-        .message-status.sent {
-          color: #8A8A8A;
-        }
-
-        .message-status.delivered {
-          color: #8A8A8A;
-        }
-
-        .message-status.read {
-          color: #58a6ff;
-        }
-
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-
-        /* Message Composer */
-        .message-composer {
-          padding: 16px 24px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
-          background: rgba(22, 27, 34, 0.6);
-          backdrop-filter: blur(12px);
-        }
-
-        .file-preview-container {
-          margin-bottom: 12px;
-          padding: 12px;
-          background: #0D0D0D;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-
-        .file-preview-image {
-          width: 60px;
-          height: 60px;
-          object-fit: cover;
-          border-radius: 6px;
-        }
-
-        .file-preview-info {
-          flex: 1;
-        }
-
-        .file-preview-name {
-          font-size: 14px;
-          font-weight: 500;
-          margin-bottom: 4px;
-        }
-
-        .file-preview-size {
-          font-size: 12px;
-          color: #8A8A8A;
-        }
-
-        .file-preview-cancel {
-          background: transparent;
-          border: none;
-          color: #EF4444;
-          cursor: pointer;
-          padding: 8px;
-          border-radius: 6px;
-          transition: all 0.2s;
-        }
-
-        .file-preview-cancel:hover {
-          background: rgba(239, 68, 68, 0.1);
-        }
-
-        .composer-wrapper {
-          display: flex;
-          align-items: flex-end;
-          gap: 12px;
-          background: rgba(13, 17, 23, 0.8);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 12px;
-          padding: 12px;
-          transition: all 0.2s;
-        }
-
-        .composer-wrapper:focus-within {
-          border-color: rgba(88, 166, 255, 0.5);
-        }
-
-        .composer-actions-left {
-          display: flex;
-          gap: 8px;
-        }
-
-        .composer-btn {
-          background: transparent;
-          border: none;
-          color: #8A8A8A;
-          cursor: pointer;
-          padding: 8px;
-          border-radius: 6px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-        }
-
-        .composer-btn:hover {
-          background: #2D2D2D;
-          color: #FFFFFF;
-        }
-
-        .message-input {
-          flex: 1;
-          background: transparent;
-          border: none;
-          color: #FFFFFF;
-          font-size: 15px;
-          outline: none;
-          resize: none;
-          min-height: 24px;
-          max-height: 120px;
-          font-family: inherit;
-        }
-
-        .message-input::placeholder {
-          color: #6B7280;
-        }
-
-        .send-btn {
-          background: var(--brand-gradient);
-          border: none;
-          color: var(--text-inverse);
-          padding: 10px;
-          border-radius: var(--radius-lg);
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: var(--transition-normal);
-        }
-
-        .send-btn:hover {
-          opacity: 0.9;
-          transform: scale(1.05);
-          box-shadow: var(--shadow-md);
-        }
-
-        .send-btn:disabled {
-          background: var(--bg-tertiary);
-          color: var(--text-tertiary);
-          cursor: not-allowed;
-          transform: none;
-          opacity: 0.5;
-        }
-
-        /* Empty States */
-        .empty-state-container {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 16px;
-          color: #8A8A8A;
-          text-align: center;
-          padding: 48px 24px;
-        }
-
-        .empty-state-container h2 {
-          font-size: 24px;
-          font-weight: 600;
-          margin: 0;
-          color: #FFFFFF;
-        }
-
-        .empty-state-container p {
-          font-size: 15px;
-          margin: 0;
-        }
-
-        .loading-container {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 12px;
-          color: #8A8A8A;
-        }
-
-        .spinner {
-          animation: spin 1s linear infinite;
-        }
-
-        /* Modal */
-        .modal-overlay {
-          position: fixed;
-          inset: 0;
-          background: rgba(0, 0, 0, 0.8);
-          backdrop-filter: blur(8px);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-          padding: 24px;
-        }
-
-        .modal-content {
-          background: rgba(22, 27, 34, 0.95);
-          backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 16px;
-          width: 100%;
-          max-width: 500px;
-          max-height: 600px;
-          display: flex;
-          flex-direction: column;
-          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .modal-header {
-          padding: 20px 24px;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-        }
-
-        .modal-header h2 {
-          font-size: 20px;
-          font-weight: 600;
-          margin: 0;
-        }
-
-        .modal-close-btn {
-          background: transparent;
-          border: none;
-          color: #8A8A8A;
-          cursor: pointer;
-          padding: 8px;
-          border-radius: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s;
-        }
-
-        .modal-close-btn:hover {
-          background: #2D2D2D;
-          color: #FFFFFF;
-        }
-
-        .modal-body {
-          padding: 24px;
-          flex: 1;
-          overflow-y: auto;
-        }
-
-        .search-input-wrapper {
-          position: relative;
-          margin-bottom: 16px;
-        }
-
-        .users-list {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          max-height: 400px;
-          overflow-y: auto;
-        }
-
-        .user-item {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 12px;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .user-item:hover {
-          background: #2D2D2D;
-        }
-
-        .user-item img {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
-        }
-
-        .user-info {
-          flex: 1;
-        }
-
-        .user-name {
-          font-size: 15px;
-          font-weight: 600;
-          color: #FFFFFF;
-          margin-bottom: 2px;
-        }
-
-        .user-username {
-          font-size: 13px;
-          color: #8A8A8A;
-        }
-
-        .empty-state-small {
-          text-align: center;
-          padding: 48px 24px;
-          color: #8A8A8A;
-        }
-
-        .empty-state-small p {
-          margin: 0;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-          .conversations-sidebar {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            z-index: 10;
-            transform: translateX(0);
-            transition: transform 0.3s;
-          }
-
-          .conversations-sidebar.hidden {
-            transform: translateX(-100%);
-          }
-
-          .chat-panel.hidden {
-            display: none;
-          }
-
-          .back-btn {
-            display: flex;
-          }
-
-          .message-wrapper {
-            max-width: 85%;
-          }
-
-          .chat-header {
-            padding: 12px 16px;
-          }
-
-          .messages-container {
-            padding: 16px;
-          }
-
-          .message-composer {
-            padding: 12px 16px;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .conversations-sidebar {
-            width: 100%;
-          }
-
-          .sidebar-title h1 {
-            font-size: 18px;
-          }
-
-          .chat-header h2 {
-            font-size: 14px;
-          }
-
-          .chat-actions {
-            gap: 4px;
-          }
-
-          .action-btn {
-            padding: 8px;
-          }
-
-          .message-wrapper {
-            max-width: 90%;
-          }
-
-          .composer-wrapper {
-            padding: 8px;
-          }
-        }
-
-        /* Hidden file input */
-        .hidden-file-input {
-          display: none;
-        }
-      `}</style>
-
+    <div role="main" aria-label="Direct messages page" style={{ display: 'flex', height: '100vh', background: '#FAFAFA', color: '#000000', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
       {/* Left Sidebar - Conversations List */}
-      <div className={`conversations-sidebar ${!showMobileList ? 'hidden' : ''}`}>
-        <div className="sidebar-header">
-          <div className="sidebar-title">
-            <h1>Direct Messages</h1>
+      <div style={{
+        width: '320px',
+        background: '#FFFFFF',
+        borderRight: '1px solid #E0E0E0',
+        display: isMobile && !showMobileList ? 'none' : 'flex',
+        flexDirection: 'column',
+        flexShrink: 0
+      }}>
+        <div style={{ padding: '20px', borderBottom: '1px solid #E0E0E0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+            <h1 style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>Messages</h1>
             <button
-              className="new-conversation-btn touch-target"
               onClick={() => setShowNewConversation(true)}
               aria-label="Start new conversation"
+              style={{
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                border: 'none',
+                borderRadius: '14px',
+                width: '40px',
+                height: '40px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                color: '#FFFFFF'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
             >
-              <Plus size={24} />
+              <Plus size={20} />
             </button>
           </div>
 
-          <div className="search-container">
-            <Search size={24} className="search-icon" />
+          <div style={{ position: 'relative' }}>
+            <Search size={20} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#666666', pointerEvents: 'none' }} />
             <input
               type="text"
               placeholder="Search conversations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="search-input"
               aria-label="Search conversations"
+              style={{
+                width: '100%',
+                height: '52px',
+                padding: '0 16px 0 48px',
+                background: '#FAFAFA',
+                border: '1px solid #E0E0E0',
+                borderRadius: '16px',
+                color: '#000000',
+                fontSize: '15px',
+                outline: 'none',
+                transition: 'all 0.2s'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = '#6366F1'
+                e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#E0E0E0'
+                e.target.style.boxShadow = 'none'
+              }}
             />
           </div>
         </div>
 
-        <div className="conversations-list">
+        <div style={{ flex: 1, overflowY: 'auto', padding: '12px' }}>
           {filteredConversations.length > 0 && !loading ? (
             filteredConversations.map(conv => (
               <ConversationItem
@@ -1641,48 +1005,77 @@ function DirectMessagesPage() {
       </div>
 
       {/* Right Panel - Chat */}
-      <div className={`chat-panel ${showMobileList ? 'hidden' : ''}`}>
+      <div style={{ flex: 1, display: isMobile && showMobileList ? 'none' : 'flex', flexDirection: 'column', background: '#FAFAFA' }}>
         {currentConversation ? (
           <>
-            <div className="chat-header">
-              <div className="chat-header-left">
-                <button
-                  className="back-btn touch-target"
-                  onClick={handleBackToList}
-                  aria-label="Back to conversations"
-                >
-                  <ArrowLeft size={24} />
-                </button>
+            <div style={{
+              padding: '20px 24px',
+              borderBottom: '1px solid #E0E0E0',
+              background: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {isMobile && (
+                  <button
+                    onClick={handleBackToList}
+                    aria-label="Back to conversations"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#000000',
+                      cursor: 'pointer',
+                      padding: '8px',
+                      borderRadius: '12px',
+                      transition: 'all 0.2s',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    <ArrowLeft size={20} />
+                  </button>
+                )}
 
                 <div
-                  className="chat-user-info"
                   onClick={() => navigate(`/profile/${currentConversation.user.username || currentConversation.user.id}`)}
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', padding: '8px', borderRadius: '12px', transition: 'background 0.2s' }}
                   role="button"
                   tabIndex={0}
                   onKeyPress={(e) => e.key === 'Enter' && navigate(`/profile/${currentConversation.user.username || currentConversation.user.id}`)}
                   aria-label={`View ${currentConversation.user.displayName}'s profile`}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                 >
-                  <div className="chat-avatar-wrapper">
+                  <div style={{ position: 'relative' }}>
                     <img
                       src={currentConversation.user.avatar || '/default-avatar.png'}
                       alt={currentConversation.user.displayName}
-                      className="chat-avatar"
+                      style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }}
                       loading="lazy"
                     />
                     <div
-                      className="status-indicator"
                       style={{
+                        position: 'absolute',
+                        bottom: '0',
+                        right: '0',
+                        width: '12px',
+                        height: '12px',
+                        borderRadius: '50%',
                         backgroundColor: currentConversation.user.status === 'online' ? '#10B981' :
                           currentConversation.user.status === 'away' ? '#F59E0B' :
-                          currentConversation.user.status === 'busy' ? '#EF4444' : '#6B7280'
+                          currentConversation.user.status === 'busy' ? '#EF4444' : '#666666',
+                        border: '2px solid #FFFFFF'
                       }}
                     />
                   </div>
 
-                  <div className="chat-user-details">
-                    <h2>{currentConversation.user.displayName}</h2>
-                    <div className={`user-status ${currentConversation.user.status === 'online' ? '' : 'offline'}`}>
+                  <div>
+                    <h2 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 2px 0' }}>{currentConversation.user.displayName}</h2>
+                    <div style={{ fontSize: '13px', color: currentConversation.user.status === 'online' ? '#10B981' : '#666666', display: 'flex', alignItems: 'center', gap: '4px' }}>
                       <Circle size={8} fill="currentColor" />
                       {currentConversation.user.status === 'online' ? 'Online' :
                        currentConversation.user.status === 'away' ? 'Away' :
@@ -1692,35 +1085,98 @@ function DirectMessagesPage() {
                 </div>
               </div>
 
-              <div className="chat-actions">
+              <div style={{ display: 'flex', gap: '8px' }}>
                 <button
-                  className="action-btn touch-target"
                   onClick={handleVoiceCall}
                   aria-label="Start voice call"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#666666',
+                    padding: '10px',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F5F5F5'
+                    e.currentTarget.style.color = '#000000'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#666666'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
                 >
-                  <Phone size={24} />
+                  <Phone size={20} />
                 </button>
                 <button
-                  className="action-btn touch-target"
                   onClick={handleVideoCall}
                   aria-label="Start video call"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#666666',
+                    padding: '10px',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F5F5F5'
+                    e.currentTarget.style.color = '#000000'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#666666'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
                 >
-                  <Video size={24} />
+                  <Video size={20} />
                 </button>
                 <button
-                  className="action-btn touch-target"
                   aria-label="More options"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#666666',
+                    padding: '10px',
+                    borderRadius: '12px',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = '#F5F5F5'
+                    e.currentTarget.style.color = '#000000'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'transparent'
+                    e.currentTarget.style.color = '#666666'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
                 >
-                  <MoreVertical size={24} />
+                  <MoreVertical size={20} />
                 </button>
               </div>
             </div>
 
-            <div className="messages-container" role="log" aria-label="Messages">
+            <div role="log" aria-label="Messages" style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {messagesLoading ? (
-                <div className="loading-container">
-                  <Loader size={24} className="spinner" />
-                  <p>Loading messages...</p>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', color: '#666666' }}>
+                  <Loader size={20} style={{ animation: 'spin 1s linear infinite' }} />
+                  <p style={{ margin: 0 }}>Loading messages...</p>
                 </div>
               ) : messages.length > 0 ? (
                 messages.map((msg) => (
@@ -1732,96 +1188,215 @@ function DirectMessagesPage() {
                   />
                 ))
               ) : (
-                <div className="empty-state-container">
-                  <MessageSquare size={48} />
-                  <h2>Start the conversation!</h2>
-                  <p>Send a message to {currentConversation.user.displayName}</p>
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', textAlign: 'center' }}>
+                  <MessageSquare size={48} style={{ color: '#666666' }} />
+                  <h2 style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>Start the conversation!</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Send a message to {currentConversation.user.displayName}</p>
                 </div>
               )}
               <div ref={messagesEndRef} />
             </div>
 
             {isTyping && (
-              <div className="typing-indicator">
+              <div style={{ padding: '12px 24px', fontSize: '13px', color: '#666666', fontStyle: 'italic' }}>
                 {currentConversation.user.displayName} is typing...
               </div>
             )}
 
-            <div className="message-composer">
+            <div style={{ padding: '16px 24px', borderTop: '1px solid #E0E0E0', background: '#FFFFFF' }}>
               {filePreview && (
-                <div className="file-preview-container">
+                <div style={{
+                  marginBottom: '12px',
+                  padding: '12px',
+                  background: '#FAFAFA',
+                  borderRadius: '14px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}>
                   {filePreview.type === 'image' ? (
-                    <img src={filePreview.preview} alt="Preview" className="file-preview-image" />
+                    <img src={filePreview.preview} alt="Preview" style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '12px' }} />
                   ) : filePreview.type === 'video' ? (
-                    <video src={filePreview.preview} controls className="file-preview-video" style={{maxWidth: '200px', maxHeight: '200px', borderRadius: '8px'}} />
+                    <video src={filePreview.preview} controls style={{ maxWidth: '200px', maxHeight: '200px', borderRadius: '12px' }} />
                   ) : (
-                    <File size={24} />
+                    <File size={20} />
                   )}
-                  <div className="file-preview-info">
-                    <div className="file-preview-name">{filePreview.file.name}</div>
-                    <div className="file-preview-size">
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '14px', fontWeight: 500, marginBottom: '4px' }}>{filePreview.file.name}</div>
+                    <div style={{ fontSize: '12px', color: '#666666' }}>
                       {(filePreview.file.size / 1024).toFixed(2)} KB
                     </div>
                   </div>
                   <button
-                    className="file-preview-cancel"
                     onClick={handleFileCancel}
                     aria-label="Cancel file upload"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#EF4444',
+                      cursor: 'pointer',
+                      padding: '8px',
+                      borderRadius: '12px',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                   >
-                    <X size={24} />
+                    <X size={20} />
                   </button>
                   <button
-                    className="send-btn touch-target"
                     onClick={handleFileSend}
                     aria-label="Send file"
+                    style={{
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      border: 'none',
+                      color: '#FFFFFF',
+                      padding: '10px',
+                      borderRadius: '12px',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }}
                   >
-                    <Send size={24} />
+                    <Send size={20} />
                   </button>
                 </div>
               )}
 
-              <div className="composer-wrapper">
-                <div className="composer-actions-left">
+              <div style={{
+                display: 'flex',
+                alignItems: 'flex-end',
+                gap: '12px',
+                background: '#FAFAFA',
+                border: '1px solid #E0E0E0',
+                borderRadius: '16px',
+                padding: '12px',
+                transition: 'all 0.2s'
+              }}>
+                <div style={{ display: 'flex', gap: '8px' }}>
                   <button
-                    className="composer-btn touch-target"
                     onClick={() => fileInputRef.current?.click()}
                     aria-label="Attach file"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#666666',
+                      cursor: 'pointer',
+                      padding: '8px',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#EEEEEE'
+                      e.currentTarget.style.color = '#000000'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                    }}
                   >
-                    <Paperclip size={24} />
+                    <Paperclip size={20} />
                   </button>
                   <button
-                    className="composer-btn touch-target"
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                     aria-label="Add emoji"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#666666',
+                      cursor: 'pointer',
+                      padding: '8px',
+                      borderRadius: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#EEEEEE'
+                      e.currentTarget.style.color = '#000000'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                    }}
                   >
-                    <Smile size={24} />
+                    <Smile size={20} />
                   </button>
                 </div>
 
                 <textarea
-                  className="message-input"
                   placeholder={`Message ${currentConversation.user.displayName}...`}
                   value={messageInput}
                   onChange={handleInputChange}
                   onKeyPress={handleKeyPress}
                   rows={1}
                   aria-label="Message input"
+                  style={{
+                    flex: 1,
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#000000',
+                    fontSize: '15px',
+                    outline: 'none',
+                    resize: 'none',
+                    minHeight: '24px',
+                    maxHeight: '120px',
+                    fontFamily: 'inherit'
+                  }}
                 />
 
                 <button
-                  className="send-btn touch-target"
                   onClick={handleSendMessage}
                   disabled={!messageInput.trim()}
                   aria-label="Send message"
+                  style={{
+                    background: messageInput.trim() ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#E0E0E0',
+                    border: 'none',
+                    color: messageInput.trim() ? '#FFFFFF' : '#999999',
+                    padding: '10px',
+                    borderRadius: '12px',
+                    cursor: messageInput.trim() ? 'pointer' : 'not-allowed',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.2s',
+                    opacity: messageInput.trim() ? 1 : 0.5
+                  }}
+                  onMouseEnter={(e) => {
+                    if (messageInput.trim()) {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (messageInput.trim()) {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }
+                  }}
                 >
-                  <Send size={24} />
+                  <Send size={20} />
                 </button>
               </div>
 
               <input
                 ref={fileInputRef}
                 type="file"
-                className="hidden-file-input"
+                style={{ display: 'none' }}
                 onChange={handleFileSelect}
                 accept="image/*,application/pdf,.doc,.docx,.txt"
                 aria-label="File input"
@@ -1829,10 +1404,10 @@ function DirectMessagesPage() {
             </div>
           </>
         ) : (
-          <div className="empty-state-container">
-            <MessageSquare size={80} />
-            <h2>Select a Conversation</h2>
-            <p>Choose a conversation from the sidebar to start messaging</p>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', textAlign: 'center' }}>
+            <MessageSquare size={80} style={{ color: '#666666' }} />
+            <h2 style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>Select a Conversation</h2>
+            <p style={{ color: '#666666', margin: 0 }}>Choose a conversation from the sidebar to start messaging</p>
           </div>
         )}
       </div>
@@ -1843,6 +1418,13 @@ function DirectMessagesPage() {
         onClose={() => setShowNewConversation(false)}
         onCreateConversation={handleCreateConversation}
       />
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   )
 }

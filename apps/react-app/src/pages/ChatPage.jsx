@@ -1,3 +1,13 @@
+/**
+ * ChatPage - iOS Modern Aesthetic
+ * Real-time chat interface with clean iOS design patterns
+ * - #FAFAFA background, #000 text, #666 secondary text, white cards
+ * - No Tailwind classes, pure inline styles
+ * - iOS-style shadows and border radius
+ * - 52px inputs, 56px/48px buttons, 20px icons
+ * - Smooth hover animations with translateY
+ */
+
 import React, { useState, useEffect, useCallback, useRef, useMemo, memo } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
 import ChatInterface from '../components/chat/ChatInterface'
@@ -22,30 +32,6 @@ import {
   useLoadingAnnouncement,
   useErrorAnnouncement
 } from '../utils/accessibility.jsx'
-
-/**
- * ChatPage - Complete professional real-time chat interface
- *
- * Master Prompt Standards Applied:
- * - All icons 24px in shrink-0 containers
- * - Channel header height: 72px desktop/tablet, 56px mobile
- * - Standard gaps: 16px inline elements, 8px small elements
- * - Consistent use of CSS variables
- * - Z-index scale for overlays (50, 60)
- *
- * Integrates all 12 major components for a premium chat experience:
- * - ChatInterface: Main layout and orchestration
- * - ChannelSidebar: Server/channel navigation
- * - MessageComposer: Rich text input with formatting
- * - ThreadView: Message threading system
- * - MessageSearch: Advanced search functionality
- * - DirectMessagesPanel: Private conversations
- * - UserPresenceSystem: Online status and member list
- * - VoiceChannelInterface: WebRTC voice/video calling
- * - NotificationCenter: Real-time notifications
- * - KeyboardShortcuts: Accessibility and shortcuts
- * - MobileOptimizations: Touch gestures and responsive design
- */
 
 function ChatPage({ user, onNavigate }) {
   const { user: currentUser } = useAuth()
@@ -257,22 +243,21 @@ function ChatPage({ user, onNavigate }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'var(--bg-primary)'
+          background: '#FAFAFA',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}
         role="main"
         aria-label="Chat error"
       >
         <div
           style={{
-            backgroundColor: 'var(--bg-secondary)',
-            borderWidth: '1px',
-            borderStyle: 'solid',
-            borderColor: 'var(--border-primary)',
-            borderRadius: '12px',
+            background: '#FFFFFF',
+            border: '1px solid #E0E0E0',
+            borderRadius: '24px',
             padding: '48px',
             maxWidth: '448px',
             textAlign: 'center',
-            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 8px 32px rgba(0,0,0,0.08)'
           }}
           role="alert"
           aria-live="assertive"
@@ -289,8 +274,8 @@ function ChatPage({ user, onNavigate }) {
           <h2
             style={{
               fontSize: '24px',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
+              fontWeight: 600,
+              color: '#000000',
               marginBottom: '8px'
             }}
           >
@@ -298,7 +283,7 @@ function ChatPage({ user, onNavigate }) {
           </h2>
           <p
             style={{
-              color: 'var(--text-secondary)',
+              color: '#666666',
               marginBottom: '24px'
             }}
           >
@@ -307,18 +292,25 @@ function ChatPage({ user, onNavigate }) {
           <button
             onClick={loadChatData}
             style={{
-              height: '48px',
+              height: '56px',
               padding: '0 24px',
-              borderRadius: '12px',
+              borderRadius: '16px',
               border: 'none',
-              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-              color: 'white',
-              fontSize: '14px',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              color: '#FFFFFF',
+              fontSize: '15px',
               fontWeight: 500,
               cursor: 'pointer',
               transition: 'all 0.2s'
             }}
-            className="hover:opacity-90"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'translateY(-2px)'
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
             aria-label="Try loading chat again"
           >
             Try Again
@@ -337,7 +329,8 @@ function ChatPage({ user, onNavigate }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: 'var(--bg-primary)'
+          background: '#FAFAFA',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}
         role="main"
         aria-label="Chat loading"
@@ -350,15 +343,15 @@ function ChatPage({ user, onNavigate }) {
               width: '48px',
               height: '48px',
               margin: '0 auto 16px',
-              border: '4px solid var(--border-primary)',
-              borderTopColor: '#58a6ff',
+              border: '4px solid #E0E0E0',
+              borderTopColor: '#6366F1',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite'
             }}
             role="status"
             aria-hidden="true"
           />
-          <p style={{ color: 'var(--text-secondary)' }} aria-live="polite">
+          <p style={{ color: '#666666' }} aria-live="polite">
             Loading chat...
           </p>
         </div>
@@ -380,8 +373,9 @@ function ChatPage({ user, onNavigate }) {
           height: '100vh',
           display: 'flex',
           overflow: 'hidden',
-          backgroundColor: 'var(--bg-primary)',
-          color: 'var(--text-primary)'
+          background: '#FAFAFA',
+          color: '#000000',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}
         role="main"
         aria-label="Chat application"
@@ -395,7 +389,7 @@ function ChatPage({ user, onNavigate }) {
           onChannelChange={handleChannelChange}
           onDirectMessageOpen={handleDirectMessageOpen}
           onVoiceJoin={handleVoiceJoin}
-          className={isMobile && activeChannel ? 'hidden' : ''}
+          style={{ display: isMobile && activeChannel ? 'none' : 'flex' }}
         />
 
         {/* Main Chat Area */}
@@ -411,10 +405,9 @@ function ChatPage({ user, onNavigate }) {
                   justifyContent: 'space-between',
                   padding: '0 16px',
                   backdropFilter: 'blur(8px)',
-                  backgroundColor: 'rgba(var(--bg-secondary-rgb), 0.95)',
-                  borderBottomWidth: '1px',
-                  borderBottomStyle: 'solid',
-                  borderBottomColor: 'var(--border-primary)'
+                  background: '#FFFFFF',
+                  borderBottom: '1px solid #E0E0E0',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', minWidth: 0, flex: 1 }}>
@@ -428,18 +421,25 @@ function ChatPage({ user, onNavigate }) {
                         alignItems: 'center',
                         justifyContent: 'center',
                         marginRight: '12px',
-                        borderRadius: '8px',
+                        borderRadius: '12px',
                         border: 'none',
-                        backgroundColor: 'transparent',
+                        background: 'transparent',
                         cursor: 'pointer',
                         transition: 'all 0.2s',
-                        color: 'var(--text-secondary)'
+                        color: '#666666'
                       }}
-                      className="hover:bg-white/5"
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#F5F5F5'
+                        e.currentTarget.style.color = '#000000'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = 'transparent'
+                        e.currentTarget.style.color = '#666666'
+                      }}
                       aria-label="Back to channels"
                     >
                       <svg
-                        style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                        style={{ width: '20px', height: '20px', flexShrink: 0 }}
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -452,7 +452,7 @@ function ChatPage({ user, onNavigate }) {
                     <span
                       style={{
                         marginRight: '8px',
-                        color: '#58a6ff',
+                        color: '#6366F1',
                         fontSize: '20px'
                       }}
                       aria-hidden="true"
@@ -463,7 +463,7 @@ function ChatPage({ user, onNavigate }) {
                       style={{
                         fontWeight: 600,
                         fontSize: '16px',
-                        color: 'var(--text-primary)',
+                        color: '#000000',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap'
@@ -480,10 +480,8 @@ function ChatPage({ user, onNavigate }) {
                         marginLeft: '16px',
                         paddingLeft: '16px',
                         fontSize: '14px',
-                        color: 'var(--text-secondary)',
-                        borderLeftWidth: '1px',
-                        borderLeftStyle: 'solid',
-                        borderLeftColor: 'var(--border-primary)'
+                        color: '#666666',
+                        borderLeft: '1px solid #E0E0E0'
                       }}
                     >
                       <span
@@ -507,19 +505,28 @@ function ChatPage({ user, onNavigate }) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       border: 'none',
-                      backgroundColor: 'transparent',
+                      background: 'transparent',
                       cursor: 'pointer',
                       transition: 'all 0.2s',
-                      color: 'var(--text-secondary)'
+                      color: '#666666'
                     }}
-                    className="hover:bg-white/5"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#F5F5F5'
+                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
                     aria-label="Search messages"
                     title="Search (Ctrl+K)"
                   >
                     <svg
-                      style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                      style={{ width: '20px', height: '20px', flexShrink: 0 }}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -535,20 +542,29 @@ function ChatPage({ user, onNavigate }) {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       border: 'none',
-                      backgroundColor: 'transparent',
+                      background: 'transparent',
                       cursor: 'pointer',
                       transition: 'all 0.2s',
-                      color: 'var(--text-secondary)',
+                      color: '#666666',
                       position: 'relative'
                     }}
-                    className="hover:bg-white/5"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#F5F5F5'
+                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
                     aria-label={`Notifications ${notifications.length > 0 ? `(${notifications.length} unread)` : ''}`}
                     title="Notifications"
                   >
                     <svg
-                      style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                      style={{ width: '20px', height: '20px', flexShrink: 0 }}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -563,7 +579,7 @@ function ChatPage({ user, onNavigate }) {
                           right: '8px',
                           width: '8px',
                           height: '8px',
-                          backgroundColor: '#ef4444',
+                          background: '#EF4444',
                           borderRadius: '50%'
                         }}
                         aria-hidden="true"
@@ -577,19 +593,28 @@ function ChatPage({ user, onNavigate }) {
                       display: isDesktop ? 'flex' : 'none',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      borderRadius: '8px',
+                      borderRadius: '12px',
                       border: 'none',
-                      backgroundColor: 'transparent',
+                      background: 'transparent',
                       cursor: 'pointer',
                       transition: 'all 0.2s',
-                      color: 'var(--text-secondary)'
+                      color: '#666666'
                     }}
-                    className="hover:bg-white/5"
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = '#F5F5F5'
+                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
                     aria-label="Channel members"
                     title="Members"
                   >
                     <svg
-                      style={{ width: '24px', height: '24px', flexShrink: 0 }}
+                      style={{ width: '20px', height: '20px', flexShrink: 0 }}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -609,7 +634,7 @@ function ChatPage({ user, onNavigate }) {
                 activeThread={activeThread}
                 channelId={activeChannel}
                 channelName={currentChannel?.name || ''}
-                className="flex-1"
+                style={{ flex: 1 }}
               />
 
               {/* Message Composer */}
@@ -628,7 +653,7 @@ function ChatPage({ user, onNavigate }) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: 'var(--bg-primary)'
+                background: '#FAFAFA'
               }}
             >
               <div
@@ -646,7 +671,7 @@ function ChatPage({ user, onNavigate }) {
                       width: '96px',
                       height: '96px',
                       margin: '0 auto',
-                      color: 'var(--text-secondary)',
+                      color: '#CCCCCC',
                       opacity: 0.5
                     }}
                     fill="none"
@@ -659,8 +684,8 @@ function ChatPage({ user, onNavigate }) {
                 <h2
                   style={{
                     fontSize: '24px',
-                    fontWeight: 700,
-                    color: 'var(--text-primary)',
+                    fontWeight: 600,
+                    color: '#000000',
                     marginBottom: '12px'
                   }}
                 >
@@ -668,7 +693,7 @@ function ChatPage({ user, onNavigate }) {
                 </h2>
                 <p
                   style={{
-                    color: 'var(--text-secondary)',
+                    color: '#666666',
                     marginBottom: '24px'
                   }}
                 >
@@ -679,17 +704,16 @@ function ChatPage({ user, onNavigate }) {
                     style={{
                       marginTop: '32px',
                       padding: '16px',
-                      backgroundColor: 'var(--bg-secondary)',
-                      borderWidth: '1px',
-                      borderStyle: 'solid',
-                      borderColor: 'var(--border-primary)',
-                      borderRadius: '12px'
+                      background: '#FFFFFF',
+                      border: '1px solid #E0E0E0',
+                      borderRadius: '16px',
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                     }}
                   >
                     <p
                       style={{
                         fontSize: '14px',
-                        color: 'var(--text-secondary)'
+                        color: '#666666'
                       }}
                     >
                       No servers available. Create or join a server to get started.
@@ -707,7 +731,7 @@ function ChatPage({ user, onNavigate }) {
             users={allUsers}
             onlineUsers={onlineUsers}
             channelId={activeChannel}
-            className="hidden lg:block"
+            style={{ display: isDesktop ? 'block' : 'none' }}
           />
         )}
       </div>
@@ -756,6 +780,13 @@ function ChatPage({ user, onNavigate }) {
           onClose={() => setShowVoiceInterface(false)}
         />
       )}
+
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </>
   )
 }

@@ -1,3 +1,13 @@
+/**
+ * MessageRequestsPage - iOS Modern Aesthetic
+ * Message requests interface with clean iOS design patterns
+ * - #FAFAFA background, #000 text, #666 secondary text, white cards
+ * - No Tailwind classes, pure inline styles
+ * - iOS-style shadows and border radius
+ * - 52px inputs, 56px/48px buttons, 20px icons
+ * - Smooth hover animations with translateY
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { MessageCircle, Check, X, Clock, User } from 'lucide-react'
@@ -5,14 +15,10 @@ import { PageSkeleton } from '../components/LoadingSkeleton'
 import { useResponsive } from '../hooks/useResponsive'
 
 export default function MessageRequestsPage() {
-  const { isMobile, isTablet } = useResponsive()
-
+  const { isMobile } = useResponsive()
   const [requests, setRequests] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [filter, setFilter] = useState('pending')
-
-  const padding = isMobile ? '16px' : isTablet ? '24px' : '80px'
-  const headerOffset = isMobile ? '56px' : '72px'
 
   useEffect(() => {
     fetchMessageRequests()
@@ -65,27 +71,26 @@ export default function MessageRequestsPage() {
       aria-label="Message requests page"
       style={{
         minHeight: '100vh',
-        paddingTop: headerOffset,
-        paddingLeft: padding,
-        paddingRight: padding,
-        paddingBottom: '48px',
-        background: 'var(--bg-primary)'
+        padding: isMobile ? '72px 16px 48px' : '88px 80px 48px',
+        background: '#FAFAFA',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ marginBottom: isMobile ? '24px' : '32px' }}>
           <h1 style={{
-            color: 'var(--text-primary)',
+            color: '#000000',
             fontSize: isMobile ? '24px' : '32px',
-            fontWeight: 'bold',
+            fontWeight: 600,
             marginBottom: '8px'
           }}>
             Message Requests
           </h1>
           <p style={{
-            color: 'var(--text-secondary)',
+            color: '#666666',
             fontSize: isMobile ? '14px' : '16px',
-            lineHeight: '1.6'
+            lineHeight: '1.6',
+            margin: 0
           }}>
             Review messages from people you don't follow
           </p>
@@ -96,7 +101,7 @@ export default function MessageRequestsPage() {
           display: 'flex',
           gap: '8px',
           marginBottom: '24px',
-          borderBottom: '1px solid var(--border-subtle)',
+          borderBottom: '1px solid #E0E0E0',
           paddingBottom: '0'
         }}>
           {[
@@ -107,23 +112,30 @@ export default function MessageRequestsPage() {
             <button
               key={tab.id}
               onClick={() => setFilter(tab.id)}
+              aria-label={`View ${tab.label} requests`}
+              aria-pressed={filter === tab.id}
               style={{
-                paddingLeft: isMobile ? '16px' : '20px',
-                paddingRight: isMobile ? '16px' : '20px',
-                paddingTop: '12px',
-                paddingBottom: '12px',
-                backgroundColor: 'transparent',
+                padding: isMobile ? '12px 16px' : '12px 20px',
+                background: 'transparent',
                 border: 'none',
-                borderBottom: filter === tab.id ? '2px solid #58a6ff' : '2px solid transparent',
+                borderBottom: filter === tab.id ? '2px solid #6366F1' : '2px solid transparent',
                 fontSize: isMobile ? '14px' : '16px',
-                fontWeight: '600',
-                color: filter === tab.id ? '#58a6ff' : 'var(--text-secondary)',
+                fontWeight: 600,
+                color: filter === tab.id ? '#6366F1' : '#666666',
                 cursor: 'pointer',
                 marginBottom: '-1px',
                 transition: 'all 0.2s'
               }}
-              aria-label={`View ${tab.label} requests`}
-              aria-pressed={filter === tab.id}
+              onMouseEnter={(e) => {
+                if (filter !== tab.id) {
+                  e.currentTarget.style.color = '#000000'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (filter !== tab.id) {
+                  e.currentTarget.style.color = '#666666'
+                }
+              }}
             >
               {tab.label}
             </button>
@@ -134,32 +146,32 @@ export default function MessageRequestsPage() {
         {requests.length === 0 && !isLoading ? (
           <div style={{
             textAlign: 'center',
-            paddingTop: isMobile ? '48px' : '80px',
-            paddingBottom: isMobile ? '48px' : '80px',
-            paddingLeft: isMobile ? '16px' : '20px',
-            paddingRight: isMobile ? '16px' : '20px',
-            borderRadius: '16px',
-            border: '1px solid var(--border-subtle)',
-            background: 'var(--bg-secondary)'
+            padding: isMobile ? '48px 16px' : '80px 20px',
+            borderRadius: '20px',
+            border: '1px solid #E0E0E0',
+            background: '#FFFFFF',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
           }}>
             <div style={{ marginBottom: isMobile ? '16px' : '24px', display: 'flex', justifyContent: 'center' }}>
               <MessageCircle
-                style={{ width: isMobile ? '48px' : '64px', height: isMobile ? '48px' : '64px', flexShrink: 0, color: 'var(--text-tertiary)' }}
+                size={isMobile ? 48 : 64}
+                style={{ color: '#CCCCCC' }}
                 aria-hidden="true"
               />
             </div>
             <h3 style={{
-              color: 'var(--text-primary)',
+              color: '#000000',
               fontSize: isMobile ? '18px' : '20px',
-              fontWeight: '600',
+              fontWeight: 600,
               marginBottom: isMobile ? '12px' : '16px'
             }}>
               No {filter} message requests
             </h3>
             <p style={{
-              color: 'var(--text-secondary)',
+              color: '#666666',
               fontSize: isMobile ? '14px' : '16px',
-              lineHeight: '1.6'
+              lineHeight: '1.6',
+              margin: 0
             }}>
               When people send you messages, they'll appear here
             </p>
@@ -171,14 +183,24 @@ export default function MessageRequestsPage() {
                 key={request.id || index}
                 style={{
                   padding: isMobile ? '16px' : '20px',
-                  borderRadius: '12px',
-                  background: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-subtle)',
+                  borderRadius: '16px',
+                  background: '#FFFFFF',
+                  border: '1px solid #E0E0E0',
                   display: 'flex',
                   flexDirection: isMobile ? 'column' : 'row',
                   alignItems: isMobile ? 'flex-start' : 'center',
                   justifyContent: 'space-between',
-                  gap: '16px'
+                  gap: '16px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)'
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flex: 1 }}>
@@ -186,19 +208,19 @@ export default function MessageRequestsPage() {
                     width: '48px',
                     height: '48px',
                     borderRadius: '50%',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     flexShrink: 0
                   }}>
-                    <User style={{ width: '24px', height: '24px', flexShrink: 0, color: 'var(--text-inverse)' }} aria-hidden="true" />
+                    <User size={20} style={{ color: '#FFFFFF' }} aria-hidden="true" />
                   </div>
                   <div>
-                    <div style={{ color: 'var(--text-primary)', fontWeight: '600', fontSize: '16px', marginBottom: '4px' }}>
+                    <div style={{ color: '#000000', fontWeight: 600, fontSize: '16px', marginBottom: '4px' }}>
                       {request.username || 'Anonymous'}
                     </div>
-                    <div style={{ color: 'var(--text-secondary)', fontSize: '14px' }}>
+                    <div style={{ color: '#666666', fontSize: '14px' }}>
                       {request.message || 'Sent you a message request'}
                     </div>
                   </div>
@@ -211,22 +233,27 @@ export default function MessageRequestsPage() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        paddingLeft: '16px',
-                        paddingRight: '16px',
-                        height: '36px',
-                        background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                        padding: '0 16px',
+                        height: '48px',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                         border: 'none',
-                        borderRadius: '8px',
-                        color: 'var(--text-inverse)',
+                        borderRadius: '12px',
+                        color: '#FFFFFF',
                         fontSize: '14px',
-                        fontWeight: '600',
+                        fontWeight: 600,
                         cursor: 'pointer',
-                        transition: 'opacity 0.2s'
+                        transition: 'all 0.2s'
                       }}
-                      onMouseEnter={(e) => e.target.style.opacity = '0.9'}
-                      onMouseLeave={(e) => e.target.style.opacity = '1'}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = 'none'
+                      }}
                     >
-                      <Check style={{ width: '16px', height: '16px', flexShrink: 0 }} aria-hidden="true" />
+                      <Check size={20} aria-hidden="true" />
                       Accept
                     </button>
                     <button
@@ -235,22 +262,29 @@ export default function MessageRequestsPage() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        paddingLeft: '16px',
-                        paddingRight: '16px',
-                        height: '36px',
-                        background: 'var(--bg-tertiary)',
-                        border: '1px solid var(--border-subtle)',
-                        borderRadius: '8px',
-                        color: 'var(--text-primary)',
+                        padding: '0 16px',
+                        height: '48px',
+                        background: '#FAFAFA',
+                        border: '1px solid #E0E0E0',
+                        borderRadius: '12px',
+                        color: '#000000',
                         fontSize: '14px',
-                        fontWeight: '600',
+                        fontWeight: 600,
                         cursor: 'pointer',
-                        transition: 'background 0.2s'
+                        transition: 'all 0.2s'
                       }}
-                      onMouseEnter={(e) => e.target.style.background = 'var(--bg-hover)'}
-                      onMouseLeave={(e) => e.target.style.background = 'var(--bg-tertiary)'}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.background = '#F0F0F0'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.06)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.background = '#FAFAFA'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = 'none'
+                      }}
                     >
-                      <X style={{ width: '16px', height: '16px', flexShrink: 0 }} aria-hidden="true" />
+                      <X size={20} aria-hidden="true" />
                       Decline
                     </button>
                   </div>

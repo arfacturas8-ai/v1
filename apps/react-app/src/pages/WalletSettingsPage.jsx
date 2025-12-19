@@ -1,5 +1,19 @@
+/**
+ * WalletSettingsPage - Modernized with iOS Aesthetic
+ *
+ * Design System:
+ * - Background: #FAFAFA
+ * - Text: #000 primary, #666 secondary
+ * - Cards: white with subtle shadows
+ * - Borders: 16-24px radius
+ * - Buttons: 56px/48px height, 12-14px radius
+ * - Icons: 20px
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04) cards, 0 8px 32px rgba(0,0,0,0.08) modals
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Hover: translateY(-2px) + enhanced shadow
+ */
+
 import React, { memo, useState } from 'react'
-import { motion } from 'framer-motion'
 import { Wallet, Link2, Unlink, Shield, ExternalLink, Copy, Check } from 'lucide-react'
 
 const WalletSettingsPage = () => {
@@ -16,72 +30,223 @@ const WalletSettingsPage = () => {
   }
 
   return (
-    <div style={{background: "var(--bg-primary)"}} className="min-h-screen p-4 md:p-6 " role="main" aria-label="Wallet settings page">
-      <div className="max-w-5xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-          {/* Header */}
-          <div className="mb-6 md:mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
-                <Wallet style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
-              </div>
-              <h1 style={{color: "var(--text-primary)"}} className="text-xl md:text-2xl font-bold ">Wallet Settings</h1>
+    <div
+      style={{
+        minHeight: '100vh',
+        background: '#FAFAFA',
+        padding: '24px'
+      }}
+      role="main"
+      aria-label="Wallet settings page"
+    >
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+            <div
+              style={{
+                width: '48px',
+                height: '48px',
+                borderRadius: '16px',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Wallet style={{ color: 'white', width: '20px', height: '20px', flexShrink: 0 }} />
             </div>
-            <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base ">Manage your connected wallets and preferences</p>
+            <h1 style={{ color: '#000', fontSize: '28px', fontWeight: 700, margin: 0 }}>Wallet Settings</h1>
+          </div>
+          <p style={{ color: '#666', fontSize: '16px', margin: 0 }}>Manage your connected wallets and preferences</p>
+        </div>
+
+        {/* Connected Wallets */}
+        <div
+          style={{
+            background: 'white',
+            borderRadius: '20px',
+            padding: '32px',
+            marginBottom: '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+            <h2 style={{ color: '#000', fontSize: '20px', fontWeight: 700, margin: 0 }}>Connected Wallets</h2>
+            <button
+              style={{
+                height: '48px',
+                padding: '0 24px',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.08)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = 'none'
+              }}
+            >
+              <Link2 style={{ width: '20px', height: '20px', flexShrink: 0 }} />
+              <span>Connect Wallet</span>
+            </button>
           </div>
 
-          {/* Connected Wallets */}
-          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 md:p-6 mb-4">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-              <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Connected Wallets</h2>
-              <button style={{color: "var(--text-primary)"}} className="px-4 py-2 rounded-lg text-sm font-medium  bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 transition-opacity">
-                <span className="flex items-center justify-center gap-2"><Link2 style={{ width: "24px", height: "24px", flexShrink: 0 }} /> Connect Wallet</span>
-              </button>
-            </div>
-            <div className="space-y-3">
-              {wallets.map(wallet => (
-                <div key={wallet.id} className="flex items-center justify-between p-3 md:p-4 bg-[#21262d] rounded-lg">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
-                      <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {wallets.map(wallet => (
+              <div
+                key={wallet.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  padding: '20px',
+                  background: '#FAFAFA',
+                  borderRadius: '16px',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#F5F5F5'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = '#FAFAFA'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flex: 1, minWidth: 0 }}>
+                  <div
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '12px',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0
+                    }}
+                  >
+                    <Wallet style={{ width: '20px', height: '20px', color: 'white', flexShrink: 0 }} />
+                  </div>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                      <span style={{ color: '#000', fontSize: '16px', fontWeight: 600 }}>{wallet.type}</span>
+                      {wallet.primary && (
+                        <span
+                          style={{
+                            padding: '4px 12px',
+                            fontSize: '12px',
+                            fontWeight: 600,
+                            borderRadius: '8px',
+                            background: 'rgba(99, 102, 241, 0.1)',
+                            color: '#6366F1'
+                          }}
+                        >
+                          Primary
+                        </span>
+                      )}
                     </div>
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <span style={{color: "var(--text-primary)"}} className="text-sm md:text-base  font-medium">{wallet.type}</span>
-                        {wallet.primary && <span className="px-2 py-0.5 text-xs rounded-full bg-[#58a6ff]/20 text-[#58a6ff]">Primary</span>}
-                      </div>
-                      <div style={{color: "var(--text-secondary)"}} className="flex items-center gap-2 text-xs md:text-sm ">
-                        <span className="truncate">{wallet.address}</span>
-                        <button onClick={() => copyAddress(wallet.address)} style={{color: "var(--text-primary)"}} className="hover: transition-colors flex-shrink-0">
-                          {copied ? <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} /> : <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />}
-                        </button>
-                      </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#666', fontSize: '14px' }}>
+                      <span>{wallet.address}</span>
+                      <button
+                        onClick={() => copyAddress(wallet.address)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          color: '#666',
+                          cursor: 'pointer',
+                          padding: '4px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          transition: 'color 0.2s'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#000'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#666'}
+                      >
+                        {copied ? <Check style={{ width: '16px', height: '16px', flexShrink: 0 }} /> : <Copy style={{ width: '16px', height: '16px', flexShrink: 0 }} />}
+                      </button>
                     </div>
                   </div>
-                  <button className="card p-2 rounded-lg hover:  transition-colors text-red-400 flex-shrink-0">
-                    <Unlink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                  </button>
                 </div>
-              ))}
-            </div>
+                <button
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    background: 'rgba(239, 68, 68, 0.1)',
+                    border: 'none',
+                    borderRadius: '12px',
+                    color: '#EF4444',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)'
+                  }}
+                >
+                  <Unlink style={{ width: '20px', height: '20px', flexShrink: 0 }} />
+                </button>
+              </div>
+            ))}
           </div>
+        </div>
 
-          {/* Security */}
-          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-4 md:p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Security</h2>
-            </div>
-            <p style={{color: "var(--text-secondary)"}} className="text-sm md:text-base  mb-4">Your wallet connections are encrypted and secured. We never store your private keys.</p>
-            <a href="https://docs.example.com/wallet-security" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-sm md:text-base text-[#58a6ff] hover:text-[#3d9df0] transition-colors">
-              Learn more about wallet security <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-            </a>
+        {/* Security */}
+        <div
+          style={{
+            background: 'white',
+            borderRadius: '20px',
+            padding: '32px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+            <Shield style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />
+            <h2 style={{ color: '#000', fontSize: '20px', fontWeight: 700, margin: 0 }}>Security</h2>
           </div>
-        </motion.div>
+          <p style={{ color: '#666', fontSize: '15px', lineHeight: 1.6, marginBottom: '16px' }}>
+            Your wallet connections are encrypted and secured. We never store your private keys.
+          </p>
+          <a
+            href="https://docs.example.com/wallet-security"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              color: '#6366F1',
+              fontSize: '15px',
+              fontWeight: 600,
+              textDecoration: 'none',
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          >
+            Learn more about wallet security
+            <ExternalLink style={{ width: '16px', height: '16px', flexShrink: 0 }} />
+          </a>
+        </div>
       </div>
     </div>
   )
 }
 
 export default memo(WalletSettingsPage)
-

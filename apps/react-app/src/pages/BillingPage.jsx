@@ -1,3 +1,17 @@
+/**
+ * BillingPage - Billing and subscription management
+ *
+ * iOS Design System:
+ * - Background: #FAFAFA (light gray)
+ * - Text: #000 (primary), #666 (secondary)
+ * - Cards: white with subtle shadows
+ * - Border radius: 16-24px for modern iOS feel
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Icons: 20px standard size
+ * - Hover: translateY(-2px) for interactive elements
+ */
+
 import React, { memo } from 'react'
 import { CreditCard, Receipt, TrendingUp, Clock } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
@@ -6,49 +20,164 @@ const BillingPage = () => {
   const { isMobile, isTablet } = useResponsive()
 
   return (
-    <div className={`min-h-screen bg-[#0d1117] text-[#c9d1d9] ${isMobile ? 'py-10 px-4' : 'py-10 px-5'} pt-20`} role="main" aria-label="Billing page">
-      <div className="max-w-[1000px] mx-auto">
-        <div className="text-center mb-10">
-          <div className="w-18 h-18 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full flex items-center justify-center mx-auto mb-4">
-            <CreditCard size={isMobile ? 28 : 32} className="text-[#58a6ff]" />
+    <div style={{
+      minHeight: '100vh',
+      background: '#FAFAFA',
+      padding: isMobile ? '40px 16px' : '40px 20px',
+      paddingTop: '80px'
+    }} role="main" aria-label="Billing page">
+      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <div style={{
+            width: '72px',
+            height: '72px',
+            background: 'rgba(99, 102, 241, 0.1)',
+            border: '1px solid rgba(99, 102, 241, 0.3)',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 16px'
+          }}>
+            <CreditCard size={isMobile ? 28 : 32} style={{ color: '#6366F1' }} />
           </div>
-          <h1 className={`${isMobile ? 'text-2xl' : 'text-3xl'} font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2`}>Billing</h1>
-          <p style={{color: "var(--text-secondary)"}} className="text-base ">Manage your subscription and payment methods</p>
+          <h1 style={{
+            fontSize: isMobile ? '24px' : '32px',
+            fontWeight: '600',
+            marginBottom: '8px',
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>Billing</h1>
+          <p style={{ color: '#666', fontSize: '16px' }}>Manage your subscription and payment methods</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-          <div className={`bg-[#161b22]/60  border border-white/10 rounded-2xl  ${isMobile ? 'p-5' : 'p-6'}`}>
-            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-              <Receipt size={24} className="text-[#58a6ff]" />
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+          gap: '24px',
+          marginBottom: '24px'
+        }}>
+          <div style={{
+            background: '#fff',
+            border: '1px solid rgba(0,0,0,0.06)',
+            borderRadius: '24px',
+            padding: isMobile ? '20px' : '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            transition: 'transform 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+          >
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(99, 102, 241, 0.1)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px'
+            }}>
+              <Receipt size={24} style={{ color: '#6366F1' }} />
             </div>
-            <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold  mb-2">Current Plan</h3>
-            <p style={{color: "var(--text-secondary)"}} className="text-sm  mb-4">Free Tier</p>
-            <button style={{color: "var(--text-primary)"}} className="w-full py-3 px-5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] border-none rounded-lg  text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity">Upgrade Plan</button>
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>Current Plan</h3>
+            <p style={{ color: '#666', fontSize: '14px', marginBottom: '16px' }}>Free Tier</p>
+            <button style={{
+              width: '100%',
+              padding: '12px 20px',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              border: 'none',
+              borderRadius: '16px',
+              color: '#fff',
+              fontSize: '14px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'transform 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >Upgrade Plan</button>
           </div>
 
-          <div className={`bg-[#161b22]/60  border border-white/10 rounded-2xl  ${isMobile ? 'p-5' : 'p-6'}`}>
-            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-              <TrendingUp size={24} className="text-green-500" />
+          <div style={{
+            background: '#fff',
+            border: '1px solid rgba(0,0,0,0.06)',
+            borderRadius: '24px',
+            padding: isMobile ? '20px' : '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            transition: 'transform 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+          >
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(16, 185, 129, 0.1)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px'
+            }}>
+              <TrendingUp size={24} style={{ color: '#10b981' }} />
             </div>
-            <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold  mb-2">Usage This Month</h3>
-            <p style={{color: "var(--text-secondary)"}} className="text-sm  mb-4">0 / 1,000 API calls</p>
-            <div className="card h-2   rounded overflow-hidden">
-              <div className="w-0 h-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] rounded" />
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>Usage This Month</h3>
+            <p style={{ color: '#666', fontSize: '14px', marginBottom: '16px' }}>0 / 1,000 API calls</p>
+            <div style={{
+              height: '8px',
+              background: '#FAFAFA',
+              borderRadius: '8px',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                width: '0%',
+                height: '100%',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                borderRadius: '8px'
+              }} />
             </div>
           </div>
 
-          <div className={`bg-[#161b22]/60  border border-white/10 rounded-2xl  ${isMobile ? 'p-5' : 'p-6'}`}>
-            <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
-              <Clock size={24} className="text-[#a371f7]" />
+          <div style={{
+            background: '#fff',
+            border: '1px solid rgba(0,0,0,0.06)',
+            borderRadius: '24px',
+            padding: isMobile ? '20px' : '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+            transition: 'transform 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+          onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+          >
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(139, 92, 246, 0.1)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px'
+            }}>
+              <Clock size={24} style={{ color: '#8B5CF6' }} />
             </div>
-            <h3 style={{color: "var(--text-primary)"}} className="text-base font-semibold  mb-2">Next Billing</h3>
-            <p style={{color: "var(--text-secondary)"}} className="text-sm  mb-4">No upcoming charges</p>
+            <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>Next Billing</h3>
+            <p style={{ color: '#666', fontSize: '14px', marginBottom: '16px' }}>No upcoming charges</p>
           </div>
         </div>
 
-        <div className={`bg-[#161b22]/60  border border-white/10 rounded-2xl  ${isMobile ? 'p-5' : 'p-6'}`}>
-          <h3 style={{color: "var(--text-primary)"}} className="text-lg font-semibold  mb-4">Payment History</h3>
-          <p style={{color: "var(--text-secondary)"}} className="text-sm  text-center py-8">No transactions yet</p>
+        <div style={{
+          background: '#fff',
+          border: '1px solid rgba(0,0,0,0.06)',
+          borderRadius: '24px',
+          padding: isMobile ? '20px' : '24px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
+          <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#000', marginBottom: '16px' }}>Payment History</h3>
+          <p style={{ color: '#666', fontSize: '14px', textAlign: 'center', padding: '32px 0' }}>No transactions yet</p>
         </div>
       </div>
     </div>
@@ -56,4 +185,3 @@ const BillingPage = () => {
 }
 
 export default memo(BillingPage)
-

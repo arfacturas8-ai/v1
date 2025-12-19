@@ -38,6 +38,7 @@ import { usePageTracking } from './hooks/useAnalytics'
 
 // Lazy-loaded pages
 const LandingPage = lazy(() => import('./pages/LandingPage'))
+const BradleyHimelPage = lazy(() => import('./pages/BradleyHimelPage'))
 const DocProgressPage = lazy(() => import('./pages/DocProgressPage'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const RegisterPage = lazy(() => import('./pages/RegisterPage'))
@@ -243,6 +244,7 @@ export default function App() {
                     {/* ========== PUBLIC ROUTES ========== */}
                     <Route path="/" element={<LazyRoute component={LandingPage} name="LandingPage" />} />
                   <Route path="/landing" element={<LazyRoute component={LandingPage} name="LandingPage" />} />
+                  <Route path="/brad" element={<LazyRoute component={BradleyHimelPage} name="BradleyHimelPage" />} />
                   <Route path="/doc-progress" element={<LazyRoute component={DocProgressPage} name="DocProgressPage" />} />
                   <Route path="/login" element={<LazyRoute component={LoginPage} name="LoginPage" />} />
                   <Route path="/register" element={<LazyRoute component={RegisterPage} name="RegisterPage" />} />

@@ -1,3 +1,9 @@
+/**
+ * WalletConnectionPage Component
+ * Displays wallet connection options with iOS aesthetic
+ * Features: MetaMask, WalletConnect, Coinbase Wallet, Phantom integration
+ */
+
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Wallet, Check, AlertCircle, ExternalLink, Shield, Zap } from 'lucide-react'
@@ -15,7 +21,7 @@ const WALLETS = [
     name: 'WalletConnect',
     description: 'Connect with mobile wallets',
     icon: '🔗',
-    color: 'var(--brand-primary)'
+    color: '#6366F1'
   },
   {
     id: 'coinbase',
@@ -29,7 +35,7 @@ const WALLETS = [
     name: 'Phantom',
     description: 'Solana & Ethereum support',
     icon: '👻',
-    color: 'var(--brand-secondary)'
+    color: '#8B5CF6'
   }
 ]
 
@@ -77,7 +83,6 @@ export default function WalletConnectionPage() {
         if (accounts.length > 0) {
           setConnectedAddress(accounts[0])
 
-          // Send connection to backend
           await fetch('/api/wallet/connect', {
             method: 'POST',
             headers: {
@@ -95,7 +100,6 @@ export default function WalletConnectionPage() {
           }, 1500)
         }
       } else {
-        // Simulate connection for other wallets
         setTimeout(() => {
           setError(`${WALLETS.find(w => w.id === walletId)?.name} connection is not yet implemented`)
           setIsConnecting(false)
@@ -131,61 +135,70 @@ export default function WalletConnectionPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'var(--bg-primary)',
-          padding: 'var(--space-4)'
+          background: '#FAFAFA',
+          padding: '24px'
         }}
       >
-        <div className="card" style={{ maxWidth: '28rem', width: '100%', textAlign: 'center' }}>
+        <div style={{
+          maxWidth: '448px',
+          width: '100%',
+          textAlign: 'center',
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          padding: '48px',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
           <div
             style={{
-              width: '5rem',
-              height: '5rem',
-              background: 'var(--color-success-light)',
-              borderRadius: 'var(--radius-full)',
+              width: '80px',
+              height: '80px',
+              background: 'rgba(16, 185, 129, 0.1)',
+              borderRadius: '50%',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 'var(--space-8)'
+              marginBottom: '32px'
             }}
             aria-hidden="true"
           >
-            <Check size={40} style={{ color: 'var(--color-success)' }} />
+            <Check size={40} style={{ color: '#10B981' }} />
           </div>
 
           <h1
             style={{
-              fontSize: 'var(--text-3xl)',
-              fontWeight: 'var(--font-bold)',
-              color: 'var(--text-primary)',
-              marginBottom: 'var(--space-4)'
+              fontSize: '28px',
+              fontWeight: '700',
+              color: '#000000',
+              marginBottom: '16px'
             }}
           >
             Wallet Connected!
           </h1>
 
           <div
-            className="card-compact"
             style={{
-              background: 'var(--bg-tertiary)',
-              marginBottom: 'var(--space-8)'
+              background: '#F9FAFB',
+              marginBottom: '32px',
+              borderRadius: '16px',
+              padding: '20px'
             }}
           >
             <div
               style={{
-                fontSize: 'var(--text-sm)',
-                color: 'var(--text-secondary)',
-                marginBottom: 'var(--space-2)',
-                fontWeight: 'var(--font-medium)'
+                fontSize: '14px',
+                color: '#666666',
+                marginBottom: '8px',
+                fontWeight: '500'
               }}
             >
               Connected Address
             </div>
             <div
               style={{
-                fontSize: 'var(--text-sm)',
-                fontFamily: 'var(--font-mono)',
-                color: 'var(--text-primary)',
-                fontWeight: 'var(--font-semibold)',
+                fontSize: '14px',
+                fontFamily: 'monospace',
+                color: '#000000',
+                fontWeight: '600',
                 wordBreak: 'break-all'
               }}
             >
@@ -193,21 +206,41 @@ export default function WalletConnectionPage() {
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Link
               to="/crypto"
-              className="btn btn-primary"
               style={{
                 display: 'block',
-                textDecoration: 'none'
+                textDecoration: 'none',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                color: '#FFFFFF',
+                borderRadius: '16px',
+                padding: '16px',
+                fontSize: '16px',
+                fontWeight: '600',
+                transition: 'transform 0.2s',
+                cursor: 'pointer'
               }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               Go to Crypto Dashboard
             </Link>
 
             <button
               onClick={disconnectWallet}
-              className="btn btn-ghost"
+              style={{
+                display: 'block',
+                width: '100%',
+                background: 'transparent',
+                color: '#666666',
+                borderRadius: '16px',
+                padding: '16px',
+                fontSize: '16px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer'
+              }}
               aria-label="Disconnect wallet"
             >
               Disconnect Wallet
@@ -227,56 +260,61 @@ export default function WalletConnectionPage() {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'var(--bg-primary)',
-        padding: 'var(--space-4)'
+        background: '#FAFAFA',
+        padding: '24px'
       }}
     >
-      <div className="card" style={{ maxWidth: '42rem', width: '100%' }}>
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 'var(--space-10)' }}>
+      <div style={{
+        maxWidth: '672px',
+        width: '100%',
+        background: '#FFFFFF',
+        borderRadius: '24px',
+        padding: '48px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+      }}>
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
           <div
             style={{
-              width: '5rem',
-              height: '5rem',
-              background: 'var(--color-info-light)',
-              borderRadius: 'var(--radius-full)',
+              width: '80px',
+              height: '80px',
+              background: 'rgba(99, 102, 241, 0.1)',
+              borderRadius: '50%',
               display: 'inline-flex',
               alignItems: 'center',
               justifyContent: 'center',
-              marginBottom: 'var(--space-6)'
+              marginBottom: '24px'
             }}
             aria-hidden="true"
           >
-            <Wallet size={32} style={{ color: 'var(--brand-primary)' }} />
+            <Wallet size={32} style={{ color: '#6366F1' }} />
           </div>
           <h1
             style={{
-              fontSize: 'var(--text-3xl)',
-              fontWeight: 'var(--font-bold)',
-              color: 'var(--text-primary)',
-              marginBottom: 'var(--space-3)'
+              fontSize: '28px',
+              fontWeight: '700',
+              color: '#000000',
+              marginBottom: '12px'
             }}
           >
             Connect Your Wallet
           </h1>
           <p
             style={{
-              fontSize: 'var(--text-lg)',
-              color: 'var(--text-secondary)',
-              lineHeight: 'var(--leading-relaxed)'
+              fontSize: '16px',
+              color: '#666666',
+              lineHeight: '1.6'
             }}
           >
             Choose a wallet to connect to Cryb.ai
           </p>
         </div>
 
-        {/* Features */}
         <div
           style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: 'var(--space-3)',
-            marginBottom: 'var(--space-8)'
+            gap: '12px',
+            marginBottom: '32px'
           }}
           role="group"
           aria-label="Wallet connection features"
@@ -290,16 +328,19 @@ export default function WalletConnectionPage() {
             return (
               <div
                 key={index}
-                className="card-compact"
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  gap: 'var(--space-2)'
+                  gap: '8px',
+                  background: '#FFFFFF',
+                  borderRadius: '16px',
+                  padding: '20px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                 }}
               >
-                <Icon size={20} style={{ color: 'var(--brand-primary)' }} aria-hidden="true" />
-                <span style={{ fontSize: 'var(--text-sm)', fontWeight: 'var(--font-semibold)', color: 'var(--text-secondary)' }}>
+                <Icon size={20} style={{ color: '#6366F1' }} aria-hidden="true" />
+                <span style={{ fontSize: '14px', fontWeight: '600', color: '#666666' }}>
                   {feature.label}
                 </span>
               </div>
@@ -307,13 +348,12 @@ export default function WalletConnectionPage() {
           })}
         </div>
 
-        {/* Wallets */}
         <div
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: 'var(--space-3)',
-            marginBottom: 'var(--space-6)'
+            gap: '12px',
+            marginBottom: '24px'
           }}
           role="group"
           aria-label="Available wallets"
@@ -323,32 +363,36 @@ export default function WalletConnectionPage() {
               key={wallet.id}
               onClick={() => connectWallet(wallet.id)}
               disabled={isConnecting}
-              className="card card-interactive"
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--space-4)',
+                gap: '16px',
                 textAlign: 'left',
                 width: '100%',
-                background: selectedWallet === wallet.id && isConnecting
-                  ? 'var(--bg-hover)'
-                  : 'var(--bg-secondary)',
+                background: selectedWallet === wallet.id && isConnecting ? '#F9FAFB' : '#FFFFFF',
                 cursor: isConnecting ? 'not-allowed' : 'pointer',
-                opacity: isConnecting && selectedWallet !== wallet.id ? 0.5 : 1
+                opacity: isConnecting && selectedWallet !== wallet.id ? 0.5 : 1,
+                borderRadius: '16px',
+                padding: '20px',
+                border: 'none',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                transition: 'transform 0.2s'
               }}
+              onMouseEnter={(e) => !isConnecting && (e.currentTarget.style.transform = 'translateY(-2px)')}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               aria-label={`Connect with ${wallet.name}`}
               aria-busy={selectedWallet === wallet.id && isConnecting}
             >
               <div
                 style={{
-                  fontSize: '2.25rem',
-                  width: '3.5rem',
-                  height: '3.5rem',
+                  fontSize: '36px',
+                  width: '56px',
+                  height: '56px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  borderRadius: 'var(--radius-xl)',
-                  background: 'var(--bg-tertiary)'
+                  borderRadius: '16px',
+                  background: '#F9FAFB'
                 }}
                 aria-hidden="true"
               >
@@ -357,18 +401,18 @@ export default function WalletConnectionPage() {
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div
                   style={{
-                    fontSize: 'var(--text-lg)',
-                    fontWeight: 'var(--font-semibold)',
-                    color: 'var(--text-primary)',
-                    marginBottom: 'var(--space-1)'
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    color: '#000000',
+                    marginBottom: '4px'
                   }}
                 >
                   {wallet.name}
                 </div>
                 <div
                   style={{
-                    fontSize: 'var(--text-sm)',
-                    color: 'var(--text-secondary)',
+                    fontSize: '14px',
+                    color: '#666666',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap'
@@ -378,64 +422,69 @@ export default function WalletConnectionPage() {
                 </div>
               </div>
               {selectedWallet === wallet.id && isConnecting && (
-                <div className="spinner" style={{ width: '24px', height: '24px' }} role="status" aria-label="Connecting..." />
+                <div style={{
+                  width: '24px',
+                  height: '24px',
+                  border: '2px solid #E5E7EB',
+                  borderTopColor: '#6366F1',
+                  borderRadius: '50%',
+                  animation: 'spin 0.6s linear infinite'
+                }} role="status" aria-label="Connecting..." />
               )}
             </button>
           ))}
         </div>
 
-        {/* Error */}
         {error && (
           <div
             style={{
               display: 'flex',
-              gap: 'var(--space-3)',
-              padding: 'var(--space-4)',
-              background: 'var(--color-error-light)',
-              border: '1px solid var(--color-error)',
-              borderRadius: 'var(--radius-xl)',
-              marginBottom: 'var(--space-6)'
+              gap: '12px',
+              padding: '16px',
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid #EF4444',
+              borderRadius: '16px',
+              marginBottom: '24px'
             }}
             role="alert"
             aria-live="assertive"
           >
-            <AlertCircle size={20} style={{ color: 'var(--color-error)', flexShrink: 0 }} aria-hidden="true" />
-            <p style={{ fontSize: 'var(--text-sm)', color: 'var(--color-error-dark)', lineHeight: 'var(--leading-relaxed)' }}>
+            <AlertCircle size={20} style={{ color: '#EF4444', flexShrink: 0 }} aria-hidden="true" />
+            <p style={{ fontSize: '14px', color: '#DC2626', lineHeight: '1.6' }}>
               {typeof error === 'string' ? error : 'An error occurred'}
             </p>
           </div>
         )}
 
-        {/* Info */}
         <div
-          className="card-compact"
           style={{
-            background: 'var(--bg-tertiary)',
-            marginBottom: 'var(--space-6)'
+            background: '#F9FAFB',
+            marginBottom: '24px',
+            borderRadius: '16px',
+            padding: '16px'
           }}
         >
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 'var(--leading-relaxed)' }}>
+          <p style={{ fontSize: '14px', color: '#666666', lineHeight: '1.6' }}>
             By connecting your wallet, you agree to our{' '}
-            <Link to="/terms" style={{ color: 'var(--brand-primary)', textDecoration: 'underline' }}>
+            <Link to="/terms" style={{ color: '#6366F1', textDecoration: 'underline' }}>
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link to="/privacy" style={{ color: 'var(--brand-primary)', textDecoration: 'underline' }}>
+            <Link to="/privacy" style={{ color: '#6366F1', textDecoration: 'underline' }}>
               Privacy Policy
             </Link>
             .
           </p>
         </div>
 
-        {/* Footer */}
         <div
           style={{
-            paddingTop: 'var(--space-6)',
-            borderTop: '1px solid var(--border-subtle)',
+            paddingTop: '24px',
+            borderTop: '1px solid #E5E7EB',
             textAlign: 'center'
           }}
         >
-          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', marginBottom: 'var(--space-3)' }}>
+          <p style={{ fontSize: '14px', color: '#666666', marginBottom: '12px' }}>
             Don't have a wallet?
           </p>
           <a
@@ -445,10 +494,10 @@ export default function WalletConnectionPage() {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 'var(--space-2)',
-              color: 'var(--brand-primary)',
-              fontSize: 'var(--text-sm)',
-              fontWeight: 'var(--font-semibold)',
+              gap: '8px',
+              color: '#6366F1',
+              fontSize: '14px',
+              fontWeight: '600',
               textDecoration: 'none'
             }}
             aria-label="Get MetaMask wallet (opens in new tab)"
@@ -458,6 +507,12 @@ export default function WalletConnectionPage() {
           </a>
         </div>
       </div>
+
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   )
 }

@@ -1,3 +1,7 @@
+/**
+ * UserManagementPage.jsx
+ * iOS-styled user management page with clean table interface
+ */
 import React, { useState, memo } from 'react'
 import { motion } from 'framer-motion'
 import { Users, Search, Filter, MoreVertical } from 'lucide-react'
@@ -12,31 +16,119 @@ const UserManagementPage = () => {
   ]
 
   return (
-    <div style={{background: "var(--bg-primary)"}} className="min-h-screen  p-4 sm:p-6" role="main" aria-label="User management page">
+    <div
+      style={{
+        background: '#FAFAFA',
+        minHeight: '100vh',
+        padding: isMobile ? '16px' : isTablet ? '24px' : '32px'
+      }}
+      role="main"
+      aria-label="User management page"
+    >
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className={`font-bold flex items-center text-white mb-6 sm:mb-8 gap-3 sm:gap-4 ${isMobile ? 'text-xl' : 'text-2xl'}`}>
-          <div style={{ width: "48px", height: "48px", flexShrink: 0 }}>
-            <Users style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} aria-hidden="true" />
+        <h1
+          style={{
+            fontSize: isMobile ? '24px' : '32px',
+            fontWeight: 'bold',
+            color: '#000000',
+            marginBottom: isMobile ? '24px' : '32px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: isMobile ? '12px' : '16px'
+          }}
+        >
+          <div style={{ width: '32px', height: '32px', flexShrink: 0 }}>
+            <Users style={{ color: '#000000', width: '20px', height: '20px', flexShrink: 0 }} aria-hidden="true" />
           </div>
           User Management
         </h1>
-        <div style={{borderColor: "var(--border-subtle)"}} className="card rounded-2xl  overflow-hidden  backdrop-blur-sm border ">
-          <div className="overflow-x-auto">
-            <table className="w-full">
+        <div
+          style={{
+            background: 'white',
+            borderRadius: '20px',
+            overflow: 'hidden',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+          }}
+        >
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
-                <tr className="bg-[#21262d]">
-                  <th style={{color: "var(--text-secondary)"}} className="text-left  px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">User</th>
-                  <th style={{color: "var(--text-secondary)"}} className="text-left  px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">Email</th>
-                  <th style={{color: "var(--text-secondary)"}} className="text-left  px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">Status</th>
+                <tr style={{ background: '#FAFAFA' }}>
+                  <th
+                    style={{
+                      color: '#666666',
+                      textAlign: 'left',
+                      padding: isMobile ? '12px' : '16px',
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: '500'
+                    }}
+                  >
+                    User
+                  </th>
+                  <th
+                    style={{
+                      color: '#666666',
+                      textAlign: 'left',
+                      padding: isMobile ? '12px' : '16px',
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: '500'
+                    }}
+                  >
+                    Email
+                  </th>
+                  <th
+                    style={{
+                      color: '#666666',
+                      textAlign: 'left',
+                      padding: isMobile ? '12px' : '16px',
+                      fontSize: isMobile ? '12px' : '14px',
+                      fontWeight: '500'
+                    }}
+                  >
+                    Status
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {users.map(u => (
-                  <tr key={u.id} style={{borderColor: "var(--border-subtle)"}} className="card border-t  hover:  transition-colors">
-                    <td style={{color: "var(--text-primary)"}} className=" px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{u.username}</td>
-                    <td style={{color: "var(--text-primary)"}} className=" px-3 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm">{u.email}</td>
-                    <td className="px-3 sm:px-4 py-2 sm:py-3">
-                      <span className="px-2 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400">
+                  <tr
+                    key={u.id}
+                    style={{
+                      borderTop: '1px solid #FAFAFA',
+                      transition: 'background 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = '#FAFAFA' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'white' }}
+                  >
+                    <td
+                      style={{
+                        color: '#000000',
+                        padding: isMobile ? '12px' : '16px',
+                        fontSize: isMobile ? '12px' : '14px'
+                      }}
+                    >
+                      {u.username}
+                    </td>
+                    <td
+                      style={{
+                        color: '#000000',
+                        padding: isMobile ? '12px' : '16px',
+                        fontSize: isMobile ? '12px' : '14px'
+                      }}
+                    >
+                      {u.email}
+                    </td>
+                    <td style={{ padding: isMobile ? '12px' : '16px' }}>
+                      <span
+                        style={{
+                          padding: '6px 12px',
+                          borderRadius: '12px',
+                          fontSize: '12px',
+                          background: 'rgba(16, 185, 129, 0.1)',
+                          color: '#10b981',
+                          fontWeight: '500'
+                        }}
+                      >
                         {u.status}
                       </span>
                     </td>
@@ -50,5 +142,5 @@ const UserManagementPage = () => {
     </div>
   )
 }
-export default memo(UserManagementPage)
 
+export default memo(UserManagementPage)

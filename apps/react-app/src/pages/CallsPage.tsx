@@ -1,3 +1,17 @@
+/**
+ * CallsPage - Call history and management
+ *
+ * iOS Design System:
+ * - Background: #FAFAFA (light gray)
+ * - Text: #000 (primary), #666 (secondary)
+ * - Cards: white with subtle shadows
+ * - Border radius: 16-24px for modern iOS feel
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Icons: 20px standard size
+ * - Hover: translateY(-2px) for interactive elements
+ */
+
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Phone, Video, PhoneMissed, PhoneIncoming, PhoneOutgoing } from 'lucide-react';
@@ -20,7 +34,6 @@ interface CallHistoryItem {
 export default function CallsPage() {
   const navigate = useNavigate();
   const [callHistory] = useState<CallHistoryItem[]>([
-    // Mock data - replace with real data
     {
       id: '1',
       user: {
@@ -78,20 +91,19 @@ export default function CallsPage() {
   };
 
   const getCallIcon = (type: string, direction: string) => {
-    if (direction === 'missed') return <PhoneMissed size={18} />;
-    if (direction === 'incoming') return <PhoneIncoming size={18} />;
-    if (direction === 'outgoing') return <PhoneOutgoing size={18} />;
-    return type === 'video' ? <Video size={18} /> : <Phone size={18} />;
+    if (direction === 'missed') return <PhoneMissed size={20} />;
+    if (direction === 'incoming') return <PhoneIncoming size={20} />;
+    if (direction === 'outgoing') return <PhoneOutgoing size={20} />;
+    return type === 'video' ? <Video size={20} /> : <Phone size={20} />;
   };
 
   const getCallColor = (direction: string) => {
     if (direction === 'missed') return '#FF3B3B';
     if (direction === 'incoming') return '#00D26A';
-    return '#A0A0A0';
+    return '#666';
   };
 
   const handleCallBack = (call: CallHistoryItem) => {
-    // Navigate to active call screen
     navigate(`/calls/${call.id}`, {
       state: {
         user: call.user,
@@ -103,12 +115,12 @@ export default function CallsPage() {
 
   if (callHistory.length === 0) {
     return (
-      <div style={{ padding: '24px' }}>
-        <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px', color: '#FFFFFF' }}>
+      <div style={{ padding: '24px', minHeight: '100vh', background: '#FAFAFA' }}>
+        <h1 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px', color: '#000' }}>
           Call History
         </h1>
         <EmptyState
-          icon={<Phone size={64} />}
+          icon={<Phone size={48} />}
           title="No calls yet"
           description="Start a voice or video call from any conversation"
           action={{
@@ -121,11 +133,21 @@ export default function CallsPage() {
   }
 
   return (
-    <div style={{ padding: '24px', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '24px', color: '#111827' }}>
+    <div style={{
+      padding: '24px',
+      maxWidth: '800px',
+      margin: '0 auto',
+      minHeight: '100vh',
+      background: '#FAFAFA'
+    }}>
+      <h1 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '24px', color: '#000' }}>
         Call History
       </h1>
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '1px', backgroundColor: '#E5E7EB', borderRadius: '12px', overflow: 'hidden' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px'
+      }}>
         {callHistory.map((call) => (
           <div
             key={call.id}
@@ -134,15 +156,17 @@ export default function CallsPage() {
               alignItems: 'center',
               gap: '16px',
               padding: '16px',
-              backgroundColor: '#FFFFFF',
+              background: '#fff',
+              borderRadius: '16px',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
               cursor: 'pointer',
-              transition: 'background-color 150ms ease-out',
+              transition: 'transform 0.2s ease',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#F9FAFB';
+              e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#FFFFFF';
+              e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
             <Avatar
@@ -152,26 +176,26 @@ export default function CallsPage() {
               fallback={call.user.displayName[0]}
             />
             <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ fontSize: '15px', fontWeight: '600', color: '#111827', marginBottom: '4px' }}>
+              <div style={{ fontSize: '15px', fontWeight: '600', color: '#000', marginBottom: '4px' }}>
                 {call.user.displayName}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ color: getCallColor(call.direction), display: 'flex', alignItems: 'center' }}>
                   {getCallIcon(call.type, call.direction)}
                 </span>
-                <span style={{ fontSize: '13px', color: '#A0A0A0' }}>
+                <span style={{ fontSize: '13px', color: '#666' }}>
                   {call.type === 'video' ? 'Video' : 'Voice'}
                 </span>
                 {call.duration && (
                   <>
-                    <span style={{ color: '#666666' }}>•</span>
-                    <span style={{ fontSize: '13px', color: '#A0A0A0' }}>
+                    <span style={{ color: '#666' }}>•</span>
+                    <span style={{ fontSize: '13px', color: '#666' }}>
                       {formatDuration(call.duration)}
                     </span>
                   </>
                 )}
-                <span style={{ color: '#666666' }}>•</span>
-                <span style={{ fontSize: '13px', color: '#A0A0A0' }}>
+                <span style={{ color: '#666' }}>•</span>
+                <span style={{ fontSize: '13px', color: '#666' }}>
                   {formatTimestamp(call.timestamp)}
                 </span>
               </div>
@@ -182,21 +206,21 @@ export default function CallsPage() {
                 handleCallBack(call);
               }}
               style={{
-                background: 'none',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                 border: 'none',
-                color: '#00D26A',
+                color: '#fff',
                 cursor: 'pointer',
                 padding: '8px',
                 display: 'flex',
                 alignItems: 'center',
-                borderRadius: '8px',
-                transition: 'background-color 150ms ease-out',
+                borderRadius: '12px',
+                transition: 'transform 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#F3F4F6';
+                e.currentTarget.style.transform = 'translateY(-2px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
               {call.type === 'video' ? <Video size={20} /> : <Phone size={20} />}

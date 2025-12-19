@@ -1,3 +1,17 @@
+/**
+ * HelpPage - Help center with FAQs and support options
+ *
+ * iOS Design System:
+ * - Background: #FAFAFA (light gray)
+ * - Text: #000 (primary), #666 (secondary)
+ * - Cards: white with subtle shadows
+ * - Border radius: 16-24px for modern iOS feel
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Icons: 20px standard size
+ * - Hover: translateY(-2px) for interactive elements
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, ChevronDown, Mail, MessageCircle, Bug } from 'lucide-react'
@@ -7,13 +21,9 @@ function HelpPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedItems, setExpandedItems] = useState({})
 
-  // Standard responsive values
   const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
   const isTablet = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
-
-  const pagePadding = isDesktop ? '80px' : isTablet ? '24px' : '16px'
-  const headerPaddingTop = isDesktop || isTablet ? '72px' : '56px'
 
   const sections = [
     { id: 'getting-started', title: 'Getting Started' },
@@ -189,69 +199,65 @@ function HelpPage() {
   const filteredFaqs = filterFaqs()
 
   return (
-    <div
-      className="flex flex-col md:flex-row min-h-screen"
-      style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
-    >
+    <div style={{ display: 'flex', flexDirection: isDesktop ? 'row' : 'column', minHeight: '100vh', background: '#FAFAFA' }}>
       {/* Sidebar - Desktop only */}
       {isDesktop && (
-        <aside
-          style={{
-            width: '280px',
-            position: 'sticky',
-            top: '72px',
-            height: 'calc(100vh - 72px)',
-            overflowY: 'auto',
-            padding: '48px 32px',
-            borderRight: '1px solid var(--border-primary)',
-            zIndex: 10
-          }}
-        >
+        <aside style={{
+          width: '280px',
+          position: 'sticky',
+          top: '72px',
+          height: 'calc(100vh - 72px)',
+          overflowY: 'auto',
+          padding: '48px 32px',
+          borderRight: '1px solid rgba(0,0,0,0.06)',
+          zIndex: 10,
+          background: '#fff'
+        }}>
           <div style={{ position: 'sticky', top: '24px' }}>
-            <h2
-              style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                color: 'var(--text-tertiary)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                marginBottom: '24px'
-              }}
-            >
+            <h2 style={{
+              fontSize: '12px',
+              fontWeight: '600',
+              color: '#666',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em',
+              marginBottom: '24px'
+            }}>
               Topics
             </h2>
-            <nav className="flex flex-col" style={{ gap: '4px' }}>
+            <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {sections.map((section) => {
                 const isActive = activeSection === section.id
                 return (
                   <button
                     key={section.id}
                     onClick={() => scrollToSection(section.id)}
-                    className="text-left rounded-lg transition-all outline-none"
                     style={{
                       height: '40px',
                       paddingLeft: isActive ? '12px' : '16px',
                       paddingRight: '16px',
                       fontSize: '14px',
                       fontWeight: isActive ? '500' : '400',
-                      color: isActive ? '#58a6ff' : 'var(--text-secondary)',
-                      backgroundColor: isActive ? 'rgba(88, 166, 255, 0.1)' : 'transparent',
-                      borderLeft: isActive ? '2px solid #58a6ff' : '2px solid transparent',
+                      color: isActive ? '#6366F1' : '#666',
+                      background: isActive ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
+                      borderLeft: isActive ? '2px solid #6366F1' : '2px solid transparent',
                       border: 'none',
                       cursor: 'pointer',
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      textAlign: 'left',
+                      borderRadius: '8px',
+                      transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
                       if (!isActive) {
-                        e.target.style.backgroundColor = 'var(--bg-secondary)'
-                        e.target.style.color = 'var(--text-primary)'
+                        e.target.style.background = '#FAFAFA'
+                        e.target.style.color = '#000'
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!isActive) {
-                        e.target.style.backgroundColor = 'transparent'
-                        e.target.style.color = 'var(--text-secondary)'
+                        e.target.style.background = 'transparent'
+                        e.target.style.color = '#666'
                       }
                     }}
                   >
@@ -265,68 +271,62 @@ function HelpPage() {
       )}
 
       {/* Main Content */}
-      <main
-        style={{
-          flex: 1,
-          maxWidth: '900px',
-          margin: '0 auto',
-          paddingLeft: pagePadding,
-          paddingRight: pagePadding,
-          paddingTop: headerPaddingTop,
-          paddingBottom: isMobile ? '80px' : '64px'
-        }}
-      >
+      <main style={{
+        flex: 1,
+        maxWidth: '900px',
+        margin: '0 auto',
+        padding: isMobile ? '80px 20px' : '72px 80px 64px',
+        width: '100%'
+      }}>
         {/* Header */}
-        <div className="text-center" style={{ marginBottom: '48px' }}>
-          <h1
-            className="font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"
-            style={{ fontSize: isMobile ? '32px' : '48px', marginBottom: '16px' }}
-          >
+        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+          <h1 style={{
+            fontSize: isMobile ? '32px' : '48px',
+            fontWeight: '600',
+            marginBottom: '16px',
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text'
+          }}>
             Help Center
           </h1>
-          <p style={{ fontSize: '18px', color: 'var(--text-secondary)', marginBottom: '32px' }}>
+          <p style={{ fontSize: '18px', color: '#666', marginBottom: '32px' }}>
             Find answers to common questions and get support
           </p>
 
           {/* Search Bar */}
           <div style={{ position: 'relative', maxWidth: '600px', margin: '0 auto' }}>
-            <div
-              className="absolute flex items-center justify-center"
-              style={{
-                left: '16px',
-                top: '50%',
-                transform: 'translateY(-50%)',
-                width: '24px',
-                height: '24px',
-                flexShrink: 0,
-                pointerEvents: 'none'
-              }}
-            >
-              <Search size={20} style={{ color: 'var(--text-tertiary)' }} />
+            <div style={{
+              position: 'absolute',
+              left: '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              pointerEvents: 'none'
+            }}>
+              <Search size={20} style={{ color: '#666' }} />
             </div>
             <input
               type="text"
               placeholder="Search for help..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full outline-none transition-all"
               style={{
+                width: '100%',
                 height: '48px',
                 paddingLeft: '48px',
                 paddingRight: '16px',
                 fontSize: '16px',
-                border: '1px solid var(--border-primary)',
-                borderRadius: '12px',
-                backgroundColor: 'var(--bg-secondary)',
-                color: 'var(--text-primary)'
-              }}
-              onFocus={(e) => {
-                e.target.style.borderColor = 'rgba(88, 166, 255, 0.5)'
-                e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
-              }}
-              onBlur={(e) => {
-                e.target.style.borderColor = 'var(--border-primary)'
-                e.target.style.boxShadow = 'none'
+                border: '1px solid rgba(0,0,0,0.06)',
+                borderRadius: '16px',
+                background: '#fff',
+                color: '#000',
+                outline: 'none',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
               }}
             />
           </div>
@@ -336,24 +336,21 @@ function HelpPage() {
         {sections.slice(0, -1).map((section) => (
           filteredFaqs[section.id] && filteredFaqs[section.id].length > 0 && (
             <section key={section.id} id={section.id} style={{ marginBottom: '48px' }}>
-              <div
-                className="rounded-2xl"
-                style={{
-                  backgroundColor: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-primary)',
-                  padding: '32px'
-                }}
-              >
-                <h2
-                  style={{
-                    fontSize: '24px',
-                    fontWeight: '600',
-                    color: 'var(--text-primary)',
-                    marginBottom: '24px',
-                    paddingBottom: '16px',
-                    borderBottom: '2px solid rgba(88, 166, 255, 0.2)'
-                  }}
-                >
+              <div style={{
+                background: '#fff',
+                border: '1px solid rgba(0,0,0,0.06)',
+                padding: '32px',
+                borderRadius: '24px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}>
+                <h2 style={{
+                  fontSize: '24px',
+                  fontWeight: '600',
+                  color: '#000',
+                  marginBottom: '24px',
+                  paddingBottom: '16px',
+                  borderBottom: '2px solid rgba(99, 102, 241, 0.2)'
+                }}>
                   {section.title}
                 </h2>
                 {filteredFaqs[section.id].map((faq, index) => {
@@ -362,47 +359,47 @@ function HelpPage() {
                     <div
                       key={index}
                       style={{
-                        borderBottom: index < filteredFaqs[section.id].length - 1 ? '1px solid var(--border-primary)' : 'none'
+                        borderBottom: index < filteredFaqs[section.id].length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none'
                       }}
                     >
                       <button
                         onClick={() => toggleFaq(section.id, index)}
-                        className="w-full flex justify-between items-center transition-colors outline-none"
                         style={{
+                          width: '100%',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
                           height: '72px',
-                          paddingLeft: 0,
-                          paddingRight: 0,
-                          backgroundColor: 'transparent',
+                          padding: 0,
+                          background: 'transparent',
                           border: 'none',
-                          color: 'var(--text-primary)',
+                          color: '#000',
                           fontSize: '16px',
                           fontWeight: '500',
                           cursor: 'pointer',
-                          textAlign: 'left'
+                          textAlign: 'left',
+                          transition: 'color 0.2s ease'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.color = '#58a6ff'
+                          e.currentTarget.style.color = '#6366F1'
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.color = 'var(--text-primary)'
+                          e.currentTarget.style.color = '#000'
                         }}
                       >
                         <span style={{ flex: 1 }}>{faq.question}</span>
-                        <div
-                          style={{
-                            width: '24px',
-                            height: '24px',
-                            flexShrink: 0,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            marginLeft: '16px'
-                          }}
-                        >
+                        <div style={{
+                          width: '24px',
+                          height: '24px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginLeft: '16px'
+                        }}>
                           <ChevronDown
                             size={20}
                             style={{
-                              color: '#58a6ff',
+                              color: '#6366F1',
                               transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                               transition: 'transform 0.2s'
                             }}
@@ -410,14 +407,12 @@ function HelpPage() {
                         </div>
                       </button>
                       {isExpanded && (
-                        <div
-                          style={{
-                            paddingBottom: '24px',
-                            fontSize: '14px',
-                            lineHeight: '1.6',
-                            color: 'var(--text-secondary)'
-                          }}
-                        >
+                        <div style={{
+                          paddingBottom: '24px',
+                          fontSize: '14px',
+                          lineHeight: '1.6',
+                          color: '#666'
+                        }}>
                           {faq.answer}
                         </div>
                       )}
@@ -431,33 +426,31 @@ function HelpPage() {
 
         {/* Contact Support */}
         <section id="contact" style={{ marginBottom: '48px' }}>
-          <div
-            className="rounded-2xl"
-            style={{
-              backgroundColor: 'var(--bg-secondary)',
-              border: '1px solid var(--border-primary)',
-              padding: '32px'
-            }}
-          >
-            <h2
-              style={{
-                fontSize: '24px',
-                fontWeight: '600',
-                color: 'var(--text-primary)',
-                marginBottom: '24px',
-                paddingBottom: '16px',
-                borderBottom: '2px solid rgba(88, 166, 255, 0.2)'
-              }}
-            >
+          <div style={{
+            background: '#fff',
+            border: '1px solid rgba(0,0,0,0.06)',
+            padding: '32px',
+            borderRadius: '24px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+          }}>
+            <h2 style={{
+              fontSize: '24px',
+              fontWeight: '600',
+              color: '#000',
+              marginBottom: '24px',
+              paddingBottom: '16px',
+              borderBottom: '2px solid rgba(99, 102, 241, 0.2)'
+            }}>
               Contact Support
             </h2>
-            <p style={{ fontSize: '16px', color: 'var(--text-primary)', marginBottom: '32px' }}>
+            <p style={{ fontSize: '16px', color: '#000', marginBottom: '32px' }}>
               Can't find what you're looking for? Our support team is here to help.
             </p>
-            <div
-              className="grid grid-cols-1 md:grid-cols-3"
-              style={{ gap: '24px' }}
-            >
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+              gap: '24px'
+            }}>
               {[
                 {
                   icon: Mail,
@@ -486,37 +479,37 @@ function HelpPage() {
                 return (
                   <div
                     key={index}
-                    className="rounded-2xl"
                     style={{
                       padding: '24px',
-                      backgroundColor: 'rgba(88, 166, 255, 0.05)',
-                      border: '1px solid rgba(88, 166, 255, 0.2)',
-                      minHeight: '160px'
+                      background: 'rgba(99, 102, 241, 0.05)',
+                      border: '1px solid rgba(99, 102, 241, 0.2)',
+                      minHeight: '160px',
+                      borderRadius: '24px',
+                      transition: 'transform 0.2s ease'
                     }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                   >
-                    <div
-                      style={{
-                        width: '40px',
-                        height: '40px',
-                        flexShrink: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        marginBottom: '16px',
-                        borderRadius: '8px',
-                        backgroundColor: 'rgba(88, 166, 255, 0.1)'
-                      }}
-                    >
-                      <Icon size={24} style={{ color: '#58a6ff' }} />
+                    <div style={{
+                      width: '40px',
+                      height: '40px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginBottom: '16px',
+                      borderRadius: '8px',
+                      background: 'rgba(99, 102, 241, 0.1)'
+                    }}>
+                      <Icon size={24} style={{ color: '#6366F1' }} />
                     </div>
-                    <h3 style={{ fontSize: '18px', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '8px' }}>
+                    <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>
                       {item.title}
                     </h3>
-                    <p style={{ fontSize: '16px', color: 'var(--text-primary)', marginBottom: '8px' }}>
+                    <p style={{ fontSize: '16px', color: '#000', marginBottom: '8px' }}>
                       {item.content}
                     </p>
                     {item.subtitle && (
-                      <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>
+                      <p style={{ fontSize: '14px', color: '#666' }}>
                         {item.subtitle}
                       </p>
                     )}
@@ -527,7 +520,7 @@ function HelpPage() {
                           style={{
                             display: 'inline-block',
                             marginTop: '16px',
-                            color: '#58a6ff',
+                            color: '#6366F1',
                             fontSize: '14px',
                             fontWeight: '500',
                             textDecoration: 'none'
@@ -541,7 +534,7 @@ function HelpPage() {
                           style={{
                             display: 'inline-block',
                             marginTop: '16px',
-                            color: '#58a6ff',
+                            color: '#6366F1',
                             fontSize: '14px',
                             fontWeight: '500',
                             textDecoration: 'none'

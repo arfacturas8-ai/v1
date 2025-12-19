@@ -1,3 +1,9 @@
+/**
+ * CreateCommunityPage.jsx
+ * iOS-inspired modern design with clean aesthetics
+ * Updated: 2025-12-19
+ */
+
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Upload, X, AlertCircle, CheckCircle, Loader } from 'lucide-react'
@@ -210,24 +216,62 @@ function CreateCommunityPage() {
     <div
       role="main"
       aria-label="Create community page"
-      className="min-h-screen py-6 px-4 sm:py-10 sm:px-5"
-      style={{ background: 'var(--bg-primary)' }}
+      style={{
+        minHeight: '100vh',
+        padding: '48px 16px',
+        background: '#FAFAFA'
+      }}
     >
-      <div className="max-w-3xl mx-auto  rounded-2xl p-6 sm:p-10 shadow-2xl" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)' }}>
-        <h1 className="text-2xl sm:text-3xl mb-2.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent font-bold">
+      <div style={{
+        maxWidth: '768px',
+        margin: '0 auto',
+        background: 'white',
+        borderRadius: '24px',
+        padding: '48px 40px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+      }}>
+        <h1 style={{
+          fontSize: '32px',
+          fontWeight: '700',
+          marginBottom: '8px',
+          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }}>
           Create Community
         </h1>
-        <p className="mb-6 sm:mb-8" style={{ color: 'var(--text-secondary)' }}>Build your own community on CRYB</p>
+        <p style={{ marginBottom: '32px', color: '#666' }}>Build your own community on CRYB</p>
 
         {success && (
-          <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 p-4 rounded-2xl  mb-5 flex items-center gap-2.5">
+          <div style={{
+            background: 'rgba(34, 197, 94, 0.1)',
+            border: '1px solid rgba(34, 197, 94, 0.3)',
+            color: '#22C55E',
+            padding: '16px',
+            borderRadius: '16px',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
             <CheckCircle size={20} />
             <span>Community created successfully! Redirecting...</span>
           </div>
         )}
 
         {errorMessage && (
-          <div className="bg-red-500/10 border border-red-500/30 text-red-500 p-4 rounded-2xl  mb-5 flex items-center gap-2.5">
+          <div style={{
+            background: 'rgba(239, 68, 68, 0.1)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
+            color: '#EF4444',
+            padding: '16px',
+            borderRadius: '16px',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px'
+          }}>
             <AlertCircle size={20} />
             <span>{errorMessage}</span>
           </div>
@@ -235,8 +279,8 @@ function CreateCommunityPage() {
 
         <form onSubmit={handleSubmit}>
           {/* Community Name */}
-          <div className="mb-5">
-            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ display: 'block', fontWeight: '600', marginBottom: '8px', color: '#000' }}>
               Community Name *
             </label>
             <input
@@ -244,17 +288,25 @@ function CreateCommunityPage() {
               value={formData.name}
               onChange={(e) => handleInputChange('name', e.target.value)}
               placeholder="mycommunity"
-              className={`w-full p-3 rounded-2xl text-base outline-none transition-colors ${
-                errors.name ? 'border-2 border-red-500' : ''
-              }`}
-              style={!errors.name ? { background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' } : { background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
+              style={{
+                width: '100%',
+                height: '52px',
+                padding: '0 16px',
+                borderRadius: '12px',
+                fontSize: '16px',
+                outline: 'none',
+                transition: 'all 0.2s',
+                background: 'white',
+                border: errors.name ? '2px solid #EF4444' : '1px solid #E5E5E5',
+                color: '#000'
+              }}
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && <p style={{ color: '#EF4444', fontSize: '14px', marginTop: '8px' }}>{errors.name}</p>}
           </div>
 
           {/* Display Name */}
-          <div className="mb-5">
-            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ display: 'block', fontWeight: '600', marginBottom: '8px', color: '#000' }}>
               Display Name *
             </label>
             <input
@@ -262,17 +314,25 @@ function CreateCommunityPage() {
               value={formData.displayName}
               onChange={(e) => handleInputChange('displayName', e.target.value)}
               placeholder="My Awesome Community"
-              className={`w-full p-3 rounded-2xl text-base outline-none transition-colors ${
-                errors.displayName ? 'border-2 border-red-500' : ''
-              }`}
-              style={!errors.displayName ? { background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' } : { background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
+              style={{
+                width: '100%',
+                height: '52px',
+                padding: '0 16px',
+                borderRadius: '12px',
+                fontSize: '16px',
+                outline: 'none',
+                transition: 'all 0.2s',
+                background: 'white',
+                border: errors.displayName ? '2px solid #EF4444' : '1px solid #E5E5E5',
+                color: '#000'
+              }}
             />
-            {errors.displayName && <p className="text-red-500 text-sm mt-1">{errors.displayName}</p>}
+            {errors.displayName && <p style={{ color: '#EF4444', fontSize: '14px', marginTop: '8px' }}>{errors.displayName}</p>}
           </div>
 
           {/* Description */}
-          <div className="mb-5">
-            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ display: 'block', fontWeight: '600', marginBottom: '8px', color: '#000' }}>
               Description *
             </label>
             <textarea
@@ -280,24 +340,42 @@ function CreateCommunityPage() {
               onChange={(e) => handleInputChange('description', e.target.value)}
               placeholder="Describe what your community is about..."
               rows={4}
-              className={`w-full p-3 rounded-2xl text-base resize-y outline-none transition-colors ${
-                errors.description ? 'border-2 border-red-500' : ''
-              }`}
-              style={!errors.description ? { background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' } : { background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
+              style={{
+                width: '100%',
+                padding: '16px',
+                borderRadius: '12px',
+                fontSize: '16px',
+                resize: 'vertical',
+                outline: 'none',
+                transition: 'all 0.2s',
+                background: 'white',
+                border: errors.description ? '2px solid #EF4444' : '1px solid #E5E5E5',
+                color: '#000',
+                lineHeight: '1.5'
+              }}
             />
-            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description}</p>}
+            {errors.description && <p style={{ color: '#EF4444', fontSize: '14px', marginTop: '8px' }}>{errors.description}</p>}
           </div>
 
           {/* Category */}
-          <div className="mb-5">
-            <label className="block font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <label style={{ display: 'block', fontWeight: '600', marginBottom: '8px', color: '#000' }}>
               Category
             </label>
             <select
               value={formData.category}
               onChange={(e) => handleInputChange('category', e.target.value)}
-              className="w-full p-3 rounded-2xl text-base outline-none"
-              style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-sm)' }}
+              style={{
+                width: '100%',
+                height: '52px',
+                padding: '0 16px',
+                borderRadius: '12px',
+                fontSize: '16px',
+                outline: 'none',
+                background: 'white',
+                border: '1px solid #E5E5E5',
+                color: '#000'
+              }}
             >
               <option value="general">General</option>
               <option value="gaming">Gaming</option>
@@ -312,17 +390,17 @@ function CreateCommunityPage() {
           </div>
 
           {/* Privacy */}
-          <div className="mb-5">
-            <label className="flex items-center gap-2.5 cursor-pointer">
+          <div style={{ marginBottom: '32px' }}>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
               <input
                 type="checkbox"
                 checked={formData.isPrivate}
                 onChange={(e) => handleInputChange('isPrivate', e.target.checked)}
-                className="w-[18px] h-[18px] cursor-pointer accent-[#58a6ff]"
+                style={{ width: '20px', height: '20px', cursor: 'pointer' }}
               />
-              <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>Private Community</span>
+              <span style={{ fontWeight: '600', color: '#000' }}>Private Community</span>
             </label>
-            <p className="text-sm mt-1 ml-7" style={{ color: 'var(--text-secondary)' }}>
+            <p style={{ fontSize: '14px', marginTop: '8px', marginLeft: '32px', color: '#666' }}>
               Only approved members can view and post
             </p>
           </div>
@@ -331,14 +409,46 @@ function CreateCommunityPage() {
           <button
             type="submit"
             disabled={creating || success}
-            className={`w-full p-3.5 border-none rounded-2xl text-base font-semibold flex items-center justify-center gap-2.5 transition-opacity ${
-              creating || success
-                ? 'cursor-not-allowed'
-                : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer'
-            }`}
-            style={creating || success ? { background: 'var(--bg-secondary)', backdropFilter: 'blur(10px)', color: 'var(--text-primary)', boxShadow: 'var(--shadow-md)' } : { color: 'var(--text-inverse)', boxShadow: 'var(--shadow-md)' }}
+            style={{
+              width: '100%',
+              height: '56px',
+              border: 'none',
+              borderRadius: '16px',
+              fontSize: '16px',
+              fontWeight: '600',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '12px',
+              transition: 'all 0.2s',
+              cursor: creating || success ? 'not-allowed' : 'pointer',
+              background: creating || success ? '#E5E5E5' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              color: 'white',
+              boxShadow: creating || success ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.3)'
+            }}
+            onMouseEnter={(e) => {
+              if (!creating && !success) {
+                e.target.style.transform = 'translateY(-2px)'
+                e.target.style.boxShadow = '0 8px 20px rgba(99, 102, 241, 0.4)'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!creating && !success) {
+                e.target.style.transform = 'translateY(0)'
+                e.target.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+              }
+            }}
           >
-            {success ? 'Created!' : 'Create Community'}
+            {creating ? (
+              <>
+                <Loader size={20} style={{ animation: 'spin 1s linear infinite' }} />
+                Creating...
+              </>
+            ) : success ? (
+              'Created!'
+            ) : (
+              'Create Community'
+            )}
           </button>
         </form>
       </div>
@@ -347,4 +457,3 @@ function CreateCommunityPage() {
 }
 
 export default CreateCommunityPage
-

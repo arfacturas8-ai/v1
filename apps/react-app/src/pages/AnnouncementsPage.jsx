@@ -1,3 +1,17 @@
+/**
+ * AnnouncementsPage - Platform announcements and updates
+ *
+ * iOS Design System:
+ * - Background: #FAFAFA (light gray)
+ * - Text: #000 (primary), #666 (secondary)
+ * - Cards: white with subtle shadows
+ * - Border radius: 16-24px for modern iOS feel
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Icons: 20px standard size
+ * - Hover: translateY(-2px) for interactive elements
+ */
+
 import React, { useState, memo } from 'react'
 import { motion } from 'framer-motion'
 import { Megaphone, Bell, Pin, Calendar, ChevronRight } from 'lucide-react'
@@ -13,55 +27,70 @@ const AnnouncementsPage = () => {
     <div
       role="main"
       aria-label="Announcements page"
-      style={{background: "var(--bg-primary)"}} className="min-h-screen  p-4 md:p-6"
+      style={{ background: '#FAFAFA', minHeight: '100vh', padding: '24px' }}
     >
-      <div className="max-w-7xl mx-auto">
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl  p-6 md:p-8 mb-6 md:mb-8"
+          style={{
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            borderRadius: '24px',
+            padding: '32px',
+            marginBottom: '32px'
+          }}
         >
-          <div className="flex items-center gap-3 mb-2">
-            <Megaphone style={{color: "var(--text-primary)"}} className="w-7 h-7 md:w-8 md:h-8 " aria-hidden="true" />
-            <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-bold ">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+            <Megaphone size={28} style={{ color: '#fff' }} aria-hidden="true" />
+            <h1 style={{ fontSize: '28px', fontWeight: '600', color: '#fff', margin: 0 }}>
               Announcements
             </h1>
           </div>
-          <p style={{color: "var(--text-primary)"}} className="/90 text-sm md:text-base">
+          <p style={{ color: '#fff', fontSize: '14px', opacity: 0.9, margin: 0 }}>
             Stay updated with the latest news and updates
           </p>
         </motion.div>
 
         {/* Announcements List */}
-        <div className="flex flex-col gap-4 md:gap-5">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {announcements.map((announcement, index) => (
             <motion.div
               key={announcement.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
-              style={{borderColor: "var(--border-subtle)"}} className="card   border border-white/10 rounded-2xl  p-4 md:p-6 cursor-pointer hover: transition-all"
+              style={{
+                background: '#fff',
+                border: '1px solid rgba(0,0,0,0.06)',
+                borderRadius: '24px',
+                padding: '24px',
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
+              <div style={{ display: 'flex', alignItems: 'start', justifyContent: 'space-between', gap: '16px' }}>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                     {announcement.pinned && (
-                      <Pin style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
+                      <Pin size={20} style={{ color: '#6366F1' }} aria-hidden="true" />
                     )}
-                    <h3 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold  break-words">
+                    <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#000', margin: 0 }}>
                       {announcement.title}
                     </h3>
                   </div>
-                  <p style={{color: "var(--text-secondary)"}} className=" text-sm md:text-base mb-3 leading-relaxed">
+                  <p style={{ color: '#666', fontSize: '14px', marginBottom: '12px', lineHeight: '1.6' }}>
                     {announcement.content}
                   </p>
-                  <div style={{color: "var(--text-secondary)"}} className="flex items-center gap-2  text-xs md:text-sm">
-                    <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4 flex-shrink-0" aria-hidden="true" />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#666', fontSize: '14px' }}>
+                    <Calendar size={16} style={{ flexShrink: 0 }} aria-hidden="true" />
                     <span>{announcement.date}</span>
                   </div>
                 </div>
-                <ChevronRight style={{ color: "var(--text-secondary)", width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
+                <ChevronRight size={20} style={{ color: '#666', flexShrink: 0 }} aria-hidden="true" />
               </div>
             </motion.div>
           ))}
@@ -72,4 +101,3 @@ const AnnouncementsPage = () => {
 }
 
 export default memo(AnnouncementsPage)
-

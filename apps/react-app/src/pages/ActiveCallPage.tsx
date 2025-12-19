@@ -1,3 +1,17 @@
+/**
+ * ActiveCallPage - Active call management interface
+ *
+ * iOS Design System:
+ * - Background: #FAFAFA (light gray)
+ * - Text: #000 (primary), #666 (secondary)
+ * - Cards: white with subtle shadows
+ * - Border radius: 16-24px for modern iOS feel
+ * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
+ * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Icons: 20px standard size
+ * - Hover: translateY(-2px) for interactive elements
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { Phone, Video, Mic, MicOff, VideoOff, Monitor, PhoneOff, Camera } from 'lucide-react';
@@ -16,7 +30,6 @@ export default function ActiveCallPage() {
   const [callStatus, setCallStatus] = useState<'connecting' | 'connected' | 'ended'>('connecting');
 
   useEffect(() => {
-    // Simulate connection
     const timer = setTimeout(() => {
       setCallStatus('connected');
     }, 2000);
@@ -52,24 +65,24 @@ export default function ActiveCallPage() {
       style={{
         position: 'fixed',
         inset: 0,
-        backgroundColor: '#FFFFFF',
+        background: '#FAFAFA',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '48px 24px',
-        color: '#111827',
+        color: '#000',
       }}
     >
       {/* Participant info */}
       <div style={{ textAlign: 'center', marginTop: '40px' }}>
         {callStatus === 'connecting' && (
-          <div style={{ fontSize: '18px', color: '#A0A0A0', marginBottom: '24px', animation: 'pulse 2s ease-in-out infinite' }}>
+          <div style={{ fontSize: '18px', color: '#666', marginBottom: '24px', animation: 'pulse 2s ease-in-out infinite' }}>
             Calling...
           </div>
         )}
         {callStatus === 'connected' && (
-          <div style={{ fontSize: '16px', color: '#A0A0A0', marginBottom: '24px' }}>
+          <div style={{ fontSize: '16px', color: '#666', marginBottom: '24px' }}>
             {formatDuration(duration)}
           </div>
         )}
@@ -79,10 +92,10 @@ export default function ActiveCallPage() {
           size="xl"
           fallback={callData.user?.displayName?.[0] || 'U'}
         />
-        <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginTop: '24px', marginBottom: '8px', color: '#111827' }}>
+        <h1 style={{ fontSize: '32px', fontWeight: '600', marginTop: '24px', marginBottom: '8px', color: '#000' }}>
           {callData.user?.displayName || 'Unknown'}
         </h1>
-        <div style={{ fontSize: '16px', color: '#6B7280' }}>
+        <div style={{ fontSize: '16px', color: '#666' }}>
           @{callData.user?.username || 'unknown'}
         </div>
       </div>
@@ -96,16 +109,17 @@ export default function ActiveCallPage() {
             right: '24px',
             width: '160px',
             height: '120px',
-            borderRadius: '12px',
-            backgroundColor: '#F3F4F6',
-            border: '2px solid #E5E7EB',
+            borderRadius: '16px',
+            background: '#fff',
+            border: '2px solid rgba(0,0,0,0.06)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             overflow: 'hidden',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          <div style={{ fontSize: '14px', color: '#9CA3AF' }}>Your video</div>
+          <div style={{ fontSize: '14px', color: '#666' }}>Your video</div>
         </div>
       )}
 
@@ -125,24 +139,24 @@ export default function ActiveCallPage() {
             width: '56px',
             height: '56px',
             borderRadius: '50%',
-            border: '2px solid',
-            borderColor: isMuted ? '#FF3B3B' : '#E5E7EB',
-            backgroundColor: isMuted ? '#FF3B3B' : '#FFFFFF',
-            color: isMuted ? '#FFFFFF' : '#111827',
+            border: 'none',
+            background: isMuted ? '#ef4444' : '#fff',
+            color: isMuted ? '#fff' : '#000',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'all 150ms ease-out',
+            transition: 'transform 0.2s ease',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
           }}
           onMouseEnter={(e) => {
-            if (!isMuted) e.currentTarget.style.backgroundColor = '#F9FAFB';
+            e.currentTarget.style.transform = 'translateY(-2px)';
           }}
           onMouseLeave={(e) => {
-            if (!isMuted) e.currentTarget.style.backgroundColor = '#FFFFFF';
+            e.currentTarget.style.transform = 'translateY(0)';
           }}
         >
-          {isMuted ? <MicOff size={24} /> : <Mic size={24} />}
+          {isMuted ? <MicOff size={20} /> : <Mic size={20} />}
         </button>
 
         {callData.type === 'video' && (
@@ -152,24 +166,24 @@ export default function ActiveCallPage() {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              border: '2px solid',
-              borderColor: isVideoOn ? '#E5E7EB' : '#FF3B3B',
-              backgroundColor: isVideoOn ? '#FFFFFF' : '#FF3B3B',
-              color: isVideoOn ? '#111827' : '#FFFFFF',
+              border: 'none',
+              background: isVideoOn ? '#fff' : '#ef4444',
+              color: isVideoOn ? '#000' : '#fff',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 150ms ease-out',
+              transition: 'transform 0.2s ease',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}
             onMouseEnter={(e) => {
-              if (isVideoOn) e.currentTarget.style.backgroundColor = '#F9FAFB';
+              e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              if (isVideoOn) e.currentTarget.style.backgroundColor = '#FFFFFF';
+              e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            {isVideoOn ? <Video size={24} /> : <VideoOff size={24} />}
+            {isVideoOn ? <Video size={20} /> : <VideoOff size={20} />}
           </button>
         )}
 
@@ -179,23 +193,24 @@ export default function ActiveCallPage() {
               width: '56px',
               height: '56px',
               borderRadius: '50%',
-              border: '2px solid #E5E7EB',
-              backgroundColor: '#FFFFFF',
-              color: '#111827',
+              border: 'none',
+              background: '#fff',
+              color: '#000',
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 150ms ease-out',
+              transition: 'transform 0.2s ease',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
             }}
             onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = '#F9FAFB';
+              e.currentTarget.style.transform = 'translateY(-2px)';
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#FFFFFF';
+              e.currentTarget.style.transform = 'translateY(0)';
             }}
           >
-            <Camera size={24} />
+            <Camera size={20} />
           </button>
         )}
 
@@ -206,23 +221,24 @@ export default function ActiveCallPage() {
             height: '64px',
             borderRadius: '50%',
             border: 'none',
-            backgroundColor: '#FF3B3B',
-            color: '#FFFFFF',
+            background: '#ef4444',
+            color: '#fff',
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'all 150ms ease-out',
+            transition: 'transform 0.2s ease',
             transform: 'scale(1.1)',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = '#CC2F2F';
+            e.currentTarget.style.transform = 'translateY(-2px) scale(1.1)';
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = '#FF3B3B';
+            e.currentTarget.style.transform = 'translateY(0) scale(1.1)';
           }}
         >
-          <PhoneOff size={28} />
+          <PhoneOff size={24} />
         </button>
       </div>
 

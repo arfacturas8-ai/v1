@@ -1,9 +1,12 @@
+/**
+ * ExplorePage.tsx
+ * iOS-inspired modern design with clean aesthetics
+ * Updated: 2025-12-19
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, TrendingUp, Users, Hash } from 'lucide-react';
-import { colors, spacing, radii, shadows, typography } from '../design-system/tokens';
-import { Text, Button, Input, Avatar } from '../design-system/atoms';
-import { PostCard } from '../design-system/molecules';
 
 interface TrendingTopic {
   tag: string;
@@ -83,7 +86,7 @@ export function ExplorePage() {
         displayName: 'Crypto Whale',
         isVerified: true,
       },
-      content: 'The future of social media is decentralized. CRYB is leading the way. 🚀',
+      content: 'The future of social media is decentralized. CRYB is leading the way.',
       createdAt: new Date(Date.now() - 3600000).toISOString(),
       likeCount: 1420,
       repostCount: 234,
@@ -94,107 +97,6 @@ export function ExplorePage() {
       isBookmarked: false,
     },
   ]);
-
-  const containerStyle: React.CSSProperties = {
-    minHeight: '100vh',
-    backgroundColor: 'rgb(var(--color-neutral-50))',
-  };
-
-  const maxWidthStyle: React.CSSProperties = {
-    maxWidth: '1200px',
-    margin: '0 auto',
-    padding: spacing[4],
-  };
-
-  const headerStyle: React.CSSProperties = {
-    position: 'sticky',
-    top: 0,
-    backgroundColor: 'rgb(var(--color-neutral-50))',
-    borderBottom: `1px solid rgb(var(--color-neutral-200))`,
-    padding: spacing[4],
-    marginBottom: spacing[4],
-    zIndex: 10,
-    backdropFilter: 'blur(10px)',
-  };
-
-  const searchBarStyle: React.CSSProperties = {
-    position: 'relative',
-    marginBottom: spacing[4],
-  };
-
-  const searchIconStyle: React.CSSProperties = {
-    position: 'absolute',
-    left: spacing[3],
-    top: '50%',
-    transform: 'translateY(-50%)',
-    color: colors['text-tertiary'],
-    pointerEvents: 'none',
-  };
-
-  const tabsStyle: React.CSSProperties = {
-    display: 'flex',
-    gap: spacing[4],
-    marginTop: spacing[3],
-  };
-
-  const tabStyle = (isActive: boolean): React.CSSProperties => ({
-    cursor: 'pointer',
-    padding: `${spacing[2]} 0`,
-    borderBottom: `2px solid ${isActive ? colors['brand-primary'] : 'transparent'}`,
-    transition: 'all 150ms ease-out',
-    flex: 1,
-    textAlign: 'center',
-  });
-
-  const gridStyle: React.CSSProperties = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-    gap: spacing[4],
-  };
-
-  const cardStyle: React.CSSProperties = {
-    backgroundColor: 'white',
-    border: `1px solid rgb(var(--color-neutral-200))`,
-    borderRadius: radii.lg,
-    padding: spacing[4],
-    cursor: 'pointer',
-    transition: 'all 150ms ease-out',
-  };
-
-  const cardHoverStyle = {
-    transform: 'translateY(-2px)',
-    boxShadow: shadows.md,
-    borderColor: colors['brand-primary'],
-  };
-
-  const userCardStyle: React.CSSProperties = {
-    ...cardStyle,
-    display: 'flex',
-    alignItems: 'flex-start',
-    gap: spacing[3],
-  };
-
-  const topicCardStyle: React.CSSProperties = {
-    ...cardStyle,
-  };
-
-  const trendBadgeStyle = (trend: 'up' | 'down' | 'stable'): React.CSSProperties => ({
-    display: 'inline-flex',
-    alignItems: 'center',
-    gap: spacing[1],
-    padding: `${spacing[1]} ${spacing[2]}`,
-    backgroundColor:
-      trend === 'up' ? 'rgba(34, 197, 94, 0.1)' :
-      trend === 'down' ? 'rgba(239, 68, 68, 0.1)' :
-      'rgb(var(--color-neutral-100))',
-    color:
-      trend === 'up' ? 'rgb(34, 197, 94)' :
-      trend === 'down' ? 'rgb(239, 68, 68)' :
-      'rgb(var(--color-neutral-600))',
-    borderRadius: radii.full,
-    fontSize: typography.fontSize.xs,
-    fontWeight: typography.fontWeight.semibold,
-  });
 
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
@@ -212,99 +114,156 @@ export function ExplorePage() {
   };
 
   return (
-    <div style={containerStyle}>
-      <div style={maxWidthStyle}>
-        <div style={headerStyle}>
-          <Text size="xl" weight="bold">
+    <div style={{ minHeight: '100vh', background: '#FAFAFA' }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '16px' }}>
+        <div style={{
+          position: 'sticky',
+          top: 0,
+          background: 'white',
+          borderRadius: '0 0 20px 20px',
+          padding: '24px',
+          marginBottom: '24px',
+          zIndex: 10,
+          boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
+        }}>
+          <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#000', marginBottom: '16px' }}>
             Explore
-          </Text>
+          </h1>
 
-          <form onSubmit={handleSearch} style={searchBarStyle}>
-            <div style={searchIconStyle}>
+          <form onSubmit={handleSearch} style={{ position: 'relative', marginBottom: '16px' }}>
+            <div style={{
+              position: 'absolute',
+              left: '16px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: '#666',
+              pointerEvents: 'none'
+            }}>
               <Search size={20} />
             </div>
-            <Input
+            <input
               type="text"
               placeholder="Search CRYB..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ paddingLeft: '44px' }}
+              style={{
+                width: '100%',
+                height: '52px',
+                paddingLeft: '48px',
+                paddingRight: '16px',
+                borderRadius: '14px',
+                border: '1px solid #E5E5E5',
+                fontSize: '16px',
+                outline: 'none',
+                background: 'white'
+              }}
             />
           </form>
 
-          <div style={tabsStyle}>
-            <div
-              style={tabStyle(activeTab === 'trending')}
-              onClick={() => setActiveTab('trending')}
-            >
-              <Text weight={activeTab === 'trending' ? 'semibold' : 'regular'}>
-                Trending
-              </Text>
-            </div>
-            <div
-              style={tabStyle(activeTab === 'people')}
-              onClick={() => setActiveTab('people')}
-            >
-              <Text weight={activeTab === 'people' ? 'semibold' : 'regular'}>
-                People
-              </Text>
-            </div>
-            <div
-              style={tabStyle(activeTab === 'topics')}
-              onClick={() => setActiveTab('topics')}
-            >
-              <Text weight={activeTab === 'topics' ? 'semibold' : 'regular'}>
-                Topics
-              </Text>
-            </div>
+          <div style={{ display: 'flex', gap: '16px' }}>
+            {['trending', 'people', 'topics'].map((tab) => (
+              <div
+                key={tab}
+                onClick={() => setActiveTab(tab as any)}
+                style={{
+                  cursor: 'pointer',
+                  padding: '12px 0',
+                  borderBottom: `2px solid ${activeTab === tab ? '#6366F1' : 'transparent'}`,
+                  transition: 'all 150ms ease-out',
+                  flex: 1,
+                  textAlign: 'center',
+                  fontWeight: activeTab === tab ? '600' : '400',
+                  color: activeTab === tab ? '#6366F1' : '#666'
+                }}
+              >
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </div>
+            ))}
           </div>
         </div>
 
         {activeTab === 'trending' && (
           <div>
-            <div style={{ marginBottom: spacing[6] }}>
-              <Text size="lg" weight="semibold" style={{ marginBottom: spacing[3] }}>
+            <div style={{ marginBottom: '48px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#000', marginBottom: '16px' }}>
                 Trending Posts
-              </Text>
+              </h2>
               {trendingPosts.map((post) => (
-                <div key={post.id} style={{ marginBottom: spacing[3] }}>
-                  <PostCard
-                    post={post}
-                    onPostClick={() => navigate(`/post/${post.id}`)}
-                    onUserClick={() => navigate(`/profile/${post.author.username}`)}
-                    onReplyClick={() => navigate(`/post/${post.id}#reply`)}
-                  />
+                <div
+                  key={post.id}
+                  onClick={() => navigate(`/post/${post.id}`)}
+                  style={{
+                    background: 'white',
+                    borderRadius: '20px',
+                    padding: '24px',
+                    marginBottom: '16px',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.08)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)';
+                  }}
+                >
+                  <p style={{ color: '#000', fontSize: '16px', lineHeight: '1.5' }}>{post.content}</p>
+                  <div style={{ marginTop: '12px', color: '#666', fontSize: '14px' }}>
+                    {post.likeCount} likes · {post.replyCount} replies
+                  </div>
                 </div>
               ))}
             </div>
 
             <div>
-              <Text size="lg" weight="semibold" style={{ marginBottom: spacing[3] }}>
+              <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#000', marginBottom: '16px' }}>
                 Trending Topics
-              </Text>
-              <div style={gridStyle}>
+              </h2>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '16px'
+              }}>
                 {trendingTopics.map((topic) => (
                   <div
                     key={topic.tag}
+                    onClick={() => navigate(`/search?q=${encodeURIComponent('#' + topic.tag)}`)}
                     style={{
-                      ...topicCardStyle,
-                      ...(hoveredCard === topic.tag ? cardHoverStyle : {}),
+                      background: 'white',
+                      borderRadius: '20px',
+                      padding: '24px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      boxShadow: hoveredCard === topic.tag ? '0 8px 24px rgba(0,0,0,0.08)' : '0 2px 8px rgba(0,0,0,0.04)',
+                      transform: hoveredCard === topic.tag ? 'translateY(-2px)' : 'translateY(0)'
                     }}
                     onMouseEnter={() => setHoveredCard(topic.tag)}
                     onMouseLeave={() => setHoveredCard(null)}
-                    onClick={() => navigate(`/search?q=${encodeURIComponent('#' + topic.tag)}`)}
                   >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2], marginBottom: spacing[2] }}>
-                      <Hash size={20} color={colors['brand-primary']} />
-                      <Text size="lg" weight="semibold">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <Hash size={20} style={{ color: '#6366F1' }} />
+                      <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#000' }}>
                         {topic.tag}
-                      </Text>
+                      </h3>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <Text variant="secondary" size="sm">
+                      <span style={{ color: '#666', fontSize: '14px' }}>
                         {formatNumber(topic.count)} posts
-                      </Text>
-                      <div style={trendBadgeStyle(topic.trend)}>
+                      </span>
+                      <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        padding: '4px 12px',
+                        background: topic.trend === 'up' ? 'rgba(34, 197, 94, 0.1)' : topic.trend === 'down' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(156, 163, 175, 0.1)',
+                        color: topic.trend === 'up' ? '#22C55E' : topic.trend === 'down' ? '#EF4444' : '#6B7280',
+                        borderRadius: '999px',
+                        fontSize: '12px',
+                        fontWeight: '600'
+                      }}>
                         <TrendingUp size={12} />
                         {topic.trend === 'up' ? 'Trending' : topic.trend === 'down' ? 'Declining' : 'Stable'}
                       </div>
@@ -318,57 +277,86 @@ export function ExplorePage() {
 
         {activeTab === 'people' && (
           <div>
-            <Text size="lg" weight="semibold" style={{ marginBottom: spacing[3] }}>
+            <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#000', marginBottom: '16px' }}>
               Suggested People
-            </Text>
-            <div style={gridStyle}>
+            </h2>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '16px'
+            }}>
               {suggestedUsers.map((user) => (
                 <div
                   key={user.username}
                   style={{
-                    ...userCardStyle,
-                    ...(hoveredCard === user.username ? cardHoverStyle : {}),
+                    background: 'white',
+                    borderRadius: '20px',
+                    padding: '24px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '16px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    boxShadow: hoveredCard === user.username ? '0 8px 24px rgba(0,0,0,0.08)' : '0 2px 8px rgba(0,0,0,0.04)',
+                    transform: hoveredCard === user.username ? 'translateY(-2px)' : 'translateY(0)'
                   }}
                   onMouseEnter={() => setHoveredCard(user.username)}
                   onMouseLeave={() => setHoveredCard(null)}
+                  onClick={() => navigate(`/profile/${user.username}`)}
                 >
-                  <Avatar
-                    src={user.avatar}
-                    alt={user.displayName}
-                    size="lg"
-                    onClick={() => navigate(`/profile/${user.username}`)}
-                  />
+                  <div style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '50%',
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    flexShrink: 0
+                  }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: spacing[1], marginBottom: spacing[1] }}>
-                      <Text weight="semibold" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '4px' }}>
+                      <h3 style={{
+                        fontWeight: '600',
+                        color: '#000',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>
                         {user.displayName}
-                      </Text>
+                      </h3>
                       {user.isVerified && (
-                        <span style={{ color: colors['brand-primary'], fontSize: '16px' }}>✓</span>
+                        <span style={{ color: '#6366F1', fontSize: '16px' }}>✓</span>
                       )}
                     </div>
-                    <Text variant="secondary" size="sm" style={{ marginBottom: spacing[2] }}>
+                    <p style={{ color: '#666', fontSize: '14px', marginBottom: '8px' }}>
                       @{user.username}
-                    </Text>
+                    </p>
                     {user.bio && (
-                      <Text size="sm" style={{ marginBottom: spacing[2] }}>
+                      <p style={{ fontSize: '14px', color: '#000', marginBottom: '8px' }}>
                         {user.bio}
-                      </Text>
+                      </p>
                     )}
-                    <Text variant="secondary" size="xs">
+                    <p style={{ color: '#666', fontSize: '12px' }}>
                       {formatNumber(user.followers)} followers
-                    </Text>
-                    <Button
-                      variant="primary"
-                      size="sm"
+                    </p>
+                    <button
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/profile/${user.username}`);
                       }}
-                      style={{ marginTop: spacing[2], width: '100%' }}
+                      style={{
+                        marginTop: '12px',
+                        width: '100%',
+                        height: '48px',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '12px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}
                     >
                       View Profile
-                    </Button>
+                    </button>
                   </div>
                 </div>
               ))}
@@ -378,47 +366,74 @@ export function ExplorePage() {
 
         {activeTab === 'topics' && (
           <div>
-            <Text size="lg" weight="semibold" style={{ marginBottom: spacing[3] }}>
+            <h2 style={{ fontSize: '20px', fontWeight: '600', color: '#000', marginBottom: '16px' }}>
               Popular Topics
-            </Text>
-            <div style={gridStyle}>
+            </h2>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+              gap: '16px'
+            }}>
               {trendingTopics.map((topic) => (
                 <div
                   key={topic.tag}
+                  onClick={() => navigate(`/search?q=${encodeURIComponent('#' + topic.tag)}`)}
                   style={{
-                    ...topicCardStyle,
-                    ...(hoveredCard === `topic-${topic.tag}` ? cardHoverStyle : {}),
+                    background: 'white',
+                    borderRadius: '20px',
+                    padding: '24px',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                    boxShadow: hoveredCard === `topic-${topic.tag}` ? '0 8px 24px rgba(0,0,0,0.08)' : '0 2px 8px rgba(0,0,0,0.04)',
+                    transform: hoveredCard === `topic-${topic.tag}` ? 'translateY(-2px)' : 'translateY(0)'
                   }}
                   onMouseEnter={() => setHoveredCard(`topic-${topic.tag}`)}
                   onMouseLeave={() => setHoveredCard(null)}
-                  onClick={() => navigate(`/search?q=${encodeURIComponent('#' + topic.tag)}`)}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: spacing[2], marginBottom: spacing[3] }}>
-                    <Hash size={24} color={colors['brand-primary']} />
-                    <Text size="xl" weight="bold">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+                    <Hash size={24} style={{ color: '#6366F1' }} />
+                    <h3 style={{ fontSize: '24px', fontWeight: '700', color: '#000' }}>
                       {topic.tag}
-                    </Text>
+                    </h3>
                   </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <Text variant="secondary" size="base">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+                    <span style={{ color: '#666', fontSize: '16px' }}>
                       {formatNumber(topic.count)} posts
-                    </Text>
-                    <div style={trendBadgeStyle(topic.trend)}>
+                    </span>
+                    <div style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      padding: '4px 12px',
+                      background: topic.trend === 'up' ? 'rgba(34, 197, 94, 0.1)' : topic.trend === 'down' ? 'rgba(239, 68, 68, 0.1)' : 'rgba(156, 163, 175, 0.1)',
+                      color: topic.trend === 'up' ? '#22C55E' : topic.trend === 'down' ? '#EF4444' : '#6B7280',
+                      borderRadius: '999px',
+                      fontSize: '12px',
+                      fontWeight: '600'
+                    }}>
                       <TrendingUp size={14} />
                       {topic.trend === 'up' ? 'Trending' : topic.trend === 'down' ? 'Declining' : 'Stable'}
                     </div>
                   </div>
-                  <Button
-                    variant="secondary"
-                    size="sm"
+                  <button
                     onClick={(e) => {
                       e.stopPropagation();
                       navigate(`/search?q=${encodeURIComponent('#' + topic.tag)}`);
                     }}
-                    style={{ marginTop: spacing[3], width: '100%' }}
+                    style={{
+                      width: '100%',
+                      height: '48px',
+                      background: 'white',
+                      color: '#6366F1',
+                      border: '1px solid #E5E5E5',
+                      borderRadius: '12px',
+                      fontSize: '14px',
+                      fontWeight: '600',
+                      cursor: 'pointer'
+                    }}
                   >
                     Explore #{topic.tag}
-                  </Button>
+                  </button>
                 </div>
               ))}
             </div>
