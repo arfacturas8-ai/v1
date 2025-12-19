@@ -85,6 +85,24 @@ export default function BradleyHimelPage() {
             backgroundClip: 'text'
           }}>Join the Future of Social</span>
         </div>
+
+        {/* Profile Photo - Positioned on top of banner */}
+        <div style={{
+          position: 'absolute',
+          bottom: '-75px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '150px',
+          height: '150px',
+          borderRadius: '50%',
+          border: '6px solid #FAFAFA',
+          boxShadow: '0 12px 48px rgba(0, 0, 0, 0.15)',
+          backgroundImage: 'url(/images/brad/Screenshot%202025-12-18%20at%203.59.11%20PM.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          zIndex: 10
+        }}>
+        </div>
       </div>
 
       {/* Main Content */}
@@ -95,28 +113,10 @@ export default function BradleyHimelPage() {
       }}>
         {/* Profile Section */}
         <div style={{
-          marginTop: '-60px',
+          marginTop: '90px',
           textAlign: 'center',
           marginBottom: '32px'
         }}>
-          {/* Profile Photo */}
-          <div style={{
-            width: '120px',
-            height: '120px',
-            margin: '0 auto 16px',
-            borderRadius: '50%',
-            border: '4px solid #FAFAFA',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: '48px',
-            fontWeight: '700',
-            color: 'white'
-          }}>
-            BH
-          </div>
 
           <h1 style={{
             fontSize: '32px',
