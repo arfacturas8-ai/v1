@@ -18,7 +18,7 @@ export default function BradleyHimelPage() {
     name: '',
     email: '',
     phone: '',
-    interest: 'investor'
+    interest: 'user'
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -97,7 +97,7 @@ export default function BradleyHimelPage() {
           borderRadius: '50%',
           border: '6px solid #FAFAFA',
           boxShadow: '0 12px 48px rgba(0, 0, 0, 0.15)',
-          backgroundImage: 'url(/images/brad/Screenshot%202025-12-18%20at%203.59.11%20PM.png)',
+          backgroundImage: 'url(/images/brad/bradley-himel.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           zIndex: 10
@@ -139,15 +139,6 @@ export default function BradleyHimelPage() {
             marginBottom: '24px'
           }}>CRYB Platform</p>
 
-          <p style={{
-            fontSize: '15px',
-            color: '#666666',
-            lineHeight: '1.6',
-            maxWidth: '500px',
-            margin: '0 auto 32px'
-          }}>
-            Building the next generation of social networking. Join our waitlist to be among the first to experience CRYB - where authentic connections meet cutting-edge technology.
-          </p>
 
           {/* Quick Links */}
           <div style={{
@@ -431,7 +422,6 @@ export default function BradleyHimelPage() {
                       e.target.style.background = '#F9F9F9';
                     }}
                   >
-                    <option value="investor">Potential Investor</option>
                     <option value="user">Early User</option>
                     <option value="partner">Business Partner</option>
                     <option value="developer">Developer/Creator</option>
@@ -564,14 +554,6 @@ export default function BradleyHimelPage() {
           >
             Learn More About CRYB
           </a>
-
-          <p style={{
-            fontSize: '13px',
-            color: '#999999',
-            marginTop: '24px'
-          }}>
-            © 2024 CRYB Platform. All rights reserved.
-          </p>
         </div>
       </div>
     </div>
