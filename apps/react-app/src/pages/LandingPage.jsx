@@ -1,21 +1,19 @@
 /**
  * Landing Page - CRYB Platform
- * Built according to Master Frontend Specification
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
  *
- * STANDARDS APPLIED:
- * - Header: Fixed 72px (web) / 56px (mobile), z-index 30
- * - Spacing scale: 4, 8, 16, 24, 32, 48, 64px ONLY
- * - Page padding: 16px mobile, 24px tablet, 80px desktop
- * - Section gaps: 48px
- * - Icons: All exactly 24px in fixed containers
- * - Buttons: 40px (sm), 48px (md), 56px (lg)
- * - Z-index: Strict scale (header = 30)
+ * DESIGN PRINCIPLES:
+ * - Soft shadows, delicate borders
+ * - Generous whitespace
+ * - Glassmorphism effects
+ * - System font feel
+ * - Subtle elevations
+ * - Smooth transitions
  */
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Home,
   Lock,
   Image,
   CheckCircle,
@@ -30,9 +28,14 @@ export default function LandingPage() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Responsive breakpoints
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
+
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -42,32 +45,38 @@ export default function LandingPage() {
     {
       title: 'True Ownership',
       desc: 'Your communities, your data, your keys. On-chain forever.',
-      icon: Lock
+      icon: Lock,
+      color: '#6366F1'
     },
     {
       title: 'NFT Membership',
       desc: 'Tokenized access. Tradeable invites. Programmable permissions.',
-      icon: Image
+      icon: Image,
+      color: '#8B5CF6'
     },
     {
       title: 'DAO Governance',
       desc: 'Communities vote on everything. No centralized control.',
-      icon: CheckCircle
+      icon: CheckCircle,
+      color: '#00D26A'
     },
     {
       title: 'Crypto-Native',
       desc: 'Built-in wallets, token gates, airdrops, and DeFi integrations.',
-      icon: TrendingUp
+      icon: TrendingUp,
+      color: '#FFB800'
     },
     {
       title: 'E2E Encrypted',
       desc: 'Zero-knowledge proofs. Messages only you can read.',
-      icon: Shield
+      icon: Shield,
+      color: '#0095FF'
     },
     {
       title: 'Earn While You Vibe',
       desc: 'Creator rewards, staking, yield farming on your social graph.',
-      icon: TrendingUp
+      icon: TrendingUp,
+      color: '#FF3B3B'
     }
   ];
 
@@ -80,65 +89,90 @@ export default function LandingPage() {
 
   return (
     <div
-      className="min-h-screen relative overflow-hidden"
-      style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }}
+      style={{
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#FAFAFA',
+        color: '#000000'
+      }}
     >
-      {/* Background Effects */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }}>
+      {/* Subtle Background Effects - iOS Style */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
         <div
-          className="absolute -top-40 -right-40 rounded-full opacity-[0.05] blur-3xl"
           style={{
+            position: 'absolute',
+            top: '-20%',
+            right: '-10%',
+            width: '500px',
+            height: '500px',
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            opacity: 0.03,
+            filter: 'blur(80px)'
+          }}
+        />
+        <div
+          style={{
+            position: 'absolute',
+            bottom: '-15%',
+            left: '-5%',
             width: '600px',
             height: '600px',
-            background: '#58a6ff'
+            borderRadius: '50%',
+            background: 'linear-gradient(135deg, #00D26A 0%, #0095FF 100%)',
+            opacity: 0.02,
+            filter: 'blur(80px)'
           }}
-        ></div>
-        <div
-          className="absolute rounded-full opacity-[0.05] blur-3xl"
-          style={{
-            width: '800px',
-            height: '800px',
-            background: '#a371f7',
-            top: '33.333%',
-            left: '-160px'
-          }}
-        ></div>
-        <div
-          className="absolute bottom-0 rounded-full opacity-[0.04] blur-3xl"
-          style={{
-            width: '600px',
-            height: '600px',
-            background: '#58a6ff',
-            right: '25%'
-          }}
-        ></div>
+        />
       </div>
 
-      {/* CRITICAL: Fixed Header with exact specifications */}
+      {/* Modern iOS Header */}
       <nav
-        className="fixed top-0 left-0 right-0 transition-all duration-300"
         style={{
-          height: window.innerWidth >= 768 ? '72px' : '56px',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: isMobile ? '56px' : '72px',
           zIndex: 30,
-          background: isScrolled ? 'rgba(248, 249, 250, 0.95)' : 'transparent',
-          borderBottom: isScrolled ? '1px solid var(--border-subtle)' : 'none',
-          backdropFilter: isScrolled ? 'blur(8px)' : 'none'
+          background: isScrolled ? 'rgba(255, 255, 255, 0.7)' : 'transparent',
+          borderBottom: isScrolled ? '1px solid rgba(0, 0, 0, 0.06)' : 'none',
+          backdropFilter: isScrolled ? 'blur(20px) saturate(180%)' : 'none',
+          WebkitBackdropFilter: isScrolled ? 'blur(20px) saturate(180%)' : 'none',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
         <div
-          className="h-full flex items-center justify-between mx-auto"
           style={{
-            paddingLeft: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            paddingRight: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            maxWidth: '1440px'
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            maxWidth: '1440px',
+            margin: '0 auto',
+            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
           }}
         >
           {/* Logo */}
-          <Link to="/" className="flex items-center" style={{ gap: '8px' }}>
+          <Link
+            to="/"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              textDecoration: 'none'
+            }}
+          >
             <span
-              className="font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"
               style={{
-                fontSize: window.innerWidth >= 768 ? '28px' : '24px'
+                fontSize: isMobile ? '22px' : '26px',
+                fontWeight: '700',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                letterSpacing: '-0.02em'
               }}
             >
               CRYB
@@ -146,228 +180,281 @@ export default function LandingPage() {
           </Link>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center" style={{ gap: '32px' }}>
-            <Link
-              to="/tokenomics"
-              className="font-medium transition-colors"
-              style={{
-                fontSize: '16px',
-                color: 'var(--text-secondary)'
-              }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
-              onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
-            >
-              Tokenomics
-            </Link>
-            <Link
-              to="/help"
-              className="font-medium transition-colors"
-              style={{
-                fontSize: '16px',
-                color: 'var(--text-secondary)'
-              }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
-              onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
-            >
-              Docs
-            </Link>
-            <Link
-              to="/guidelines"
-              className="font-medium transition-colors"
-              style={{
-                fontSize: '16px',
-                color: 'var(--text-secondary)'
-              }}
-              onMouseEnter={(e) => e.target.style.color = 'var(--text-primary)'}
-              onMouseLeave={(e) => e.target.style.color = 'var(--text-secondary)'}
-            >
-              Community
-            </Link>
-          </div>
-
-          {/* Desktop Auth Buttons - EXACT HEIGHTS */}
-          <div className="hidden md:flex items-center" style={{ gap: '16px' }}>
-            <Link
-              to="/login"
-              className="inline-flex items-center justify-center font-semibold transition-all"
-              style={{
-                height: '48px',
-                paddingLeft: '32px',
-                paddingRight: '32px',
-                fontSize: '16px',
-                color: 'var(--text-secondary)',
-                background: 'transparent',
-                borderRadius: '9999px'
-              }}
-            >
-              Sign In
-            </Link>
-            <Link
-              to="/register"
-              className="inline-flex items-center justify-center font-semibold transition-all"
-              style={{
-                height: '48px',
-                paddingLeft: '32px',
-                paddingRight: '32px',
-                fontSize: '16px',
-                color: 'white',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                borderRadius: '9999px',
-                boxShadow: 'var(--shadow-sm)'
-              }}
-            >
-              Get Started
-            </Link>
-          </div>
-
-          {/* Mobile Menu Button with EXACT 24px icon */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden inline-flex items-center justify-center transition-colors"
-            style={{
-              width: '40px',
-              height: '40px',
-              color: 'var(--text-secondary)'
-            }}
-          >
-            <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-              {mobileMenuOpen ? (
-                <X size={24} strokeWidth={2} />
-              ) : (
-                <Menu size={24} strokeWidth={2} />
-              )}
+          {!isMobile && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+              <Link
+                to="/tokenomics"
+                style={{
+                  fontSize: '15px',
+                  fontWeight: '500',
+                  color: '#666666',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.target.style.color = '#000000'}
+                onMouseLeave={(e) => e.target.style.color = '#666666'}
+              >
+                Tokenomics
+              </Link>
+              <Link
+                to="/help"
+                style={{
+                  fontSize: '15px',
+                  fontWeight: '500',
+                  color: '#666666',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.target.style.color = '#000000'}
+                onMouseLeave={(e) => e.target.style.color = '#666666'}
+              >
+                Docs
+              </Link>
+              <Link
+                to="/guidelines"
+                style={{
+                  fontSize: '15px',
+                  fontWeight: '500',
+                  color: '#666666',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.target.style.color = '#000000'}
+                onMouseLeave={(e) => e.target.style.color = '#666666'}
+              >
+                Community
+              </Link>
             </div>
-          </button>
+          )}
+
+          {/* Desktop CTA */}
+          {!isMobile && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+              <Link
+                to="/login"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '44px',
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  color: '#000000',
+                  background: 'transparent',
+                  border: 'none',
+                  borderRadius: '22px',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'rgba(0, 0, 0, 0.04)'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'transparent'
+                }}
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  height: '44px',
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  color: 'white',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  border: 'none',
+                  borderRadius: '22px',
+                  boxShadow: '0 2px 8px rgba(99, 102, 241, 0.25)',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-1px)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 2px 8px rgba(99, 102, 241, 0.25)'
+                }}
+              >
+                Get Started
+              </Link>
+            </div>
+          )}
+
+          {/* Mobile Menu Button */}
+          {isMobile && (
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '44px',
+                height: '44px',
+                background: 'transparent',
+                border: 'none',
+                borderRadius: '22px',
+                color: '#000000',
+                cursor: 'pointer',
+                transition: 'background 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.background = 'rgba(0, 0, 0, 0.04)'}
+              onMouseLeave={(e) => e.target.style.background = 'transparent'}
+            >
+              <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+                {mobileMenuOpen ? (
+                  <X size={24} strokeWidth={2} />
+                ) : (
+                  <Menu size={24} strokeWidth={2} />
+                )}
+              </div>
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu */}
-        {mobileMenuOpen && (
+        {mobileMenuOpen && isMobile && (
           <div
-            className="md:hidden"
             style={{
               background: 'rgba(255, 255, 255, 0.95)',
-              borderTop: '1px solid var(--border-subtle)',
-              backdropFilter: 'blur(8px)'
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+              padding: '20px'
             }}
           >
-            <div style={{ padding: '16px' }}>
-              <div style={{ marginBottom: '8px' }}>
-                <Link
-                  to="/tokenomics"
-                  className="block font-medium"
-                  style={{
-                    padding: '8px 0',
-                    fontSize: '16px',
-                    color: 'var(--text-secondary)'
-                  }}
-                >
-                  Tokenomics
-                </Link>
-              </div>
-              <div style={{ marginBottom: '8px' }}>
-                <Link
-                  to="/help"
-                  className="block font-medium"
-                  style={{
-                    padding: '8px 0',
-                    fontSize: '16px',
-                    color: 'var(--text-secondary)'
-                  }}
-                >
-                  Docs
-                </Link>
-              </div>
-              <div style={{ marginBottom: '16px' }}>
-                <Link
-                  to="/guidelines"
-                  className="block font-medium"
-                  style={{
-                    padding: '8px 0',
-                    fontSize: '16px',
-                    color: 'var(--text-secondary)'
-                  }}
-                >
-                  Community
-                </Link>
-              </div>
-              <div
+            <div style={{ marginBottom: '20px' }}>
+              <Link
+                to="/tokenomics"
                 style={{
-                  borderTop: '1px solid var(--border-subtle)',
-                  paddingTop: '16px'
+                  display: 'block',
+                  padding: '12px 0',
+                  fontSize: '17px',
+                  fontWeight: '500',
+                  color: '#000000',
+                  textDecoration: 'none'
                 }}
               >
-                <Link
-                  to="/login"
-                  className="block text-center font-semibold"
-                  style={{
-                    height: '48px',
-                    lineHeight: '48px',
-                    marginBottom: '8px',
-                    fontSize: '16px',
-                    color: 'var(--brand-primary)',
-                    background: 'white',
-                    border: '2px solid var(--brand-primary)',
-                    borderRadius: '9999px'
-                  }}
-                >
-                  Sign In
-                </Link>
-                <Link
-                  to="/register"
-                  className="block text-center font-semibold"
-                  style={{
-                    height: '48px',
-                    lineHeight: '48px',
-                    fontSize: '16px',
-                    color: 'white',
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                    borderRadius: '9999px'
-                  }}
-                >
-                  Get Started
-                </Link>
-              </div>
+                Tokenomics
+              </Link>
+              <Link
+                to="/help"
+                style={{
+                  display: 'block',
+                  padding: '12px 0',
+                  fontSize: '17px',
+                  fontWeight: '500',
+                  color: '#000000',
+                  textDecoration: 'none'
+                }}
+              >
+                Docs
+              </Link>
+              <Link
+                to="/guidelines"
+                style={{
+                  display: 'block',
+                  padding: '12px 0',
+                  fontSize: '17px',
+                  fontWeight: '500',
+                  color: '#000000',
+                  textDecoration: 'none'
+                }}
+              >
+                Community
+              </Link>
+            </div>
+            <div style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', paddingTop: '20px' }}>
+              <Link
+                to="/login"
+                style={{
+                  display: 'block',
+                  textAlign: 'center',
+                  height: '48px',
+                  lineHeight: '48px',
+                  marginBottom: '12px',
+                  fontSize: '17px',
+                  fontWeight: '600',
+                  color: '#6366F1',
+                  background: 'white',
+                  border: '2px solid #6366F1',
+                  borderRadius: '24px',
+                  textDecoration: 'none'
+                }}
+              >
+                Sign In
+              </Link>
+              <Link
+                to="/register"
+                style={{
+                  display: 'block',
+                  textAlign: 'center',
+                  height: '48px',
+                  lineHeight: '48px',
+                  fontSize: '17px',
+                  fontWeight: '600',
+                  color: 'white',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  borderRadius: '24px',
+                  boxShadow: '0 2px 8px rgba(99, 102, 241, 0.25)',
+                  textDecoration: 'none'
+                }}
+              >
+                Get Started
+              </Link>
             </div>
           </div>
         )}
       </nav>
 
-      {/* CRITICAL: Main content with padding-top equal to header height */}
-      <div style={{ paddingTop: window.innerWidth >= 768 ? '72px' : '56px' }}>
-        {/* Hero Section - EXACT SPACING */}
+      {/* Main Content */}
+      <div style={{ paddingTop: isMobile ? '56px' : '72px' }}>
+        {/* Hero Section */}
         <section
           style={{
-            paddingTop: window.innerWidth >= 768 ? '64px' : '48px',
-            paddingBottom: window.innerWidth >= 768 ? '64px' : '48px',
-            paddingLeft: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            paddingRight: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
+            paddingTop: isDesktop ? '120px' : isTablet ? '80px' : '60px',
+            paddingBottom: isDesktop ? '120px' : isTablet ? '80px' : '60px',
+            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
           }}
         >
-          <div className="max-w-7xl mx-auto text-center">
+          <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
             {/* Badge */}
             <div
-              className="inline-flex items-center rounded-full"
               style={{
+                display: 'inline-flex',
+                alignItems: 'center',
                 gap: '8px',
                 marginBottom: '32px',
-                padding: '8px 16px',
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border-subtle)'
+                padding: '6px 16px',
+                background: 'rgba(99, 102, 241, 0.08)',
+                border: '1px solid rgba(99, 102, 241, 0.12)',
+                borderRadius: '20px'
               }}
             >
               <span
-                className="rounded-full"
                 style={{
-                  width: '8px',
-                  height: '8px',
-                  background: '#58a6ff'
+                  width: '6px',
+                  height: '6px',
+                  borderRadius: '50%',
+                  background: '#6366F1'
                 }}
-              ></span>
+              />
               <span
-                className="font-medium"
                 style={{
-                  fontSize: '14px',
-                  color: 'var(--text-secondary)'
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: '#6366F1',
+                  letterSpacing: '0.01em'
                 }}
               >
                 Decentralized Social, Reimagined
@@ -376,72 +463,117 @@ export default function LandingPage() {
 
             {/* Headline */}
             <h1
-              className="font-bold leading-tight"
               style={{
-                fontSize: window.innerWidth >= 1024 ? '56px' : window.innerWidth >= 768 ? '48px' : '32px',
-                marginBottom: window.innerWidth >= 768 ? '32px' : '24px'
+                fontSize: isDesktop ? '64px' : isTablet ? '52px' : '40px',
+                fontWeight: '700',
+                lineHeight: '1.1',
+                marginBottom: '24px',
+                letterSpacing: '-0.02em'
               }}
             >
-              <span style={{ color: 'var(--text-primary)' }}>Where Communities</span>
+              <span style={{ color: '#000000' }}>Where Communities</span>
               <br />
-              <span className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+              <span
+                style={{
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text'
+                }}
+              >
                 Own Themselves
               </span>
             </h1>
 
             {/* Subheadline */}
             <p
-              className="max-w-3xl mx-auto"
               style={{
-                fontSize: window.innerWidth >= 768 ? '20px' : '18px',
-                lineHeight: '1.625',
-                marginBottom: window.innerWidth >= 768 ? '48px' : '32px',
-                color: 'var(--text-secondary)'
+                maxWidth: '720px',
+                margin: '0 auto',
+                fontSize: isDesktop ? '20px' : isTablet ? '18px' : '17px',
+                lineHeight: '1.6',
+                marginBottom: '48px',
+                color: '#666666',
+                fontWeight: '400'
               }}
             >
-              The first truly decentralized social platform. Crypto-native communities with
-              <span style={{ color: '#58a6ff' }}> NFT membership</span>,
-              <span style={{ color: '#a371f7' }}> DAO governance</span>, and
-              <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}> real ownership</span>.
+              The first truly decentralized social platform. Crypto-native communities with{' '}
+              <span style={{ color: '#6366F1', fontWeight: '600' }}>NFT membership</span>,{' '}
+              <span style={{ color: '#8B5CF6', fontWeight: '600' }}>DAO governance</span>, and{' '}
+              <span style={{ color: '#000000', fontWeight: '600' }}>real ownership</span>.
             </p>
 
-            {/* CTA Buttons - EXACT HEIGHTS */}
+            {/* CTA Buttons */}
             <div
-              className="flex flex-col sm:flex-row justify-center"
-              style={{ gap: '16px' }}
+              style={{
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                justifyContent: 'center',
+                gap: '16px',
+                alignItems: 'center'
+              }}
             >
               <Link
                 to="/register"
-                className="inline-flex items-center justify-center font-semibold transition-all"
                 style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
                   height: '56px',
                   paddingLeft: '32px',
                   paddingRight: '32px',
-                  fontSize: '16px',
-                  gap: '8px',
+                  fontSize: '17px',
+                  fontWeight: '600',
                   color: 'white',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                  borderRadius: '9999px',
-                  boxShadow: 'var(--shadow-sm)'
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  border: 'none',
+                  borderRadius: '28px',
+                  boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease',
+                  width: isMobile ? '100%' : 'auto'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)'
+                  e.target.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.4)'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)'
                 }}
               >
                 Get Started Free
-                <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                  <ArrowRight size={24} strokeWidth={2} />
+                <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                  <ArrowRight size={20} strokeWidth={2.5} />
                 </div>
               </Link>
               <Link
                 to="/login"
-                className="inline-flex items-center justify-center font-semibold transition-all"
                 style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   height: '56px',
                   paddingLeft: '32px',
                   paddingRight: '32px',
-                  fontSize: '16px',
-                  color: 'var(--brand-primary)',
+                  fontSize: '17px',
+                  fontWeight: '600',
+                  color: '#000000',
                   background: 'white',
-                  border: '2px solid var(--brand-primary)',
-                  borderRadius: '9999px'
+                  border: '2px solid rgba(0, 0, 0, 0.08)',
+                  borderRadius: '28px',
+                  textDecoration: 'none',
+                  transition: 'all 0.2s ease',
+                  width: isMobile ? '100%' : 'auto'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.background = 'rgba(0, 0, 0, 0.02)'
+                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.12)'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.background = 'white'
+                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
                 }}
               >
                 Explore Platform
@@ -450,43 +582,53 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Stats Section - EXACT 48px gap from hero */}
+        {/* Stats Section */}
         <section
           style={{
-            marginTop: '48px',
-            paddingTop: '48px',
-            paddingBottom: '48px',
-            paddingLeft: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            paddingRight: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            borderTop: '1px solid var(--border-subtle)',
-            borderBottom: '1px solid var(--border-subtle)'
+            paddingTop: '60px',
+            paddingBottom: '60px',
+            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            background: 'white',
+            borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.06)'
           }}
         >
-          <div className="max-w-7xl mx-auto">
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div
-              className="grid grid-cols-2 lg:grid-cols-4"
-              style={{ gap: '24px' }}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                gap: '32px'
+              }}
             >
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="card text-center"
-                  style={{ minHeight: '120px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+                  style={{
+                    textAlign: 'center',
+                    padding: '20px'
+                  }}
                 >
                   <div
-                    className="font-bold bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"
                     style={{
-                      fontSize: window.innerWidth >= 1024 ? '48px' : window.innerWidth >= 768 ? '40px' : '32px',
-                      marginBottom: '8px'
+                      fontSize: isDesktop ? '48px' : isTablet ? '40px' : '32px',
+                      fontWeight: '700',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text',
+                      marginBottom: '8px',
+                      letterSpacing: '-0.02em'
                     }}
                   >
                     {stat.value}
                   </div>
                   <div
-                    className="font-medium"
                     style={{
-                      fontSize: window.innerWidth >= 768 ? '16px' : '14px',
-                      color: 'var(--text-secondary)'
+                      fontSize: '15px',
+                      fontWeight: '500',
+                      color: '#666666'
                     }}
                   >
                     {stat.label}
@@ -497,76 +639,109 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Features Section - EXACT 48px gap from stats */}
+        {/* Features Section */}
         <section
           style={{
-            marginTop: '48px',
-            paddingTop: '64px',
-            paddingBottom: '64px',
-            paddingLeft: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            paddingRight: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
+            paddingTop: isDesktop ? '120px' : isTablet ? '80px' : '60px',
+            paddingBottom: isDesktop ? '120px' : isTablet ? '80px' : '60px',
+            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
           }}
         >
-          <div className="max-w-7xl mx-auto">
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             {/* Section Header */}
             <div
-              className="text-center"
-              style={{ marginBottom: window.innerWidth >= 768 ? '64px' : '48px' }}
+              style={{
+                textAlign: 'center',
+                marginBottom: isDesktop ? '80px' : isTablet ? '60px' : '48px'
+              }}
             >
               <h2
-                className="font-bold"
                 style={{
-                  fontSize: window.innerWidth >= 1024 ? '48px' : window.innerWidth >= 768 ? '40px' : '32px',
-                  marginBottom: '16px'
+                  fontSize: isDesktop ? '52px' : isTablet ? '44px' : '36px',
+                  fontWeight: '700',
+                  marginBottom: '16px',
+                  letterSpacing: '-0.02em'
                 }}
               >
-                <span className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+                <span
+                  style={{
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
+                >
                   Built Different
                 </span>
               </h2>
               <p
-                className="max-w-2xl mx-auto"
                 style={{
-                  fontSize: window.innerWidth >= 768 ? '20px' : '18px',
-                  color: 'var(--text-secondary)'
+                  maxWidth: '640px',
+                  margin: '0 auto',
+                  fontSize: isDesktop ? '20px' : '18px',
+                  color: '#666666',
+                  lineHeight: '1.6'
                 }}
               >
                 Not your average social platform. Web3-native from the ground up.
               </p>
             </div>
 
-            {/* Features Grid - EXACT 24px gap */}
+            {/* Features Grid */}
             <div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
-              style={{ gap: '24px' }}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+                gap: '24px'
+              }}
             >
               {features.map((feature, i) => (
                 <div
                   key={i}
-                  className="card card-interactive group"
-                  style={{ minHeight: '200px' }}
+                  style={{
+                    padding: '32px',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '20px',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-4px)'
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.1)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                  }}
                 >
                   <div
-                    className="flex items-center justify-center rounded-xl transition-transform group-hover:scale-110"
                     style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                       width: '56px',
                       height: '56px',
-                      marginBottom: '24px',
-                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.2) 0%, rgba(163, 113, 247, 0.2) 100%)',
-                      color: '#58a6ff',
-                      flexShrink: 0
+                      marginBottom: '20px',
+                      background: `${feature.color}10`,
+                      borderRadius: '16px'
                     }}
                   >
-                    <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                      <feature.icon size={24} strokeWidth={2} />
+                    <div style={{ width: '28px', height: '28px', flexShrink: 0, color: feature.color }}>
+                      <feature.icon size={28} strokeWidth={2} />
                     </div>
                   </div>
                   <h3
-                    className="font-semibold"
                     style={{
                       fontSize: '20px',
+                      fontWeight: '600',
                       marginBottom: '12px',
-                      color: 'var(--text-primary)'
+                      color: '#000000',
+                      letterSpacing: '-0.01em'
                     }}
                   >
                     {feature.title}
@@ -574,8 +749,9 @@ export default function LandingPage() {
                   <p
                     style={{
                       fontSize: '16px',
-                      lineHeight: '1.625',
-                      color: 'var(--text-secondary)'
+                      lineHeight: '1.6',
+                      color: '#666666',
+                      margin: 0
                     }}
                   >
                     {feature.desc}
@@ -586,90 +762,93 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* CTA Section - EXACT 48px gap from features */}
+        {/* CTA Section */}
         <section
           style={{
-            marginTop: '48px',
-            paddingTop: '64px',
-            paddingBottom: '64px',
-            paddingLeft: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            paddingRight: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
+            paddingTop: isDesktop ? '100px' : isTablet ? '80px' : '60px',
+            paddingBottom: isDesktop ? '100px' : isTablet ? '80px' : '60px',
+            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
           }}
         >
-          <div className="max-w-4xl mx-auto">
+          <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
             <div
-              className="card card-elevated relative overflow-hidden text-center"
               style={{
-                padding: window.innerWidth >= 768 ? '64px' : '32px',
-                borderRadius: '24px',
-                background: 'var(--bg-gradient-subtle)'
+                position: 'relative',
+                overflow: 'hidden',
+                padding: isDesktop ? '80px 60px' : isTablet ? '60px 40px' : '48px 28px',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                borderRadius: '32px',
+                boxShadow: '0 20px 60px rgba(99, 102, 241, 0.3)',
+                textAlign: 'center'
               }}
             >
-              {/* Background Glow */}
-              <div className="absolute inset-0 pointer-events-none">
-                <div
-                  className="absolute rounded-full opacity-[0.08] blur-3xl"
-                  style={{
-                    width: '384px',
-                    height: '384px',
-                    top: 0,
-                    left: '25%',
-                    background: '#58a6ff'
-                  }}
-                ></div>
-                <div
-                  className="absolute rounded-full opacity-[0.08] blur-3xl"
-                  style={{
-                    width: '384px',
-                    height: '384px',
-                    bottom: 0,
-                    right: '25%',
-                    background: '#a371f7'
-                  }}
-                ></div>
-              </div>
+              {/* Subtle Pattern Overlay */}
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)',
+                  pointerEvents: 'none'
+                }}
+              />
 
-              <div style={{ position: 'relative', zIndex: 10 }}>
+              <div style={{ position: 'relative', zIndex: 1 }}>
                 <h2
-                  className="font-bold"
                   style={{
-                    fontSize: window.innerWidth >= 1024 ? '48px' : window.innerWidth >= 768 ? '40px' : '32px',
-                    marginBottom: '24px'
+                    fontSize: isDesktop ? '48px' : isTablet ? '40px' : '32px',
+                    fontWeight: '700',
+                    marginBottom: '20px',
+                    color: 'white',
+                    letterSpacing: '-0.02em'
                   }}
                 >
-                  <span style={{ color: 'var(--text-primary)' }}>Ready to </span>
-                  <span className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
-                    Own Your Space?
-                  </span>
+                  Ready to Own Your Space?
                 </h2>
                 <p
-                  className="max-w-2xl mx-auto"
                   style={{
-                    fontSize: window.innerWidth >= 768 ? '20px' : '18px',
-                    marginBottom: '32px',
-                    color: 'var(--text-secondary)'
+                    maxWidth: '600px',
+                    margin: '0 auto',
+                    fontSize: isDesktop ? '20px' : '18px',
+                    marginBottom: '40px',
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    lineHeight: '1.6'
                   }}
                 >
                   Join thousands of communities building the future of social. Your keys, your community, your rules.
                 </p>
                 <Link
                   to="/register"
-                  className="inline-flex items-center justify-center font-semibold transition-all"
                   style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
                     height: '56px',
                     paddingLeft: '32px',
                     paddingRight: '32px',
-                    fontSize: '16px',
-                    gap: '8px',
-                    color: 'white',
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                    borderRadius: '9999px',
-                    boxShadow: 'var(--shadow-sm)'
+                    fontSize: '17px',
+                    fontWeight: '600',
+                    color: '#6366F1',
+                    background: 'white',
+                    border: 'none',
+                    borderRadius: '28px',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.15)',
+                    textDecoration: 'none',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.transform = 'translateY(-2px)'
+                    e.target.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.transform = 'translateY(0)'
+                    e.target.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.15)'
                   }}
                 >
                   Get Started Free
-                  <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                    <ArrowRight size={24} strokeWidth={2} />
+                  <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                    <ArrowRight size={20} strokeWidth={2.5} />
                   </div>
                 </Link>
               </div>
@@ -677,221 +856,149 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Footer - EXACT 48px gap from CTA */}
+        {/* Footer */}
         <footer
           style={{
-            marginTop: '48px',
-            paddingTop: '48px',
-            paddingBottom: '48px',
-            paddingLeft: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            paddingRight: window.innerWidth >= 1024 ? '80px' : window.innerWidth >= 640 ? '24px' : '16px',
-            borderTop: '1px solid var(--border-subtle)'
+            paddingTop: '60px',
+            paddingBottom: '40px',
+            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px',
+            background: 'white',
+            borderTop: '1px solid rgba(0, 0, 0, 0.06)'
           }}
         >
-          <div className="max-w-7xl mx-auto">
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
             <div
-              className="grid grid-cols-2 md:grid-cols-4"
-              style={{ gap: '32px', marginBottom: '48px' }}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                gap: '48px',
+                marginBottom: '48px'
+              }}
             >
               {/* Brand */}
-              <div className="col-span-2 md:col-span-1">
-                <span className="text-2xl font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+              <div>
+                <span
+                  style={{
+                    fontSize: '24px',
+                    fontWeight: '700',
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text'
+                  }}
+                >
                   CRYB
                 </span>
                 <p
                   style={{
-                    fontSize: '14px',
-                    marginTop: '16px',
-                    lineHeight: '1.625',
-                    color: 'var(--text-secondary)'
+                    fontSize: '15px',
+                    marginTop: '12px',
+                    lineHeight: '1.6',
+                    color: '#666666',
+                    margin: '12px 0 0 0'
                   }}
                 >
                   Building the decentralized future of social.
                 </p>
               </div>
 
-              {/* Links */}
+              {/* Platform Links */}
               <div>
                 <h4
-                  className="font-semibold"
                   style={{
+                    fontSize: '13px',
+                    fontWeight: '600',
                     marginBottom: '16px',
-                    color: 'var(--text-primary)'
+                    color: '#000000',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
                   }}
                 >
                   Platform
                 </h4>
-                <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <li>
-                    <Link
-                      to="/communities"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Communities
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/nft-marketplace"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      NFT Marketplace
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/governance"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Governance
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/tokenomics"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Tokenomics
-                    </Link>
-                  </li>
-                </ul>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Link to="/communities" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Communities</Link>
+                  <Link to="/nft-marketplace" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>NFT Marketplace</Link>
+                  <Link to="/governance" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Governance</Link>
+                  <Link to="/tokenomics" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Tokenomics</Link>
+                </div>
               </div>
 
+              {/* Resources Links */}
               <div>
                 <h4
-                  className="font-semibold"
                   style={{
+                    fontSize: '13px',
+                    fontWeight: '600',
                     marginBottom: '16px',
-                    color: 'var(--text-primary)'
+                    color: '#000000',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
                   }}
                 >
                   Resources
                 </h4>
-                <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <li>
-                    <Link
-                      to="/help"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Help Center
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/guidelines"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Guidelines
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/contact"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Contact
-                    </Link>
-                  </li>
-                </ul>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Link to="/help" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Help Center</Link>
+                  <Link to="/guidelines" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Guidelines</Link>
+                  <Link to="/contact" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Contact</Link>
+                </div>
               </div>
 
+              {/* Legal Links */}
               <div>
                 <h4
-                  className="font-semibold"
                   style={{
+                    fontSize: '13px',
+                    fontWeight: '600',
                     marginBottom: '16px',
-                    color: 'var(--text-primary)'
+                    color: '#000000',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em'
                   }}
                 >
                   Legal
                 </h4>
-                <ul style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <li>
-                    <Link
-                      to="/privacy"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Privacy Policy
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/terms"
-                      className="transition-colors"
-                      style={{
-                        fontSize: '14px',
-                        color: 'var(--text-secondary)'
-                      }}
-                    >
-                      Terms of Service
-                    </Link>
-                  </li>
-                </ul>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <Link to="/privacy" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Privacy Policy</Link>
+                  <Link to="/terms" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Terms of Service</Link>
+                </div>
               </div>
             </div>
 
             {/* Bottom */}
             <div
-              className="flex flex-col md:flex-row justify-between items-center"
               style={{
-                paddingTop: '32px',
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
                 gap: '16px',
-                borderTop: '1px solid var(--border-subtle)'
+                paddingTop: '32px',
+                borderTop: '1px solid rgba(0, 0, 0, 0.06)'
               }}
             >
               <p
                 style={{
                   fontSize: '14px',
-                  color: 'var(--text-secondary)'
+                  color: '#666666',
+                  margin: 0
                 }}
               >
                 © 2025 Cryb.ai. All rights reserved.
               </p>
-              <div
-                className="flex items-center"
-                style={{ gap: '24px' }}
-              >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                 <a
                   href="https://twitter.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors"
-                  style={{ color: 'var(--text-secondary)' }}
+                  style={{ color: '#666666', transition: 'color 0.2s' }}
+                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseLeave={(e) => e.target.style.color = '#666666'}
                 >
-                  <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                    <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                  <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                    <svg fill="currentColor" viewBox="0 0 24 24" style={{ width: '100%', height: '100%' }}>
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                     </svg>
                   </div>
@@ -900,11 +1007,12 @@ export default function LandingPage() {
                   href="https://discord.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors"
-                  style={{ color: 'var(--text-secondary)' }}
+                  style={{ color: '#666666', transition: 'color 0.2s' }}
+                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseLeave={(e) => e.target.style.color = '#666666'}
                 >
-                  <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                    <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                  <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                    <svg fill="currentColor" viewBox="0 0 24 24" style={{ width: '100%', height: '100%' }}>
                       <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/>
                     </svg>
                   </div>
@@ -913,11 +1021,12 @@ export default function LandingPage() {
                   href="https://github.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="transition-colors"
-                  style={{ color: 'var(--text-secondary)' }}
+                  style={{ color: '#666666', transition: 'color 0.2s' }}
+                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseLeave={(e) => e.target.style.color = '#666666'}
                 >
-                  <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                    <svg className="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
+                  <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                    <svg fill="currentColor" viewBox="0 0 24 24" style={{ width: '100%', height: '100%' }}>
                       <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
                     </svg>
                   </div>
