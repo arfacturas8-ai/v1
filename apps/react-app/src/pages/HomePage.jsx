@@ -1,6 +1,13 @@
 /**
- * CRYB Platform - Home Page v.1
- * Light theme home feed matching design spec
+ * CRYB Platform - Home Page
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and glassmorphism
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -16,6 +23,9 @@ function HomePageContent() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('algorithmic');
   const { startTour } = useOnboardingTour();
+
+  // Responsive breakpoints
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
 
   // Auto-start tour for new users
   useEffect(() => {
@@ -91,66 +101,75 @@ function HomePageContent() {
       id="home-feed"
       style={{
         minHeight: '100vh',
-        background: 'var(--bg-primary)',
+        background: '#FAFAFA'
       }}
     >
       <div
         style={{
           maxWidth: '640px',
           margin: '0 auto',
-          padding: 'var(--space-4)',
+          padding: isMobile ? '16px' : '20px',
+          paddingTop: isMobile ? '76px' : '92px', // Account for fixed header
+          paddingBottom: isMobile ? '96px' : '48px' // Account for mobile bottom nav
         }}
       >
-        {/* Header */}
+        {/* Header with Tabs */}
         <div
           id="feed-tabs"
           style={{
             position: 'sticky',
-            top: 0,
-            background: 'var(--bg-secondary)',
-            border: '1px solid var(--border-subtle)',
-            borderRadius: 'var(--radius-xl)',
-            padding: 'var(--space-4)',
-            marginBottom: 'var(--space-4)',
+            top: isMobile ? '56px' : '72px',
+            background: 'rgba(255, 255, 255, 0.8)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            borderRadius: '20px',
+            padding: isMobile ? '16px' : '20px',
+            marginBottom: '20px',
             zIndex: 10,
-            boxShadow: 'var(--shadow-sm)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
           }}
         >
-          <Text
-            size="xl"
-            weight="bold"
+          <h1
             style={{
-              color: 'var(--text-primary)',
-              marginBottom: 'var(--space-3)',
+              fontSize: isMobile ? '24px' : '28px',
+              fontWeight: '700',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              marginBottom: '16px',
+              letterSpacing: '-0.02em',
+              margin: '0 0 16px 0'
             }}
           >
             CRYB
-          </Text>
+          </h1>
 
           {/* Tabs */}
           <div
             style={{
               display: 'flex',
-              gap: 'var(--space-2)',
-              background: 'var(--bg-tertiary)',
-              padding: 'var(--space-1)',
-              borderRadius: 'var(--radius-full)',
+              gap: '8px',
+              background: 'rgba(0, 0, 0, 0.04)',
+              padding: '4px',
+              borderRadius: '16px'
             }}
           >
             <button
               onClick={() => setActiveTab('algorithmic')}
               style={{
                 flex: 1,
-                padding: 'var(--space-2) var(--space-4)',
-                background: activeTab === 'algorithmic' ? 'var(--bg-secondary)' : 'transparent',
-                color: activeTab === 'algorithmic' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                padding: isMobile ? '10px 16px' : '12px 20px',
+                background: activeTab === 'algorithmic' ? 'white' : 'transparent',
+                color: activeTab === 'algorithmic' ? '#000000' : '#666666',
                 border: 'none',
-                borderRadius: 'var(--radius-full)',
-                fontSize: 'var(--text-sm)',
-                fontWeight: activeTab === 'algorithmic' ? 'var(--font-semibold)' : 'var(--font-medium)',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: activeTab === 'algorithmic' ? '600' : '500',
                 cursor: 'pointer',
-                transition: 'all var(--transition-normal)',
-                boxShadow: activeTab === 'algorithmic' ? 'var(--shadow-sm)' : 'none',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: activeTab === 'algorithmic' ? '0 1px 4px rgba(0, 0, 0, 0.08)' : 'none'
               }}
             >
               For You
@@ -159,16 +178,16 @@ function HomePageContent() {
               onClick={() => setActiveTab('chronological')}
               style={{
                 flex: 1,
-                padding: 'var(--space-2) var(--space-4)',
-                background: activeTab === 'chronological' ? 'var(--bg-secondary)' : 'transparent',
-                color: activeTab === 'chronological' ? 'var(--text-primary)' : 'var(--text-secondary)',
+                padding: isMobile ? '10px 16px' : '12px 20px',
+                background: activeTab === 'chronological' ? 'white' : 'transparent',
+                color: activeTab === 'chronological' ? '#000000' : '#666666',
                 border: 'none',
-                borderRadius: 'var(--radius-full)',
-                fontSize: 'var(--text-sm)',
-                fontWeight: activeTab === 'chronological' ? 'var(--font-semibold)' : 'var(--font-medium)',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: activeTab === 'chronological' ? '600' : '500',
                 cursor: 'pointer',
-                transition: 'all var(--transition-normal)',
-                boxShadow: activeTab === 'chronological' ? 'var(--shadow-sm)' : 'none',
+                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: activeTab === 'chronological' ? '0 1px 4px rgba(0, 0, 0, 0.08)' : 'none'
               }}
             >
               Following
@@ -181,7 +200,7 @@ function HomePageContent() {
           <div
             id="create-post-button"
             style={{
-              marginBottom: 'var(--space-4)',
+              marginBottom: '20px'
             }}
           >
             <Composer
