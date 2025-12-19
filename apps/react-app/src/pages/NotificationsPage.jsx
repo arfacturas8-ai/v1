@@ -1,3 +1,15 @@
+/**
+ * CRYB Platform - Notifications Page
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and glassmorphism
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
+ */
+
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate } from 'react-router-dom'
@@ -24,26 +36,6 @@ import usePullToRefresh from '../hooks/usePullToRefresh.jsx'
 import { useLoadingAnnouncement, useErrorAnnouncement } from '../utils/accessibility'
 import { useResponsive } from '../hooks/useResponsive'
 
-/**
- * NotificationsPage - Comprehensive notification center
- *
- * Master Prompt Standards Applied:
- * - Responsive padding: 80px desktop, 24px tablet, 16px mobile
- * - Header offset: 72px desktop/tablet, 56px mobile
- * - All icons 24px in shrink-0 containers
- * - Notification rows minimum 72px height
- * - Section gaps: 48px, card gaps: 24px, inline gaps: 16px
- * - Z-index: header at 50
- *
- * Features:
- * - All notification types (messages, mentions, reactions, follows, awards)
- * - Filtering by type and status
- * - Mark as read/unread
- * - Bulk actions (mark all read, delete)
- * - Real-time updates via WebSocket
- * - Mobile-responsive design
- */
-
 const NOTIFICATION_TYPES = {
   MESSAGE: 'message',
   MENTION: 'mention',
@@ -54,35 +46,35 @@ const NOTIFICATION_TYPES = {
   REPLY: 'reply'
 }
 
-// Icon component with standard 24px sizing in shrink-0 container
+// Icon component with standard 20px sizing in 24px containers
 const NotificationIcon = ({ type }) => {
   const getIcon = () => {
     switch (type) {
       case NOTIFICATION_TYPES.MESSAGE:
-        return <MessageSquare style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
+        return <MessageSquare style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.MENTION:
-        return <AtSign style={{ width: '24px', height: '24px', color: '#a371f7', flexShrink: 0 }} />
+        return <AtSign style={{ width: '20px', height: '20px', color: '#8B5CF6', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.REACTION:
-        return <Heart style={{ width: '24px', height: '24px', color: '#ef4444', flexShrink: 0 }} />
+        return <Heart style={{ width: '20px', height: '20px', color: '#EF4444', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.FOLLOW:
-        return <UserPlus style={{ width: '24px', height: '24px', color: '#10b981', flexShrink: 0 }} />
+        return <UserPlus style={{ width: '20px', height: '20px', color: '#10B981', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.AWARD:
-        return <Award style={{ width: '24px', height: '24px', color: '#eab308', flexShrink: 0 }} />
+        return <Award style={{ width: '20px', height: '20px', color: '#F59E0B', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.REPLY:
-        return <MessageSquare style={{ width: '24px', height: '24px', color: '#06b6d4', flexShrink: 0 }} />
+        return <MessageSquare style={{ width: '20px', height: '20px', color: '#06B6D4', flexShrink: 0 }} />
       default:
-        return <Bell style={{ width: '24px', height: '24px', color: 'var(--text-secondary)', flexShrink: 0 }} />
+        return <Bell style={{ width: '20px', height: '20px', color: '#666666', flexShrink: 0 }} />
     }
   }
 
   return (
-    <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+    <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       {getIcon()}
     </div>
   )
 }
 
-// Notification Card Component with 72px minimum height
+// Notification Card Component
 const NotificationCard = ({
   notification,
   isSelected,
@@ -91,22 +83,27 @@ const NotificationCard = ({
   onClick,
   onDelete
 }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
   return (
     <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
-        backgroundColor: 'var(--bg-secondary)',
+        backgroundColor: 'white',
         borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: isSelected ? '#58a6ff' : 'var(--border-primary)',
-        borderRadius: '12px',
+        borderColor: isSelected ? '#6366F1' : 'rgba(0, 0, 0, 0.06)',
+        borderRadius: '16px',
         borderLeftWidth: !notification.isRead ? '4px' : '1px',
-        borderLeftColor: !notification.isRead ? '#58a6ff' : 'var(--border-primary)',
+        borderLeftColor: !notification.isRead ? '#6366F1' : 'rgba(0, 0, 0, 0.06)',
         minHeight: '72px',
-        padding: '16px',
-        transition: 'all 0.2s',
-        cursor: 'pointer'
+        padding: '20px',
+        transition: 'all 0.2s ease',
+        cursor: 'pointer',
+        boxShadow: isHovered ? '0 8px 24px rgba(0, 0, 0, 0.08)' : '0 2px 8px rgba(0, 0, 0, 0.04)',
+        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)'
       }}
-      className="hover:shadow-md"
     >
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
         {/* Checkbox */}
@@ -121,10 +118,11 @@ const NotificationCard = ({
             style={{
               width: '20px',
               height: '20px',
-              borderRadius: '4px',
+              borderRadius: '6px',
               borderWidth: '1px',
-              borderColor: 'var(--border-primary)',
-              cursor: 'pointer'
+              borderColor: 'rgba(0, 0, 0, 0.1)',
+              cursor: 'pointer',
+              accentColor: '#6366F1'
             }}
             aria-label={`Select notification: ${notification.title}`}
           />
@@ -137,11 +135,12 @@ const NotificationCard = ({
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '20px'
+              fontSize: '20px',
+              boxShadow: '0 4px 12px rgba(99, 102, 241, 0.2)'
             }}
           >
             {notification.avatar}
@@ -152,13 +151,14 @@ const NotificationCard = ({
                 position: 'absolute',
                 top: '-2px',
                 right: '-2px',
-                width: '12px',
-                height: '12px',
-                backgroundColor: '#58a6ff',
+                width: '14px',
+                height: '14px',
+                backgroundColor: '#6366F1',
                 borderRadius: '50%',
                 borderWidth: '2px',
-                borderColor: 'var(--bg-primary)',
-                boxShadow: '0 0 8px rgba(88, 166, 255, 0.6)'
+                borderStyle: 'solid',
+                borderColor: 'white',
+                boxShadow: '0 0 12px rgba(99, 102, 241, 0.6)'
               }}
             />
           )}
@@ -174,12 +174,13 @@ const NotificationCard = ({
               <NotificationIcon type={notification.type} />
               <span
                 style={{
-                  color: !notification.isRead ? 'var(--text-primary)' : 'var(--text-secondary)',
+                  color: !notification.isRead ? '#000000' : '#666666',
                   fontWeight: 600,
                   fontSize: '15px',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  letterSpacing: '-0.01em'
                 }}
               >
                 {notification.title}
@@ -187,7 +188,7 @@ const NotificationCard = ({
             </div>
             <span
               style={{
-                color: 'var(--text-secondary)',
+                color: '#999999',
                 fontSize: '13px',
                 fontWeight: 500,
                 flexShrink: 0
@@ -198,9 +199,10 @@ const NotificationCard = ({
           </div>
           <p
             style={{
-              color: 'var(--text-secondary)',
+              color: '#666666',
               fontSize: '14px',
-              lineHeight: '1.5'
+              lineHeight: '1.6',
+              margin: 0
             }}
           >
             {notification.content}
@@ -210,56 +212,57 @@ const NotificationCard = ({
         {/* Actions */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
           {!notification.isRead && (
-            <button
+            <NotificationActionButton
               onClick={(e) => {
                 e.stopPropagation()
                 onMarkAsRead(notification.id)
               }}
-              style={{
-                width: '48px',
-                height: '48px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '8px',
-                border: 'none',
-                backgroundColor: 'transparent',
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              className="hover:bg-[#58a6ff]/10"
-              aria-label="Mark as read"
-              title="Mark as read"
-            >
-              <Check style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
-            </button>
+              icon={<Check style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />}
+              label="Mark as read"
+              hoverBg="rgba(99, 102, 241, 0.08)"
+            />
           )}
-          <button
+          <NotificationActionButton
             onClick={(e) => {
               e.stopPropagation()
               onDelete(notification.id)
             }}
-            style={{
-              width: '48px',
-              height: '48px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderRadius: '8px',
-              border: 'none',
-              backgroundColor: 'transparent',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-            className="hover:bg-red-500/10"
-            aria-label="Delete notification"
-            title="Delete"
-          >
-            <Trash2 style={{ width: '24px', height: '24px', color: '#ef4444', flexShrink: 0 }} />
-          </button>
+            icon={<Trash2 style={{ width: '20px', height: '20px', color: '#EF4444', flexShrink: 0 }} />}
+            label="Delete"
+            hoverBg="rgba(239, 68, 68, 0.08)"
+          />
         </div>
       </div>
     </div>
+  )
+}
+
+// Action Button Component
+const NotificationActionButton = ({ onClick, icon, label, hoverBg }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        width: '44px',
+        height: '44px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '12px',
+        border: 'none',
+        backgroundColor: isHovered ? hoverBg : 'transparent',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+      aria-label={label}
+      title={label}
+    >
+      {icon}
+    </button>
   )
 }
 
@@ -470,7 +473,7 @@ function NotificationsPage() {
     <div
       style={{
         minHeight: '100vh',
-        backgroundColor: 'var(--bg-primary)'
+        backgroundColor: '#FAFAFA'
       }}
       role="main"
     >
@@ -480,10 +483,12 @@ function NotificationsPage() {
           position: 'sticky',
           top: 0,
           zIndex: 50,
-          backgroundColor: 'var(--bg-secondary)',
+          backgroundColor: 'white',
           borderBottomWidth: '1px',
           borderBottomStyle: 'solid',
-          borderBottomColor: 'var(--border-primary)'
+          borderBottomColor: 'rgba(0, 0, 0, 0.06)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)'
         }}
       >
         <div
@@ -497,35 +502,18 @@ function NotificationsPage() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
               {isMobile && (
-                <button
-                  onClick={() => navigate(-1)}
-                  style={{
-                    width: '48px',
-                    height: '48px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    borderRadius: '8px',
-                    border: 'none',
-                    backgroundColor: 'transparent',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  className="hover:bg-white/5"
-                  aria-label="Go back"
-                >
-                  <ArrowLeft style={{ width: '24px', height: '24px', color: 'var(--text-secondary)', flexShrink: 0 }} />
-                </button>
+                <BackButton onClick={() => navigate(-1)} />
               )}
-              <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                <Bell style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
+              <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Bell style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />
               </div>
               <h1
                 style={{
                   fontSize: '24px',
                   fontWeight: 700,
-                  color: 'var(--text-primary)',
-                  margin: 0
+                  color: '#000000',
+                  margin: 0,
+                  letterSpacing: '-0.02em'
                 }}
               >
                 Notifications
@@ -533,13 +521,13 @@ function NotificationsPage() {
               {unreadCount > 0 && (
                 <span
                   style={{
-                    padding: '4px 12px',
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                    padding: '6px 12px',
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                     color: 'white',
                     fontSize: '12px',
                     fontWeight: 600,
                     borderRadius: '12px',
-                    boxShadow: '0 2px 8px rgba(88, 166, 255, 0.3)'
+                    boxShadow: '0 4px 12px rgba(99, 102, 241, 0.3)'
                   }}
                   aria-label={`${unreadCount} unread notifications`}
                 >
@@ -549,52 +537,18 @@ function NotificationsPage() {
             </div>
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <button
+              <HeaderButton
                 onClick={handleMarkAllAsRead}
                 disabled={unreadCount === 0}
-                style={{
-                  height: '48px',
-                  padding: '0 16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  borderRadius: '12px',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderColor: 'var(--border-primary)',
-                  backgroundColor: 'var(--bg-secondary)',
-                  color: 'var(--text-primary)',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  cursor: unreadCount === 0 ? 'not-allowed' : 'pointer',
-                  opacity: unreadCount === 0 ? 0.5 : 1,
-                  transition: 'all 0.2s'
-                }}
-                className="hover:bg-white/5"
-                aria-label="Mark all notifications as read"
-              >
-                <CheckCheck style={{ width: '24px', height: '24px', flexShrink: 0 }} />
-                {!isMobile && <span>Mark all read</span>}
-              </button>
-              <button
+                icon={<CheckCheck style={{ width: '20px', height: '20px', flexShrink: 0 }} />}
+                text={!isMobile ? 'Mark all read' : null}
+                label="Mark all notifications as read"
+              />
+              <HeaderIconButton
                 onClick={() => navigate('/settings/notifications')}
-                style={{
-                  width: '48px',
-                  height: '48px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '12px',
-                  border: 'none',
-                  backgroundColor: 'transparent',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s'
-                }}
-                className="hover:bg-white/5"
-                aria-label="Notification settings"
-              >
-                <Settings style={{ width: '24px', height: '24px', color: 'var(--text-secondary)', flexShrink: 0 }} />
-              </button>
+                icon={<Settings style={{ width: '20px', height: '20px', color: '#666666', flexShrink: 0 }} />}
+                label="Notification settings"
+              />
             </div>
           </div>
 
@@ -610,32 +564,12 @@ function NotificationsPage() {
             aria-label="Notification filters"
           >
             {filterOptions.map((filterType) => (
-              <button
+              <FilterButton
                 key={filterType}
+                isActive={filter === filterType}
                 onClick={() => setFilter(filterType)}
-                style={{
-                  height: '48px',
-                  padding: '0 16px',
-                  borderRadius: '12px',
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  borderColor: filter === filterType ? 'transparent' : 'var(--border-primary)',
-                  background: filter === filterType
-                    ? 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)'
-                    : 'var(--bg-secondary)',
-                  color: filter === filterType ? 'white' : 'var(--text-secondary)',
-                  fontSize: '14px',
-                  fontWeight: 500,
-                  whiteSpace: 'nowrap',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  boxShadow: filter === filterType ? '0 2px 8px rgba(88, 166, 255, 0.3)' : 'none'
-                }}
-                aria-pressed={filter === filterType}
-                aria-label={`Filter by ${filterType} notifications`}
-              >
-                {filterType.charAt(0).toUpperCase() + filterType.slice(1)}
-              </button>
+                label={filterType.charAt(0).toUpperCase() + filterType.slice(1)}
+              />
             ))}
           </div>
 
@@ -645,73 +579,41 @@ function NotificationsPage() {
               style={{
                 marginTop: '16px',
                 padding: '16px',
-                backgroundColor: 'var(--bg-secondary)',
+                backgroundColor: 'white',
                 borderWidth: '1px',
                 borderStyle: 'solid',
-                borderColor: 'var(--border-primary)',
-                borderRadius: '12px',
+                borderColor: 'rgba(0, 0, 0, 0.06)',
+                borderRadius: '16px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)'
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
               }}
             >
               <span
                 style={{
                   fontSize: '14px',
                   fontWeight: 500,
-                  color: 'var(--text-secondary)'
+                  color: '#666666'
                 }}
               >
                 {selectedNotifications.size} selected
               </span>
               <div style={{ display: 'flex', gap: '8px' }}>
-                <button
+                <BulkActionButton
                   onClick={handleBulkMarkRead}
-                  style={{
-                    height: '48px',
-                    padding: '0 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                    color: 'white',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  className="hover:opacity-90"
-                  aria-label="Mark selected notifications as read"
-                >
-                  <Check style={{ width: '24px', height: '24px', flexShrink: 0 }} />
-                  <span>Mark read</span>
-                </button>
-                <button
+                  icon={<Check style={{ width: '20px', height: '20px', flexShrink: 0 }} />}
+                  text="Mark read"
+                  primary
+                  label="Mark selected notifications as read"
+                />
+                <BulkActionButton
                   onClick={handleBulkDelete}
-                  style={{
-                    height: '48px',
-                    padding: '0 16px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '8px',
-                    borderRadius: '12px',
-                    border: 'none',
-                    backgroundColor: '#ef4444',
-                    color: 'white',
-                    fontSize: '14px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  className="hover:bg-red-700"
-                  aria-label="Delete selected notifications"
-                >
-                  <Trash2 style={{ width: '24px', height: '24px', flexShrink: 0 }} />
-                  <span>Delete</span>
-                </button>
+                  icon={<Trash2 style={{ width: '20px', height: '20px', flexShrink: 0 }} />}
+                  text="Delete"
+                  danger
+                  label="Delete selected notifications"
+                />
               </div>
             </div>
           )}
@@ -733,98 +635,74 @@ function NotificationsPage() {
           /* Error State */
           <div
             style={{
-              backgroundColor: 'var(--bg-secondary)',
+              backgroundColor: 'white',
               borderWidth: '1px',
               borderStyle: 'solid',
               borderColor: 'rgba(239, 68, 68, 0.2)',
-              borderRadius: '12px',
+              borderRadius: '24px',
               padding: '48px',
-              textAlign: 'center'
+              textAlign: 'center',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
             }}
             role="alert"
             aria-live="assertive"
           >
-            <AlertCircle style={{ width: '48px', height: '48px', color: '#ef4444', margin: '0 auto 16px' }} />
+            <AlertCircle style={{ width: '48px', height: '48px', color: '#EF4444', margin: '0 auto 16px' }} />
             <h3
               style={{
                 fontSize: '20px',
                 fontWeight: 600,
-                color: 'var(--text-primary)',
-                marginBottom: '8px'
+                color: '#000000',
+                marginBottom: '8px',
+                letterSpacing: '-0.01em'
               }}
             >
               Failed to Load Notifications
             </h3>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+            <p style={{ color: '#666666', marginBottom: '24px', fontSize: '15px', lineHeight: '1.6' }}>
               {typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}
             </p>
-            <button
+            <ActionButton
               onClick={fetchNotifications}
-              style={{
-                height: '48px',
-                padding: '0 24px',
-                borderRadius: '12px',
-                border: 'none',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                color: 'white',
-                fontSize: '14px',
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              className="hover:opacity-90 hover:shadow-lg"
-              aria-label="Try again to load notifications"
-            >
-              Try Again
-            </button>
+              text="Try Again"
+              label="Try again to load notifications"
+            />
           </div>
         ) : !isAuthenticated ? (
           /* Not Authenticated */
           <div
             style={{
-              backgroundColor: 'var(--bg-secondary)',
+              backgroundColor: 'white',
               borderWidth: '1px',
               borderStyle: 'solid',
-              borderColor: 'var(--border-primary)',
-              borderRadius: '12px',
+              borderColor: 'rgba(0, 0, 0, 0.06)',
+              borderRadius: '24px',
               padding: '48px',
-              textAlign: 'center'
+              textAlign: 'center',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
             }}
             role="status"
           >
-            <Bell style={{ width: '48px', height: '48px', color: 'var(--text-secondary)', margin: '0 auto 16px' }} />
+            <Bell style={{ width: '48px', height: '48px', color: '#666666', margin: '0 auto 16px' }} />
             <h3
               style={{
                 fontSize: '20px',
                 fontWeight: 600,
-                color: 'var(--text-primary)',
-                marginBottom: '8px'
+                color: '#000000',
+                marginBottom: '8px',
+                letterSpacing: '-0.01em'
               }}
             >
               Sign In Required
             </h3>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
+            <p style={{ color: '#666666', marginBottom: '24px', fontSize: '15px', lineHeight: '1.6' }}>
               Please sign in to view your notifications
             </p>
-            <button
+            <ActionButton
               onClick={() => navigate('/login')}
-              style={{
-                height: '48px',
-                padding: '0 24px',
-                borderRadius: '12px',
-                border: 'none',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                color: 'white',
-                fontSize: '14px',
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              className="hover:opacity-90 hover:shadow-lg"
-              aria-label="Sign in to view notifications"
-            >
-              Sign In
-            </button>
+              text="Sign In"
+              label="Sign in to view notifications"
+            />
           </div>
         ) : filteredNotifications.length > 0 ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -847,37 +725,262 @@ function NotificationsPage() {
         {/* Delete All Button */}
         {notifications.length > 0 && (
           <div style={{ marginTop: '48px' }}>
-            <button
-              onClick={handleDeleteAll}
-              style={{
-                width: '100%',
-                height: '48px',
-                padding: '0 16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '8px',
-                borderRadius: '12px',
-                borderWidth: '1px',
-                borderStyle: 'solid',
-                borderColor: 'rgba(239, 68, 68, 0.2)',
-                backgroundColor: 'var(--bg-secondary)',
-                color: '#ef4444',
-                fontSize: '14px',
-                fontWeight: 500,
-                cursor: 'pointer',
-                transition: 'all 0.2s'
-              }}
-              className="hover:border-red-500/40 hover:bg-red-500/5"
-              aria-label="Delete all notifications"
-            >
-              <Trash2 style={{ width: '24px', height: '24px', flexShrink: 0 }} />
-              Delete all notifications
-            </button>
+            <DeleteAllButton onClick={handleDeleteAll} />
           </div>
         )}
       </div>
     </div>
+  )
+}
+
+// Reusable Button Components
+const BackButton = ({ onClick }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        width: '44px',
+        height: '44px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '12px',
+        border: 'none',
+        backgroundColor: isHovered ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+      aria-label="Go back"
+    >
+      <ArrowLeft style={{ width: '20px', height: '20px', color: '#666666', flexShrink: 0 }} />
+    </button>
+  )
+}
+
+const HeaderButton = ({ onClick, disabled, icon, text, label }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        height: '48px',
+        padding: text ? '0 16px' : '0',
+        width: text ? 'auto' : '48px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+        borderRadius: '14px',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: 'rgba(0, 0, 0, 0.06)',
+        backgroundColor: isHovered && !disabled ? 'rgba(0, 0, 0, 0.02)' : 'white',
+        color: '#000000',
+        fontSize: '14px',
+        fontWeight: 500,
+        cursor: disabled ? 'not-allowed' : 'pointer',
+        opacity: disabled ? 0.4 : 1,
+        transition: 'all 0.2s ease',
+        boxShadow: isHovered && !disabled ? '0 4px 12px rgba(0, 0, 0, 0.06)' : 'none',
+        transform: isHovered && !disabled ? 'translateY(-1px)' : 'translateY(0)'
+      }}
+      aria-label={label}
+    >
+      {icon}
+      {text && <span>{text}</span>}
+    </button>
+  )
+}
+
+const HeaderIconButton = ({ onClick, icon, label }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        width: '48px',
+        height: '48px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: '14px',
+        border: 'none',
+        backgroundColor: isHovered ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+      aria-label={label}
+    >
+      {icon}
+    </button>
+  )
+}
+
+const FilterButton = ({ isActive, onClick, label }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        height: '48px',
+        padding: '0 20px',
+        borderRadius: '14px',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: isActive ? 'transparent' : 'rgba(0, 0, 0, 0.06)',
+        background: isActive
+          ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+          : 'white',
+        color: isActive ? 'white' : '#666666',
+        fontSize: '14px',
+        fontWeight: isActive ? 600 : 500,
+        whiteSpace: 'nowrap',
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        boxShadow: isActive ? '0 4px 16px rgba(99, 102, 241, 0.25)' : (isHovered ? '0 2px 8px rgba(0, 0, 0, 0.06)' : 'none'),
+        transform: isHovered ? 'translateY(-1px)' : 'translateY(0)'
+      }}
+      aria-pressed={isActive}
+      aria-label={`Filter by ${label} notifications`}
+    >
+      {label}
+    </button>
+  )
+}
+
+const BulkActionButton = ({ onClick, icon, text, primary, danger, label }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  const getStyles = () => {
+    if (primary) {
+      return {
+        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+        color: 'white',
+        shadow: isHovered ? '0 8px 24px rgba(99, 102, 241, 0.35)' : '0 4px 16px rgba(99, 102, 241, 0.25)'
+      }
+    }
+    if (danger) {
+      return {
+        background: '#EF4444',
+        color: 'white',
+        shadow: isHovered ? '0 8px 24px rgba(239, 68, 68, 0.35)' : '0 4px 16px rgba(239, 68, 68, 0.25)'
+      }
+    }
+    return {
+      background: 'white',
+      color: '#000000',
+      shadow: isHovered ? '0 4px 12px rgba(0, 0, 0, 0.08)' : 'none'
+    }
+  }
+
+  const styles = getStyles()
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        height: '48px',
+        padding: '0 20px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '8px',
+        borderRadius: '14px',
+        border: 'none',
+        background: styles.background,
+        color: styles.color,
+        fontSize: '14px',
+        fontWeight: 600,
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        boxShadow: styles.shadow,
+        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)'
+      }}
+      aria-label={label}
+    >
+      {icon}
+      <span>{text}</span>
+    </button>
+  )
+}
+
+const ActionButton = ({ onClick, text, label }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        height: '56px',
+        padding: '0 32px',
+        borderRadius: '16px',
+        border: 'none',
+        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+        color: 'white',
+        fontSize: '15px',
+        fontWeight: 600,
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        boxShadow: isHovered ? '0 12px 32px rgba(99, 102, 241, 0.4)' : '0 8px 24px rgba(99, 102, 241, 0.3)',
+        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)'
+      }}
+      aria-label={label}
+    >
+      {text}
+    </button>
+  )
+}
+
+const DeleteAllButton = ({ onClick }) => {
+  const [isHovered, setIsHovered] = useState(false)
+
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        width: '100%',
+        height: '56px',
+        padding: '0 16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+        borderRadius: '16px',
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: isHovered ? 'rgba(239, 68, 68, 0.3)' : 'rgba(239, 68, 68, 0.2)',
+        backgroundColor: isHovered ? 'rgba(239, 68, 68, 0.04)' : 'white',
+        color: '#EF4444',
+        fontSize: '15px',
+        fontWeight: 600,
+        cursor: 'pointer',
+        transition: 'all 0.2s ease',
+        boxShadow: isHovered ? '0 4px 12px rgba(239, 68, 68, 0.1)' : 'none'
+      }}
+      aria-label="Delete all notifications"
+    >
+      <Trash2 style={{ width: '20px', height: '20px', flexShrink: 0 }} />
+      Delete all notifications
+    </button>
   )
 }
 

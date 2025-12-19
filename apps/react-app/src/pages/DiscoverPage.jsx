@@ -1,11 +1,13 @@
 /**
- * Cryb.ai - Discover Page
- * Explore trending communities, tags, and people
- * Master Prompt Standards Applied:
- * - Spacing scale: 4, 8, 16, 24, 32, 48, 64px only
- * - Icons: All exactly 24px in fixed containers
- * - Button heights: 48px (md)
- * - Responsive padding: 16px mobile, 24px tablet, 80px desktop
+ * CRYB Platform - Discover Page
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and glassmorphism
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
  */
 
 import React, { useState, useEffect } from 'react';
@@ -19,18 +21,30 @@ function CommunityCard({ community }) {
   return (
     <Link
       to={`/community/${community.name}`}
-      className="card card-interactive"
       style={{
         display: 'block',
         padding: '24px',
         textDecoration: 'none',
+        background: 'white',
+        borderRadius: '16px',
+        border: '1px solid rgba(0, 0, 0, 0.06)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+        transition: 'all 0.2s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.08)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
       }}
     >
       <h3
         style={{
           fontSize: '16px',
-          fontWeight: 600,
-          color: 'var(--text-primary)',
+          fontWeight: '600',
+          color: '#000000',
           marginBottom: '8px',
           lineHeight: '1.4',
         }}
@@ -41,7 +55,7 @@ function CommunityCard({ community }) {
         <p
           style={{
             fontSize: '14px',
-            color: 'var(--text-secondary)',
+            color: '#666666',
             marginBottom: '16px',
             lineHeight: '1.5',
           }}
@@ -52,8 +66,8 @@ function CommunityCard({ community }) {
       {community.memberCount !== undefined && (
         <span
           style={{
-            fontSize: '12px',
-            color: 'var(--text-tertiary)',
+            fontSize: '13px',
+            color: '#999999',
             lineHeight: '1.5',
           }}
         >
@@ -68,31 +82,35 @@ function TagChip({ tag }) {
   return (
     <Link
       to={`/tag/${tag.name}`}
-      className="badge"
       style={{
         display: 'inline-flex',
         alignItems: 'center',
         gap: '8px',
-        padding: '8px 16px',
-        background: 'rgba(88, 166, 255, 0.1)',
-        color: 'var(--brand-primary)',
+        padding: '10px 16px',
+        background: 'rgba(99, 102, 241, 0.08)',
+        color: '#6366F1',
         fontSize: '14px',
-        fontWeight: 500,
+        fontWeight: '500',
         textDecoration: 'none',
-        transition: 'all 0.2s',
-        border: '1px solid var(--brand-primary)',
+        transition: 'all 0.2s ease',
+        border: '1px solid rgba(99, 102, 241, 0.2)',
         borderRadius: '12px',
-        opacity: 0.8,
       }}
-      onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-      onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.8')}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'rgba(99, 102, 241, 0.12)';
+        e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'rgba(99, 102, 241, 0.08)';
+        e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.2)';
+      }}
     >
       #{tag.name}
       {tag.postCount !== undefined && (
         <span
           style={{
-            fontSize: '12px',
-            color: 'var(--text-secondary)',
+            fontSize: '13px',
+            color: '#999999',
           }}
         >
           {tag.postCount}
@@ -106,18 +124,30 @@ function UserCard({ user }) {
   return (
     <Link
       to={`/profile/${user.username}`}
-      className="card card-interactive"
       style={{
         display: 'block',
         padding: '24px',
         textDecoration: 'none',
+        background: 'white',
+        borderRadius: '16px',
+        border: '1px solid rgba(0, 0, 0, 0.06)',
+        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+        transition: 'all 0.2s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.08)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
       }}
     >
       <h3
         style={{
           fontSize: '16px',
-          fontWeight: 600,
-          color: 'var(--text-primary)',
+          fontWeight: '600',
+          color: '#000000',
           marginBottom: '4px',
           lineHeight: '1.4',
         }}
@@ -127,7 +157,7 @@ function UserCard({ user }) {
       <p
         style={{
           fontSize: '14px',
-          color: 'var(--text-secondary)',
+          color: '#999999',
           marginBottom: '8px',
           lineHeight: '1.5',
         }}
@@ -138,7 +168,7 @@ function UserCard({ user }) {
         <p
           style={{
             fontSize: '14px',
-            color: 'var(--text-primary)',
+            color: '#666666',
             marginBottom: '8px',
             lineHeight: '1.5',
           }}
@@ -149,8 +179,8 @@ function UserCard({ user }) {
       {user.followers !== undefined && (
         <span
           style={{
-            fontSize: '12px',
-            color: 'var(--text-tertiary)',
+            fontSize: '13px',
+            color: '#999999',
             lineHeight: '1.5',
           }}
         >
@@ -201,10 +231,8 @@ export default function DiscoverPage() {
     { id: 'people', label: 'People', icon: Star },
   ];
 
-  // Determine responsive values
+  // Responsive breakpoints
   const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
-  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
 
   return (
     <div
@@ -212,26 +240,31 @@ export default function DiscoverPage() {
       aria-label="Discover page"
       style={{
         minHeight: '100vh',
-        background: 'var(--bg-primary)',
-        paddingTop: typeof window !== 'undefined' && window.innerWidth >= 768 ? '72px' : '56px',
+        background: '#FAFAFA',
+        paddingTop: isMobile ? '76px' : '92px',
+        paddingBottom: isMobile ? '96px' : '48px',
       }}
     >
       <div
         style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: `48px ${pagePadding}`,
+          padding: isMobile ? '16px' : isTablet ? '24px' : '48px',
         }}
       >
         {/* Header */}
-        <div style={{ marginBottom: '48px' }}>
+        <div style={{ marginBottom: '32px' }}>
           <h1
             style={{
-              fontSize: isMobile ? '24px' : '32px',
-              fontWeight: 700,
-              color: 'var(--text-primary)',
+              fontSize: isMobile ? '28px' : '36px',
+              fontWeight: '700',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
               marginBottom: '8px',
               lineHeight: '1.2',
+              letterSpacing: '-0.02em',
             }}
           >
             Discover
@@ -239,7 +272,7 @@ export default function DiscoverPage() {
           <p
             style={{
               fontSize: '16px',
-              color: 'var(--text-secondary)',
+              color: '#666666',
               lineHeight: '1.5',
             }}
           >
@@ -251,12 +284,15 @@ export default function DiscoverPage() {
         <div
           style={{
             position: 'relative',
-            marginBottom: '48px',
+            marginBottom: '32px',
           }}
         >
           <div
-            className="absolute flex items-center justify-center"
             style={{
+              position: 'absolute',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
               left: '16px',
               top: '50%',
               transform: 'translateY(-50%)',
@@ -266,11 +302,11 @@ export default function DiscoverPage() {
             }}
           >
             <Search
-              size={24}
+              size={20}
               strokeWidth={2}
               aria-hidden="true"
               style={{
-                color: 'var(--text-tertiary)',
+                color: '#999999',
               }}
             />
           </div>
@@ -279,19 +315,30 @@ export default function DiscoverPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search communities, tags, or people..."
-            className="input search-input w-full"
             style={{
-              height: '48px',
+              width: '100%',
+              height: '52px',
               paddingLeft: '48px',
               paddingRight: '16px',
-              fontSize: '16px',
+              fontSize: '15px',
               lineHeight: '1.5',
-              borderRadius: '12px',
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-primary)',
-              color: 'var(--text-primary)',
+              borderRadius: '16px',
+              background: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.08)',
+              color: '#000000',
+              outline: 'none',
+              transition: 'all 0.2s ease',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             }}
             aria-label="Search discover page"
+            onFocus={(e) => {
+              e.target.style.borderColor = 'rgba(99, 102, 241, 0.3)';
+              e.target.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.1)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)';
+              e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+            }}
           />
         </div>
 
@@ -300,13 +347,18 @@ export default function DiscoverPage() {
           style={{
             display: 'flex',
             gap: '8px',
-            marginBottom: '48px',
-            borderBottom: '1px solid var(--border-subtle)',
+            marginBottom: '32px',
+            background: 'white',
+            borderRadius: '16px',
+            padding: '8px',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             overflowX: 'auto',
           }}
         >
           {tabs.map((tab) => {
             const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
@@ -315,29 +367,34 @@ export default function DiscoverPage() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  padding: '16px',
-                  background: 'transparent',
+                  padding: isMobile ? '10px 16px' : '12px 20px',
+                  background: isActive ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
                   border: 'none',
-                  borderBottom:
-                    activeTab === tab.id
-                      ? '2px solid var(--brand-primary)'
-                      : '2px solid transparent',
-                  color:
-                    activeTab === tab.id ? 'var(--brand-primary)' : 'var(--text-secondary)',
+                  borderRadius: '12px',
+                  color: isActive ? '#6366F1' : '#666666',
                   fontSize: '14px',
-                  fontWeight: 600,
+                  fontWeight: isActive ? '600' : '500',
                   cursor: 'pointer',
-                  marginBottom: '-1px',
-                  transition: 'all 0.2s',
+                  transition: 'all 0.2s ease',
                   whiteSpace: 'nowrap',
                 }}
                 aria-label={`View ${tab.label}`}
-                aria-pressed={activeTab === tab.id}
+                aria-pressed={isActive}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.04)';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
               >
-                <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                  <Icon size={24} strokeWidth={2} aria-hidden="true" />
+                <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                  <Icon size={20} strokeWidth={2} aria-hidden="true" />
                 </div>
-                {tab.label}
+                {!isMobile && tab.label}
               </button>
             );
           })}
@@ -348,14 +405,14 @@ export default function DiscoverPage() {
           <>
             {/* Trending Tab */}
             {activeTab === 'trending' && (
-              <div className="flex flex-col" style={{ gap: '48px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
                 <section>
                   <h2
                     style={{
                       fontSize: '20px',
-                      fontWeight: 600,
-                      color: 'var(--text-primary)',
-                      marginBottom: '24px',
+                      fontWeight: '600',
+                      color: '#000000',
+                      marginBottom: '20px',
                       lineHeight: '1.4',
                     }}
                   >
@@ -369,7 +426,7 @@ export default function DiscoverPage() {
                         : isTablet
                         ? 'repeat(2, 1fr)'
                         : 'repeat(3, 1fr)',
-                      gap: '24px',
+                      gap: '20px',
                     }}
                   >
                     {trendingCommunities.slice(0, 6).map((community, index) => (
@@ -382,9 +439,9 @@ export default function DiscoverPage() {
                   <h2
                     style={{
                       fontSize: '20px',
-                      fontWeight: 600,
-                      color: 'var(--text-primary)',
-                      marginBottom: '24px',
+                      fontWeight: '600',
+                      color: '#000000',
+                      marginBottom: '20px',
                       lineHeight: '1.4',
                     }}
                   >
@@ -394,7 +451,7 @@ export default function DiscoverPage() {
                     style={{
                       display: 'flex',
                       flexWrap: 'wrap',
-                      gap: isMobile ? '8px' : '16px',
+                      gap: '12px',
                     }}
                   >
                     {trendingTags.slice(0, 12).map((tag, index) => (
@@ -415,7 +472,7 @@ export default function DiscoverPage() {
                     : isTablet
                     ? 'repeat(2, 1fr)'
                     : 'repeat(3, 1fr)',
-                  gap: '24px',
+                  gap: '20px',
                 }}
               >
                 {trendingCommunities.map((community, index) => (
@@ -430,7 +487,7 @@ export default function DiscoverPage() {
                 style={{
                   display: 'flex',
                   flexWrap: 'wrap',
-                  gap: isMobile ? '8px' : '16px',
+                  gap: '12px',
                 }}
               >
                 {trendingTags.map((tag, index) => (
@@ -449,7 +506,7 @@ export default function DiscoverPage() {
                     : isTablet
                     ? 'repeat(2, 1fr)'
                     : 'repeat(3, 1fr)',
-                  gap: '24px',
+                  gap: '20px',
                 }}
               >
                 {suggestedUsers.map((user, index) => (
@@ -465,36 +522,41 @@ export default function DiscoverPage() {
               <div
                 role="status"
                 aria-live="polite"
-                className="card"
                 style={{
                   textAlign: 'center',
                   padding: isMobile ? '64px 16px' : '64px 32px',
+                  background: 'white',
+                  borderRadius: '20px',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
                 }}
               >
                 <div
                   style={{
-                    width: '48px',
-                    height: '48px',
+                    width: '64px',
+                    height: '64px',
                     marginLeft: 'auto',
                     marginRight: 'auto',
                     marginBottom: '24px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    background: 'rgba(0, 0, 0, 0.04)',
+                    borderRadius: '50%',
                   }}
                 >
                   <Filter
-                    size={48}
+                    size={32}
                     strokeWidth={2}
-                    color="var(--text-tertiary)"
+                    color="#999999"
                     aria-hidden="true"
                   />
                 </div>
                 <h3
                   style={{
                     fontSize: '18px',
-                    fontWeight: 600,
-                    color: 'var(--text-primary)',
+                    fontWeight: '600',
+                    color: '#000000',
                     marginBottom: '8px',
                     lineHeight: '1.4',
                   }}
@@ -503,8 +565,8 @@ export default function DiscoverPage() {
                 </h3>
                 <p
                   style={{
-                    fontSize: '14px',
-                    color: 'var(--text-secondary)',
+                    fontSize: '15px',
+                    color: '#666666',
                     lineHeight: '1.5',
                   }}
                 >

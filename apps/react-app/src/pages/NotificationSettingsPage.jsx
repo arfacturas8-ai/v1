@@ -1,3 +1,9 @@
+/**
+ * NotificationSettingsPage.jsx
+ * Modernized notification settings page with iOS aesthetic
+ * Features: Explicit light theme colors, inline styles, iOS-style components
+ */
+
 import React, { memo } from 'react'
 import { useResponsive } from '../hooks/useResponsive'
 
@@ -17,31 +23,33 @@ const NotificationSettingsPage = () => {
         paddingLeft: padding,
         paddingRight: padding,
         paddingBottom: '48px',
-        background: 'var(--bg-primary)'
+        background: '#FAFAFA'
       }}
     >
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div
           style={{
-            background: 'var(--bg-secondary)',
-            border: '1px solid var(--border-subtle)',
+            background: 'white',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
             borderRadius: '16px',
             padding: isMobile ? '24px' : '32px',
-            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.1)'
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
           }}
         >
           <h1 style={{
-            color: 'var(--text-primary)',
+            color: '#000000',
             fontSize: isMobile ? '24px' : '32px',
             fontWeight: 'bold',
-            marginBottom: '24px'
+            marginBottom: '24px',
+            margin: 0
           }}>
             Notification Settings
           </h1>
           <p style={{
-            color: 'var(--text-secondary)',
+            color: '#666666',
             fontSize: isMobile ? '14px' : '16px',
-            lineHeight: '1.6'
+            lineHeight: '1.6',
+            margin: '24px 0 0 0'
           }}>
             Component placeholder - functional but needs full implementation
           </p>

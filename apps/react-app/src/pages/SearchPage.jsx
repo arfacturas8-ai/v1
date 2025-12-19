@@ -1,3 +1,15 @@
+/**
+ * CRYB Platform - Search Page
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and glassmorphism
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
+ */
+
 import React, { useState, useEffect, useMemo, useCallback, useRef, memo } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, Link, useNavigate } from 'react-router-dom'
@@ -420,12 +432,12 @@ function SearchPage() {
           }
 
           input[type="text"]::placeholder {
-            color: var(--text-tertiary);
+            color: #999999;
             opacity: 1;
           }
 
           input[type="text"]:focus::placeholder {
-            color: var(--text-muted);
+            color: #CCCCCC;
           }
         `}
       </style>
@@ -440,20 +452,20 @@ function SearchPage() {
           maxWidth: '1200px',
           margin: '0 auto',
           minHeight: '100vh',
-          background: 'var(--bg-primary)'
+          background: '#FAFAFA'
         }}
       >
         {/* Search Header */}
         <div style={{ marginBottom: '48px' }}>
           <h1 style={{
             fontSize: isMobile ? '28px' : '32px',
-            fontWeight: 'bold',
+            fontWeight: '700',
             marginBottom: '24px',
-            background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            color: 'var(--text-primary)'
+            color: '#000000'
           }}>
             Search
           </h1>
@@ -464,7 +476,7 @@ function SearchPage() {
             <div
               style={{
                 position: 'absolute',
-                left: '16px',
+                left: '20px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 width: '24px',
@@ -477,7 +489,7 @@ function SearchPage() {
               }}
             >
               <Search
-                style={{ width: '24px', height: '24px', flexShrink: 0, color: 'var(--text-tertiary)' }}
+                style={{ width: '20px', height: '20px', flexShrink: 0, color: '#999999' }}
                 aria-hidden="true"
               />
             </div>
@@ -489,25 +501,26 @@ function SearchPage() {
               aria-label="Search input"
               style={{
                 width: '100%',
-                height: '48px',
-                paddingLeft: '48px',
-                paddingRight: '16px',
+                height: '52px',
+                paddingLeft: '52px',
+                paddingRight: '20px',
                 fontSize: '16px',
                 lineHeight: '1.5',
-                border: '1px solid var(--border-primary)',
-                borderRadius: '12px',
-                background: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
+                borderRadius: '16px',
+                background: 'white',
+                color: '#000000',
                 outline: 'none',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s ease',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = 'rgba(88, 166, 255, 0.5)'
-                e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
+                e.target.style.borderColor = 'rgba(99, 102, 241, 0.3)'
+                e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.12)'
               }}
               onBlur={(e) => {
-                e.target.style.borderColor = 'var(--border-primary)'
-                e.target.style.boxShadow = 'none'
+                e.target.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
               }}
             />
           </div>
@@ -515,11 +528,11 @@ function SearchPage() {
           {/* Tabs */}
           <div style={{
             display: 'flex',
-            gap: '8px',
+            gap: '12px',
             flexWrap: 'wrap',
-            borderBottom: '1px solid var(--border-primary)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
             marginBottom: '32px',
-            paddingBottom: '8px'
+            paddingBottom: '12px'
           }}>
             {tabs.map(tab => {
               const isActive = activeTab === tab.id
@@ -535,45 +548,50 @@ function SearchPage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    paddingLeft: '16px',
-                    paddingRight: '16px',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
                     height: '48px',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     fontWeight: isActive ? '600' : '500',
-                    color: isActive ? 'var(--text-inverse)' : 'var(--text-secondary)',
-                    background: isActive ? 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)' : 'transparent',
+                    color: isActive ? 'white' : '#666666',
+                    background: isActive ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : 'white',
                     border: 'none',
-                    borderRadius: '12px',
+                    borderRadius: '14px',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
-                    transition: 'all 0.2s',
-                    minHeight: '48px'
+                    transition: 'all 0.2s ease',
+                    minHeight: '48px',
+                    boxShadow: isActive ? '0 4px 12px rgba(99, 102, 241, 0.2)' : '0 2px 8px rgba(0, 0, 0, 0.04)'
                   }}
                   onMouseEnter={(e) => {
                     if (!isActive) {
-                      e.target.style.background = 'var(--bg-secondary)'
+                      e.currentTarget.style.background = '#FAFAFA'
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!isActive) {
-                      e.target.style.background = 'transparent'
+                      e.currentTarget.style.background = 'white'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
                     }
                   }}
                 >
                   <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Icon style={{ width: '24px', height: '24px', flexShrink: 0 }} aria-hidden="true" />
+                    <Icon style={{ width: '20px', height: '20px', flexShrink: 0 }} aria-hidden="true" />
                   </div>
                   {tab.label}
                   {tab.count > 0 && (
                     <span style={{
-                      paddingLeft: '8px',
-                      paddingRight: '8px',
+                      paddingLeft: '10px',
+                      paddingRight: '10px',
                       paddingTop: '4px',
                       paddingBottom: '4px',
-                      fontSize: '12px',
+                      fontSize: '13px',
                       borderRadius: '12px',
-                      background: isActive ? 'rgba(255, 255, 255, 0.2)' : 'var(--bg-secondary)',
-                      color: isActive ? 'var(--text-inverse)' : 'var(--text-secondary)',
+                      background: isActive ? 'rgba(255, 255, 255, 0.25)' : '#FAFAFA',
+                      color: isActive ? 'white' : '#666666',
                       fontWeight: '600'
                     }}>
                       {tab.count}
@@ -586,7 +604,7 @@ function SearchPage() {
 
           {/* Results Count */}
           {query && (
-            <div style={{ marginBottom: '24px', color: 'var(--text-secondary)', fontSize: '14px' }}>
+            <div style={{ marginBottom: '24px', color: '#666666', fontSize: '15px' }}>
               {totalResults > 0 ? (
                 <p>{totalResults} result{totalResults !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;</p>
               ) : !loading && (
@@ -619,20 +637,20 @@ function SearchPage() {
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
-                  color: 'var(--text-primary)',
+                  color: '#000000',
                   gap: '16px'
                 }}>
                   Communities
                   <span style={{
                     paddingLeft: '16px',
                     paddingRight: '16px',
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
+                    paddingTop: '6px',
+                    paddingBottom: '6px',
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
-                    color: 'var(--text-inverse)'
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    color: 'white'
                   }}>
                     {filteredResults?.communities?.length || 0}
                   </span>
@@ -663,20 +681,20 @@ function SearchPage() {
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
-                  color: 'var(--text-primary)',
+                  color: '#000000',
                   gap: '16px'
                 }}>
                   Posts
                   <span style={{
                     paddingLeft: '16px',
                     paddingRight: '16px',
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
+                    paddingTop: '6px',
+                    paddingBottom: '6px',
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
-                    color: 'var(--text-inverse)'
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    color: 'white'
                   }}>
                     {filteredResults?.posts?.length || 0}
                   </span>
@@ -706,20 +724,20 @@ function SearchPage() {
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
-                  color: 'var(--text-primary)',
+                  color: '#000000',
                   gap: '16px'
                 }}>
                   Users
                   <span style={{
                     paddingLeft: '16px',
                     paddingRight: '16px',
-                    paddingTop: '4px',
-                    paddingBottom: '4px',
+                    paddingTop: '6px',
+                    paddingBottom: '6px',
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
-                    color: 'var(--text-inverse)'
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    color: 'white'
                   }}>
                     {filteredResults?.users?.length || 0}
                   </span>

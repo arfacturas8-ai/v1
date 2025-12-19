@@ -1,3 +1,9 @@
+/**
+ * AccountSuspendedPage.jsx
+ * Account suspension page with iOS-inspired design aesthetic
+ * Features: Card-based layout, soft shadows, smooth hover effects
+ */
+
 import React, { memo } from 'react'
 import { Ban, Mail, FileText } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
@@ -15,8 +21,8 @@ const AccountSuspendedPage = () => {
         alignItems: 'center',
         justifyContent: 'center',
         padding: isMobile ? '20px' : '40px',
-        background: 'var(--bg-primary)',
-        color: 'var(--text-secondary)'
+        background: '#FAFAFA',
+        color: '#666666'
       }}
     >
       <div
@@ -25,11 +31,11 @@ const AccountSuspendedPage = () => {
         style={{
           maxWidth: '672px',
           width: '100%',
-          background: 'var(--bg-secondary)',
-          border: '1px solid var(--border-subtle)',
+          background: 'white',
+          border: '1px solid rgba(0, 0, 0, 0.06)',
           borderRadius: '16px',
           padding: isMobile ? '32px' : '48px',
-          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
           textAlign: 'center'
         }}
       >
@@ -58,14 +64,14 @@ const AccountSuspendedPage = () => {
           fontSize: isMobile ? '30px' : '36px',
           fontWeight: 'bold',
           marginBottom: '16px',
-          color: 'var(--text-primary)'
+          color: '#000000'
         }}>Account Suspended</h1>
 
         <p style={{
           fontSize: isMobile ? '14px' : '16px',
           marginBottom: '32px',
           lineHeight: '1.6',
-          color: 'var(--text-secondary)',
+          color: '#666666',
           margin: '0 0 32px 0'
         }}>
           Your account has been suspended due to violation of our community guidelines.
@@ -89,7 +95,7 @@ const AccountSuspendedPage = () => {
           <p style={{
             fontSize: '14px',
             margin: 0,
-            color: 'var(--text-secondary)'
+            color: '#666666'
           }}>Multiple reports of spam and inappropriate content.</p>
         </div>
 
@@ -105,21 +111,28 @@ const AccountSuspendedPage = () => {
               minWidth: '140px',
               minHeight: '48px',
               padding: '12px 24px',
-              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
               border: 'none',
               borderRadius: '12px',
-              color: 'var(--text-primary)',
+              color: 'white',
               fontSize: '16px',
               fontWeight: '500',
               cursor: 'pointer',
-              transition: 'opacity 0.2s',
+              boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)',
+              transition: 'all 0.2s',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '8px'
             }}
-            onMouseEnter={(e) => e.target.style.opacity = '0.9'}
-            onMouseLeave={(e) => e.target.style.opacity = '1'}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)'
+              e.target.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.4)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)'
+            }}
           >
             <Mail style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
             Contact Support
@@ -132,13 +145,14 @@ const AccountSuspendedPage = () => {
               minWidth: '140px',
               minHeight: '48px',
               padding: '12px 24px',
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
+              background: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
               borderRadius: '12px',
-              color: 'var(--text-secondary)',
+              color: '#666666',
               fontSize: '16px',
               fontWeight: '500',
               cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
               transition: 'all 0.2s',
               display: 'flex',
               alignItems: 'center',
@@ -146,12 +160,18 @@ const AccountSuspendedPage = () => {
               gap: '8px'
             }}
             onMouseEnter={(e) => {
-              e.target.style.borderColor = 'var(--border-primary)'
-              e.target.style.color = 'var(--text-primary)'
+              e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+              e.target.style.color = '#000000'
+              e.target.style.background = '#F9FAFB'
+              e.target.style.transform = 'translateY(-2px)'
+              e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
             }}
             onMouseLeave={(e) => {
-              e.target.style.borderColor = 'var(--border-subtle)'
-              e.target.style.color = 'var(--text-secondary)'
+              e.target.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+              e.target.style.color = '#666666'
+              e.target.style.background = 'white'
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
             }}
           >
             <FileText style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />

@@ -1,3 +1,9 @@
+/**
+ * NetworkOfflinePage.jsx
+ * Network offline error page with iOS-inspired design aesthetic
+ * Features: Soft shadows, rounded corners, smooth hover effects
+ */
+
 import React, { memo } from 'react'
 import { WifiOff, RefreshCw } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
@@ -15,37 +21,39 @@ const NetworkOfflinePage = () => {
         alignItems: 'center',
         justifyContent: 'center',
         padding: '24px',
-        background: 'var(--bg-primary)'
+        background: '#FAFAFA'
       }}
     >
       <div style={{
         textAlign: 'center',
         maxWidth: '640px',
         width: '100%',
-        color: 'var(--text-primary)'
+        color: '#000000'
       }}>
         <div style={{
           width: isMobile ? '96px' : '120px',
           height: isMobile ? '96px' : '120px',
-          background: 'rgba(139, 148, 158, 0.1)',
+          background: 'white',
+          border: '1px solid rgba(0, 0, 0, 0.06)',
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          margin: '0 auto 24px'
+          margin: '0 auto 24px',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
         }}>
           <WifiOff
             style={{
               width: '64px',
               height: '64px',
               flexShrink: 0,
-              color: 'var(--text-secondary)'
+              color: '#666666'
             }}
             aria-hidden="true"
           />
         </div>
         <h1 style={{
-          color: 'var(--text-primary)',
+          color: '#000000',
           fontSize: isMobile ? '24px' : '32px',
           fontWeight: 'bold',
           marginBottom: '16px'
@@ -53,7 +61,7 @@ const NetworkOfflinePage = () => {
           No Internet Connection
         </h1>
         <p style={{
-          color: 'var(--text-secondary)',
+          color: '#666666',
           fontSize: isMobile ? '14px' : '16px',
           marginBottom: '32px',
           lineHeight: '1.6'
@@ -72,17 +80,24 @@ const NetworkOfflinePage = () => {
             paddingTop: '14px',
             paddingBottom: '14px',
             height: '48px',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
             border: 'none',
             borderRadius: '16px',
-            color: 'var(--text-inverse)',
+            color: 'white',
             fontSize: '16px',
             fontWeight: '600',
             cursor: 'pointer',
-            transition: 'opacity 0.2s'
+            boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)',
+            transition: 'all 0.2s'
           }}
-          onMouseEnter={(e) => e.target.style.opacity = '0.9'}
-          onMouseLeave={(e) => e.target.style.opacity = '1'}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px)'
+            e.target.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.4)'
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0)'
+            e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)'
+          }}
         >
           <RefreshCw
             style={{ width: '24px', height: '24px', flexShrink: 0 }}

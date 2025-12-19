@@ -1,18 +1,18 @@
 /**
  * Cryb.ai - Login Page
- * Dedicated login page with modern authentication
- * Master Prompt Standards Applied:
- * - Spacing scale: 4, 8, 16, 24, 32, 48, 64px only
- * - Icons: All exactly 24px in fixed containers
- * - Input heights: 48px
- * - Button heights: 56px (lg)
- * - Responsive padding: 16px mobile, 24px tablet, 80px desktop
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and refined inputs
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
  */
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react';
-import { Button as HeroButton } from '@heroui/react';
 import { useAuth } from '../contexts/AuthContext';
 import { useResponsive } from '../hooks/useResponsive';
 import { getErrorMessage } from '../utils/errorUtils';
@@ -31,6 +31,10 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Responsive breakpoints
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
+  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
 
   useEffect(() => {
     if (isAuthenticated && !authLoading) {
@@ -67,96 +71,103 @@ export default function LoginPage() {
     }
   };
 
-  // Determine responsive values
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
-  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
-
   return (
     <div
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
       style={{
-        background: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
-        paddingLeft: pagePadding,
-        paddingRight: pagePadding,
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#FAFAFA',
+        color: '#000000',
+        paddingLeft: isDesktop ? '48px' : isTabletView ? '24px' : '20px',
+        paddingRight: isDesktop ? '48px' : isTabletView ? '24px' : '20px',
         paddingTop: '48px',
-        paddingBottom: '48px',
+        paddingBottom: '48px'
       }}
       role="main"
       aria-label="Login page"
     >
-      {/* Background blobs */}
-      <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 0 }}>
+      {/* Subtle Background Effects */}
+      <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0 }}>
         <div
-          className="absolute rounded-full"
           style={{
+            position: 'absolute',
             width: isDesktop ? '320px' : '256px',
             height: isDesktop ? '320px' : '256px',
-            background: '#58a6ff',
-            filter: 'blur(48px)',
-            opacity: 0.08,
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            borderRadius: '50%',
+            filter: 'blur(80px)',
+            opacity: 0.04,
             top: '64px',
-            left: '32px',
+            left: '32px'
           }}
         />
         <div
-          className="absolute rounded-full"
           style={{
+            position: 'absolute',
             width: isDesktop ? '320px' : '256px',
             height: isDesktop ? '320px' : '256px',
-            background: '#a371f7',
-            filter: 'blur(48px)',
-            opacity: 0.08,
+            background: 'linear-gradient(135deg, #00D26A 0%, #0095FF 100%)',
+            borderRadius: '50%',
+            filter: 'blur(80px)',
+            opacity: 0.03,
             bottom: '64px',
-            right: '32px',
+            right: '32px'
           }}
         />
       </div>
 
       {/* Login Card */}
       <div
-        className="relative w-full"
         style={{
-          zIndex: 10,
+          position: 'relative',
+          width: '100%',
           maxWidth: '480px',
+          zIndex: 10
         }}
       >
         <div
-          className="card card-elevated"
           style={{
-            borderRadius: '16px',
-            padding: isDesktop ? '48px' : isTabletView ? '32px' : '24px',
-            background: 'var(--bg-elevated)',
-            boxShadow: 'var(--shadow-lg)',
+            borderRadius: '24px',
+            padding: isDesktop ? '48px' : isTabletView ? '36px' : '28px',
+            background: 'white',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.06)'
           }}
         >
           {/* Header Section */}
           <div
-            className="text-center"
             style={{
-              marginBottom: '32px',
+              textAlign: 'center',
+              marginBottom: '32px'
             }}
           >
             <div
-              className="flex justify-center"
               style={{
-                marginBottom: '16px',
+                display: 'flex',
+                justifyContent: 'center',
+                marginBottom: '20px'
               }}
             >
               <div
-                className="flex items-center justify-center"
                 style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '64px',
+                  height: '64px',
+                  borderRadius: '18px',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  boxShadow: '0 4px 16px rgba(99, 102, 241, 0.25)'
                 }}
                 aria-hidden="true"
               >
-                <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+                <div style={{ width: '32px', height: '32px', flexShrink: 0 }}>
                   <Sparkles
-                    size={24}
+                    size={32}
                     strokeWidth={2}
                     style={{ color: 'white' }}
                     aria-hidden="true"
@@ -165,21 +176,24 @@ export default function LoginPage() {
               </div>
             </div>
             <h1
-              className="font-bold"
               style={{
-                fontSize: isDesktop ? '24px' : '20px',
-                lineHeight: '1.4',
+                fontSize: isDesktop ? '28px' : '24px',
+                fontWeight: '700',
+                lineHeight: '1.3',
                 marginBottom: '8px',
-                color: 'var(--text-primary)',
+                color: '#000000',
+                letterSpacing: '-0.01em',
+                margin: '0 0 8px 0'
               }}
             >
               Welcome back
             </h1>
             <p
               style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#666666',
+                margin: 0
               }}
             >
               Enter your credentials to continue
@@ -192,12 +206,12 @@ export default function LoginPage() {
               style={{
                 marginBottom: '24px',
                 padding: '16px',
-                background: 'rgba(239, 68, 68, 0.1)',
-                border: '1px solid rgba(239, 68, 68, 0.2)',
+                background: 'rgba(239, 68, 68, 0.08)',
+                border: '1px solid rgba(239, 68, 68, 0.15)',
                 borderRadius: '12px',
                 color: '#ef4444',
                 fontSize: '14px',
-                lineHeight: '1.5',
+                lineHeight: '1.5'
               }}
               role="alert"
               aria-live="assertive"
@@ -209,40 +223,45 @@ export default function LoginPage() {
           {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col"
             style={{
-              gap: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px'
             }}
           >
             {/* Email Field */}
-            <div className="flex flex-col" style={{ gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label
                 htmlFor="email"
-                className="block font-medium"
                 style={{
+                  display: 'block',
                   fontSize: '14px',
+                  fontWeight: '600',
                   lineHeight: '1.5',
-                  color: 'var(--text-secondary)',
+                  color: '#000000'
                 }}
               >
                 Email
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <div
-                  className="absolute flex items-center justify-center"
                   style={{
+                    position: 'absolute',
                     left: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
                     width: '24px',
                     height: '24px',
                     flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Mail
-                    size={24}
+                    size={20}
                     strokeWidth={2}
-                    style={{ color: 'var(--text-tertiary)' }}
+                    style={{ color: '#999999' }}
                     aria-hidden="true"
                   />
                 </div>
@@ -253,55 +272,69 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="input w-full"
                   style={{
-                    height: '48px',
+                    width: '100%',
+                    height: '52px',
                     paddingLeft: '48px',
                     paddingRight: '16px',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-primary)',
-                    color: 'var(--text-primary)',
+                    background: '#F9F9F9',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease'
                   }}
                   placeholder="you@example.com"
                   autoComplete="email"
                   aria-required="true"
                   aria-invalid={error ? 'true' : 'false'}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)'
+                    e.target.style.background = 'white'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                    e.target.style.background = '#F9F9F9'
+                  }}
                 />
               </div>
             </div>
 
             {/* Password Field */}
-            <div className="flex flex-col" style={{ gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label
                 htmlFor="password"
-                className="block font-medium"
                 style={{
+                  display: 'block',
                   fontSize: '14px',
+                  fontWeight: '600',
                   lineHeight: '1.5',
-                  color: 'var(--text-secondary)',
+                  color: '#000000'
                 }}
               >
                 Password
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <div
-                  className="absolute flex items-center justify-center"
                   style={{
+                    position: 'absolute',
                     left: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
                     width: '24px',
                     height: '24px',
                     flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
                   }}
                 >
                   <Lock
-                    size={24}
+                    size={20}
                     strokeWidth={2}
-                    style={{ color: 'var(--text-tertiary)' }}
+                    style={{ color: '#999999' }}
                     aria-hidden="true"
                   />
                 </div>
@@ -312,28 +345,38 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   required
-                  className="input w-full"
                   style={{
-                    height: '48px',
+                    width: '100%',
+                    height: '52px',
                     paddingLeft: '48px',
                     paddingRight: '48px',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-primary)',
-                    color: 'var(--text-primary)',
+                    background: '#F9F9F9',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease'
                   }}
                   placeholder="Enter your password"
                   autoComplete="current-password"
                   aria-required="true"
                   aria-invalid={error ? 'true' : 'false'}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)'
+                    e.target.style.background = 'white'
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                    e.target.style.background = '#F9F9F9'
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute flex items-center justify-center transition-colors"
                   style={{
+                    position: 'absolute',
                     right: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
@@ -343,14 +386,20 @@ export default function LoginPage() {
                     padding: 0,
                     width: '24px',
                     height: '24px',
-                    color: 'var(--text-tertiary)',
+                    color: '#999999',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'color 0.2s'
                   }}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseLeave={(e) => e.target.style.color = '#999999'}
                 >
                   {showPassword ? (
-                    <EyeOff size={24} strokeWidth={2} aria-hidden="true" />
+                    <EyeOff size={20} strokeWidth={2} aria-hidden="true" />
                   ) : (
-                    <Eye size={24} strokeWidth={2} aria-hidden="true" />
+                    <Eye size={20} strokeWidth={2} aria-hidden="true" />
                   )}
                 </button>
               </div>
@@ -358,38 +407,47 @@ export default function LoginPage() {
 
             {/* Remember Me & Forgot Password */}
             <div
-              className="flex items-center justify-between flex-wrap"
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
                 gap: '16px',
                 fontSize: '14px',
-                lineHeight: '1.5',
+                lineHeight: '1.5'
               }}
             >
-              <label className="flex items-center cursor-pointer" style={{ gap: '8px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
                 <input
                   type="checkbox"
                   id="remember-me"
                   name="remember-me"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="cursor-pointer"
                   style={{
-                    width: '16px',
-                    height: '16px',
+                    width: '18px',
+                    height: '18px',
                     flexShrink: 0,
+                    cursor: 'pointer',
+                    accentColor: '#6366F1'
                   }}
                   aria-label="Remember me"
                 />
-                <span style={{ color: 'var(--text-secondary)' }}>Remember me</span>
+                <span style={{ color: '#666666', fontWeight: '500' }}>Remember me</span>
               </label>
               <Link
                 to="/password-reset"
-                className="no-underline transition-colors whitespace-nowrap"
                 style={{
-                  color: 'var(--brand-primary)',
+                  color: '#6366F1',
                   fontSize: '14px',
+                  fontWeight: '600',
                   lineHeight: '1.5',
+                  textDecoration: 'none',
+                  whiteSpace: 'nowrap',
+                  transition: 'color 0.2s'
                 }}
+                onMouseEnter={(e) => e.target.style.color = '#8B5CF6'}
+                onMouseLeave={(e) => e.target.style.color = '#6366F1'}
               >
                 Forgot password?
               </Link>
@@ -399,30 +457,47 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center font-semibold transition-all"
               style={{
+                width: '100%',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 height: '56px',
                 paddingLeft: '32px',
                 paddingRight: '32px',
-                fontSize: '16px',
+                fontSize: '17px',
+                fontWeight: '600',
                 lineHeight: '1.5',
                 gap: '8px',
                 color: 'white',
                 background: loading
-                  ? 'var(--bg-tertiary)'
-                  : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                borderRadius: '12px',
+                  ? '#CCCCCC'
+                  : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                borderRadius: '16px',
                 border: 'none',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.6 : 1,
-                boxShadow: loading ? 'none' : 'var(--shadow-sm)',
+                boxShadow: loading ? 'none' : '0 4px 16px rgba(99, 102, 241, 0.3)',
+                transition: 'all 0.2s ease'
               }}
               aria-label="Sign in to your account"
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.target.style.transform = 'translateY(-1px)'
+                  e.target.style.boxShadow = '0 6px 24px rgba(99, 102, 241, 0.4)'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) {
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)'
+                }
+              }}
             >
               {loading ? 'Signing in...' : 'Sign in'}
               {!loading && (
-                <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                  <ArrowRight size={24} strokeWidth={2} aria-hidden="true" />
+                <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                  <ArrowRight size={20} strokeWidth={2.5} aria-hidden="true" />
                 </div>
               )}
             </button>
@@ -430,53 +505,60 @@ export default function LoginPage() {
 
           {/* Divider */}
           <div
-            className="flex items-center"
             style={{
+              display: 'flex',
+              alignItems: 'center',
               marginTop: '32px',
-              marginBottom: '32px',
+              marginBottom: '32px'
             }}
           >
             <div
-              className="flex-1"
               style={{
-                borderTop: '1px solid var(--border-primary)',
+                flex: 1,
+                borderTop: '1px solid rgba(0, 0, 0, 0.08)'
               }}
             />
             <span
               style={{
                 paddingLeft: '16px',
                 paddingRight: '16px',
-                fontSize: '14px',
+                fontSize: '13px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#999999',
+                fontWeight: '500'
               }}
             >
               or
             </span>
             <div
-              className="flex-1"
               style={{
-                borderTop: '1px solid var(--border-primary)',
+                flex: 1,
+                borderTop: '1px solid rgba(0, 0, 0, 0.08)'
               }}
             />
           </div>
 
           {/* Sign Up Link */}
-          <div className="text-center">
+          <div style={{ textAlign: 'center' }}>
             <p
               style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#666666',
+                margin: 0
               }}
             >
               Don't have an account?{' '}
               <Link
                 to="/register"
-                className="font-medium no-underline transition-colors"
                 style={{
-                  color: 'var(--brand-primary)',
+                  color: '#6366F1',
+                  fontWeight: '600',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s'
                 }}
+                onMouseEnter={(e) => e.target.style.color = '#8B5CF6'}
+                onMouseLeave={(e) => e.target.style.color = '#6366F1'}
               >
                 Sign up for free
               </Link>
@@ -485,19 +567,23 @@ export default function LoginPage() {
 
           {/* Back to Home */}
           <div
-            className="text-center"
             style={{
-              marginTop: '16px',
+              textAlign: 'center',
+              marginTop: '20px'
             }}
           >
             <Link
               to="/"
-              className="no-underline transition-colors"
               style={{
                 fontSize: '14px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#999999',
+                textDecoration: 'none',
+                fontWeight: '500',
+                transition: 'color 0.2s'
               }}
+              onMouseEnter={(e) => e.target.style.color = '#000000'}
+              onMouseLeave={(e) => e.target.style.color = '#999999'}
             >
               ← Back to home
             </Link>

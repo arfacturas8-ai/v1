@@ -1,3 +1,15 @@
+/**
+ * CRYB Platform - Community Page
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and glassmorphism
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
+ */
+
 import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
 import { useParams, useNavigate, Link } from 'react-router-dom'
@@ -256,18 +268,30 @@ function CommunityPage() {
   // Error state
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className=" rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
-          <div className="p-8 text-center">
-            <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
-              <Shield style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FAFAFA' }}>
+        <div style={{ background: 'white', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '24px', maxWidth: '480px', margin: '0 16px' }}>
+          <div style={{ padding: '48px 32px', textAlign: 'center' }}>
+            <div style={{ padding: '16px', borderRadius: '50%', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', display: 'inline-flex', marginBottom: '24px' }}>
+              <Shield style={{ width: "48px", height: "48px", flexShrink: 0, color: '#ef4444' }} />
             </div>
-            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Error Loading Community</h2>
-            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#000000' }}>Error Loading Community</h2>
+            <p style={{ marginBottom: '24px', color: '#666666' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <Button
               onClick={loadCommunity}
               variant="primary"
-              className="w-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]"
+              style={{
+                width: '100%',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                color: 'white',
+                height: '56px',
+                borderRadius: '14px',
+                fontSize: '16px',
+                fontWeight: '600',
+                border: 'none',
+                cursor: 'pointer',
+                boxShadow: '0 4px 16px rgba(99, 102, 241, 0.2)',
+                transition: 'all 0.2s ease'
+              }}
             >
               Try Again
             </Button>
@@ -280,22 +304,51 @@ function CommunityPage() {
   // Community not found state
   if (!community) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className=" rounded-2xl max-w-md mx-4" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-lg)', border: '1px solid var(--border-subtle)' }}>
-          <div className="p-8 text-center">
-            <div className="p-4 rounded-full inline-flex mb-6" style={{ background: 'var(--bg-tertiary)', border: '1px solid var(--border-default)' }}>
-              <Users style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-tertiary)'}} />
+      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#FAFAFA' }}>
+        <div style={{ background: 'white', boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '24px', maxWidth: '480px', margin: '0 16px' }}>
+          <div style={{ padding: '48px 32px', textAlign: 'center' }}>
+            <div style={{ padding: '16px', borderRadius: '50%', background: '#FAFAFA', border: '1px solid rgba(0, 0, 0, 0.08)', display: 'inline-flex', marginBottom: '24px' }}>
+              <Users style={{width: "48px", height: "48px", flexShrink: 0, color: '#999999'}} />
             </div>
-            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Community Not Found</h2>
-            <p className="mb-6" style={{ color: 'var(--text-secondary)' }}>c/{communityName} doesn't exist yet.</p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Link to="/create-community">
-                <Button variant="primary" className="w-full sm:w-auto bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">
+            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#000000' }}>Community Not Found</h2>
+            <p style={{ marginBottom: '24px', color: '#666666' }}>c/{communityName} doesn't exist yet.</p>
+            <div style={{ display: 'flex', flexDirection: window.innerWidth < 640 ? 'column' : 'row', gap: '12px' }}>
+              <Link to="/create-community" style={{ flex: 1 }}>
+                <Button
+                  variant="primary"
+                  style={{
+                    width: '100%',
+                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    color: 'white',
+                    height: '56px',
+                    borderRadius: '14px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 16px rgba(99, 102, 241, 0.2)',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
                   Create Community
                 </Button>
               </Link>
-              <Link to="/communities">
-                <Button variant="secondary" className="w-full sm:w-auto" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}>
+              <Link to="/communities" style={{ flex: 1 }}>
+                <Button
+                  variant="secondary"
+                  style={{
+                    width: '100%',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    color: '#666666',
+                    height: '56px',
+                    borderRadius: '14px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                >
                   Browse Communities
                 </Button>
               </Link>
@@ -352,49 +405,64 @@ function CommunityPage() {
     setSortBy(newSortBy)
   }, [])
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
 
   return (
     <>
       <SkipToContent targetId="community-main-content" />
 
-      <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+      <div style={{ minHeight: '100vh', background: '#FAFAFA', paddingTop: isMobile ? '56px' : '72px' }}>
         {/* Offline indicator */}
         {isOffline && (
-          <div className="bg-yellow-900/50 border-b border-yellow-700/50 px-4 py-2 text-center">
-            <div className="flex items-center justify-center gap-2 text-yellow-400">
-              <WifiOff style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              <span className="text-sm">You're offline. Viewing cached content.</span>
+          <div style={{ background: 'rgba(234, 179, 8, 0.15)', borderBottom: '1px solid rgba(234, 179, 8, 0.2)', padding: '8px 16px', textAlign: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: '#ca8a04' }}>
+              <WifiOff style={{ width: "20px", height: "20px", flexShrink: 0 }} />
+              <span style={{ fontSize: '14px' }}>You're offline. Viewing cached content.</span>
             </div>
           </div>
         )}
 
         {/* Community Header */}
-        <div className="" style={{ background: 'var(--bg-secondary)', borderBottom: '1px solid var(--border-subtle)' }}>
-          <div className="container mx-auto px-4 py-6 max-w-6xl">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-              <div className="flex items-center gap-4">
+        <div style={{ background: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}>
+          <div style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '24px 16px' : '32px 24px' }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 {/* Community Icon */}
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] rounded-2xl flex items-center justify-center font-bold text-2xl flex-shrink-0 shadow-lg" style={{ color: 'var(--text-inverse)' }}>
+                <div style={{
+                  width: isMobile ? '64px' : '80px',
+                  height: isMobile ? '64px' : '80px',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  borderRadius: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: '700',
+                  fontSize: '28px',
+                  flexShrink: 0,
+                  boxShadow: '0 4px 16px rgba(99, 102, 241, 0.2)',
+                  color: 'white'
+                }}>
                   {community?.displayName?.[0]?.toUpperCase() || 'C'}
                 </div>
 
                 {/* Community Info */}
-                <div className="flex-1">
-                  <h1 className="text-2xl md:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                <div style={{ flex: 1 }}>
+                  <h1 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '700', marginBottom: '4px', color: '#000000' }}>
                     c/{community?.displayName}
                   </h1>
-                  <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                    <span className="flex items-center gap-1">
-                      <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '14px', color: '#666666', flexWrap: 'wrap' }}>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Users style={{ width: "16px", height: "16px", flexShrink: 0 }} />
                       {community?.memberCount?.toLocaleString()} members
                     </span>
-                    <span className="flex items-center gap-1">
-                      <Eye style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Eye style={{ width: "16px", height: "16px", flexShrink: 0 }} />
                       {community?.onlineCount} online
                     </span>
                     {community?.trending && (
-                      <span className="flex items-center gap-1 text-[#58a6ff]">
-                        <TrendingUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#6366F1' }}>
+                        <TrendingUp style={{ width: "16px", height: "16px", flexShrink: 0 }} />
                         Trending
                       </span>
                     )}
@@ -406,22 +474,34 @@ function CommunityPage() {
               <Button
                 onClick={handleJoin}
                 variant={isJoined ? 'secondary' : 'primary'}
-                className={`flex items-center gap-2 ${
-                  isJoined
-                    ? 'hover:opacity-80'
-                    : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]'
-                }`}
-                style={isJoined ? { background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' } : { color: 'var(--text-inverse)' }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  height: '56px',
+                  paddingLeft: '24px',
+                  paddingRight: '24px',
+                  borderRadius: '14px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  border: isJoined ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
+                  cursor: 'pointer',
+                  background: isJoined ? 'white' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  color: isJoined ? '#666666' : 'white',
+                  boxShadow: isJoined ? 'none' : '0 4px 16px rgba(99, 102, 241, 0.2)',
+                  transition: 'all 0.2s ease',
+                  width: isMobile ? '100%' : 'auto'
+                }}
                 aria-label={isJoined ? `Leave ${community?.displayName}` : `Join ${community?.displayName}`}
               >
                 {isJoined ? (
                   <>
-                    <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <CheckCircle style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                     Joined
                   </>
                 ) : (
                   <>
-                    <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <UserPlus style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                     Join Community
                   </>
                 )}
@@ -430,30 +510,43 @@ function CommunityPage() {
 
             {/* Community Description */}
             {community?.description && (
-              <p className="mt-4 max-w-3xl" style={{ color: 'var(--text-secondary)' }}>{community.description}</p>
+              <p style={{ marginTop: '16px', maxWidth: '900px', color: '#666666', lineHeight: '1.5' }}>{community.description}</p>
             )}
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="container mx-auto px-4 py-8 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6" id="community-main-content">
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '24px 16px' : '32px 24px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0, 2fr) minmax(0, 1fr)', gap: '24px' }} id="community-main-content">
             {/* Posts Section */}
-            <div className="lg:col-span-2 space-y-6">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {/* Create Post Button/Form */}
               {isJoined && (
-                <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
+                <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
                   {!showPostForm ? (
                     <button
                       onClick={handleTogglePostForm}
-                      className="w-full px-4 py-3 rounded-xl text-left hover:opacity-80 transition-all flex items-center gap-3"
-                      style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '16px',
+                        borderRadius: '14px',
+                        textAlign: 'left',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        background: '#FAFAFA',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        color: '#666666',
+                        fontSize: '16px',
+                        cursor: 'pointer'
+                      }}
                     >
-                      <Plus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <Plus style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                       Create a post
                     </button>
                   ) : (
-                    <form onSubmit={handleCreatePost} className="space-y-4">
+                    <form onSubmit={handleCreatePost} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                       <AccessibleFormField
                         label="Post Title"
                         id="post-title"
@@ -465,8 +558,17 @@ function CommunityPage() {
                           value={newPost.title}
                           onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
                           placeholder="Enter post title..."
-                          className="w-full rounded-xl px-4 py-3 focus:border-[#58a6ff]/50 focus:outline-none"
-                          style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+                          style={{
+                            width: '100%',
+                            height: '52px',
+                            borderRadius: '14px',
+                            padding: '0 16px',
+                            background: '#FAFAFA',
+                            border: '1px solid rgba(0, 0, 0, 0.06)',
+                            color: '#000000',
+                            fontSize: '16px',
+                            outline: 'none'
+                          }}
                           required
                         />
                       </AccessibleFormField>
@@ -481,17 +583,61 @@ function CommunityPage() {
                           value={newPost.content}
                           onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                           placeholder="Share your thoughts..."
-                          className="w-full rounded-xl px-4 py-3 min-h-32 focus:border-[#58a6ff]/50 focus:outline-none"
-                          style={{ background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+                          style={{
+                            width: '100%',
+                            minHeight: '128px',
+                            borderRadius: '14px',
+                            padding: '16px',
+                            background: '#FAFAFA',
+                            border: '1px solid rgba(0, 0, 0, 0.06)',
+                            color: '#000000',
+                            fontSize: '16px',
+                            outline: 'none',
+                            resize: 'vertical'
+                          }}
                           required
                         />
                       </AccessibleFormField>
 
-                      <div className="flex gap-2">
-                        <Button type="submit" variant="primary" className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-[0_8px_32px_rgba(88,166,255,0.2)]">
+                      <div style={{ display: 'flex', gap: '8px' }}>
+                        <Button
+                          type="submit"
+                          variant="primary"
+                          style={{
+                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            color: 'white',
+                            height: '48px',
+                            paddingLeft: '24px',
+                            paddingRight: '24px',
+                            borderRadius: '12px',
+                            fontSize: '15px',
+                            fontWeight: '600',
+                            border: 'none',
+                            cursor: 'pointer',
+                            boxShadow: '0 2px 8px rgba(99, 102, 241, 0.15)',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
                           Post
                         </Button>
-                        <Button type="button" variant="secondary" onClick={handleCancelPost} style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-default)', color: 'var(--text-secondary)' }}>
+                        <Button
+                          type="button"
+                          variant="secondary"
+                          onClick={handleCancelPost}
+                          style={{
+                            background: 'white',
+                            border: '1px solid rgba(0, 0, 0, 0.08)',
+                            color: '#666666',
+                            height: '48px',
+                            paddingLeft: '24px',
+                            paddingRight: '24px',
+                            borderRadius: '12px',
+                            fontSize: '15px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
                           Cancel
                         </Button>
                       </div>
@@ -501,8 +647,8 @@ function CommunityPage() {
               )}
 
               {/* Sort Controls */}
-              <div className=" rounded-2xl p-4" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-                <div className="flex gap-2 overflow-x-auto pb-2">
+              <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '16px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+                <div style={{ display: 'flex', gap: '8px', overflowX: 'auto', paddingBottom: '8px' }}>
                   {sortOptions.map((option) => {
                     const Icon = option.icon
                     const isActive = sortBy === option.id
@@ -510,15 +656,25 @@ function CommunityPage() {
                       <button
                         key={option.id}
                         onClick={() => handleSortChange(option.id)}
-                        className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all whitespace-nowrap ${
-                          isActive
-                            ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7]'
-                            : 'hover:opacity-80'
-                        }`}
-                        style={isActive ? { color: 'var(--text-inverse)' } : { background: 'var(--bg-primary)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          padding: '12px 16px',
+                          borderRadius: '12px',
+                          fontWeight: '600',
+                          fontSize: '15px',
+                          transition: 'all 0.2s ease',
+                          whiteSpace: 'nowrap',
+                          border: 'none',
+                          cursor: 'pointer',
+                          background: isActive ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FAFAFA',
+                          color: isActive ? 'white' : '#666666',
+                          boxShadow: isActive ? '0 2px 8px rgba(99, 102, 241, 0.15)' : 'none'
+                        }}
                         aria-pressed={isActive}
                       >
-                        <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Icon style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                         {option.label}
                       </button>
                     )
@@ -527,70 +683,117 @@ function CommunityPage() {
               </div>
 
               {/* Posts List */}
-              <div className="space-y-4">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {sortedPosts.length === 0 ? (
-                  <div className=" rounded-2xl p-12 text-center" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-                    <MessageSquare style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-tertiary)'}} />
-                    <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>No posts yet</h3>
-                    <p style={{ color: 'var(--text-secondary)' }}>Be the first to post in this community!</p>
+                  <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '24px', padding: '64px 32px', textAlign: 'center', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+                    <div style={{ marginBottom: '16px', display: 'inline-block' }}>
+                      <MessageSquare style={{width: "64px", height: "64px", flexShrink: 0, color: '#999999'}} />
+                    </div>
+                    <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px', color: '#000000' }}>No posts yet</h3>
+                    <p style={{ color: '#666666' }}>Be the first to post in this community!</p>
                   </div>
                 ) : (
                   sortedPosts.map((post) => (
                     <article
                       key={post.id}
-                      className=" rounded-2xl hover:border-[#58a6ff]/30 hover:shadow-[0_12px_48px_rgba(88,166,255,0.15)] transition-all overflow-hidden group"
-                      style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}
+                      style={{
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '20px',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                        transition: 'all 0.2s ease',
+                        overflow: 'hidden'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)';
+                        e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.2)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                        e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)';
+                      }}
                     >
-                      <div className="p-6">
-                        <div className="flex gap-4">
+                      <div style={{ padding: '24px' }}>
+                        <div style={{ display: 'flex', gap: '16px' }}>
                           {/* Vote Section */}
-                          <div className="flex flex-col items-center gap-1">
+                          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
                             <button
                               onClick={() => handleVote(post.id, 'up')}
-                              className={`p-1 rounded transition-colors ${
-                                userVotes[post.id] === 'up' ? 'text-[#58a6ff]' : ''
-                              }`}
-                              style={userVotes[post.id] !== 'up' ? { color: 'var(--text-tertiary)' } : {}}
+                              style={{
+                                padding: '4px',
+                                borderRadius: '8px',
+                                transition: 'all 0.2s ease',
+                                border: 'none',
+                                background: 'transparent',
+                                cursor: 'pointer',
+                                color: userVotes[post.id] === 'up' ? '#6366F1' : '#999999'
+                              }}
                               aria-label={`Upvote post: ${post.title}`}
                             >
-                              <ChevronUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                              <ChevronUp style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                             </button>
-                            <span className={`text-sm font-bold ${
-                              post.score > 0 ? 'text-[#58a6ff]' : post.score < 0 ? 'text-[#a371f7]' : ''
-                            }`}
-                            style={post.score === 0 ? { color: 'var(--text-tertiary)' } : {}}>
+                            <span style={{
+                              fontSize: '14px',
+                              fontWeight: '700',
+                              color: post.score > 0 ? '#6366F1' : post.score < 0 ? '#8B5CF6' : '#999999'
+                            }}>
                               {post.score}
                             </span>
                             <button
                               onClick={() => handleVote(post.id, 'down')}
-                              className={`p-1 rounded transition-colors ${
-                                userVotes[post.id] === 'down' ? 'text-[#a371f7]' : ''
-                              }`}
-                              style={userVotes[post.id] !== 'down' ? { color: 'var(--text-tertiary)' } : {}}
+                              style={{
+                                padding: '4px',
+                                borderRadius: '8px',
+                                transition: 'all 0.2s ease',
+                                border: 'none',
+                                background: 'transparent',
+                                cursor: 'pointer',
+                                color: userVotes[post.id] === 'down' ? '#8B5CF6' : '#999999'
+                              }}
                               aria-label={`Downvote post: ${post.title}`}
                             >
-                              <ChevronDown style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                              <ChevronDown style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                             </button>
                           </div>
 
                           {/* Post Content */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-start justify-between gap-4 mb-3">
-                              <div className="flex-1">
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '16px', marginBottom: '12px' }}>
+                              <div style={{ flex: 1 }}>
                                 {post.pinned && (
-                                  <span className="inline-block px-2 py-1 bg-[#58a6ff]/10 text-[#58a6ff] text-xs rounded-lg mb-2 border border-[#58a6ff]/20 font-medium">
+                                  <span style={{
+                                    display: 'inline-block',
+                                    padding: '4px 8px',
+                                    background: 'rgba(99, 102, 241, 0.1)',
+                                    color: '#6366F1',
+                                    fontSize: '12px',
+                                    borderRadius: '8px',
+                                    marginBottom: '8px',
+                                    border: '1px solid rgba(99, 102, 241, 0.2)',
+                                    fontWeight: '600'
+                                  }}>
                                     Pinned
                                   </span>
                                 )}
                                 <Link
                                   to={`/posts/${post.id}`}
-                                  className="block group"
+                                  style={{ textDecoration: 'none' }}
                                 >
-                                  <h3 className="text-xl font-semibold group-hover:text-[#58a6ff] transition-colors mb-2" style={{ color: 'var(--text-primary)' }}>
+                                  <h3
+                                    style={{
+                                      fontSize: '20px',
+                                      fontWeight: '600',
+                                      transition: 'color 0.2s ease',
+                                      marginBottom: '8px',
+                                      color: '#000000'
+                                    }}
+                                    onMouseEnter={(e) => e.target.style.color = '#6366F1'}
+                                    onMouseLeave={(e) => e.target.style.color = '#000000'}
+                                  >
                                     {post.title}
                                   </h3>
                                 </Link>
-                                <div className="flex items-center gap-2 text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '14px', marginBottom: '12px', color: '#666666' }}>
                                   <span>Posted by u/{post.author}</span>
                                   <span>•</span>
                                   <span>{formatTimeAgo(post.created)}</span>
@@ -599,25 +802,71 @@ function CommunityPage() {
                             </div>
 
                             {post.content && (
-                              <p className="mb-4 line-clamp-3" style={{ color: 'var(--text-secondary)' }}>{post.content}</p>
+                              <p style={{
+                                marginBottom: '16px',
+                                color: '#666666',
+                                lineHeight: '1.5',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 3,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden'
+                              }}>{post.content}</p>
                             )}
 
                             {/* Post Actions */}
-                            <div className="flex items-center gap-4 text-sm">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '14px' }}>
                               <Link
                                 to={`/posts/${post.id}`}
-                                className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors"
-                                style={{ color: 'var(--text-secondary)' }}
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  transition: 'color 0.2s ease',
+                                  color: '#666666',
+                                  textDecoration: 'none'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                               >
-                                <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                                <MessageSquare style={{ width: "18px", height: "18px", flexShrink: 0 }} />
                                 <span>{post.comments} comments</span>
                               </Link>
-                              <button className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors" style={{ color: 'var(--text-secondary)' }}>
-                                <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                              <button
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  transition: 'color 0.2s ease',
+                                  color: '#666666',
+                                  background: 'transparent',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  fontSize: '14px',
+                                  padding: 0
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
+                              >
+                                <Share2 style={{ width: "18px", height: "18px", flexShrink: 0 }} />
                                 <span>Share</span>
                               </button>
-                              <button className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors" style={{ color: 'var(--text-secondary)' }}>
-                                <Bookmark style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                              <button
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  transition: 'color 0.2s ease',
+                                  color: '#666666',
+                                  background: 'transparent',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  fontSize: '14px',
+                                  padding: 0
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
+                              >
+                                <Bookmark style={{ width: "18px", height: "18px", flexShrink: 0 }} />
                                 <span>Save</span>
                               </button>
                             </div>
@@ -631,30 +880,30 @@ function CommunityPage() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {/* About Community */}
-              <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-                <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>About Community</h2>
-                <div className="space-y-4">
+              <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+                <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: '#000000' }}>About Community</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {communityStats.map((stat, index) => {
                     const Icon = stat.icon
                     return (
-                      <div key={index} className="flex items-center justify-between">
-                        <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                          <Icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                      <div key={index} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#666666' }}>
+                          <Icon style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                           <span>{stat.label}</span>
                         </div>
-                        <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{stat.value}</span>
+                        <span style={{ fontWeight: '600', color: '#000000' }}>{stat.value}</span>
                       </div>
                     )
                   })}
                   {community?.createdAt && (
-                    <div className="flex items-center justify-between pt-3" style={{ borderTop: '1px solid var(--border-subtle)' }}>
-                      <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                        <Calendar style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '12px', borderTop: '1px solid rgba(0, 0, 0, 0.06)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#666666' }}>
+                        <Calendar style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                         <span>Created</span>
                       </div>
-                      <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                      <span style={{ fontWeight: '600', color: '#000000' }}>
                         {new Date(community.createdAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -664,15 +913,15 @@ function CommunityPage() {
 
               {/* Community Rules */}
               {displayRules.length > 0 && (
-                <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-                  <h2 className="text-lg font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                    <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+                  <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: '#000000' }}>
+                    <Shield style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                     Rules
                   </h2>
-                  <ol className="space-y-3">
+                  <ol style={{ display: 'flex', flexDirection: 'column', gap: '12px', paddingLeft: 0, listStyle: 'none' }}>
                     {displayRules.map((rule, index) => (
-                      <li key={index} className="text-sm flex gap-3" style={{ color: 'var(--text-secondary)' }}>
-                        <span className="font-semibold" style={{ color: 'var(--text-tertiary)' }}>{index + 1}.</span>
+                      <li key={index} style={{ fontSize: '14px', display: 'flex', gap: '12px', color: '#666666' }}>
+                        <span style={{ fontWeight: '600', color: '#999999' }}>{index + 1}.</span>
                         <span>{rule}</span>
                       </li>
                     ))}
@@ -682,17 +931,38 @@ function CommunityPage() {
 
               {/* Moderators */}
               {displayModerators.length > 0 && (
-                <div className=" rounded-2xl p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-                  <h2 className="text-lg font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Moderators</h2>
-                  <div className="space-y-2">
+                <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
+                  <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: '#000000' }}>Moderators</h2>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {displayModerators.map((mod, index) => (
                       <Link
                         key={index}
                         to={`/user/${mod}`}
-                        className="flex items-center gap-2 hover:text-[#58a6ff] transition-colors"
-                        style={{ color: 'var(--text-secondary)' }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          transition: 'color 0.2s ease',
+                          color: '#666666',
+                          textDecoration: 'none',
+                          fontSize: '15px'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                        onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                       >
-                        <div style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-inverse)'}}>
+                        <div style={{
+                          width: '32px',
+                          height: '32px',
+                          flexShrink: 0,
+                          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                          borderRadius: '50%',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: 'white',
+                          fontSize: '14px',
+                          fontWeight: '600'
+                        }}>
                           {mod[0].toUpperCase()}
                         </div>
                         <span>u/{mod}</span>

@@ -1,3 +1,9 @@
+/**
+ * SettingsPage.jsx
+ * Modernized settings page with iOS aesthetic
+ * Features: Explicit light theme colors, inline styles, iOS-style components
+ */
+
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link, useNavigate } from 'react-router-dom'
@@ -467,9 +473,9 @@ function SettingsPage() {
     if (/[0-9]/.test(password)) strength++
     if (/[^A-Za-z0-9]/.test(password)) strength++
 
-    if (strength <= 2) return { level: 'weak', color: 'bg-red-500' }
-    if (strength <= 4) return { level: 'medium', color: 'bg-yellow-500' }
-    return { level: 'strong', color: 'bg-green-500' }
+    if (strength <= 2) return { level: 'weak', color: '#EF4444' }
+    if (strength <= 4) return { level: 'medium', color: '#F59E0B' }
+    return { level: 'strong', color: '#10B981' }
   }
 
   const handlePasswordChange = (field, value) => {
@@ -582,189 +588,442 @@ function SettingsPage() {
 
   if (dataLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className="text-center">
-          <div style={{ width: "64px", height: "64px", flexShrink: 0 }}></div>
-          <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>Loading settings...</p>
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#FAFAFA'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ width: '64px', height: '64px', flexShrink: 0 }}></div>
+          <p style={{ fontSize: '18px', color: '#666666', marginTop: '16px' }}>Loading settings...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div role="main" aria-label="Settings page" className="min-h-screen" style={{ background: 'var(--bg-primary)' }}>
+    <div role="main" aria-label="Settings page" style={{
+      minHeight: '100vh',
+      background: '#FAFAFA'
+    }}>
       {/* Global Message */}
       {message && (
-        <div className={`safe-area-top fixed top-0 left-0 right-0 z-50 px-4 py-3 text-center font-medium ${
-          message.type === 'error'
-            ? 'bg-red-500/90 text-white backdrop-blur-sm'
-            : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-        }`}>
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          padding: '12px 16px',
+          textAlign: 'center',
+          fontWeight: 500,
+          background: message.type === 'error'
+            ? 'rgba(239, 68, 68, 0.9)'
+            : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+          color: 'white',
+          backdropFilter: 'blur(8px)'
+        }}>
           {message.text}
         </div>
       )}
 
-      <div className="flex min-h-screen">
+      <div style={{ display: 'flex', minHeight: '100vh' }}>
         {/* Left Sidebar Navigation */}
-        <aside className="safe-area-top w-64 border-r border-[var(--border-subtle)] fixed left-0 top-0 bottom-0 overflow-y-auto lg:block hidden" style={{ background: 'var(--bg-primary)' }}>
-          <h1 className="text-2xl font-bold px-6 py-8" style={{ color: 'var(--text-primary)' }}>Settings</h1>
-          <nav className="flex flex-col gap-1 px-3">
+        <aside style={{
+          width: '256px',
+          borderRight: '1px solid rgba(0, 0, 0, 0.06)',
+          position: 'fixed',
+          left: 0,
+          top: 0,
+          bottom: 0,
+          overflowY: 'auto',
+          background: '#FAFAFA',
+          display: isMobile ? 'none' : 'block'
+        }}>
+          <h1 style={{
+            fontSize: '24px',
+            fontWeight: 'bold',
+            padding: '32px 24px',
+            color: '#000000',
+            margin: 0
+          }}>Settings</h1>
+          <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '0 12px' }}>
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`touch-target flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                  activeTab === tab.id
-                    ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                    : 'hover:bg-gray-100'
-                }`}
-                style={activeTab !== tab.id ? { color: 'var(--text-secondary)' } : {}}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '12px 16px',
+                  borderRadius: '12px',
+                  transition: 'all 0.2s',
+                  background: activeTab === tab.id
+                    ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                    : 'transparent',
+                  color: activeTab === tab.id ? 'white' : '#666666',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '15px',
+                  fontWeight: 500,
+                  boxShadow: activeTab === tab.id ? '0 4px 12px rgba(99, 102, 241, 0.25)' : 'none',
+                  minHeight: '44px'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.04)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== tab.id) {
+                    e.currentTarget.style.background = 'transparent'
+                  }
+                }}
                 aria-label={`${tab.label} settings`}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
               >
-                <span className="text-xl" aria-hidden="true">{tab.icon}</span>
-                <span className="font-medium">{tab.label}</span>
+                <span style={{ fontSize: '20px' }} aria-hidden="true">{tab.icon}</span>
+                <span>{tab.label}</span>
               </button>
             ))}
           </nav>
         </aside>
 
         {/* Mobile Bottom Navigation */}
-        <aside className="safe-area-bottom fixed bottom-0 left-0 right-0 z-50 border-t border-[var(--border-subtle)] lg:hidden" style={{ background: 'var(--bg-primary)' }}>
-          <nav className="flex overflow-x-auto gap-2 px-3 py-3 hide-scrollbar">
+        <aside style={{
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+          background: 'white',
+          display: isMobile ? 'block' : 'none'
+        }}>
+          <nav style={{
+            display: 'flex',
+            overflowX: 'auto',
+            gap: '8px',
+            padding: '12px',
+            WebkitOverflowScrolling: 'touch'
+          }}>
             {tabs.map(tab => (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`touch-target flex flex-col items-center gap-1 px-3 py-2 rounded-xl transition-all flex-shrink-0 ${
-                  activeTab === tab.id
-                    ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                    : ''
-                }`}
-                style={activeTab !== tab.id ? { color: 'var(--text-secondary)' } : {}}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '8px 12px',
+                  borderRadius: '12px',
+                  transition: 'all 0.2s',
+                  background: activeTab === tab.id
+                    ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                    : 'transparent',
+                  color: activeTab === tab.id ? 'white' : '#666666',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  flexShrink: 0,
+                  minHeight: '44px',
+                  minWidth: '72px'
+                }}
                 aria-label={`${tab.label} settings`}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
               >
-                <span className="text-lg" aria-hidden="true">{tab.icon}</span>
-                <span className="text-xs font-medium whitespace-nowrap">{tab.label}</span>
+                <span style={{ fontSize: '18px' }} aria-hidden="true">{tab.icon}</span>
+                <span style={{ whiteSpace: 'nowrap' }}>{tab.label}</span>
               </button>
             ))}
           </nav>
         </aside>
 
         {/* Main Content Area */}
-        <main className="flex-1 lg:ml-64 pb-24 lg:pb-8">
-          <div className="max-w-4xl mx-auto px-4 py-8">
+        <main style={{
+          flex: 1,
+          marginLeft: isMobile ? 0 : '256px',
+          paddingBottom: isMobile ? '96px' : '32px'
+        }}>
+          <div style={{
+            maxWidth: '896px',
+            margin: '0 auto',
+            padding: '32px 16px'
+          }}>
             {/* Profile Tab */}
             {activeTab === 'profile' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Profile Settings</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Customize your public profile and personal information</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Profile Settings</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Customize your public profile and personal information</p>
                 </div>
 
-                <form onSubmit={handleProfileSubmit} className="space-y-6">
+                <form onSubmit={handleProfileSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {/* Avatar Upload */}
-                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                    <label className="block text-sm font-medium mb-4" style={{ color: 'var(--text-secondary)' }}>Profile Picture</label>
-                    <div className="flex items-center gap-6">
-                      <div className="w-24 h-24 rounded-full overflow-hidden bg-gradient-to-r from-[#58a6ff] to-[#a371f7] flex items-center justify-center">
+                  <div style={{
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                  }}>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '16px',
+                      color: '#666666'
+                    }}>Profile Picture</label>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+                      <div style={{
+                        width: '96px',
+                        height: '96px',
+                        borderRadius: '50%',
+                        overflow: 'hidden',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}>
                         {avatarPreview ? (
-                          <img src={avatarPreview} alt="Avatar preview" loading="lazy" className="w-full h-full object-cover" />
+                          <img src={avatarPreview} alt="Avatar preview" loading="lazy" style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }} />
                         ) : (
-                          <div style={{color: "var(--text-primary)"}} className=" text-3xl font-bold">
+                          <div style={{ color: 'white', fontSize: '32px', fontWeight: 'bold' }}>
                             {currentUser?.username?.[0]?.toUpperCase() || 'U'}
                           </div>
                         )}
                       </div>
-                      <div className="flex-1">
-                        <label style={{color: "var(--text-primary)"}} className="touch-target inline-block px-6 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium cursor-pointer hover:opacity-90 transition-opacity">
+                      <div style={{ flex: 1 }}>
+                        <label style={{
+                          display: 'inline-block',
+                          padding: '10px 24px',
+                          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                          borderRadius: '12px',
+                          fontWeight: 500,
+                          cursor: 'pointer',
+                          transition: 'opacity 0.2s',
+                          color: 'white',
+                          fontSize: '15px',
+                          minHeight: '44px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          border: 'none'
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.9' }}
+                        onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
+                        >
                           Upload New
                           <input
                             type="file"
                             accept="image/*"
                             onChange={handleAvatarUpload}
-                            className="hidden"
+                            style={{ display: 'none' }}
                             aria-label="Upload profile picture"
                           />
                         </label>
-                        <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>JPG, PNG or GIF. Max size 5MB.</p>
+                        <p style={{
+                          fontSize: '14px',
+                          marginTop: '8px',
+                          color: '#666666'
+                        }}>JPG, PNG or GIF. Max size 5MB.</p>
                       </div>
                     </div>
                   </div>
 
                   {/* Username (Read-only) */}
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Username</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Username</label>
                     <input
                       type="text"
                       value={currentUser?.username || ''}
                       disabled
-                      className="w-full px-4 py-3 bg-gray-50 border border-[var(--border-subtle)] rounded-xl cursor-not-allowed"
-                      style={{ color: 'var(--text-secondary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: '#F5F5F5',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        cursor: 'not-allowed',
+                        color: '#666666',
+                        fontSize: '15px',
+                        minHeight: '48px',
+                        boxSizing: 'border-box'
+                      }}
                     />
-                    <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Your username cannot be changed</p>
+                    <p style={{
+                      fontSize: '14px',
+                      marginTop: '4px',
+                      color: '#666666'
+                    }}>Your username cannot be changed</p>
                   </div>
 
                   {/* Display Name */}
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Display Name</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Display Name</label>
                     <input
                       type="text"
                       value={profileData.displayName}
                       onChange={(e) => setProfileData({ ...profileData, displayName: e.target.value })}
                       placeholder="Enter your display name"
-                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        minHeight: '48px',
+                        boxSizing: 'border-box'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       aria-label="Display name"
                     />
                   </div>
 
                   {/* Bio */}
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Bio</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Bio</label>
                     <textarea
                       value={profileData.bio}
                       onChange={(e) => setProfileData({ ...profileData, bio: e.target.value })}
                       placeholder="Tell us about yourself..."
                       rows={4}
                       maxLength={500}
-                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors resize-none"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        resize: 'none',
+                        fontFamily: 'inherit',
+                        boxSizing: 'border-box'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     />
-                    <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>{profileData.bio.length}/500 characters</p>
+                    <p style={{
+                      fontSize: '14px',
+                      marginTop: '4px',
+                      color: '#666666'
+                    }}>{profileData.bio.length}/500 characters</p>
                   </div>
 
                   {/* Location */}
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Location</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Location</label>
                     <input
                       type="text"
                       value={profileData.location}
                       onChange={(e) => setProfileData({ ...profileData, location: e.target.value })}
                       placeholder="City, Country"
-                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        minHeight: '48px',
+                        boxSizing: 'border-box'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     />
                   </div>
 
                   {/* Website */}
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Website</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Website</label>
                     <input
                       type="url"
                       value={profileData.website}
                       onChange={(e) => setProfileData({ ...profileData, website: e.target.value })}
                       placeholder="https://yourwebsite.com"
-                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        minHeight: '48px',
+                        boxSizing: 'border-box'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     />
                   </div>
 
                   {/* Social Links */}
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Social Links</label>
-                    <div className="space-y-3">
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Social Links</label>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       <input
                         type="text"
                         value={profileData.socialLinks.twitter}
@@ -773,8 +1032,21 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, twitter: e.target.value }
                         })}
                         placeholder="Twitter/X username"
-                        className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
-                        style={{ color: 'var(--text-primary)' }}
+                        style={{
+                          width: '100%',
+                          padding: '12px 16px',
+                          background: 'white',
+                          border: '1px solid rgba(0, 0, 0, 0.06)',
+                          borderRadius: '12px',
+                          color: '#000000',
+                          fontSize: '15px',
+                          outline: 'none',
+                          transition: 'border-color 0.2s',
+                          minHeight: '48px',
+                          boxSizing: 'border-box'
+                        }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                        onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       />
                       <input
                         type="text"
@@ -784,8 +1056,21 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, github: e.target.value }
                         })}
                         placeholder="GitHub username"
-                        className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
-                        style={{ color: 'var(--text-primary)' }}
+                        style={{
+                          width: '100%',
+                          padding: '12px 16px',
+                          background: 'white',
+                          border: '1px solid rgba(0, 0, 0, 0.06)',
+                          borderRadius: '12px',
+                          color: '#000000',
+                          fontSize: '15px',
+                          outline: 'none',
+                          transition: 'border-color 0.2s',
+                          minHeight: '48px',
+                          boxSizing: 'border-box'
+                        }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                        onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       />
                       <input
                         type="text"
@@ -795,26 +1080,69 @@ function SettingsPage() {
                           socialLinks: { ...profileData.socialLinks, linkedin: e.target.value }
                         })}
                         placeholder="LinkedIn profile"
-                        className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl placeholder-[var(--text-secondary)] focus:border-[#58a6ff] focus:outline-none transition-colors"
-                        style={{ color: 'var(--text-primary)' }}
+                        style={{
+                          width: '100%',
+                          padding: '12px 16px',
+                          background: 'white',
+                          border: '1px solid rgba(0, 0, 0, 0.06)',
+                          borderRadius: '12px',
+                          color: '#000000',
+                          fontSize: '15px',
+                          outline: 'none',
+                          transition: 'border-color 0.2s',
+                          minHeight: '48px',
+                          boxSizing: 'border-box'
+                        }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                        onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       />
                     </div>
                   </div>
 
                   {/* Interests */}
                   <div>
-                    <label className="block text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Interests</label>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '12px',
+                      color: '#666666'
+                    }}>Interests</label>
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+                      gap: '8px'
+                    }}>
                       {availableInterests.map(interest => (
                         <button
                           key={interest}
                           type="button"
                           onClick={() => handleInterestToggle(interest)}
-                          className={`touch-target px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                            profileData.interests.includes(interest)
-                              ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white shadow-lg'
-                              : 'bg-gray-100 text-gray-700 border border-[var(--border-subtle)] hover:border-[#58a6ff]'
-                          }`}
+                          style={{
+                            padding: '8px 16px',
+                            borderRadius: '12px',
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            transition: 'all 0.2s',
+                            background: profileData.interests.includes(interest)
+                              ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                              : 'white',
+                            color: profileData.interests.includes(interest) ? 'white' : '#666666',
+                            border: `1px solid ${profileData.interests.includes(interest) ? 'transparent' : 'rgba(0, 0, 0, 0.06)'}`,
+                            cursor: 'pointer',
+                            minHeight: '36px',
+                            boxShadow: profileData.interests.includes(interest) ? '0 2px 8px rgba(99, 102, 241, 0.25)' : 'none'
+                          }}
+                          onMouseEnter={(e) => {
+                            if (!profileData.interests.includes(interest)) {
+                              e.currentTarget.style.borderColor = '#6366F1'
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (!profileData.interests.includes(interest)) {
+                              e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                            }
+                          }}
                         >
                           {interest}
                         </button>
@@ -825,7 +1153,26 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      borderRadius: '12px',
+                      fontWeight: 500,
+                      transition: 'opacity 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      color: 'white',
+                      border: 'none',
+                      fontSize: '15px',
+                      minHeight: '48px'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '0.9'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '1'
+                    }}
                   >
                     Save Profile
                   </button>
@@ -835,88 +1182,219 @@ function SettingsPage() {
 
             {/* Account Tab */}
             {activeTab === 'account' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Account Settings</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Manage your email, password, and account preferences</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Account Settings</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Manage your email, password, and account preferences</p>
                 </div>
 
                 {/* Email */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Email Address</h3>
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Email Address</h3>
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Current Email</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Current Email</label>
                     <input
                       type="email"
                       value={currentUser?.email || ''}
                       disabled
-                      className="w-full px-4 py-3 bg-gray-50 border border-[var(--border-subtle)] rounded-xl cursor-not-allowed"
-                      style={{ color: 'var(--text-secondary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: '#F5F5F5',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        cursor: 'not-allowed',
+                        color: '#666666',
+                        fontSize: '15px',
+                        minHeight: '48px',
+                        boxSizing: 'border-box'
+                      }}
                     />
-                    <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Contact support to change your email address</p>
+                    <p style={{
+                      fontSize: '14px',
+                      marginTop: '4px',
+                      color: '#666666'
+                    }}>Contact support to change your email address</p>
                   </div>
                 </div>
 
                 {/* Password Change */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Change Password</h3>
-                  <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Change Password</h3>
+                  <form onSubmit={handlePasswordSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Current Password</label>
-                      <div className="relative">
+                      <label style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '8px',
+                        color: '#666666'
+                      }}>Current Password</label>
+                      <div style={{ position: 'relative' }}>
                         <input
                           type={showCurrentPassword ? 'text' : 'password'}
                           value={passwordData.currentPassword}
                           onChange={(e) => handlePasswordChange('currentPassword', e.target.value)}
                           placeholder="Enter current password"
-                          className={`w-full px-4 py-3 pr-12 bg-white border rounded-xl placeholder-[var(--text-secondary)] focus:outline-none transition-colors ${
-                            passwordErrors.currentPassword ? 'border-red-500' : 'border-[var(--border-subtle)] focus:border-[#58a6ff]'
-                          }`}
-                          style={{ color: 'var(--text-primary)' }}
+                          style={{
+                            width: '100%',
+                            padding: '12px 48px 12px 16px',
+                            background: 'white',
+                            border: `1px solid ${passwordErrors.currentPassword ? '#EF4444' : 'rgba(0, 0, 0, 0.06)'}`,
+                            borderRadius: '12px',
+                            color: '#000000',
+                            fontSize: '15px',
+                            outline: 'none',
+                            transition: 'border-color 0.2s',
+                            minHeight: '48px',
+                            boxSizing: 'border-box'
+                          }}
+                          onFocus={(e) => {
+                            if (!passwordErrors.currentPassword) {
+                              e.currentTarget.style.borderColor = '#6366F1'
+                            }
+                          }}
+                          onBlur={(e) => {
+                            if (!passwordErrors.currentPassword) {
+                              e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                            }
+                          }}
                         />
                         <button
                           type="button"
                           onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-                          style={{ color: 'var(--text-secondary)' }}
+                          style={{
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            transition: 'color 0.2s',
+                            color: '#666666',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
                           aria-label={showCurrentPassword ? 'Hide password' : 'Show password'}
                         >
-                          {showCurrentPassword ? <EyeOff size={24} /> : <Eye size={24} />}
+                          {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
                       {passwordErrors.currentPassword && (
-                        <p className="text-red-500 text-sm mt-1">{passwordErrors.currentPassword}</p>
+                        <p style={{ color: '#EF4444', fontSize: '14px', marginTop: '4px' }}>{passwordErrors.currentPassword}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>New Password</label>
-                      <div className="relative">
+                      <label style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '8px',
+                        color: '#666666'
+                      }}>New Password</label>
+                      <div style={{ position: 'relative' }}>
                         <input
                           type={showNewPassword ? 'text' : 'password'}
                           value={passwordData.newPassword}
                           onChange={(e) => handlePasswordChange('newPassword', e.target.value)}
                           placeholder="Enter new password"
-                          className={`w-full px-4 py-3 pr-12 bg-white border rounded-xl placeholder-[var(--text-secondary)] focus:outline-none transition-colors ${
-                            passwordErrors.newPassword ? 'border-red-500' : 'border-[var(--border-subtle)] focus:border-[#58a6ff]'
-                          }`}
-                          style={{ color: 'var(--text-primary)' }}
+                          style={{
+                            width: '100%',
+                            padding: '12px 48px 12px 16px',
+                            background: 'white',
+                            border: `1px solid ${passwordErrors.newPassword ? '#EF4444' : 'rgba(0, 0, 0, 0.06)'}`,
+                            borderRadius: '12px',
+                            color: '#000000',
+                            fontSize: '15px',
+                            outline: 'none',
+                            transition: 'border-color 0.2s',
+                            minHeight: '48px',
+                            boxSizing: 'border-box'
+                          }}
+                          onFocus={(e) => {
+                            if (!passwordErrors.newPassword) {
+                              e.currentTarget.style.borderColor = '#6366F1'
+                            }
+                          }}
+                          onBlur={(e) => {
+                            if (!passwordErrors.newPassword) {
+                              e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                            }
+                          }}
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPassword(!showNewPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-                          style={{ color: 'var(--text-secondary)' }}
+                          style={{
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            transition: 'color 0.2s',
+                            color: '#666666',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
                           aria-label={showNewPassword ? 'Hide password' : 'Show password'}
                         >
-                          {showNewPassword ? <EyeOff size={24} /> : <Eye size={24} />}
+                          {showNewPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
                       {passwordData.newPassword && (
-                        <div className="mt-2 h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div style={{
+                          marginTop: '8px',
+                          height: '8px',
+                          background: '#F5F5F5',
+                          borderRadius: '999px',
+                          overflow: 'hidden'
+                        }}>
                           <div
-                            className={`h-full transition-all ${calculatePasswordStrength(passwordData.newPassword).color}`}
                             style={{
+                              height: '100%',
+                              transition: 'all 0.3s',
+                              background: calculatePasswordStrength(passwordData.newPassword).color,
                               width: calculatePasswordStrength(passwordData.newPassword).level === 'weak' ? '33%' :
                                      calculatePasswordStrength(passwordData.newPassword).level === 'medium' ? '66%' : '100%'
                             }}
@@ -924,42 +1402,99 @@ function SettingsPage() {
                         </div>
                       )}
                       {passwordErrors.newPassword && (
-                        <p className="text-red-500 text-sm mt-1">{passwordErrors.newPassword}</p>
+                        <p style={{ color: '#EF4444', fontSize: '14px', marginTop: '4px' }}>{passwordErrors.newPassword}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Confirm New Password</label>
-                      <div className="relative">
+                      <label style={{
+                        display: 'block',
+                        fontSize: '14px',
+                        fontWeight: 500,
+                        marginBottom: '8px',
+                        color: '#666666'
+                      }}>Confirm New Password</label>
+                      <div style={{ position: 'relative' }}>
                         <input
                           type={showConfirmPassword ? 'text' : 'password'}
                           value={passwordData.confirmPassword}
                           onChange={(e) => handlePasswordChange('confirmPassword', e.target.value)}
                           placeholder="Re-enter new password"
-                          className={`w-full px-4 py-3 pr-12 bg-white border rounded-xl placeholder-[var(--text-secondary)] focus:outline-none transition-colors ${
-                            passwordErrors.confirmPassword ? 'border-red-500' : 'border-[var(--border-subtle)] focus:border-[#58a6ff]'
-                          }`}
-                          style={{ color: 'var(--text-primary)' }}
+                          style={{
+                            width: '100%',
+                            padding: '12px 48px 12px 16px',
+                            background: 'white',
+                            border: `1px solid ${passwordErrors.confirmPassword ? '#EF4444' : 'rgba(0, 0, 0, 0.06)'}`,
+                            borderRadius: '12px',
+                            color: '#000000',
+                            fontSize: '15px',
+                            outline: 'none',
+                            transition: 'border-color 0.2s',
+                            minHeight: '48px',
+                            boxSizing: 'border-box'
+                          }}
+                          onFocus={(e) => {
+                            if (!passwordErrors.confirmPassword) {
+                              e.currentTarget.style.borderColor = '#6366F1'
+                            }
+                          }}
+                          onBlur={(e) => {
+                            if (!passwordErrors.confirmPassword) {
+                              e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                            }
+                          }}
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
-                          style={{ color: 'var(--text-secondary)' }}
+                          style={{
+                            position: 'absolute',
+                            right: '12px',
+                            top: '50%',
+                            transform: 'translateY(-50%)',
+                            transition: 'color 0.2s',
+                            color: '#666666',
+                            background: 'none',
+                            border: 'none',
+                            cursor: 'pointer',
+                            padding: '4px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
                           aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
                         >
-                          {showConfirmPassword ? <EyeOff size={24} /> : <Eye size={24} />}
+                          {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                         </button>
                       </div>
                       {passwordErrors.confirmPassword && (
-                        <p className="text-red-500 text-sm mt-1">{passwordErrors.confirmPassword}</p>
+                        <p style={{ color: '#EF4444', fontSize: '14px', marginTop: '4px' }}>{passwordErrors.confirmPassword}</p>
                       )}
                     </div>
 
                     <button
                       type="submit"
                       disabled={passwordLoading}
-                      style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                      style={{
+                        width: '100%',
+                        padding: '12px 24px',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        borderRadius: '12px',
+                        fontWeight: 500,
+                        transition: 'opacity 0.2s',
+                        opacity: passwordLoading ? 0.5 : 1,
+                        cursor: passwordLoading ? 'not-allowed' : 'pointer',
+                        color: 'white',
+                        border: 'none',
+                        fontSize: '15px',
+                        minHeight: '48px'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!passwordLoading) e.currentTarget.style.opacity = '0.9'
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!passwordLoading) e.currentTarget.style.opacity = '1'
+                      }}
                     >
                       Update Password
                     </button>
@@ -967,15 +1502,46 @@ function SettingsPage() {
                 </div>
 
                 {/* Delete Account */}
-                <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Delete Account</h3>
-                  <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>
+                <div style={{
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '16px',
+                  padding: '24px'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Delete Account</h3>
+                  <p style={{
+                    marginBottom: '16px',
+                    color: '#666666'
+                  }}>
                     Once you delete your account, there is no going back. Please be certain.
                   </p>
                   <button
                     onClick={handleDeleteAccount}
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} className="touch-target px-6 py-3 bg-red-500  rounded-xl font-medium hover:bg-red-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    style={{
+                      padding: '12px 24px',
+                      background: '#EF4444',
+                      borderRadius: '12px',
+                      fontWeight: 500,
+                      transition: 'background 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      color: 'white',
+                      border: 'none',
+                      fontSize: '15px',
+                      minHeight: '48px'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) e.currentTarget.style.background = '#DC2626'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) e.currentTarget.style.background = '#EF4444'
+                    }}
                   >
                     Delete My Account
                   </button>
@@ -985,20 +1551,44 @@ function SettingsPage() {
 
             {/* Privacy Tab */}
             {activeTab === 'privacy' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Privacy Settings</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Control your privacy and who can see your information</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Privacy Settings</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Control your privacy and who can see your information</p>
                 </div>
 
-                <form onSubmit={handlePrivacySubmit} className="space-y-6">
+                <form onSubmit={handlePrivacySubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Profile Visibility</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Profile Visibility</label>
                     <select
                       value={privacySettings.profileVisibility}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, profileVisibility: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        minHeight: '48px',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     >
                       <option value="public">Public - Anyone can view</option>
                       <option value="friends">Friends Only</option>
@@ -1007,12 +1597,31 @@ function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Who can send you friend requests?</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Who can send you friend requests?</label>
                     <select
                       value={privacySettings.friendRequestsFrom}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, friendRequestsFrom: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        minHeight: '48px',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     >
                       <option value="everyone">Everyone</option>
                       <option value="friends_of_friends">Friends of Friends</option>
@@ -1021,12 +1630,31 @@ function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Who can message you?</label>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Who can message you?</label>
                     <select
                       value={privacySettings.messagePrivacy}
                       onChange={(e) => setPrivacySettings({ ...privacySettings, messagePrivacy: e.target.value })}
-                      className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors"
-                      style={{ color: 'var(--text-primary)' }}
+                      style={{
+                        width: '100%',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.06)',
+                        borderRadius: '12px',
+                        color: '#000000',
+                        fontSize: '15px',
+                        outline: 'none',
+                        transition: 'border-color 0.2s',
+                        minHeight: '48px',
+                        cursor: 'pointer'
+                      }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     >
                       <option value="everyone">Everyone</option>
                       <option value="friends">Friends Only</option>
@@ -1034,7 +1662,16 @@ function SettingsPage() {
                     </select>
                   </div>
 
-                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
+                  <div style={{
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '16px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                  }}>
                     <ToggleSwitch
                       label="Show Online Status"
                       description="Let others see when you're online"
@@ -1060,7 +1697,26 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={loading}
-                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      borderRadius: '12px',
+                      fontWeight: 500,
+                      transition: 'opacity 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      color: 'white',
+                      border: 'none',
+                      fontSize: '15px',
+                      minHeight: '48px'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '0.9'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) e.currentTarget.style.opacity = '1'
+                    }}
                   >
                     Save Privacy Settings
                   </button>
@@ -1068,24 +1724,66 @@ function SettingsPage() {
 
                 {/* Blocked Users */}
                 {blockedUsers.length > 0 && (
-                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                    <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Blocked Users ({blockedUsers.length})</h3>
-                    <div className="space-y-3">
+                  <div style={{
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                  }}>
+                    <h3 style={{
+                      fontSize: '20px',
+                      fontWeight: 600,
+                      marginBottom: '16px',
+                      color: '#000000'
+                    }}>Blocked Users ({blockedUsers.length})</h3>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {blockedUsers.map(user => (
-                        <div key={user._id} className="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                          <div className="flex items-center gap-3">
-                            <div style={{ color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0 }}>
+                        <div key={user._id} style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '12px',
+                          background: '#FAFAFA',
+                          borderRadius: '12px'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                            <div style={{
+                              color: '#000000',
+                              width: '48px',
+                              height: '48px',
+                              flexShrink: 0,
+                              borderRadius: '50%',
+                              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: 'white',
+                              fontWeight: 600
+                            }}>
                               {user.username[0].toUpperCase()}
                             </div>
                             <div>
-                              <div className="font-medium" style={{ color: 'var(--text-primary)' }}>{user.username}</div>
-                              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{user.displayName}</div>
+                              <div style={{ fontWeight: 500, color: '#000000' }}>{user.username}</div>
+                              <div style={{ fontSize: '14px', color: '#666666' }}>{user.displayName}</div>
                             </div>
                           </div>
                           <button
                             onClick={() => handleUnblockUser(user._id)}
-                            className="touch-target px-4 py-2 bg-gray-100 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors"
-                            style={{ color: 'var(--text-secondary)' }}
+                            style={{
+                              padding: '8px 16px',
+                              background: '#F5F5F5',
+                              borderRadius: '12px',
+                              fontSize: '14px',
+                              fontWeight: 500,
+                              transition: 'background 0.2s',
+                              color: '#666666',
+                              border: 'none',
+                              cursor: 'pointer',
+                              minHeight: '36px'
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = '#E5E5E5' }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = '#F5F5F5' }}
                           >
                             Unblock
                           </button>
@@ -1099,31 +1797,74 @@ function SettingsPage() {
 
             {/* Security Tab */}
             {activeTab === 'security' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Security</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Manage your account security and authentication</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Security</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Manage your account security and authentication</p>
                 </div>
 
                 {/* Two-Factor Authentication */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Two-Factor Authentication</h3>
-                  <div className="flex items-center justify-between">
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Two-Factor Authentication</h3>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
                     <div>
-                      <div className="font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
+                      <div style={{
+                        fontWeight: 500,
+                        marginBottom: '4px',
+                        color: '#666666'
+                      }}>
                         {twoFactorEnabled ? 'Enabled' : 'Disabled'}
                       </div>
-                      <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      <div style={{ fontSize: '14px', color: '#666666' }}>
                         Add an extra layer of security to your account
                       </div>
                     </div>
                     <button
                       onClick={() => setTwoFactorEnabled(!twoFactorEnabled)}
-                      className={`touch-target px-6 py-2.5 rounded-xl font-medium transition-all ${
-                        twoFactorEnabled
-                          ? 'bg-red-500 text-white hover:bg-red-600'
-                          : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:opacity-90'
-                      }`}
+                      style={{
+                        padding: '10px 24px',
+                        borderRadius: '12px',
+                        fontWeight: 500,
+                        transition: 'all 0.2s',
+                        background: twoFactorEnabled
+                          ? '#EF4444'
+                          : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        color: 'white',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '15px',
+                        minHeight: '44px'
+                      }}
+                      onMouseEnter={(e) => {
+                        if (twoFactorEnabled) {
+                          e.currentTarget.style.background = '#DC2626'
+                        } else {
+                          e.currentTarget.style.opacity = '0.9'
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (twoFactorEnabled) {
+                          e.currentTarget.style.background = '#EF4444'
+                        } else {
+                          e.currentTarget.style.opacity = '1'
+                        }
+                      }}
                     >
                       {twoFactorEnabled ? 'Disable 2FA' : 'Enable 2FA'}
                     </button>
@@ -1131,23 +1872,59 @@ function SettingsPage() {
                 </div>
 
                 {/* Passkey Settings */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Passkeys</h3>
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Passkeys</h3>
                   <PasskeySettings />
                 </div>
 
                 {/* Active Sessions */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Active Sessions</h3>
-                  <div className="space-y-3">
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Active Sessions</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {activeSessions.map(session => (
-                      <div key={session.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl">
-                        <div className="flex-1">
-                          <div className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>{session.device}</div>
-                          <div className="text-sm flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
+                      <div key={session.id} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '16px',
+                        background: '#FAFAFA',
+                        borderRadius: '12px'
+                      }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: 500, marginBottom: '4px', color: '#000000' }}>{session.device}</div>
+                          <div style={{ fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', color: '#666666' }}>
                             {session.location} • {session.lastActive}
                             {session.current && (
-                              <span style={{color: "var(--text-primary)"}} className="px-2 py-0.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  text-xs rounded-full">
+                              <span style={{
+                                padding: '2px 8px',
+                                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                                fontSize: '12px',
+                                borderRadius: '999px',
+                                color: 'white',
+                                fontWeight: 500
+                              }}>
                                 Current
                               </span>
                             )}
@@ -1155,8 +1932,20 @@ function SettingsPage() {
                         </div>
                         {!session.current && (
                           <button
-                            className="touch-target px-4 py-2 bg-gray-100 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors"
-                            style={{ color: 'var(--text-secondary)' }}
+                            style={{
+                              padding: '8px 16px',
+                              background: '#F5F5F5',
+                              borderRadius: '12px',
+                              fontSize: '14px',
+                              fontWeight: 500,
+                              transition: 'background 0.2s',
+                              color: '#666666',
+                              border: 'none',
+                              cursor: 'pointer',
+                              minHeight: '36px'
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.background = '#E5E5E5' }}
+                            onMouseLeave={(e) => { e.currentTarget.style.background = '#F5F5F5' }}
                             aria-label={`Revoke session ${session.device}`}
                           >
                             Revoke
@@ -1168,23 +1957,55 @@ function SettingsPage() {
                 </div>
 
                 {/* Login History */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Login History</h3>
-                  <div className="space-y-3">
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Login History</h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {loginHistory.map(login => (
-                      <div key={login.id} className="flex items-start gap-3 p-4 bg-gray-50 rounded-xl">
-                        <div className="w-2 h-2 rounded-full bg-[#58a6ff] mt-2"></div>
-                        <div className="flex-1">
-                          <div className="font-medium mb-1" style={{ color: 'var(--text-primary)' }}>{login.device}</div>
-                          <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      <div key={login.id} style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        gap: '12px',
+                        padding: '16px',
+                        background: '#FAFAFA',
+                        borderRadius: '12px'
+                      }}>
+                        <div style={{
+                          width: '8px',
+                          height: '8px',
+                          borderRadius: '50%',
+                          background: '#6366F1',
+                          marginTop: '8px',
+                          flexShrink: 0
+                        }}></div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: 500, marginBottom: '4px', color: '#000000' }}>{login.device}</div>
+                          <div style={{ fontSize: '14px', color: '#666666' }}>
                             {login.location} • {login.timestamp}
                           </div>
                         </div>
-                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                          login.status === 'success'
-                            ? 'bg-green-500/20 text-green-400'
-                            : 'bg-red-500/20 text-red-400'
-                        }`}>
+                        <span style={{
+                          padding: '4px 12px',
+                          borderRadius: '999px',
+                          fontSize: '12px',
+                          fontWeight: 500,
+                          background: login.status === 'success'
+                            ? 'rgba(16, 185, 129, 0.2)'
+                            : 'rgba(239, 68, 68, 0.2)',
+                          color: login.status === 'success'
+                            ? '#10B981'
+                            : '#EF4444'
+                        }}>
                           {login.status}
                         </span>
                       </div>
@@ -1196,14 +2017,28 @@ function SettingsPage() {
 
             {/* Notifications Tab */}
             {activeTab === 'notifications' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Notification Preferences</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Choose what notifications you want to receive</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Notification Preferences</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Choose what notifications you want to receive</p>
                 </div>
 
-                <form onSubmit={handleNotificationSubmit} className="space-y-6">
-                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
+                <form onSubmit={handleNotificationSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                  <div style={{
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '16px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                  }}>
                     <ToggleSwitch
                       label="Friend Requests"
                       description="When someone sends you a friend request"
@@ -1278,7 +2113,26 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={notificationLoading}
-                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      borderRadius: '12px',
+                      fontWeight: 500,
+                      transition: 'opacity 0.2s',
+                      opacity: notificationLoading ? 0.5 : 1,
+                      cursor: notificationLoading ? 'not-allowed' : 'pointer',
+                      color: 'white',
+                      border: 'none',
+                      fontSize: '15px',
+                      minHeight: '48px'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!notificationLoading) e.currentTarget.style.opacity = '0.9'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!notificationLoading) e.currentTarget.style.opacity = '1'
+                    }}
                   >
                     Save Notification Settings
                   </button>
@@ -1288,19 +2142,35 @@ function SettingsPage() {
 
             {/* Appearance Tab */}
             {activeTab === 'appearance' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Appearance</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Customize how the app looks and feels</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Appearance</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Customize how the app looks and feels</p>
                 </div>
 
-                <form onSubmit={handleAppearanceSubmit} className="space-y-6">
+                <form onSubmit={handleAppearanceSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {/* Theme Toggle */}
-                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                    <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Theme</h3>
-                    <div className="flex items-center justify-between">
+                  <div style={{
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                  }}>
+                    <h3 style={{
+                      fontSize: '20px',
+                      fontWeight: 600,
+                      marginBottom: '16px',
+                      color: '#000000'
+                    }}>Theme</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <ThemeToggle />
-                      <p style={{ color: 'var(--text-secondary)' }}>
+                      <p style={{ color: '#666666', margin: 0 }}>
                         Current theme: <strong>{theme === 'dark' ? 'Dark' : 'Light'}</strong>
                       </p>
                     </div>
@@ -1308,8 +2178,29 @@ function SettingsPage() {
 
                   {/* Language */}
                   <div>
-                    <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>Language</label>
-                    <select className="w-full px-4 py-3 bg-white border border-[var(--border-subtle)] rounded-xl focus:border-[#58a6ff] focus:outline-none transition-colors" style={{ color: 'var(--text-primary)' }}>
+                    <label style={{
+                      display: 'block',
+                      fontSize: '14px',
+                      fontWeight: 500,
+                      marginBottom: '8px',
+                      color: '#666666'
+                    }}>Language</label>
+                    <select style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '12px',
+                      color: '#000000',
+                      fontSize: '15px',
+                      outline: 'none',
+                      transition: 'border-color 0.2s',
+                      minHeight: '48px',
+                      cursor: 'pointer'
+                    }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
+                    >
                       <option value="en">English</option>
                       <option value="es">Spanish</option>
                       <option value="fr">French</option>
@@ -1319,7 +2210,16 @@ function SettingsPage() {
                   </div>
 
                   {/* Accessibility Options */}
-                  <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6 space-y-4">
+                  <div style={{
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    padding: '24px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: '16px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                  }}>
                     <ToggleSwitch
                       label="Reduce Motion"
                       description="Minimize animations and transitions"
@@ -1345,7 +2245,26 @@ function SettingsPage() {
                   <button
                     type="submit"
                     disabled={appearanceLoading}
-                    style={{color: "var(--text-primary)"}} className="touch-target w-full px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-medium hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity"
+                    style={{
+                      width: '100%',
+                      padding: '12px 24px',
+                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      borderRadius: '12px',
+                      fontWeight: 500,
+                      transition: 'opacity 0.2s',
+                      opacity: appearanceLoading ? 0.5 : 1,
+                      cursor: appearanceLoading ? 'not-allowed' : 'pointer',
+                      color: 'white',
+                      border: 'none',
+                      fontSize: '15px',
+                      minHeight: '48px'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!appearanceLoading) e.currentTarget.style.opacity = '0.9'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!appearanceLoading) e.currentTarget.style.opacity = '1'
+                    }}
                   >
                     Save Appearance Settings
                   </button>
@@ -1355,21 +2274,48 @@ function SettingsPage() {
 
             {/* Integrations Tab */}
             {activeTab === 'integrations' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Integrations</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Connect third-party apps and manage API access</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Integrations</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Connect third-party apps and manage API access</p>
                 </div>
 
                 {/* OAuth Settings */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Connected Apps</h3>
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Connected Apps</h3>
                   <OAuthSettings />
                 </div>
 
                 {/* API Keys */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>API Keys</h3>
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>API Keys</h3>
                   <APIKeysSettings />
                 </div>
               </div>
@@ -1377,31 +2323,84 @@ function SettingsPage() {
 
             {/* Wallet Tab */}
             {activeTab === 'wallet' && (
-              <div className="space-y-6">
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                 <div>
-                  <h2 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>Web3 Wallet</h2>
-                  <p style={{ color: 'var(--text-secondary)' }}>Connect and manage your cryptocurrency wallets</p>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: '#000000'
+                  }}>Web3 Wallet</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>Connect and manage your cryptocurrency wallets</p>
                 </div>
 
                 {/* Wallet Connection */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Wallet Connection</h3>
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Wallet Connection</h3>
                   <WalletConnectButton />
                 </div>
 
                 {/* Token Balances */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Token Balances</h3>
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Token Balances</h3>
                   <TokenBalanceDisplay />
                 </div>
 
                 {/* Wallet Addresses */}
-                <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl p-6">
-                  <h3 className="text-xl font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Saved Addresses</h3>
-                  <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>No saved wallet addresses yet</p>
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '16px',
+                    color: '#000000'
+                  }}>Saved Addresses</h3>
+                  <p style={{
+                    marginBottom: '16px',
+                    color: '#666666'
+                  }}>No saved wallet addresses yet</p>
                   <button
-                    className="touch-target px-6 py-2.5 bg-gray-100 rounded-xl font-medium hover:bg-gray-200 transition-colors"
-                    style={{ color: 'var(--text-secondary)' }}
+                    style={{
+                      padding: '10px 24px',
+                      background: '#F5F5F5',
+                      borderRadius: '12px',
+                      fontWeight: 500,
+                      transition: 'background 0.2s',
+                      color: '#666666',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '15px',
+                      minHeight: '44px'
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = '#E5E5E5' }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = '#F5F5F5' }}
                     aria-label="Add wallet address"
                   >
                     Add Address
@@ -1419,26 +2418,56 @@ function SettingsPage() {
 // Toggle Switch Component
 const ToggleSwitch = ({ label, description, checked, onChange }) => {
   return (
-    <div className="flex items-center justify-between py-2">
-      <div className="flex-1">
-        <div className="font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>{label}</div>
-        <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>{description}</div>
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '8px 0'
+    }}>
+      <div style={{ flex: 1 }}>
+        <div style={{ fontWeight: 500, marginBottom: '4px', color: '#666666' }}>{label}</div>
+        <div style={{ fontSize: '14px', color: '#666666' }}>{description}</div>
       </div>
-      <label className="relative inline-block w-12 h-6 flex-shrink-0 cursor-pointer">
+      <label style={{
+        position: 'relative',
+        display: 'inline-block',
+        width: '48px',
+        height: '24px',
+        flexShrink: 0,
+        cursor: 'pointer'
+      }}>
         <input
           type="checkbox"
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
-          className="sr-only peer"
+          style={{
+            position: 'absolute',
+            opacity: 0,
+            width: 0,
+            height: 0
+          }}
         />
-        <span className={`absolute inset-0 rounded-full transition-all ${
-          checked
-            ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7]'
-            : 'bg-gray-200 border-2 border-[var(--border-subtle)]'
-        }`}></span>
-        <span className={`absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform ${
-          checked ? 'translate-x-6' : 'translate-x-0'
-        }`}></span>
+        <span style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: '999px',
+          transition: 'all 0.2s',
+          background: checked
+            ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+            : '#E5E5E5',
+          border: checked ? 'none' : '2px solid rgba(0, 0, 0, 0.06)'
+        }}></span>
+        <span style={{
+          position: 'absolute',
+          top: '4px',
+          left: '4px',
+          width: '16px',
+          height: '16px',
+          background: 'white',
+          borderRadius: '50%',
+          transition: 'transform 0.2s',
+          transform: checked ? 'translateX(24px)' : 'translateX(0)'
+        }}></span>
       </label>
     </div>
   )

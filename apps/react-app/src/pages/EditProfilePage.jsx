@@ -1,3 +1,9 @@
+/**
+ * EditProfilePage.jsx
+ * Modernized edit profile page with iOS aesthetic
+ * Features: Explicit light theme colors, inline styles, iOS-style components
+ */
+
 import React, { memo, useState } from 'react'
 import { useResponsive } from '../hooks/useResponsive'
 import { useNavigate } from 'react-router-dom'
@@ -54,7 +60,7 @@ const EditProfilePage = () => {
   return (
     <div
       style={{
-        background: 'var(--bg-primary)',
+        background: '#FAFAFA',
         minHeight: '100vh',
         paddingTop: headerOffset
       }}
@@ -74,12 +80,12 @@ const EditProfilePage = () => {
               fontSize: isMobile ? '28px' : '40px',
               fontWeight: 'bold',
               marginBottom: '8px',
-              color: 'var(--text-primary)'
+              color: '#000000'
             }}
           >
             Edit Profile
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: isMobile ? '14px' : '16px', margin: 0 }}>
+          <p style={{ color: '#666666', fontSize: isMobile ? '14px' : '16px', margin: 0 }}>
             Customize your public profile information
           </p>
         </div>
@@ -88,16 +94,19 @@ const EditProfilePage = () => {
           {/* Banner & Avatar */}
           <div
             style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
+              background: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
               borderRadius: '16px',
-              overflow: 'hidden'
+              overflow: 'hidden',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
             }}
           >
             <div
               style={{
                 height: '160px',
-                background: banner || 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                background: banner ? `url(${banner})` : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
                 position: 'relative',
                 display: 'flex',
                 alignItems: 'center',
@@ -118,14 +127,18 @@ const EditProfilePage = () => {
                   background: 'rgba(0, 0, 0, 0.5)',
                   color: 'white',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '12px',
                   fontSize: '14px',
                   cursor: 'pointer',
-                  height: '36px',
+                  minHeight: '36px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '8px'
+                  gap: '8px',
+                  fontWeight: 500,
+                  transition: 'background 0.2s'
                 }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0, 0, 0, 0.7)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0, 0, 0, 0.5)' }}
               >
                 <svg style={{ width: '20px', height: '20px', flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -142,8 +155,10 @@ const EditProfilePage = () => {
                   width: '96px',
                   height: '96px',
                   borderRadius: '50%',
-                  border: '4px solid var(--bg-secondary)',
-                  background: avatar || 'var(--bg-tertiary)',
+                  border: '4px solid white',
+                  background: avatar ? `url(${avatar})` : '#E5E5E5',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -159,10 +174,8 @@ const EditProfilePage = () => {
                   id="avatar-upload"
                 />
                 <label htmlFor="avatar-upload" style={{ cursor: 'pointer', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  {avatar ? (
-                    <img src={avatar} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  ) : (
-                    <svg style={{ width: '48px', height: '48px', color: 'var(--text-secondary)' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {!avatar && (
+                    <svg style={{ width: '48px', height: '48px', color: '#666666' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                   )}
@@ -174,18 +187,19 @@ const EditProfilePage = () => {
           {/* Basic Information */}
           <div
             style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
+              background: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
               borderRadius: '16px',
-              padding: isMobile ? '16px' : '24px'
+              padding: isMobile ? '16px' : '24px',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
             }}
           >
-            <h2 style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
+            <h2 style={{ color: '#000000', fontSize: '18px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
               Basic Information
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label style={{ display: 'block', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                <label style={{ display: 'block', color: '#666666', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
                   Display Name
                 </label>
                 <input
@@ -196,20 +210,23 @@ const EditProfilePage = () => {
                   placeholder="Enter your display name"
                   style={{
                     width: '100%',
-                    padding: '12px',
-                    background: 'var(--bg-tertiary)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: '8px',
-                    color: 'var(--text-primary)',
-                    fontSize: '14px',
+                    padding: '12px 16px',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '12px',
+                    color: '#000000',
+                    fontSize: '15px',
                     outline: 'none',
-                    height: '48px',
-                    boxSizing: 'border-box'
+                    minHeight: '48px',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s'
                   }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                <label style={{ display: 'block', color: '#666666', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
                   Username
                 </label>
                 <input
@@ -220,20 +237,23 @@ const EditProfilePage = () => {
                   placeholder="@username"
                   style={{
                     width: '100%',
-                    padding: '12px',
-                    background: 'var(--bg-tertiary)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: '8px',
-                    color: 'var(--text-primary)',
-                    fontSize: '14px',
+                    padding: '12px 16px',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '12px',
+                    color: '#000000',
+                    fontSize: '15px',
                     outline: 'none',
-                    height: '48px',
-                    boxSizing: 'border-box'
+                    minHeight: '48px',
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s'
                   }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                 />
               </div>
               <div>
-                <label style={{ display: 'block', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                <label style={{ display: 'block', color: '#666666', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
                   Bio
                 </label>
                 <textarea
@@ -244,22 +264,25 @@ const EditProfilePage = () => {
                   rows={4}
                   style={{
                     width: '100%',
-                    padding: '12px',
-                    background: 'var(--bg-tertiary)',
-                    border: '1px solid var(--border-subtle)',
-                    borderRadius: '8px',
-                    color: 'var(--text-primary)',
-                    fontSize: '14px',
+                    padding: '12px 16px',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '12px',
+                    color: '#000000',
+                    fontSize: '15px',
                     outline: 'none',
                     resize: 'vertical',
                     fontFamily: 'inherit',
-                    boxSizing: 'border-box'
+                    boxSizing: 'border-box',
+                    transition: 'border-color 0.2s'
                   }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                  onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                 />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '16px' }}>
                 <div>
-                  <label style={{ display: 'block', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                  <label style={{ display: 'block', color: '#666666', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
                     Location
                   </label>
                   <input
@@ -270,20 +293,23 @@ const EditProfilePage = () => {
                     placeholder="City, Country"
                     style={{
                       width: '100%',
-                      padding: '12px',
-                      background: 'var(--bg-tertiary)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: '8px',
-                      color: 'var(--text-primary)',
-                      fontSize: '14px',
+                      padding: '12px 16px',
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '12px',
+                      color: '#000000',
+                      fontSize: '15px',
                       outline: 'none',
-                      height: '48px',
-                      boxSizing: 'border-box'
+                      minHeight: '48px',
+                      boxSizing: 'border-box',
+                      transition: 'border-color 0.2s'
                     }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                   />
                 </div>
                 <div>
-                  <label style={{ display: 'block', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                  <label style={{ display: 'block', color: '#666666', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
                     Website
                   </label>
                   <input
@@ -294,16 +320,19 @@ const EditProfilePage = () => {
                     placeholder="https://example.com"
                     style={{
                       width: '100%',
-                      padding: '12px',
-                      background: 'var(--bg-tertiary)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: '8px',
-                      color: 'var(--text-primary)',
-                      fontSize: '14px',
+                      padding: '12px 16px',
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '12px',
+                      color: '#000000',
+                      fontSize: '15px',
                       outline: 'none',
-                      height: '48px',
-                      boxSizing: 'border-box'
+                      minHeight: '48px',
+                      boxSizing: 'border-box',
+                      transition: 'border-color 0.2s'
                     }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                   />
                 </div>
               </div>
@@ -313,13 +342,14 @@ const EditProfilePage = () => {
           {/* Social Links */}
           <div
             style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
+              background: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
               borderRadius: '16px',
-              padding: isMobile ? '16px' : '24px'
+              padding: isMobile ? '16px' : '24px',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
             }}
           >
-            <h2 style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
+            <h2 style={{ color: '#000000', fontSize: '18px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
               Social Links
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -329,7 +359,7 @@ const EditProfilePage = () => {
                 { name: 'linkedin', label: 'LinkedIn', placeholder: 'https://linkedin.com/in/username' }
               ].map((social) => (
                 <div key={social.name}>
-                  <label style={{ display: 'block', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+                  <label style={{ display: 'block', color: '#666666', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
                     {social.label}
                   </label>
                   <input
@@ -340,16 +370,19 @@ const EditProfilePage = () => {
                     placeholder={social.placeholder}
                     style={{
                       width: '100%',
-                      padding: '12px',
-                      background: 'var(--bg-tertiary)',
-                      border: '1px solid var(--border-subtle)',
-                      borderRadius: '8px',
-                      color: 'var(--text-primary)',
-                      fontSize: '14px',
+                      padding: '12px 16px',
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '12px',
+                      color: '#000000',
+                      fontSize: '15px',
                       outline: 'none',
-                      height: '48px',
-                      boxSizing: 'border-box'
+                      minHeight: '48px',
+                      boxSizing: 'border-box',
+                      transition: 'border-color 0.2s'
                     }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                   />
                 </div>
               ))}
@@ -359,17 +392,18 @@ const EditProfilePage = () => {
           {/* Privacy */}
           <div
             style={{
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
+              background: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
               borderRadius: '16px',
-              padding: isMobile ? '16px' : '24px'
+              padding: isMobile ? '16px' : '24px',
+              boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
             }}
           >
-            <h2 style={{ color: 'var(--text-primary)', fontSize: '18px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
+            <h2 style={{ color: '#000000', fontSize: '18px', fontWeight: 'bold', margin: '0 0 16px 0' }}>
               Privacy
             </h2>
             <div>
-              <label style={{ display: 'block', color: 'var(--text-primary)', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
+              <label style={{ display: 'block', color: '#666666', fontSize: '14px', fontWeight: '500', marginBottom: '8px' }}>
                 Profile Visibility
               </label>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -380,12 +414,23 @@ const EditProfilePage = () => {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '12px',
-                      padding: '12px',
-                      background: formData.profileVisibility === option ? 'rgba(88, 166, 255, 0.1)' : 'var(--bg-tertiary)',
-                      border: `1px solid ${formData.profileVisibility === option ? 'rgba(88, 166, 255, 0.3)' : 'var(--border-subtle)'}`,
-                      borderRadius: '8px',
+                      padding: '12px 16px',
+                      background: formData.profileVisibility === option ? 'rgba(99, 102, 241, 0.1)' : 'white',
+                      border: `1px solid ${formData.profileVisibility === option ? '#6366F1' : 'rgba(0, 0, 0, 0.06)'}`,
+                      borderRadius: '12px',
                       cursor: 'pointer',
-                      transition: 'all 0.2s'
+                      transition: 'all 0.2s',
+                      minHeight: '48px'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (formData.profileVisibility !== option) {
+                        e.currentTarget.style.background = '#FAFAFA'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (formData.profileVisibility !== option) {
+                        e.currentTarget.style.background = 'white'
+                      }
                     }}
                   >
                     <input
@@ -401,19 +446,20 @@ const EditProfilePage = () => {
                         width: '20px',
                         height: '20px',
                         borderRadius: '50%',
-                        border: `2px solid ${formData.profileVisibility === option ? '#58a6ff' : 'var(--border-subtle)'}`,
-                        background: formData.profileVisibility === option ? '#58a6ff' : 'transparent',
+                        border: `2px solid ${formData.profileVisibility === option ? '#6366F1' : 'rgba(0, 0, 0, 0.2)'}`,
+                        background: formData.profileVisibility === option ? '#6366F1' : 'transparent',
                         flexShrink: 0,
                         display: 'flex',
                         alignItems: 'center',
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        transition: 'all 0.2s'
                       }}
                     >
                       {formData.profileVisibility === option && (
                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: 'white' }} />
                       )}
                     </div>
-                    <span style={{ color: 'var(--text-primary)', fontSize: '14px', textTransform: 'capitalize' }}>{option}</span>
+                    <span style={{ color: '#000000', fontSize: '15px', textTransform: 'capitalize', fontWeight: 500 }}>{option}</span>
                   </label>
                 ))}
               </div>
@@ -426,19 +472,19 @@ const EditProfilePage = () => {
               onClick={handleCancel}
               style={{
                 padding: '12px 24px',
-                background: 'var(--bg-secondary)',
-                color: 'var(--text-primary)',
-                border: '1px solid var(--border-subtle)',
+                background: 'white',
+                color: '#666666',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
                 borderRadius: '12px',
-                fontSize: '14px',
+                fontSize: '15px',
                 fontWeight: '500',
                 cursor: 'pointer',
-                height: '48px',
+                minHeight: '48px',
                 minWidth: '120px',
                 transition: 'all 0.2s'
               }}
-              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--bg-tertiary)' }}
-              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--bg-secondary)' }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = '#FAFAFA' }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'white' }}
             >
               Cancel
             </button>
@@ -446,14 +492,14 @@ const EditProfilePage = () => {
               onClick={handleSave}
               style={{
                 padding: '12px 24px',
-                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',
-                fontSize: '14px',
+                fontSize: '15px',
                 fontWeight: '500',
                 cursor: 'pointer',
-                height: '48px',
+                minHeight: '48px',
                 minWidth: '120px',
                 transition: 'opacity 0.2s'
               }}

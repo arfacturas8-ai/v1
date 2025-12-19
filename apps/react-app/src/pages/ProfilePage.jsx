@@ -1,3 +1,15 @@
+/**
+ * CRYB Platform - Profile Page
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and glassmorphism
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
+ */
+
 import React, { useState, useEffect, useMemo, useCallback, memo } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
 import { Link, useParams, useNavigate } from 'react-router-dom'
@@ -202,10 +214,10 @@ function ProfilePage() {
 
   const getRarityColor = useCallback((rarity) => {
     switch (rarity) {
-      case 'legendary': return 'from-yellow-400 via-orange-500 to-red-500'
-      case 'epic': return 'from-purple-400 via-pink-500 to-red-500'
-      case 'rare': return 'from-blue-400 via-cyan-500 to-teal-500'
-      default: return 'from-gray-400 via-gray-500 to-gray-600'
+      case 'legendary': return 'linear-gradient(135deg, #FBBF24 0%, #F97316 50%, #EF4444 100%)'
+      case 'epic': return 'linear-gradient(135deg, #A78BFA 0%, #EC4899 50%, #EF4444 100%)'
+      case 'rare': return 'linear-gradient(135deg, #60A5FA 0%, #06B6D4 50%, #14B8A6 100%)'
+      default: return 'linear-gradient(135deg, #9CA3AF 0%, #6B7280 50%, #4B5563 100%)'
     }
   }, [])
 
@@ -306,11 +318,11 @@ function ProfilePage() {
   const userStatsData = useMemo(() => {
     if (!user) return []
     return [
-      { label: 'Posts', value: user?.stats?.totalPosts || 0, icon: MessageSquare, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'Karma', value: (user?.karma || 0).toLocaleString(), icon: Zap, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'Followers', value: (user?.followerCount || 0).toLocaleString(), icon: Users, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'NFTs', value: user?.nftCount || 0, icon: Image, color: 'from-[#58a6ff] to-[#a371f7]' },
-      { label: 'Awards', value: user?.stats?.totalAwards || 0, icon: Trophy, color: 'from-[#58a6ff] to-[#a371f7]' }
+      { label: 'Posts', value: user?.stats?.totalPosts || 0, icon: MessageSquare, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
+      { label: 'Karma', value: (user?.karma || 0).toLocaleString(), icon: Zap, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
+      { label: 'Followers', value: (user?.followerCount || 0).toLocaleString(), icon: Users, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
+      { label: 'NFTs', value: user?.nftCount || 0, icon: Image, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
+      { label: 'Awards', value: user?.stats?.totalAwards || 0, icon: Trophy, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' }
     ]
   }, [user])
 
@@ -370,18 +382,90 @@ function ProfilePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className="bg-white rounded-2xl shadow-lg border max-w-md mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
-          <div className="p-8 text-center">
-            <div className="p-4 rounded-full bg-red-500/10 border border-red-500/20 inline-flex mb-6">
-              <X style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#FAFAFA'
+      }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '24px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+          border: '1px solid rgba(0, 0, 0, 0.06)',
+          maxWidth: '448px',
+          margin: '0 16px',
+          width: '100%'
+        }}>
+          <div style={{ padding: '48px 32px', textAlign: 'center' }}>
+            <div style={{
+              padding: '16px',
+              borderRadius: '50%',
+              background: 'rgba(239, 68, 68, 0.1)',
+              border: '1px solid rgba(239, 68, 68, 0.2)',
+              display: 'inline-flex',
+              marginBottom: '24px'
+            }}>
+              <X style={{ width: '48px', height: '48px', color: '#EF4444' }} />
             </div>
-            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Error Loading Profile</h2>
-            <p style={{ color: 'var(--text-secondary)' }} className="mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
-            <div className="flex gap-3 justify-center">
-              <Button variant="primary" onClick={loadProfileData} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Try Again</Button>
+            <h2 style={{
+              fontSize: '28px',
+              fontWeight: '700',
+              marginBottom: '12px',
+              color: '#000000'
+            }}>Error Loading Profile</h2>
+            <p style={{
+              color: '#666666',
+              marginBottom: '24px',
+              fontSize: '15px',
+              lineHeight: '1.5'
+            }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+            <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+              <button
+                onClick={loadProfileData}
+                style={{
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  color: 'white',
+                  padding: '14px 28px',
+                  borderRadius: '14px',
+                  fontWeight: '600',
+                  fontSize: '15px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 4px 12px rgba(99, 102, 241, 0.25)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(99, 102, 241, 0.35)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.25)'
+                }}
+              >Try Again</button>
               <Link to="/">
-                <Button variant="secondary" className="bg-white border" style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}>Go Home</Button>
+                <button style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.08)',
+                  color: '#666666',
+                  padding: '14px 28px',
+                  borderRadius: '14px',
+                  fontWeight: '600',
+                  fontSize: '15px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = 'none'
+                }}
+                >Go Home</button>
               </Link>
             </div>
           </div>
@@ -392,16 +476,67 @@ function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--bg-primary)' }}>
-        <div className="bg-white rounded-2xl shadow-lg border max-w-md mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
-          <div className="p-8 text-center">
-            <div className="p-4 rounded-full border inline-flex mb-6" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
-              <User style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-secondary)'}} />
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#FAFAFA'
+      }}>
+        <div style={{
+          background: 'white',
+          borderRadius: '24px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+          border: '1px solid rgba(0, 0, 0, 0.06)',
+          maxWidth: '448px',
+          margin: '0 16px',
+          width: '100%'
+        }}>
+          <div style={{ padding: '48px 32px', textAlign: 'center' }}>
+            <div style={{
+              padding: '16px',
+              borderRadius: '50%',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
+              background: '#F5F5F5',
+              display: 'inline-flex',
+              marginBottom: '24px'
+            }}>
+              <User style={{ width: '48px', height: '48px', color: '#666666' }} />
             </div>
-            <h2 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>User not found</h2>
-            <p style={{ color: 'var(--text-secondary)' }} className="mb-6">The user you're looking for doesn't exist or has been deleted.</p>
+            <h2 style={{
+              fontSize: '28px',
+              fontWeight: '700',
+              marginBottom: '12px',
+              color: '#000000'
+            }}>User not found</h2>
+            <p style={{
+              color: '#666666',
+              marginBottom: '24px',
+              fontSize: '15px',
+              lineHeight: '1.5'
+            }}>The user you're looking for doesn't exist or has been deleted.</p>
             <Link to="/">
-              <Button variant="primary" className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]">Go Home</Button>
+              <button style={{
+                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                color: 'white',
+                padding: '14px 28px',
+                borderRadius: '14px',
+                fontWeight: '600',
+                fontSize: '15px',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 12px rgba(99, 102, 241, 0.25)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'translateY(-2px)'
+                e.currentTarget.style.boxShadow = '0 8px 20px rgba(99, 102, 241, 0.35)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.25)'
+              }}
+              >Go Home</button>
             </Link>
           </div>
         </div>
@@ -410,81 +545,171 @@ function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Profile page">
+    <div style={{ minHeight: '100vh', background: '#FAFAFA' }} role="main" aria-label="Profile page">
       <SkipToContent />
 
       {/* Header Section with Banner */}
-      <div className="relative">
+      <div style={{ position: 'relative' }}>
         {/* Banner Image with Parallax */}
         <div
-          className="h-64 md:h-80 bg-gradient-to-br from-[#58a6ff] via-[#a371f7] to-[#58a6ff] relative overflow-hidden"
           style={{
-            transform: `translateY(${scrollY * 0.5}px)`,
-            backgroundImage: user.bannerImage ? `url(${user.bannerImage})` : undefined,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center'
+            height: isMobile ? '256px' : '320px',
+            background: user.bannerImage ? `url(${user.bannerImage}) center/cover` : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #6366F1 100%)',
+            position: 'relative',
+            overflow: 'hidden',
+            transform: `translateY(${scrollY * 0.5}px)`
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-t to-transparent" style={{ backgroundImage: 'linear-gradient(to top, var(--bg-primary), transparent)' }}></div>
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, #FAFAFA, transparent)'
+          }}></div>
         </div>
 
         {/* Profile Content */}
-        <div className="container mx-auto px-4 -mt-24 relative z-10">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-white rounded-2xl border p-6 shadow-lg" style={{ borderColor: 'var(--border-subtle)' }}>
-              <div className="flex flex-col md:flex-row gap-6 items-start">
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '0 16px',
+          marginTop: '-96px',
+          position: 'relative',
+          zIndex: 10
+        }}>
+          <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
+            <div style={{
+              background: 'white',
+              borderRadius: '24px',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
+              padding: '24px',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+            }}>
+              <div style={{
+                display: 'flex',
+                flexDirection: isMobile ? 'column' : 'row',
+                gap: '24px',
+                alignItems: 'flex-start'
+              }}>
                 {/* Avatar */}
-                <div className="relative group">
-                  <div className="w-32 h-32 rounded-2xl overflow-hidden border-4 shadow-xl" style={{ borderColor: 'var(--bg-primary)' }}>
+                <div style={{ position: 'relative' }}>
+                  <div style={{
+                    width: '128px',
+                    height: '128px',
+                    borderRadius: '24px',
+                    overflow: 'hidden',
+                    border: '4px solid #FAFAFA',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
+                  }}>
                     {user.avatar ? (
                       <img
                         src={user.avatar}
                         alt={`${user.displayName || user.username}'s avatar`}
-                        className="w-full h-full object-cover"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover'
+                        }}
                         loading="lazy"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                        <User style={{color: "var(--text-primary)"}} className="w-16 h-16 " />
+                      <div style={{
+                        width: '100%',
+                        height: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                      }}>
+                        <User style={{ color: 'white', width: '64px', height: '64px' }} />
                       </div>
                     )}
                   </div>
                   {user.isVerified && (
-                    <div className="absolute -bottom-2 -right-2 bg-[#58a6ff] rounded-full p-1.5 border-2 shadow-lg" style={{ borderColor: 'var(--bg-primary)' }}>
-                      <CheckCircle style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}} />
+                    <div style={{
+                      position: 'absolute',
+                      bottom: '-8px',
+                      right: '-8px',
+                      background: '#6366F1',
+                      borderRadius: '50%',
+                      padding: '6px',
+                      border: '2px solid #FAFAFA',
+                      boxShadow: '0 2px 8px rgba(99, 102, 241, 0.3)'
+                    }}>
+                      <CheckCircle style={{ color: 'white', width: '20px', height: '20px' }} />
                     </div>
                   )}
                 </div>
 
                 {/* User Info */}
-                <div className="flex-1">
-                  <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4 mb-4">
+                <div style={{ flex: 1 }}>
+                  <div style={{
+                    display: 'flex',
+                    flexDirection: isMobile ? 'column' : 'row',
+                    alignItems: isMobile ? 'flex-start' : 'flex-start',
+                    justifyContent: 'space-between',
+                    gap: '16px',
+                    marginBottom: '16px'
+                  }}>
                     <div>
-                      <h1 className="text-3xl font-bold mb-1 flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                      <h1 style={{
+                        fontSize: '32px',
+                        fontWeight: '700',
+                        marginBottom: '4px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#000000',
+                        flexWrap: 'wrap'
+                      }}>
                         {user.displayName || user.username}
                         {displayedBadges.map((badge, idx) => {
                           const BadgeIcon = getBadgeIcon(badge.icon)
                           return (
                             <span
                               key={idx}
-                              className="inline-flex items-center gap-1 text-sm px-2 py-1 rounded-lg bg-[#58a6ff]/10 border border-[#58a6ff]/20"
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                                fontSize: '14px',
+                                padding: '4px 8px',
+                                borderRadius: '12px',
+                                background: 'rgba(99, 102, 241, 0.1)',
+                                border: '1px solid rgba(99, 102, 241, 0.2)'
+                              }}
                               title={badge.name}
                             >
-                              <BadgeIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                              <BadgeIcon style={{ width: '20px', height: '20px', color: '#6366F1' }} />
                             </span>
                           )
                         })}
                       </h1>
-                      <p className="text-sm mb-3" style={{ color: 'var(--text-secondary)' }}>@{user.username}</p>
+                      <p style={{
+                        fontSize: '15px',
+                        marginBottom: '12px',
+                        color: '#666666'
+                      }}>@{user.username}</p>
                       {user.bio && (
-                        <p className="mb-3 max-w-2xl" style={{ color: 'var(--text-secondary)' }}>{user.bio}</p>
+                        <p style={{
+                          marginBottom: '12px',
+                          maxWidth: '768px',
+                          color: '#666666',
+                          fontSize: '15px',
+                          lineHeight: '1.5'
+                        }}>{user.bio}</p>
                       )}
 
                       {/* User Meta Info */}
-                      <div className="flex flex-wrap gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                      <div style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '16px',
+                        fontSize: '14px',
+                        color: '#666666'
+                      }}>
                         {user.location && (
-                          <div className="flex items-center gap-1">
-                            <MapPin style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <MapPin style={{ width: '20px', height: '20px' }} />
                             <span>{user.location}</span>
                           </div>
                         )}
@@ -493,89 +718,204 @@ function ProfilePage() {
                             href={user.website}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-1 hover:text-[#58a6ff] transition-colors"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              color: '#666666',
+                              textDecoration: 'none',
+                              transition: 'color 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                            onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                           >
-                            <LinkIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                            <LinkIcon style={{ width: '20px', height: '20px' }} />
                             <span>{user.website.replace(/^https?:\/\//, '')}</span>
                           </a>
                         )}
-                        <div className="flex items-center gap-1">
-                          <Calendar style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                          <Calendar style={{ width: '20px', height: '20px' }} />
                           <span>Joined {new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
                         </div>
                       </div>
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-2">
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                       {isOwnProfile ? (
                         <button
                           onClick={handleShowEditModal}
-                          className="touch-target px-4 py-2 bg-white hover:bg-white border rounded-xl font-medium transition-all flex items-center gap-2"
-                          style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                          style={{
+                            minHeight: '48px',
+                            padding: '12px 16px',
+                            background: 'white',
+                            border: '1px solid rgba(0, 0, 0, 0.08)',
+                            borderRadius: '14px',
+                            fontWeight: '600',
+                            fontSize: '15px',
+                            transition: 'all 0.2s ease',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            color: '#666666',
+                            cursor: 'pointer'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform = 'translateY(-2px)'
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = 'translateY(0)'
+                            e.currentTarget.style.boxShadow = 'none'
+                          }}
                           aria-label="Edit profile"
                         >
-                          <Edit3 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <Edit3 style={{ width: '20px', height: '20px' }} />
                           Edit Profile
                         </button>
                       ) : (
                         <>
                           <button
                             onClick={handleFollow}
-                            className={`touch-target px-4 py-2 rounded-xl font-medium transition-all flex items-center gap-2 ${
-                              isFollowing
-                                ? 'bg-white hover:bg-white border'
-                                : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg text-white'
-                            }`}
-                            style={isFollowing ? { borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' } : {}}
+                            style={{
+                              minHeight: '48px',
+                              padding: '12px 16px',
+                              background: isFollowing ? 'white' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                              border: isFollowing ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
+                              borderRadius: '14px',
+                              fontWeight: '600',
+                              fontSize: '15px',
+                              transition: 'all 0.2s ease',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              color: isFollowing ? '#666666' : 'white',
+                              cursor: 'pointer',
+                              boxShadow: isFollowing ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.25)'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'translateY(-2px)'
+                              e.currentTarget.style.boxShadow = isFollowing ? '0 4px 12px rgba(0, 0, 0, 0.08)' : '0 8px 20px rgba(99, 102, 241, 0.35)'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'translateY(0)'
+                              e.currentTarget.style.boxShadow = isFollowing ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.25)'
+                            }}
                             aria-label={isFollowing ? 'Unfollow user' : 'Follow user'}
                           >
                             {isFollowing ? (
                               <>
-                                <UserMinus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                                <UserMinus style={{ width: '20px', height: '20px' }} />
                                 Following
                               </>
                             ) : (
                               <>
-                                <UserPlus style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                                <UserPlus style={{ width: '20px', height: '20px' }} />
                                 Follow
                               </>
                             )}
                           </button>
                           <button
                             onClick={handleShowMessageModal}
-                            className="touch-target px-4 py-2 bg-white hover:bg-white border rounded-xl font-medium transition-all flex items-center gap-2"
-                            style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                            style={{
+                              minHeight: '48px',
+                              padding: '12px 16px',
+                              background: 'white',
+                              border: '1px solid rgba(0, 0, 0, 0.08)',
+                              borderRadius: '14px',
+                              fontWeight: '600',
+                              fontSize: '15px',
+                              transition: 'all 0.2s ease',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              color: '#666666',
+                              cursor: 'pointer'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'translateY(-2px)'
+                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'translateY(0)'
+                              e.currentTarget.style.boxShadow = 'none'
+                            }}
                             aria-label="Send message"
                           >
-                            <Mail style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                            <Mail style={{ width: '20px', height: '20px' }} />
                           </button>
                         </>
                       )}
                       <button
                         onClick={handleShare}
-                        className="touch-target px-4 py-2 bg-white hover:bg-white border rounded-xl font-medium transition-all flex items-center gap-2"
-                        style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                        style={{
+                          minHeight: '48px',
+                          padding: '12px 16px',
+                          background: 'white',
+                          border: '1px solid rgba(0, 0, 0, 0.08)',
+                          borderRadius: '14px',
+                          fontWeight: '600',
+                          fontSize: '15px',
+                          transition: 'all 0.2s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          color: '#666666',
+                          cursor: 'pointer'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)'
+                          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)'
+                          e.currentTarget.style.boxShadow = 'none'
+                        }}
                         aria-label="Share profile"
                       >
-                        <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <Share2 style={{ width: '20px', height: '20px' }} />
                       </button>
                     </div>
                   </div>
 
                   {/* Stats */}
-                  <div className="flex flex-wrap gap-6 pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+                  <div style={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    gap: '24px',
+                    paddingTop: '16px',
+                    borderTop: '1px solid rgba(0, 0, 0, 0.06)'
+                  }}>
                     {userStatsData.map((stat, idx) => {
                       const StatIcon = stat.icon
                       return (
-                        <div key={idx} className="text-center">
-                          <div className="flex items-center gap-2 mb-1">
-                            <div className={`p-1.5 rounded-lg bg-gradient-to-r ${stat.color} bg-opacity-20`}>
-                              <StatIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <div key={idx} style={{ textAlign: 'center' }}>
+                          <div style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            marginBottom: '4px'
+                          }}>
+                            <div style={{
+                              padding: '6px',
+                              borderRadius: '12px',
+                              background: stat.color,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center'
+                            }}>
+                              <StatIcon style={{ width: '20px', height: '20px', color: 'white' }} />
                             </div>
-                            <span className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{stat.value}</span>
+                            <span style={{
+                              fontSize: '24px',
+                              fontWeight: '700',
+                              color: '#000000'
+                            }}>{stat.value}</span>
                           </div>
-                          <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>{stat.label}</span>
+                          <span style={{
+                            fontSize: '14px',
+                            color: '#666666'
+                          }}>{stat.label}</span>
                         </div>
                       )
                     })}
@@ -588,30 +928,58 @@ function ProfilePage() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6">
-        <div className="max-w-6xl mx-auto">
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: '24px 16px'
+      }}>
+        <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
           {/* Tabs */}
-          <div className="border-b mb-6" style={{ borderColor: 'var(--border-subtle)' }}>
-            <div className="flex gap-1 overflow-x-auto">
+          <div style={{
+            borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+            marginBottom: '24px'
+          }}>
+            <div style={{
+              display: 'flex',
+              gap: '4px',
+              overflowX: 'auto'
+            }}>
               {tabs.map((tab) => {
                 const TabIcon = tab.icon
                 return (
                   <button
                     key={tab.id}
                     onClick={() => handleTabChange(tab.id)}
-                    className={`touch-target px-4 py-3 font-medium transition-all flex items-center gap-2 whitespace-nowrap border-b-2 ${
-                      activeTab === tab.id
-                        ? 'text-[#58a6ff] border-[#58a6ff]'
-                        : 'border-transparent'
-                    }`}
-                    style={activeTab !== tab.id ? { color: 'var(--text-secondary)' } : {}}
+                    style={{
+                      minHeight: '48px',
+                      padding: '12px 16px',
+                      fontWeight: '600',
+                      fontSize: '15px',
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      whiteSpace: 'nowrap',
+                      borderBottom: activeTab === tab.id ? '2px solid #6366F1' : '2px solid transparent',
+                      color: activeTab === tab.id ? '#6366F1' : '#666666',
+                      background: 'transparent',
+                      border: 'none',
+                      borderBottom: activeTab === tab.id ? '2px solid #6366F1' : '2px solid transparent',
+                      cursor: 'pointer'
+                    }}
                     aria-label={`View ${tab.label}`}
                     aria-current={activeTab === tab.id ? 'page' : undefined}
                   >
-                    <TabIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <TabIcon style={{ width: '20px', height: '20px' }} />
                     {tab.label}
                     {tab.count !== undefined && (
-                      <span className="text-xs px-2 py-0.5 bg-white rounded-full border" style={{ borderColor: 'var(--border-subtle)' }}>
+                      <span style={{
+                        fontSize: '13px',
+                        padding: '2px 8px',
+                        background: 'white',
+                        borderRadius: '12px',
+                        border: '1px solid rgba(0, 0, 0, 0.06)'
+                      }}>
                         {tab.count}
                       </span>
                     )}
@@ -622,41 +990,86 @@ function ProfilePage() {
           </div>
 
           {/* Tab Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+            gap: '24px'
+          }}>
             {/* Main Content Area */}
-            <div className="lg:col-span-2">
+            <div style={{
+              gridColumn: isMobile ? '1' : 'span 2'
+            }}>
               {/* Posts Tab */}
               {activeTab === 'posts' && (
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {sortedPosts.length > 0 ? (
                     sortedPosts.map((post) => (
                       <Link
                         key={post.id}
                         to={`/post/${post.id}`}
-                        className="block bg-white border rounded-2xl shadow-sm p-6 hover:border-[#58a6ff]/30 hover:shadow-md transition-all group"
-                        style={{ borderColor: 'var(--border-subtle)' }}
+                        style={{
+                          display: 'block',
+                          background: 'white',
+                          border: '1px solid rgba(0, 0, 0, 0.06)',
+                          borderRadius: '20px',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                          padding: '24px',
+                          transition: 'all 0.2s ease',
+                          textDecoration: 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)'
+                          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)'
+                          e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)'
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
+                          e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                        }}
                       >
-                        <div className="flex items-start gap-3 mb-3">
-                          <div className="flex-1">
-                            <h3 className="text-lg font-semibold group-hover:text-[#58a6ff] transition-colors mb-2" style={{ color: 'var(--text-primary)' }}>
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: '12px' }}>
+                          <div style={{ flex: 1 }}>
+                            <h3 style={{
+                              fontSize: '18px',
+                              fontWeight: '600',
+                              marginBottom: '8px',
+                              color: '#000000',
+                              transition: 'color 0.2s ease'
+                            }}>
                               {post.title}
                             </h3>
                             {post.content && (
-                              <p className="line-clamp-2 mb-3" style={{ color: 'var(--text-secondary)' }}>
+                              <p style={{
+                                color: '#666666',
+                                fontSize: '15px',
+                                lineHeight: '1.5',
+                                marginBottom: '12px',
+                                display: '-webkit-box',
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden'
+                              }}>
                                 {post.content.substring(0, 200)}...
                               </p>
                             )}
-                            <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                              <div className="flex items-center gap-1">
-                                <ChevronUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                            <div style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '16px',
+                              fontSize: '14px',
+                              color: '#666666'
+                            }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <ChevronUp style={{ width: '20px', height: '20px' }} />
                                 <span>{post.upvotes || 0}</span>
                               </div>
-                              <div className="flex items-center gap-1">
-                                <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <MessageSquare style={{ width: '20px', height: '20px' }} />
                                 <span>{post.commentCount || 0}</span>
                               </div>
-                              <div className="flex items-center gap-1">
-                                <Award style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                <Award style={{ width: '20px', height: '20px' }} />
                                 <span>{post.awardCount || 0}</span>
                               </div>
                               <span>{formatTimeAgo(post.created)}</span>
@@ -673,32 +1086,69 @@ function ProfilePage() {
 
               {/* Comments Tab */}
               {activeTab === 'comments' && (
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {comments.length > 0 ? (
                     comments.map((comment) => (
                       <div
                         key={comment.id}
-                        className="bg-white border rounded-2xl shadow-sm p-6"
-                        style={{ borderColor: 'var(--border-subtle)' }}
+                        style={{
+                          background: 'white',
+                          border: '1px solid rgba(0, 0, 0, 0.06)',
+                          borderRadius: '20px',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                          padding: '24px'
+                        }}
                       >
-                        <p className="mb-3" style={{ color: 'var(--text-secondary)' }}>{comment.content}</p>
-                        <div className="flex items-center gap-4 text-sm" style={{ color: 'var(--text-secondary)' }}>
-                          <div className="flex items-center gap-1">
-                            <ChevronUp style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <p style={{
+                          marginBottom: '12px',
+                          color: '#666666',
+                          fontSize: '15px',
+                          lineHeight: '1.5'
+                        }}>{comment.content}</p>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '16px',
+                          fontSize: '14px',
+                          color: '#666666'
+                        }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <ChevronUp style={{ width: '20px', height: '20px' }} />
                             <span>{comment.upvotes || 0}</span>
                           </div>
                           <span>{formatTimeAgo(comment.created)}</span>
-                          <Link to={`/post/${comment.postId}`} className="text-blue-400 hover:underline">
+                          <Link
+                            to={`/post/${comment.postId}`}
+                            style={{
+                              color: '#6366F1',
+                              textDecoration: 'none',
+                              transition: 'opacity 0.2s ease'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                          >
                             View post
                           </Link>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <MessageSquare style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-secondary)'}} />
-                      <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No comments yet</h3>
-                      <p style={{ color: 'var(--text-secondary)' }}>
+                    <div style={{
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '20px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                      padding: '48px',
+                      textAlign: 'center'
+                    }}>
+                      <MessageSquare style={{ width: '64px', height: '64px', color: '#999999', margin: '0 auto 16px' }} />
+                      <h3 style={{
+                        fontSize: '18px',
+                        fontWeight: '600',
+                        marginBottom: '8px',
+                        color: '#666666'
+                      }}>No comments yet</h3>
+                      <p style={{ color: '#999999', fontSize: '15px' }}>
                         {isOwnProfile ? "You haven't commented on any posts yet." : "This user hasn't commented on anything yet."}
                       </p>
                     </div>
@@ -708,24 +1158,60 @@ function ProfilePage() {
 
               {/* Saved Tab */}
               {activeTab === 'saved' && (
-                <div className="space-y-4">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {savedPosts.length > 0 ? (
                     savedPosts.map((post) => (
                       <Link
                         key={post.id}
                         to={`/post/${post.id}`}
-                        className="block bg-white border rounded-2xl shadow-sm p-6 transition-all"
-                        style={{ borderColor: 'var(--border-subtle)' }}
+                        style={{
+                          display: 'block',
+                          background: 'white',
+                          border: '1px solid rgba(0, 0, 0, 0.06)',
+                          borderRadius: '20px',
+                          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                          padding: '24px',
+                          transition: 'all 0.2s ease',
+                          textDecoration: 'none'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'translateY(-2px)'
+                          e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'translateY(0)'
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
+                        }}
                       >
-                        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>{post.title}</h3>
-                        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>Saved {formatTimeAgo(post.savedAt)}</p>
+                        <h3 style={{
+                          fontSize: '18px',
+                          fontWeight: '600',
+                          marginBottom: '8px',
+                          color: '#000000'
+                        }}>{post.title}</h3>
+                        <p style={{
+                          fontSize: '14px',
+                          color: '#666666'
+                        }}>Saved {formatTimeAgo(post.savedAt)}</p>
                       </Link>
                     ))
                   ) : (
-                    <div className="bg-white border rounded-2xl shadow-sm p-12 text-center" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <Bookmark style={{width: "64px", height: "64px", flexShrink: 0, color: 'var(--text-secondary)'}} />
-                      <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-secondary)' }}>No saved posts</h3>
-                      <p style={{ color: 'var(--text-secondary)' }}>
+                    <div style={{
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '20px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                      padding: '48px',
+                      textAlign: 'center'
+                    }}>
+                      <Bookmark style={{ width: '64px', height: '64px', color: '#999999', margin: '0 auto 16px' }} />
+                      <h3 style={{
+                        fontSize: '18px',
+                        fontWeight: '600',
+                        marginBottom: '8px',
+                        color: '#666666'
+                      }}>No saved posts</h3>
+                      <p style={{ color: '#999999', fontSize: '15px' }}>
                         {isOwnProfile ? "You haven't saved any posts yet." : "This user hasn't saved any posts."}
                       </p>
                     </div>
@@ -735,36 +1221,78 @@ function ProfilePage() {
 
               {/* About Tab */}
               {activeTab === 'about' && (
-                <div className="space-y-6">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {/* Bio Section */}
-                  <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
-                    <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                      <User style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <div style={{
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '20px',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                    padding: '24px'
+                  }}>
+                    <h3 style={{
+                      fontSize: '18px',
+                      fontWeight: '600',
+                      marginBottom: '16px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      color: '#000000'
+                    }}>
+                      <User style={{ width: '20px', height: '20px' }} />
                       About
                     </h3>
-                    <p style={{ color: 'var(--text-secondary)' }}>
+                    <p style={{
+                      color: '#666666',
+                      fontSize: '15px',
+                      lineHeight: '1.5'
+                    }}>
                       {user?.bio || 'No bio provided.'}
                     </p>
                   </div>
 
                   {/* Social Links */}
                   {(user.socialLinks && Object.keys(user.socialLinks).length > 0) && (
-                    <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                        <LinkIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <div style={{
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '20px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                      padding: '24px'
+                    }}>
+                      <h3 style={{
+                        fontSize: '18px',
+                        fontWeight: '600',
+                        marginBottom: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#000000'
+                      }}>
+                        <LinkIcon style={{ width: '20px', height: '20px' }} />
                         Social Links
                       </h3>
-                      <div className="space-y-3">
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                         {Object.entries(user.socialLinks).map(([platform, url]) => (
                           <a
                             key={platform}
                             href={url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px',
+                              color: '#6366F1',
+                              textDecoration: 'none',
+                              transition: 'opacity 0.2s ease',
+                              fontSize: '15px'
+                            }}
+                            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.7'}
+                            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
                           >
-                            <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                            <span className="capitalize">{platform}</span>
+                            <ExternalLink style={{ width: '20px', height: '20px' }} />
+                            <span style={{ textTransform: 'capitalize' }}>{platform}</span>
                           </a>
                         ))}
                       </div>
@@ -773,21 +1301,51 @@ function ProfilePage() {
 
                   {/* Wallet Address */}
                   {user.walletAddress && (
-                    <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
-                      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                        <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                    <div style={{
+                      background: 'white',
+                      border: '1px solid rgba(0, 0, 0, 0.06)',
+                      borderRadius: '20px',
+                      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                      padding: '24px'
+                    }}>
+                      <h3 style={{
+                        fontSize: '18px',
+                        fontWeight: '600',
+                        marginBottom: '16px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        color: '#000000'
+                      }}>
+                        <Wallet style={{ width: '20px', height: '20px' }} />
                         Wallet Address
                       </h3>
                       <button
                         onClick={copyWalletAddress}
-                        className="touch-target flex items-center gap-2 transition-colors font-mono text-sm"
-                        style={{ color: 'var(--text-secondary)' }}
+                        style={{
+                          minHeight: '48px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          transition: 'all 0.2s ease',
+                          fontFamily: 'monospace',
+                          fontSize: '14px',
+                          color: '#666666',
+                          background: 'transparent',
+                          border: 'none',
+                          cursor: 'pointer',
+                          padding: 0
+                        }}
                       >
-                        <span className="truncate">{user.walletAddress}</span>
+                        <span style={{
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap'
+                        }}>{user.walletAddress}</span>
                         {copiedAddress ? (
-                          <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <CheckCircle style={{ width: '20px', height: '20px', color: '#10B981', flexShrink: 0 }} />
                         ) : (
-                          <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <Copy style={{ width: '20px', height: '20px', flexShrink: 0 }} />
                         )}
                       </button>
                     </div>
@@ -797,29 +1355,73 @@ function ProfilePage() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {/* Badges/Achievements */}
               {user.badges && user.badges.length > 0 && (
-                <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
-                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                    <Trophy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '20px',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                  padding: '24px'
+                }}>
+                  <h3 style={{
+                    fontSize: '18px',
+                    fontWeight: '600',
+                    marginBottom: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: '#000000'
+                  }}>
+                    <Trophy style={{ width: '20px', height: '20px' }} />
                     Achievements
                   </h3>
-                  <div className="space-y-3">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {user.badges.map((badge, idx) => {
                       const BadgeIcon = getBadgeIcon(badge.icon)
                       return (
                         <div
                           key={idx}
-                          className="flex items-center gap-3 p-3 border rounded-xl hover:border-[#58a6ff]/30 transition-all"
-                          style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}
+                          style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            padding: '12px',
+                            border: '1px solid rgba(0, 0, 0, 0.06)',
+                            borderRadius: '16px',
+                            background: '#FAFAFA',
+                            transition: 'all 0.2s ease'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)'
+                            e.currentTarget.style.background = 'white'
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                            e.currentTarget.style.background = '#FAFAFA'
+                          }}
                         >
-                          <div className="p-2 rounded-lg bg-gradient-to-br from-[#58a6ff]/20 to-[#a371f7]/20">
-                            <BadgeIcon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <div style={{
+                            padding: '8px',
+                            borderRadius: '12px',
+                            background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}>
+                            <BadgeIcon style={{ width: '20px', height: '20px', color: '#6366F1' }} />
                           </div>
-                          <div className="flex-1">
-                            <h4 className="font-semibold text-sm" style={{ color: 'var(--text-primary)' }}>{badge.name}</h4>
-                            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{badge.description}</p>
+                          <div style={{ flex: 1 }}>
+                            <h4 style={{
+                              fontWeight: '600',
+                              fontSize: '14px',
+                              color: '#000000'
+                            }}>{badge.name}</h4>
+                            <p style={{
+                              fontSize: '13px',
+                              color: '#666666'
+                            }}>{badge.description}</p>
                           </div>
                         </div>
                       )
@@ -829,50 +1431,142 @@ function ProfilePage() {
               )}
 
               {/* Followers/Following */}
-              <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                  <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                background: 'white',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                padding: '24px'
+              }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  marginBottom: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: '#000000'
+                }}>
+                  <Users style={{ width: '20px', height: '20px' }} />
                   Connections
                 </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="text-center p-4 border rounded-xl" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
-                    <div className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, 1fr)',
+                  gap: '16px'
+                }}>
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '16px',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    background: '#FAFAFA'
+                  }}>
+                    <div style={{
+                      fontSize: '28px',
+                      fontWeight: '700',
+                      marginBottom: '4px',
+                      color: '#000000'
+                    }}>
                       {user.followerCount?.toLocaleString() || 0}
                     </div>
-                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Followers</div>
+                    <div style={{
+                      fontSize: '14px',
+                      color: '#666666'
+                    }}>Followers</div>
                   </div>
-                  <div className="text-center p-4 border rounded-xl" style={{ backgroundColor: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)' }}>
-                    <div className="text-2xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+                  <div style={{
+                    textAlign: 'center',
+                    padding: '16px',
+                    border: '1px solid rgba(0, 0, 0, 0.06)',
+                    borderRadius: '16px',
+                    background: '#FAFAFA'
+                  }}>
+                    <div style={{
+                      fontSize: '28px',
+                      fontWeight: '700',
+                      marginBottom: '4px',
+                      color: '#000000'
+                    }}>
                       {user.followingCount?.toLocaleString() || 0}
                     </div>
-                    <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>Following</div>
+                    <div style={{
+                      fontSize: '14px',
+                      color: '#666666'
+                    }}>Following</div>
                   </div>
                 </div>
               </div>
 
               {/* NFTs Preview */}
               {displayNfts.length > 0 && (
-                <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
-                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                    <Image style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '20px',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                  padding: '24px'
+                }}>
+                  <h3 style={{
+                    fontSize: '18px',
+                    fontWeight: '600',
+                    marginBottom: '16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: '#000000'
+                  }}>
+                    <Image style={{ width: '20px', height: '20px' }} />
                     NFT Collection
                   </h3>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(2, 1fr)',
+                    gap: '12px'
+                  }}>
                     {displayNfts.slice(0, 4).map((nft, idx) => (
                       <div
                         key={idx}
-                        style={{borderColor: "var(--border-subtle)"}} className="aspect-square rounded-lg overflow-hidden bg-[#1A1A1A] border  hover:border-blue-500 transition-all cursor-pointer group"
+                        style={{
+                          aspectRatio: '1',
+                          borderRadius: '12px',
+                          overflow: 'hidden',
+                          background: '#1A1A1A',
+                          border: '1px solid rgba(0, 0, 0, 0.06)',
+                          transition: 'all 0.2s ease',
+                          cursor: 'pointer'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.borderColor = '#6366F1'
+                          e.currentTarget.style.transform = 'scale(1.05)'
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                          e.currentTarget.style.transform = 'scale(1)'
+                        }}
                       >
                         {nft.image ? (
                           <img
                             src={nft.image}
                             alt={nft.name}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform"
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'cover',
+                              transition: 'transform 0.2s ease'
+                            }}
                             loading="lazy"
                           />
                         ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7]">
-                            <Image style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}} />
+                          <div style={{
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                          }}>
+                            <Image style={{ color: 'white', width: '48px', height: '48px' }} />
                           </div>
                         )}
                       </div>
@@ -881,8 +1575,28 @@ function ProfilePage() {
                   {displayNfts.length > 4 && (
                     <button
                       onClick={() => handleTabChange('nfts')}
-                      className="touch-target w-full mt-3 px-4 py-2 bg-white border rounded-xl text-sm font-medium transition-all"
-                      style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                      style={{
+                        minHeight: '48px',
+                        width: '100%',
+                        marginTop: '12px',
+                        padding: '12px 16px',
+                        background: 'white',
+                        border: '1px solid rgba(0, 0, 0, 0.08)',
+                        borderRadius: '14px',
+                        fontSize: '14px',
+                        fontWeight: '600',
+                        transition: 'all 0.2s ease',
+                        color: '#666666',
+                        cursor: 'pointer'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)'
+                        e.currentTarget.style.boxShadow = 'none'
+                      }}
                     >
                       View all {displayNfts.length} NFTs
                     </button>
@@ -891,27 +1605,81 @@ function ProfilePage() {
               )}
 
               {/* Activity Stats */}
-              <div className="bg-white border rounded-2xl shadow-sm p-6" style={{ borderColor: 'var(--border-subtle)' }}>
-                <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
-                  <Activity style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                background: 'white',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
+                borderRadius: '20px',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                padding: '24px'
+              }}>
+                <h3 style={{
+                  fontSize: '18px',
+                  fontWeight: '600',
+                  marginBottom: '16px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  color: '#000000'
+                }}>
+                  <Activity style={{ width: '20px', height: '20px' }} />
                   Activity
                 </h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Total Karma</span>
-                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.karma?.toLocaleString() || 0}</span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <span style={{
+                      fontSize: '14px',
+                      color: '#666666'
+                    }}>Total Karma</span>
+                    <span style={{
+                      fontWeight: '600',
+                      color: '#000000'
+                    }}>{user.karma?.toLocaleString() || 0}</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Posts Created</span>
-                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.stats?.totalPosts || 0}</span>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <span style={{
+                      fontSize: '14px',
+                      color: '#666666'
+                    }}>Posts Created</span>
+                    <span style={{
+                      fontWeight: '600',
+                      color: '#000000'
+                    }}>{user.stats?.totalPosts || 0}</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Comments Made</span>
-                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.stats?.totalComments || 0}</span>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <span style={{
+                      fontSize: '14px',
+                      color: '#666666'
+                    }}>Comments Made</span>
+                    <span style={{
+                      fontWeight: '600',
+                      color: '#000000'
+                    }}>{user.stats?.totalComments || 0}</span>
                   </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>Awards Received</span>
-                    <span className="font-semibold" style={{ color: 'var(--text-secondary)' }}>{user.stats?.totalAwards || 0}</span>
+                  <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}>
+                    <span style={{
+                      fontSize: '14px',
+                      color: '#666666'
+                    }}>Awards Received</span>
+                    <span style={{
+                      fontWeight: '600',
+                      color: '#000000'
+                    }}>{user.stats?.totalAwards || 0}</span>
                   </div>
                 </div>
               </div>
@@ -927,36 +1695,98 @@ function ProfilePage() {
           onClose={handleCloseEditModal}
           title="Edit Profile"
         >
-          <div className="bg-white rounded-2xl shadow-lg border p-6 max-w-2xl w-full mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Edit Profile</h2>
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            padding: '32px',
+            maxWidth: '672px',
+            width: '100%',
+            margin: '0 16px'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '24px'
+            }}>
+              <h2 style={{
+                fontSize: '28px',
+                fontWeight: '700',
+                color: '#000000'
+              }}>Edit Profile</h2>
               <button
                 onClick={handleCloseEditModal}
-                className="touch-target p-2 rounded-lg transition-colors"
-                style={{ color: 'var(--text-secondary)' }}
+                style={{
+                  minHeight: '48px',
+                  padding: '8px',
+                  borderRadius: '12px',
+                  transition: 'all 0.2s ease',
+                  color: '#666666',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#F5F5F5'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent'
+                }}
                 aria-label="Close modal"
               >
-                <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <X style={{ width: '24px', height: '24px' }} />
               </button>
             </div>
 
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  marginBottom: '8px',
+                  color: '#000000'
+                }}>
                   Display Name
                 </label>
-                <Input
+                <input
                   type="text"
                   value={editFormData.displayName}
                   onChange={(e) => handleEditFormChange('displayName', e.target.value)}
                   placeholder="Your display name"
-                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
-                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
+                  style={{
+                    width: '100%',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    borderRadius: '14px',
+                    padding: '14px 16px',
+                    fontSize: '15px',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
+                    height: '52px'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  marginBottom: '8px',
+                  color: '#000000'
+                }}>
                   Bio
                 </label>
                 <textarea
@@ -964,71 +1794,214 @@ function ProfilePage() {
                   onChange={(e) => handleEditFormChange('bio', e.target.value)}
                   placeholder="Tell us about yourself"
                   rows={4}
-                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
-                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
                   maxLength={500}
+                  style={{
+                    width: '100%',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    borderRadius: '14px',
+                    padding: '14px 16px',
+                    fontSize: '15px',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
+                    resize: 'none',
+                    fontFamily: 'inherit'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 />
-                <p className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>
+                <p style={{
+                  fontSize: '13px',
+                  marginTop: '4px',
+                  color: '#999999'
+                }}>
                   {editFormData.bio?.length || 0}/500 characters
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  marginBottom: '8px',
+                  color: '#000000'
+                }}>
                   Location
                 </label>
-                <Input
+                <input
                   type="text"
                   value={editFormData.location}
                   onChange={(e) => handleEditFormChange('location', e.target.value)}
                   placeholder="Where are you from?"
-                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
-                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
+                  style={{
+                    width: '100%',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    borderRadius: '14px',
+                    padding: '14px 16px',
+                    fontSize: '15px',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
+                    height: '52px'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  marginBottom: '8px',
+                  color: '#000000'
+                }}>
                   Website
                 </label>
-                <Input
+                <input
                   type="url"
                   value={editFormData.website}
                   onChange={(e) => handleEditFormChange('website', e.target.value)}
                   placeholder="https://example.com"
-                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none"
-                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
+                  style={{
+                    width: '100%',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    borderRadius: '14px',
+                    padding: '14px 16px',
+                    fontSize: '15px',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
+                    height: '52px'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 />
               </div>
 
               {saveError && (
-                <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-                  <p className="text-red-400 text-sm">{saveError}</p>
+                <div style={{
+                  padding: '16px',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '14px'
+                }}>
+                  <p style={{
+                    color: '#EF4444',
+                    fontSize: '14px'
+                  }}>{saveError}</p>
                 </div>
               )}
 
               {saveSuccess && (
-                <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-                  <p className="text-green-400 text-sm flex items-center gap-2">
-                    <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{
+                  padding: '16px',
+                  background: 'rgba(16, 185, 129, 0.1)',
+                  border: '1px solid rgba(16, 185, 129, 0.3)',
+                  borderRadius: '14px'
+                }}>
+                  <p style={{
+                    color: '#10B981',
+                    fontSize: '14px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px'
+                  }}>
+                    <CheckCircle style={{ width: '20px', height: '20px' }} />
                     Profile updated successfully!
                   </p>
                 </div>
               )}
 
-              <div className="flex gap-3 pt-4">
+              <div style={{
+                display: 'flex',
+                gap: '12px',
+                paddingTop: '16px'
+              }}>
                 <button
                   onClick={handleSave}
                   disabled={saveLoading}
-                  style={{color: "var(--text-primary)"}} className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg disabled:opacity-50  rounded-xl font-medium transition-all"
+                  style={{
+                    flex: 1,
+                    minHeight: '56px',
+                    padding: '16px',
+                    background: saveLoading ? '#D1D5DB' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    color: 'white',
+                    borderRadius: '14px',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                    transition: 'all 0.2s ease',
+                    border: 'none',
+                    cursor: saveLoading ? 'not-allowed' : 'pointer',
+                    opacity: saveLoading ? 0.5 : 1,
+                    boxShadow: saveLoading ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.25)'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!saveLoading) {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(99, 102, 241, 0.35)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!saveLoading) {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.25)'
+                    }
+                  }}
                 >
                   Save Changes
                 </button>
                 <button
                   onClick={handleCloseEditModal}
                   disabled={saveLoading}
-                  className="touch-target px-4 py-2 bg-white border rounded-xl font-medium transition-all"
-                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                  style={{
+                    minHeight: '56px',
+                    padding: '16px',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    borderRadius: '14px',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                    transition: 'all 0.2s ease',
+                    color: '#666666',
+                    cursor: saveLoading ? 'not-allowed' : 'pointer',
+                    opacity: saveLoading ? 0.5 : 1
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!saveLoading) {
+                      e.currentTarget.style.transform = 'translateY(-2px)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!saveLoading) {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = 'none'
+                    }
+                  }}
                 >
                   Cancel
                 </button>
@@ -1045,40 +2018,140 @@ function ProfilePage() {
           onClose={() => setShowMessageModal(false)}
           title="Send Message"
         >
-          <div className="bg-white rounded-2xl shadow-lg border p-6 max-w-2xl w-full mx-4" style={{ borderColor: 'var(--border-subtle)' }}>
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Send Message to @{user.username}</h2>
+          <div style={{
+            background: 'white',
+            borderRadius: '24px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            padding: '32px',
+            maxWidth: '672px',
+            width: '100%',
+            margin: '0 16px'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '24px'
+            }}>
+              <h2 style={{
+                fontSize: '28px',
+                fontWeight: '700',
+                color: '#000000'
+              }}>Send Message to @{user.username}</h2>
               <button
                 onClick={() => setShowMessageModal(false)}
-                className="touch-target p-2 rounded-lg transition-colors"
-                style={{ color: 'var(--text-secondary)' }}
+                style={{
+                  minHeight: '48px',
+                  padding: '8px',
+                  borderRadius: '12px',
+                  transition: 'all 0.2s ease',
+                  color: '#666666',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = '#F5F5F5'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'transparent'
+                }}
                 aria-label="Close modal"
               >
-                <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <X style={{ width: '24px', height: '24px' }} />
               </button>
             </div>
 
-            <div className="space-y-4">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <div>
-                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  marginBottom: '8px',
+                  color: '#000000'
+                }}>
                   Message
                 </label>
                 <textarea
                   placeholder="Type your message..."
                   rows={6}
-                  className="w-full bg-white border rounded-lg px-4 py-2 focus:border-blue-500 focus:outline-none resize-none"
-                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-primary)' }}
+                  style={{
+                    width: '100%',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    borderRadius: '14px',
+                    padding: '14px 16px',
+                    fontSize: '15px',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
+                    resize: 'none',
+                    fontFamily: 'inherit'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 />
               </div>
 
-              <div className="flex gap-3">
-                <button style={{color: "var(--text-primary)"}} className="touch-target flex-1 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:shadow-lg  rounded-xl font-medium transition-all">
+              <div style={{
+                display: 'flex',
+                gap: '12px'
+              }}>
+                <button style={{
+                  flex: 1,
+                  minHeight: '56px',
+                  padding: '16px',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  color: 'white',
+                  borderRadius: '14px',
+                  fontWeight: '600',
+                  fontSize: '15px',
+                  transition: 'all 0.2s ease',
+                  border: 'none',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(99, 102, 241, 0.25)'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)'
+                  e.currentTarget.style.boxShadow = '0 8px 20px rgba(99, 102, 241, 0.35)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.25)'
+                }}
+                >
                   Send Message
                 </button>
                 <button
                   onClick={() => setShowMessageModal(false)}
-                  className="touch-target px-4 py-2 bg-white border rounded-xl font-medium transition-all"
-                  style={{ borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)' }}
+                  style={{
+                    minHeight: '56px',
+                    padding: '16px',
+                    background: 'white',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    borderRadius: '14px',
+                    fontWeight: '600',
+                    fontSize: '15px',
+                    transition: 'all 0.2s ease',
+                    color: '#666666',
+                    cursor: 'pointer'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
                 >
                   Cancel
                 </button>

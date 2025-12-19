@@ -1,12 +1,13 @@
 /**
- * Cryb.ai - Register Page
- * Dedicated registration page with modern authentication
- * Master Prompt Standards Applied:
- * - Spacing scale: 4, 8, 16, 24, 32, 48, 64px only
- * - Icons: All exactly 24px in fixed containers
- * - Input heights: 48px
- * - Button heights: 56px (lg)
- * - Responsive padding: 16px mobile, 24px tablet, 80px desktop
+ * CRYB Platform - Register Page
+ * Modern iOS Aesthetic - Ultra Clean & Minimal
+ *
+ * DESIGN PRINCIPLES:
+ * - Light theme with soft shadows
+ * - Delicate borders and glassmorphism
+ * - Generous whitespace
+ * - System font feel
+ * - Smooth transitions
  */
 
 import React, { useState, useEffect } from 'react';
@@ -116,90 +117,96 @@ export default function RegisterPage() {
 
   const passwordStrength = getPasswordStrength(formData.password);
 
-  // Determine responsive values
+  // Responsive breakpoints
   const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
-  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center relative overflow-hidden"
       style={{
-        background: 'var(--bg-primary)',
-        color: 'var(--text-primary)',
-        paddingLeft: pagePadding,
-        paddingRight: pagePadding,
-        paddingTop: '48px',
-        paddingBottom: '48px',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        overflow: 'hidden',
+        background: '#FAFAFA',
+        padding: isMobile ? '16px' : '48px',
       }}
       role="main"
       aria-label="Registration page"
     >
       {/* Background blobs */}
-      <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', zIndex: 0 }}>
         <div
-          className="absolute rounded-full"
           style={{
+            position: 'absolute',
             width: isDesktop ? '320px' : '256px',
             height: isDesktop ? '320px' : '256px',
-            background: '#58a6ff',
-            filter: 'blur(48px)',
-            opacity: 0.08,
+            background: '#6366F1',
+            filter: 'blur(80px)',
+            opacity: 0.04,
             top: '64px',
             left: '32px',
+            borderRadius: '50%',
           }}
         />
         <div
-          className="absolute rounded-full"
           style={{
+            position: 'absolute',
             width: isDesktop ? '320px' : '256px',
             height: isDesktop ? '320px' : '256px',
-            background: '#a371f7',
-            filter: 'blur(48px)',
-            opacity: 0.08,
+            background: '#8B5CF6',
+            filter: 'blur(80px)',
+            opacity: 0.04,
             bottom: '64px',
             right: '32px',
+            borderRadius: '50%',
           }}
         />
       </div>
 
       {/* Register Card */}
       <div
-        className="relative w-full"
         style={{
+          position: 'relative',
           zIndex: 10,
+          width: '100%',
           maxWidth: '480px',
         }}
       >
         <div
-          className="card card-elevated"
           style={{
-            borderRadius: '16px',
-            padding: isDesktop ? '48px' : isTabletView ? '32px' : '24px',
-            background: 'var(--bg-elevated)',
-            boxShadow: 'var(--shadow-lg)',
+            borderRadius: '24px',
+            padding: isDesktop ? '48px' : isMobile ? '24px' : '32px',
+            background: 'white',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
           }}
         >
           {/* Header Section */}
           <div
-            className="text-center"
             style={{
+              textAlign: 'center',
               marginBottom: '32px',
             }}
           >
             <div
-              className="flex justify-center"
               style={{
+                display: 'flex',
+                justifyContent: 'center',
                 marginBottom: '16px',
               }}
             >
               <div
-                className="flex items-center justify-center"
                 style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '12px',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '56px',
+                  height: '56px',
+                  borderRadius: '16px',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  boxShadow: '0 4px 16px rgba(99, 102, 241, 0.2)',
                 }}
                 aria-hidden="true"
               >
@@ -214,24 +221,25 @@ export default function RegisterPage() {
               </div>
             </div>
             <h1
-              className="font-bold"
               style={{
-                fontSize: isDesktop ? '24px' : '20px',
-                lineHeight: '1.4',
+                fontSize: isDesktop ? '28px' : '24px',
+                fontWeight: '700',
+                lineHeight: '1.3',
                 marginBottom: '8px',
-                color: 'var(--text-primary)',
+                color: '#000000',
+                letterSpacing: '-0.02em',
               }}
             >
               Create your account
             </h1>
             <p
               style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#666666',
               }}
             >
-              Join the cryb community
+              Join the CRYB community
             </p>
           </div>
 
@@ -241,10 +249,10 @@ export default function RegisterPage() {
               style={{
                 marginBottom: '24px',
                 padding: '16px',
-                background: 'rgba(239, 68, 68, 0.1)',
+                background: 'rgba(239, 68, 68, 0.08)',
                 border: '1px solid rgba(239, 68, 68, 0.2)',
                 borderRadius: '12px',
-                color: '#ef4444',
+                color: '#EF4444',
                 fontSize: '14px',
                 lineHeight: '1.5',
               }}
@@ -258,28 +266,32 @@ export default function RegisterPage() {
           {/* Form */}
           <form
             onSubmit={handleSubmit}
-            className="flex flex-col"
             style={{
-              gap: '24px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '20px',
             }}
           >
             {/* Username Field */}
-            <div className="flex flex-col" style={{ gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label
                 htmlFor="username"
-                className="block font-medium"
                 style={{
                   fontSize: '14px',
+                  fontWeight: '500',
                   lineHeight: '1.5',
-                  color: 'var(--text-secondary)',
+                  color: '#666666',
                 }}
               >
                 Username
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <div
-                  className="absolute flex items-center justify-center"
                   style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     left: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
@@ -289,9 +301,9 @@ export default function RegisterPage() {
                   }}
                 >
                   <User
-                    size={24}
+                    size={20}
                     strokeWidth={2}
-                    style={{ color: 'var(--text-tertiary)' }}
+                    style={{ color: '#999999' }}
                     aria-hidden="true"
                   />
                 </div>
@@ -303,31 +315,41 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   required
                   minLength={3}
-                  className="input w-full"
                   style={{
-                    height: '48px',
+                    width: '100%',
+                    height: '52px',
                     paddingLeft: '48px',
                     paddingRight: '16px',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-primary)',
-                    color: 'var(--text-primary)',
+                    background: '#F9F9F9',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
                   }}
                   placeholder="Choose a username"
                   autoComplete="username"
                   aria-required="true"
                   aria-invalid={error && error.includes('username') ? 'true' : 'false'}
                   aria-describedby="username-hint"
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)';
+                    e.target.style.background = 'white';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)';
+                    e.target.style.background = '#F9F9F9';
+                  }}
                 />
               </div>
               <p
                 id="username-hint"
                 style={{
-                  fontSize: '12px',
+                  fontSize: '13px',
                   lineHeight: '1.5',
-                  color: 'var(--text-tertiary)',
+                  color: '#999999',
                   marginTop: '4px',
                 }}
               >
@@ -336,22 +358,25 @@ export default function RegisterPage() {
             </div>
 
             {/* Email Field */}
-            <div className="flex flex-col" style={{ gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label
                 htmlFor="email"
-                className="block font-medium"
                 style={{
                   fontSize: '14px',
+                  fontWeight: '500',
                   lineHeight: '1.5',
-                  color: 'var(--text-secondary)',
+                  color: '#666666',
                 }}
               >
                 Email
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <div
-                  className="absolute flex items-center justify-center"
                   style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     left: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
@@ -361,9 +386,9 @@ export default function RegisterPage() {
                   }}
                 >
                   <Mail
-                    size={24}
+                    size={20}
                     strokeWidth={2}
-                    style={{ color: 'var(--text-tertiary)' }}
+                    style={{ color: '#999999' }}
                     aria-hidden="true"
                   />
                 </div>
@@ -374,43 +399,56 @@ export default function RegisterPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="input w-full"
                   style={{
-                    height: '48px',
+                    width: '100%',
+                    height: '52px',
                     paddingLeft: '48px',
                     paddingRight: '16px',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-primary)',
-                    color: 'var(--text-primary)',
+                    background: '#F9F9F9',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
                   }}
                   placeholder="you@example.com"
                   autoComplete="email"
                   aria-required="true"
                   aria-invalid={error && error.includes('email') ? 'true' : 'false'}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)';
+                    e.target.style.background = 'white';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)';
+                    e.target.style.background = '#F9F9F9';
+                  }}
                 />
               </div>
             </div>
 
             {/* Password Field */}
-            <div className="flex flex-col" style={{ gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label
                 htmlFor="password"
-                className="block font-medium"
                 style={{
                   fontSize: '14px',
+                  fontWeight: '500',
                   lineHeight: '1.5',
-                  color: 'var(--text-secondary)',
+                  color: '#666666',
                 }}
               >
                 Password
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <div
-                  className="absolute flex items-center justify-center"
                   style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     left: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
@@ -420,9 +458,9 @@ export default function RegisterPage() {
                   }}
                 >
                   <Lock
-                    size={24}
+                    size={20}
                     strokeWidth={2}
-                    style={{ color: 'var(--text-tertiary)' }}
+                    style={{ color: '#999999' }}
                     aria-hidden="true"
                   />
                 </div>
@@ -434,29 +472,42 @@ export default function RegisterPage() {
                   onChange={handleChange}
                   required
                   minLength={8}
-                  className="input w-full"
                   style={{
-                    height: '48px',
+                    width: '100%',
+                    height: '52px',
                     paddingLeft: '48px',
                     paddingRight: '48px',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-primary)',
-                    color: 'var(--text-primary)',
+                    background: '#F9F9F9',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
                   }}
                   placeholder="Create a strong password"
                   autoComplete="new-password"
                   aria-required="true"
                   aria-invalid={error && error.includes('password') ? 'true' : 'false'}
                   aria-describedby="password-strength"
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)';
+                    e.target.style.background = 'white';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)';
+                    e.target.style.background = '#F9F9F9';
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute flex items-center justify-center transition-colors"
                   style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     right: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
@@ -466,14 +517,17 @@ export default function RegisterPage() {
                     padding: 0,
                     width: '24px',
                     height: '24px',
-                    color: 'var(--text-tertiary)',
+                    color: '#999999',
+                    transition: 'color 0.2s ease',
                   }}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#000000'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
                 >
                   {showPassword ? (
-                    <EyeOff size={24} strokeWidth={2} aria-hidden="true" />
+                    <EyeOff size={20} strokeWidth={2} aria-hidden="true" />
                   ) : (
-                    <Eye size={24} strokeWidth={2} aria-hidden="true" />
+                    <Eye size={20} strokeWidth={2} aria-hidden="true" />
                   )}
                 </button>
               </div>
@@ -486,29 +540,32 @@ export default function RegisterPage() {
                   role="status"
                   aria-live="polite"
                 >
-                  <div className="flex items-center" style={{ gap: '8px', marginBottom: '4px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                     <div
-                      className="flex-1 rounded-xl overflow-hidden"
                       style={{
-                        height: '8px',
-                        background: 'var(--bg-tertiary)',
-                        border: '1px solid var(--border-primary)',
+                        flex: 1,
+                        height: '6px',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        background: 'rgba(0, 0, 0, 0.06)',
                       }}
                     >
                       <div
-                        className="h-full transition-all"
                         style={{
+                          height: '100%',
                           background: passwordStrength.color,
                           width: `${passwordStrength.strength}%`,
+                          transition: 'all 0.3s ease',
                         }}
                       />
                     </div>
                     <span
                       style={{
-                        fontSize: '12px',
+                        fontSize: '13px',
                         lineHeight: '1.5',
                         minWidth: '64px',
-                        color: 'var(--text-secondary)',
+                        color: '#666666',
+                        fontWeight: '500',
                       }}
                     >
                       {passwordStrength.text}
@@ -516,9 +573,9 @@ export default function RegisterPage() {
                   </div>
                   <p
                     style={{
-                      fontSize: '12px',
+                      fontSize: '13px',
                       lineHeight: '1.5',
-                      color: 'var(--text-tertiary)',
+                      color: '#999999',
                     }}
                   >
                     At least 8 characters recommended
@@ -528,22 +585,25 @@ export default function RegisterPage() {
             </div>
 
             {/* Confirm Password Field */}
-            <div className="flex flex-col" style={{ gap: '8px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <label
                 htmlFor="confirmPassword"
-                className="block font-medium"
                 style={{
                   fontSize: '14px',
+                  fontWeight: '500',
                   lineHeight: '1.5',
-                  color: 'var(--text-secondary)',
+                  color: '#666666',
                 }}
               >
                 Confirm Password
               </label>
-              <div className="relative">
+              <div style={{ position: 'relative' }}>
                 <div
-                  className="absolute flex items-center justify-center"
                   style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     left: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
@@ -553,9 +613,9 @@ export default function RegisterPage() {
                   }}
                 >
                   <Lock
-                    size={24}
+                    size={20}
                     strokeWidth={2}
-                    style={{ color: 'var(--text-tertiary)' }}
+                    style={{ color: '#999999' }}
                     aria-hidden="true"
                   />
                 </div>
@@ -566,28 +626,41 @@ export default function RegisterPage() {
                   value={formData.confirmPassword}
                   onChange={handleChange}
                   required
-                  className="input w-full"
                   style={{
-                    height: '48px',
+                    width: '100%',
+                    height: '52px',
                     paddingLeft: '48px',
                     paddingRight: '48px',
-                    fontSize: '14px',
+                    fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: 'var(--bg-secondary)',
-                    border: '1px solid var(--border-primary)',
-                    color: 'var(--text-primary)',
+                    background: '#F9F9F9',
+                    border: '1px solid rgba(0, 0, 0, 0.08)',
+                    color: '#000000',
+                    outline: 'none',
+                    transition: 'all 0.2s ease',
                   }}
                   placeholder="Confirm your password"
                   autoComplete="new-password"
                   aria-required="true"
                   aria-invalid={error && error.includes('match') ? 'true' : 'false'}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)';
+                    e.target.style.background = 'white';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)';
+                    e.target.style.background = '#F9F9F9';
+                  }}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute flex items-center justify-center transition-colors"
                   style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                     right: '16px',
                     top: '50%',
                     transform: 'translateY(-50%)',
@@ -597,14 +670,17 @@ export default function RegisterPage() {
                     padding: 0,
                     width: '24px',
                     height: '24px',
-                    color: 'var(--text-tertiary)',
+                    color: '#999999',
+                    transition: 'color 0.2s ease',
                   }}
                   aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#000000'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
                 >
                   {showConfirmPassword ? (
-                    <EyeOff size={24} strokeWidth={2} aria-hidden="true" />
+                    <EyeOff size={20} strokeWidth={2} aria-hidden="true" />
                   ) : (
-                    <Eye size={24} strokeWidth={2} aria-hidden="true" />
+                    <Eye size={20} strokeWidth={2} aria-hidden="true" />
                   )}
                 </button>
               </div>
@@ -612,44 +688,57 @@ export default function RegisterPage() {
 
             {/* Terms Acceptance */}
             <div>
-              <label className="flex items-center cursor-pointer" style={{ gap: '8px' }}>
+              <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', gap: '12px' }}>
                 <input
                   type="checkbox"
                   id="accept-terms"
                   checked={acceptTerms}
                   onChange={(e) => setAcceptTerms(e.target.checked)}
                   required
-                  className="cursor-pointer"
                   style={{
-                    width: '16px',
-                    height: '16px',
+                    width: '18px',
+                    height: '18px',
                     flexShrink: 0,
+                    cursor: 'pointer',
+                    accentColor: '#6366F1',
                   }}
                   aria-required="true"
                   aria-invalid={error && error.includes('Terms') ? 'true' : 'false'}
                 />
                 <span
                   style={{
-                    fontSize: '12px',
+                    fontSize: '13px',
                     lineHeight: '1.5',
-                    color: 'var(--text-secondary)',
+                    color: '#666666',
                   }}
                 >
                   I agree to the{' '}
                   <Link
                     to="/terms"
-                    className="no-underline transition-colors"
-                    style={{ color: 'var(--brand-primary)' }}
+                    style={{
+                      color: '#6366F1',
+                      textDecoration: 'none',
+                      fontWeight: '500',
+                      transition: 'color 0.2s ease',
+                    }}
                     onClick={(e) => e.stopPropagation()}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#8B5CF6'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#6366F1'}
                   >
                     Terms of Service
                   </Link>{' '}
                   and{' '}
                   <Link
                     to="/privacy"
-                    className="no-underline transition-colors"
-                    style={{ color: 'var(--brand-primary)' }}
+                    style={{
+                      color: '#6366F1',
+                      textDecoration: 'none',
+                      fontWeight: '500',
+                      transition: 'color 0.2s ease',
+                    }}
                     onClick={(e) => e.stopPropagation()}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#8B5CF6'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#6366F1'}
                   >
                     Privacy Policy
                   </Link>
@@ -661,30 +750,47 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex items-center justify-center font-semibold transition-all"
               style={{
+                width: '100%',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 height: '56px',
                 paddingLeft: '32px',
                 paddingRight: '32px',
                 fontSize: '16px',
+                fontWeight: '600',
                 lineHeight: '1.5',
                 gap: '8px',
                 color: 'white',
                 background: loading
-                  ? 'var(--bg-tertiary)'
-                  : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                borderRadius: '12px',
+                  ? 'rgba(0, 0, 0, 0.1)'
+                  : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                borderRadius: '14px',
                 border: 'none',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.6 : 1,
-                boxShadow: loading ? 'none' : 'var(--shadow-sm)',
+                boxShadow: loading ? 'none' : '0 4px 16px rgba(99, 102, 241, 0.3)',
+                transition: 'all 0.2s ease',
               }}
               aria-label="Create your account"
+              onMouseEnter={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)';
+                }
+              }}
             >
               {loading ? 'Creating account...' : 'Create account'}
               {!loading && (
-                <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
-                  <ArrowRight size={24} strokeWidth={2} aria-hidden="true" />
+                <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
+                  <ArrowRight size={20} strokeWidth={2} aria-hidden="true" />
                 </div>
               )}
             </button>
@@ -692,16 +798,17 @@ export default function RegisterPage() {
 
           {/* Divider */}
           <div
-            className="flex items-center"
             style={{
+              display: 'flex',
+              alignItems: 'center',
               marginTop: '32px',
               marginBottom: '32px',
             }}
           >
             <div
-              className="flex-1"
               style={{
-                borderTop: '1px solid var(--border-primary)',
+                flex: 1,
+                borderTop: '1px solid rgba(0, 0, 0, 0.08)',
               }}
             />
             <span
@@ -710,35 +817,39 @@ export default function RegisterPage() {
                 paddingRight: '16px',
                 fontSize: '14px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#999999',
               }}
             >
               or
             </span>
             <div
-              className="flex-1"
               style={{
-                borderTop: '1px solid var(--border-primary)',
+                flex: 1,
+                borderTop: '1px solid rgba(0, 0, 0, 0.08)',
               }}
             />
           </div>
 
           {/* Sign In Link */}
-          <div className="text-center">
+          <div style={{ textAlign: 'center' }}>
             <p
               style={{
-                fontSize: '14px',
+                fontSize: '15px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#666666',
               }}
             >
               Already have an account?{' '}
               <Link
                 to="/login"
-                className="font-medium no-underline transition-colors"
                 style={{
-                  color: 'var(--brand-primary)',
+                  color: '#6366F1',
+                  fontWeight: '600',
+                  textDecoration: 'none',
+                  transition: 'color 0.2s ease',
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#8B5CF6'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#6366F1'}
               >
                 Sign in
               </Link>
@@ -747,19 +858,22 @@ export default function RegisterPage() {
 
           {/* Back to Home */}
           <div
-            className="text-center"
             style={{
+              textAlign: 'center',
               marginTop: '16px',
             }}
           >
             <Link
               to="/"
-              className="no-underline transition-colors"
               style={{
                 fontSize: '14px',
                 lineHeight: '1.5',
-                color: 'var(--text-secondary)',
+                color: '#999999',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease',
               }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#666666'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#999999'}
             >
               ← Back to home
             </Link>

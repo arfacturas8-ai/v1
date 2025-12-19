@@ -1,3 +1,9 @@
+/**
+ * NotFoundPage.jsx
+ * 404 error page with iOS-inspired design aesthetic
+ * Features: Gradient text, soft shadows, smooth hover effects
+ */
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useResponsive } from '../hooks/useResponsive'
@@ -17,13 +23,13 @@ export default function NotFoundPage() {
         justifyContent: 'center',
         paddingLeft: isMobile ? '16px' : '20px',
         paddingRight: isMobile ? '16px' : '20px',
-        background: 'var(--bg-primary)'
+        background: '#FAFAFA'
       }}
     >
       <div style={{
         textAlign: 'center',
         maxWidth: '800px',
-        color: 'var(--text-primary)'
+        color: '#000000'
       }}>
         <div
           aria-hidden="true"
@@ -32,7 +38,7 @@ export default function NotFoundPage() {
             fontWeight: 'bold',
             lineHeight: '1',
             marginBottom: isMobile ? '16px' : '20px',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -46,7 +52,7 @@ export default function NotFoundPage() {
           fontSize: isMobile ? '24px' : '32px',
           fontWeight: '600',
           marginBottom: isMobile ? '16px' : '24px',
-          color: 'var(--text-primary)'
+          color: '#000000'
         }}>
           Page Not Found
         </h1>
@@ -55,7 +61,7 @@ export default function NotFoundPage() {
           fontSize: isMobile ? '16px' : '18px',
           marginBottom: isMobile ? '24px' : '32px',
           lineHeight: '1.6',
-          color: 'var(--text-secondary)'
+          color: '#666666'
         }}>
           The page you're looking for doesn't exist or has been moved.
         </p>
@@ -81,17 +87,23 @@ export default function NotFoundPage() {
               paddingTop: '12px',
               paddingBottom: '12px',
               height: '48px',
-              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
               borderRadius: '12px',
-              color: 'var(--text-inverse)',
+              color: 'white',
               fontSize: '16px',
               fontWeight: '600',
               textDecoration: 'none',
-              boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+              boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)',
               transition: 'all 0.2s'
             }}
-            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            onMouseEnter={(e) => {
+              e.target.style.transform = 'translateY(-2px)'
+              e.target.style.boxShadow = '0 6px 20px rgba(99, 102, 241, 0.4)'
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)'
+            }}
           >
             ← Back to Home
           </Link>
@@ -108,21 +120,27 @@ export default function NotFoundPage() {
               paddingTop: '12px',
               paddingBottom: '12px',
               height: '48px',
-              background: 'var(--bg-secondary)',
-              border: '1px solid var(--border-subtle)',
+              background: 'white',
+              border: '1px solid rgba(0, 0, 0, 0.06)',
               borderRadius: '12px',
-              color: '#58a6ff',
+              color: '#6366F1',
               fontSize: '16px',
               fontWeight: '600',
               textDecoration: 'none',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
               transition: 'all 0.2s'
             }}
             onMouseEnter={(e) => {
-              e.target.style.background = 'var(--bg-tertiary)'
+              e.target.style.background = '#F9FAFB'
+              e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+              e.target.style.transform = 'translateY(-2px)'
+              e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
             }}
             onMouseLeave={(e) => {
-              e.target.style.background = 'var(--bg-secondary)'
+              e.target.style.background = 'white'
+              e.target.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+              e.target.style.transform = 'translateY(0)'
+              e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
             }}
           >
             Get Help
@@ -132,14 +150,14 @@ export default function NotFoundPage() {
         <div style={{
           marginTop: isMobile ? '32px' : '40px',
           fontSize: '14px',
-          color: 'var(--text-secondary)'
+          color: '#666666'
         }}>
           <p>
             Lost? Try searching or visit our{' '}
             <Link
               to="/communities"
               style={{
-                color: '#58a6ff',
+                color: '#6366F1',
                 textDecoration: 'underline'
               }}
             >

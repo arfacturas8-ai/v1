@@ -1,3 +1,9 @@
+/**
+ * MaintenancePage.jsx
+ * Maintenance mode page with iOS-inspired design aesthetic
+ * Features: Live countdown timer, gradient accents, soft shadows, smooth animations
+ */
+
 import React, { useState, useEffect } from 'react'
 import { Wrench, Clock, CheckCircle2, Twitter, MessageCircle } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
@@ -50,12 +56,12 @@ export default function MaintenancePage() {
           justifyContent: 'center',
           paddingLeft: isMobile ? '16px' : '20px',
           paddingRight: isMobile ? '16px' : '20px',
-          background: 'var(--bg-primary)'
+          background: '#FAFAFA'
         }}
       >
         <div style={{
           textAlign: 'center',
-          color: 'var(--text-primary)',
+          color: '#000000',
           maxWidth: isMobile ? '100%' : '700px',
           paddingLeft: isMobile ? '0' : '16px',
           paddingRight: isMobile ? '0' : '16px'
@@ -66,11 +72,12 @@ export default function MaintenancePage() {
             justifyContent: 'center',
             width: isMobile ? '96px' : '120px',
             height: isMobile ? '96px' : '120px',
-            border: '1px solid rgba(88, 166, 255, 0.3)',
+            border: '1px solid rgba(99, 102, 241, 0.2)',
             borderRadius: '50%',
             marginBottom: '24px',
             backdropFilter: 'blur(10px)',
-            background: 'var(--bg-secondary)',
+            background: 'white',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
             position: 'relative'
           }}>
             <Wrench
@@ -78,7 +85,7 @@ export default function MaintenancePage() {
                 width: isMobile ? '48px' : '64px',
                 height: isMobile ? '48px' : '64px',
                 flexShrink: 0,
-                color: '#58a6ff'
+                color: '#6366F1'
               }}
               className="animate-wiggle"
               aria-hidden="true"
@@ -89,7 +96,7 @@ export default function MaintenancePage() {
             fontSize: isMobile ? '32px' : '48px',
             fontWeight: 'bold',
             marginBottom: isMobile ? '16px' : '24px',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -100,7 +107,7 @@ export default function MaintenancePage() {
 
           <p style={{
             fontSize: isMobile ? '18px' : '20px',
-            color: 'var(--text-secondary)',
+            color: '#666666',
             marginBottom: '32px',
             lineHeight: '1.6',
             maxWidth: '500px',
@@ -117,10 +124,11 @@ export default function MaintenancePage() {
             marginBottom: isMobile ? '24px' : '32px'
           }}>
             <div style={{
-              background: 'var(--bg-secondary)',
+              background: 'white',
               borderRadius: '16px',
               padding: isMobile ? '16px' : '20px',
-              border: '1px solid var(--border-subtle)'
+              border: '1px solid rgba(0, 0, 0, 0.06)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
             }}>
               <Clock
                 style={{
@@ -128,7 +136,7 @@ export default function MaintenancePage() {
                   height: isMobile ? '24px' : '28px',
                   flexShrink: 0,
                   marginBottom: '16px',
-                  color: '#58a6ff',
+                  color: '#6366F1',
                   marginLeft: 'auto',
                   marginRight: 'auto',
                   display: 'block'
@@ -137,7 +145,7 @@ export default function MaintenancePage() {
               />
               <div style={{
                 fontSize: '14px',
-                color: 'var(--text-secondary)',
+                color: '#666666',
                 marginBottom: '8px'
               }}>
                 Estimated Duration
@@ -145,17 +153,18 @@ export default function MaintenancePage() {
               <div style={{
                 fontSize: isMobile ? '20px' : '24px',
                 fontWeight: 'bold',
-                color: 'var(--text-primary)'
+                color: '#000000'
               }}>
                 {getTimeRemaining()}
               </div>
             </div>
 
             <div style={{
-              background: 'var(--bg-secondary)',
+              background: 'white',
               borderRadius: '16px',
               padding: isMobile ? '16px' : '20px',
-              border: '1px solid var(--border-subtle)'
+              border: '1px solid rgba(0, 0, 0, 0.06)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
             }}>
               <CheckCircle2
                 style={{
@@ -172,7 +181,7 @@ export default function MaintenancePage() {
               />
               <div style={{
                 fontSize: '14px',
-                color: 'var(--text-secondary)',
+                color: '#666666',
                 marginBottom: '8px'
               }}>
                 Expected Back
@@ -180,7 +189,7 @@ export default function MaintenancePage() {
               <div style={{
                 fontSize: isMobile ? '20px' : '24px',
                 fontWeight: 'bold',
-                color: 'var(--text-primary)'
+                color: '#000000'
               }}>
                 {formatTime(estimatedEnd)}
               </div>
@@ -188,11 +197,12 @@ export default function MaintenancePage() {
           </div>
 
           <div style={{
-            background: 'var(--bg-secondary)',
+            background: 'white',
             borderRadius: '16px',
             padding: isMobile ? '20px' : '24px',
             marginBottom: isMobile ? '24px' : '32px',
-            border: '1px solid var(--border-subtle)',
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             textAlign: 'left'
           }}>
             <h3 style={{
@@ -200,7 +210,7 @@ export default function MaintenancePage() {
               fontWeight: '600',
               marginBottom: '16px',
               textAlign: 'center',
-              color: 'var(--text-primary)'
+              color: '#000000'
             }}>
               What's Being Improved?
             </h3>
@@ -209,7 +219,7 @@ export default function MaintenancePage() {
               padding: 0,
               margin: 0,
               fontSize: '14px',
-              color: 'var(--text-primary)',
+              color: '#000000',
               lineHeight: '2'
             }}>
               {[
@@ -230,15 +240,16 @@ export default function MaintenancePage() {
           </div>
 
           <div style={{
-            background: 'var(--bg-secondary)',
+            background: 'white',
             borderRadius: '16px',
             padding: isMobile ? '16px' : '20px',
             marginBottom: isMobile ? '24px' : '32px',
-            border: '1px solid var(--border-subtle)'
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
           }}>
             <p style={{
               fontSize: '16px',
-              color: 'var(--text-primary)',
+              color: '#000000',
               marginBottom: '16px',
               lineHeight: '1.6'
             }}>
@@ -259,17 +270,24 @@ export default function MaintenancePage() {
                   paddingTop: '8px',
                   paddingBottom: '8px',
                   height: '40px',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
                   border: 'none',
                   borderRadius: '8px',
-                  color: 'var(--text-inverse)',
+                  color: 'white',
                   textDecoration: 'none',
                   fontSize: '14px',
                   fontWeight: '600',
+                  boxShadow: '0 2px 8px rgba(99, 102, 241, 0.3)',
                   transition: 'all 0.2s'
                 }}
-                onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-                onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+                onMouseEnter={(e) => {
+                  e.target.style.transform = 'translateY(-2px)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.4)'
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 2px 8px rgba(99, 102, 241, 0.3)'
+                }}
               >
                 <Twitter style={{ width: '18px', height: '18px', flexShrink: 0 }} aria-hidden="true" />
                 Twitter
@@ -288,20 +306,27 @@ export default function MaintenancePage() {
                   paddingTop: '8px',
                   paddingBottom: '8px',
                   height: '40px',
-                  background: 'var(--bg-secondary)',
-                  border: '1px solid var(--border-subtle)',
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
                   borderRadius: '8px',
-                  color: '#58a6ff',
+                  color: '#6366F1',
                   textDecoration: 'none',
                   fontSize: '14px',
                   fontWeight: '600',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
                   transition: 'all 0.2s'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = 'var(--bg-tertiary)'
+                  e.target.style.background = '#F9FAFB'
+                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                  e.target.style.transform = 'translateY(-2px)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = 'var(--bg-secondary)'
+                  e.target.style.background = 'white'
+                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
                 }}
               >
                 <MessageCircle style={{ width: '18px', height: '18px', flexShrink: 0 }} aria-hidden="true" />
@@ -312,7 +337,7 @@ export default function MaintenancePage() {
 
           <p style={{
             fontSize: '14px',
-            color: 'var(--text-secondary)',
+            color: '#666666',
             lineHeight: '1.6'
           }}>
             Thank you for your patience! We're working hard to get back online as quickly as possible.
@@ -320,7 +345,7 @@ export default function MaintenancePage() {
             Questions?{' '}
             <a
               href="mailto:support@cryb.app"
-              style={{ color: '#58a6ff', textDecoration: 'underline', fontWeight: '600' }}
+              style={{ color: '#6366F1', textDecoration: 'underline', fontWeight: '600' }}
             >
               Contact support
             </a>
@@ -329,10 +354,12 @@ export default function MaintenancePage() {
           <div style={{
             marginTop: isMobile ? '24px' : '32px',
             padding: '16px',
-            background: 'var(--bg-secondary)',
+            background: 'white',
             borderRadius: '8px',
-            border: '1px solid var(--border-subtle)',
-            fontSize: '12px'
+            border: '1px solid rgba(0, 0, 0, 0.06)',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+            fontSize: '12px',
+            color: '#999999'
           }}>
             <p style={{ margin: 0 }}>
               Maintenance ID: MAINT-{Math.random().toString(36).substring(7).toUpperCase()}
