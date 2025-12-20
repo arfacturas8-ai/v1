@@ -52,7 +52,7 @@ export default function BradleyHimelPage() {
         height: '240px',
         background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
         position: 'relative',
-        overflow: 'hidden'
+        overflow: 'visible'
       }}>
         <div style={{
           position: 'absolute',
@@ -62,7 +62,7 @@ export default function BradleyHimelPage() {
         }} />
         <div style={{
           position: 'absolute',
-          bottom: '24px',
+          top: '24px',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',
@@ -100,7 +100,7 @@ export default function BradleyHimelPage() {
           backgroundImage: 'url(/images/brad/bradley-himel.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          zIndex: 10
+          zIndex: 999999
         }}>
         </div>
       </div>
@@ -109,7 +109,9 @@ export default function BradleyHimelPage() {
       <div style={{
         maxWidth: '600px',
         margin: '0 auto',
-        padding: '0 16px'
+        padding: '0 16px',
+        position: 'relative',
+        zIndex: 1
       }}>
         {/* Profile Section */}
         <div style={{
@@ -527,7 +529,7 @@ export default function BradleyHimelPage() {
           padding: '32px 0'
         }}>
           <a
-            href="https://cryb.ai"
+            href="https://stage.cryb.ai/"
             target="_blank"
             rel="noopener noreferrer"
             style={{
