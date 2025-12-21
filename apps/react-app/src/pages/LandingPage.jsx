@@ -1,6 +1,6 @@
 /**
  * Landing Page - CRYB Platform
- * Modern iOS Aesthetic - Ultra Clean & Minimal
+ * Modern iOS Aesthetic with Glass Effects
  * LIGHT THEME ONLY - NO DARK MODE
  */
 
@@ -101,7 +101,7 @@ export default function LandingPage() {
             height: '500px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-            opacity: 0.03,
+            opacity: 0.04,
             filter: 'blur(80px)'
           }}
         />
@@ -114,25 +114,26 @@ export default function LandingPage() {
             height: '600px',
             borderRadius: '50%',
             background: 'linear-gradient(135deg, #00D26A 0%, #58a6ff 100%)',
-            opacity: 0.02,
+            opacity: 0.03,
             filter: 'blur(80px)'
           }}
         />
       </div>
 
-      {/* Modern iOS Header */}
+      {/* Modern iOS Glass Header */}
       <nav
         style={{
           position: 'fixed',
           top: 0,
           left: 0,
           right: 0,
-          height: isMobile ? '56px' : '72px',
+          height: isMobile ? '52px' : '64px',
           zIndex: 30,
-          background: isScrolled ? 'rgba(255, 255, 255, 0.7)' : 'transparent',
-          borderBottom: isScrolled ? '1px solid rgba(0, 0, 0, 0.06)' : 'none',
-          backdropFilter: isScrolled ? 'blur(20px) saturate(180%)' : 'none',
-          WebkitBackdropFilter: isScrolled ? 'blur(20px) saturate(180%)' : 'none',
+          background: isScrolled ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.3)',
+          borderBottom: isScrolled ? '1px solid rgba(0, 0, 0, 0.08)' : '1px solid rgba(0, 0, 0, 0.04)',
+          backdropFilter: 'blur(40px) saturate(200%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+          boxShadow: isScrolled ? '0 1px 3px rgba(0, 0, 0, 0.06)' : 'none',
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
         }}
       >
@@ -159,7 +160,7 @@ export default function LandingPage() {
           >
             <span
               style={{
-                fontSize: isMobile ? '22px' : '26px',
+                fontSize: isMobile ? '20px' : '24px',
                 fontWeight: '700',
                 background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                 WebkitBackgroundClip: 'text',
@@ -174,11 +175,11 @@ export default function LandingPage() {
 
           {/* Desktop Nav */}
           {!isMobile && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
               <Link
                 to="/tokenomics"
                 style={{
-                  fontSize: '15px',
+                  fontSize: '14px',
                   fontWeight: '500',
                   color: '#666666',
                   textDecoration: 'none',
@@ -192,7 +193,7 @@ export default function LandingPage() {
               <Link
                 to="/help"
                 style={{
-                  fontSize: '15px',
+                  fontSize: '14px',
                   fontWeight: '500',
                   color: '#666666',
                   textDecoration: 'none',
@@ -206,7 +207,7 @@ export default function LandingPage() {
               <Link
                 to="/guidelines"
                 style={{
-                  fontSize: '15px',
+                  fontSize: '14px',
                   fontWeight: '500',
                   color: '#666666',
                   textDecoration: 'none',
@@ -220,24 +221,24 @@ export default function LandingPage() {
             </div>
           )}
 
-          {/* Desktop CTA */}
+          {/* Desktop CTA - Smaller */}
           {!isMobile && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <Link
                 to="/login"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '44px',
-                  paddingLeft: '24px',
-                  paddingRight: '24px',
-                  fontSize: '15px',
+                  height: '32px',
+                  paddingLeft: '14px',
+                  paddingRight: '14px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   color: '#1A1A1A',
                   background: 'transparent',
                   border: 'none',
-                  borderRadius: '22px',
+                  borderRadius: '16px',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease'
                 }}
@@ -256,26 +257,26 @@ export default function LandingPage() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '44px',
-                  paddingLeft: '24px',
-                  paddingRight: '24px',
-                  fontSize: '15px',
+                  height: '32px',
+                  paddingLeft: '14px',
+                  paddingRight: '14px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   color: '#FFFFFF',
                   background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                   border: 'none',
-                  borderRadius: '9999px',
-                  boxShadow: '0 4px 8px rgba(88, 166, 255, 0.25)',
+                  borderRadius: '16px',
+                  boxShadow: '0 2px 6px rgba(88, 166, 255, 0.25)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-1px)'
-                  e.target.style.boxShadow = '0 8px 16px rgba(88, 166, 255, 0.3)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 8px rgba(88, 166, 255, 0.25)'
+                  e.target.style.boxShadow = '0 2px 6px rgba(88, 166, 255, 0.25)'
                 }}
               >
                 Get Started
@@ -291,11 +292,11 @@ export default function LandingPage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '44px',
-                height: '44px',
+                width: '36px',
+                height: '36px',
                 background: 'transparent',
                 border: 'none',
-                borderRadius: '22px',
+                borderRadius: '18px',
                 color: '#1A1A1A',
                 cursor: 'pointer',
                 transition: 'background 0.2s ease'
@@ -303,35 +304,35 @@ export default function LandingPage() {
               onMouseEnter={(e) => e.target.style.background = 'rgba(0, 0, 0, 0.04)'}
               onMouseLeave={(e) => e.target.style.background = 'transparent'}
             >
-              <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
+              <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
                 {mobileMenuOpen ? (
-                  <X size={24} strokeWidth={2} />
+                  <X size={20} strokeWidth={2} />
                 ) : (
-                  <Menu size={24} strokeWidth={2} />
+                  <Menu size={20} strokeWidth={2} />
                 )}
               </div>
             </button>
           )}
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Glass Effect */}
         {mobileMenuOpen && isMobile && (
           <div
             style={{
-              background: 'rgba(255, 255, 255, 0.95)',
-              backdropFilter: 'blur(20px) saturate(180%)',
-              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              background: 'rgba(255, 255, 255, 0.5)',
+              backdropFilter: 'blur(40px) saturate(200%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               borderTop: '1px solid rgba(0, 0, 0, 0.06)',
-              padding: '20px'
+              padding: '16px'
             }}
           >
-            <div style={{ marginBottom: '20px' }}>
+            <div style={{ marginBottom: '16px' }}>
               <Link
                 to="/tokenomics"
                 style={{
                   display: 'block',
-                  padding: '12px 0',
-                  fontSize: '17px',
+                  padding: '10px 0',
+                  fontSize: '15px',
                   fontWeight: '500',
                   color: '#1A1A1A',
                   textDecoration: 'none'
@@ -343,8 +344,8 @@ export default function LandingPage() {
                 to="/help"
                 style={{
                   display: 'block',
-                  padding: '12px 0',
-                  fontSize: '17px',
+                  padding: '10px 0',
+                  fontSize: '15px',
                   fontWeight: '500',
                   color: '#1A1A1A',
                   textDecoration: 'none'
@@ -356,8 +357,8 @@ export default function LandingPage() {
                 to="/guidelines"
                 style={{
                   display: 'block',
-                  padding: '12px 0',
-                  fontSize: '17px',
+                  padding: '10px 0',
+                  fontSize: '15px',
                   fontWeight: '500',
                   color: '#1A1A1A',
                   textDecoration: 'none'
@@ -366,21 +367,21 @@ export default function LandingPage() {
                 Community
               </Link>
             </div>
-            <div style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', paddingTop: '20px' }}>
+            <div style={{ borderTop: '1px solid rgba(0, 0, 0, 0.06)', paddingTop: '16px' }}>
               <Link
                 to="/login"
                 style={{
                   display: 'block',
                   textAlign: 'center',
-                  height: '48px',
-                  lineHeight: '48px',
-                  marginBottom: '12px',
-                  fontSize: '17px',
+                  height: '42px',
+                  lineHeight: '42px',
+                  marginBottom: '10px',
+                  fontSize: '15px',
                   fontWeight: '600',
                   color: '#58a6ff',
                   background: '#FFFFFF',
-                  border: '2px solid #58a6ff',
-                  borderRadius: '9999px',
+                  border: '1.5px solid #58a6ff',
+                  borderRadius: '21px',
                   textDecoration: 'none'
                 }}
               >
@@ -391,14 +392,14 @@ export default function LandingPage() {
                 style={{
                   display: 'block',
                   textAlign: 'center',
-                  height: '48px',
-                  lineHeight: '48px',
-                  fontSize: '17px',
+                  height: '42px',
+                  lineHeight: '42px',
+                  fontSize: '15px',
                   fontWeight: '600',
                   color: '#FFFFFF',
                   background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                  borderRadius: '9999px',
-                  boxShadow: '0 4px 8px rgba(88, 166, 255, 0.25)',
+                  borderRadius: '21px',
+                  boxShadow: '0 2px 6px rgba(88, 166, 255, 0.25)',
                   textDecoration: 'none'
                 }}
               >
@@ -410,7 +411,7 @@ export default function LandingPage() {
       </nav>
 
       {/* Main Content */}
-      <div style={{ paddingTop: isMobile ? '56px' : '72px' }}>
+      <div style={{ paddingTop: isMobile ? '52px' : '64px' }}>
         {/* Hero Section */}
         <section
           style={{
@@ -421,17 +422,19 @@ export default function LandingPage() {
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
-            {/* Badge */}
+            {/* Badge - Glass Effect */}
             <div
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
                 marginBottom: '32px',
-                padding: '6px 16px',
+                padding: '6px 14px',
                 background: 'rgba(88, 166, 255, 0.08)',
-                border: '1px solid rgba(88, 166, 255, 0.12)',
-                borderRadius: '9999px'
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                border: '1px solid rgba(88, 166, 255, 0.15)',
+                borderRadius: '20px'
               }}
             >
               <span
@@ -444,7 +447,7 @@ export default function LandingPage() {
               />
               <span
                 style={{
-                  fontSize: '13px',
+                  fontSize: '12px',
                   fontWeight: '600',
                   color: '#58a6ff',
                   letterSpacing: '0.01em'
@@ -496,13 +499,13 @@ export default function LandingPage() {
               <span style={{ color: '#1A1A1A', fontWeight: '600' }}>real ownership</span>.
             </p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Smaller */}
             <div
               style={{
                 display: 'flex',
                 flexDirection: isMobile ? 'column' : 'row',
                 justifyContent: 'center',
-                gap: '16px',
+                gap: '12px',
                 alignItems: 'center'
               }}
             >
@@ -512,33 +515,33 @@ export default function LandingPage() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  gap: '8px',
-                  height: '56px',
-                  paddingLeft: '32px',
-                  paddingRight: '32px',
-                  fontSize: '17px',
+                  gap: '6px',
+                  height: '40px',
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  fontSize: '14px',
                   fontWeight: '600',
                   color: '#FFFFFF',
                   background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                   border: 'none',
-                  borderRadius: '9999px',
-                  boxShadow: '0 4px 16px rgba(88, 166, 255, 0.3)',
+                  borderRadius: '20px',
+                  boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 8px 24px rgba(88, 166, 255, 0.4)'
+                  e.target.style.boxShadow = '0 6px 20px rgba(88, 166, 255, 0.4)'
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 16px rgba(88, 166, 255, 0.3)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
                 }}
               >
                 Get Started Free
-                <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
-                  <ArrowRight size={20} strokeWidth={2.5} />
+                <div style={{ width: '16px', height: '16px', flexShrink: 0 }}>
+                  <ArrowRight size={16} strokeWidth={2.5} />
                 </div>
               </Link>
               <Link
@@ -547,25 +550,27 @@ export default function LandingPage() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '56px',
-                  paddingLeft: '32px',
-                  paddingRight: '32px',
-                  fontSize: '17px',
+                  height: '40px',
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  fontSize: '14px',
                   fontWeight: '600',
                   color: '#1A1A1A',
-                  background: '#FFFFFF',
-                  border: '2px solid rgba(0, 0, 0, 0.08)',
-                  borderRadius: '9999px',
+                  background: 'rgba(255, 255, 255, 0.4)',
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                  border: '1.5px solid rgba(0, 0, 0, 0.08)',
+                  borderRadius: '20px',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(0, 0, 0, 0.02)'
+                  e.target.style.background = 'rgba(255, 255, 255, 0.6)'
                   e.target.style.borderColor = 'rgba(0, 0, 0, 0.12)'
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = '#FFFFFF'
+                  e.target.style.background = 'rgba(255, 255, 255, 0.4)'
                   e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
                 }}
               >
@@ -575,16 +580,18 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Stats Section */}
+        {/* Stats Section - Glass Cards */}
         <section
           style={{
             paddingTop: '60px',
             paddingBottom: '60px',
             paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
             paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px',
-            background: '#FFFFFF',
-            borderTop: '1px solid #E8EAED',
-            borderBottom: '1px solid #E8EAED'
+            background: 'rgba(255, 255, 255, 0.3)',
+            backdropFilter: 'blur(40px) saturate(200%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+            borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+            borderBottom: '1px solid rgba(0, 0, 0, 0.06)'
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -592,7 +599,7 @@ export default function LandingPage() {
               style={{
                 display: 'grid',
                 gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
-                gap: '32px'
+                gap: '24px'
               }}
             >
               {stats.map((stat, i) => (
@@ -600,18 +607,33 @@ export default function LandingPage() {
                   key={i}
                   style={{
                     textAlign: 'center',
-                    padding: '20px'
+                    padding: '24px 16px',
+                    background: 'rgba(255, 255, 255, 0.4)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    borderRadius: '20px',
+                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.08)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
                   }}
                 >
                   <div
                     style={{
-                      fontSize: isDesktop ? '48px' : isTablet ? '40px' : '32px',
+                      fontSize: isDesktop ? '44px' : isTablet ? '36px' : '28px',
                       fontWeight: '700',
                       background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
-                      marginBottom: '8px',
+                      marginBottom: '6px',
                       letterSpacing: '-0.02em'
                     }}
                   >
@@ -619,7 +641,7 @@ export default function LandingPage() {
                   </div>
                   <div
                     style={{
-                      fontSize: '15px',
+                      fontSize: '14px',
                       fontWeight: '500',
                       color: '#666666'
                     }}
@@ -632,7 +654,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Features Section - Glass Cards */}
         <section
           style={{
             paddingTop: isDesktop ? '120px' : isTablet ? '80px' : '60px',
@@ -681,35 +703,37 @@ export default function LandingPage() {
               </p>
             </div>
 
-            {/* Features Grid */}
+            {/* Features Grid - Glass Cards */}
             <div
               style={{
                 display: 'grid',
                 gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-                gap: '24px'
+                gap: '20px'
               }}
             >
               {features.map((feature, i) => (
                 <div
                   key={i}
                   style={{
-                    padding: '32px',
-                    background: '#FFFFFF',
-                    border: '1px solid #E8EAED',
-                    borderRadius: '16px',
-                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
-                    transition: 'all 0.2s ease',
+                    padding: '28px',
+                    background: 'rgba(255, 255, 255, 0.45)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    borderRadius: '20px',
+                    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     cursor: 'pointer'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)'
-                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.12)'
-                    e.currentTarget.style.borderColor = '#D1D5DB'
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12)'
+                    e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.4)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.08)'
-                    e.currentTarget.style.borderColor = '#E8EAED'
+                    e.currentTarget.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.06)'
+                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
                   }}
                 >
                   <div
@@ -717,22 +741,24 @@ export default function LandingPage() {
                       display: 'inline-flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      width: '56px',
-                      height: '56px',
-                      marginBottom: '20px',
-                      background: `${feature.color}10`,
-                      borderRadius: '16px'
+                      width: '52px',
+                      height: '52px',
+                      marginBottom: '18px',
+                      background: `${feature.color}12`,
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                      borderRadius: '14px'
                     }}
                   >
-                    <div style={{ width: '28px', height: '28px', flexShrink: 0, color: feature.color }}>
-                      <feature.icon size={28} strokeWidth={2} />
+                    <div style={{ width: '26px', height: '26px', flexShrink: 0, color: feature.color }}>
+                      <feature.icon size={26} strokeWidth={2} />
                     </div>
                   </div>
                   <h3
                     style={{
-                      fontSize: '20px',
+                      fontSize: '18px',
                       fontWeight: '600',
-                      marginBottom: '12px',
+                      marginBottom: '10px',
                       color: '#1A1A1A',
                       letterSpacing: '-0.01em'
                     }}
@@ -741,7 +767,7 @@ export default function LandingPage() {
                   </h3>
                   <p
                     style={{
-                      fontSize: '16px',
+                      fontSize: '15px',
                       lineHeight: '1.6',
                       color: '#666666',
                       margin: 0
@@ -755,7 +781,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* CTA Section */}
+        {/* CTA Section - Enhanced Glass */}
         <section
           style={{
             paddingTop: isDesktop ? '100px' : isTablet ? '80px' : '60px',
@@ -769,10 +795,13 @@ export default function LandingPage() {
               style={{
                 position: 'relative',
                 overflow: 'hidden',
-                padding: isDesktop ? '80px 60px' : isTablet ? '60px 40px' : '48px 28px',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                padding: isDesktop ? '72px 52px' : isTablet ? '56px 36px' : '44px 24px',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 borderRadius: '24px',
-                boxShadow: '0 20px 60px rgba(88, 166, 255, 0.3)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 20px 60px rgba(88, 166, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                 textAlign: 'center'
               }}
             >
@@ -781,7 +810,7 @@ export default function LandingPage() {
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%)',
+                  background: 'radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%)',
                   pointerEvents: 'none'
                 }}
               />
@@ -789,9 +818,9 @@ export default function LandingPage() {
               <div style={{ position: 'relative', zIndex: 1 }}>
                 <h2
                   style={{
-                    fontSize: isDesktop ? '48px' : isTablet ? '40px' : '32px',
+                    fontSize: isDesktop ? '44px' : isTablet ? '36px' : '28px',
                     fontWeight: '700',
-                    marginBottom: '20px',
+                    marginBottom: '18px',
                     color: '#FFFFFF',
                     letterSpacing: '-0.02em'
                   }}
@@ -802,9 +831,9 @@ export default function LandingPage() {
                   style={{
                     maxWidth: '600px',
                     margin: '0 auto',
-                    fontSize: isDesktop ? '20px' : '18px',
-                    marginBottom: '40px',
-                    color: 'rgba(255, 255, 255, 0.9)',
+                    fontSize: isDesktop ? '18px' : '16px',
+                    marginBottom: '36px',
+                    color: 'rgba(255, 255, 255, 0.95)',
                     lineHeight: '1.6'
                   }}
                 >
@@ -816,16 +845,18 @@ export default function LandingPage() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    gap: '8px',
-                    height: '56px',
-                    paddingLeft: '32px',
-                    paddingRight: '32px',
-                    fontSize: '17px',
+                    gap: '6px',
+                    height: '40px',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    fontSize: '14px',
                     fontWeight: '600',
                     color: '#58a6ff',
-                    background: '#FFFFFF',
-                    border: 'none',
-                    borderRadius: '9999px',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    backdropFilter: 'blur(10px)',
+                    WebkitBackdropFilter: 'blur(10px)',
+                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    borderRadius: '20px',
                     boxShadow: '0 4px 16px rgba(0, 0, 0, 0.15)',
                     textDecoration: 'none',
                     transition: 'all 0.2s ease'
@@ -833,15 +864,17 @@ export default function LandingPage() {
                   onMouseEnter={(e) => {
                     e.target.style.transform = 'translateY(-2px)'
                     e.target.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)'
+                    e.target.style.background = '#FFFFFF'
                   }}
                   onMouseLeave={(e) => {
                     e.target.style.transform = 'translateY(0)'
                     e.target.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.15)'
+                    e.target.style.background = 'rgba(255, 255, 255, 0.95)'
                   }}
                 >
                   Get Started Free
-                  <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
-                    <ArrowRight size={20} strokeWidth={2.5} />
+                  <div style={{ width: '16px', height: '16px', flexShrink: 0 }}>
+                    <ArrowRight size={16} strokeWidth={2.5} />
                   </div>
                 </Link>
               </div>
@@ -849,15 +882,17 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Footer */}
+        {/* Footer - Glass Effect */}
         <footer
           style={{
             paddingTop: '60px',
             paddingBottom: '40px',
             paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
             paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px',
-            background: '#FFFFFF',
-            borderTop: '1px solid #E8EAED'
+            background: 'rgba(255, 255, 255, 0.4)',
+            backdropFilter: 'blur(40px) saturate(200%)',
+            WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+            borderTop: '1px solid rgba(0, 0, 0, 0.06)'
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -969,7 +1004,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 gap: '16px',
                 paddingTop: '32px',
-                borderTop: '1px solid #E8EAED'
+                borderTop: '1px solid rgba(0, 0, 0, 0.06)'
               }}
             >
               <p

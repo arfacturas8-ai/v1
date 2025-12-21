@@ -95,16 +95,26 @@ const CommunityStorePage = () => {
           </div>
 
           <div style={{
-            background: '#FFFFFF',
+            background: 'rgba(255, 255, 255, 0.65)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
             borderRadius: '24px',
             padding: isMobile ? '20px' : '24px',
             textAlign: 'center',
-            border: '1px solid #E8EAED',
+            border: '1px solid rgba(255, 255, 255, 0.3)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
             transition: 'all 0.2s ease'
           }}
-          onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-4px)'}
-          onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)'
+            e.currentTarget.style.boxShadow = '0 12px 40px rgba(16, 185, 129, 0.15)'
+            e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.5)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.08)'
+            e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
+          }}
           >
             <div style={{
               width: '64px',
