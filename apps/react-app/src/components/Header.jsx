@@ -109,13 +109,11 @@ function Header() {
 
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? ' border-b'
-          : 'bg-transparent'
-      }`} style={isScrolled ? { background: 'rgba(248, 249, 250, 0.8)', borderColor: 'var(--border-subtle)' } : {}}>
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-white border-b ${
+        isScrolled ? 'shadow-sm' : ''
+      }`} style={{ borderColor: 'var(--border-subtle)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16 sm:h-16">
             {/* Logo */}
             <Link to="/home" className="flex items-center gap-2">
               <span className="text-xl sm:text-2xl font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
@@ -147,9 +145,11 @@ function Header() {
             </nav>
 
             {/* Desktop Search */}
-            <form onSubmit={handleSearch} className="hidden lg:block flex-1 max-w-md mx-8">
-              <div className="relative">
-                <Search style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-secondary)'}} />
+            <form onSubmit={handleSearch} className="hidden lg:flex flex-1 max-w-md mx-8">
+              <div className="relative w-full flex items-center">
+                <div className="absolute left-3 flex items-center justify-center pointer-events-none">
+                  <Search style={{width: "18px", height: "18px", flexShrink: 0, color: 'var(--text-secondary)'}} />
+                </div>
                 <input
                   type="search"
                   placeholder="Search CRYB..."
@@ -169,14 +169,15 @@ function Header() {
                   <div className="relative" ref={notificationRef}>
                     <button
                       onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-                      style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)'}}
+                      className="flex items-center justify-center w-10 h-10 rounded-lg hover:bg-[#F8F9FA] transition-colors relative"
                       aria-label="Notifications"
+                      style={{color: 'var(--text-secondary)'}}
                       onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
                       onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                     >
-                      <Bell size={18} />
+                      <Bell size={20} />
                       {unreadCount > 0 && (
-                        <span style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}}>
+                        <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-[18px] px-1 text-xs font-semibold text-white bg-[#ef4444] rounded-full">
                           {unreadCount}
                         </span>
                       )}
@@ -233,9 +234,9 @@ function Header() {
                   {/* Create Button - Desktop */}
                   <button
                     onClick={() => navigate('/submit')}
-                    style={{color: "var(--text-primary)"}} className="hidden sm:flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
+                    className="hidden sm:flex items-center justify-center gap-2 h-10 px-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg text-sm font-semibold transition-all"
                   >
-                    <Plus size={16} />
+                    <Plus size={18} />
                     <span>Create</span>
                   </button>
 
@@ -243,20 +244,20 @@ function Header() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      className="flex items-center gap-2 p-1 pr-2 bg-white border rounded-lg hover:border-[#58a6ff]/30 transition-all"
+                      className="flex items-center gap-2 h-10 p-1 pr-3 bg-white border rounded-lg hover:border-[#58a6ff]/30 transition-all"
                       style={{ borderColor: 'var(--border-subtle)' }}
                     >
-                      <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
+                      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white text-sm font-semibold flex-shrink-0">
                         {user?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
-                      <ChevronDown size={14} className="hidden sm:block" style={{ color: 'var(--text-secondary)' }} />
+                      <ChevronDown size={16} className="hidden sm:block" style={{ color: 'var(--text-secondary)' }} />
                     </button>
 
                     {isUserMenuOpen && (
                       <div className="absolute right-0 mt-2 w-56 bg-white  border rounded-xl overflow-hidden" style={{ borderColor: 'var(--border-subtle)', boxShadow: '0 8px 32px rgba(0,0,0,0.1)' }}>
                         <div className="p-4 border-b" style={{ borderColor: 'var(--border-subtle)' }}>
                           <div className="flex items-center gap-3">
-                            <div style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}>
+                            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white font-semibold flex-shrink-0">
                               {user?.username?.charAt(0).toUpperCase() || 'U'}
                             </div>
                             <div className="min-w-0">
@@ -310,11 +311,12 @@ function Header() {
                   {/* Mobile Menu Button */}
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-secondary)', borderColor: 'var(--border-subtle)'}}
+                    className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg hover:bg-[#F8F9FA] transition-colors"
+                    style={{color: 'var(--text-secondary)'}}
                     onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
                     onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
                   >
-                    {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                    {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
                   </button>
                 </>
               ) : (
@@ -344,8 +346,10 @@ function Header() {
             <div className="p-4 space-y-2">
               {/* Mobile Search */}
               <form onSubmit={handleSearch} className="mb-4">
-                <div className="relative">
-                  <Search style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-secondary)'}} />
+                <div className="relative flex items-center">
+                  <div className="absolute left-3 flex items-center justify-center pointer-events-none">
+                    <Search style={{width: "18px", height: "18px", flexShrink: 0, color: 'var(--text-secondary)'}} />
+                  </div>
                   <input
                     type="search"
                     placeholder="Search CRYB..."
