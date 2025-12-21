@@ -216,39 +216,57 @@ export class EnhancedEmailService {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{subject}}</title>
 </head>
-<body style="font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0;">
-        <h1 style="color: white; margin: 0; font-size: 32px; font-weight: 700;">Welcome to {{appName}}!</h1>
-        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">Let's verify your email address</p>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-        <h2 style="color: #333; margin-bottom: 20px; font-size: 24px;">Hi {{username}}! 👋</h2>
-        
-        <p style="font-size: 16px; line-height: 1.8;">Thanks for joining {{appName}}! We're excited to have you on board. Please verify your email address to complete your registration and unlock all features.</p>
-        
-        <div style="text-align: center; margin: 35px 0;">
-            <a href="{{verificationUrl}}" 
-               style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; font-size: 16px; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);">
-                ✨ Verify Email Address
-            </a>
-        </div>
-        
-        <p style="font-size: 14px; color: #666;">If the button doesn't work, copy and paste this link:</p>
-        <p style="word-break: break-all; color: #667eea; background: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 14px;">{{verificationUrl}}</p>
-        
-        <div style="margin-top: 35px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #667eea;">
-            <p style="margin: 0; font-size: 14px; color: #666;">
-                ⏰ This verification link will expire in {{expirationHours}} hours.<br>
-                🔒 If you didn't create an account, you can safely ignore this email.
-            </p>
-        </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; color: #999; font-size: 12px;">
-        <p>&copy; {{year}} {{appName}}. All rights reserved.</p>
-        <p><a href="{{unsubscribeUrl}}" style="color: #999;">Unsubscribe</a> | <a href="{{supportUrl}}" style="color: #999;">Support</a></p>
-    </div>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: #1A1A1A; background-color: #F8F9FA; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F8F9FA; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
+                    <tr>
+                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Welcome to {{appName}}!</h1>
+                            <p style="color: rgba(255,255,255,0.95); margin: 6px 0 0 0; font-size: 13px; font-weight: 500;">Let's verify your email address</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 32px;">
+                            <h2 style="color: #1A1A1A; margin: 0 0 12px 0; font-size: 22px; font-weight: 600;">Hi {{username}}!</h2>
+
+                            <p style="font-size: 15px; line-height: 1.6; color: #666666; margin: 0 0 20px 0;">Thanks for joining {{appName}}! Please verify your email address to complete your registration and unlock all features.</p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin: 28px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="{{verificationUrl}}"
+                                           style="display: inline-block; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
+                                            Verify Email Address
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="font-size: 13px; color: #666666; margin: 0 0 8px 0;">If the button doesn't work, copy and paste this link:</p>
+                            <p style="word-break: break-all; color: #58a6ff; background: rgba(88, 166, 255, 0.06); padding: 20px; border-radius: 12px; font-size: 13px; margin: 0 0 24px 0; border: 1px solid rgba(88, 166, 255, 0.12); font-weight: 500;">{{verificationUrl}}</p>
+
+                            <div style="padding: 20px; background: rgba(88, 166, 255, 0.06); border-radius: 12px; border-left: 3px solid #58a6ff; border: 1px solid rgba(88, 166, 255, 0.12);">
+                                <p style="margin: 0; font-size: 13px; color: #666666; line-height: 1.6;">
+                                    This verification link will expire in {{expirationHours}} hours.<br>
+                                    If you didn't create an account, you can safely ignore this email.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 24px 32px; border-top: 1px solid rgba(0, 0, 0, 0.06); text-align: center;">
+                            <p style="margin: 0 0 6px 0; color: #999999; font-size: 13px;">&copy; {{year}} {{appName}}. All rights reserved.</p>
+                            <p style="margin: 0; color: #CCCCCC; font-size: 12px;"><a href="{{unsubscribeUrl}}" style="color: #999999; text-decoration: none;">Unsubscribe</a> | <a href="{{supportUrl}}" style="color: #999999; text-decoration: none;">Support</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>`
       },
@@ -266,52 +284,70 @@ export class EnhancedEmailService {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{subject}}</title>
 </head>
-<body style="font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0;">
-        <h1 style="color: white; margin: 0; font-size: 32px; font-weight: 700;">🔐 Password Reset</h1>
-        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">Secure your account</p>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-        <h2 style="color: #333; margin-bottom: 20px; font-size: 24px;">Hi {{username}},</h2>
-        
-        <p style="font-size: 16px; line-height: 1.8;">We received a request to reset your password for your {{appName}} account. If you made this request, click the button below to create a new password.</p>
-        
-        <div style="text-align: center; margin: 35px 0;">
-            <a href="{{resetUrl}}" 
-               style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; font-size: 16px; box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);">
-                🔑 Reset Password
-            </a>
-        </div>
-        
-        <p style="font-size: 14px; color: #666;">If the button doesn't work, copy and paste this link:</p>
-        <p style="word-break: break-all; color: #f5576c; background: #f8f9fa; padding: 12px; border-radius: 6px; font-size: 14px;">{{resetUrl}}</p>
-        
-        <div style="margin-top: 35px; padding: 20px; background: #fff3f3; border-radius: 8px; border-left: 4px solid #f5576c;">
-            <p style="margin: 0; font-size: 14px; color: #666;">
-                ⏰ This reset link will expire in {{expirationHours}} hour.<br>
-                🌍 Request made from IP: {{ipAddress}}<br>
-                🚫 If you didn't request this, please contact our support team immediately.
-            </p>
-        </div>
-        
-        <div style="margin-top: 25px; padding: 15px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">
-            <p style="margin: 0; font-size: 14px; color: #0c4a6e;">
-                💡 <strong>Security Tip:</strong> Choose a strong, unique password and consider enabling two-factor authentication for extra security.
-            </p>
-        </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; color: #999; font-size: 12px;">
-        <p>&copy; {{year}} {{appName}}. All rights reserved.</p>
-        <p><a href="{{supportUrl}}" style="color: #999;">Contact Support</a> | <a href="{{securityUrl}}" style="color: #999;">Security Center</a></p>
-    </div>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: #1A1A1A; background-color: #F8F9FA; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F8F9FA; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
+                    <tr>
+                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Password Reset</h1>
+                            <p style="color: rgba(255,255,255,0.95); margin: 6px 0 0 0; font-size: 13px; font-weight: 500;">Secure your account</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 32px;">
+                            <h2 style="color: #1A1A1A; margin: 0 0 12px 0; font-size: 22px; font-weight: 600;">Hi {{username}},</h2>
+
+                            <p style="font-size: 15px; line-height: 1.6; color: #666666; margin: 0 0 28px 0;">We received a request to reset your password for your {{appName}} account. If you made this request, click the button below to create a new password.</p>
+
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 28px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="{{resetUrl}}"
+                                           style="display: inline-block; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
+                                            Reset Password
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="font-size: 13px; color: #666666; margin: 0 0 8px 0;">If the button doesn't work, copy and paste this link:</p>
+                            <p style="word-break: break-all; color: #58a6ff; background: rgba(88, 166, 255, 0.06); padding: 20px; border-radius: 12px; font-size: 13px; margin: 0 0 24px 0; border: 1px solid rgba(88, 166, 255, 0.12); font-weight: 500;">{{resetUrl}}</p>
+
+                            <div style="padding: 20px; background: rgba(255, 59, 48, 0.08); border-radius: 12px; border-left: 3px solid #ff3b30; margin-bottom: 16px;">
+                                <p style="margin: 0; font-size: 13px; color: #666666; line-height: 1.6;">
+                                    This reset link will expire in {{expirationHours}} hour.<br>
+                                    Request made from IP: {{ipAddress}}<br>
+                                    If you didn't request this, please contact our support team immediately.
+                                </p>
+                            </div>
+
+                            <div style="padding: 16px; background: rgba(88, 166, 255, 0.06); border-radius: 12px; border-left: 3px solid #58a6ff; border: 1px solid rgba(88, 166, 255, 0.12);">
+                                <p style="margin: 0; font-size: 13px; color: #666666; line-height: 1.5;">
+                                    <strong style="color: #1A1A1A;">Security Tip:</strong> Choose a strong, unique password and consider enabling two-factor authentication for extra security.
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 24px 32px; border-top: 1px solid rgba(0, 0, 0, 0.06); text-align: center;">
+                            <p style="margin: 0 0 6px 0; color: #999999; font-size: 13px;">&copy; {{year}} {{appName}}. All rights reserved.</p>
+                            <p style="margin: 0; color: #CCCCCC; font-size: 12px;"><a href="{{supportUrl}}" style="color: #999999; text-decoration: none;">Contact Support</a> | <a href="{{securityUrl}}" style="color: #999999; text-decoration: none;">Security Center</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>`
       },
 
       welcome: {
-        subject: 'Welcome to {{appName}} - Let\'s get started! 🎉',
+        subject: 'Welcome to {{appName}}!',
         variables: ['username', 'appName', 'appUrl', 'profileUrl', 'helpUrl'],
         category: 'onboarding',
         tags: ['welcome', 'onboarding'],
@@ -323,50 +359,68 @@ export class EnhancedEmailService {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{subject}}</title>
 </head>
-<body style="font-family: system-ui, -apple-system, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0;">
-        <h1 style="color: white; margin: 0; font-size: 32px; font-weight: 700;">🎉 Welcome to {{appName}}!</h1>
-        <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 16px;">Your journey starts here</p>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: 0 0 12px 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-        <h2 style="color: #333; margin-bottom: 20px; font-size: 24px;">Hi {{username}}! 👋</h2>
-        
-        <p style="font-size: 16px; line-height: 1.8;">Your email has been verified and your {{appName}} account is now active! We're thrilled to have you join our community.</p>
-        
-        <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; margin: 30px 0;">
-            <h3 style="color: #333; margin-top: 0; font-size: 20px;">🚀 Let's get you started:</h3>
-            <ul style="color: #666; margin: 0; padding-left: 20px;">
-                <li style="margin: 8px 0;">✨ <strong>Complete your profile</strong> - Add a photo and tell us about yourself</li>
-                <li style="margin: 8px 0;">🏠 <strong>Join your first server</strong> - Find communities that match your interests</li>
-                <li style="margin: 8px 0;">🔍 <strong>Discover new content</strong> - Explore trending posts and discussions</li>
-                <li style="margin: 8px 0;">👥 <strong>Connect with friends</strong> - Start building your network</li>
-            </ul>
-        </div>
-        
-        <div style="text-align: center; margin: 35px 0;">
-            <a href="{{appUrl}}" 
-               style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; font-size: 16px; box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4); margin: 0 8px 8px 8px;">
-                🎯 Get Started
-            </a>
-            <a href="{{profileUrl}}" 
-               style="background: transparent; color: #4facfe; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; display: inline-block; font-size: 16px; border: 2px solid #4facfe; margin: 0 8px 8px 8px;">
-                ⚙️ Complete Profile
-            </a>
-        </div>
-        
-        <div style="margin-top: 35px; padding: 20px; background: #f0f9ff; border-radius: 8px; border-left: 4px solid #0ea5e9;">
-            <p style="margin: 0; font-size: 14px; color: #0c4a6e;">
-                💬 <strong>Need help getting started?</strong><br>
-                Check out our <a href="{{helpUrl}}" style="color: #0ea5e9;">Getting Started Guide</a> or reach out to our friendly support team anytime!
-            </p>
-        </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; color: #999; font-size: 12px;">
-        <p>&copy; {{year}} {{appName}}. All rights reserved.</p>
-        <p><a href="{{helpUrl}}" style="color: #999;">Help Center</a> | <a href="{{unsubscribeUrl}}" style="color: #999;">Unsubscribe</a></p>
-    </div>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; line-height: 1.6; color: #1A1A1A; background-color: #F8F9FA; margin: 0; padding: 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F8F9FA; padding: 40px 20px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
+                    <tr>
+                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Welcome to {{appName}}!</h1>
+                            <p style="color: rgba(255,255,255,0.95); margin: 6px 0 0 0; font-size: 13px; font-weight: 500;">Your journey starts here</p>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 32px;">
+                            <h2 style="color: #1A1A1A; margin: 0 0 12px 0; font-size: 22px; font-weight: 600;">Hi {{username}}!</h2>
+
+                            <p style="font-size: 15px; line-height: 1.6; color: #666666; margin: 0 0 24px 0;">Your email has been verified and your {{appName}} account is now active! We're thrilled to have you join our community.</p>
+
+                            <div style="background: rgba(88, 166, 255, 0.06); padding: 20px; border-radius: 12px; margin: 0 0 28px 0; border: 1px solid rgba(88, 166, 255, 0.12);">
+                                <h3 style="color: #1A1A1A; margin: 0 0 12px 0; font-size: 16px; font-weight: 600;">Let's get you started:</h3>
+                                <p style="color: #666666; margin: 0; padding-left: 0; font-size: 14px; line-height: 1.7;">
+                                    ✓ Complete your profile<br>
+                                    ✓ Join your first community<br>
+                                    ✓ Discover new content<br>
+                                    ✓ Connect with friends
+                                </p>
+                            </div>
+
+                            <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
+                                <tr>
+                                    <td align="center">
+                                        <a href="{{appUrl}}"
+                                           style="display: inline-block; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25); margin: 0 4px;">
+                                            Get Started
+                                        </a>
+                                        <a href="{{profileUrl}}"
+                                           style="display: inline-block; background: transparent; color: #58a6ff; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; border: 2px solid #58a6ff; margin: 0 4px;">
+                                            Complete Profile
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <div style="padding: 16px; background: rgba(88, 166, 255, 0.06); border-radius: 12px; border-left: 3px solid #58a6ff; border: 1px solid rgba(88, 166, 255, 0.12);">
+                                <p style="margin: 0; font-size: 13px; color: #666666; line-height: 1.5;">
+                                    <strong style="color: #1A1A1A;">Need help getting started?</strong><br>
+                                    Check out our <a href="{{helpUrl}}" style="color: #58a6ff; text-decoration: none; font-weight: 500;">Getting Started Guide</a> or reach out to our support team anytime!
+                                </p>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 24px 32px; border-top: 1px solid rgba(0, 0, 0, 0.06); text-align: center;">
+                            <p style="margin: 0 0 6px 0; color: #999999; font-size: 13px;">&copy; {{year}} {{appName}}. All rights reserved.</p>
+                            <p style="margin: 0; color: #CCCCCC; font-size: 12px;"><a href="{{helpUrl}}" style="color: #999999; text-decoration: none;">Help Center</a> | <a href="{{unsubscribeUrl}}" style="color: #999999; text-decoration: none;">Unsubscribe</a></p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>`
       }

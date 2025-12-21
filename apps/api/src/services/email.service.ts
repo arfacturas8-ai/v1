@@ -84,7 +84,7 @@ export class EmailService {
     const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}`;
 
     return {
-      subject: 'Verify your CRYB account 🎉',
+      subject: 'Verify your CRYB account',
       html: `
         <!DOCTYPE html>
         <html>
@@ -92,27 +92,27 @@ export class EmailService {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body style="margin: 0; padding: 0; background-color: #0A0A0B; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0A0A0B; padding: 40px 20px;">
+        <body style="margin: 0; padding: 0; background-color: #F8F9FA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F8F9FA; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table width="600" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #1A1A1B 0%, #2A2A2B 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+                <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
-                      <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
-                      <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500;">Next-Generation Community Platform</p>
+                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                      <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
+                      <p style="margin: 6px 0 0; color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
                   </tr>
 
                   <!-- Content -->
                   <tr>
-                    <td style="padding: 40px;">
-                      <h2 style="margin: 0 0 16px; color: #ffffff; font-size: 24px; font-weight: 600;">Welcome to CRYB, ${username}! 🎉</h2>
-                      <p style="margin: 0 0 24px; color: #b4b4b5; font-size: 16px; line-height: 1.6;">
+                    <td style="padding: 32px;">
+                      <h2 style="margin: 0 0 12px; color: #1A1A1A; font-size: 22px; font-weight: 600;">Welcome to CRYB, ${username}!</h2>
+                      <p style="margin: 0 0 20px; color: #666666; font-size: 15px; line-height: 1.6;">
                         You're just one step away from joining the next-generation community platform where conversations come alive.
                       </p>
-                      <p style="margin: 0 0 32px; color: #b4b4b5; font-size: 16px; line-height: 1.6;">
+                      <p style="margin: 0 0 28px; color: #666666; font-size: 15px; line-height: 1.6;">
                         Click the button below to verify your email address and complete your registration:
                       </p>
 
@@ -120,7 +120,7 @@ export class EmailService {
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
                           <td align="center">
-                            <a href="${verificationUrl}" style="display: inline-block; padding: 16px 48px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 16px; font-weight: 600; box-shadow: 0 8px 24px rgba(88, 166, 255, 0.3);">
+                            <a href="${verificationUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                               Verify Email Address
                             </a>
                           </td>
@@ -128,25 +128,25 @@ export class EmailService {
                       </table>
 
                       <!-- Alternative Link -->
-                      <p style="margin: 32px 0 0; padding: 24px; background: rgba(255,255,255,0.03); border-radius: 8px; color: #7e7e80; font-size: 14px; line-height: 1.6;">
+                      <p style="margin: 28px 0 0; padding: 20px; background: rgba(88, 166, 255, 0.06); border-radius: 12px; color: #666666; font-size: 13px; line-height: 1.6; border: 1px solid rgba(88, 166, 255, 0.12);">
                         Or copy and paste this link into your browser:<br>
-                        <span style="color: #58a6ff; word-break: break-all;">${verificationUrl}</span>
+                        <span style="color: #58a6ff; word-break: break-all; font-weight: 500;">${verificationUrl}</span>
                       </p>
 
                       <!-- Security Notice -->
-                      <p style="margin: 24px 0 0; color: #7e7e80; font-size: 13px; line-height: 1.5;">
-                        🔒 This verification link expires in 24 hours for your security.
+                      <p style="margin: 20px 0 0; color: #999999; font-size: 13px; line-height: 1.5;">
+                        This verification link expires in 24 hours for your security.
                       </p>
                     </td>
                   </tr>
 
                   <!-- Footer -->
                   <tr>
-                    <td style="padding: 30px 40px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-                      <p style="margin: 0 0 8px; color: #7e7e80; font-size: 13px;">
+                    <td style="padding: 24px 32px; border-top: 1px solid rgba(0, 0, 0, 0.06); text-align: center;">
+                      <p style="margin: 0 0 6px; color: #999999; font-size: 13px;">
                         © 2024 CRYB Platform. All rights reserved.
                       </p>
-                      <p style="margin: 0; color: #7e7e80; font-size: 12px;">
+                      <p style="margin: 0; color: #CCCCCC; font-size: 12px;">
                         Didn't create this account? You can safely ignore this email.
                       </p>
                     </td>
@@ -166,7 +166,7 @@ export class EmailService {
     const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset-password?token=${token}`;
 
     return {
-      subject: 'Reset your CRYB password 🔐',
+      subject: 'Reset your CRYB password',
       html: `
         <!DOCTYPE html>
         <html>
@@ -174,27 +174,27 @@ export class EmailService {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body style="margin: 0; padding: 0; background-color: #0A0A0B; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0A0A0B; padding: 40px 20px;">
+        <body style="margin: 0; padding: 0; background-color: #F8F9FA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F8F9FA; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table width="600" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #1A1A1B 0%, #2A2A2B 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+                <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
-                      <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
-                      <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500;">Next-Generation Community Platform</p>
+                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                      <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
+                      <p style="margin: 6px 0 0; color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
                   </tr>
 
                   <!-- Content -->
                   <tr>
-                    <td style="padding: 40px;">
-                      <h2 style="margin: 0 0 16px; color: #ffffff; font-size: 24px; font-weight: 600;">Password Reset Request 🔐</h2>
-                      <p style="margin: 0 0 24px; color: #b4b4b5; font-size: 16px; line-height: 1.6;">
+                    <td style="padding: 32px;">
+                      <h2 style="margin: 0 0 12px; color: #1A1A1A; font-size: 22px; font-weight: 600;">Password Reset Request</h2>
+                      <p style="margin: 0 0 20px; color: #666666; font-size: 15px; line-height: 1.6;">
                         Hi ${username},
                       </p>
-                      <p style="margin: 0 0 24px; color: #b4b4b5; font-size: 16px; line-height: 1.6;">
+                      <p style="margin: 0 0 28px; color: #666666; font-size: 15px; line-height: 1.6;">
                         We received a request to reset your password. Click the button below to create a new password for your account:
                       </p>
 
@@ -202,7 +202,7 @@ export class EmailService {
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
                           <td align="center">
-                            <a href="${resetUrl}" style="display: inline-block; padding: 16px 48px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 16px; font-weight: 600; box-shadow: 0 8px 24px rgba(88, 166, 255, 0.3);">
+                            <a href="${resetUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                               Reset Password
                             </a>
                           </td>
@@ -210,17 +210,17 @@ export class EmailService {
                       </table>
 
                       <!-- Alternative Link -->
-                      <p style="margin: 32px 0 0; padding: 24px; background: rgba(255,255,255,0.03); border-radius: 8px; color: #7e7e80; font-size: 14px; line-height: 1.6;">
+                      <p style="margin: 28px 0 0; padding: 20px; background: rgba(88, 166, 255, 0.06); border-radius: 12px; color: #666666; font-size: 13px; line-height: 1.6; border: 1px solid rgba(88, 166, 255, 0.12);">
                         Or copy and paste this link into your browser:<br>
-                        <span style="color: #58a6ff; word-break: break-all;">${resetUrl}</span>
+                        <span style="color: #58a6ff; word-break: break-all; font-weight: 500;">${resetUrl}</span>
                       </p>
 
                       <!-- Security Notice -->
-                      <div style="margin: 24px 0 0; padding: 20px; background: rgba(255, 59, 48, 0.1); border-left: 4px solid #ff3b30; border-radius: 8px;">
-                        <p style="margin: 0 0 8px; color: #ff6b6b; font-size: 14px; font-weight: 600;">
-                          ⚠️ Important Security Information
+                      <div style="margin: 24px 0 0; padding: 20px; background: rgba(255, 59, 48, 0.08); border-left: 3px solid #ff3b30; border-radius: 12px;">
+                        <p style="margin: 0 0 8px; color: #ff3b30; font-size: 14px; font-weight: 600;">
+                          Important Security Information
                         </p>
-                        <p style="margin: 0; color: #b4b4b5; font-size: 13px; line-height: 1.5;">
+                        <p style="margin: 0; color: #666666; font-size: 13px; line-height: 1.5;">
                           This password reset link expires in 1 hour for your security.<br>
                           If you didn't request this password reset, please ignore this email and your password will remain unchanged.
                         </p>
@@ -230,11 +230,11 @@ export class EmailService {
 
                   <!-- Footer -->
                   <tr>
-                    <td style="padding: 30px 40px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-                      <p style="margin: 0 0 8px; color: #7e7e80; font-size: 13px;">
+                    <td style="padding: 24px 32px; border-top: 1px solid rgba(0, 0, 0, 0.06); text-align: center;">
+                      <p style="margin: 0 0 6px; color: #999999; font-size: 13px;">
                         © 2024 CRYB Platform. All rights reserved.
                       </p>
-                      <p style="margin: 0; color: #7e7e80; font-size: 12px;">
+                      <p style="margin: 0; color: #CCCCCC; font-size: 12px;">
                         This is an automated security email. Please do not reply.
                       </p>
                     </td>
@@ -254,7 +254,7 @@ export class EmailService {
     const platformUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://platform.cryb.ai';
 
     return {
-      subject: 'Welcome to CRYB! Your journey begins now 🚀',
+      subject: 'Welcome to CRYB!',
       html: `
         <!DOCTYPE html>
         <html>
@@ -262,53 +262,53 @@ export class EmailService {
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
-        <body style="margin: 0; padding: 0; background-color: #0A0A0B; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;">
-          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0A0A0B; padding: 40px 20px;">
+        <body style="margin: 0; padding: 0; background-color: #F8F9FA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;">
+          <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #F8F9FA; padding: 40px 20px;">
             <tr>
               <td align="center">
-                <table width="600" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #1A1A1B 0%, #2A2A2B 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
+                <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
-                      <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
-                      <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500;">Next-Generation Community Platform</p>
+                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                      <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
+                      <p style="margin: 6px 0 0; color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
                   </tr>
 
                   <!-- Content -->
                   <tr>
-                    <td style="padding: 40px;">
-                      <h2 style="margin: 0 0 16px; color: #ffffff; font-size: 28px; font-weight: 600;">Welcome to CRYB, ${username}! 🚀</h2>
-                      <p style="margin: 0 0 24px; color: #b4b4b5; font-size: 16px; line-height: 1.6;">
+                    <td style="padding: 32px;">
+                      <h2 style="margin: 0 0 12px; color: #1A1A1A; font-size: 24px; font-weight: 600;">Welcome to CRYB, ${username}!</h2>
+                      <p style="margin: 0 0 24px; color: #666666; font-size: 15px; line-height: 1.6;">
                         Your account is now fully activated! You're now part of a next-generation community platform where conversations come alive and connections are real.
                       </p>
 
                       <!-- Features Grid -->
-                      <div style="margin: 32px 0;">
+                      <div style="margin: 28px 0;">
                         <table width="100%" cellpadding="0" cellspacing="0">
                           <tr>
-                            <td style="padding: 16px; background: rgba(88, 166, 255, 0.1); border-radius: 12px; border-left: 4px solid #58a6ff;">
-                              <p style="margin: 0 0 8px; color: #58a6ff; font-size: 18px; font-weight: 600;">💬 Join Communities</p>
-                              <p style="margin: 0; color: #b4b4b5; font-size: 14px; line-height: 1.5;">
-                                Discover and join communities that match your interests. From gaming to art, tech to finance - there's something for everyone!
+                            <td style="padding: 16px; background: rgba(88, 166, 255, 0.08); border-radius: 12px; border-left: 3px solid #58a6ff;">
+                              <p style="margin: 0 0 6px; color: #58a6ff; font-size: 16px; font-weight: 600;">Join Communities</p>
+                              <p style="margin: 0; color: #666666; font-size: 14px; line-height: 1.5;">
+                                Discover and join communities that match your interests.
                               </p>
                             </td>
                           </tr>
-                          <tr><td style="height: 16px;"></td></tr>
+                          <tr><td style="height: 12px;"></td></tr>
                           <tr>
-                            <td style="padding: 16px; background: rgba(163, 113, 247, 0.1); border-radius: 12px; border-left: 4px solid #a371f7;">
-                              <p style="margin: 0 0 8px; color: #a371f7; font-size: 18px; font-weight: 600;">💰 Web3 Integration</p>
-                              <p style="margin: 0; color: #b4b4b5; font-size: 14px; line-height: 1.5;">
-                                Connect your crypto wallet, send tips, trade NFTs, and participate in token-gated communities. The future is here!
+                            <td style="padding: 16px; background: rgba(163, 113, 247, 0.08); border-radius: 12px; border-left: 3px solid #a371f7;">
+                              <p style="margin: 0 0 6px; color: #a371f7; font-size: 16px; font-weight: 600;">Web3 Integration</p>
+                              <p style="margin: 0; color: #666666; font-size: 14px; line-height: 1.5;">
+                                Connect your wallet, send tips, and access Web3 features.
                               </p>
                             </td>
                           </tr>
-                          <tr><td style="height: 16px;"></td></tr>
+                          <tr><td style="height: 12px;"></td></tr>
                           <tr>
-                            <td style="padding: 16px; background: rgba(52, 211, 153, 0.1); border-radius: 12px; border-left: 4px solid #34d399;">
-                              <p style="margin: 0 0 8px; color: #34d399; font-size: 18px; font-weight: 600;">🎤 Voice & Video</p>
-                              <p style="margin: 0; color: #b4b4b5; font-size: 14px; line-height: 1.5;">
-                                Join voice channels, start video calls, and connect with your community in real-time. Face-to-face conversations made easy!
+                            <td style="padding: 16px; background: rgba(52, 211, 153, 0.08); border-radius: 12px; border-left: 3px solid #34d399;">
+                              <p style="margin: 0 0 6px; color: #34d399; font-size: 16px; font-weight: 600;">Voice & Video</p>
+                              <p style="margin: 0; color: #666666; font-size: 14px; line-height: 1.5;">
+                                Join voice channels and connect in real-time.
                               </p>
                             </td>
                           </tr>
@@ -316,10 +316,10 @@ export class EmailService {
                       </div>
 
                       <!-- CTA Button -->
-                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 32px;">
+                      <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 28px;">
                         <tr>
                           <td align="center">
-                            <a href="${platformUrl}" style="display: inline-block; padding: 16px 48px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 16px; font-weight: 600; box-shadow: 0 8px 24px rgba(88, 166, 255, 0.3);">
+                            <a href="${platformUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                               Explore CRYB Now
                             </a>
                           </td>
@@ -327,16 +327,15 @@ export class EmailService {
                       </table>
 
                       <!-- Tips -->
-                      <div style="margin: 32px 0 0; padding: 24px; background: rgba(255,255,255,0.03); border-radius: 12px;">
-                        <p style="margin: 0 0 12px; color: #ffffff; font-size: 16px; font-weight: 600;">
+                      <div style="margin: 28px 0 0; padding: 20px; background: rgba(88, 166, 255, 0.06); border-radius: 12px; border: 1px solid rgba(88, 166, 255, 0.12);">
+                        <p style="margin: 0 0 10px; color: #1A1A1A; font-size: 15px; font-weight: 600;">
                           Quick Tips to Get Started:
                         </p>
-                        <p style="margin: 0; color: #b4b4b5; font-size: 14px; line-height: 1.8;">
+                        <p style="margin: 0; color: #666666; font-size: 13px; line-height: 1.7;">
                           ✓ Complete your profile and add a profile picture<br>
                           ✓ Explore trending communities and join your favorites<br>
                           ✓ Share your first post and connect with others<br>
-                          ✓ Enable notifications to stay updated<br>
-                          ✓ Connect your wallet to access Web3 features
+                          ✓ Enable notifications to stay updated
                         </p>
                       </div>
                     </td>
@@ -344,11 +343,11 @@ export class EmailService {
 
                   <!-- Footer -->
                   <tr>
-                    <td style="padding: 30px 40px; border-top: 1px solid rgba(255,255,255,0.1); text-align: center;">
-                      <p style="margin: 0 0 8px; color: #7e7e80; font-size: 13px;">
+                    <td style="padding: 24px 32px; border-top: 1px solid rgba(0, 0, 0, 0.06); text-align: center;">
+                      <p style="margin: 0 0 6px; color: #999999; font-size: 13px;">
                         © 2024 CRYB Platform. All rights reserved.
                       </p>
-                      <p style="margin: 0; color: #7e7e80; font-size: 12px;">
+                      <p style="margin: 0; color: #CCCCCC; font-size: 12px;">
                         You're receiving this email because you created a CRYB account.
                       </p>
                     </td>
