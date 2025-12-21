@@ -18,8 +18,6 @@ import TokenBalanceDisplay from '../components/web3/TokenBalanceDisplay'
 import APIKeysSettings from '../components/Settings/APIKeysSettings'
 import PasskeySettings from '../components/Settings/PasskeySettings'
 import OAuthSettings from '../components/Settings/OAuthSettings'
-import ThemeToggle from '../components/ui/ThemeToggle.tsx'
-import { useTheme } from '../contexts/ThemeContext.tsx'
 import { useLoadingAnnouncement, useErrorAnnouncement } from '../utils/accessibility'
 import { useResponsive } from '../hooks/useResponsive'
 
@@ -37,7 +35,6 @@ function SettingsPage() {
     cardPadding: isMobile ? 20 : isTablet ? 24 : 20,
     sectionGap: isMobile ? 16 : isTablet ? 14 : 12
   }
-  const { theme } = useTheme()
   const { user: currentUser } = useAuth()
   const [activeTab, setActiveTab] = useState('profile')
   const [loading, setLoading] = useState(false)
@@ -2154,7 +2151,7 @@ function SettingsPage() {
                 </div>
 
                 <form onSubmit={handleAppearanceSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                  {/* Theme Toggle */}
+                  {/* Theme Section */}
                   <div style={{
                     background: 'white',
                     border: '1px solid rgba(0, 0, 0, 0.06)',
@@ -2168,11 +2165,29 @@ function SettingsPage() {
                       marginBottom: '16px',
                       color: '#000000'
                     }}>Theme</h3>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <ThemeToggle />
-                      <p style={{ color: '#666666', margin: 0 }}>
-                        Current theme: <strong>{theme === 'dark' ? 'Dark' : 'Light'}</strong>
-                      </p>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
+                      <div>
+                        <div style={{
+                          fontWeight: 500,
+                          marginBottom: '4px',
+                          color: '#666666'
+                        }}>
+                          Light Theme
+                        </div>
+                        <div style={{ fontSize: '14px', color: '#666666' }}>
+                          Clean, modern iOS-style interface
+                        </div>
+                      </div>
+                      <div style={{
+                        padding: '10px 24px',
+                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        borderRadius: '12px',
+                        color: 'white',
+                        fontWeight: 500,
+                        fontSize: '15px'
+                      }}>
+                        Active
+                      </div>
                     </div>
                   </div>
 

@@ -6,6 +6,8 @@ export default function RateLimitedPage() {
   const navigate = useNavigate()
   const [countdown, setCountdown] = useState(60)
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCountdown(prev => {
@@ -31,55 +33,175 @@ export default function RateLimitedPage() {
   }
 
   return (
-    <div id="main-content" role="main" aria-label="429 Rate Limited" style={{background: "var(--bg-primary)"}} className="min-h-screen flex items-center justify-center  p-3 md:p-5">
-      <div style={{color: "var(--text-primary)"}} className="text-center  max-w-2xl w-full">
-        <div className="inline-flex items-center justify-center w-24 h-24 md:w-30 md:h-30 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full mb-6 md:mb-8 backdrop-blur-sm relative" aria-hidden="true">
-          <Clock size={64} aria-hidden="true" style={{ width: "64px", height: "64px", flexShrink: 0 }} />
-          <div className="absolute inset-0 rounded-full border-4 border-[#58a6ff]/30 border-t-[#58a6ff] " aria-hidden="true" />
+    <div id="main-content" role="main" aria-label="429 Rate Limited" style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      background: '#FAFAFA',
+      padding: isMobile ? '16px' : '32px'
+    }}>
+      <div style={{
+        textAlign: 'center',
+        color: '#1A1A1A',
+        maxWidth: '720px',
+        width: '100%'
+      }}>
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: isMobile ? '96px' : '120px',
+          height: isMobile ? '96px' : '120px',
+          background: 'rgba(88, 166, 255, 0.1)',
+          border: '1px solid rgba(88, 166, 255, 0.3)',
+          borderRadius: '50%',
+          marginBottom: isMobile ? '24px' : '32px',
+          position: 'relative'
+        }} aria-hidden="true">
+          <Clock size={isMobile ? 48 : 64} style={{ color: '#58a6ff' }} aria-hidden="true" />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            borderRadius: '50%',
+            border: '4px solid rgba(88, 166, 255, 0.3)',
+            borderTop: '4px solid #58a6ff',
+            animation: 'spin 2s linear infinite'
+          }} aria-hidden="true" />
         </div>
 
-        <div className="text-7xl md:text-9xl font-bold leading-none mb-5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" aria-hidden="true">
+        <div style={{
+          fontSize: isMobile ? '72px' : '112px',
+          fontWeight: '700',
+          lineHeight: 1,
+          marginBottom: '20px',
+          background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text'
+        }} aria-hidden="true">
           429
         </div>
 
-        <h1 style={{color: "var(--text-primary)"}} className="text-2xl md:text-3xl font-semibold mb-4 md:mb-6 ">
+        <h1 style={{
+          fontSize: isMobile ? '28px' : '36px',
+          fontWeight: '600',
+          color: '#1A1A1A',
+          marginBottom: isMobile ? '16px' : '24px'
+        }}>
           Slow Down There!
         </h1>
 
-        <p style={{color: "var(--text-secondary)"}} className="text-base md:text-lg  mb-6 md:mb-8 leading-relaxed">
+        <p style={{
+          fontSize: isMobile ? '16px' : '18px',
+          color: '#666666',
+          marginBottom: isMobile ? '24px' : '32px',
+          lineHeight: '1.6'
+        }}>
           You've made too many requests. Please wait a moment before trying again.
         </p>
 
-        <div style={{borderColor: "var(--border-subtle)"}} className="card   rounded-2xl  md:rounded-2xl  p-6 md:p-8 mb-6 md:mb-8 border " role="timer" aria-live="polite" aria-atomic="true">
-          <div className="text-4xl md:text-5xl font-bold mb-3 tracking-wider text-[#58a6ff]" aria-label={`${countdown} seconds remaining`}>
+        <div style={{
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          padding: isMobile ? '24px' : '32px',
+          marginBottom: isMobile ? '24px' : '32px',
+          border: '1px solid #E8EAED',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+        }} role="timer" aria-live="polite" aria-atomic="true">
+          <div style={{
+            fontSize: isMobile ? '48px' : '64px',
+            fontWeight: '700',
+            marginBottom: '12px',
+            letterSpacing: '0.05em',
+            color: '#58a6ff'
+          }} aria-label={`${countdown} seconds remaining`}>
             {formatTime(countdown)}
           </div>
-          <p style={{color: "var(--text-secondary)"}} className="text-sm  m-0">
+          <p style={{
+            fontSize: '14px',
+            color: '#666666',
+            margin: 0
+          }}>
             Time until you can try again
           </p>
         </div>
 
-        <div style={{borderColor: "var(--border-subtle)"}} className="card   rounded-lg md:rounded-2xl  p-4 md:p-5 mb-6 md:mb-8 border  text-left">
-          <div className="flex items-start gap-3 md:gap-4">
-            <AlertCircle size={20} className="mt-0.5 flex-shrink-0 text-[#58a6ff]" aria-hidden="true" />
+        <div style={{
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          padding: isMobile ? '16px' : '20px',
+          marginBottom: isMobile ? '24px' : '32px',
+          border: '1px solid #E8EAED',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+          textAlign: 'left'
+        }}>
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: isMobile ? '12px' : '16px'
+          }}>
+            <AlertCircle size={20} style={{
+              marginTop: '2px',
+              flexShrink: 0,
+              color: '#58a6ff'
+            }} aria-hidden="true" />
             <div>
-              <h3 style={{color: "var(--text-primary)"}} className="text-sm md:text-base font-semibold mb-2 ">
+              <h3 style={{
+                fontSize: isMobile ? '14px' : '16px',
+                fontWeight: '600',
+                color: '#1A1A1A',
+                marginBottom: '8px'
+              }}>
                 Why did this happen?
               </h3>
-              <ul style={{color: "var(--text-primary)"}} className="list-none p-0 m-0 text-xs md:text-sm  leading-relaxed space-y-1">
-                <li>• You sent too many requests in a short time</li>
-                <li>• Rate limits help protect our service for everyone</li>
+              <ul style={{
+                listStyle: 'none',
+                padding: 0,
+                margin: 0,
+                fontSize: isMobile ? '13px' : '14px',
+                color: '#666666',
+                lineHeight: '1.6'
+              }}>
+                <li style={{ marginBottom: '4px' }}>• You sent too many requests in a short time</li>
+                <li style={{ marginBottom: '4px' }}>• Rate limits help protect our service for everyone</li>
                 <li>• Automated scripts may trigger this protection</li>
               </ul>
             </div>
           </div>
         </div>
 
-        <nav className="flex flex-col gap-3 md:gap-4 items-center" aria-label="Error page actions">
-          <div className="flex gap-3 md:gap-4 flex-wrap justify-center">
+        <nav style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: isMobile ? '12px' : '16px',
+          alignItems: 'center'
+        }} aria-label="Error page actions">
+          <div style={{
+            display: 'flex',
+            gap: isMobile ? '12px' : '16px',
+            flexWrap: 'wrap',
+            justifyContent: 'center'
+          }}>
             <button
               onClick={handleGoBack}
-              style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-2 px-5 py-3 md:px-8 md:py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  rounded-lg md:rounded-xl font-semibold text-sm md:text-base border-0 shadow-lg cursor-pointer transition-all hover:opacity-90"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: isMobile ? '12px 20px' : '14px 32px',
+                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                color: '#FFFFFF',
+                borderRadius: '12px',
+                fontWeight: '600',
+                fontSize: isMobile ? '14px' : '16px',
+                border: 'none',
+                boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               aria-label="Go back to previous page"
             >
               <ArrowLeft size={20} aria-hidden="true" />
@@ -88,7 +210,22 @@ export default function RateLimitedPage() {
 
             <Link
               to="/"
-              style={{borderColor: "var(--border-subtle)"}} className="card card inline-flex items-center gap-2 px-5 py-3 md:px-8 md:py-3.5 /60 text-[#58a6ff] border  rounded-lg md:rounded-2xl  no-underline font-semibold text-sm md:text-base  transition-all hover: "
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: isMobile ? '12px 20px' : '14px 32px',
+                background: '#FFFFFF',
+                color: '#58a6ff',
+                border: '1px solid #E8EAED',
+                borderRadius: '12px',
+                textDecoration: 'none',
+                fontWeight: '600',
+                fontSize: isMobile ? '14px' : '16px',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#FFFFFF'}
               aria-label="Go to home page"
             >
               <Home size={20} aria-hidden="true" />
@@ -97,12 +234,23 @@ export default function RateLimitedPage() {
           </div>
         </nav>
 
-        <div style={{color: "var(--text-secondary)"}} className="mt-8 md:mt-12 text-xs md:text-sm ">
+        <div style={{
+          marginTop: isMobile ? '32px' : '48px',
+          fontSize: isMobile ? '12px' : '14px',
+          color: '#666666'
+        }}>
           <p>
             Having issues?{' '}
             <Link
               to="/help"
-              className="text-[#58a6ff] underline font-semibold hover:text-[#a371f7] transition-colors"
+              style={{
+                color: '#58a6ff',
+                textDecoration: 'underline',
+                fontWeight: '600',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#a371f7'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#58a6ff'}
             >
               Contact support
             </Link>
@@ -112,4 +260,3 @@ export default function RateLimitedPage() {
     </div>
   )
 }
-

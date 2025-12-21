@@ -1,13 +1,14 @@
 /**
  * CRYB Platform - Home Page
- * Modern iOS Aesthetic - Ultra Clean & Minimal
+ * iOS-Style Polish - Clean, Minimal, Professional
  *
  * DESIGN PRINCIPLES:
  * - Light theme with soft shadows
- * - Delicate borders and glassmorphism
+ * - Clean white backgrounds
+ * - Proper card hierarchy
  * - Generous whitespace
- * - System font feel
  * - Smooth transitions
+ * - iOS system font feel
  */
 
 import React, { useState, useMemo, useEffect } from 'react';
@@ -15,7 +16,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useFeedQuery, useCreatePost } from '../hooks/api/usePosts';
 import { Feed, Composer } from '../design-system/organisms';
-import { Text } from '../design-system/atoms';
 import { useOnboardingTour } from '../hooks/useOnboardingTour';
 
 function HomePageContent() {
@@ -25,7 +25,17 @@ function HomePageContent() {
   const { startTour } = useOnboardingTour();
 
   // Responsive breakpoints
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Auto-start tour for new users
   useEffect(() => {
@@ -101,75 +111,77 @@ function HomePageContent() {
       id="home-feed"
       style={{
         minHeight: '100vh',
-        background: '#FAFAFA'
+        background: '#F8F9FA',
+        paddingTop: isMobile ? '60px' : '72px',
+        paddingBottom: isMobile ? '80px' : '40px',
       }}
     >
+      {/* Main Container */}
       <div
         style={{
           maxWidth: '640px',
           margin: '0 auto',
-          padding: isMobile ? '16px' : '20px',
-          paddingTop: isMobile ? '76px' : '92px', // Account for fixed header
-          paddingBottom: isMobile ? '96px' : '48px' // Account for mobile bottom nav
+          padding: isMobile ? '0' : '0 20px',
         }}
       >
-        {/* Header with Tabs */}
+        {/* Header Section - Sticky */}
         <div
           id="feed-tabs"
           style={{
             position: 'sticky',
-            top: isMobile ? '56px' : '72px',
-            background: 'rgba(255, 255, 255, 0.8)',
-            backdropFilter: 'blur(20px) saturate(180%)',
-            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
-            border: '1px solid rgba(0, 0, 0, 0.06)',
-            borderRadius: '20px',
-            padding: isMobile ? '16px' : '20px',
-            marginBottom: '20px',
+            top: isMobile ? '60px' : '72px',
+            background: '#FFFFFF',
+            borderBottom: '1px solid #E8EAED',
+            marginBottom: '0',
             zIndex: 10,
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+            boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)',
           }}
         >
-          <h1
+          {/* Page Title */}
+          <div
             style={{
-              fontSize: isMobile ? '24px' : '28px',
-              fontWeight: '700',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              marginBottom: '16px',
-              letterSpacing: '-0.02em',
-              margin: '0 0 16px 0'
+              padding: isMobile ? '16px 16px 12px 16px' : '20px 24px 16px 24px',
             }}
           >
-            CRYB
-          </h1>
+            <h1
+              style={{
+                fontSize: isMobile ? '26px' : '30px',
+                fontWeight: '700',
+                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                margin: '0',
+                letterSpacing: '-0.02em',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif',
+              }}
+            >
+              CRYB
+            </h1>
+          </div>
 
-          {/* Tabs */}
+          {/* Tab Switcher */}
           <div
             style={{
               display: 'flex',
-              gap: '8px',
-              background: 'rgba(0, 0, 0, 0.04)',
-              padding: '4px',
-              borderRadius: '16px'
+              padding: '0',
+              borderTop: '1px solid #F0F2F5',
             }}
           >
             <button
               onClick={() => setActiveTab('algorithmic')}
               style={{
                 flex: 1,
-                padding: isMobile ? '10px 16px' : '12px 20px',
-                background: activeTab === 'algorithmic' ? 'white' : 'transparent',
-                color: activeTab === 'algorithmic' ? '#000000' : '#666666',
+                padding: isMobile ? '14px 16px' : '16px 20px',
+                background: 'transparent',
+                color: activeTab === 'algorithmic' ? '#1A1A1A' : '#666666',
                 border: 'none',
-                borderRadius: '12px',
+                borderBottom: activeTab === 'algorithmic' ? '3px solid #58a6ff' : '3px solid transparent',
                 fontSize: '15px',
                 fontWeight: activeTab === 'algorithmic' ? '600' : '500',
                 cursor: 'pointer',
-                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: activeTab === 'algorithmic' ? '0 1px 4px rgba(0, 0, 0, 0.08)' : 'none'
+                transition: 'all 0.2s ease',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif',
               }}
             >
               For You
@@ -178,16 +190,16 @@ function HomePageContent() {
               onClick={() => setActiveTab('chronological')}
               style={{
                 flex: 1,
-                padding: isMobile ? '10px 16px' : '12px 20px',
-                background: activeTab === 'chronological' ? 'white' : 'transparent',
-                color: activeTab === 'chronological' ? '#000000' : '#666666',
+                padding: isMobile ? '14px 16px' : '16px 20px',
+                background: 'transparent',
+                color: activeTab === 'chronological' ? '#1A1A1A' : '#666666',
                 border: 'none',
-                borderRadius: '12px',
+                borderBottom: activeTab === 'chronological' ? '3px solid #58a6ff' : '3px solid transparent',
                 fontSize: '15px',
                 fontWeight: activeTab === 'chronological' ? '600' : '500',
                 cursor: 'pointer',
-                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                boxShadow: activeTab === 'chronological' ? '0 1px 4px rgba(0, 0, 0, 0.08)' : 'none'
+                transition: 'all 0.2s ease',
+                fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif',
               }}
             >
               Following
@@ -195,32 +207,47 @@ function HomePageContent() {
           </div>
         </div>
 
-        {/* Composer */}
-        {currentUser && (
+        {/* Content Area */}
+        <div
+          style={{
+            padding: isMobile ? '0' : '0',
+          }}
+        >
+          {/* Composer */}
+          {currentUser && (
+            <div
+              id="create-post-button"
+              style={{
+                background: '#FFFFFF',
+                borderBottom: '1px solid #E8EAED',
+                padding: isMobile ? '12px 16px' : '16px 24px',
+              }}
+            >
+              <Composer
+                currentUser={currentUser}
+                onPost={handleCreatePost}
+                placeholder="What's happening on CRYB?"
+              />
+            </div>
+          )}
+
+          {/* Feed */}
           <div
-            id="create-post-button"
             style={{
-              marginBottom: '20px'
+              background: '#FFFFFF',
             }}
           >
-            <Composer
-              currentUser={currentUser}
-              onPost={handleCreatePost}
-              placeholder="What's happening on CRYB?"
+            <Feed
+              posts={posts}
+              isLoading={isLoading || isFetchingNextPage}
+              hasMore={hasNextPage}
+              onLoadMore={handleLoadMore}
+              onPostClick={(postId) => navigate(`/post/${postId}`)}
+              onUserClick={(username) => navigate(`/profile/${username}`)}
+              onReplyClick={(postId) => navigate(`/post/${postId}#reply`)}
             />
           </div>
-        )}
-
-        {/* Feed */}
-        <Feed
-          posts={posts}
-          isLoading={isLoading || isFetchingNextPage}
-          hasMore={hasNextPage}
-          onLoadMore={handleLoadMore}
-          onPostClick={(postId) => navigate(`/post/${postId}`)}
-          onUserClick={(username) => navigate(`/profile/${username}`)}
-          onReplyClick={(postId) => navigate(`/post/${postId}#reply`)}
-        />
+        </div>
       </div>
     </div>
   );

@@ -30,6 +30,10 @@ const NFTMarketplacePage = () => {
   const [selectedCollections, setSelectedCollections] = useState(new Set())
   const [featuredCarouselIndex, setFeaturedCarouselIndex] = useState(0)
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
+
   // Web3 Integration
   const { state: web3State, actions: web3Actions } = useWeb3Auth()
   const { showError } = useToast()
@@ -247,54 +251,155 @@ const NFTMarketplacePage = () => {
   const currentFeatured = featuredCollections[featuredCarouselIndex]
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)]" role="main" aria-label="NFT Marketplace page">
+    <div style={{
+      minHeight: '100vh',
+      background: '#FAFAFA',
+      paddingTop: isMobile ? '56px' : '72px'
+    }} role="main" aria-label="NFT Marketplace page">
       <SkipToContent targetId="main-content" />
 
       {/* Hero Banner with Featured Collection Carousel */}
-      <div className="relative h-[500px] overflow-hidden">
-        <div className="absolute inset-0">
+      <div style={{
+        position: 'relative',
+        height: isMobile ? '400px' : '500px',
+        overflow: 'hidden'
+      }}>
+        <div style={{ position: 'absolute', inset: 0 }}>
           <img
             src={currentFeatured.image}
             alt={currentFeatured.name}
-            className="w-full h-full object-cover"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover'
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-[var(--bg-primary)]/60 to-transparent" />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, #FAFAFA, rgba(250, 250, 250, 0.6), transparent)'
+          }} />
         </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 h-full flex flex-col justify-end pb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full text-[#58a6ff] text-sm font-medium mb-4 w-fit ">
-            <Sparkles style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+        <div style={{
+          position: 'relative',
+          zIndex: 10,
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: isMobile ? '24px 16px' : '0 24px',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          paddingBottom: isMobile ? '32px' : '48px'
+        }}>
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '8px 16px',
+            background: 'rgba(88, 166, 255, 0.1)',
+            border: '1px solid rgba(88, 166, 255, 0.3)',
+            borderRadius: '9999px',
+            color: '#58a6ff',
+            fontSize: '14px',
+            fontWeight: '600',
+            marginBottom: '16px',
+            width: 'fit-content'
+          }}>
+            <Sparkles style={{ width: '20px', height: '20px' }} />
             <span>Featured Collection</span>
           </div>
-          <h1 className="text-5xl font-bold text-[var(--text-primary)] mb-3">{currentFeatured.name}</h1>
-          <p className="text-xl text-[var(--text-secondary)] mb-8 max-w-2xl">{currentFeatured.description}</p>
+          <h1 style={{
+            fontSize: isMobile ? '32px' : '48px',
+            fontWeight: '700',
+            color: '#1A1A1A',
+            marginBottom: '12px'
+          }}>{currentFeatured.name}</h1>
+          <p style={{
+            fontSize: isMobile ? '16px' : '20px',
+            color: '#666666',
+            marginBottom: isMobile ? '24px' : '32px',
+            maxWidth: '720px'
+          }}>{currentFeatured.description}</p>
 
-          <div className="flex items-center gap-8 mb-6">
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: isMobile ? '16px' : '32px',
+            marginBottom: '24px',
+            flexWrap: 'wrap'
+          }}>
             <div>
-              <div className="text-3xl font-bold text-[var(--text-primary)]">{currentFeatured.floorPrice} ETH</div>
-              <div className="text-sm text-[var(--text-secondary)]">Floor Price</div>
+              <div style={{
+                fontSize: isMobile ? '24px' : '32px',
+                fontWeight: '700',
+                color: '#1A1A1A'
+              }}>{currentFeatured.floorPrice} ETH</div>
+              <div style={{
+                fontSize: '14px',
+                color: '#666666'
+              }}>Floor Price</div>
             </div>
-            <div className="w-px h-12 bg-[var(--border-subtle)]" />
+            <div style={{
+              width: '1px',
+              height: '48px',
+              background: '#E8EAED',
+              display: isMobile ? 'none' : 'block'
+            }} />
             <div>
-              <div className="text-3xl font-bold text-[var(--text-primary)]">{currentFeatured.totalVolume} ETH</div>
-              <div className="text-sm text-[var(--text-secondary)]">Total Volume</div>
+              <div style={{
+                fontSize: isMobile ? '24px' : '32px',
+                fontWeight: '700',
+                color: '#1A1A1A'
+              }}>{currentFeatured.totalVolume} ETH</div>
+              <div style={{
+                fontSize: '14px',
+                color: '#666666'
+              }}>Total Volume</div>
             </div>
-            <div className="w-px h-12 bg-[var(--border-subtle)]" />
+            <div style={{
+              width: '1px',
+              height: '48px',
+              background: '#E8EAED',
+              display: isMobile ? 'none' : 'block'
+            }} />
             <div>
-              <div className="text-3xl font-bold text-[var(--text-primary)]">{currentFeatured.items.toLocaleString()}</div>
-              <div className="text-sm text-[var(--text-secondary)]">Items</div>
+              <div style={{
+                fontSize: isMobile ? '24px' : '32px',
+                fontWeight: '700',
+                color: '#1A1A1A'
+              }}>{currentFeatured.items.toLocaleString()}</div>
+              <div style={{
+                fontSize: '14px',
+                color: '#666666'
+              }}>Items</div>
             </div>
           </div>
 
           {/* Carousel Indicators */}
-          <div className="flex gap-2">
+          <div style={{ display: 'flex', gap: '8px' }}>
             {featuredCollections.map((_, index) => (
               <button
                 key={index}
-                className={`h-1.5 rounded-full transition-all ${
-                  index === featuredCarouselIndex
-                    ? 'w-8 bg-[#58a6ff]'
-                    : 'w-1.5 bg-[var(--border-subtle)] hover:bg-[var(--text-secondary)]'
-                }`}
+                style={{
+                  height: '6px',
+                  borderRadius: '9999px',
+                  width: index === featuredCarouselIndex ? '32px' : '6px',
+                  background: index === featuredCarouselIndex ? '#58a6ff' : '#E8EAED',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  if (index !== featuredCarouselIndex) {
+                    e.currentTarget.style.background = '#666666'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (index !== featuredCarouselIndex) {
+                    e.currentTarget.style.background = '#E8EAED'
+                  }
+                }}
                 onClick={() => setFeaturedCarouselIndex(index)}
                 aria-label={`Go to slide ${index + 1}`}
               />
@@ -304,324 +409,592 @@ const NFTMarketplacePage = () => {
       </div>
 
       {/* Collection Stats Bar */}
-      <div className="border-b border-[var(--border-subtle)] bg-white ">
-        <div className="max-w-7xl mx-auto px-6 py-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
-              <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Flame style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+      <div style={{
+        borderBottom: '1px solid #E8EAED',
+        background: '#FFFFFF'
+      }}>
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: isMobile ? '16px' : '24px'
+        }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : isTablet ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+            gap: isMobile ? '12px' : '16px'
+          }}>
+            {[
+              { icon: Flame, label: 'Floor Price', value: `${collectionStats.floorPrice} ETH` },
+              { icon: Activity, label: 'Volume 24h', value: `${collectionStats.volume24h} ETH` },
+              { icon: Grid, label: 'Total Items', value: collectionStats.totalListings },
+              { icon: Users, label: 'Owners', value: collectionStats.owners }
+            ].map((stat, idx) => (
+              <div key={idx} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: isMobile ? '16px' : '20px',
+                background: '#FFFFFF',
+                border: '1px solid #E8EAED',
+                borderRadius: '16px',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+                transition: 'all 0.2s ease'
+              }}>
+                <div style={{
+                  padding: '10px',
+                  background: 'rgba(88, 166, 255, 0.1)',
+                  borderRadius: '12px',
+                  color: '#58a6ff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  <stat.icon style={{ width: '24px', height: '24px' }} />
+                </div>
+                <div>
+                  <div style={{
+                    fontSize: '12px',
+                    color: '#666666',
+                    marginBottom: '4px'
+                  }}>{stat.label}</div>
+                  <div style={{
+                    fontSize: isMobile ? '16px' : '18px',
+                    fontWeight: '700',
+                    color: '#1A1A1A'
+                  }}>{stat.value}</div>
+                </div>
               </div>
-              <div>
-                <div className="text-xs text-[var(--text-secondary)]">Floor Price</div>
-                <div className="text-lg font-bold text-[var(--text-primary)]">{collectionStats.floorPrice} ETH</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
-              <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Activity style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              </div>
-              <div>
-                <div className="text-xs text-[var(--text-secondary)]">Volume 24h</div>
-                <div className="text-lg font-bold text-[var(--text-primary)]">{collectionStats.volume24h} ETH</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
-              <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Grid style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              </div>
-              <div>
-                <div className="text-xs text-[var(--text-secondary)]">Total Items</div>
-                <div className="text-lg font-bold text-[var(--text-primary)]">{collectionStats.totalListings}</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-3 p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
-              <div className="p-2 bg-[#58a6ff]/10 rounded-xl text-[#58a6ff]">
-                <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              </div>
-              <div>
-                <div className="text-xs text-[var(--text-secondary)]">Owners</div>
-                <div className="text-lg font-bold text-[var(--text-primary)]">{collectionStats.owners}</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
 
       {/* Wallet Connection Prompt */}
       {!web3State.isConnected && (
-        <div className="bg-gradient-to-r from-[#58a6ff]/10 to-[#a371f7]/10 border-b border-[#58a6ff]/20">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-center gap-4">
-            <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} className="text-[#58a6ff]" />
-            <span className="text-[var(--text-primary)] font-medium">Connect your wallet to buy, bid, and list NFTs</span>
-            <Button
+        <div style={{
+          background: 'linear-gradient(90deg, rgba(88, 166, 255, 0.1) 0%, rgba(163, 113, 247, 0.1) 100%)',
+          borderBottom: '1px solid rgba(88, 166, 255, 0.2)'
+        }}>
+          <div style={{
+            maxWidth: '1280px',
+            margin: '0 auto',
+            padding: isMobile ? '16px' : '16px 24px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '16px',
+            flexDirection: isMobile ? 'column' : 'row'
+          }}>
+            <Wallet style={{ width: '24px', height: '24px', color: '#58a6ff' }} />
+            <span style={{
+              color: '#1A1A1A',
+              fontWeight: '600',
+              fontSize: '15px',
+              textAlign: isMobile ? 'center' : 'left'
+            }}>Connect your wallet to buy, bid, and list NFTs</span>
+            <button
               onClick={handleConnectWallet}
-              style={{color: "var(--text-primary)"}} className="px-6 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity"
+              style={{
+                padding: '10px 24px',
+                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
               Connect Wallet
-            </Button>
+            </button>
           </div>
         </div>
       )}
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 py-8 flex gap-8" id="main-content">
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: isMobile ? '16px' : '24px 24px 48px',
+        display: 'flex',
+        gap: '24px'
+      }} id="main-content">
 
         {/* Filter Sidebar */}
-        <aside className={`${showFilters ? 'block' : 'hidden'} w-80 flex-shrink-0 space-y-6`}>
-          <div className="sticky top-4">
-            <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm p-6 space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-[var(--text-primary)] font-semibold">
-                  <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                  <h2>Filters</h2>
-                </div>
+        <aside style={{
+          display: showFilters ? 'block' : 'none',
+          width: isDesktop ? '320px' : '100%',
+          flexShrink: 0,
+          position: isDesktop ? 'sticky' : 'relative',
+          top: isDesktop ? '88px' : 'auto',
+          height: 'fit-content'
+        }}>
+          <div style={{
+            background: '#FFFFFF',
+            border: '1px solid #E8EAED',
+            borderRadius: '24px',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+            padding: isMobile ? '20px' : '24px'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: '24px'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#1A1A1A',
+                fontWeight: '600',
+                fontSize: '18px'
+              }}>
+                <Filter style={{ width: '24px', height: '24px' }} />
+                <h2>Filters</h2>
+              </div>
+              {!isDesktop && (
                 <button
-                  className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors lg:hidden"
+                  style={{
+                    padding: '8px',
+                    background: 'transparent',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: '#666666',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
                   onClick={() => setShowFilters(false)}
                   aria-label="Close filters"
                 >
-                  <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <X style={{ width: '24px', height: '24px' }} />
                 </button>
-              </div>
+              )}
+            </div>
 
-              {/* Search */}
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Search</label>
-                <div className="relative">
-                  <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-secondary)]" />
-                  <Input
-                    type="text"
-                    placeholder="Search NFTs..."
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors"
-                    aria-label="Search NFTs"
-                  />
-                </div>
+            {/* Search */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#666666',
+                marginBottom: '8px'
+              }}>Search</label>
+              <div style={{ position: 'relative' }}>
+                <Search style={{
+                  position: 'absolute',
+                  left: '12px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: '#666666',
+                  width: '20px',
+                  height: '20px'
+                }} />
+                <input
+                  type="text"
+                  placeholder="Search NFTs..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  style={{
+                    width: '100%',
+                    paddingLeft: '44px',
+                    paddingRight: '16px',
+                    paddingTop: '10px',
+                    paddingBottom: '10px',
+                    background: '#F5F5F5',
+                    border: '1px solid #E8EAED',
+                    borderRadius: '12px',
+                    color: '#1A1A1A',
+                    fontSize: '15px',
+                    outline: 'none',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onFocus={(e) => {
+                    e.currentTarget.style.borderColor = '#58a6ff'
+                    e.currentTarget.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
+                  }}
+                  onBlur={(e) => {
+                    e.currentTarget.style.borderColor = '#E8EAED'
+                    e.currentTarget.style.boxShadow = 'none'
+                  }}
+                  aria-label="Search NFTs"
+                />
               </div>
+            </div>
 
-              {/* Status Filter */}
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Status</label>
-                <div className="space-y-2">
-                  {statusOptions.map(status => (
-                    <button
-                      key={status.value}
-                      className={`w-full px-4 py-2 rounded-xl text-left font-medium transition-all ${
-                        selectedStatus === status.value
-                          ? 'bg-[#58a6ff]/10 text-[#58a6ff] border border-[#58a6ff]/30'
-                          : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-transparent hover:bg-[var(--bg-primary)]'
-                      }`}
-                      onClick={() => setSelectedStatus(status.value)}
-                      aria-pressed={selectedStatus === status.value}
-                    >
-                      {status.label}
-                    </button>
-                  ))}
-                </div>
+            {/* Status Filter */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#666666',
+                marginBottom: '8px'
+              }}>Status</label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {statusOptions.map(status => (
+                  <button
+                    key={status.value}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: '12px',
+                      textAlign: 'left',
+                      fontWeight: '600',
+                      fontSize: '15px',
+                      background: selectedStatus === status.value
+                        ? 'rgba(88, 166, 255, 0.1)'
+                        : '#F5F5F5',
+                      color: selectedStatus === status.value ? '#58a6ff' : '#666666',
+                      border: selectedStatus === status.value
+                        ? '1px solid rgba(88, 166, 255, 0.3)'
+                        : '1px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (selectedStatus !== status.value) {
+                        e.currentTarget.style.background = '#E8EAED'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (selectedStatus !== status.value) {
+                        e.currentTarget.style.background = '#F5F5F5'
+                      }
+                    }}
+                    onClick={() => setSelectedStatus(status.value)}
+                    aria-pressed={selectedStatus === status.value}
+                  >
+                    {status.label}
+                  </button>
+                ))}
               </div>
+            </div>
 
-              {/* Price Range */}
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Price Range (ETH)</label>
-                <div className="flex items-center gap-2 mb-3">
-                  <Input
-                    type="number"
-                    placeholder="Min"
-                    value={priceRange.min}
-                    onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
-                    className="flex-1 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors"
-                    aria-label="Minimum price"
-                  />
-                  <span className="text-[var(--text-secondary)]">to</span>
-                  <Input
-                    type="number"
-                    placeholder="Max"
-                    value={priceRange.max}
-                    onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
-                    className="flex-1 px-3 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors"
-                    aria-label="Maximum price"
-                  />
-                </div>
-                <button
-                  style={{color: "var(--text-primary)"}} className="w-full px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity"
-                  onClick={loadListings}
-                >
-                  Apply
-                </button>
+            {/* Price Range */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#666666',
+                marginBottom: '8px'
+              }}>Price Range (ETH)</label>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '12px'
+              }}>
+                <input
+                  type="number"
+                  placeholder="Min"
+                  value={priceRange.min}
+                  onChange={(e) => setPriceRange({ ...priceRange, min: e.target.value })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    background: '#F5F5F5',
+                    border: '1px solid #E8EAED',
+                    borderRadius: '12px',
+                    color: '#1A1A1A',
+                    fontSize: '15px',
+                    outline: 'none'
+                  }}
+                  aria-label="Minimum price"
+                />
+                <span style={{ color: '#666666', fontSize: '14px' }}>to</span>
+                <input
+                  type="number"
+                  placeholder="Max"
+                  value={priceRange.max}
+                  onChange={(e) => setPriceRange({ ...priceRange, max: e.target.value })}
+                  style={{
+                    flex: 1,
+                    padding: '10px 12px',
+                    background: '#F5F5F5',
+                    border: '1px solid #E8EAED',
+                    borderRadius: '12px',
+                    color: '#1A1A1A',
+                    fontSize: '15px',
+                    outline: 'none'
+                  }}
+                  aria-label="Maximum price"
+                />
               </div>
+              <button
+                style={{
+                  width: '100%',
+                  padding: '12px 16px',
+                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '12px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                onClick={loadListings}
+              >
+                Apply
+              </button>
+            </div>
 
-              {/* Collections Multiselect */}
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Collections</label>
-                <div className="space-y-2 max-h-60 overflow-y-auto">
-                  {availableCollections.map(collection => (
-                    <button
-                      key={collection.id}
-                      className={`w-full px-3 py-2 rounded-xl flex items-center justify-between transition-all ${
-                        selectedCollections.has(collection.id)
-                          ? 'bg-[#58a6ff]/10 border border-[#58a6ff]/30'
-                          : 'bg-[var(--bg-secondary)] border border-transparent hover:bg-[var(--bg-primary)]'
-                      }`}
-                      onClick={() => toggleCollection(collection.id)}
-                      aria-pressed={selectedCollections.has(collection.id)}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div className={`w-5 h-5 rounded border flex items-center justify-center ${
-                          selectedCollections.has(collection.id)
-                            ? 'bg-[#58a6ff] border-[#58a6ff]'
-                            : 'border-[var(--border-subtle)]'
-                        }`}>
-                          {selectedCollections.has(collection.id) && <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0, color: "var(--text-primary)" }} className="" />}
-                        </div>
-                        <span className="text-[var(--text-primary)] font-medium">{collection.name}</span>
-                        {collection.verified && (
-                          <CheckCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} className="text-[#58a6ff]" />
-                        )}
-                      </div>
-                      <span className="text-sm text-[var(--text-secondary)]">{collection.count.toLocaleString()}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Chains */}
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Chains</label>
-                <div className="space-y-2">
-                  {chains.map(chain => (
-                    <button
-                      key={chain.id}
-                      className={`w-full px-4 py-2 rounded-xl text-left flex items-center gap-2 font-medium transition-all ${
-                        selectedChain === chain.id
-                          ? 'bg-[#58a6ff]/10 text-[#58a6ff] border border-[#58a6ff]/30'
-                          : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-transparent hover:bg-[var(--bg-primary)]'
-                      }`}
-                      onClick={() => setSelectedChain(chain.id)}
-                      aria-pressed={selectedChain === chain.id}
-                    >
-                      <span>{chain.icon}</span>
-                      <span>{chain.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Categories */}
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Categories</label>
-                <div className="space-y-2">
-                  {categories.map(category => (
-                    <button
-                      key={category.id}
-                      className={`w-full px-4 py-2 rounded-xl text-left flex items-center gap-2 font-medium transition-all ${
-                        selectedCategory === category.id
-                          ? 'bg-[#58a6ff]/10 text-[#58a6ff] border border-[#58a6ff]/30'
-                          : 'bg-[var(--bg-secondary)] text-[var(--text-secondary)] border border-transparent hover:bg-[var(--bg-primary)]'
-                      }`}
-                      onClick={() => setSelectedCategory(category.id)}
-                      aria-pressed={selectedCategory === category.id}
-                    >
-                      <span>{category.icon}</span>
-                      <span>{category.name}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Properties - Placeholder */}
-              <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Properties</label>
-                <div className="flex items-center justify-center gap-2 py-8 text-[var(--text-secondary)]">
-                  <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                  <span className="text-sm">Coming Soon</span>
-                </div>
+            {/* Chains */}
+            <div style={{ marginBottom: '24px' }}>
+              <label style={{
+                display: 'block',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: '#666666',
+                marginBottom: '8px'
+              }}>Chains</label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {chains.slice(0, 4).map(chain => (
+                  <button
+                    key={chain.id}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      borderRadius: '12px',
+                      textAlign: 'left',
+                      fontWeight: '600',
+                      fontSize: '15px',
+                      background: selectedChain === chain.id
+                        ? 'rgba(88, 166, 255, 0.1)'
+                        : '#F5F5F5',
+                      color: selectedChain === chain.id ? '#58a6ff' : '#666666',
+                      border: selectedChain === chain.id
+                        ? '1px solid rgba(88, 166, 255, 0.3)'
+                        : '1px solid transparent',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px'
+                    }}
+                    onClick={() => setSelectedChain(chain.id)}
+                    aria-pressed={selectedChain === chain.id}
+                  >
+                    <span>{chain.icon}</span>
+                    <span>{chain.name}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
         </aside>
 
         {/* NFT Grid Section */}
-        <main className="flex-1 min-w-0">
+        <main style={{
+          flex: 1,
+          minWidth: 0
+        }}>
 
           {/* Controls Bar */}
-          <div className="flex items-center justify-between mb-6 bg-white  border border-[var(--border-subtle)] rounded-2xl p-4 shadow-sm">
-            <div className="flex items-center gap-4">
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            marginBottom: '24px',
+            background: '#FFFFFF',
+            border: '1px solid #E8EAED',
+            borderRadius: '16px',
+            padding: isMobile ? '12px' : '16px',
+            boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: isMobile ? '12px' : '16px'
+          }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '16px',
+              width: isMobile ? '100%' : 'auto'
+            }}>
               <button
-                className="flex items-center gap-2 px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] hover:bg-[var(--bg-primary)] transition-colors"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '10px 16px',
+                  background: '#F5F5F5',
+                  border: '1px solid #E8EAED',
+                  borderRadius: '12px',
+                  color: '#1A1A1A',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#E8EAED'}
+                onMouseLeave={(e) => e.currentTarget.style.background = '#F5F5F5'}
                 onClick={() => setShowFilters(!showFilters)}
                 aria-label="Toggle filters"
               >
-                <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                <span className="hidden sm:inline">{showFilters ? 'Hide' : 'Show'} Filters</span>
+                <Filter style={{ width: '20px', height: '20px' }} />
+                <span style={{ display: isMobile ? 'none' : 'inline' }}>
+                  {showFilters ? 'Hide' : 'Show'} Filters
+                </span>
               </button>
-              <div className="text-sm text-[var(--text-secondary)]">
-                <span className="font-semibold text-[var(--text-primary)]">{filteredListings.length}</span> {filteredListings.length === 1 ? 'item' : 'items'}
+              <div style={{
+                fontSize: '14px',
+                color: '#666666'
+              }}>
+                <span style={{ fontWeight: '600', color: '#1A1A1A' }}>
+                  {filteredListings.length}
+                </span> {filteredListings.length === 1 ? 'item' : 'items'}
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              width: isMobile ? '100%' : 'auto'
+            }}>
               {/* Sort Dropdown */}
-              <div className="relative flex items-center gap-2 px-4 py-2 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
-                <ArrowUpDown style={{ width: "24px", height: "24px", flexShrink: 0 }} className="text-[var(--text-secondary)]" />
+              <div style={{
+                position: 'relative',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 16px',
+                background: '#F5F5F5',
+                border: '1px solid #E8EAED',
+                borderRadius: '12px',
+                flex: isMobile ? 1 : 'initial'
+              }}>
+                <ArrowUpDown style={{ width: '20px', height: '20px', color: '#666666' }} />
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="bg-transparent text-[var(--text-primary)] text-sm outline-none pr-6 cursor-pointer appearance-none"
+                  style={{
+                    background: 'transparent',
+                    color: '#1A1A1A',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    outline: 'none',
+                    border: 'none',
+                    paddingRight: '24px',
+                    cursor: 'pointer',
+                    appearance: 'none'
+                  }}
                   aria-label="Sort NFTs"
                 >
                   {sortOptions.map(option => (
-                    <option key={option.value} value={option.value} className="bg-white">
+                    <option key={option.value} value={option.value}>
                       {option.label}
                     </option>
                   ))}
                 </select>
-                <ChevronDown style={{ width: "24px", height: "24px", flexShrink: 0 }} className="absolute right-3 text-[var(--text-secondary)] pointer-events-none" />
+                <ChevronDown style={{
+                  position: 'absolute',
+                  right: '12px',
+                  width: '16px',
+                  height: '16px',
+                  color: '#666666',
+                  pointerEvents: 'none'
+                }} />
               </div>
 
               {/* View Toggle */}
-              <div className="flex items-center gap-1 p-1 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl">
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                padding: '4px',
+                background: '#F5F5F5',
+                border: '1px solid #E8EAED',
+                borderRadius: '12px'
+              }}>
                 <button
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'grid'
-                      ? 'bg-[#58a6ff]/10 text-[#58a6ff]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                  style={{
+                    padding: '8px',
+                    borderRadius: '8px',
+                    background: viewMode === 'grid' ? 'rgba(88, 166, 255, 0.1)' : 'transparent',
+                    color: viewMode === 'grid' ? '#58a6ff' : '#666666',
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    transition: 'all 0.2s ease'
+                  }}
                   onClick={() => setViewMode('grid')}
                   aria-label="Grid view"
                   aria-pressed={viewMode === 'grid'}
                 >
-                  <Grid style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <Grid style={{ width: '20px', height: '20px' }} />
                 </button>
                 <button
-                  className={`p-2 rounded-lg transition-colors ${
-                    viewMode === 'list'
-                      ? 'bg-[#58a6ff]/10 text-[#58a6ff]'
-                      : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
-                  }`}
+                  style={{
+                    padding: '8px',
+                    borderRadius: '8px',
+                    background: viewMode === 'list' ? 'rgba(88, 166, 255, 0.1)' : 'transparent',
+                    color: viewMode === 'list' ? '#58a6ff' : '#666666',
+                    border: 'none',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    transition: 'all 0.2s ease'
+                  }}
                   onClick={() => setViewMode('list')}
                   aria-label="List view"
                   aria-pressed={viewMode === 'list'}
                 >
-                  <List style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <List style={{ width: '20px', height: '20px' }} />
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Loading State with Skeletons */}
+          {/* Loading State */}
           {loading && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-white  border border-[var(--border-subtle)] rounded-2xl overflow-hidden shadow-sm">
-                  <div className="aspect-square bg-[var(--bg-secondary)]" />
-                  <div className="p-4 space-y-3">
-                    <SkeletonBox width="w-3/4" height="h-4" className="mb-2" />
-                    <SkeletonBox width="w-1/2" height="h-3" className="mb-4" />
-                    <div className="flex justify-between items-center">
-                      <SkeletonBox width="w-20" height="h-5" />
-                      <SkeletonBox width="w-16" height="h-8" className="rounded" />
-                    </div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+              gap: '20px'
+            }}>
+              {[...Array(6)].map((_, i) => (
+                <div key={i} style={{
+                  background: '#FFFFFF',
+                  border: '1px solid #E8EAED',
+                  borderRadius: '16px',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
+                }}>
+                  <div style={{
+                    aspectRatio: '1',
+                    background: '#F5F5F5'
+                  }} />
+                  <div style={{ padding: '16px' }}>
+                    <div style={{
+                      height: '16px',
+                      background: '#F5F5F5',
+                      borderRadius: '4px',
+                      marginBottom: '12px',
+                      width: '75%'
+                    }} />
+                    <div style={{
+                      height: '12px',
+                      background: '#F5F5F5',
+                      borderRadius: '4px',
+                      marginBottom: '16px',
+                      width: '50%'
+                    }} />
+                    <div style={{
+                      height: '32px',
+                      background: '#F5F5F5',
+                      borderRadius: '8px'
+                    }} />
                   </div>
                 </div>
               ))}
@@ -630,71 +1003,147 @@ const NFTMarketplacePage = () => {
 
           {/* Error State */}
           {error && !loading && (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <div className="text-6xl mb-4">⚠️</div>
-              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">Failed to Load NFTs</h3>
-              <p className="text-[var(--text-secondary)] mb-6 max-w-md">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
-              <Button
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '80px 20px',
+              textAlign: 'center'
+            }}>
+              <div style={{ fontSize: '64px', marginBottom: '16px' }}>⚠️</div>
+              <h3 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                color: '#1A1A1A',
+                marginBottom: '8px'
+              }}>Failed to Load NFTs</h3>
+              <p style={{
+                fontSize: '16px',
+                color: '#666666',
+                marginBottom: '24px',
+                maxWidth: '480px'
+              }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+              <button
                 onClick={loadListings}
-                style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-2xl font-semibold hover:opacity-90 transition-opacity"
+                style={{
+                  padding: '14px 28px',
+                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                 aria-label="Retry loading NFTs"
               >
                 Try Again
-              </Button>
+              </button>
             </div>
           )}
 
           {/* Empty State */}
           {!loading && !error && filteredListings.length === 0 && (
-            <div className="flex flex-col items-center justify-center py-20 text-center">
-              <ShoppingBag size={64} strokeWidth={1} className="text-[var(--text-secondary)] mb-4" />
-              <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-2">No NFTs Found</h3>
-              <p className="text-[var(--text-secondary)] max-w-md">Try adjusting your filters or search terms</p>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '80px 20px',
+              textAlign: 'center'
+            }}>
+              <ShoppingBag size={64} strokeWidth={1} style={{ color: '#666666', marginBottom: '16px' }} />
+              <h3 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                color: '#1A1A1A',
+                marginBottom: '8px'
+              }}>No NFTs Found</h3>
+              <p style={{
+                fontSize: '16px',
+                color: '#666666',
+                maxWidth: '480px'
+              }}>Try adjusting your filters or search terms</p>
             </div>
           )}
 
           {/* NFT Grid */}
           {!loading && !error && filteredListings.length > 0 && (
-            <div className={`grid gap-6 ${
-              viewMode === 'grid'
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-                : 'grid-cols-1'
-            }`}>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: viewMode === 'grid'
+                ? (isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)')
+                : '1fr',
+              gap: '20px'
+            }}>
               {filteredListings.map((nft) => {
                 const isFavorited = favorites.has(nft.id)
                 const hasAuction = nft.auctionEndTime
                 const priceInETH = nft.price || 0
                 const priceInUSD = (priceInETH * 2400).toFixed(2)
-                const rarityScore = Math.floor(Math.random() * 100) + 1
 
                 return (
                   <div
                     key={nft.id}
-                    className="group bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all overflow-hidden cursor-pointer"
+                    style={{
+                      background: '#FFFFFF',
+                      border: '1px solid #E8EAED',
+                      borderRadius: '16px',
+                      boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+                      overflow: 'hidden',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.3)'
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.borderColor = '#E8EAED'
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.06)'
+                    }}
                   >
                     {/* NFT Image */}
-                    <div className="relative aspect-square overflow-hidden">
+                    <div style={{
+                      position: 'relative',
+                      aspectRatio: '1',
+                      overflow: 'hidden'
+                    }}>
                       <img
                         src={nft.image || 'https://via.placeholder.com/400'}
                         alt={nft.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          transition: 'transform 0.3s ease'
+                        }}
                         loading="lazy"
                       />
 
-                      {/* Overlay on hover */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-[var(--text-primary)] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
-                        <button className="px-4 py-2 bg-white/90  border border-[var(--border-subtle)] rounded-xl text-[var(--text-primary)] font-medium hover:bg-white transition-colors">
-                          Quick View
-                        </button>
-                      </div>
-
                       {/* Favorite Button */}
                       <button
-                        className={`absolute top-3 right-3 p-2 rounded-xl  transition-all ${
-                          isFavorited
-                            ? 'bg-red-500/20 border border-red-500/50 text-red-400'
-                            : 'bg-white/90 border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-white'
-                        }`}
+                        style={{
+                          position: 'absolute',
+                          top: '12px',
+                          right: '12px',
+                          padding: '10px',
+                          borderRadius: '12px',
+                          background: isFavorited
+                            ? 'rgba(255, 107, 157, 0.2)'
+                            : 'rgba(255, 255, 255, 0.9)',
+                          border: isFavorited
+                            ? '1px solid rgba(255, 107, 157, 0.5)'
+                            : '1px solid #E8EAED',
+                          color: isFavorited ? '#FF6B9D' : '#1A1A1A',
+                          cursor: 'pointer',
+                          transition: 'all 0.2s ease'
+                        }}
                         onClick={(e) => {
                           e.stopPropagation()
                           toggleFavorite(nft.id)
@@ -703,87 +1152,124 @@ const NFTMarketplacePage = () => {
                         aria-pressed={isFavorited}
                       >
                         <Heart
-                          size={24}
+                          size={20}
                           fill={isFavorited ? 'currentColor' : 'none'}
                         />
                       </button>
-
-                      {/* Rarity Badge */}
-                      {rarityScore > 80 && (
-                        <div style={{color: "var(--text-primary)"}} className="absolute top-3 left-3 px-3 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center gap-1.5  text-xs font-bold ">
-                          <Sparkles style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                          Legendary
-                        </div>
-                      )}
-                      {rarityScore > 60 && rarityScore <= 80 && (
-                        <div style={{color: "var(--text-primary)"}} className="absolute top-3 left-3 px-3 py-1.5 bg-gradient-to-r from-[#a371f7] to-[#8b5cf6] rounded-xl  text-xs font-bold ">
-                          Rare
-                        </div>
-                      )}
                     </div>
 
                     {/* NFT Info */}
-                    <div className="p-4 space-y-3">
-                      {/* Collection Badge */}
-                      <div className="flex items-center gap-1.5 text-xs text-[var(--text-secondary)]">
-                        <span className="font-medium">
+                    <div style={{ padding: '16px' }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        fontSize: '12px',
+                        color: '#666666',
+                        marginBottom: '8px'
+                      }}>
+                        <span style={{ fontWeight: '600' }}>
                           {nft.collection || 'Unknown Collection'}
                         </span>
-                        <CheckCircle size={12} className="text-[#58a6ff]" />
+                        <CheckCircle size={14} style={{ color: '#58a6ff' }} />
                       </div>
 
-                      <h3 className="text-[var(--text-primary)] font-bold text-lg truncate">{nft.name}</h3>
+                      <h3 style={{
+                        color: '#1A1A1A',
+                        fontWeight: '700',
+                        fontSize: '18px',
+                        marginBottom: '4px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap'
+                      }}>{nft.name}</h3>
 
                       {nft.tokenId && (
-                        <p className="text-xs text-[var(--text-secondary)]">#{nft.tokenId}</p>
+                        <p style={{
+                          fontSize: '12px',
+                          color: '#666666',
+                          marginBottom: '12px'
+                        }}>#{nft.tokenId}</p>
                       )}
 
                       {/* Price Section */}
-                      <div className="flex items-end justify-between pt-2 border-t border-[var(--border-subtle)]">
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                        justifyContent: 'space-between',
+                        paddingTop: '12px',
+                        borderTop: '1px solid #E8EAED',
+                        marginBottom: '12px'
+                      }}>
                         <div>
-                          <span className="text-xs text-[var(--text-secondary)] block mb-1">
+                          <span style={{
+                            fontSize: '12px',
+                            color: '#666666',
+                            display: 'block',
+                            marginBottom: '4px'
+                          }}>
                             {hasAuction ? 'Current Bid' : 'Price'}
                           </span>
-                          <div className="space-y-0.5">
-                            <div className="text-[var(--text-primary)] font-bold text-base">{priceInETH} ETH</div>
-                            <div className="text-[var(--text-secondary)] text-xs">${priceInUSD}</div>
-                          </div>
+                          <div style={{
+                            fontSize: '18px',
+                            fontWeight: '700',
+                            color: '#1A1A1A',
+                            marginBottom: '2px'
+                          }}>{priceInETH} ETH</div>
+                          <div style={{
+                            fontSize: '12px',
+                            color: '#666666'
+                          }}>${priceInUSD}</div>
                         </div>
-
-                        {/* Rarity Score */}
-                        {rarityScore && (
-                          <div className="px-2 py-1 bg-[#58a6ff]/10 text-[#58a6ff] rounded-lg flex items-center gap-1 text-xs font-medium">
-                            <TrendingUp size={12} />
-                            <span>{rarityScore}%</span>
-                          </div>
-                        )}
                       </div>
 
-                      {/* Action Buttons */}
-                      <div className="pt-2">
+                      {/* Action Button */}
+                      <button
+                        style={{
+                          width: '100%',
+                          padding: '12px 16px',
+                          background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                          color: '#FFFFFF',
+                          border: 'none',
+                          borderRadius: '12px',
+                          fontSize: '15px',
+                          fontWeight: '600',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '8px',
+                          boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                          transition: 'all 0.2s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                        onClick={() => hasAuction ? handlePlaceBid(nft) : handlePurchase(nft)}
+                      >
                         {hasAuction ? (
-                          <button
-                            style={{color: "var(--text-primary)"}} className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                            onClick={() => handlePlaceBid(nft)}
-                          >
-                            <DollarSign size={24} />
+                          <>
+                            <DollarSign size={20} />
                             Place Bid
-                          </button>
+                          </>
                         ) : (
-                          <button
-                            style={{color: "var(--text-primary)"}} className="w-full px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
-                            onClick={() => handlePurchase(nft)}
-                          >
-                            <ShoppingBag size={24} />
+                          <>
+                            <ShoppingBag size={20} />
                             Buy Now
-                          </button>
+                          </>
                         )}
-                      </div>
+                      </button>
 
                       {/* Auction Timer */}
                       {hasAuction && (
-                        <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)] pt-1">
-                          <Clock style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          fontSize: '12px',
+                          color: '#666666',
+                          marginTop: '8px'
+                        }}>
+                          <Clock style={{ width: '16px', height: '16px' }} />
                           <span>Ends in 2h 34m</span>
                         </div>
                       )}

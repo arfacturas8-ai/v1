@@ -7,6 +7,8 @@ const CommunityRulesPage = () => {
   const [rules, setRules] = useState([])
   const [loading, setLoading] = useState(true)
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
   useEffect(() => {
     // Simulate fetching rules
     setTimeout(() => {
@@ -22,40 +24,119 @@ const CommunityRulesPage = () => {
   }, [communityName])
 
   return (
-    <div className="min-h-screen py-6 px-4 sm:py-10 sm:px-5" role="main" aria-label="Community rules page" style={{ background: 'var(--bg-primary)' }}>
-      <div className="max-w-3xl mx-auto">
+    <div style={{
+      minHeight: '100vh',
+      paddingTop: isMobile ? '80px' : '88px',
+      paddingBottom: isMobile ? '24px' : '40px',
+      paddingLeft: isMobile ? '16px' : '20px',
+      paddingRight: isMobile ? '16px' : '20px',
+      background: '#FAFAFA'
+    }} role="main" aria-label="Community rules page">
+      <div style={{ maxWidth: '768px', margin: '0 auto' }}>
         <Link
           to={`/community/${communityName}`}
-          className="inline-flex items-center gap-1 no-underline text-xs sm:text-sm mb-4 sm:mb-6 transition-colors hover:opacity-80"
-          style={{ color: 'var(--text-secondary)' }}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '4px',
+            textDecoration: 'none',
+            fontSize: isMobile ? '13px' : '14px',
+            marginBottom: isMobile ? '16px' : '24px',
+            color: '#666666',
+            transition: 'opacity 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
+          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
         >
           <ChevronLeft size={20} />
           Back to c/{communityName}
         </Link>
 
-        <div className="text-center mb-6 sm:mb-8">
-          <div className="w-16 h-16 sm:w-[72px] sm:h-[72px] bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <Shield size={32} className="text-[#58a6ff]" />
+        <div style={{ textAlign: 'center', marginBottom: isMobile ? '24px' : '32px' }}>
+          <div style={{
+            width: isMobile ? '64px' : '72px',
+            height: isMobile ? '64px' : '72px',
+            background: 'rgba(88, 166, 255, 0.1)',
+            border: '1px solid rgba(88, 166, 255, 0.3)',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto',
+            marginBottom: isMobile ? '12px' : '16px'
+          }}>
+            <Shield size={32} style={{ color: '#58a6ff' }} />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
+          <h1 style={{
+            fontSize: isMobile ? '28px' : '36px',
+            fontWeight: '700',
+            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: '8px'
+          }}>
             Community Rules
           </h1>
-          <p className="text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>c/{communityName}</p>
+          <p style={{
+            fontSize: isMobile ? '14px' : '16px',
+            color: '#666666'
+          }}>c/{communityName}</p>
         </div>
 
-        <div className=" rounded-2xl p-5 sm:p-6 mb-4 sm:mb-6" style={{ background: 'var(--bg-secondary)', boxShadow: 'var(--shadow-md)', border: '1px solid var(--border-subtle)' }}>
+        <div style={{
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          padding: isMobile ? '20px' : '24px',
+          marginBottom: isMobile ? '16px' : '24px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+          border: '1px solid #E8EAED'
+        }}>
           {loading ? (
-            <div className="text-center py-8 sm:py-10" style={{ color: 'var(--text-secondary)' }}>Loading rules...</div>
+            <div style={{
+              textAlign: 'center',
+              padding: isMobile ? '32px' : '40px',
+              color: '#666666'
+            }}>Loading rules...</div>
           ) : (
-            <div className="flex flex-col gap-4 sm:gap-5">
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: isMobile ? '16px' : '20px'
+            }}>
               {rules.map((rule, index) => (
-                <div key={rule.id} className="flex gap-3 sm:gap-4">
-                  <div style={{width: "48px", height: "48px", flexShrink: 0, color: 'var(--text-inverse)'}}>
+                <div key={rule.id} style={{
+                  display: 'flex',
+                  gap: isMobile ? '12px' : '16px'
+                }}>
+                  <div style={{
+                    width: '32px',
+                    height: '32px',
+                    flexShrink: 0,
+                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                    borderRadius: '50%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#FFFFFF',
+                    fontSize: '16px',
+                    fontWeight: '600'
+                  }}>
                     {index + 1}
                   </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm sm:text-base font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>{rule.title}</h3>
-                    <p className="text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{rule.description}</p>
+                  <div style={{ flex: 1 }}>
+                    <h3 style={{
+                      fontSize: isMobile ? '15px' : '16px',
+                      fontWeight: '600',
+                      marginBottom: '4px',
+                      color: '#1A1A1A'
+                    }}>{rule.title}</h3>
+                    <p style={{
+                      fontSize: isMobile ? '13px' : '14px',
+                      lineHeight: '1.6',
+                      color: '#666666',
+                      margin: 0
+                    }}>{rule.description}</p>
                   </div>
                 </div>
               ))}
@@ -63,11 +144,34 @@ const CommunityRulesPage = () => {
           )}
         </div>
 
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 sm:p-4 flex gap-2 sm:gap-3 mb-4 sm:mb-6" style={{ boxShadow: 'var(--shadow-sm)' }}>
-          <AlertTriangle size={20} className="text-amber-500 flex-shrink-0" />
+        <div style={{
+          background: 'rgba(245, 158, 11, 0.1)',
+          border: '1px solid rgba(245, 158, 11, 0.3)',
+          borderRadius: '24px',
+          padding: isMobile ? '12px' : '16px',
+          display: 'flex',
+          gap: isMobile ? '8px' : '12px',
+          marginBottom: isMobile ? '16px' : '24px',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04)'
+        }}>
+          <AlertTriangle size={20} style={{
+            color: '#F59E0B',
+            flexShrink: 0
+          }} />
           <div>
-            <h4 className="text-xs sm:text-sm font-semibold text-amber-500 mb-1 sm:mb-2">Violations may result in</h4>
-            <ul className="m-0 pl-4 sm:pl-5 text-xs sm:text-sm leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+            <h4 style={{
+              fontSize: isMobile ? '13px' : '14px',
+              fontWeight: '600',
+              color: '#F59E0B',
+              marginBottom: isMobile ? '4px' : '8px'
+            }}>Violations may result in</h4>
+            <ul style={{
+              margin: 0,
+              paddingLeft: isMobile ? '16px' : '20px',
+              fontSize: isMobile ? '13px' : '14px',
+              lineHeight: '1.6',
+              color: '#1A1A1A'
+            }}>
               <li>Post removal</li>
               <li>Temporary or permanent ban</li>
               <li>Account suspension</li>
@@ -75,8 +179,15 @@ const CommunityRulesPage = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>
-          <CheckCircle size={16} className="text-emerald-500" />
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          fontSize: isMobile ? '13px' : '14px',
+          color: '#666666'
+        }}>
+          <CheckCircle size={16} style={{ color: '#10B981' }} />
           <span>By participating, you agree to follow these rules</span>
         </div>
       </div>
@@ -85,4 +196,3 @@ const CommunityRulesPage = () => {
 }
 
 export default memo(CommunityRulesPage)
-

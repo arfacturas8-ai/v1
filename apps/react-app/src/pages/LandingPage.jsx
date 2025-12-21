@@ -1,14 +1,7 @@
 /**
  * Landing Page - CRYB Platform
  * Modern iOS Aesthetic - Ultra Clean & Minimal
- *
- * DESIGN PRINCIPLES:
- * - Soft shadows, delicate borders
- * - Generous whitespace
- * - Glassmorphism effects
- * - System font feel
- * - Subtle elevations
- * - Smooth transitions
+ * LIGHT THEME ONLY - NO DARK MODE
  */
 
 import React, { useState, useEffect } from 'react';
@@ -46,13 +39,13 @@ export default function LandingPage() {
       title: 'True Ownership',
       desc: 'Your communities, your data, your keys. On-chain forever.',
       icon: Lock,
-      color: '#6366F1'
+      color: '#58a6ff'
     },
     {
       title: 'NFT Membership',
       desc: 'Tokenized access. Tradeable invites. Programmable permissions.',
       icon: Image,
-      color: '#8B5CF6'
+      color: '#a371f7'
     },
     {
       title: 'DAO Governance',
@@ -70,13 +63,13 @@ export default function LandingPage() {
       title: 'E2E Encrypted',
       desc: 'Zero-knowledge proofs. Messages only you can read.',
       icon: Shield,
-      color: '#0095FF'
+      color: '#58a6ff'
     },
     {
       title: 'Earn While You Vibe',
       desc: 'Creator rewards, staking, yield farming on your social graph.',
       icon: TrendingUp,
-      color: '#FF3B3B'
+      color: '#a371f7'
     }
   ];
 
@@ -93,8 +86,8 @@ export default function LandingPage() {
         minHeight: '100vh',
         position: 'relative',
         overflow: 'hidden',
-        background: '#FAFAFA',
-        color: '#000000'
+        background: '#F8F9FA',
+        color: '#1A1A1A'
       }}
     >
       {/* Subtle Background Effects - iOS Style */}
@@ -107,7 +100,7 @@ export default function LandingPage() {
             width: '500px',
             height: '500px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
             opacity: 0.03,
             filter: 'blur(80px)'
           }}
@@ -120,7 +113,7 @@ export default function LandingPage() {
             width: '600px',
             height: '600px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #00D26A 0%, #0095FF 100%)',
+            background: 'linear-gradient(135deg, #00D26A 0%, #58a6ff 100%)',
             opacity: 0.02,
             filter: 'blur(80px)'
           }}
@@ -151,8 +144,8 @@ export default function LandingPage() {
             justifyContent: 'space-between',
             maxWidth: '1440px',
             margin: '0 auto',
-            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
+            paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px'
           }}
         >
           {/* Logo */}
@@ -168,7 +161,7 @@ export default function LandingPage() {
               style={{
                 fontSize: isMobile ? '22px' : '26px',
                 fontWeight: '700',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -191,7 +184,7 @@ export default function LandingPage() {
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}
-                onMouseEnter={(e) => e.target.style.color = '#000000'}
+                onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
                 onMouseLeave={(e) => e.target.style.color = '#666666'}
               >
                 Tokenomics
@@ -205,7 +198,7 @@ export default function LandingPage() {
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}
-                onMouseEnter={(e) => e.target.style.color = '#000000'}
+                onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
                 onMouseLeave={(e) => e.target.style.color = '#666666'}
               >
                 Docs
@@ -219,7 +212,7 @@ export default function LandingPage() {
                   textDecoration: 'none',
                   transition: 'color 0.2s ease'
                 }}
-                onMouseEnter={(e) => e.target.style.color = '#000000'}
+                onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
                 onMouseLeave={(e) => e.target.style.color = '#666666'}
               >
                 Community
@@ -241,7 +234,7 @@ export default function LandingPage() {
                   paddingRight: '24px',
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: '#000000',
+                  color: '#1A1A1A',
                   background: 'transparent',
                   border: 'none',
                   borderRadius: '22px',
@@ -268,21 +261,21 @@ export default function LandingPage() {
                   paddingRight: '24px',
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: 'white',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  color: '#FFFFFF',
+                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                   border: 'none',
-                  borderRadius: '22px',
-                  boxShadow: '0 2px 8px rgba(99, 102, 241, 0.25)',
+                  borderRadius: '9999px',
+                  boxShadow: '0 4px 8px rgba(88, 166, 255, 0.25)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-1px)'
-                  e.target.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                  e.target.style.boxShadow = '0 8px 16px rgba(88, 166, 255, 0.3)'
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 2px 8px rgba(99, 102, 241, 0.25)'
+                  e.target.style.boxShadow = '0 4px 8px rgba(88, 166, 255, 0.25)'
                 }}
               >
                 Get Started
@@ -303,7 +296,7 @@ export default function LandingPage() {
                 background: 'transparent',
                 border: 'none',
                 borderRadius: '22px',
-                color: '#000000',
+                color: '#1A1A1A',
                 cursor: 'pointer',
                 transition: 'background 0.2s ease'
               }}
@@ -340,7 +333,7 @@ export default function LandingPage() {
                   padding: '12px 0',
                   fontSize: '17px',
                   fontWeight: '500',
-                  color: '#000000',
+                  color: '#1A1A1A',
                   textDecoration: 'none'
                 }}
               >
@@ -353,7 +346,7 @@ export default function LandingPage() {
                   padding: '12px 0',
                   fontSize: '17px',
                   fontWeight: '500',
-                  color: '#000000',
+                  color: '#1A1A1A',
                   textDecoration: 'none'
                 }}
               >
@@ -366,7 +359,7 @@ export default function LandingPage() {
                   padding: '12px 0',
                   fontSize: '17px',
                   fontWeight: '500',
-                  color: '#000000',
+                  color: '#1A1A1A',
                   textDecoration: 'none'
                 }}
               >
@@ -384,10 +377,10 @@ export default function LandingPage() {
                   marginBottom: '12px',
                   fontSize: '17px',
                   fontWeight: '600',
-                  color: '#6366F1',
-                  background: 'white',
-                  border: '2px solid #6366F1',
-                  borderRadius: '24px',
+                  color: '#58a6ff',
+                  background: '#FFFFFF',
+                  border: '2px solid #58a6ff',
+                  borderRadius: '9999px',
                   textDecoration: 'none'
                 }}
               >
@@ -402,10 +395,10 @@ export default function LandingPage() {
                   lineHeight: '48px',
                   fontSize: '17px',
                   fontWeight: '600',
-                  color: 'white',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                  borderRadius: '24px',
-                  boxShadow: '0 2px 8px rgba(99, 102, 241, 0.25)',
+                  color: '#FFFFFF',
+                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  borderRadius: '9999px',
+                  boxShadow: '0 4px 8px rgba(88, 166, 255, 0.25)',
                   textDecoration: 'none'
                 }}
               >
@@ -423,8 +416,8 @@ export default function LandingPage() {
           style={{
             paddingTop: isDesktop ? '120px' : isTablet ? '80px' : '60px',
             paddingBottom: isDesktop ? '120px' : isTablet ? '80px' : '60px',
-            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
+            paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px'
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto', textAlign: 'center' }}>
@@ -436,9 +429,9 @@ export default function LandingPage() {
                 gap: '8px',
                 marginBottom: '32px',
                 padding: '6px 16px',
-                background: 'rgba(99, 102, 241, 0.08)',
-                border: '1px solid rgba(99, 102, 241, 0.12)',
-                borderRadius: '20px'
+                background: 'rgba(88, 166, 255, 0.08)',
+                border: '1px solid rgba(88, 166, 255, 0.12)',
+                borderRadius: '9999px'
               }}
             >
               <span
@@ -446,14 +439,14 @@ export default function LandingPage() {
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  background: '#6366F1'
+                  background: '#58a6ff'
                 }}
               />
               <span
                 style={{
                   fontSize: '13px',
                   fontWeight: '600',
-                  color: '#6366F1',
+                  color: '#58a6ff',
                   letterSpacing: '0.01em'
                 }}
               >
@@ -471,11 +464,11 @@ export default function LandingPage() {
                 letterSpacing: '-0.02em'
               }}
             >
-              <span style={{ color: '#000000' }}>Where Communities</span>
+              <span style={{ color: '#1A1A1A' }}>Where Communities</span>
               <br />
               <span
                 style={{
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text'
@@ -498,9 +491,9 @@ export default function LandingPage() {
               }}
             >
               The first truly decentralized social platform. Crypto-native communities with{' '}
-              <span style={{ color: '#6366F1', fontWeight: '600' }}>NFT membership</span>,{' '}
-              <span style={{ color: '#8B5CF6', fontWeight: '600' }}>DAO governance</span>, and{' '}
-              <span style={{ color: '#000000', fontWeight: '600' }}>real ownership</span>.
+              <span style={{ color: '#58a6ff', fontWeight: '600' }}>NFT membership</span>,{' '}
+              <span style={{ color: '#a371f7', fontWeight: '600' }}>DAO governance</span>, and{' '}
+              <span style={{ color: '#1A1A1A', fontWeight: '600' }}>real ownership</span>.
             </p>
 
             {/* CTA Buttons */}
@@ -525,22 +518,22 @@ export default function LandingPage() {
                   paddingRight: '32px',
                   fontSize: '17px',
                   fontWeight: '600',
-                  color: 'white',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  color: '#FFFFFF',
+                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                   border: 'none',
-                  borderRadius: '28px',
-                  boxShadow: '0 4px 16px rgba(99, 102, 241, 0.3)',
+                  borderRadius: '9999px',
+                  boxShadow: '0 4px 16px rgba(88, 166, 255, 0.3)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.4)'
+                  e.target.style.boxShadow = '0 8px 24px rgba(88, 166, 255, 0.4)'
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  e.target.style.boxShadow = '0 4px 16px rgba(88, 166, 255, 0.3)'
                 }}
               >
                 Get Started Free
@@ -559,10 +552,10 @@ export default function LandingPage() {
                   paddingRight: '32px',
                   fontSize: '17px',
                   fontWeight: '600',
-                  color: '#000000',
-                  background: 'white',
+                  color: '#1A1A1A',
+                  background: '#FFFFFF',
                   border: '2px solid rgba(0, 0, 0, 0.08)',
-                  borderRadius: '28px',
+                  borderRadius: '9999px',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto'
@@ -572,7 +565,7 @@ export default function LandingPage() {
                   e.target.style.borderColor = 'rgba(0, 0, 0, 0.12)'
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = 'white'
+                  e.target.style.background = '#FFFFFF'
                   e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
                 }}
               >
@@ -587,11 +580,11 @@ export default function LandingPage() {
           style={{
             paddingTop: '60px',
             paddingBottom: '60px',
-            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            background: 'white',
-            borderTop: '1px solid rgba(0, 0, 0, 0.06)',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.06)'
+            paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            background: '#FFFFFF',
+            borderTop: '1px solid #E8EAED',
+            borderBottom: '1px solid #E8EAED'
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -614,7 +607,7 @@ export default function LandingPage() {
                     style={{
                       fontSize: isDesktop ? '48px' : isTablet ? '40px' : '32px',
                       fontWeight: '700',
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
@@ -644,8 +637,8 @@ export default function LandingPage() {
           style={{
             paddingTop: isDesktop ? '120px' : isTablet ? '80px' : '60px',
             paddingBottom: isDesktop ? '120px' : isTablet ? '80px' : '60px',
-            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
+            paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px'
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -666,7 +659,7 @@ export default function LandingPage() {
               >
                 <span
                   style={{
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text'
@@ -701,22 +694,22 @@ export default function LandingPage() {
                   key={i}
                   style={{
                     padding: '32px',
-                    background: 'white',
-                    border: '1px solid rgba(0, 0, 0, 0.06)',
-                    borderRadius: '20px',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-                    transition: 'all 0.3s ease',
+                    background: '#FFFFFF',
+                    border: '1px solid #E8EAED',
+                    borderRadius: '16px',
+                    boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+                    transition: 'all 0.2s ease',
                     cursor: 'pointer'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)'
-                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.1)'
+                    e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.12)'
+                    e.currentTarget.style.borderColor = '#D1D5DB'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
-                    e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)'
+                    e.currentTarget.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.borderColor = '#E8EAED'
                   }}
                 >
                   <div
@@ -740,7 +733,7 @@ export default function LandingPage() {
                       fontSize: '20px',
                       fontWeight: '600',
                       marginBottom: '12px',
-                      color: '#000000',
+                      color: '#1A1A1A',
                       letterSpacing: '-0.01em'
                     }}
                   >
@@ -767,8 +760,8 @@ export default function LandingPage() {
           style={{
             paddingTop: isDesktop ? '100px' : isTablet ? '80px' : '60px',
             paddingBottom: isDesktop ? '100px' : isTablet ? '80px' : '60px',
-            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px'
+            paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px'
           }}
         >
           <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
@@ -777,9 +770,9 @@ export default function LandingPage() {
                 position: 'relative',
                 overflow: 'hidden',
                 padding: isDesktop ? '80px 60px' : isTablet ? '60px 40px' : '48px 28px',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                borderRadius: '32px',
-                boxShadow: '0 20px 60px rgba(99, 102, 241, 0.3)',
+                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                borderRadius: '24px',
+                boxShadow: '0 20px 60px rgba(88, 166, 255, 0.3)',
                 textAlign: 'center'
               }}
             >
@@ -799,7 +792,7 @@ export default function LandingPage() {
                     fontSize: isDesktop ? '48px' : isTablet ? '40px' : '32px',
                     fontWeight: '700',
                     marginBottom: '20px',
-                    color: 'white',
+                    color: '#FFFFFF',
                     letterSpacing: '-0.02em'
                   }}
                 >
@@ -829,10 +822,10 @@ export default function LandingPage() {
                     paddingRight: '32px',
                     fontSize: '17px',
                     fontWeight: '600',
-                    color: '#6366F1',
-                    background: 'white',
+                    color: '#58a6ff',
+                    background: '#FFFFFF',
                     border: 'none',
-                    borderRadius: '28px',
+                    borderRadius: '9999px',
                     boxShadow: '0 4px 16px rgba(0, 0, 0, 0.15)',
                     textDecoration: 'none',
                     transition: 'all 0.2s ease'
@@ -861,10 +854,10 @@ export default function LandingPage() {
           style={{
             paddingTop: '60px',
             paddingBottom: '40px',
-            paddingLeft: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            paddingRight: isDesktop ? '48px' : isTablet ? '24px' : '20px',
-            background: 'white',
-            borderTop: '1px solid rgba(0, 0, 0, 0.06)'
+            paddingLeft: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            paddingRight: isDesktop ? '80px' : isTablet ? '24px' : '16px',
+            background: '#FFFFFF',
+            borderTop: '1px solid #E8EAED'
           }}
         >
           <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -882,7 +875,7 @@ export default function LandingPage() {
                   style={{
                     fontSize: '24px',
                     fontWeight: '700',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text'
@@ -910,7 +903,7 @@ export default function LandingPage() {
                     fontSize: '13px',
                     fontWeight: '600',
                     marginBottom: '16px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}
@@ -918,10 +911,10 @@ export default function LandingPage() {
                   Platform
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <Link to="/communities" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Communities</Link>
-                  <Link to="/nft-marketplace" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>NFT Marketplace</Link>
-                  <Link to="/governance" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Governance</Link>
-                  <Link to="/tokenomics" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Tokenomics</Link>
+                  <Link to="/communities" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Communities</Link>
+                  <Link to="/nft-marketplace" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>NFT Marketplace</Link>
+                  <Link to="/governance" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Governance</Link>
+                  <Link to="/tokenomics" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Tokenomics</Link>
                 </div>
               </div>
 
@@ -932,7 +925,7 @@ export default function LandingPage() {
                     fontSize: '13px',
                     fontWeight: '600',
                     marginBottom: '16px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}
@@ -940,9 +933,9 @@ export default function LandingPage() {
                   Resources
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <Link to="/help" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Help Center</Link>
-                  <Link to="/guidelines" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Guidelines</Link>
-                  <Link to="/contact" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Contact</Link>
+                  <Link to="/help" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Help Center</Link>
+                  <Link to="/guidelines" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Guidelines</Link>
+                  <Link to="/contact" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Contact</Link>
                 </div>
               </div>
 
@@ -953,7 +946,7 @@ export default function LandingPage() {
                     fontSize: '13px',
                     fontWeight: '600',
                     marginBottom: '16px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     textTransform: 'uppercase',
                     letterSpacing: '0.05em'
                   }}
@@ -961,8 +954,8 @@ export default function LandingPage() {
                   Legal
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <Link to="/privacy" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Privacy Policy</Link>
-                  <Link to="/terms" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#000000'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Terms of Service</Link>
+                  <Link to="/privacy" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Privacy Policy</Link>
+                  <Link to="/terms" style={{ fontSize: '15px', color: '#666666', textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={(e) => e.target.style.color = '#1A1A1A'} onMouseLeave={(e) => e.target.style.color = '#666666'}>Terms of Service</Link>
                 </div>
               </div>
             </div>
@@ -976,7 +969,7 @@ export default function LandingPage() {
                 alignItems: 'center',
                 gap: '16px',
                 paddingTop: '32px',
-                borderTop: '1px solid rgba(0, 0, 0, 0.06)'
+                borderTop: '1px solid #E8EAED'
               }}
             >
               <p
@@ -986,7 +979,7 @@ export default function LandingPage() {
                   margin: 0
                 }}
               >
-                © 2025 Cryb.ai. All rights reserved.
+                2025 Cryb.ai. All rights reserved.
               </p>
               <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                 <a
@@ -994,7 +987,7 @@ export default function LandingPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#666666', transition: 'color 0.2s' }}
-                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
                   onMouseLeave={(e) => e.target.style.color = '#666666'}
                 >
                   <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
@@ -1008,7 +1001,7 @@ export default function LandingPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#666666', transition: 'color 0.2s' }}
-                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
                   onMouseLeave={(e) => e.target.style.color = '#666666'}
                 >
                   <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
@@ -1022,7 +1015,7 @@ export default function LandingPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                   style={{ color: '#666666', transition: 'color 0.2s' }}
-                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
                   onMouseLeave={(e) => e.target.style.color = '#666666'}
                 >
                   <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>

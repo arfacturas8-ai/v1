@@ -17,6 +17,8 @@ export default function PasskeySetupPage() {
   const [isSupported, setIsSupported] = useState(true)
   const [registeredDevice, setRegisteredDevice] = useState(null)
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
   useEffect(() => {
     // Check if WebAuthn is supported
     if (!window.PublicKeyCredential) {
@@ -157,18 +159,61 @@ export default function PasskeySetupPage() {
 
   if (!isSupported) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4" style={{ color: 'var(--text-primary)' }}>
-        <div className="w-full max-w-md">
-          <div className="card   rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
-            <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-red-500/10 rounded-full mb-4">
-                <AlertCircle style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+      <div style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: isMobile ? '16px' : '24px',
+        background: '#FAFAFA',
+        color: '#1A1A1A'
+      }}>
+        <div style={{ width: '100%', maxWidth: '480px' }}>
+          <div style={{
+            background: '#FFFFFF',
+            borderRadius: '24px',
+            padding: isMobile ? '24px' : '32px',
+            border: '1px solid #E8EAED',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+          }}>
+            <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '64px',
+                height: '64px',
+                background: 'rgba(239, 68, 68, 0.1)',
+                borderRadius: '50%',
+                marginBottom: '16px'
+              }}>
+                <AlertCircle style={{ width: '32px', height: '32px', color: '#EF4444' }} />
               </div>
-              <h1 className="text-2xl font-bold mb-2">Browser Not Supported</h1>
-              <p style={{color: "var(--text-secondary)"}} className=" mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+              <h1 style={{
+                fontSize: '24px',
+                fontWeight: '700',
+                marginBottom: '8px'
+              }}>Browser Not Supported</h1>
+              <p style={{
+                fontSize: '15px',
+                color: '#666666',
+                marginBottom: '24px'
+              }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
               <button
                 onClick={() => navigate(-1)}
-                className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors"
+                style={{
+                  padding: '12px 24px',
+                  background: '#E5E7EB',
+                  color: '#1A1A1A',
+                  border: 'none',
+                  borderRadius: '12px',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'background 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = '#D1D5DB'}
+                onMouseLeave={(e) => e.currentTarget.style.background = '#E5E7EB'}
               >
                 Go Back
               </button>
@@ -180,62 +225,154 @@ export default function PasskeySetupPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4" style={{ color: 'var(--text-primary)' }} role="main" aria-label="Passkey setup">
-      <div className="w-full max-w-2xl">
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: isMobile ? '16px' : '24px',
+      background: '#FAFAFA',
+      color: '#1A1A1A'
+    }} role="main" aria-label="Passkey setup">
+      <div style={{ width: '100%', maxWidth: '720px' }}>
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          style={{color: "var(--text-secondary)"}} className="mb-6 flex items-center gap-2  transition-colors"
-          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#8b949e'}
+          style={{
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            color: '#666666',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '14px',
+            padding: '4px',
+            transition: 'color 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#1A1A1A'}
+          onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
           aria-label="Go back"
         >
-          <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+          <ArrowLeft style={{ width: '20px', height: '20px' }} />
           <span>Back</span>
         </button>
 
         {/* Card */}
-        <div className="card   rounded-lg p-8" style={{ border: '1px solid var(--border-subtle)' }}>
+        <div style={{
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          padding: isMobile ? '24px' : '32px',
+          border: '1px solid #E8EAED',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+        }}>
           {/* Step 1: Introduction */}
           {step === 1 && (
             <>
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#58a6ff]/10 rounded-full mb-4">
-                  <Fingerprint style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+              <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(88, 166, 255, 0.1)',
+                  borderRadius: '50%',
+                  marginBottom: '16px'
+                }}>
+                  <Fingerprint style={{ width: '32px', height: '32px', color: '#58a6ff' }} />
                 </div>
-                <h1 className="text-2xl font-bold mb-2">Set Up Passkey</h1>
-                <p style={{color: "var(--text-secondary)"}} className="">
+                <h1 style={{
+                  fontSize: '28px',
+                  fontWeight: '700',
+                  marginBottom: '8px'
+                }}>Set Up Passkey</h1>
+                <p style={{
+                  fontSize: '15px',
+                  color: '#666666'
+                }}>
                   Sign in faster and more securely with biometric authentication
                 </p>
               </div>
 
               {/* Benefits */}
-              <div className="space-y-4 mb-8">
-                <div className="flex items-start gap-3 p-4 bg-[#21262d] rounded-lg">
-                  <Shield style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                marginBottom: '32px'
+              }}>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '12px',
+                  padding: '16px',
+                  background: '#F5F5F5',
+                  borderRadius: '16px'
+                }}>
+                  <Shield style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
                   <div>
-                    <h3 className="font-medium mb-1">More Secure</h3>
-                    <p style={{color: "var(--text-secondary)"}} className="text-sm ">
+                    <h3 style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      marginBottom: '4px'
+                    }}>More Secure</h3>
+                    <p style={{
+                      fontSize: '14px',
+                      color: '#666666',
+                      margin: 0
+                    }}>
                       Passkeys use biometric authentication and are resistant to phishing attacks
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-4 bg-[#21262d] rounded-lg">
-                  <Fingerprint style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '12px',
+                  padding: '16px',
+                  background: '#F5F5F5',
+                  borderRadius: '16px'
+                }}>
+                  <Fingerprint style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
                   <div>
-                    <h3 className="font-medium mb-1">Faster Sign-In</h3>
-                    <p style={{color: "var(--text-secondary)"}} className="text-sm ">
+                    <h3 style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      marginBottom: '4px'
+                    }}>Faster Sign-In</h3>
+                    <p style={{
+                      fontSize: '14px',
+                      color: '#666666',
+                      margin: 0
+                    }}>
                       Sign in with Face ID, Touch ID, or Windows Hello
                     </p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-3 p-4 bg-[#21262d] rounded-lg">
-                  <Key style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '12px',
+                  padding: '16px',
+                  background: '#F5F5F5',
+                  borderRadius: '16px'
+                }}>
+                  <Key style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
                   <div>
-                    <h3 className="font-medium mb-1">No Password Needed</h3>
-                    <p style={{color: "var(--text-secondary)"}} className="text-sm ">
+                    <h3 style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      marginBottom: '4px'
+                    }}>No Password Needed</h3>
+                    <p style={{
+                      fontSize: '14px',
+                      color: '#666666',
+                      margin: 0
+                    }}>
                       Never worry about remembering or resetting passwords
                     </p>
                   </div>
@@ -244,7 +381,21 @@ export default function PasskeySetupPage() {
 
               <button
                 onClick={() => setStep(2)}
-                className="w-full px-6 py-3 bg-[#58a6ff] hover:bg-[#1a6fc7] rounded-lg font-medium transition-colors"
+                style={{
+                  width: '100%',
+                  padding: '14px 24px',
+                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: '12px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                  transition: 'all 0.2s ease'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               >
                 Continue
               </button>
@@ -254,20 +405,47 @@ export default function PasskeySetupPage() {
           {/* Step 2: Setup */}
           {step === 2 && (
             <>
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-[#58a6ff]/10 rounded-full mb-4">
-                  <Smartphone style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+              <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(88, 166, 255, 0.1)',
+                  borderRadius: '50%',
+                  marginBottom: '16px'
+                }}>
+                  <Smartphone style={{ width: '32px', height: '32px', color: '#58a6ff' }} />
                 </div>
-                <h1 className="text-2xl font-bold mb-2">Name Your Device</h1>
-                <p style={{color: "var(--text-secondary)"}} className="">
+                <h1 style={{
+                  fontSize: '28px',
+                  fontWeight: '700',
+                  marginBottom: '8px'
+                }}>Name Your Device</h1>
+                <p style={{
+                  fontSize: '15px',
+                  color: '#666666'
+                }}>
                   This helps you identify which device this passkey is for
                 </p>
               </div>
 
-              <div className="space-y-6 mb-8">
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '24px',
+                marginBottom: '32px'
+              }}>
                 {/* Device name input */}
                 <div>
-                  <label htmlFor="deviceName" className="block text-sm font-medium mb-2">
+                  <label htmlFor="deviceName" style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    marginBottom: '8px',
+                    color: '#666666'
+                  }}>
                     Device Name
                   </label>
                   <input
@@ -277,27 +455,77 @@ export default function PasskeySetupPage() {
                     onChange={(e) => setDeviceName(e.target.value)}
                     placeholder="e.g. iPhone 14, MacBook Pro"
                     disabled={loading}
-                    className="w-full px-4 py-3 bg-[#21262d] rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors disabled:opacity-50"
-                    style={{ border: '1px solid var(--border-subtle)' }}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      background: '#F5F5F5',
+                      borderRadius: '12px',
+                      border: '1px solid #E8EAED',
+                      fontSize: '15px',
+                      color: '#1A1A1A',
+                      outline: 'none',
+                      transition: 'all 0.2s ease',
+                      opacity: loading ? 0.5 : 1
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = '#58a6ff'
+                      e.currentTarget.style.background = '#FFFFFF'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = '#E8EAED'
+                      e.currentTarget.style.background = '#F5F5F5'
+                    }}
                   />
                 </div>
 
                 {/* QR code for mobile */}
-                <div className="p-6 bg-[#21262d] rounded-lg" style={{ border: '1px solid var(--border-subtle)' }}>
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0">
+                <div style={{
+                  padding: '20px',
+                  background: '#F5F5F5',
+                  borderRadius: '16px',
+                  border: '1px solid #E8EAED'
+                }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '16px',
+                    flexDirection: isMobile ? 'column' : 'row'
+                  }}>
+                    <div style={{ flexShrink: 0 }}>
                       {qrCode && (
-                        <div className="w-32 h-32 bg-white rounded-lg p-2">
-                          <img src={qrCode} alt="QR Code for mobile setup" className="w-full h-full" />
+                        <div style={{
+                          width: '128px',
+                          height: '128px',
+                          background: '#FFFFFF',
+                          borderRadius: '12px',
+                          padding: '8px'
+                        }}>
+                          <img src={qrCode} alt="QR Code for mobile setup" style={{
+                            width: '100%',
+                            height: '100%'
+                          }} />
                         </div>
                       )}
                     </div>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <QrCode style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                        <h3 className="font-medium">Set Up on Mobile</h3>
+                    <div style={{ flex: 1 }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        marginBottom: '8px'
+                      }}>
+                        <QrCode style={{ width: '20px', height: '20px', color: '#58a6ff' }} />
+                        <h3 style={{
+                          fontSize: '16px',
+                          fontWeight: '600',
+                          margin: 0
+                        }}>Set Up on Mobile</h3>
                       </div>
-                      <p style={{color: "var(--text-secondary)"}} className="text-sm ">
+                      <p style={{
+                        fontSize: '14px',
+                        color: '#666666',
+                        margin: 0
+                      }}>
                         Scan this QR code with your phone to set up a passkey on your mobile device
                       </p>
                     </div>
@@ -307,25 +535,83 @@ export default function PasskeySetupPage() {
 
               {/* Error message */}
               {error && (
-                <div className="mb-6 p-3 bg-red-500/10 border border-red-500/50 rounded-lg flex items-start gap-2">
-                  <AlertCircle style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                  <p className="text-red-400 text-sm">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                <div style={{
+                  marginBottom: '24px',
+                  padding: '12px',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '8px'
+                }}>
+                  <AlertCircle style={{
+                    width: '20px',
+                    height: '20px',
+                    color: '#EF4444',
+                    flexShrink: 0,
+                    marginTop: '2px'
+                  }} />
+                  <p style={{
+                    color: '#EF4444',
+                    fontSize: '14px',
+                    margin: 0
+                  }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                 </div>
               )}
 
-              <div className="flex gap-3">
+              <div style={{
+                display: 'flex',
+                gap: '12px'
+              }}>
                 <button
                   onClick={() => setStep(1)}
                   disabled={loading}
-                  className="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors disabled:opacity-50"
+                  style={{
+                    flex: 1,
+                    padding: '12px 24px',
+                    background: '#E5E7EB',
+                    color: '#1A1A1A',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    transition: 'background 0.2s ease',
+                    opacity: loading ? 0.5 : 1
+                  }}
+                  onMouseEnter={(e) => !loading && (e.currentTarget.style.background = '#D1D5DB')}
+                  onMouseLeave={(e) => !loading && (e.currentTarget.style.background = '#E5E7EB')}
                 >
                   Back
                 </button>
                 <button
                   onClick={handleSetupPasskey}
                   disabled={loading || !deviceName.trim()}
-                  className="flex-1 px-6 py-3 bg-[#58a6ff] hover:bg-[#1a6fc7] disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
+                  style={{
+                    flex: 1,
+                    padding: '12px 24px',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: (loading || !deviceName.trim()) ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                    transition: 'all 0.2s ease',
+                    opacity: (loading || !deviceName.trim()) ? 0.5 : 1
+                  }}
                 >
+                  {loading && <Loader2 style={{
+                    width: '20px',
+                    height: '20px',
+                    animation: 'spin 1s linear infinite'
+                  }} />}
                   Create Passkey
                 </button>
               </div>
@@ -335,44 +621,121 @@ export default function PasskeySetupPage() {
           {/* Step 3: Success */}
           {step === 3 && (
             <>
-              <div className="text-center mb-8">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-green-500/10 rounded-full mb-4">
-                  <Check style={{ width: "48px", height: "48px", flexShrink: 0 }} />
+              <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                <div style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '64px',
+                  height: '64px',
+                  background: 'rgba(16, 185, 129, 0.1)',
+                  borderRadius: '50%',
+                  marginBottom: '16px'
+                }}>
+                  <Check style={{ width: '32px', height: '32px', color: '#10B981' }} />
                 </div>
-                <h1 className="text-2xl font-bold mb-2">Passkey Created!</h1>
-                <p style={{color: "var(--text-secondary)"}} className="">
+                <h1 style={{
+                  fontSize: '28px',
+                  fontWeight: '700',
+                  marginBottom: '8px'
+                }}>Passkey Created!</h1>
+                <p style={{
+                  fontSize: '15px',
+                  color: '#666666'
+                }}>
                   Your passkey has been successfully set up on {registeredDevice?.name || deviceName}
                 </p>
               </div>
 
-              <div className="p-6 bg-[#21262d] rounded-lg mb-8" style={{ border: '1px solid var(--border-subtle)' }}>
-                <h3 className="font-medium mb-4">What's Next?</h3>
-                <ul style={{color: "var(--text-secondary)"}} className="space-y-3 text-sm ">
-                  <li className="flex items-start gap-2">
-                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <div style={{
+                padding: '20px',
+                background: '#F5F5F5',
+                borderRadius: '16px',
+                marginBottom: '32px',
+                border: '1px solid #E8EAED'
+              }}>
+                <h3 style={{
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  marginBottom: '16px'
+                }}>What's Next?</h3>
+                <ul style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '12px',
+                  fontSize: '14px',
+                  color: '#666666',
+                  padding: 0,
+                  margin: 0,
+                  listStyle: 'none'
+                }}>
+                  <li style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px'
+                  }}>
+                    <Check style={{ width: '20px', height: '20px', color: '#10B981', flexShrink: 0 }} />
                     <span>You can now sign in using biometric authentication</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <li style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px'
+                  }}>
+                    <Check style={{ width: '20px', height: '20px', color: '#10B981', flexShrink: 0 }} />
                     <span>Set up passkeys on your other devices for seamless access</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <Check style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <li style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px'
+                  }}>
+                    <Check style={{ width: '20px', height: '20px', color: '#10B981', flexShrink: 0 }} />
                     <span>You can manage your passkeys in Security Settings</span>
                   </li>
                 </ul>
               </div>
 
-              <div className="flex gap-3">
+              <div style={{
+                display: 'flex',
+                gap: '12px'
+              }}>
                 <button
                   onClick={() => navigate('/settings/security')}
-                  className="flex-1 px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-medium transition-colors"
+                  style={{
+                    flex: 1,
+                    padding: '12px 24px',
+                    background: '#E5E7EB',
+                    color: '#1A1A1A',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'background 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#D1D5DB'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#E5E7EB'}
                 >
                   Manage Passkeys
                 </button>
                 <button
                   onClick={() => navigate('/home')}
-                  className="flex-1 px-6 py-3 bg-[#58a6ff] hover:bg-[#1a6fc7] rounded-lg font-medium transition-colors"
+                  style={{
+                    flex: 1,
+                    padding: '12px 24px',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                 >
                   Done
                 </button>
@@ -383,10 +746,23 @@ export default function PasskeySetupPage() {
 
         {/* Help text */}
         {step === 2 && (
-          <div className="mt-6 text-center">
-            <p style={{color: "var(--text-secondary)"}} className="text-sm ">
+          <div style={{
+            marginTop: '24px',
+            textAlign: 'center'
+          }}>
+            <p style={{
+              fontSize: '14px',
+              color: '#666666'
+            }}>
               Need help?{' '}
-              <Link to="/help" className="text-[#58a6ff] hover:text-[#3d9df0]">
+              <Link to="/help" style={{
+                color: '#58a6ff',
+                transition: 'color 0.2s ease',
+                textDecoration: 'none'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#a371f7'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#58a6ff'}
+              >
                 Learn more about passkeys
               </Link>
             </p>
@@ -396,4 +772,3 @@ export default function PasskeySetupPage() {
     </div>
   )
 }
-

@@ -2,64 +2,271 @@ import React, { memo } from 'react'
 import { BookOpen, FileText, Search, Plus } from 'lucide-react'
 
 const CommunityWikiPage = () => {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024
+
   return (
-    <div className="min-h-screen py-6 px-4 sm:py-10 sm:px-5" role="main" aria-label="Community wiki page" style={{ background: 'var(--bg-primary)', color: 'var(--text-secondary)' }}>
-      <div className="max-w-5xl mx-auto">
-        <div className="text-center mb-6 sm:mb-8">
-          <div className="w-16 h-16 sm:w-[72px] sm:h-[72px] bg-[#58a6ff]/10 border border-[#58a6ff]/30 rounded-full flex items-center justify-center mx-auto mb-3 sm:mb-4">
-            <BookOpen size={32} className="text-[#58a6ff]" />
+    <div style={{
+      minHeight: '100vh',
+      paddingTop: isMobile ? '80px' : '88px',
+      paddingBottom: isMobile ? '24px' : '40px',
+      paddingLeft: isMobile ? '16px' : '20px',
+      paddingRight: isMobile ? '16px' : '20px',
+      background: '#FAFAFA',
+      color: '#666666'
+    }} role="main" aria-label="Community wiki page">
+      <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
+        <div style={{
+          textAlign: 'center',
+          marginBottom: isMobile ? '24px' : '32px'
+        }}>
+          <div style={{
+            width: isMobile ? '64px' : '72px',
+            height: isMobile ? '64px' : '72px',
+            background: 'rgba(88, 166, 255, 0.1)',
+            border: '1px solid rgba(88, 166, 255, 0.3)',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto',
+            marginBottom: isMobile ? '12px' : '16px'
+          }}>
+            <BookOpen size={32} style={{ color: '#58a6ff' }} />
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold bg-gradient-to-br from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent mb-2">
+          <h1 style={{
+            fontSize: isMobile ? '28px' : '36px',
+            fontWeight: '700',
+            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+            marginBottom: '8px'
+          }}>
             Community Wiki
           </h1>
-          <p className="text-sm sm:text-base" style={{ color: 'var(--text-secondary)' }}>Knowledge base and documentation for the community</p>
+          <p style={{
+            fontSize: isMobile ? '14px' : '16px',
+            color: '#666666'
+          }}>Knowledge base and documentation for the community</p>
         </div>
 
-        <div className="flex items-center gap-3  rounded-2xl p-3 sm:p-4 mb-4 sm:mb-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-sm)' }}>
-          <Search size={20} className="flex-shrink-0" style={{ color: 'var(--text-tertiary)' }} />
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          padding: isMobile ? '12px' : '16px',
+          marginBottom: isMobile ? '16px' : '24px',
+          border: '1px solid #E8EAED',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)'
+        }}>
+          <Search size={20} style={{
+            flexShrink: 0,
+            color: '#999999'
+          }} />
           <input
             type="text"
             placeholder="Search wiki articles..."
-            className="flex-1 bg-transparent border-none outline-none text-sm sm:text-base"
-            style={{ color: 'var(--text-primary)' }}
+            style={{
+              flex: 1,
+              background: 'transparent',
+              border: 'none',
+              outline: 'none',
+              fontSize: isMobile ? '14px' : '16px',
+              color: '#1A1A1A'
+            }}
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-4 sm:mb-6">
-          <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-            <div style={{width: "64px", height: "64px", flexShrink: 0, boxShadow: 'var(--shadow-sm)'}}>
-              <FileText size={24} className="text-[#58a6ff]" />
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
+          gap: isMobile ? '16px' : '24px',
+          marginBottom: isMobile ? '16px' : '24px'
+        }}>
+          <div style={{
+            background: '#FFFFFF',
+            borderRadius: '24px',
+            padding: isMobile ? '20px' : '24px',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            border: '1px solid #E8EAED',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)'
+            e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.3)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.borderColor = '#E8EAED'
+          }}
+          >
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(88, 166, 255, 0.1)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px'
+            }}>
+              <FileText size={24} style={{ color: '#58a6ff' }} />
             </div>
-            <h3 className="text-sm sm:text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Getting Started</h3>
-            <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Learn the basics of our community</p>
+            <h3 style={{
+              fontSize: isMobile ? '15px' : '16px',
+              fontWeight: '600',
+              marginBottom: '8px',
+              color: '#1A1A1A'
+            }}>Getting Started</h3>
+            <p style={{
+              fontSize: isMobile ? '13px' : '14px',
+              color: '#666666',
+              margin: 0
+            }}>Learn the basics of our community</p>
           </div>
 
-          <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-            <div style={{width: "64px", height: "64px", flexShrink: 0, boxShadow: 'var(--shadow-sm)'}}>
-              <FileText size={24} className="text-emerald-500" />
+          <div style={{
+            background: '#FFFFFF',
+            borderRadius: '24px',
+            padding: isMobile ? '20px' : '24px',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            border: '1px solid #E8EAED',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)'
+            e.currentTarget.style.borderColor = 'rgba(16, 185, 129, 0.3)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.borderColor = '#E8EAED'
+          }}
+          >
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(16, 185, 129, 0.1)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px'
+            }}>
+              <FileText size={24} style={{ color: '#10B981' }} />
             </div>
-            <h3 className="text-sm sm:text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>Community Guidelines</h3>
-            <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Rules and best practices</p>
+            <h3 style={{
+              fontSize: isMobile ? '15px' : '16px',
+              fontWeight: '600',
+              marginBottom: '8px',
+              color: '#1A1A1A'
+            }}>Community Guidelines</h3>
+            <p style={{
+              fontSize: isMobile ? '13px' : '14px',
+              color: '#666666',
+              margin: 0
+            }}>Rules and best practices</p>
           </div>
 
-          <div className=" rounded-2xl p-5 sm:p-6 cursor-pointer transition-opacity hover:opacity-80 sm:col-span-2 lg:col-span-1" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-            <div style={{width: "64px", height: "64px", flexShrink: 0, boxShadow: 'var(--shadow-sm)'}}>
-              <FileText size={24} className="text-[#a371f7]" />
+          <div style={{
+            background: '#FFFFFF',
+            borderRadius: '24px',
+            padding: isMobile ? '20px' : '24px',
+            cursor: 'pointer',
+            transition: 'all 0.2s ease',
+            gridColumn: isTablet ? 'span 2' : 'auto',
+            border: '1px solid #E8EAED',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-4px)'
+            e.currentTarget.style.borderColor = 'rgba(163, 113, 247, 0.3)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)'
+            e.currentTarget.style.borderColor = '#E8EAED'
+          }}
+          >
+            <div style={{
+              width: '64px',
+              height: '64px',
+              background: 'rgba(163, 113, 247, 0.1)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: '16px'
+            }}>
+              <FileText size={24} style={{ color: '#a371f7' }} />
             </div>
-            <h3 className="text-sm sm:text-base font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>FAQ</h3>
-            <p className="text-xs sm:text-sm" style={{ color: 'var(--text-secondary)' }}>Frequently asked questions</p>
+            <h3 style={{
+              fontSize: isMobile ? '15px' : '16px',
+              fontWeight: '600',
+              marginBottom: '8px',
+              color: '#1A1A1A'
+            }}>FAQ</h3>
+            <p style={{
+              fontSize: isMobile ? '13px' : '14px',
+              color: '#666666',
+              margin: 0
+            }}>Frequently asked questions</p>
           </div>
         </div>
 
-        <div className=" rounded-2xl p-5 sm:p-6" style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--shadow-md)' }}>
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-0 mb-3 sm:mb-4">
-            <h3 className="text-base sm:text-lg font-semibold m-0" style={{ color: 'var(--text-primary)' }}>Recent Articles</h3>
-            <button className="flex items-center gap-1.5 px-3 sm:px-4 py-2 bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-none rounded-lg text-xs sm:text-sm font-medium cursor-pointer hover:opacity-90 transition-opacity" style={{ color: 'var(--text-inverse)' }}>
+        <div style={{
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          padding: isMobile ? '20px' : '24px',
+          border: '1px solid #E8EAED',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+        }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            justifyContent: 'space-between',
+            alignItems: isMobile ? 'flex-start' : 'center',
+            gap: isMobile ? '12px' : '0',
+            marginBottom: isMobile ? '12px' : '16px'
+          }}>
+            <h3 style={{
+              fontSize: isMobile ? '16px' : '18px',
+              fontWeight: '600',
+              margin: 0,
+              color: '#1A1A1A'
+            }}>Recent Articles</h3>
+            <button style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: isMobile ? '10px 12px' : '10px 16px',
+              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: isMobile ? '13px' : '14px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              color: '#FFFFFF',
+              boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
               <Plus size={16} />
               New Article
             </button>
           </div>
-          <p className="text-xs sm:text-sm text-center py-6 sm:py-8" style={{ color: 'var(--text-secondary)' }}>
+          <p style={{
+            fontSize: isMobile ? '13px' : '14px',
+            textAlign: 'center',
+            padding: isMobile ? '24px' : '32px',
+            color: '#666666',
+            margin: 0
+          }}>
             No wiki articles have been created yet.
           </p>
         </div>
@@ -69,4 +276,3 @@ const CommunityWikiPage = () => {
 }
 
 export default memo(CommunityWikiPage)
-

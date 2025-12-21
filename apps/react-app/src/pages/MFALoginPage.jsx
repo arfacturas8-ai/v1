@@ -17,6 +17,8 @@ export default function MFALoginPage() {
   const [showBackupCodes, setShowBackupCodes] = useState(false)
   const inputRefs = useRef([])
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+
   const email = location.state?.email || ''
 
   useEffect(() => {
@@ -155,35 +157,94 @@ export default function MFALoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 pb-8 md:p-4" style={{ background: 'var(--bg-primary)', color: 'var(--text-primary)' }} role="main" aria-label="Two-factor authentication">
-      <div className="w-full max-w-full md:max-w-[480px] lg:max-w-[440px]">
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: isMobile ? '16px' : '24px',
+      background: '#FAFAFA',
+      color: '#1A1A1A'
+    }} role="main" aria-label="Two-factor authentication">
+      <div style={{
+        width: '100%',
+        maxWidth: '440px'
+      }}>
         <button
           onClick={() => navigate('/login')}
-          className="mb-3 md:mb-4 flex items-center gap-2 text-[#666666] bg-transparent border-0 cursor-pointer text-xs p-1 transition-colors"
-          style={{ '--hover-color': 'var(--text-primary)' }}
-          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+          style={{
+            marginBottom: '16px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            color: '#666666',
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: '14px',
+            padding: '4px',
+            transition: 'color 0.2s ease'
+          }}
+          onMouseEnter={(e) => e.currentTarget.style.color = '#1A1A1A'}
           onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
           aria-label="Back to login"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
+          <ArrowLeft style={{ width: '16px', height: '16px' }} />
           <span>Back to login</span>
         </button>
 
-        <div className="bg-white  rounded-[10px] shadow-sm p-5 md:p-6 lg:p-5" style={{ border: '1px solid var(--border-subtle)' }}>
-          <div className="text-center mb-4 md:mb-5 lg:mb-4">
-            <div className="inline-flex items-center justify-center w-11 h-11 bg-[#58a6ff]/10 rounded-full mb-3 md:mb-2.5 lg:mb-2">
-              <Shield className="w-5.5 h-5.5 text-[#58a6ff]" />
+        <div style={{
+          background: '#FFFFFF',
+          borderRadius: '24px',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+          padding: isMobile ? '24px' : '32px',
+          border: '1px solid #E8EAED'
+        }}>
+          <div style={{
+            textAlign: 'center',
+            marginBottom: '24px'
+          }}>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '56px',
+              height: '56px',
+              background: 'rgba(88, 166, 255, 0.1)',
+              borderRadius: '50%',
+              marginBottom: '16px'
+            }}>
+              <Shield style={{ width: '28px', height: '28px', color: '#58a6ff' }} />
             </div>
-            <h1 className="text-xl font-bold mb-2 md:mb-1.5" style={{ color: 'var(--text-primary)' }}>Two-Factor Authentication</h1>
-            <p className="text-xs text-[#666666] leading-relaxed">
-              {email && <span className="block text-[11px] mb-2 md:mb-1.5 text-[#A0A0A0]">{email}</span>}
+            <h1 style={{
+              fontSize: '24px',
+              fontWeight: '700',
+              marginBottom: '8px',
+              color: '#1A1A1A'
+            }}>Two-Factor Authentication</h1>
+            <p style={{
+              fontSize: '14px',
+              color: '#666666',
+              lineHeight: '1.5'
+            }}>
+              {email && <span style={{
+                display: 'block',
+                fontSize: '12px',
+                marginBottom: '8px',
+                color: '#999999'
+              }}>{email}</span>}
               Enter the 6-digit code from your authenticator app
             </p>
           </div>
 
           {!showBackupCodes ? (
             <>
-              <div className="flex gap-1.5 md:gap-2 mb-4 md:mb-3.5 lg:mb-3 justify-center">
+              <div style={{
+                display: 'flex',
+                gap: '8px',
+                marginBottom: '20px',
+                justifyContent: 'center'
+              }}>
                 {code.map((digit, index) => (
                   <input
                     key={index}
@@ -195,57 +256,137 @@ export default function MFALoginPage() {
                     onChange={(e) => handleInputChange(index, e.target.value)}
                     onKeyDown={(e) => handleKeyDown(index, e)}
                     disabled={loading}
-                    className="w-[38px] md:w-[42px] h-11 md:h-12 text-center text-lg font-bold bg-white rounded-[10px] outline-none transition-all disabled:opacity-50"
-                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+                    style={{
+                      width: isMobile ? '42px' : '52px',
+                      height: isMobile ? '52px' : '60px',
+                      textAlign: 'center',
+                      fontSize: '24px',
+                      fontWeight: '700',
+                      background: '#FFFFFF',
+                      borderRadius: '12px',
+                      outline: 'none',
+                      border: '2px solid #E8EAED',
+                      color: '#1A1A1A',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onFocus={(e) => e.currentTarget.style.borderColor = '#58a6ff'}
+                    onBlur={(e) => e.currentTarget.style.borderColor = '#E8EAED'}
                     aria-label={`Digit ${index + 1}`}
                   />
                 ))}
               </div>
 
               {error && (
-                <div className="mb-4 md:mb-3.5 lg:mb-3 p-4 md:p-3.5 lg:p-3 bg-red-500/10 border border-red-500/30 rounded-[10px] flex items-start gap-2">
-                  <AlertCircle className="w-4.5 h-4.5 text-red-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-red-500 text-xs m-0">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                <div style={{
+                  marginBottom: '20px',
+                  padding: '12px',
+                  background: 'rgba(239, 68, 68, 0.1)',
+                  border: '1px solid rgba(239, 68, 68, 0.3)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '8px'
+                }}>
+                  <AlertCircle style={{
+                    width: '18px',
+                    height: '18px',
+                    color: '#EF4444',
+                    flexShrink: 0,
+                    marginTop: '2px'
+                  }} />
+                  <p style={{
+                    color: '#EF4444',
+                    fontSize: '13px',
+                    margin: 0
+                  }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                 </div>
               )}
 
-              <label className="flex items-center gap-2 mb-4 md:mb-3.5 lg:mb-3 cursor-pointer">
+              <label style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                marginBottom: '20px',
+                cursor: 'pointer'
+              }}>
                 <input
                   type="checkbox"
                   checked={rememberDevice}
                   onChange={(e) => setRememberDevice(e.target.checked)}
                   disabled={loading}
-                  style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                  style={{ border: '1px solid var(--border-subtle)' }}
+                  style={{
+                    width: '18px',
+                    height: '18px',
+                    cursor: 'pointer'
+                  }}
                 />
-                <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+                <span style={{
+                  fontSize: '14px',
+                  color: '#666666'
+                }}>
                   Remember this device for 30 days
                 </span>
               </label>
 
               {loading && (
-                <div className="flex items-center justify-center gap-2 mb-4 md:mb-3.5 lg:mb-3 text-xs" style={{ color: 'var(--text-secondary)' }}>
-                  <Loader2 className="w-4.5 h-4.5 " />
-                  <span>Verify</span>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  marginBottom: '20px',
+                  fontSize: '14px',
+                  color: '#666666'
+                }}>
+                  <Loader2 style={{
+                    width: '18px',
+                    height: '18px',
+                    animation: 'spin 1s linear infinite'
+                  }} />
+                  <span>Verifying...</span>
                 </div>
               )}
 
-              <div className="text-center">
+              <div style={{ textAlign: 'center' }}>
                 <button
                   onClick={() => setShowBackupCodes(true)}
                   disabled={loading}
-                  className="text-xs text-[#58a6ff] bg-transparent border-0 cursor-pointer inline-flex items-center gap-2 p-1 transition-colors hover:text-[#79c0ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    fontSize: '14px',
+                    color: '#58a6ff',
+                    background: 'transparent',
+                    border: 'none',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '4px',
+                    transition: 'color 0.2s ease',
+                    opacity: loading ? 0.5 : 1
+                  }}
+                  onMouseEnter={(e) => !loading && (e.currentTarget.style.color = '#a371f7')}
+                  onMouseLeave={(e) => !loading && (e.currentTarget.style.color = '#58a6ff')}
                 >
-                  <Key className="w-3.5 h-3.5" />
+                  <Key style={{ width: '16px', height: '16px' }} />
                   Use backup code instead
                 </button>
               </div>
             </>
           ) : (
             <>
-              <form onSubmit={handleBackupCodeSubmit} className="flex flex-col gap-4 md:gap-3.5 lg:gap-3">
-                <div className="flex flex-col">
-                  <label htmlFor="backupCode" className="block text-xs font-medium mb-2 md:mb-1.5 text-[#A0A0A0]">
+              <form onSubmit={handleBackupCodeSubmit} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px'
+              }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                  <label htmlFor="backupCode" style={{
+                    display: 'block',
+                    fontSize: '14px',
+                    fontWeight: '600',
+                    marginBottom: '8px',
+                    color: '#666666'
+                  }}>
                     Backup Code
                   </label>
                   <input
@@ -254,31 +395,83 @@ export default function MFALoginPage() {
                     name="backupCode"
                     placeholder="Enter your backup code"
                     disabled={loading}
-                    className="w-full px-3 md:px-2.5 py-3 md:py-2.5 text-sm bg-[#202225]/60 rounded-[10px] outline-none transition-all disabled:opacity-50"
-                    style={{ border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' }}
+                    style={{
+                      width: '100%',
+                      padding: '12px 16px',
+                      fontSize: '15px',
+                      background: '#F5F5F5',
+                      borderRadius: '12px',
+                      outline: 'none',
+                      border: '1px solid #E8EAED',
+                      color: '#1A1A1A',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onFocus={(e) => {
+                      e.currentTarget.style.borderColor = '#58a6ff'
+                      e.currentTarget.style.background = '#FFFFFF'
+                    }}
+                    onBlur={(e) => {
+                      e.currentTarget.style.borderColor = '#E8EAED'
+                      e.currentTarget.style.background = '#F5F5F5'
+                    }}
                     required
                   />
-                  <p className="mt-2 md:mt-1.5 text-[11px] text-[#666666] leading-normal">
+                  <p style={{
+                    marginTop: '8px',
+                    fontSize: '12px',
+                    color: '#666666',
+                    lineHeight: '1.4'
+                  }}>
                     Enter one of your backup codes provided during MFA setup
                   </p>
                 </div>
 
                 {error && (
-                  <div className="p-4 md:p-3.5 lg:p-3 bg-red-500/10 border border-red-500/30 rounded-[10px] flex items-start gap-2">
-                    <AlertCircle className="w-4.5 h-4.5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <p className="text-red-500 text-xs m-0">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+                  <div style={{
+                    padding: '12px',
+                    background: 'rgba(239, 68, 68, 0.1)',
+                    border: '1px solid rgba(239, 68, 68, 0.3)',
+                    borderRadius: '12px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: '8px'
+                  }}>
+                    <AlertCircle style={{
+                      width: '18px',
+                      height: '18px',
+                      color: '#EF4444',
+                      flexShrink: 0,
+                      marginTop: '2px'
+                    }} />
+                    <p style={{
+                      color: '#EF4444',
+                      fontSize: '13px',
+                      margin: 0
+                    }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
                   </div>
                 )}
 
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer'
+                }}>
                   <input
                     type="checkbox"
                     checked={rememberDevice}
                     onChange={(e) => setRememberDevice(e.target.checked)}
                     disabled={loading}
-                    style={{ borderColor: "var(--border-subtle)", width: "24px", height: "24px", flexShrink: 0 }}
+                    style={{
+                      width: '18px',
+                      height: '18px',
+                      cursor: 'pointer'
+                    }}
                   />
-                  <span className="text-xs text-[#A0A0A0]">
+                  <span style={{
+                    fontSize: '14px',
+                    color: '#666666'
+                  }}>
                     Remember this device for 30 days
                   </span>
                 </label>
@@ -286,12 +479,35 @@ export default function MFALoginPage() {
                 <button
                   type="submit"
                   disabled={loading}
-                  style={{color: "var(--text-primary)"}} className="w-full px-3 py-2.5 md:py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  border-0 rounded-[10px] text-sm font-semibold cursor-pointer flex items-center justify-center gap-2 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    transition: 'opacity 0.2s ease',
+                    opacity: loading ? 0.5 : 1
+                  }}
+                  onMouseEnter={(e) => !loading && (e.currentTarget.style.opacity = '0.9')}
+                  onMouseLeave={(e) => !loading && (e.currentTarget.style.opacity = '1')}
                 >
+                  {loading && <Loader2 style={{
+                    width: '20px',
+                    height: '20px',
+                    animation: 'spin 1s linear infinite'
+                  }} />}
                   Verify Backup Code
                 </button>
 
-                <div className="text-center">
+                <div style={{ textAlign: 'center' }}>
                   <button
                     type="button"
                     onClick={() => {
@@ -299,7 +515,18 @@ export default function MFALoginPage() {
                       setError('')
                     }}
                     disabled={loading}
-                    className="text-xs text-[#58a6ff] bg-transparent border-0 cursor-pointer p-1 transition-colors hover:text-[#79c0ff] disabled:opacity-50 disabled:cursor-not-allowed"
+                    style={{
+                      fontSize: '14px',
+                      color: '#58a6ff',
+                      background: 'transparent',
+                      border: 'none',
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      padding: '4px',
+                      transition: 'color 0.2s ease',
+                      opacity: loading ? 0.5 : 1
+                    }}
+                    onMouseEnter={(e) => !loading && (e.currentTarget.style.color = '#a371f7')}
+                    onMouseLeave={(e) => !loading && (e.currentTarget.style.color = '#58a6ff')}
                   >
                     Use authenticator code instead
                   </button>
@@ -308,10 +535,25 @@ export default function MFALoginPage() {
             </>
           )}
 
-          <div className="mt-5 md:mt-4.5 lg:mt-3.5 pt-4 md:pt-3.5 lg:pt-3 border-t text-center" style={{ borderColor: 'var(--border-subtle)' }}>
-            <p className="text-xs text-[#666666]">
+          <div style={{
+            marginTop: '24px',
+            paddingTop: '20px',
+            borderTop: '1px solid #E8EAED',
+            textAlign: 'center'
+          }}>
+            <p style={{
+              fontSize: '13px',
+              color: '#666666'
+            }}>
               Lost access to your authenticator?{' '}
-              <Link to="/account-recovery" className="text-[#58a6ff] no-underline transition-colors hover:text-[#79c0ff]">
+              <Link to="/account-recovery" style={{
+                color: '#58a6ff',
+                textDecoration: 'none',
+                transition: 'color 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#a371f7'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#58a6ff'}
+              >
                 Recover your account
               </Link>
             </p>
@@ -321,4 +563,3 @@ export default function MFALoginPage() {
     </div>
   )
 }
-

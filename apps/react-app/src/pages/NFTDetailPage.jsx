@@ -24,6 +24,10 @@ const NFTDetailPage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024
+  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
+
   useEffect(() => {
     loadNFTData()
   }, [nftId])
@@ -91,31 +95,91 @@ const NFTDetailPage = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center" role="status" aria-live="polite">
-        <div style={{ width: "64px", height: "64px", flexShrink: 0 }} />
-        <span className="sr-only">Loading NFT details...</span>
+      <div style={{
+        minHeight: '100vh',
+        background: '#FAFAFA',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }} role="status" aria-live="polite">
+        <div style={{
+          width: '64px',
+          height: '64px',
+          border: '4px solid #E8EAED',
+          borderTop: '4px solid #58a6ff',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <span style={{ position: 'absolute', width: '1px', height: '1px', overflow: 'hidden' }}>Loading NFT details...</span>
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
-        <div className="text-center max-w-md">
-          <div className="text-6xl mb-4">⚠️</div>
-          <h2 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">Failed to Load NFT</h2>
-          <p className="text-[var(--text-secondary)] mb-6">{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
-          <div className="flex gap-3 justify-center">
+      <div style={{
+        minHeight: '100vh',
+        background: '#FAFAFA',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: isMobile ? '16px' : '24px'
+      }}>
+        <div style={{ textAlign: 'center', maxWidth: '480px' }}>
+          <div style={{ fontSize: '64px', marginBottom: '24px' }}>⚠️</div>
+          <h2 style={{
+            fontSize: isMobile ? '24px' : '32px',
+            fontWeight: '700',
+            marginBottom: '12px',
+            color: '#1A1A1A'
+          }}>Failed to Load NFT</h2>
+          <p style={{
+            fontSize: '16px',
+            color: '#666666',
+            marginBottom: '32px',
+            lineHeight: '1.5'
+          }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
+          <div style={{
+            display: 'flex',
+            gap: '12px',
+            justifyContent: 'center',
+            flexDirection: isMobile ? 'column' : 'row'
+          }}>
             <button
               onClick={loadNFTData}
-              style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-2xl shadow-sm font-semibold hover:opacity-90 transition-opacity"
+              style={{
+                padding: '14px 28px',
+                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: '12px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
               aria-label="Retry loading NFT"
             >
               Try Again
             </button>
             <button
               onClick={() => navigate('/nft-marketplace')}
-              className="px-6 py-3 bg-white  text-[#58a6ff] border border-[var(--border-subtle)] rounded-2xl shadow-sm font-semibold hover:bg-[var(--bg-secondary)] transition-colors"
+              style={{
+                padding: '14px 28px',
+                background: '#FFFFFF',
+                color: '#58a6ff',
+                border: '1px solid #E8EAED',
+                borderRadius: '12px',
+                fontSize: '16px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#FFFFFF'}
               aria-label="Back to marketplace"
             >
               Back to Marketplace
@@ -128,14 +192,43 @@ const NFTDetailPage = () => {
 
   if (!nftData) {
     return (
-      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center p-4">
-        <div className="text-center">
-          <div className="text-6xl mb-4">🔍</div>
-          <h2 className="text-2xl font-bold mb-2 text-[var(--text-primary)]">NFT Not Found</h2>
-          <p className="text-[var(--text-secondary)] mb-6">The NFT you're looking for doesn't exist or has been removed.</p>
+      <div style={{
+        minHeight: '100vh',
+        background: '#FAFAFA',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: isMobile ? '16px' : '24px'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '64px', marginBottom: '24px' }}>🔍</div>
+          <h2 style={{
+            fontSize: isMobile ? '24px' : '32px',
+            fontWeight: '700',
+            marginBottom: '12px',
+            color: '#1A1A1A'
+          }}>NFT Not Found</h2>
+          <p style={{
+            fontSize: '16px',
+            color: '#666666',
+            marginBottom: '32px'
+          }}>The NFT you're looking for doesn't exist or has been removed.</p>
           <button
             onClick={() => navigate('/nft-marketplace')}
-            style={{color: "var(--text-primary)"}} className="px-6 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-2xl shadow-sm font-semibold hover:opacity-90 transition-opacity"
+            style={{
+              padding: '14px 28px',
+              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '12px',
+              fontSize: '16px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             aria-label="Back to marketplace"
           >
             Back to Marketplace
@@ -146,65 +239,218 @@ const NFTDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)]" role="main" aria-label="NFT detail page">
+    <div style={{
+      minHeight: '100vh',
+      background: '#FAFAFA',
+      paddingTop: isMobile ? '56px' : '72px'
+    }} role="main" aria-label="NFT detail page">
       {/* Header */}
-      <div className="bg-white  border-b border-[var(--border-subtle)]">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center gap-4">
+      <div style={{
+        background: '#FFFFFF',
+        borderBottom: '1px solid #E8EAED',
+        boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+      }}>
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: isMobile ? '16px' : '24px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: isMobile ? '12px' : '16px'
+        }}>
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg text-[var(--text-secondary)] transition-colors"
+            style={{
+              padding: '10px',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '12px',
+              color: '#666666',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             aria-label="Go back"
           >
-            <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+            <ArrowLeft style={{ width: '24px', height: '24px' }} />
           </button>
-          <div className="flex-1">
-            <h1 className="text-2xl font-bold text-[var(--text-primary)]">{nftData.name}</h1>
-            <p className="text-sm text-[var(--text-secondary)]">{nftData.collection}</p>
+          <div style={{ flex: 1 }}>
+            <h1 style={{
+              fontSize: isMobile ? '20px' : '28px',
+              fontWeight: '700',
+              color: '#1A1A1A',
+              marginBottom: '4px'
+            }}>{nftData.name}</h1>
+            <p style={{
+              fontSize: '14px',
+              color: '#666666'
+            }}>{nftData.collection}</p>
           </div>
           <button
             onClick={handleShare}
-            className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg text-[var(--text-secondary)] transition-colors"
+            style={{
+              padding: '10px',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '12px',
+              color: '#666666',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             aria-label="Share NFT"
           >
-            <Share2 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+            <Share2 style={{ width: '24px', height: '24px' }} />
           </button>
           <button
-            className="p-2 hover:bg-[var(--bg-secondary)] rounded-lg text-[var(--text-secondary)] transition-colors"
+            style={{
+              padding: '10px',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '12px',
+              color: '#666666',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             aria-label="More options"
           >
-            <MoreVertical style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+            <MoreVertical style={{ width: '24px', height: '24px' }} />
           </button>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div style={{
+        maxWidth: '1280px',
+        margin: '0 auto',
+        padding: isMobile ? '16px' : isTablet ? '24px' : '32px'
+      }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: isDesktop ? '1fr 1fr' : '1fr',
+          gap: isMobile ? '24px' : '32px'
+        }}>
           {/* Left: Image */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="space-y-4"
+            style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
           >
-            <div className="aspect-square bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
-              <img src={nftData.image} alt={nftData.name} className="w-full h-full object-cover" />
+            <div style={{
+              aspectRatio: '1',
+              background: '#FFFFFF',
+              border: '1px solid #E8EAED',
+              borderRadius: '24px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              overflow: 'hidden',
+              transition: 'all 0.2s ease'
+            }}>
+              <img
+                src={nftData.image}
+                alt={nftData.name}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }}
+              />
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all text-center">
-                <Eye style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                <div className="text-xl font-bold text-[var(--text-primary)]">{nftData.stats.views}</div>
-                <div className="text-sm text-[var(--text-secondary)]">Views</div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: isMobile ? '12px' : '16px'
+            }}>
+              <div style={{
+                padding: isMobile ? '16px' : '20px',
+                background: '#FFFFFF',
+                border: '1px solid #E8EAED',
+                borderRadius: '16px',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+                textAlign: 'center',
+                transition: 'all 0.2s ease'
+              }}>
+                <Eye style={{
+                  width: '24px',
+                  height: '24px',
+                  margin: '0 auto 8px',
+                  color: '#58a6ff'
+                }} />
+                <div style={{
+                  fontSize: isMobile ? '18px' : '24px',
+                  fontWeight: '700',
+                  color: '#1A1A1A',
+                  marginBottom: '4px'
+                }}>{nftData.stats.views}</div>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#666666'
+                }}>Views</div>
               </div>
-              <div className="p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all text-center">
-                <Heart style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                <div className="text-xl font-bold text-[var(--text-primary)]">{nftData.stats.likes}</div>
-                <div className="text-sm text-[var(--text-secondary)]">Likes</div>
+              <div style={{
+                padding: isMobile ? '16px' : '20px',
+                background: '#FFFFFF',
+                border: '1px solid #E8EAED',
+                borderRadius: '16px',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+                textAlign: 'center',
+                transition: 'all 0.2s ease'
+              }}>
+                <Heart style={{
+                  width: '24px',
+                  height: '24px',
+                  margin: '0 auto 8px',
+                  color: '#FF6B9D'
+                }} />
+                <div style={{
+                  fontSize: isMobile ? '18px' : '24px',
+                  fontWeight: '700',
+                  color: '#1A1A1A',
+                  marginBottom: '4px'
+                }}>{nftData.stats.likes}</div>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#666666'
+                }}>Likes</div>
               </div>
-              <div className="p-4 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm hover:border-[#58a6ff]/30 hover:shadow-md transition-all text-center">
-                <Tag style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                <div className="text-xl font-bold text-[var(--text-primary)]">{nftData.stats.offers}</div>
-                <div className="text-sm text-[var(--text-secondary)]">Offers</div>
+              <div style={{
+                padding: isMobile ? '16px' : '20px',
+                background: '#FFFFFF',
+                border: '1px solid #E8EAED',
+                borderRadius: '16px',
+                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06)',
+                textAlign: 'center',
+                transition: 'all 0.2s ease'
+              }}>
+                <Tag style={{
+                  width: '24px',
+                  height: '24px',
+                  margin: '0 auto 8px',
+                  color: '#a371f7'
+                }} />
+                <div style={{
+                  fontSize: isMobile ? '18px' : '24px',
+                  fontWeight: '700',
+                  color: '#1A1A1A',
+                  marginBottom: '4px'
+                }}>{nftData.stats.offers}</div>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#666666'
+                }}>Offers</div>
               </div>
             </div>
           </motion.div>
@@ -213,41 +459,112 @@ const NFTDetailPage = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="space-y-6"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: isMobile ? '16px' : '24px'
+            }}
           >
             {/* Price Card */}
-            <div className="p-6 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm">
-              <div className="flex items-center justify-between mb-6">
+            <div style={{
+              padding: isMobile ? '20px' : '28px',
+              background: '#FFFFFF',
+              border: '1px solid #E8EAED',
+              borderRadius: '24px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '24px'
+              }}>
                 <div>
-                  <div className="text-sm text-[var(--text-secondary)] mb-2">Current Price</div>
-                  <div className="text-4xl font-bold text-[var(--text-primary)] mb-1">{nftData.price}</div>
-                  <div className="text-base text-[var(--text-secondary)]">{nftData.priceUSD}</div>
+                  <div style={{
+                    fontSize: '14px',
+                    color: '#666666',
+                    marginBottom: '8px'
+                  }}>Current Price</div>
+                  <div style={{
+                    fontSize: isMobile ? '32px' : '40px',
+                    fontWeight: '700',
+                    color: '#1A1A1A',
+                    marginBottom: '4px'
+                  }}>{nftData.price}</div>
+                  <div style={{
+                    fontSize: '16px',
+                    color: '#666666'
+                  }}>{nftData.priceUSD}</div>
                 </div>
                 <button
                   onClick={() => setIsLiked(!isLiked)}
-                  className={`p-3 rounded-xl transition-all ${
-                    isLiked
-                      ? 'bg-red-500/20 border border-red-500/50 text-red-400'
-                      : 'bg-[var(--bg-secondary)] border border-[var(--border-subtle)] text-[var(--text-primary)] hover:bg-[var(--bg-primary)]'
-                  }`}
+                  style={{
+                    padding: '14px',
+                    background: isLiked ? 'rgba(255, 107, 157, 0.1)' : '#F5F5F5',
+                    border: isLiked ? '1px solid rgba(255, 107, 157, 0.3)' : '1px solid #E8EAED',
+                    borderRadius: '12px',
+                    color: isLiked ? '#FF6B9D' : '#666666',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
                   aria-label={isLiked ? 'Unlike NFT' : 'Like NFT'}
                   aria-pressed={isLiked}
                 >
-                  <Heart className={`w-6 h-6 ${isLiked ? 'fill-current' : ''}`} />
+                  <Heart style={{
+                    width: '24px',
+                    height: '24px',
+                    fill: isLiked ? 'currentColor' : 'none'
+                  }} />
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                gap: '12px'
+              }}>
                 <button
                   onClick={handlePurchase}
-                  style={{color: "var(--text-primary)"}} className="py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-xl font-semibold transition-opacity flex items-center justify-center gap-2"
+                  style={{
+                    padding: '14px 24px',
+                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px',
+                    boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                  onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
                   aria-label="Buy this NFT now"
                 >
-                  <ShoppingCart style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <ShoppingCart style={{ width: '20px', height: '20px' }} />
                   Buy Now
                 </button>
                 <button
                   onClick={handleMakeOffer}
-                  className="py-3 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] hover:bg-[var(--bg-primary)] text-[var(--text-primary)] rounded-xl font-semibold transition-colors"
+                  style={{
+                    padding: '14px 24px',
+                    background: '#FFFFFF',
+                    color: '#1A1A1A',
+                    border: '1px solid #E8EAED',
+                    borderRadius: '12px',
+                    fontSize: '16px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#F5F5F5'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#FFFFFF'}
                   aria-label="Make an offer for this NFT"
                 >
                   Make Offer
@@ -256,37 +573,110 @@ const NFTDetailPage = () => {
             </div>
 
             {/* Owner Info */}
-            <div className="p-6 bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm">
-              <div className="grid grid-cols-2 gap-6">
+            <div style={{
+              padding: isMobile ? '20px' : '28px',
+              background: '#FFFFFF',
+              border: '1px solid #E8EAED',
+              borderRadius: '24px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)'
+            }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                gap: isMobile ? '20px' : '24px'
+              }}>
                 <div>
-                  <div className="text-sm text-[var(--text-secondary)] mb-2">Creator</div>
-                  <div className="flex items-center gap-2">
-                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }} />
-                    <div className="font-semibold text-[var(--text-primary)]">{nftData.creator}</div>
+                  <div style={{
+                    fontSize: '14px',
+                    color: '#666666',
+                    marginBottom: '12px'
+                  }}>Creator</div>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px'
+                  }}>
+                    <div style={{
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                      flexShrink: 0
+                    }} />
+                    <div style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: '#1A1A1A'
+                    }}>{nftData.creator}</div>
                   </div>
                 </div>
                 <div>
-                  <div className="text-sm text-[var(--text-secondary)] mb-2">Owner</div>
-                  <div className="flex items-center gap-2">
-                    <div style={{ width: "48px", height: "48px", flexShrink: 0 }} />
-                    <div className="font-semibold text-[var(--text-primary)]">{nftData.owner}</div>
+                  <div style={{
+                    fontSize: '14px',
+                    color: '#666666',
+                    marginBottom: '12px'
+                  }}>Owner</div>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px'
+                  }}>
+                    <div style={{
+                      width: '48px',
+                      height: '48px',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, #a371f7 0%, #58a6ff 100%)',
+                      flexShrink: 0
+                    }} />
+                    <div style={{
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      color: '#1A1A1A'
+                    }}>{nftData.owner}</div>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Tabs */}
-            <div className="bg-white  border border-[var(--border-subtle)] rounded-2xl shadow-sm overflow-hidden">
-              <div className="flex border-b border-[var(--border-subtle)]">
+            <div style={{
+              background: '#FFFFFF',
+              border: '1px solid #E8EAED',
+              borderRadius: '24px',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
+              overflow: 'hidden'
+            }}>
+              <div style={{
+                display: 'flex',
+                borderBottom: '1px solid #E8EAED'
+              }}>
                 {['details', 'attributes', 'history'].map(tab => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`flex-1 py-3 px-4 font-medium capitalize transition-colors ${
-                      activeTab === tab
-                        ? 'bg-[#58a6ff]/10 text-[#58a6ff] border-b-2 border-[#58a6ff]'
-                        : 'text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)]'
-                    }`}
+                    style={{
+                      flex: 1,
+                      padding: '16px',
+                      fontSize: '15px',
+                      fontWeight: '600',
+                      textTransform: 'capitalize',
+                      background: activeTab === tab ? 'rgba(88, 166, 255, 0.05)' : 'transparent',
+                      color: activeTab === tab ? '#58a6ff' : '#666666',
+                      borderBottom: activeTab === tab ? '2px solid #58a6ff' : '2px solid transparent',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (activeTab !== tab) {
+                        e.currentTarget.style.background = '#F5F5F5'
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (activeTab !== tab) {
+                        e.currentTarget.style.background = 'transparent'
+                      }
+                    }}
                     role="tab"
                     aria-selected={activeTab === tab}
                     aria-controls={`${tab}-panel`}
@@ -296,69 +686,184 @@ const NFTDetailPage = () => {
                 ))}
               </div>
 
-              <div className="p-6">
+              <div style={{ padding: isMobile ? '20px' : '28px' }}>
                 {activeTab === 'details' && (
-                  <div className="space-y-4">
-                    <p className="text-[var(--text-secondary)]">{nftData.description}</p>
-                    <div className="grid grid-cols-2 gap-4 pt-4 border-t border-[var(--border-subtle)]">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <p style={{
+                      fontSize: '15px',
+                      color: '#666666',
+                      lineHeight: '1.6'
+                    }}>{nftData.description}</p>
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                      gap: '16px',
+                      paddingTop: '16px',
+                      borderTop: '1px solid #E8EAED'
+                    }}>
                       <div>
-                        <div className="text-sm text-[var(--text-secondary)] mb-1">Contract</div>
-                        <div className="font-mono text-sm text-[var(--text-primary)] flex items-center gap-2">
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#666666',
+                          marginBottom: '6px'
+                        }}>Contract</div>
+                        <div style={{
+                          fontFamily: 'monospace',
+                          fontSize: '14px',
+                          color: '#1A1A1A',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}>
                           {nftData.contract}
-                          <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                          <ExternalLink style={{
+                            width: '16px',
+                            height: '16px',
+                            color: '#58a6ff'
+                          }} />
                         </div>
                       </div>
                       <div>
-                        <div className="text-sm text-[var(--text-secondary)] mb-1">Token ID</div>
-                        <div className="font-mono text-sm text-[var(--text-primary)]">{nftData.tokenId}</div>
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#666666',
+                          marginBottom: '6px'
+                        }}>Token ID</div>
+                        <div style={{
+                          fontFamily: 'monospace',
+                          fontSize: '14px',
+                          color: '#1A1A1A'
+                        }}>{nftData.tokenId}</div>
                       </div>
                       <div>
-                        <div className="text-sm text-[var(--text-secondary)] mb-1">Blockchain</div>
-                        <div className="text-sm text-[var(--text-primary)]">{nftData.blockchain}</div>
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#666666',
+                          marginBottom: '6px'
+                        }}>Blockchain</div>
+                        <div style={{
+                          fontSize: '14px',
+                          color: '#1A1A1A'
+                        }}>{nftData.blockchain}</div>
                       </div>
                       <div>
-                        <div className="text-sm text-[var(--text-secondary)] mb-1">Royalty</div>
-                        <div className="text-sm text-[var(--text-primary)]">{nftData.royalty}</div>
+                        <div style={{
+                          fontSize: '13px',
+                          color: '#666666',
+                          marginBottom: '6px'
+                        }}>Royalty</div>
+                        <div style={{
+                          fontSize: '14px',
+                          color: '#1A1A1A'
+                        }}>{nftData.royalty}</div>
                       </div>
                     </div>
                   </div>
                 )}
 
                 {activeTab === 'attributes' && (
-                  <div className="grid grid-cols-2 gap-4">
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)',
+                    gap: '12px'
+                  }}>
                     {nftData.attributes.map((attr, index) => (
-                      <div key={index} className="p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl hover:border-[#58a6ff]/30 hover:shadow-md transition-all">
-                        <div className="text-xs text-[var(--text-secondary)] mb-2 uppercase tracking-wide">{attr.trait_type}</div>
-                        <div className="font-bold text-[var(--text-primary)] mb-2 text-base">{attr.value}</div>
-                        <div className="text-xs text-[#58a6ff] bg-[#58a6ff]/10 px-2 py-1 rounded inline-block">{attr.rarity} have this trait</div>
+                      <div key={index} style={{
+                        padding: '16px',
+                        background: '#F5F5F5',
+                        border: '1px solid #E8EAED',
+                        borderRadius: '16px',
+                        transition: 'all 0.2s ease'
+                      }}>
+                        <div style={{
+                          fontSize: '11px',
+                          color: '#666666',
+                          marginBottom: '8px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px',
+                          fontWeight: '600'
+                        }}>{attr.trait_type}</div>
+                        <div style={{
+                          fontSize: '16px',
+                          fontWeight: '700',
+                          color: '#1A1A1A',
+                          marginBottom: '8px'
+                        }}>{attr.value}</div>
+                        <div style={{
+                          fontSize: '12px',
+                          color: '#58a6ff',
+                          background: 'rgba(88, 166, 255, 0.1)',
+                          padding: '4px 10px',
+                          borderRadius: '8px',
+                          display: 'inline-block'
+                        }}>{attr.rarity} have this trait</div>
                       </div>
                     ))}
                   </div>
                 )}
 
                 {activeTab === 'history' && (
-                  <div className="space-y-3">
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {[
                       { event: 'Sale', from: 'bob.eth', to: 'alice.eth', price: '2.5 ETH', time: '2 hours ago' },
                       { event: 'Transfer', from: 'charlie.eth', to: 'bob.eth', price: '-', time: '1 day ago' },
                       { event: 'Minted', from: 'Creator', to: 'charlie.eth', price: '0.5 ETH', time: '7 days ago' }
                     ].map((item, index) => (
-                      <div key={index} className="flex items-center justify-between p-4 bg-[var(--bg-secondary)] border border-[var(--border-subtle)] rounded-xl hover:border-[#58a6ff]/30 hover:bg-[var(--bg-primary)] transition-all">
-                        <div className="flex items-center gap-4">
-                          <div className={`w-2.5 h-2.5 rounded-full ${
-                            item.event === 'Sale' ? 'bg-green-400' :
-                            item.event === 'Transfer' ? 'bg-[#58a6ff]' : 'bg-[#a371f7]'
-                          }`} />
+                      <div key={index} style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: isMobile ? '16px' : '20px',
+                        background: '#F5F5F5',
+                        border: '1px solid #E8EAED',
+                        borderRadius: '16px',
+                        transition: 'all 0.2s ease',
+                        flexDirection: isMobile ? 'column' : 'row',
+                        gap: isMobile ? '12px' : '16px'
+                      }}>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '16px',
+                          width: isMobile ? '100%' : 'auto'
+                        }}>
+                          <div style={{
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '50%',
+                            background: item.event === 'Sale' ? '#10B981' :
+                                       item.event === 'Transfer' ? '#58a6ff' : '#a371f7',
+                            flexShrink: 0
+                          }} />
                           <div>
-                            <div className="font-semibold text-[var(--text-primary)] mb-1">{item.event}</div>
-                            <div className="text-sm text-[var(--text-secondary)]">
+                            <div style={{
+                              fontSize: '16px',
+                              fontWeight: '600',
+                              color: '#1A1A1A',
+                              marginBottom: '4px'
+                            }}>{item.event}</div>
+                            <div style={{
+                              fontSize: '14px',
+                              color: '#666666'
+                            }}>
                               {item.from} → {item.to}
                             </div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="font-bold text-[var(--text-primary)] mb-1">{item.price}</div>
-                          <div className="text-xs text-[var(--text-secondary)]">{item.time}</div>
+                        <div style={{
+                          textAlign: isMobile ? 'left' : 'right',
+                          width: isMobile ? '100%' : 'auto'
+                        }}>
+                          <div style={{
+                            fontSize: '16px',
+                            fontWeight: '700',
+                            color: '#1A1A1A',
+                            marginBottom: '4px'
+                          }}>{item.price}</div>
+                          <div style={{
+                            fontSize: '13px',
+                            color: '#666666'
+                          }}>{item.time}</div>
                         </div>
                       </div>
                     ))}
@@ -376,4 +881,3 @@ const NFTDetailPage = () => {
 NFTDetailPage.propTypes = {}
 
 export default memo(NFTDetailPage)
-

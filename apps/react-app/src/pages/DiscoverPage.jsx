@@ -1,221 +1,173 @@
 /**
  * CRYB Platform - Discover Page
- * Modern iOS Aesthetic - Ultra Clean & Minimal
- *
- * DESIGN PRINCIPLES:
- * - Light theme with soft shadows
- * - Delicate borders and glassmorphism
- * - Generous whitespace
- * - System font feel
- * - Smooth transitions
+ * iOS-Style Polish with Crypto Community Focus
  */
 
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { TrendingUp, Users, Hash, Star, Filter, Search } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Search, Users, Bitcoin } from 'lucide-react';
 import { PageSkeleton } from '../components/LoadingSkeleton';
 import { useResponsive } from '../hooks/useResponsive';
 
-// Helper components
-function CommunityCard({ community }) {
+// Crypto gradient colors from DESIGN_SPEC.md
+const cryptoColors = {
+  bitcoin: { gradient: 'linear-gradient(135deg, #F7931A 0%, #FF9500 100%)' },
+  ethereum: { gradient: 'linear-gradient(135deg, #627EEA 0%, #8B9BF7 100%)' },
+  solana: { gradient: 'linear-gradient(135deg, #14F195 0%, #9945FF 100%)' },
+  cardano: { gradient: 'linear-gradient(135deg, #0033AD 0%, #0066FF 100%)' },
+  polygon: { gradient: 'linear-gradient(135deg, #8247E5 0%, #A855F7 100%)' },
+  avalanche: { gradient: 'linear-gradient(135deg, #E84142 0%, #FF6B6B 100%)' },
+};
+
+const categories = [
+  { id: 'crypto', label: 'Crypto', icon: Bitcoin },
+  { id: 'defi', label: 'DeFi', icon: Users },
+  { id: 'nft', label: 'NFT', icon: Users },
+  { id: 'metaverse', label: 'Metaverse', icon: Users },
+];
+
+function CommunityCard({ community, isMobile }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const cryptoKey = community.name?.toLowerCase() || 'bitcoin';
+  const colorConfig = cryptoColors[cryptoKey] || cryptoColors.bitcoin;
+
   return (
     <Link
       to={`/community/${community.name}`}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       style={{
         display: 'block',
         padding: '24px',
         textDecoration: 'none',
-        background: 'white',
+        background: colorConfig.gradient,
         borderRadius: '16px',
-        border: '1px solid rgba(0, 0, 0, 0.06)',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-        transition: 'all 0.2s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.08)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+        border: 'none',
+        boxShadow: isHovered
+          ? '0 12px 24px rgba(0, 0, 0, 0.15)'
+          : '0 4px 12px rgba(0, 0, 0, 0.12)',
+        transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+        transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
+      {/* Crypto Icon */}
+      <div
+        style={{
+          width: '48px',
+          height: '48px',
+          borderRadius: '50%',
+          background: 'rgba(255, 255, 255, 0.2)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginBottom: '16px',
+          backdropFilter: 'blur(10px)',
+        }}
+      >
+        <Bitcoin size={28} strokeWidth={2} style={{ color: '#FFFFFF' }} />
+      </div>
+
+      {/* Community Name */}
       <h3
         style={{
-          fontSize: '16px',
+          fontSize: '18px',
           fontWeight: '600',
-          color: '#000000',
+          color: '#FFFFFF',
           marginBottom: '8px',
-          lineHeight: '1.4',
+          lineHeight: '1.3',
         }}
       >
         {community.displayName || community.name}
       </h3>
-      {community.description && (
-        <p
-          style={{
-            fontSize: '14px',
-            color: '#666666',
-            marginBottom: '16px',
-            lineHeight: '1.5',
-          }}
-        >
-          {community.description}
-        </p>
-      )}
-      {community.memberCount !== undefined && (
-        <span
-          style={{
-            fontSize: '13px',
-            color: '#999999',
-            lineHeight: '1.5',
-          }}
-        >
-          {community.memberCount} members
-        </span>
-      )}
-    </Link>
-  );
-}
 
-function TagChip({ tag }) {
-  return (
-    <Link
-      to={`/tag/${tag.name}`}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '8px',
-        padding: '10px 16px',
-        background: 'rgba(99, 102, 241, 0.08)',
-        color: '#6366F1',
-        fontSize: '14px',
-        fontWeight: '500',
-        textDecoration: 'none',
-        transition: 'all 0.2s ease',
-        border: '1px solid rgba(99, 102, 241, 0.2)',
-        borderRadius: '12px',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(99, 102, 241, 0.12)';
-        e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.3)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'rgba(99, 102, 241, 0.08)';
-        e.currentTarget.style.borderColor = 'rgba(99, 102, 241, 0.2)';
-      }}
-    >
-      #{tag.name}
-      {tag.postCount !== undefined && (
-        <span
-          style={{
-            fontSize: '13px',
-            color: '#999999',
-          }}
-        >
-          {tag.postCount}
-        </span>
-      )}
-    </Link>
-  );
-}
-
-function UserCard({ user }) {
-  return (
-    <Link
-      to={`/profile/${user.username}`}
-      style={{
-        display: 'block',
-        padding: '24px',
-        textDecoration: 'none',
-        background: 'white',
-        borderRadius: '16px',
-        border: '1px solid rgba(0, 0, 0, 0.06)',
-        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-        transition: 'all 0.2s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = 'translateY(-2px)';
-        e.currentTarget.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.08)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = 'translateY(0)';
-        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
-      }}
-    >
-      <h3
+      {/* Coin Holders */}
+      <div
         style={{
-          fontSize: '16px',
-          fontWeight: '600',
-          color: '#000000',
-          marginBottom: '4px',
-          lineHeight: '1.4',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginBottom: '12px',
         }}
       >
-        {user.displayName || user.username}
-      </h3>
-      <p
-        style={{
-          fontSize: '14px',
-          color: '#999999',
-          marginBottom: '8px',
-          lineHeight: '1.5',
-        }}
-      >
-        @{user.username}
-      </p>
-      {user.bio && (
-        <p
-          style={{
-            fontSize: '14px',
-            color: '#666666',
-            marginBottom: '8px',
-            lineHeight: '1.5',
-          }}
-        >
-          {user.bio}
-        </p>
-      )}
-      {user.followers !== undefined && (
+        <Bitcoin size={14} strokeWidth={2} style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
         <span
           style={{
             fontSize: '13px',
-            color: '#999999',
-            lineHeight: '1.5',
+            color: 'rgba(255, 255, 255, 0.9)',
+            fontWeight: '500',
           }}
         >
-          {user.followers} followers
+          {community.coinHolders || '3,859'} Coin Holders
         </span>
-      )}
+      </div>
+
+      {/* Members */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+        }}
+      >
+        <div style={{ display: 'flex', marginRight: '4px' }}>
+          <div
+            style={{
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.3)',
+              border: '2px solid rgba(255, 255, 255, 0.5)',
+            }}
+          />
+          <div
+            style={{
+              width: '20px',
+              height: '20px',
+              borderRadius: '50%',
+              background: 'rgba(255, 255, 255, 0.3)',
+              border: '2px solid rgba(255, 255, 255, 0.5)',
+              marginLeft: '-8px',
+            }}
+          />
+        </div>
+        <span
+          style={{
+            fontSize: '14px',
+            color: '#FFFFFF',
+            fontWeight: '600',
+          }}
+        >
+          {community.members || '15,867'} Members
+        </span>
+      </div>
     </Link>
   );
 }
 
 export default function DiscoverPage() {
+  const navigate = useNavigate();
   const { isMobile, isTablet } = useResponsive();
 
-  const [activeTab, setActiveTab] = useState('trending');
-  const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [trendingCommunities, setTrendingCommunities] = useState([]);
-  const [trendingTags, setTrendingTags] = useState([]);
-  const [suggestedUsers, setSuggestedUsers] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('crypto');
+  const [communities, setCommunities] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchDiscoverData();
-  }, [activeTab]);
+    fetchCommunities();
+  }, [selectedCategory]);
 
-  const fetchDiscoverData = async () => {
+  const fetchCommunities = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/api/discover?type=${activeTab}`, {
+      const response = await fetch(`/api/discover?category=${selectedCategory}`, {
         credentials: 'include',
       });
       if (response.ok) {
         const data = await response.json();
-        setTrendingCommunities(data.communities || []);
-        setTrendingTags(data.tags || []);
-        setSuggestedUsers(data.users || []);
+        setCommunities(data.communities || []);
       }
     } catch (error) {
       console.error('Discover fetch error:', error);
@@ -224,15 +176,20 @@ export default function DiscoverPage() {
     }
   };
 
-  const tabs = [
-    { id: 'trending', label: 'Trending', icon: TrendingUp },
-    { id: 'communities', label: 'Communities', icon: Users },
-    { id: 'tags', label: 'Tags', icon: Hash },
-    { id: 'people', label: 'People', icon: Star },
+  // Mock data for display
+  const mockCommunities = [
+    { name: 'solana', displayName: 'Solana', coinHolders: '3,859', members: '15,867' },
+    { name: 'bitcoin', displayName: 'Bitcoin', coinHolders: '3,859', members: '15,867' },
+    { name: 'ethereum', displayName: 'Ethereum', coinHolders: '4,200', members: '18,500' },
+    { name: 'cardano', displayName: 'Cardano', coinHolders: '2,900', members: '12,400' },
+    { name: 'polygon', displayName: 'Polygon', coinHolders: '3,100', members: '14,200' },
+    { name: 'avalanche', displayName: 'Avalanche', coinHolders: '2,500', members: '11,800' },
   ];
 
-  // Responsive breakpoints
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
+  const displayCommunities = communities.length > 0 ? communities : mockCommunities;
+
+  // Responsive padding
+  const padding = isMobile ? '16px' : isTablet ? '24px' : '80px';
 
   return (
     <div
@@ -240,344 +197,206 @@ export default function DiscoverPage() {
       aria-label="Discover page"
       style={{
         minHeight: '100vh',
-        background: '#FAFAFA',
+        background: '#F8F9FA',
         paddingTop: isMobile ? '76px' : '92px',
         paddingBottom: isMobile ? '96px' : '48px',
       }}
     >
       <div
         style={{
-          maxWidth: '1200px',
+          maxWidth: '1280px',
           margin: '0 auto',
-          padding: isMobile ? '16px' : isTablet ? '24px' : '48px',
+          padding: padding,
         }}
       >
-        {/* Header */}
-        <div style={{ marginBottom: '32px' }}>
-          <h1
-            style={{
-              fontSize: isMobile ? '28px' : '36px',
-              fontWeight: '700',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              marginBottom: '8px',
-              lineHeight: '1.2',
-              letterSpacing: '-0.02em',
-            }}
-          >
-            Discover
-          </h1>
-          <p
-            style={{
-              fontSize: '16px',
-              color: '#666666',
-              lineHeight: '1.5',
-            }}
-          >
-            Explore trending communities, topics, and people
-          </p>
-        </div>
-
-        {/* Search bar */}
+        {/* Search Bar - iOS Style */}
         <div
           style={{
             position: 'relative',
-            marginBottom: '32px',
+            marginBottom: '24px',
           }}
         >
           <div
             style={{
               position: 'absolute',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               left: '16px',
               top: '50%',
               transform: 'translateY(-50%)',
-              width: '24px',
-              height: '24px',
-              flexShrink: 0,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 1,
             }}
           >
             <Search
-              size={20}
+              size={18}
               strokeWidth={2}
+              style={{ color: '#999999' }}
               aria-hidden="true"
-              style={{
-                color: '#999999',
-              }}
             />
           </div>
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search communities, tags, or people..."
+            placeholder="Search Cryptos, Articles, NFT's..."
             style={{
               width: '100%',
-              height: '52px',
-              paddingLeft: '48px',
+              height: '44px',
+              paddingLeft: '44px',
               paddingRight: '16px',
-              fontSize: '15px',
+              fontSize: '16px',
               lineHeight: '1.5',
-              borderRadius: '16px',
-              background: 'white',
-              border: '1px solid rgba(0, 0, 0, 0.08)',
-              color: '#000000',
+              borderRadius: '12px',
+              background: '#FFFFFF',
+              border: '1px solid #E8EAED',
+              color: '#1A1A1A',
               outline: 'none',
               transition: 'all 0.2s ease',
-              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+              boxShadow: 'none',
+              fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif',
             }}
             aria-label="Search discover page"
             onFocus={(e) => {
-              e.target.style.borderColor = 'rgba(99, 102, 241, 0.3)';
-              e.target.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.1)';
+              e.target.style.borderColor = '#58a6ff';
+              e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)';
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)';
-              e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+              e.target.style.borderColor = '#E8EAED';
+              e.target.style.boxShadow = 'none';
             }}
           />
         </div>
 
-        {/* Tabs */}
+        {/* Category Filters - Pill Shaped */}
         <div
           style={{
             display: 'flex',
-            gap: '8px',
+            gap: '12px',
             marginBottom: '32px',
-            background: 'white',
-            borderRadius: '16px',
-            padding: '8px',
-            border: '1px solid rgba(0, 0, 0, 0.06)',
-            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             overflowX: 'auto',
+            paddingBottom: '4px',
           }}
         >
-          {tabs.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeTab === tab.id;
+          {categories.map((category) => {
+            const isActive = selectedCategory === category.id;
             return (
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
                   gap: '8px',
-                  padding: isMobile ? '10px 16px' : '12px 20px',
-                  background: isActive ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
-                  border: 'none',
-                  borderRadius: '12px',
-                  color: isActive ? '#6366F1' : '#666666',
-                  fontSize: '14px',
-                  fontWeight: isActive ? '600' : '500',
+                  padding: '10px 20px',
+                  background: isActive ? '#1A1A1A' : '#FFFFFF',
+                  border: '1px solid #E8EAED',
+                  borderRadius: '9999px',
+                  color: isActive ? '#FFFFFF' : '#666666',
+                  fontSize: '15px',
+                  fontWeight: '500',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   whiteSpace: 'nowrap',
+                  boxShadow: 'none',
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif',
                 }}
-                aria-label={`View ${tab.label}`}
+                aria-label={`Filter by ${category.label}`}
                 aria-pressed={isActive}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.04)';
+                    e.currentTarget.style.background = '#F0F2F5';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.background = '#FFFFFF';
                   }
                 }}
               >
-                <div style={{ width: '20px', height: '20px', flexShrink: 0 }}>
-                  <Icon size={20} strokeWidth={2} aria-hidden="true" />
-                </div>
-                {!isMobile && tab.label}
+                {category.label}
               </button>
             );
           })}
         </div>
 
-        {/* Content */}
+        {/* Section Title */}
+        <h2
+          style={{
+            fontSize: isMobile ? '20px' : '24px',
+            fontWeight: '700',
+            color: '#1A1A1A',
+            marginBottom: '20px',
+            lineHeight: '1.3',
+            letterSpacing: '-0.01em',
+            fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif',
+          }}
+        >
+          Communities on CRYB
+        </h2>
+
+        {/* Communities Grid */}
         {!isLoading && (
-          <>
-            {/* Trending Tab */}
-            {activeTab === 'trending' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '48px' }}>
-                <section>
-                  <h2
-                    style={{
-                      fontSize: '20px',
-                      fontWeight: '600',
-                      color: '#000000',
-                      marginBottom: '20px',
-                      lineHeight: '1.4',
-                    }}
-                  >
-                    Trending Communities
-                  </h2>
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: isMobile
-                        ? '1fr'
-                        : isTablet
-                        ? 'repeat(2, 1fr)'
-                        : 'repeat(3, 1fr)',
-                      gap: '20px',
-                    }}
-                  >
-                    {trendingCommunities.slice(0, 6).map((community, index) => (
-                      <CommunityCard key={community.id || index} community={community} />
-                    ))}
-                  </div>
-                </section>
-
-                <section>
-                  <h2
-                    style={{
-                      fontSize: '20px',
-                      fontWeight: '600',
-                      color: '#000000',
-                      marginBottom: '20px',
-                      lineHeight: '1.4',
-                    }}
-                  >
-                    Trending Tags
-                  </h2>
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexWrap: 'wrap',
-                      gap: '12px',
-                    }}
-                  >
-                    {trendingTags.slice(0, 12).map((tag, index) => (
-                      <TagChip key={tag.name || index} tag={tag} />
-                    ))}
-                  </div>
-                </section>
-              </div>
-            )}
-
-            {/* Communities Tab */}
-            {activeTab === 'communities' && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: isMobile
-                    ? '1fr'
-                    : isTablet
-                    ? 'repeat(2, 1fr)'
-                    : 'repeat(3, 1fr)',
-                  gap: '20px',
-                }}
-              >
-                {trendingCommunities.map((community, index) => (
-                  <CommunityCard key={community.id || index} community={community} />
-                ))}
-              </div>
-            )}
-
-            {/* Tags Tab */}
-            {activeTab === 'tags' && (
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '12px',
-                }}
-              >
-                {trendingTags.map((tag, index) => (
-                  <TagChip key={tag.name || index} tag={tag} />
-                ))}
-              </div>
-            )}
-
-            {/* People Tab */}
-            {activeTab === 'people' && (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: isMobile
-                    ? '1fr'
-                    : isTablet
-                    ? 'repeat(2, 1fr)'
-                    : 'repeat(3, 1fr)',
-                  gap: '20px',
-                }}
-              >
-                {suggestedUsers.map((user, index) => (
-                  <UserCard key={user.id || index} user={user} />
-                ))}
-              </div>
-            )}
-
-            {/* Empty state */}
-            {((activeTab === 'communities' && trendingCommunities.length === 0) ||
-              (activeTab === 'tags' && trendingTags.length === 0) ||
-              (activeTab === 'people' && suggestedUsers.length === 0)) && (
-              <div
-                role="status"
-                aria-live="polite"
-                style={{
-                  textAlign: 'center',
-                  padding: isMobile ? '64px 16px' : '64px 32px',
-                  background: 'white',
-                  borderRadius: '20px',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-                }}
-              >
-                <div
-                  style={{
-                    width: '64px',
-                    height: '64px',
-                    marginLeft: 'auto',
-                    marginRight: 'auto',
-                    marginBottom: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'rgba(0, 0, 0, 0.04)',
-                    borderRadius: '50%',
-                  }}
-                >
-                  <Filter
-                    size={32}
-                    strokeWidth={2}
-                    color="#999999"
-                    aria-hidden="true"
-                  />
-                </div>
-                <h3
-                  style={{
-                    fontSize: '18px',
-                    fontWeight: '600',
-                    color: '#000000',
-                    marginBottom: '8px',
-                    lineHeight: '1.4',
-                  }}
-                >
-                  No results found
-                </h3>
-                <p
-                  style={{
-                    fontSize: '15px',
-                    color: '#666666',
-                    lineHeight: '1.5',
-                  }}
-                >
-                  Try adjusting your search or check back later
-                </p>
-              </div>
-            )}
-          </>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: isMobile
+                ? '1fr'
+                : isTablet
+                ? 'repeat(2, 1fr)'
+                : 'repeat(3, 1fr)',
+              gap: '24px',
+            }}
+          >
+            {displayCommunities.map((community, index) => (
+              <CommunityCard
+                key={community.id || index}
+                community={community}
+                isMobile={isMobile}
+              />
+            ))}
+          </div>
         )}
 
+        {/* Loading State */}
         {isLoading && <PageSkeleton />}
+
+        {/* Empty State */}
+        {!isLoading && displayCommunities.length === 0 && (
+          <div
+            role="status"
+            aria-live="polite"
+            style={{
+              textAlign: 'center',
+              padding: isMobile ? '64px 16px' : '96px 32px',
+              background: '#FFFFFF',
+              borderRadius: '16px',
+              border: '1px solid #E8EAED',
+            }}
+          >
+            <h3
+              style={{
+                fontSize: '18px',
+                fontWeight: '600',
+                color: '#1A1A1A',
+                marginBottom: '8px',
+                lineHeight: '1.4',
+              }}
+            >
+              No communities found
+            </h3>
+            <p
+              style={{
+                fontSize: '15px',
+                color: '#666666',
+                lineHeight: '1.5',
+              }}
+            >
+              Try adjusting your search or check back later
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

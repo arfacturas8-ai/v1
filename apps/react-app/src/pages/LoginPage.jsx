@@ -1,18 +1,12 @@
 /**
  * Cryb.ai - Login Page
  * Modern iOS Aesthetic - Ultra Clean & Minimal
- *
- * DESIGN PRINCIPLES:
- * - Light theme with soft shadows
- * - Delicate borders and refined inputs
- * - Generous whitespace
- * - System font feel
- * - Smooth transitions
+ * LIGHT THEME ONLY - NO DARK MODE
  */
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from 'lucide-react';
+import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles, Check } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useResponsive } from '../hooks/useResponsive';
 import { getErrorMessage } from '../utils/errorUtils';
@@ -80,10 +74,10 @@ export default function LoginPage() {
         justifyContent: 'center',
         position: 'relative',
         overflow: 'hidden',
-        background: '#FAFAFA',
-        color: '#000000',
-        paddingLeft: isDesktop ? '48px' : isTabletView ? '24px' : '20px',
-        paddingRight: isDesktop ? '48px' : isTabletView ? '24px' : '20px',
+        background: '#F8F9FA',
+        color: '#1A1A1A',
+        paddingLeft: isDesktop ? '80px' : isTabletView ? '24px' : '16px',
+        paddingRight: isDesktop ? '80px' : isTabletView ? '24px' : '16px',
         paddingTop: '48px',
         paddingBottom: '48px'
       }}
@@ -97,7 +91,7 @@ export default function LoginPage() {
             position: 'absolute',
             width: isDesktop ? '320px' : '256px',
             height: isDesktop ? '320px' : '256px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
             borderRadius: '50%',
             filter: 'blur(80px)',
             opacity: 0.04,
@@ -110,7 +104,7 @@ export default function LoginPage() {
             position: 'absolute',
             width: isDesktop ? '320px' : '256px',
             height: isDesktop ? '320px' : '256px',
-            background: 'linear-gradient(135deg, #00D26A 0%, #0095FF 100%)',
+            background: 'linear-gradient(135deg, #00D26A 0%, #58a6ff 100%)',
             borderRadius: '50%',
             filter: 'blur(80px)',
             opacity: 0.03,
@@ -131,11 +125,11 @@ export default function LoginPage() {
       >
         <div
           style={{
-            borderRadius: '24px',
+            borderRadius: '20px',
             padding: isDesktop ? '48px' : isTabletView ? '36px' : '28px',
-            background: 'white',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
-            border: '1px solid rgba(0, 0, 0, 0.06)'
+            background: '#FFFFFF',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.12)',
+            border: '1px solid #E8EAED'
           }}
         >
           {/* Header Section */}
@@ -159,9 +153,9 @@ export default function LoginPage() {
                   justifyContent: 'center',
                   width: '64px',
                   height: '64px',
-                  borderRadius: '18px',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                  boxShadow: '0 4px 16px rgba(99, 102, 241, 0.25)'
+                  borderRadius: '16px',
+                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  boxShadow: '0 4px 16px rgba(88, 166, 255, 0.25)'
                 }}
                 aria-hidden="true"
               >
@@ -169,7 +163,7 @@ export default function LoginPage() {
                   <Sparkles
                     size={32}
                     strokeWidth={2}
-                    style={{ color: 'white' }}
+                    style={{ color: '#FFFFFF' }}
                     aria-hidden="true"
                   />
                 </div>
@@ -181,7 +175,7 @@ export default function LoginPage() {
                 fontWeight: '700',
                 lineHeight: '1.3',
                 marginBottom: '8px',
-                color: '#000000',
+                color: '#1A1A1A',
                 letterSpacing: '-0.01em',
                 margin: '0 0 8px 0'
               }}
@@ -206,10 +200,10 @@ export default function LoginPage() {
               style={{
                 marginBottom: '24px',
                 padding: '16px',
-                background: 'rgba(239, 68, 68, 0.08)',
-                border: '1px solid rgba(239, 68, 68, 0.15)',
+                background: 'rgba(255, 59, 59, 0.08)',
+                border: '1px solid rgba(255, 59, 59, 0.15)',
                 borderRadius: '12px',
-                color: '#ef4444',
+                color: '#FF3B3B',
                 fontSize: '14px',
                 lineHeight: '1.5'
               }}
@@ -238,7 +232,7 @@ export default function LoginPage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   lineHeight: '1.5',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}
               >
                 Email
@@ -280,9 +274,9 @@ export default function LoginPage() {
                     fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: '#F9F9F9',
-                    border: '1px solid rgba(0, 0, 0, 0.08)',
-                    color: '#000000',
+                    background: '#F0F2F5',
+                    border: '1px solid #E8EAED',
+                    color: '#1A1A1A',
                     outline: 'none',
                     transition: 'all 0.2s ease'
                   }}
@@ -291,12 +285,12 @@ export default function LoginPage() {
                   aria-required="true"
                   aria-invalid={error ? 'true' : 'false'}
                   onFocus={(e) => {
-                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)'
-                    e.target.style.background = 'white'
+                    e.target.style.borderColor = '#58a6ff'
+                    e.target.style.background = '#FFFFFF'
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
-                    e.target.style.background = '#F9F9F9'
+                    e.target.style.borderColor = '#E8EAED'
+                    e.target.style.background = '#F0F2F5'
                   }}
                 />
               </div>
@@ -311,7 +305,7 @@ export default function LoginPage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   lineHeight: '1.5',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}
               >
                 Password
@@ -353,9 +347,9 @@ export default function LoginPage() {
                     fontSize: '15px',
                     lineHeight: '1.5',
                     borderRadius: '12px',
-                    background: '#F9F9F9',
-                    border: '1px solid rgba(0, 0, 0, 0.08)',
-                    color: '#000000',
+                    background: '#F0F2F5',
+                    border: '1px solid #E8EAED',
+                    color: '#1A1A1A',
                     outline: 'none',
                     transition: 'all 0.2s ease'
                   }}
@@ -364,12 +358,12 @@ export default function LoginPage() {
                   aria-required="true"
                   aria-invalid={error ? 'true' : 'false'}
                   onFocus={(e) => {
-                    e.target.style.borderColor = 'rgba(99, 102, 241, 0.5)'
-                    e.target.style.background = 'white'
+                    e.target.style.borderColor = '#58a6ff'
+                    e.target.style.background = '#FFFFFF'
                   }}
                   onBlur={(e) => {
-                    e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
-                    e.target.style.background = '#F9F9F9'
+                    e.target.style.borderColor = '#E8EAED'
+                    e.target.style.background = '#F0F2F5'
                   }}
                 />
                 <button
@@ -393,7 +387,7 @@ export default function LoginPage() {
                     transition: 'color 0.2s'
                   }}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
-                  onMouseEnter={(e) => e.target.style.color = '#000000'}
+                  onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
                   onMouseLeave={(e) => e.target.style.color = '#999999'}
                 >
                   {showPassword ? (
@@ -417,28 +411,58 @@ export default function LoginPage() {
                 lineHeight: '1.5'
               }}
             >
-              <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }}>
-                <input
-                  type="checkbox"
-                  id="remember-me"
-                  name="remember-me"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  style={{
-                    width: '18px',
-                    height: '18px',
-                    flexShrink: 0,
-                    cursor: 'pointer',
-                    accentColor: '#6366F1'
-                  }}
-                  aria-label="Remember me"
-                />
+              <label
+                htmlFor="remember-me"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  cursor: 'pointer',
+                  userSelect: 'none'
+                }}
+              >
+                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="checkbox"
+                    id="remember-me"
+                    name="remember-me"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    style={{
+                      position: 'absolute',
+                      opacity: 0,
+                      width: '20px',
+                      height: '20px',
+                      cursor: 'pointer',
+                      margin: 0
+                    }}
+                    aria-label="Remember me"
+                  />
+                  <div
+                    style={{
+                      width: '20px',
+                      height: '20px',
+                      borderRadius: '6px',
+                      border: `2px solid ${rememberMe ? '#58a6ff' : '#D1D5DB'}`,
+                      background: rememberMe ? '#58a6ff' : '#FFFFFF',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.2s ease',
+                      flexShrink: 0
+                    }}
+                  >
+                    {rememberMe && (
+                      <Check size={14} strokeWidth={3} style={{ color: '#FFFFFF' }} />
+                    )}
+                  </div>
+                </div>
                 <span style={{ color: '#666666', fontWeight: '500' }}>Remember me</span>
               </label>
               <Link
                 to="/password-reset"
                 style={{
-                  color: '#6366F1',
+                  color: '#58a6ff',
                   fontSize: '14px',
                   fontWeight: '600',
                   lineHeight: '1.5',
@@ -446,8 +470,8 @@ export default function LoginPage() {
                   whiteSpace: 'nowrap',
                   transition: 'color 0.2s'
                 }}
-                onMouseEnter={(e) => e.target.style.color = '#8B5CF6'}
-                onMouseLeave={(e) => e.target.style.color = '#6366F1'}
+                onMouseEnter={(e) => e.target.style.color = '#a371f7'}
+                onMouseLeave={(e) => e.target.style.color = '#58a6ff'}
               >
                 Forgot password?
               </Link>
@@ -469,28 +493,28 @@ export default function LoginPage() {
                 fontWeight: '600',
                 lineHeight: '1.5',
                 gap: '8px',
-                color: 'white',
+                color: '#FFFFFF',
                 background: loading
-                  ? '#CCCCCC'
-                  : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                borderRadius: '16px',
+                  ? '#D1D5DB'
+                  : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                borderRadius: '9999px',
                 border: 'none',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.6 : 1,
-                boxShadow: loading ? 'none' : '0 4px 16px rgba(99, 102, 241, 0.3)',
+                boxShadow: loading ? 'none' : '0 4px 12px rgba(88, 166, 255, 0.3)',
                 transition: 'all 0.2s ease'
               }}
               aria-label="Sign in to your account"
               onMouseEnter={(e) => {
                 if (!loading) {
                   e.target.style.transform = 'translateY(-1px)'
-                  e.target.style.boxShadow = '0 6px 24px rgba(99, 102, 241, 0.4)'
+                  e.target.style.boxShadow = '0 6px 20px rgba(88, 166, 255, 0.4)'
                 }
               }}
               onMouseLeave={(e) => {
                 if (!loading) {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
                 }
               }}
             >
@@ -515,7 +539,7 @@ export default function LoginPage() {
             <div
               style={{
                 flex: 1,
-                borderTop: '1px solid rgba(0, 0, 0, 0.08)'
+                borderTop: '1px solid #E8EAED'
               }}
             />
             <span
@@ -533,7 +557,7 @@ export default function LoginPage() {
             <div
               style={{
                 flex: 1,
-                borderTop: '1px solid rgba(0, 0, 0, 0.08)'
+                borderTop: '1px solid #E8EAED'
               }}
             />
           </div>
@@ -552,13 +576,13 @@ export default function LoginPage() {
               <Link
                 to="/register"
                 style={{
-                  color: '#6366F1',
+                  color: '#58a6ff',
                   fontWeight: '600',
                   textDecoration: 'none',
                   transition: 'color 0.2s'
                 }}
-                onMouseEnter={(e) => e.target.style.color = '#8B5CF6'}
-                onMouseLeave={(e) => e.target.style.color = '#6366F1'}
+                onMouseEnter={(e) => e.target.style.color = '#a371f7'}
+                onMouseLeave={(e) => e.target.style.color = '#58a6ff'}
               >
                 Sign up for free
               </Link>
@@ -582,10 +606,10 @@ export default function LoginPage() {
                 fontWeight: '500',
                 transition: 'color 0.2s'
               }}
-              onMouseEnter={(e) => e.target.style.color = '#000000'}
+              onMouseEnter={(e) => e.target.style.color = '#1A1A1A'}
               onMouseLeave={(e) => e.target.style.color = '#999999'}
             >
-              ← Back to home
+              Back to home
             </Link>
           </div>
         </div>
