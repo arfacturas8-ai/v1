@@ -15,6 +15,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, ChevronDown, Mail, MessageCircle, Bug } from 'lucide-react'
+import LandingHeader from '../components/LandingHeader'
 
 function HelpPage() {
   const [activeSection, setActiveSection] = useState('')
@@ -199,7 +200,9 @@ function HelpPage() {
   const filteredFaqs = filterFaqs()
 
   return (
-    <div style={{ display: 'flex', flexDirection: isDesktop ? 'row' : 'column', minHeight: '100vh', background: '#FAFAFA' }}>
+    <>
+      <LandingHeader />
+      <div style={{ display: 'flex', flexDirection: isDesktop ? 'row' : 'column', minHeight: '100vh', background: '#FAFAFA', paddingTop: isMobile ? '52px' : '64px' }}>
       {/* Sidebar - Desktop only */}
       {isDesktop && (
         <aside style={{
@@ -453,26 +456,12 @@ function HelpPage() {
             }}>
               {[
                 {
-                  icon: Mail,
-                  title: 'Email Support',
-                  content: 'support@cryb.com',
-                  subtitle: 'Response within 24 hours',
-                  link: 'mailto:support@cryb.com'
-                },
-                {
                   icon: MessageCircle,
                   title: 'Community Forum',
                   content: 'Join our community discussions',
                   subtitle: '',
                   link: '/communities',
                   isRoute: true
-                },
-                {
-                  icon: Bug,
-                  title: 'Report a Bug',
-                  content: 'Help us improve Cryb',
-                  subtitle: '',
-                  link: 'mailto:bugs@cryb.com'
                 }
               ].map((item, index) => {
                 const Icon = item.icon
@@ -552,6 +541,7 @@ function HelpPage() {
         </section>
       </main>
     </div>
+    </>
   )
 }
 

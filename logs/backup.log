@@ -1198,3 +1198,23 @@ Backup Summary:
 -rw-rw-r-- 1 ubuntu ubuntu 14K Dec 20 02:00 /home/ubuntu/cryb-platform/backups/app_config_20251220_020001.tar.gz
 
 Backup completed at Sat Dec 20 02:00:04 UTC 2025
+Starting CRYB Platform backup at Sun Dec 21 02:00:01 UTC 2025
+Backing up PostgreSQL...
+✓ PostgreSQL backup successful
+Backing up Redis...
+Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
+AUTH failed: ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?
+Background saving started
+✓ Redis backup successful
+Backing up MinIO data...
+✓ MinIO backup successful
+Backing up application configuration...
+Cleaning up old backups...
+
+Backup Summary:
+===============
+-rw-rw-r-- 1 ubuntu ubuntu 85K Dec 21 02:00 /home/ubuntu/cryb-platform/backups/postgres/cryb_20251221_020001.sql.gz
+-rw------- 1 ubuntu ubuntu 4.7M Dec 21 02:00 /home/ubuntu/cryb-platform/backups/redis/redis_20251221_020001.rdb
+-rw-rw-r-- 1 ubuntu ubuntu 14K Dec 21 02:00 /home/ubuntu/cryb-platform/backups/app_config_20251221_020001.tar.gz
+
+Backup completed at Sun Dec 21 02:00:04 UTC 2025

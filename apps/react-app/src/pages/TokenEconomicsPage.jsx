@@ -9,6 +9,7 @@ import { TrendingUp, Coins, Shield, Zap, PieChart, BarChart3, ArrowUpRight, Lock
 import { useWeb3Auth } from '../lib/hooks/useWeb3Auth'
 import walletManager from '../lib/web3/WalletManager'
 import { useResponsive } from '../hooks/useResponsive'
+import LandingHeader from '../components/LandingHeader'
 
 function TokenEconomicsPage() {
   const { isMobile, isTablet, spacing, fontSize, padding, containerMaxWidth } = useResponsive()
@@ -241,11 +242,14 @@ function TokenEconomicsPage() {
   ]
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      padding: isMobile ? '16px' : isTablet ? '24px' : '32px',
-      background: '#FAFAFA'
-    }}>
+    <>
+      <LandingHeader />
+      <div style={{
+        minHeight: '100vh',
+        paddingTop: isMobile ? '72px' : '84px',
+        padding: isMobile ? '72px 16px 16px' : isTablet ? '84px 24px 24px' : '84px 32px 32px',
+        background: '#FAFAFA'
+      }}>
       {/* Page Header */}
       <div style={{
         background: '#FFFFFF',
@@ -1194,6 +1198,7 @@ function TokenEconomicsPage() {
         </>
       )}
     </div>
+    </>
   )
 }
 

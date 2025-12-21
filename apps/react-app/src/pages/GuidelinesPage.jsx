@@ -12,6 +12,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import LandingHeader from '../components/LandingHeader';
 
 function GuidelinesPage() {
   const [activeSection, setActiveSection] = useState('');
@@ -69,15 +70,18 @@ function GuidelinesPage() {
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        minHeight: '100vh',
-        background: '#F8F9FA',
-        color: '#1A1A1A',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif',
-      }}
-    >
+    <>
+      <LandingHeader />
+      <div
+        style={{
+          display: 'flex',
+          minHeight: '100vh',
+          paddingTop: isMobile ? '52px' : '64px',
+          background: '#F8F9FA',
+          color: '#1A1A1A',
+          fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif',
+        }}
+      >
       {/* Sidebar Table of Contents - Desktop Only */}
       {!isMobile && (
         <aside
@@ -1177,7 +1181,7 @@ function GuidelinesPage() {
                 margin: '0 0 16px 0',
               }}
             >
-              Contact law enforcement immediately, then report to us at emergency@cryb.com.
+              Contact law enforcement immediately.
             </p>
           </div>
         </section>
@@ -1368,9 +1372,6 @@ function GuidelinesPage() {
             </p>
             <ul style={{ paddingLeft: '24px', margin: '0 0 16px 0', listStyle: 'disc' }}>
               <li style={{ fontSize: '16px', lineHeight: '1.6', color: '#1A1A1A', marginBottom: '8px' }}>
-                Email: guidelines@cryb.com
-              </li>
-              <li style={{ fontSize: '16px', lineHeight: '1.6', color: '#1A1A1A', marginBottom: '8px' }}>
                 Help Center:{' '}
                 <Link
                   to="/help"
@@ -1415,6 +1416,7 @@ function GuidelinesPage() {
         </div>
       </main>
     </div>
+    </>
   );
 }
 
