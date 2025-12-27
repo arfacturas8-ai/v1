@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useWeb3 } from '../Web3Provider'
 import { useResponsive } from '../hooks/useResponsive'
 import { getErrorMessage } from '../../utils/errorUtils'
+import { colors } from '../design-system/tokens'
 
 const WalletModal = ({ isOpen, onClose }) => {
   const { isMobile, isTablet } = useResponsive()
@@ -106,10 +107,10 @@ const WalletModal = ({ isOpen, onClose }) => {
           maxWidth: isMobile ? '100%' : isTablet ? '500px' : '560px',
           maxHeight: '90vh',
           overflowY: 'auto',
-          background: '#FFFFFF',
+          background: colors.bg.secondary,
           borderRadius: '16px',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-          border: '1px solid #E8EAED',
+          border: `1px solid ${colors.border.subtle}`,
           padding: isMobile ? '20px' : '24px'
         }}
         onClick={e => e.stopPropagation()}
@@ -120,13 +121,13 @@ const WalletModal = ({ isOpen, onClose }) => {
           justifyContent: 'space-between',
           marginBottom: '24px',
           paddingBottom: '20px',
-          borderBottom: '1px solid #E8EAED'
+          borderBottom: `1px solid ${colors.border.subtle}`
         }}>
           <div>
             <h2 style={{
               fontSize: isMobile ? '20px' : '24px',
               fontWeight: '700',
-              color: '#1A1A1A',
+              color: colors.text.primary,
               margin: 0,
               marginBottom: '4px'
             }}>
@@ -135,7 +136,7 @@ const WalletModal = ({ isOpen, onClose }) => {
             <p style={{
               margin: 0,
               fontSize: isMobile ? '14px' : '15px',
-              color: '#666666'
+              color: colors.text.secondary
             }}>
               Connect your wallet to access Web3 features
             </p>

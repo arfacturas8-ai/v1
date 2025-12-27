@@ -6,6 +6,7 @@
 import React, { useState, useCallback } from 'react';
 import { X, Search, Users, Check } from 'lucide-react';
 import { useResponsive } from '../../hooks/useResponsive';
+import { colors } from '../../design-system/tokens';
 
 export default function CreateGroupDMModal({ isOpen, onClose, onCreateGroup, availableUsers = [] }) {
   const { isMobile, isTablet } = useResponsive();
@@ -83,7 +84,7 @@ export default function CreateGroupDMModal({ isOpen, onClose, onCreateGroup, ava
           width: '100%',
           maxWidth: isMobile ? '100%' : isTablet ? '450px' : '500px',
           maxHeight: '80vh',
-          background: '#FFFFFF',
+          background: colors.bg.secondary,
           borderRadius: '16px',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
           display: 'flex',
@@ -98,10 +99,10 @@ export default function CreateGroupDMModal({ isOpen, onClose, onCreateGroup, ava
             alignItems: 'center',
             justifyContent: 'space-between',
             padding: '20px 24px',
-            borderBottom: '1px solid #E8EAED',
+            borderBottom: `1px solid ${colors.border.subtle}`,
           }}
         >
-          <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#1A1A1A', margin: 0 }}>
+          <h2 style={{ fontSize: '20px', fontWeight: '700', color: colors.text.primary, margin: 0 }}>
             Create Group DM
           </h2>
           <button
@@ -117,10 +118,10 @@ export default function CreateGroupDMModal({ isOpen, onClose, onCreateGroup, ava
               justifyContent: 'center',
               transition: 'background 0.2s',
             }}
-            onMouseEnter={(e) => (e.currentTarget.style.background = '#F8F9FA')}
+            onMouseEnter={(e) => (e.currentTarget.style.background = colors.bg.tertiary)}
             onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
           >
-            <X size={20} color="#666666" />
+            <X size={20} color={colors.text.secondary} />
           </button>
         </div>
 
@@ -302,15 +303,15 @@ export default function CreateGroupDMModal({ isOpen, onClose, onCreateGroup, ava
                       width: '24px',
                       height: '24px',
                       borderRadius: '50%',
-                      border: `2px solid ${isSelected ? '#58a6ff' : '#E8EAED'}`,
-                      background: isSelected ? '#58a6ff' : '#FFFFFF',
+                      border: `2px solid ${isSelected ? colors.brand.primary : colors.border.subtle}`,
+                      background: isSelected ? colors.brand.primary : colors.bg.secondary,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       transition: 'all 0.2s',
                     }}
                   >
-                    {isSelected && <Check size={14} color="#FFFFFF" />}
+                    {isSelected && <Check size={14} color={colors.text.inverse} />}
                   </div>
                 </button>
               );

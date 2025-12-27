@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../lib/utils';
 import { IconButton } from './Button';
+import { colors } from '../../design-system/tokens';
 
 export const Modal = ({
   isOpen,
@@ -164,7 +165,7 @@ export const Modal = ({
           position: 'relative',
           width: '100%',
           maxWidth: getSizeMaxWidth(),
-          background: '#FFFFFF',
+          background: colors.bg.secondary,
           borderRadius: '16px',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
           maxHeight: '90vh',
@@ -191,10 +192,10 @@ export const Modal = ({
               border: 'none',
               borderRadius: '8px',
               cursor: 'pointer',
-              color: '#666666',
+              color: colors.text.secondary,
               transition: 'background 0.2s'
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#F0F2F5'}
+            onMouseEnter={(e) => e.currentTarget.style.background = colors.bg.hover}
             onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           >
             <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -214,7 +215,7 @@ export const ModalHeader = ({ children, className, style }) => (
     className={className}
     style={{
       padding: '20px 24px',
-      borderBottom: '1px solid #E8EAED',
+      borderBottom: `1px solid ${colors.border.subtle}`,
       ...style
     }}
   >
@@ -228,7 +229,7 @@ export const ModalTitle = ({ children, className, style }) => (
     style={{
       fontSize: '20px',
       fontWeight: '700',
-      color: '#1A1A1A',
+      color: colors.text.primary,
       margin: 0,
       ...style
     }}
