@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { useOrientation } from './mobile/TabletLayout'
+import { useResponsive } from '../hooks/useResponsive'
 
 /**
  * Enhanced Layout Component for Tablet Optimization
  * Provides adaptive layouts that work perfectly on tablets and mobile devices
  */
-function TabletOptimizedLayout({ 
-  children, 
-  sidebar = null, 
-  className = '', 
+function TabletOptimizedLayout({
+  children,
+  sidebar = null,
+  className = '',
   enablePullToRefresh = false,
   onRefresh = null
 }) {
   const { orientation, isTablet, isPortrait, isLandscape } = useOrientation()
+  const { isMobile, isDesktop } = useResponsive()
   const [refreshing, setRefreshing] = useState(false)
   const [pullY, setPullY] = useState(0)
   const [startY, setStartY] = useState(0)
@@ -68,15 +70,13 @@ function TabletOptimizedLayout({
   
   // Determine layout type based on screen size and orientation
   const getLayoutType = () => {
-    const width = window.innerWidth
-    
-    if (width < 768) return 'mobile'
-    if (width >= 768 && width < 1024) {
+    if (isMobile) return 'mobile'
+    if (isTablet) {
       return isLandscape ? 'tablet-landscape' : 'tablet-portrait'
     }
     return 'desktop'
   }
-  
+
   const layoutType = getLayoutType()
   
   // Layout styles based on screen type
@@ -186,9 +186,9 @@ function TabletOptimizedLayout({
  * Responsive Card Grid for Tablets
  * Automatically adjusts columns based on screen size
  */
-function TabletCardGrid({ 
-  items = [], 
-  renderCard, 
+function TabletCardGrid({
+  items = [],
+  renderCard,
   className = '',
   minCardWidth = '280px',
   gap = 'var(--space-md)',
@@ -196,16 +196,14 @@ function TabletCardGrid({
   loadingCount = 6
 }) {
   const { isTablet, orientation } = useOrientation()
-  
+  const { isMobile } = useResponsive()
+
   const getColumns = () => {
-    const width = window.innerWidth
-    
-    if (width < 480) return 1
-    if (width < 768) return 2
-    if (width < 1024) return orientation === 'landscape' ? 3 : 2
+    if (isMobile) return window.innerWidth < 480 ? 1 : 2
+    if (isTablet) return orientation === 'landscape' ? 3 : 2
     return 4
   }
-  
+
   const columns = getColumns()
   
   const gridStyles = {

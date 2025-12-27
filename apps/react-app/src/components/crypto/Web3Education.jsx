@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { Book, Lightbulb, Shield, Coins, Users, Zap, ChevronDown, ChevronRight, ExternalLink, Play } from 'lucide-react'
+import { useResponsive } from '../../hooks/useResponsive'
 
 function Web3Education() {
+  const { isMobile } = useResponsive()
   const [activeCategory, setActiveCategory] = useState('basics')
   const [expandedTopic, setExpandedTopic] = useState(null)
 
@@ -438,10 +440,10 @@ Once launched, CRYB will transition to community governance where CRYB token hol
               }}
             >
               <IconComponent style={{ height: '16px', width: '16px' }} />
-              <span style={{ display: window.innerWidth >= 640 ? 'inline' : 'none' }}>
+              <span style={{ display: isMobile ? 'none' : 'inline' }}>
                 {category.title}
               </span>
-              <span style={{ display: window.innerWidth < 640 ? 'inline' : 'none' }}>
+              <span style={{ display: isMobile ? 'inline' : 'none' }}>
                 {category.title.split(' ')[0]}
               </span>
             </button>
