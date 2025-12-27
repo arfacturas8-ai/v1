@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useResponsive } from '../../hooks/useResponsive'
+import { colors } from '../../design-system/tokens'
 
 const AwardModal = ({ post, onClose, onAward }) => {
   const { isMobile, isTablet } = useResponsive()
@@ -127,7 +128,7 @@ const AwardModal = ({ post, onClose, onAward }) => {
         style={{
           width: '100%',
           maxWidth: isMobile ? '100%' : isTablet ? '640px' : '576px',
-          background: '#FFFFFF',
+          background: colors.bg.secondary,
           borderRadius: '16px',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
           maxHeight: '90vh',
@@ -268,7 +269,7 @@ const AwardModal = ({ post, onClose, onAward }) => {
                       border: isSelected ? '2px solid #58a6ff' : '1px solid #E8EAED',
                       borderRadius: '12px',
                       minHeight: '48px',
-                      background: isSelected ? 'rgba(88, 166, 255, 0.1)' : '#FFFFFF',
+                      background: isSelected ? 'rgba(88, 166, 255, 0.1)' : colors.bg.secondary,
                       cursor: !canAfford ? 'not-allowed' : 'pointer',
                       opacity: !canAfford ? 0.5 : 1,
                       transition: 'all 0.2s',

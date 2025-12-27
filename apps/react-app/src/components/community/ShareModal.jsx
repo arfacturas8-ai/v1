@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { useResponsive } from '../../hooks/useResponsive'
+import { colors } from '../../design-system/tokens'
 
 const ShareModal = ({ post, onClose, onShare }) => {
   const { isMobile, isTablet } = useResponsive()
@@ -105,7 +106,7 @@ const ShareModal = ({ post, onClose, onShare }) => {
         style={{
           width: '100%',
           maxWidth: isMobile ? '100%' : isTablet ? '640px' : '576px',
-          background: '#FFFFFF',
+          background: colors.bg.secondary,
           borderRadius: '16px',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
           overflow: 'hidden'
