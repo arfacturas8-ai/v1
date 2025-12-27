@@ -83,11 +83,6 @@ describe('Lazy Routes', () => {
       expect(LazyRoutes.AccountSettingsPage.$$typeof).toBeDefined();
     });
 
-    it('should export CryptoPage as lazy component', () => {
-      expect(LazyRoutes.CryptoPage).toBeDefined();
-      expect(LazyRoutes.CryptoPage.$$typeof).toBeDefined();
-    });
-
     it('should export NFTMarketplacePage as lazy component', () => {
       expect(LazyRoutes.NFTMarketplacePage).toBeDefined();
       expect(LazyRoutes.NFTMarketplacePage.$$typeof).toBeDefined();
@@ -523,7 +518,6 @@ describe('Lazy Routes', () => {
     });
 
     it('should export Web3 and crypto routes', () => {
-      expect(LazyRoutes.CryptoPage).toBeDefined();
       expect(LazyRoutes.NFTMarketplacePage).toBeDefined();
       expect(LazyRoutes.NFTGalleryPage).toBeDefined();
       expect(LazyRoutes.NFTDetailPage).toBeDefined();

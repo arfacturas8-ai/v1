@@ -147,8 +147,9 @@ function WalletConnectButton({
 
   const formatBalance = (balance) => {
     if (!balance) return '0';
-    const eth = Number(balance) / 1e18;
-    return eth.toFixed(4);
+    // Balance is already formatted from WalletManager.formatBalance()
+    const num = parseFloat(balance);
+    return isNaN(num) ? '0' : num.toFixed(4);
   };
 
   // Error state

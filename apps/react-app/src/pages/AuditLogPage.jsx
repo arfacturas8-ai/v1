@@ -80,47 +80,18 @@ export default function AuditLogPage() {
 
       if (response.ok) {
         const data = await response.json()
-        setLogs(data.logs || generateMockLogs())
+        setLogs(data.logs || [])
       } else {
-        // Use mock data for demo
-        setLogs(generateMockLogs())
+        setError('Failed to load audit logs')
+        setLogs([])
       }
     } catch (err) {
       console.error('Load logs error:', err)
-      // Use mock data for demo
-      setLogs(generateMockLogs())
+      setError(getErrorMessage(err, 'Failed to load audit logs'))
+      setLogs([])
     } finally {
       setLoading(false)
     }
-  }
-
-  const generateMockLogs = () => {
-    const actions = actionTypes.filter(a => a.value !== 'all')
-    const users = ['admin@cryb.com', 'mod1@cryb.com', 'mod2@cryb.com', 'system']
-    const mockLogs = []
-
-    for (let i = 0; i < 50; i++) {
-      const action = actions[Math.floor(Math.random() * actions.length)]
-      const timestamp = new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000)
-
-      mockLogs.push({
-        id: `log-${i}`,
-        action: action.value,
-        actionLabel: action.label,
-        user: users[Math.floor(Math.random() * users.length)],
-        target: `user-${Math.floor(Math.random() * 1000)}`,
-        timestamp: timestamp.toISOString(),
-        ipAddress: `192.168.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`,
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-        details: {
-          reason: 'Violation of community guidelines',
-          changes: { status: 'banned' },
-        },
-        severity: ['info', 'warning', 'error'][Math.floor(Math.random() * 3)],
-      })
-    }
-
-    return mockLogs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
   }
 
   const filterLogs = () => {
@@ -262,13 +233,13 @@ export default function AuditLogPage() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search logs by user, action, or target..."
-                style={{borderColor: "var(--border-subtle)"}} className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-3 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none transition-colors"
+                style={{borderColor: "var(--border-subtle)"}} className="w-full pl-9 sm:pl-10 pr-4 py-2 sm:py-3 text-sm sm:text-base bg-[#FFFFFF] border  rounded-lg focus:border-[#000000] focus:ring-1 focus:ring-[#000000] outline-none transition-colors"
               />
             </div>
             <div className="flex gap-2">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                style={{borderColor: "var(--border-subtle)"}} className="flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
+                style={{borderColor: "var(--border-subtle)"}} className="flex-1 sm:flex-none px-3 sm:px-4 py-2 sm:py-3 bg-[#FFFFFF] border  rounded-lg hover:bg-[#30363d] transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <Filter style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <span className="hidden sm:inline">Filters</span>
@@ -277,7 +248,7 @@ export default function AuditLogPage() {
               <button
                 onClick={loadLogs}
                 disabled={loading}
-                style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 sm:py-3 bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50"
+                style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 sm:py-3 bg-[#FFFFFF] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50"
                 title="Refresh"
               >
                 <RefreshCw className={`w-4 h-4 sm:w-5 sm:h-5 ${loading ? '' : ''}`} />
@@ -285,7 +256,7 @@ export default function AuditLogPage() {
               <button
                 onClick={handleExport}
                 disabled={exporting || filteredLogs.length === 0}
-                className="px-3 sm:px-4 py-2 sm:py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 text-sm sm:text-base whitespace-nowrap"
+                className="px-3 sm:px-4 py-2 sm:py-3 bg-gradient-to-r from-[#000000] to-[#000000] hover:opacity-90 rounded-lg transition-colors disabled:opacity-50 flex items-center gap-2 text-sm sm:text-base whitespace-nowrap"
               >
                 <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 <span className="hidden sm:inline">Export</span>
@@ -301,7 +272,7 @@ export default function AuditLogPage() {
                 <select
                   value={selectedAction}
                   onChange={(e) => setSelectedAction(e.target.value)}
-                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#FFFFFF] border  rounded-lg focus:border-[#000000] focus:ring-1 focus:ring-[#000000] outline-none"
                 >
                   {actionTypes.map(action => (
                     <option key={action.value} value={action.value}>
@@ -316,7 +287,7 @@ export default function AuditLogPage() {
                 <select
                   value={selectedUser}
                   onChange={(e) => setSelectedUser(e.target.value)}
-                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#FFFFFF] border  rounded-lg focus:border-[#000000] focus:ring-1 focus:ring-[#000000] outline-none"
                 >
                   <option value="all">All Users</option>
                   {uniqueUsers.map(user => (
@@ -334,13 +305,13 @@ export default function AuditLogPage() {
                     type="date"
                     value={dateRange.start}
                     onChange={(e) => setDateRange({ ...dateRange, start: e.target.value })}
-                    style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                    style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#FFFFFF] border  rounded-lg focus:border-[#000000] focus:ring-1 focus:ring-[#000000] outline-none"
                   />
                   <input
                     type="date"
                     value={dateRange.end}
                     onChange={(e) => setDateRange({ ...dateRange, end: e.target.value })}
-                    style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg focus:border-[#58a6ff] focus:ring-1 focus:ring-[#58a6ff] outline-none"
+                    style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base bg-[#FFFFFF] border  rounded-lg focus:border-[#000000] focus:ring-1 focus:ring-[#000000] outline-none"
                   />
                 </div>
               </div>
@@ -367,7 +338,7 @@ export default function AuditLogPage() {
         <div style={{borderColor: "var(--border-subtle)"}} className="card   rounded-lg border  overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px]">
-              <thead style={{borderColor: "var(--border-subtle)"}} className="bg-[#21262d] border-b ">
+              <thead style={{borderColor: "var(--border-subtle)"}} className="bg-[#FFFFFF] border-b ">
                 <tr>
                   <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium ">Severity</th>
                   <th style={{color: "var(--text-secondary)"}} className="px-3 sm:px-6 py-3 sm:py-4 text-left text-xs sm:text-sm font-medium ">Timestamp</th>
@@ -383,7 +354,7 @@ export default function AuditLogPage() {
                   currentLogs.map((log) => {
                     const timestamp = formatTimestamp(log.timestamp)
                     return (
-                      <tr key={log.id} style={{borderColor: "var(--border-subtle)"}} className="border-b  hover:bg-[#21262d] transition-colors">
+                      <tr key={log.id} style={{borderColor: "var(--border-subtle)"}} className="border-b  hover:bg-[#FFFFFF] transition-colors">
                         <td className="px-3 sm:px-6 py-3 sm:py-4">
                           {getSeverityIcon(log.severity)}
                         </td>
@@ -442,7 +413,7 @@ export default function AuditLogPage() {
             <button
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
-              style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#FFFFFF] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <span className="hidden sm:inline">Previous</span>
               <span className="sm:hidden">Prev</span>
@@ -456,8 +427,8 @@ export default function AuditLogPage() {
                     onClick={() => setCurrentPage(pageNum)}
                     className={`px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg transition-colors ${
                       currentPage === pageNum
-                        ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                        : 'bg-[#21262d] border border-white/10 hover:bg-[#30363d]'
+                        ? 'bg-gradient-to-r from-[#000000] to-[#000000] text-white'
+                        : 'bg-[#FFFFFF] border border-white/10 hover:bg-[#30363d]'
                     }`}
                   >
                     {pageNum}
@@ -468,7 +439,7 @@ export default function AuditLogPage() {
             <button
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
-              style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#21262d] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{borderColor: "var(--border-subtle)"}} className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-[#FFFFFF] border  rounded-lg hover:bg-[#30363d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Next
             </button>
@@ -519,7 +490,7 @@ export default function AuditLogPage() {
 
                 <div>
                   <label style={{color: "var(--text-secondary)"}} className="block text-xs sm:text-sm  mb-1">Details</label>
-                  <pre style={{borderColor: "var(--border-subtle)"}} className="bg-[#21262d] border  rounded-lg p-3 sm:p-4 text-xs sm:text-sm overflow-x-auto">
+                  <pre style={{borderColor: "var(--border-subtle)"}} className="bg-[#FFFFFF] border  rounded-lg p-3 sm:p-4 text-xs sm:text-sm overflow-x-auto">
                     {JSON.stringify(selectedLog.details, null, 2)}
                   </pre>
                 </div>

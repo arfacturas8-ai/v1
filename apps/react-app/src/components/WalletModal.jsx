@@ -86,25 +86,31 @@ const WalletModal = ({ isOpen, onClose }) => {
     <div
       style={{
         position: 'fixed',
-        inset: '0',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 'var(--space-4)',
-        zIndex: 'var(--z-modal)',
-        background: 'var(--bg-tertiary)',
+        padding: isMobile ? '16px' : '20px',
+        zIndex: 9999,
+        background: 'rgba(0, 0, 0, 0.5)',
         backdropFilter: 'blur(8px)'
       }}
       onClick={onClose}
     >
       <div
-        className="card card-elevated"
         style={{
           width: '100%',
           maxWidth: isMobile ? '100%' : isTablet ? '500px' : '560px',
           maxHeight: '90vh',
           overflowY: 'auto',
-          padding: isMobile ? 'var(--space-4)' : 'var(--space-6)'
+          background: '#FFFFFF',
+          borderRadius: '16px',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+          border: '1px solid #E8EAED',
+          padding: isMobile ? '20px' : '24px'
         }}
         onClick={e => e.stopPropagation()}
       >
@@ -112,42 +118,47 @@ const WalletModal = ({ isOpen, onClose }) => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          marginBottom: 'var(--space-6)',
-          paddingBottom: 'var(--space-4)',
-          borderBottom: '1px solid var(--border-subtle)'
+          marginBottom: '24px',
+          paddingBottom: '20px',
+          borderBottom: '1px solid #E8EAED'
         }}>
           <div>
             <h2 style={{
-              fontSize: isMobile ? 'var(--text-lg)' : 'var(--text-xl)',
-              fontWeight: 'var(--font-bold)',
-              color: 'var(--text-primary)',
+              fontSize: isMobile ? '20px' : '24px',
+              fontWeight: '700',
+              color: '#1A1A1A',
               margin: 0,
-              marginBottom: 'var(--space-1)'
+              marginBottom: '4px'
             }}>
               Connect Wallet
             </h2>
             <p style={{
               margin: 0,
-              fontSize: isMobile ? 'var(--text-sm)' : 'var(--text-base)',
-              color: 'var(--text-secondary)'
+              fontSize: isMobile ? '14px' : '15px',
+              color: '#666666'
             }}>
               Connect your wallet to access Web3 features
             </p>
           </div>
           <button
             onClick={onClose}
-            className="btn-ghost"
             style={{
-              fontSize: isMobile ? 'var(--text-xl)' : 'var(--text-2xl)',
-              padding: 'var(--space-1)',
-              borderRadius: 'var(--radius-lg)',
+              fontSize: isMobile ? '28px' : '32px',
+              padding: '4px',
+              borderRadius: '12px',
               minWidth: '44px',
               minHeight: '44px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              color: 'var(--text-tertiary)'
+              color: '#666666',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'background 0.2s'
             }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#F0F2F5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           >
             ×
           </button>
@@ -155,38 +166,51 @@ const WalletModal = ({ isOpen, onClose }) => {
 
         {error && (
           <div style={{
-            background: 'var(--color-error-light)',
-            color: 'var(--color-error-dark)',
-            padding: 'var(--space-3) var(--space-4)',
-            borderRadius: 'var(--radius-lg)',
-            border: '1px solid var(--color-error)',
-            marginBottom: 'var(--space-4)',
-            fontSize: isMobile ? 'var(--text-sm)' : 'var(--text-base)'
+            background: '#FEE2E2',
+            color: '#DC2626',
+            padding: '12px 16px',
+            borderRadius: '12px',
+            border: '1px solid #FCA5A5',
+            marginBottom: '20px',
+            fontSize: isMobile ? '14px' : '15px'
           }}>
             {typeof error === "string" ? error : getErrorMessage(error, "")}
           </div>
         )}
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
           {walletOptions.map((wallet) => (
             <div
               key={wallet.id}
-              className={`card ${selectedWallet === wallet.id ? 'card-interactive' : ''}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: 'var(--space-4)',
+                padding: '16px',
                 cursor: 'pointer',
-                transition: 'all var(--transition-normal)',
+                transition: 'all 0.2s',
                 border: selectedWallet === wallet.id
-                  ? '2px solid var(--brand-primary)'
-                  : '1px solid var(--border-subtle)',
+                  ? '2px solid #58a6ff'
+                  : '1px solid #E8EAED',
                 background: selectedWallet === wallet.id
-                  ? 'var(--color-info-light)'
-                  : 'var(--bg-secondary)',
-                transform: selectedWallet === wallet.id ? 'translateY(-2px)' : 'none'
+                  ? 'rgba(88, 166, 255, 0.1)'
+                  : '#FFFFFF',
+                borderRadius: '12px',
+                boxShadow: selectedWallet === wallet.id ? '0 2px 8px rgba(88, 166, 255, 0.2)' : '0 1px 3px rgba(0,0,0,0.04)',
+                transform: selectedWallet === wallet.id ? 'translateY(-2px)' : 'translateY(0)'
               }}
               onClick={() => wallet.installed ? handleWalletConnect(wallet) : handleInstallWallet(wallet.id)}
+              onMouseEnter={(e) => {
+                if (selectedWallet !== wallet.id) {
+                  e.currentTarget.style.borderColor = '#CCCCCC';
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (selectedWallet !== wallet.id) {
+                  e.currentTarget.style.borderColor = '#E8EAED';
+                  e.currentTarget.style.boxShadow = '0 1px 3px rgba(0,0,0,0.04)';
+                }
+              }}
             >
               <div style={{
                 display: 'flex',
@@ -194,10 +218,10 @@ const WalletModal = ({ isOpen, onClose }) => {
                 justifyContent: 'center',
                 width: '48px',
                 height: '48px',
-                borderRadius: 'var(--radius-lg)',
-                background: 'var(--bg-tertiary)',
-                border: '1px solid var(--border-subtle)',
-                fontSize: 'var(--text-2xl)',
+                borderRadius: '12px',
+                background: '#F8F9FA',
+                border: '1px solid #E8EAED',
+                fontSize: '24px',
                 flexShrink: 0
               }}>
                 {wallet.icon}
@@ -205,13 +229,13 @@ const WalletModal = ({ isOpen, onClose }) => {
 
               <div style={{
                 flex: '1',
-                marginLeft: 'var(--space-4)',
+                marginLeft: '16px',
                 minWidth: 0
               }}>
                 <div style={{
-                  fontSize: isMobile ? 'var(--text-sm)' : 'var(--text-base)',
-                  fontWeight: 'var(--font-semibold)',
-                  color: 'var(--text-primary)',
+                  fontSize: isMobile ? '14px' : '15px',
+                  fontWeight: '600',
+                  color: '#1A1A1A',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap'
@@ -219,8 +243,8 @@ const WalletModal = ({ isOpen, onClose }) => {
                   {wallet.name}
                 </div>
                 <div style={{
-                  fontSize: isMobile ? 'var(--text-xs)' : 'var(--text-sm)',
-                  color: 'var(--text-secondary)',
+                  fontSize: isMobile ? '12px' : '13px',
+                  color: '#666666',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap'
@@ -231,30 +255,38 @@ const WalletModal = ({ isOpen, onClose }) => {
 
               {!wallet.installed ? (
                 <button
-                  className="btn btn-secondary btn-sm"
                   style={{
-                    padding: 'var(--space-2) var(--space-4)',
-                    fontSize: 'var(--text-sm)',
-                    minHeight: '44px'
+                    padding: '8px 16px',
+                    fontSize: '14px',
+                    minHeight: '44px',
+                    background: '#F8F9FA',
+                    color: '#666666',
+                    border: '1px solid #E8EAED',
+                    borderRadius: '12px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'background 0.2s'
                   }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#F0F2F5'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = '#F8F9FA'}
                 >
                   Install
                 </button>
               ) : selectedWallet === wallet.id && isConnecting ? (
-                <div
-                  className="spinner"
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    borderWidth: '2px'
-                  }}
-                />
+                <div style={{
+                  width: '20px',
+                  height: '20px',
+                  border: '2px solid #E8EAED',
+                  borderTopColor: '#58a6ff',
+                  borderRadius: '50%',
+                  animation: 'spin 1s linear infinite'
+                }} />
               ) : (
                 <div style={{
                   width: '8px',
                   height: '8px',
-                  borderRadius: 'var(--radius-full)',
-                  background: wallet.installed ? 'var(--color-success)' : 'var(--text-tertiary)'
+                  borderRadius: '50%',
+                  background: wallet.installed ? '#10B981' : '#CCCCCC'
                 }}></div>
               )}
             </div>
@@ -262,23 +294,23 @@ const WalletModal = ({ isOpen, onClose }) => {
         </div>
 
         <div style={{
-          marginTop: 'var(--space-6)',
-          paddingTop: 'var(--space-4)',
-          borderTop: '1px solid var(--border-subtle)',
-          fontSize: isMobile ? 'var(--text-xs)' : 'var(--text-sm)',
-          color: 'var(--text-secondary)',
+          marginTop: '24px',
+          paddingTop: '20px',
+          borderTop: '1px solid #E8EAED',
+          fontSize: isMobile ? '12px' : '13px',
+          color: '#666666',
           textAlign: 'center'
         }}>
-          <p style={{ margin: '0 0 var(--space-2) 0' }}>
+          <p style={{ margin: '0 0 8px 0' }}>
             By connecting a wallet, you agree to CRYB's{' '}
             <span style={{
-              color: 'var(--brand-primary)',
+              color: '#58a6ff',
               cursor: 'pointer',
               textDecoration: 'none'
             }}>Terms of Service</span>{' '}
             and{' '}
             <span style={{
-              color: 'var(--brand-primary)',
+              color: '#58a6ff',
               cursor: 'pointer',
               textDecoration: 'none'
             }}>Privacy Policy</span>
@@ -287,7 +319,7 @@ const WalletModal = ({ isOpen, onClose }) => {
             New to Web3?{' '}
             <span
               style={{
-                color: 'var(--brand-primary)',
+                color: '#58a6ff',
                 cursor: 'pointer',
                 textDecoration: 'underline'
               }}

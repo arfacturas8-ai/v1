@@ -400,8 +400,26 @@ const searchRoutes: FastifyPluginAsync = async (fastify) => {
       }).parse(request.query);
 
       const offset = (page - 1) * limit;
-      const searchQuery = q.trim().split(/\s+/).join(' | ');
-      const likeQuery = `%${q.toLowerCase()}%`;
+
+      // Sanitize query to prevent PostgreSQL FTS errors
+      const sanitizedQuery = q.trim().replace(/[^\w\s]/g, '');
+      const searchTerms = sanitizedQuery.split(/\s+/).filter(term => term.length > 0);
+
+      if (searchTerms.length === 0) {
+        return reply.send({
+          success: true,
+          data: { messages: { items: [], total: 0, source: "postgresql_fts" } },
+          query: q,
+          searchMeta: {
+            searchEngine: "postgresql_fts",
+            searchTime: "0ms",
+            serverId: serverId
+          }
+        });
+      }
+
+      const searchQuery = searchTerms.join(' | ');
+      const likeQuery = `%${sanitizedQuery.toLowerCase()}%`;
 
       // Search messages in server channels using PostgreSQL FTS
       const messages = await prisma.$queryRaw`
@@ -479,8 +497,25 @@ const searchRoutes: FastifyPluginAsync = async (fastify) => {
         limit: z.coerce.number().min(1).max(20).default(10),
       }).parse(request.query);
 
-      const searchQuery = q.trim().split(/\s+/).join(' | ');
-      const likeQuery = `%${q.toLowerCase()}%`;
+      // Sanitize query to prevent PostgreSQL FTS errors
+      const sanitizedQuery = q.trim().replace(/[^\w\s]/g, '');
+      const searchTerms = sanitizedQuery.split(/\s+/).filter(term => term.length > 0);
+
+      if (searchTerms.length === 0) {
+        return reply.send({
+          success: true,
+          data: [],
+          query: q,
+          searchMeta: {
+            searchEngine: "postgresql_fts",
+            searchTime: "0ms",
+            sources: []
+          }
+        });
+      }
+
+      const searchQuery = searchTerms.join(' | ');
+      const likeQuery = `%${sanitizedQuery.toLowerCase()}%`;
 
       // Get suggestions from multiple sources using PostgreSQL FTS
       const [userSuggestions, communitySuggestions, postSuggestions] = await Promise.all([
@@ -597,6 +632,14 @@ const searchRoutes: FastifyPluginAsync = async (fastify) => {
           verified: z.boolean().optional(),
           hasAttachments: z.boolean().optional()
         }).optional()
+      }).refine((data) => {
+        // Validate date range if both are provided
+        if (data.filters?.dateFrom && data.filters?.dateTo) {
+          return new Date(data.filters.dateFrom) <= new Date(data.filters.dateTo);
+        }
+        return true;
+      }, {
+        message: "dateFrom must be before or equal to dateTo"
       }).parse(request.query);
 
       if (!fastify.services?.elasticsearch) {

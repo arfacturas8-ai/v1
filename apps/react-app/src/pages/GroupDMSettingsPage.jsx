@@ -15,6 +15,7 @@ import {
   Bell, BellOff, Image, Trash2, LogOut, Settings
 } from 'lucide-react'
 import { useResponsive } from '../hooks/useResponsive'
+import ConfirmationModal from '../components/modals/ConfirmationModal'
 
 const GroupDMSettingsPage = () => {
   const { isMobile } = useResponsive()
@@ -29,12 +30,23 @@ const GroupDMSettingsPage = () => {
     { id: 3, username: 'charlie', avatar: '🦊', role: 'member', isOnline: false },
     { id: 4, username: 'diana', avatar: '🐼', role: 'member', isOnline: true }
   ])
+  const [showRemoveMemberModal, setShowRemoveMemberModal] = useState(false)
+  const [memberToRemove, setMemberToRemove] = useState(null)
+  const [showLeaveModal, setShowLeaveModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   const currentUserId = 1
 
   const removeMember = (memberId) => {
-    if (window.confirm('Remove this member from the group?')) {
-      setMembers(prev => prev.filter(m => m.id !== memberId))
+    setMemberToRemove(memberId)
+    setShowRemoveMemberModal(true)
+  }
+
+  const confirmRemoveMember = () => {
+    if (memberToRemove) {
+      setMembers(prev => prev.filter(m => m.id !== memberToRemove))
+      setShowRemoveMemberModal(false)
+      setMemberToRemove(null)
     }
   }
 
@@ -45,23 +57,29 @@ const GroupDMSettingsPage = () => {
   }
 
   const leaveGroup = () => {
-    if (window.confirm('Are you sure you want to leave this group?')) {
-      navigate('/messages')
-    }
+    setShowLeaveModal(true)
+  }
+
+  const confirmLeaveGroup = () => {
+    setShowLeaveModal(false)
+    navigate('/messages')
   }
 
   const deleteGroup = () => {
-    if (window.confirm('Are you sure you want to delete this group? This action cannot be undone.')) {
-      navigate('/messages')
-    }
+    setShowDeleteModal(true)
+  }
+
+  const confirmDeleteGroup = () => {
+    setShowDeleteModal(false)
+    navigate('/messages')
   }
 
   const getRoleBadge = (role) => {
     switch (role) {
       case 'owner':
-        return <Crown size={20} style={{ color: '#6366F1' }} />
+        return <Crown size={20} style={{ color: '#000000' }} />
       case 'admin':
-        return <Shield size={20} style={{ color: '#8B5CF6' }} />
+        return <Shield size={20} style={{ color: '#000000' }} />
       default:
         return null
     }
@@ -128,7 +146,9 @@ const GroupDMSettingsPage = () => {
                 <button
                   style={{
                     padding: isMobile ? '10px 16px' : '12px 20px',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '12px',
@@ -176,7 +196,7 @@ const GroupDMSettingsPage = () => {
                 }}
                 onFocus={(e) => {
                   if (currentUserRole === 'owner' || currentUserRole === 'admin') {
-                    e.target.style.borderColor = '#6366F1'
+                    e.target.style.borderColor = '#000000'
                     e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
                   }
                 }}
@@ -217,7 +237,7 @@ const GroupDMSettingsPage = () => {
                   border: 'none',
                   cursor: 'pointer',
                   transition: 'all 0.3s',
-                  background: notificationsEnabled ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#CCCCCC'
+                  background: notificationsEnabled ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#CCCCCC'
                 }}
               >
                 <div style={{
@@ -253,7 +273,9 @@ const GroupDMSettingsPage = () => {
               <button
                 style={{
                   padding: isMobile ? '10px 16px' : '12px 20px',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '12px',
@@ -453,6 +475,45 @@ const GroupDMSettingsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Remove Member Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showRemoveMemberModal}
+        onClose={() => {
+          setShowRemoveMemberModal(false)
+          setMemberToRemove(null)
+        }}
+        onConfirm={confirmRemoveMember}
+        title="Remove Member"
+        message="Remove this member from the group?"
+        confirmText="Remove"
+        cancelText="Cancel"
+        variant="danger"
+      />
+
+      {/* Leave Group Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showLeaveModal}
+        onClose={() => setShowLeaveModal(false)}
+        onConfirm={confirmLeaveGroup}
+        title="Leave Group"
+        message="Are you sure you want to leave this group?"
+        confirmText="Leave Group"
+        cancelText="Cancel"
+        variant="warning"
+      />
+
+      {/* Delete Group Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDeleteGroup}
+        title="Delete Group"
+        message="Are you sure you want to delete this group? This action cannot be undone."
+        confirmText="Delete Group"
+        cancelText="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }

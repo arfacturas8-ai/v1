@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
-  Menu, Search, Bell, User, Settings, LogOut, Plus, X,
+  Menu, Bell, User, Settings, LogOut, Plus, X,
   Home, Users, Activity, MessageCircle, Bot,
   ShoppingBag, Hash, Wallet, Coins
 } from 'lucide-react'
@@ -14,19 +14,17 @@ function MobileHeader() {
   const { logout, user } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
   const [unreadNotifications, setUnreadNotifications] = useState(0)
 
   const userMenuRef = useRef(null)
   const mobileMenuRef = useRef(null)
 
-  // Standardized navigation - matches Header.jsx
+  // Mobile burger menu - complementary to bottom nav (Community, Discover, Wallet, Profile)
   const navItems = [
     { href: '/home', label: 'Home', icon: Home },
-    { href: '/communities', label: 'Communities', icon: Hash },
-    { href: '/nft-marketplace', label: 'Explore', icon: ShoppingBag },
-    { href: '/crypto', label: 'Stats', icon: Coins },
     { href: '/messages', label: 'Messages', icon: MessageCircle },
+    { href: '/notifications', label: 'Notifications', icon: Bell },
+    { href: '/settings', label: 'Settings', icon: Settings },
   ]
 
   // Fetch unread notifications count
@@ -79,42 +77,77 @@ function MobileHeader() {
     navigate('/login', { replace: true })
   }
 
-  const handleSearch = (e) => {
-    e.preventDefault()
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`)
-      setSearchQuery('')
-      setIsMobileMenuOpen(false)
-    }
-  }
-
   return (
     <>
-      {/* Mobile Header */}
-      <header className="fixed top-0 left-0 right-0 z-50  pt-[env(safe-area-inset-top)] md:hidden" style={{ background: 'white', borderBottom: '1px solid var(--border-subtle)' }}>
-        <div className="px-4">
+      {/* Mobile Header - iOS Glassy Design */}
+      <header
+        className="fixed top-0 left-0 right-0 z-50 pt-[env(safe-area-inset-top)] md:hidden"
+        style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+          boxShadow: '0 1px 8px rgba(0, 0, 0, 0.03)'
+        }}
+      >
+        <div className="px-3">
           {/* Top Bar */}
           <div className="flex items-center justify-between h-14">
             {/* Logo */}
-            <Link to="/home" className="flex items-center">
-              <span className="text-xl font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent">
+            <Link to="/home" className="flex items-center" style={{ flexShrink: 0 }}>
+              <span
+                className="text-xl font-black bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent"
+                style={{ letterSpacing: '-0.5px' }}
+              >
                 CRYB
               </span>
             </Link>
 
             {/* Right Actions */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1" style={{ flexShrink: 0 }}>
               {user ? (
                 <>
                   {/* Notifications */}
                   <Link
                     to="/notifications"
-                    style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)'}}
+                    className="flex items-center justify-center relative"
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
+                      backgroundColor: 'transparent',
+                      color: '#666666',
+                      transition: 'all 0.2s ease'
+                    }}
                     aria-label={`Notifications${unreadNotifications > 0 ? ` (${unreadNotifications} unread)` : ''}`}
+                    onTouchStart={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+                      e.currentTarget.style.color = '#1A1A1A'
+                    }}
+                    onTouchEnd={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                    }}
                   >
-                    <Bell size={18} />
+                    <Bell size={19} strokeWidth={2} />
                     {unreadNotifications > 0 && (
-                      <span style={{color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0}}>
+                      <span
+                        className="absolute flex items-center justify-center"
+                        style={{
+                          top: '4px',
+                          right: '4px',
+                          minWidth: '16px',
+                          height: '16px',
+                          padding: '0 4px',
+                          fontSize: '10px',
+                          fontWeight: '700',
+                          color: '#FFFFFF',
+                          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                          borderRadius: '9999px',
+                          border: '2px solid rgba(255, 255, 255, 0.9)',
+                          boxShadow: '0 2px 4px rgba(239, 68, 68, 0.3)'
+                        }}
+                      >
                         {unreadNotifications > 9 ? '9+' : unreadNotifications}
                       </span>
                     )}
@@ -124,7 +157,23 @@ function MobileHeader() {
                   <div className="relative" ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                      style={{color: "var(--text-primary)", width: "48px", height: "48px", flexShrink: 0}}
+                      className="flex items-center justify-center"
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '8px',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                        color: '#FFFFFF',
+                        fontSize: '13px',
+                        fontWeight: '700',
+                        border: 'none',
+                        cursor: 'pointer',
+                        boxShadow: '0 2px 6px rgba(88, 166, 255, 0.2)',
+                        transition: 'all 0.2s ease',
+                        flexShrink: 0
+                      }}
                     >
                       {user?.username?.charAt(0).toUpperCase() || 'U'}
                     </button>
@@ -186,65 +235,86 @@ function MobileHeader() {
 
                   {/* Hamburger Menu */}
                   <button
-                    style={{width: "48px", height: "48px", flexShrink: 0, background: 'var(--bg-secondary)', borderColor: 'var(--border-subtle)', color: 'var(--text-secondary)'}}
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label="Menu"
+                    className="flex items-center justify-center"
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
+                      border: 'none',
+                      backgroundColor: isMobileMenuOpen ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+                      color: isMobileMenuOpen ? '#1A1A1A' : '#666666',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      flexShrink: 0
+                    }}
+                    onTouchStart={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+                      e.currentTarget.style.color = '#1A1A1A'
+                    }}
+                    onTouchEnd={(e) => {
+                      if (!isMobileMenuOpen) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                        e.currentTarget.style.color = '#666666'
+                      }
+                    }}
                   >
-                    {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                    {isMobileMenuOpen ? <X size={20} strokeWidth={2.5} /> : <Menu size={20} strokeWidth={2.5} />}
                   </button>
                 </>
               ) : (
                 <div className="flex items-center gap-2">
                   <Link
                     to="/login"
-                    className="px-4 py-2 text-sm font-medium transition-colors"
-                    style={{ color: 'var(--text-secondary)' }}
+                    className="px-3 py-2 text-sm font-medium transition-all rounded-lg"
+                    style={{
+                      color: '#666666',
+                      backgroundColor: 'transparent'
+                    }}
+                    onTouchStart={(e) => {
+                      e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+                      e.currentTarget.style.color = '#1A1A1A'
+                    }}
+                    onTouchEnd={(e) => {
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                      e.currentTarget.style.color = '#666666'
+                    }}
                   >
                     Sign In
                   </Link>
                   <Link
                     to="/register"
-                    style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-lg text-sm font-semibold transition-all"
+                    className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+                    style={{
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                      color: '#FFFFFF',
+                      boxShadow: '0 2px 8px rgba(88, 166, 255, 0.25)'
+                    }}
                   >
-                    Get Started
+                    Sign Up
                   </Link>
                 </div>
               )}
             </div>
           </div>
-
-          {/* Search Bar */}
-          {user && (
-            <div className="pb-3">
-              <form onSubmit={handleSearch}>
-                <div className="relative">
-                  <Search style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--text-secondary)'}} />
-                  <input
-                    type="search"
-                    placeholder="Search CRYB..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-11 pl-11 pr-4 border rounded-lg text-sm outline-none"
-                    style={{
-                      background: 'var(--bg-secondary)',
-                      borderColor: 'var(--border-subtle)',
-                      color: 'var(--text-primary)'
-                    }}
-                  />
-                </div>
-              </form>
-            </div>
-          )}
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu Dropdown - Glassy Design */}
         {isMobileMenuOpen && user && (
           <div
             ref={mobileMenuRef}
-            className="absolute top-full left-0 right-0  border-t max-h-[70vh] overflow-y-auto"
-            style={{ background: 'white', borderColor: 'var(--border-subtle)' }}
+            className="absolute top-full left-0 right-0 border-t max-h-[70vh] overflow-y-auto"
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              backdropFilter: 'blur(20px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+              borderColor: 'rgba(0, 0, 0, 0.06)'
+            }}
           >
-            <nav className="p-4 space-y-1">
+            <nav className="p-3 space-y-1">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.href
                 const IconComponent = item.icon
@@ -252,31 +322,44 @@ function MobileHeader() {
                   <Link
                     key={item.href}
                     to={item.href}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                      isActive
-                        ? 'bg-[#58a6ff]/10'
-                        : ''
-                    }`}
+                    className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all"
                     style={{
-                      color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)'
+                      color: isActive ? '#1A1A1A' : '#666666',
+                      backgroundColor: isActive ? 'rgba(88, 166, 255, 0.12)' : 'transparent',
+                      fontWeight: isActive ? '600' : '500'
                     }}
                     onClick={() => setIsMobileMenuOpen(false)}
+                    onTouchStart={(e) => {
+                      if (!isActive) e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+                    }}
+                    onTouchEnd={(e) => {
+                      if (!isActive) e.currentTarget.style.backgroundColor = 'transparent'
+                    }}
                   >
-                    <IconComponent size={20} />
+                    <IconComponent size={21} strokeWidth={isActive ? 2.5 : 2} />
                     {item.label}
                   </Link>
                 )
               })}
 
-              <div className="pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
+              <div className="pt-3 mt-3 border-t" style={{ borderColor: 'rgba(0, 0, 0, 0.06)' }}>
                 <button
                   onClick={() => {
                     navigate('/submit')
                     setIsMobileMenuOpen(false)
                   }}
-                  style={{color: "var(--text-primary)"}} className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-lg text-sm font-semibold transition-all hover:shadow-[0_0_16px_rgba(88,166,255,0.4)]"
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)'
+                  }}
                 >
-                  <Plus size={18} />
+                  <Plus size={19} strokeWidth={2.5} />
                   <span>Create Post</span>
                 </button>
               </div>
@@ -287,7 +370,6 @@ function MobileHeader() {
 
       {/* Header Spacer */}
       <div className="h-[calc(56px+env(safe-area-inset-top))] md:hidden" />
-      {user && <div className="h-3 md:hidden" />}
     </>
   )
 }

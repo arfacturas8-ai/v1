@@ -8,8 +8,9 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Image, Grid, List, Filter, Search, ExternalLink, Heart } from 'lucide-react'
 import { PageSkeleton } from '../components/LoadingSkeleton'
+import { useResponsive } from '../hooks/useResponsive'
 
-const NFTCard = ({ nft }) => {
+const NFTCard = ({ nft, isMobile }) => {
   const [liked, setLiked] = useState(false)
 
   return (
@@ -21,10 +22,10 @@ const NFTCard = ({ nft }) => {
         style={{
           overflow: 'hidden',
           transition: 'all 0.2s',
-          borderRadius: '20px',
+          borderRadius: isMobile ? '16px' : '20px',
           border: '1px solid #E5E7EB',
           background: '#FFFFFF',
-          minHeight: '280px',
+          minHeight: isMobile ? '240px' : '280px',
           cursor: 'pointer'
         }}
         onMouseEnter={(e) => {
@@ -72,10 +73,10 @@ const NFTCard = ({ nft }) => {
             }}
             style={{
               position: 'absolute',
-              top: '12px',
-              right: '12px',
-              width: '40px',
-              height: '40px',
+              top: isMobile ? '8px' : '12px',
+              right: isMobile ? '8px' : '12px',
+              width: isMobile ? '36px' : '40px',
+              height: isMobile ? '36px' : '40px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -102,7 +103,7 @@ const NFTCard = ({ nft }) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            color: '#000000',
+            color: '#1A1A1A',
             fontSize: '16px'
           }}>
             {nft.name}
@@ -126,7 +127,7 @@ const NFTCard = ({ nft }) => {
               <div style={{ fontSize: '12px', color: '#999999' }}>Price</div>
               <div style={{
                 fontWeight: '600',
-                color: '#000000'
+                color: '#1A1A1A'
               }}>
                 {nft.price || '—'}
               </div>
@@ -138,7 +139,7 @@ const NFTCard = ({ nft }) => {
                 fontSize: '12px',
                 fontWeight: '500',
                 background: 'rgba(99, 102, 241, 0.1)',
-                color: '#6366F1'
+                color: '#1A1A1A'
               }}>
                 {nft.rarity}
               </div>
@@ -218,7 +219,7 @@ const NFTListItem = ({ nft }) => {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
-            color: '#000000',
+            color: '#1A1A1A',
             fontSize: '16px'
           }}>
             {nft.name}
@@ -239,7 +240,7 @@ const NFTListItem = ({ nft }) => {
               <div style={{
                 fontWeight: '600',
                 fontSize: '14px',
-                color: '#000000'
+                color: '#1A1A1A'
               }}>
                 {nft.price || '—'}
               </div>
@@ -251,7 +252,7 @@ const NFTListItem = ({ nft }) => {
                 fontSize: '12px',
                 fontWeight: '500',
                 background: 'rgba(99, 102, 241, 0.1)',
-                color: '#6366F1'
+                color: '#1A1A1A'
               }}>
                 {nft.rarity}
               </div>
@@ -292,15 +293,12 @@ const NFTListItem = ({ nft }) => {
 }
 
 export default function NFTGalleryPage() {
+  const { isMobile, isTablet, isDesktop } = useResponsive()
   const [nfts, setNfts] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [viewMode, setViewMode] = useState('grid')
   const [filterBy, setFilterBy] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
-
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
 
   const pagePadding = isDesktop ? '80px' : isTablet ? '24px' : '16px'
   const headerPaddingTop = isDesktop || isTablet ? '72px' : '56px'
@@ -362,7 +360,9 @@ export default function NFTGalleryPage() {
               fontSize: isMobile ? '28px' : '32px',
               marginBottom: '16px',
               fontWeight: '700',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
@@ -387,7 +387,9 @@ export default function NFTGalleryPage() {
               transition: 'transform 0.2s',
               height: '48px',
               padding: '0 24px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               color: '#FFFFFF',
               fontSize: '16px',
               textDecoration: 'none'
@@ -441,10 +443,10 @@ export default function NFTGalleryPage() {
                 border: '1px solid #E5E7EB',
                 borderRadius: '16px',
                 background: '#FFFFFF',
-                color: '#000000'
+                color: '#1A1A1A'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#6366F1'
+                e.target.style.borderColor = '#58a6ff'
                 e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
               }}
               onBlur={(e) => {
@@ -470,7 +472,7 @@ export default function NFTGalleryPage() {
                 border: '1px solid #E5E7EB',
                 borderRadius: '16px',
                 background: '#FFFFFF',
-                color: '#000000'
+                color: '#1A1A1A'
               }}
               aria-label="Filter NFTs"
             >
@@ -500,7 +502,7 @@ export default function NFTGalleryPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: viewMode === 'grid' ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
-                color: viewMode === 'grid' ? '#6366F1' : '#666666',
+                color: viewMode === 'grid' ? '#58a6ff' : '#666666',
                 border: 'none',
                 cursor: 'pointer',
                 borderRadius: '12px',
@@ -520,7 +522,7 @@ export default function NFTGalleryPage() {
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: viewMode === 'list' ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
-                color: viewMode === 'list' ? '#6366F1' : '#666666',
+                color: viewMode === 'list' ? '#58a6ff' : '#666666',
                 border: 'none',
                 cursor: 'pointer',
                 borderRadius: '12px',
@@ -541,8 +543,8 @@ export default function NFTGalleryPage() {
           marginBottom: '48px'
         }}>
           {[
-            { label: 'Total NFTs', value: filteredNFTs.length, color: '#6366F1' },
-            { label: 'Collections', value: new Set(filteredNFTs.map(n => n.collection)).size, color: '#8B5CF6' },
+            { label: 'Total NFTs', value: filteredNFTs.length, color: '#000000' },
+            { label: 'Collections', value: new Set(filteredNFTs.map(n => n.collection)).size, color: '#000000' },
             { label: 'Total Value', value: '$12,450', color: '#10B981' }
           ].map((stat, index) => (
             <div
@@ -621,7 +623,9 @@ export default function NFTGalleryPage() {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                 height: '48px',
                 padding: '0 24px',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: '#FFFFFF',
                 fontSize: '16px',
                 textDecoration: 'none'
@@ -636,10 +640,10 @@ export default function NFTGalleryPage() {
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: isMobile ? '1fr' : isTablet ? 'repeat(2, 1fr)' : 'repeat(3, 1fr)',
-                gap: '24px'
+                gap: isMobile ? '16px' : '24px'
               }}>
                 {filteredNFTs.map((nft, index) => (
-                  <NFTCard key={nft.id || index} nft={nft} />
+                  <NFTCard key={nft.id || index} nft={nft} isMobile={isMobile} />
                 ))}
               </div>
             ) : (

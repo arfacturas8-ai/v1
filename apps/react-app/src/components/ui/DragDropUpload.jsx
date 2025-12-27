@@ -98,7 +98,7 @@ const DragDropUpload = ({
           {files.map((file, index) => (
             <div key={index} style={{
   position: 'relative',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px',
   border: '1px solid var(--border-subtle)',
   padding: '16px'

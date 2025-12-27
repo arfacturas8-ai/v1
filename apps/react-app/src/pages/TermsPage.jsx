@@ -61,7 +61,7 @@ function TermsPage() {
                 onClick={() => scrollToSection(section.id)}
                 className={`bg-transparent border-none text-sm p-2 px-3 text-left cursor-pointer rounded-md transition-all duration-200 font-inherit outline-none ${
                   activeSection === section.id
-                    ? 'text-[#58a6ff] bg-[#58a6ff]/10 font-medium border-l-2 border-[#58a6ff] pl-2.5'
+                    ? 'text-[#000000] bg-[#000000]/10 font-medium border-l-2 border-[#000000] pl-2.5'
                     : 'text-[var(--color-text-tertiary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-tertiary)]/60 '
                 }`}
               >
@@ -83,7 +83,7 @@ function TermsPage() {
 
         <section id="acceptance" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Acceptance of Terms</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Acceptance of Terms</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               Welcome to Cryb.ai. These Terms of Service ("Terms") govern your access to and use of our platform, services, and products. By accessing or using Cryb.ai, you agree to be bound by these Terms and our Privacy Policy.
             </p>
@@ -98,7 +98,7 @@ function TermsPage() {
 
         <section id="accounts" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">User Accounts</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">User Accounts</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Account Creation</h3>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -126,7 +126,7 @@ function TermsPage() {
 
         <section id="user-content" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">User Content</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">User Content</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Your Content</h3>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -156,7 +156,7 @@ function TermsPage() {
 
         <section id="prohibited" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Prohibited Conduct</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Prohibited Conduct</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">You agree not to engage in any of the following prohibited activities:</p>
             <ul className="list-disc pl-6 mb-4 space-y-2">
               <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Violating any applicable laws or regulations</li>
@@ -177,7 +177,7 @@ function TermsPage() {
 
         <section id="intellectual-property" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Intellectual Property Rights</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Intellectual Property Rights</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Cryb.ai's Intellectual Property</h3>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -205,7 +205,7 @@ function TermsPage() {
 
         <section id="termination" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Termination</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Termination</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Termination by You</h3>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -232,7 +232,7 @@ function TermsPage() {
 
         <section id="disclaimers" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Disclaimers</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Disclaimers</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               <strong>THE SERVICES ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED.</strong> To the fullest extent permitted by law, Cryb.ai disclaims all warranties, including but not limited to:
             </p>
@@ -253,7 +253,7 @@ function TermsPage() {
 
         <section id="liability" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Limitation of Liability</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Limitation of Liability</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               TO THE MAXIMUM EXTENT PERMITTED BY LAW, Cryb.ai SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR ANY LOSS OF PROFITS OR REVENUES, WHETHER INCURRED DIRECTLY OR INDIRECTLY, OR ANY LOSS OF DATA, USE, GOODWILL, OR OTHER INTANGIBLE LOSSES.
             </p>
@@ -268,7 +268,7 @@ function TermsPage() {
 
         <section id="dispute" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Dispute Resolution</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Dispute Resolution</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Informal Resolution</h3>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -294,7 +294,7 @@ function TermsPage() {
 
         <section id="general" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">General Provisions</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">General Provisions</h2>
 
             <h3 className="text-xl font-semibold text-[var(--color-text-primary)] mt-6 mb-2">Changes to Terms</h3>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
@@ -325,13 +325,13 @@ function TermsPage() {
 
         <section id="contact" className="mb-6">
           <div className="bg-[var(--color-bg-secondary)]/60  border border-black/10 rounded-xl p-5 md:p-6 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
-            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#58a6ff]/20">Contact Information</h2>
+            <h2 className="text-2xl font-semibold text-[var(--color-text-primary)] mb-4 pb-2 border-b-2 border-[#000000]/20">Contact Information</h2>
             <p className="text-base leading-relaxed text-[var(--color-text-primary)] mb-4">
               If you have any questions about these Terms of Service, please contact us:
             </p>
             <ul className="list-disc pl-6 mb-4 space-y-2">
               <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Email: legal@cryb.com</li>
-              <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Support: <Link to="/help" className="text-[#58a6ff] no-underline transition-colors duration-200 hover:text-[#4a8fd7]">Visit our Help Center</Link></li>
+              <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Support: <Link to="/help" className="text-[#000000] no-underline transition-colors duration-200 hover:text-[#4a8fd7]">Visit our Help Center</Link></li>
               <li className="text-base leading-relaxed text-[var(--color-text-primary)]">Address: Cryb.ai Platform, Inc.</li>
             </ul>
           </div>

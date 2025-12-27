@@ -139,183 +139,537 @@ export class EmailService {
    * Initialize email templates
    */
   private initializeTemplates(): void {
-    // Email verification template
+    // Email verification template - Mobile-optimized & cross-client compatible
     this.templates.set('verification', `
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="x-apple-disable-message-reformatting">
     <title>Verify Your Email - CRYB</title>
+    <!--[if mso]>
+    <style type="text/css">
+        body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+    </style>
+    <![endif]-->
 </head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to CRYB!</h1>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <h2 style="color: #333; margin-bottom: 20px;">Verify Your Email Address</h2>
-        
-        <p>Hi {{username}},</p>
-        
-        <p>Thanks for joining CRYB! Please verify your email address to complete your registration and start connecting with friends.</p>
-        
-        <div style="text-align: center; margin: 30px 0;">
-            <a href="{{verificationUrl}}" 
-               style="background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
-                Verify Email Address
-            </a>
-        </div>
-        
-        <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
-        <p style="word-break: break-all; color: #667eea;">{{verificationUrl}}</p>
-        
-        <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-            This verification link will expire in {{expirationHours}} hours. If you didn't create an account with CRYB, you can safely ignore this email.
-        </p>
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
-        <p>&copy; {{year}} CRYB. All rights reserved.</p>
-    </div>
+<body style="margin: 0; padding: 0; background-color: #FAFAFA; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #FAFAFA;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 600px; width: 100%;">
+                    <!-- Header with gradient -->
+                    <tr>
+                        <td align="center" style="background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; padding: 48px 40px; border-radius: 20px 20px 0 0;">
+                            <!--[if mso]>
+                            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:100px;v-text-anchor:middle;width:600px;" arcsize="0%" stroke="f" fillcolor="#58a6ff">
+                            <w:anchorlock/>
+                            <center>
+                            <![endif]-->
+                            <h1 style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 32px; font-weight: 700; color: #FFFFFF; line-height: 1.2;">Welcome to CRYB! 🎉</h1>
+                            <!--[if mso]>
+                            </center>
+                            </v:roundrect>
+                            <![endif]-->
+                        </td>
+                    </tr>
+
+                    <!-- Main content -->
+                    <tr>
+                        <td style="background-color: #FFFFFF; padding: 48px 40px; border-radius: 0 0 20px 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="padding-bottom: 24px;">
+                                        <h2 style="margin: 0 0 16px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 600; color: #1A1A1A; line-height: 1.3;">Verify Your Email Address</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #1A1A1A; padding-bottom: 16px;">
+                                        Hi <strong>{{username}}</strong>,
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #666666; padding-bottom: 32px;">
+                                        Thanks for joining CRYB! Please verify your email address to complete your registration and start connecting with friends and communities.
+                                    </td>
+                                </tr>
+                                <!-- Button -->
+                                <tr>
+                                    <td align="center" style="padding: 32px 0;">
+                                        <!--[if mso]>
+                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{verificationUrl}}" style="height:56px;v-text-anchor:middle;width:280px;" arcsize="36%" strokecolor="#58a6ff" fillcolor="#58a6ff">
+                                        <w:anchorlock/>
+                                        <center style="color:#ffffff;font-family:sans-serif;font-size:16px;font-weight:bold;">Verify Email Address</center>
+                                        </v:roundrect>
+                                        <![endif]-->
+                                        <!--[if !mso]><!-->
+                                        <a href="{{verificationUrl}}" style="display: inline-block; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; text-decoration: none; padding: 16px 48px; border-radius: 20px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3); -webkit-text-size-adjust: none; mso-hide: all;">
+                                            Verify Email Address →
+                                        </a>
+                                        <!--<![endif]-->
+                                    </td>
+                                </tr>
+                                <!-- Link fallback -->
+                                <tr>
+                                    <td style="padding-top: 24px; border-top: 1px solid #E8EAED;">
+                                        <p style="margin: 0 0 8px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; color: #666666;">
+                                            If the button doesn't work, copy and paste this link:
+                                        </p>
+                                        <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; color: #58a6ff; word-break: break-all;">
+                                            {{verificationUrl}}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <!-- Security notice -->
+                                <tr>
+                                    <td style="padding-top: 32px; border-top: 1px solid #E8EAED; margin-top: 32px;">
+                                        <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.5; color: #999999;">
+                                            🔒 This verification link will expire in <strong>{{expirationHours}} hours</strong>. If you didn't create an account with CRYB, you can safely ignore this email.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding: 32px 20px;">
+                            <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; color: #999999; line-height: 1.5;">
+                                &copy; {{year}} CRYB. All rights reserved.<br>
+                                <a href="https://platform.cryb.ai" style="color: #58a6ff; text-decoration: none;">platform.cryb.ai</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
     `.trim());
 
-    // Password reset template
+    // Password reset template - Mobile-optimized & cross-client compatible
     this.templates.set('password-reset', `
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="x-apple-disable-message-reformatting">
     <title>Reset Your Password - CRYB</title>
+    <!--[if mso]>
+    <style type="text/css">
+        body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+    </style>
+    <![endif]-->
 </head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1 style="color: white; margin: 0; font-size: 28px;">Password Reset</h1>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <h2 style="color: #333; margin-bottom: 20px;">Reset Your Password</h2>
-        
-        <p>Hi {{username}},</p>
-        
-        <p>We received a request to reset your password for your CRYB account. If you didn't make this request, you can safely ignore this email.</p>
-        
-        <div style="text-align: center; margin: 30px 0;">
-            <a href="{{resetUrl}}" 
-               style="background: #f5576c; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
-                Reset Password
-            </a>
-        </div>
-        
-        <p>If the button doesn't work, you can copy and paste this link into your browser:</p>
-        <p style="word-break: break-all; color: #f5576c;">{{resetUrl}}</p>
-        
-        <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-            This password reset link will expire in {{expirationHours}} hour. For security reasons, please reset your password as soon as possible.
-        </p>
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
-        <p>&copy; {{year}} CRYB. All rights reserved.</p>
-    </div>
+<body style="margin: 0; padding: 0; background-color: #FAFAFA; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #FAFAFA;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 600px; width: 100%;">
+                    <!-- Header with gradient -->
+                    <tr>
+                        <td align="center" style="background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; padding: 48px 40px; border-radius: 20px 20px 0 0;">
+                            <!--[if mso]>
+                            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:100px;v-text-anchor:middle;width:600px;" arcsize="0%" stroke="f" fillcolor="#58a6ff">
+                            <w:anchorlock/>
+                            <center>
+                            <![endif]-->
+                            <h1 style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 32px; font-weight: 700; color: #FFFFFF; line-height: 1.2;">Password Reset 🔐</h1>
+                            <!--[if mso]>
+                            </center>
+                            </v:roundrect>
+                            <![endif]-->
+                        </td>
+                    </tr>
+
+                    <!-- Main content -->
+                    <tr>
+                        <td style="background-color: #FFFFFF; padding: 48px 40px; border-radius: 0 0 20px 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="padding-bottom: 24px;">
+                                        <h2 style="margin: 0 0 16px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 600; color: #1A1A1A; line-height: 1.3;">Reset Your Password</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #1A1A1A; padding-bottom: 16px;">
+                                        Hi <strong>{{username}}</strong>,
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #666666; padding-bottom: 32px;">
+                                        We received a request to reset your password for your CRYB account. Click the button below to set a new password.
+                                    </td>
+                                </tr>
+                                <!-- Button -->
+                                <tr>
+                                    <td align="center" style="padding: 32px 0;">
+                                        <!--[if mso]>
+                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{resetUrl}}" style="height:56px;v-text-anchor:middle;width:220px;" arcsize="36%" strokecolor="#58a6ff" fillcolor="#58a6ff">
+                                        <w:anchorlock/>
+                                        <center style="color:#ffffff;font-family:sans-serif;font-size:16px;font-weight:bold;">Reset Password</center>
+                                        </v:roundrect>
+                                        <![endif]-->
+                                        <!--[if !mso]><!-->
+                                        <a href="{{resetUrl}}" style="display: inline-block; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; text-decoration: none; padding: 16px 48px; border-radius: 20px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3); -webkit-text-size-adjust: none; mso-hide: all;">
+                                            Reset Password →
+                                        </a>
+                                        <!--<![endif]-->
+                                    </td>
+                                </tr>
+                                <!-- Link fallback -->
+                                <tr>
+                                    <td style="padding-top: 24px; border-top: 1px solid #E8EAED;">
+                                        <p style="margin: 0 0 8px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 14px; color: #666666;">
+                                            If the button doesn't work, copy and paste this link:
+                                        </p>
+                                        <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; color: #58a6ff; word-break: break-all;">
+                                            {{resetUrl}}
+                                        </p>
+                                    </td>
+                                </tr>
+                                <!-- Security notice -->
+                                <tr>
+                                    <td style="padding-top: 32px; border-top: 1px solid #E8EAED; margin-top: 32px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td style="background-color: #FFF9F5; border-left: 4px solid #FF9F43; padding: 16px; border-radius: 8px;">
+                                                    <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.5; color: #666666;">
+                                                        ⚠️ This password reset link will expire in <strong>{{expirationHours}} hour</strong>. If you didn't request a password reset, please ignore this email or contact support if you have concerns.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding: 32px 20px;">
+                            <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; color: #999999; line-height: 1.5;">
+                                &copy; {{year}} CRYB. All rights reserved.<br>
+                                <a href="https://platform.cryb.ai" style="color: #58a6ff; text-decoration: none;">platform.cryb.ai</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
     `.trim());
 
-    // Welcome template
+    // Welcome template - Mobile-optimized & cross-client compatible
     this.templates.set('welcome', `
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="x-apple-disable-message-reformatting">
     <title>Welcome to CRYB!</title>
+    <!--[if mso]>
+    <style type="text/css">
+        body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+    </style>
+    <![endif]-->
 </head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1 style="color: white; margin: 0; font-size: 28px;">Welcome to CRYB!</h1>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <h2 style="color: #333; margin-bottom: 20px;">You're All Set!</h2>
-        
-        <p>Hi {{username}},</p>
-        
-        <p>Your email has been verified and your CRYB account is now active! You can now start connecting with friends, joining servers, and exploring communities.</p>
-        
-        <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; margin: 20px 0;">
-            <h3 style="color: #333; margin-top: 0;">What's Next?</h3>
-            <ul style="color: #666;">
-                <li>Complete your profile setup</li>
-                <li>Join your first server</li>
-                <li>Discover communities</li>
-                <li>Start chatting with friends</li>
-            </ul>
-        </div>
-        
-        <div style="text-align: center; margin: 30px 0;">
-            <a href="{{appUrl}}" 
-               style="background: #4facfe; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
-                Get Started
-            </a>
-        </div>
-        
-        <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
-            If you have any questions or need help getting started, feel free to reach out to our support team.
-        </p>
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
-        <p>&copy; {{year}} CRYB. All rights reserved.</p>
-    </div>
+<body style="margin: 0; padding: 0; background-color: #FAFAFA; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #FAFAFA;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 600px; width: 100%;">
+                    <!-- Header with gradient -->
+                    <tr>
+                        <td align="center" style="background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; padding: 48px 40px; border-radius: 20px 20px 0 0;">
+                            <!--[if mso]>
+                            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" style="height:100px;v-text-anchor:middle;width:600px;" arcsize="0%" stroke="f" fillcolor="#58a6ff">
+                            <w:anchorlock/>
+                            <center>
+                            <![endif]-->
+                            <h1 style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 32px; font-weight: 700; color: #FFFFFF; line-height: 1.2;">You're All Set! 🚀</h1>
+                            <!--[if mso]>
+                            </center>
+                            </v:roundrect>
+                            <![endif]-->
+                        </td>
+                    </tr>
+
+                    <!-- Main content -->
+                    <tr>
+                        <td style="background-color: #FFFFFF; padding: 48px 40px; border-radius: 0 0 20px 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="padding-bottom: 24px;">
+                                        <h2 style="margin: 0 0 16px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 24px; font-weight: 600; color: #1A1A1A; line-height: 1.3;">Welcome to CRYB!</h2>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #1A1A1A; padding-bottom: 16px;">
+                                        Hi <strong>{{username}}</strong>,
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; line-height: 1.6; color: #666666; padding-bottom: 32px;">
+                                        Your email has been verified and your CRYB account is now active! You can now start connecting with friends, joining communities, and exploring everything CRYB has to offer.
+                                    </td>
+                                </tr>
+                                <!-- What's Next Card -->
+                                <tr>
+                                    <td style="padding: 24px 0;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td style="background-color: #F8F9FA; border-left: 4px solid #58a6ff; padding: 24px; border-radius: 12px;">
+                                                    <h3 style="margin: 0 0 16px 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 600; color: #1A1A1A;">What's Next?</h3>
+                                                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.8; color: #666666; padding: 4px 0;">
+                                                                ✨ Complete your profile setup
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.8; color: #666666; padding: 4px 0;">
+                                                                👥 Discover and join communities
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.8; color: #666666; padding: 4px 0;">
+                                                                💬 Start chatting with friends
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.8; color: #666666; padding: 4px 0;">
+                                                                🎨 Customize your experience
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <!-- Button -->
+                                <tr>
+                                    <td align="center" style="padding: 32px 0;">
+                                        <!--[if mso]>
+                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{appUrl}}" style="height:56px;v-text-anchor:middle;width:200px;" arcsize="36%" strokecolor="#58a6ff" fillcolor="#58a6ff">
+                                        <w:anchorlock/>
+                                        <center style="color:#ffffff;font-family:sans-serif;font-size:16px;font-weight:bold;">Get Started</center>
+                                        </v:roundrect>
+                                        <![endif]-->
+                                        <!--[if !mso]><!-->
+                                        <a href="{{appUrl}}" style="display: inline-block; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 600; text-decoration: none; padding: 16px 48px; border-radius: 20px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3); -webkit-text-size-adjust: none; mso-hide: all;">
+                                            Get Started →
+                                        </a>
+                                        <!--<![endif]-->
+                                    </td>
+                                </tr>
+                                <!-- Help text -->
+                                <tr>
+                                    <td style="padding-top: 32px; border-top: 1px solid #E8EAED; margin-top: 32px;">
+                                        <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 13px; line-height: 1.5; color: #999999; text-align: center;">
+                                            Need help getting started? <a href="https://platform.cryb.ai/help" style="color: #58a6ff; text-decoration: none;">Visit our Help Center</a> or reach out to our support team.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding: 32px 20px;">
+                            <p style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size: 12px; color: #999999; line-height: 1.5;">
+                                &copy; {{year}} CRYB. All rights reserved.<br>
+                                <a href="https://platform.cryb.ai" style="color: #58a6ff; text-decoration: none;">platform.cryb.ai</a>
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
     `.trim());
 
     // Notification digest template
     this.templates.set('notification-digest', `
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="x-apple-disable-message-reformatting">
     <title>Your CRYB Notifications</title>
+    <!--[if mso]>
+    <style type="text/css">
+        body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
+    </style>
+    <![endif]-->
 </head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 10px 10px 0 0;">
-        <h1 style="color: white; margin: 0; font-size: 24px;">{{notificationCount}} New Notifications</h1>
-    </div>
-    
-    <div style="background: white; padding: 40px; border-radius: 0 0 10px 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
-        <p>Hi {{username}},</p>
-        
-        <p>You have {{notificationCount}} new notifications on CRYB:</p>
-        
-        <div style="margin: 20px 0;">
-            {{#notifications}}
-            <div style="border-left: 4px solid #667eea; padding: 15px; margin: 10px 0; background: #f8f9fa;">
-                <h4 style="margin: 0 0 5px 0; color: #333;">{{title}}</h4>
-                <p style="margin: 0; color: #666; font-size: 14px;">{{content}}</p>
-                <small style="color: #999;">{{timeAgo}}</small>
-            </div>
-            {{/notifications}}
-        </div>
-        
-        <div style="text-align: center; margin: 30px 0;">
-            <a href="{{notificationsUrl}}" 
-               style="background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; font-weight: bold; display: inline-block;">
-                View All Notifications
-            </a>
-        </div>
-    </div>
-    
-    <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
-        <p>&copy; {{year}} CRYB. All rights reserved.</p>
-        <p><a href="{{unsubscribeUrl}}" style="color: #999;">Unsubscribe from notification emails</a></p>
-    </div>
+<body style="margin: 0; padding: 0; background-color: #FAFAFA; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #FAFAFA;">
+        <tr>
+            <td align="center" style="padding: 40px 20px;">
+                <!-- Main Container -->
+                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #FFFFFF; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);">
+
+                    <!-- Header with brand gradient -->
+                    <tr>
+                        <td align="center" style="background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; padding: 48px 40px; border-radius: 20px 20px 0 0;">
+                            <!--[if mso]>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                            <td align="center">
+                            <![endif]-->
+                            <h1 style="margin: 0; color: #FFFFFF; font-size: 32px; font-weight: 700; line-height: 1.2; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                🔔 {{notificationCount}} New Notifications
+                            </h1>
+                            <!--[if mso]>
+                            </td>
+                            </tr>
+                            </table>
+                            <![endif]-->
+                        </td>
+                    </tr>
+
+                    <!-- Content Section -->
+                    <tr>
+                        <td style="padding: 48px 40px;">
+                            <!--[if mso]>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                            <tr>
+                            <td>
+                            <![endif]-->
+
+                            <!-- Greeting -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td style="padding-bottom: 24px;">
+                                        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                            Hi <strong style="color: #1A1A1A;">{{username}}</strong>,
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-bottom: 32px;">
+                                        <p style="margin: 0; font-size: 17px; line-height: 1.6; color: #666666; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                            You have <strong style="color: #58a6ff;">{{notificationCount}} new notifications</strong> waiting for you on CRYB:
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Notifications List -->
+                            {{#notifications}}
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 16px;">
+                                <tr>
+                                    <td style="background-color: #F8F9FA; border-left: 4px solid #58a6ff; padding: 20px; border-radius: 12px;">
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td style="padding-bottom: 8px;">
+                                                    <h4 style="margin: 0; font-size: 16px; font-weight: 600; color: #1A1A1A; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                                        {{title}}
+                                                    </h4>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding-bottom: 8px;">
+                                                    <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #666666; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                                        {{content}}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <p style="margin: 0; font-size: 13px; color: #999999; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                                        {{timeAgo}}
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                            {{/notifications}}
+
+                            <!-- CTA Button -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 32px;">
+                                <tr>
+                                    <td align="center">
+                                        <!--[if mso]>
+                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="{{notificationsUrl}}" style="height:56px;v-text-anchor:middle;width:300px;" arcsize="36%" strokecolor="#58a6ff" fillcolor="#58a6ff">
+                                        <w:anchorlock/>
+                                        <center style="color:#ffffff;font-family:Arial, Helvetica, sans-serif;font-size:16px;font-weight:600;">View All Notifications →</center>
+                                        </v:roundrect>
+                                        <![endif]-->
+                                        <!--[if !mso]><!-->
+                                        <a href="{{notificationsUrl}}" style="display: inline-block; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); background-color: #58a6ff; color: #FFFFFF; font-size: 16px; font-weight: 600; text-decoration: none; padding: 16px 48px; border-radius: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.3);">
+                                            View All Notifications →
+                                        </a>
+                                        <!--<![endif]-->
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Unsubscribe Section -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 40px; padding-top: 32px; border-top: 1px solid #E8EAED;">
+                                <tr>
+                                    <td align="center">
+                                        <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #999999; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                            Too many emails?
+                                            <a href="{{unsubscribeUrl}}" style="color: #58a6ff; text-decoration: none; font-weight: 500;">
+                                                Manage your notification preferences
+                                            </a>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!--[if mso]>
+                            </td>
+                            </tr>
+                            </table>
+                            <![endif]-->
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #F8F9FA; padding: 32px 40px; border-radius: 0 0 20px 20px;">
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center" style="padding-bottom: 8px;">
+                                        <p style="margin: 0; font-size: 13px; color: #999999; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                            Made with ❤️ by the CRYB Team
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center">
+                                        <p style="margin: 0; font-size: 13px; color: #CCCCCC; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+                                            &copy; {{year}} CRYB. All rights reserved.
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+                <!-- End Main Container -->
+            </td>
+        </tr>
+    </table>
 </body>
 </html>
     `.trim());

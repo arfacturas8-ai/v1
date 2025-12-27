@@ -130,7 +130,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
               <div style={{
   width: '44px',
   height: '24px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '50%',
   border: '1px solid var(--border-subtle)'
 }}></div>
@@ -229,7 +229,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
                 <div style={{
   width: '44px',
   height: '24px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '50%',
   border: '1px solid var(--border-subtle)'
 }}></div>
@@ -320,7 +320,7 @@ const NotificationSetupStep = ({ onComplete, onSkip }) => {
               <div style={{
   width: '44px',
   height: '24px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '50%',
   border: '1px solid var(--border-subtle)'
 }}></div>

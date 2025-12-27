@@ -286,7 +286,7 @@ function CommunitiesPageV1() {
                 key={community.id || community.name}
                 name={community.displayName || community.name}
                 symbol={community.name}
-                color={community.color || '#58a6ff'}
+                color={community.color || '#000000'}
                 coinHolders={community.members || 0}
                 members={community.activeMembers || community.members || 0}
                 grade={community.grade}

@@ -130,7 +130,7 @@ function ActivityFeedPage() {
           transition: 'color 0.2s'
         }}
         onMouseEnter={(e) => e.target.style.color = '#79b8ff'}
-        onMouseLeave={(e) => e.target.style.color = '#58a6ff'}
+        onMouseLeave={(e) => e.target.style.color = '#000000'}
       >
         {displayName}
       </Link>
@@ -231,7 +231,7 @@ function ActivityFeedPage() {
                 transition: 'color 0.2s'
               }}
               onMouseEnter={(e) => e.target.style.color = '#79b8ff'}
-              onMouseLeave={(e) => e.target.style.color = '#58a6ff'}
+              onMouseLeave={(e) => e.target.style.color = '#000000'}
             >
               {activity.content?.communityName}
             </Link>
@@ -330,7 +330,7 @@ function ActivityFeedPage() {
                 e.target.style.transform = 'translateY(-2px)'
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = '#58a6ff'
+                e.target.style.backgroundColor = '#000000'
                 e.target.style.transform = 'translateY(0)'
               }}
               aria-label="Retry loading activity feed"
@@ -389,7 +389,6 @@ function ActivityFeedPage() {
                   paddingBottom: '16px',
                   paddingLeft: '4px',
                   paddingRight: '4px',
-                  borderBottom: filter === tab.id ? '2px solid #58a6ff' : '2px solid transparent',
                   fontSize: '14px',
                   fontWeight: '600',
                   color: filter === tab.id ? '#58a6ff' : 'var(--text-secondary)',
@@ -494,7 +493,9 @@ function ActivityFeedPage() {
                           width: '64px',
                           height: '64px',
                           borderRadius: '12px',
-                          background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -575,7 +576,7 @@ function ActivityFeedPage() {
                           transition: 'all 0.2s'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.color = '#58a6ff'
+                          e.currentTarget.style.color = '#000000'
                           e.currentTarget.style.backgroundColor = 'rgba(88, 166, 255, 0.1)'
                         }}
                         onMouseLeave={(e) => {
@@ -687,7 +688,9 @@ function ActivityFeedPage() {
                     display: 'inline-flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '12px',

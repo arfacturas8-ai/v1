@@ -74,7 +74,7 @@ export default function OAuthCallbackPage() {
     ? 'from-emerald-600 to-emerald-700'
     : status === 'error'
     ? 'from-red-600 to-red-700'
-    : 'from-[#58a6ff] to-[#a371f7]'
+    : 'from-[#000000] to-[#000000]'
 
   return (
     <div role="main" aria-label="OAuth callback page" className={`min-h-screen flex items-center justify-center bg-gradient-to-br ${bgGradient} p-4 md:p-5 transition-all duration-500`}>
@@ -83,7 +83,7 @@ export default function OAuthCallbackPage() {
           {status === 'processing' && (
             <>
               <Loader className="w-9 md:w-12 h-9 md:h-12 " />
-              <div style={{borderColor: "var(--border-subtle)"}} className="absolute inset-0 rounded-full border-4  border-t-white " style={{ animationDuration: '2s' }} />
+              <div style={{borderColor: "var(--border-subtle)", animationDuration: '2s'}} className="absolute inset-0 rounded-full border-4  border-t-white " />
             </>
           )}
           {status === 'success' && (
@@ -106,9 +106,9 @@ export default function OAuthCallbackPage() {
 
         {status === 'processing' && (
           <div className="flex justify-center gap-2 mt-6">
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] animate-bounce" style={{ animationDelay: '0s' }} />
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] animate-bounce" style={{ animationDelay: '0.16s' }} />
-            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#58a6ff] to-[#a371f7] animate-bounce" style={{ animationDelay: '0.32s' }} />
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#000000] to-[#000000] animate-bounce" style={{ animationDelay: '0s' }} />
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#000000] to-[#000000] animate-bounce" style={{ animationDelay: '0.16s' }} />
+            <div className="w-2 h-2 rounded-full bg-gradient-to-r from-[#000000] to-[#000000] animate-bounce" style={{ animationDelay: '0.32s' }} />
           </div>
         )}
 

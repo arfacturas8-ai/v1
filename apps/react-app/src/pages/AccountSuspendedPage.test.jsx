@@ -206,7 +206,7 @@ describe('AccountSuspendedPage', () => {
     it('contact support button has blue background', () => {
       renderWithRouter(<AccountSuspendedPage />)
       const button = screen.getByRole('button', { name: /Contact support about suspension/i })
-      expect(button).toHaveClass('bg-[#58a6ff]')
+      expect(button).toHaveClass('bg-[#000000]')
     })
 
     it('contact support button is clickable', async () => {

@@ -7,7 +7,7 @@
  * - Cards: white with subtle shadows
  * - Border radius: 16-24px for modern iOS feel
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Icons: 20px standard size
  * - Hover: translateY(-2px) for interactive elements
  */
@@ -15,8 +15,10 @@
 import React, { useState, memo } from 'react'
 import { motion } from 'framer-motion'
 import { Megaphone, Bell, Pin, Calendar, ChevronRight } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 const AnnouncementsPage = () => {
+  const { isMobile, isTablet } = useResponsive()
   const [announcements] = useState([
     { id: 1, title: 'Platform Update v2.0', content: 'We\'ve released a major platform update with new features and improvements.', date: '2024-01-15', pinned: true, type: 'update' },
     { id: 2, title: 'Scheduled Maintenance', content: 'There will be scheduled maintenance on January 20th from 2-4 AM UTC.', date: '2024-01-14', pinned: false, type: 'maintenance' },
@@ -27,7 +29,7 @@ const AnnouncementsPage = () => {
     <div
       role="main"
       aria-label="Announcements page"
-      style={{ background: '#FAFAFA', minHeight: '100vh', padding: '24px' }}
+      style={{ background: '#FAFAFA', minHeight: '100vh', padding: isMobile ? '16px' : isTablet ? '20px' : '24px', paddingTop: isMobile ? '72px' : '88px' }}
     >
       <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         {/* Header */}
@@ -35,15 +37,17 @@ const AnnouncementsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           style={{
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-            borderRadius: '24px',
-            padding: '32px',
-            marginBottom: '32px'
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+            borderRadius: isMobile ? '20px' : '24px',
+            padding: isMobile ? '24px' : '32px',
+            marginBottom: isMobile ? '24px' : '32px'
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
-            <Megaphone size={28} style={{ color: '#fff' }} aria-hidden="true" />
-            <h1 style={{ fontSize: '28px', fontWeight: '600', color: '#fff', margin: 0 }}>
+            <Megaphone size={isMobile ? 24 : 28} style={{ color: '#fff' }} aria-hidden="true" />
+            <h1 style={{ fontSize: isMobile ? '24px' : '28px', fontWeight: '600', color: '#fff', margin: 0 }}>
               Announcements
             </h1>
           </div>
@@ -63,8 +67,8 @@ const AnnouncementsPage = () => {
               style={{
                 background: '#fff',
                 border: '1px solid rgba(0,0,0,0.06)',
-                borderRadius: '24px',
-                padding: '24px',
+                borderRadius: isMobile ? '20px' : '24px',
+                padding: isMobile ? '20px' : '24px',
                 cursor: 'pointer',
                 transition: 'transform 0.2s ease',
                 boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
@@ -76,7 +80,7 @@ const AnnouncementsPage = () => {
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
                     {announcement.pinned && (
-                      <Pin size={20} style={{ color: '#6366F1' }} aria-hidden="true" />
+                      <Pin size={20} style={{ color: '#58a6ff' }} aria-hidden="true" />
                     )}
                     <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#000', margin: 0 }}>
                       {announcement.title}

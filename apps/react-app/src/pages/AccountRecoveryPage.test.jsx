@@ -55,7 +55,7 @@ describe('AccountRecoveryPage', () => {
       renderWithRouter()
       expect(screen.getByText('Recover Your Account')).toBeInTheDocument()
       // Icon container should be visible
-      const iconContainer = document.querySelector('.bg-[#58a6ff]\\/10')
+      const iconContainer = document.querySelector('.bg-[#000000]\\/10')
       expect(iconContainer).toBeInTheDocument()
     })
 

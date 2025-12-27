@@ -91,12 +91,12 @@ export default function MFASetupPage() {
     URL.revokeObjectURL(url)
   }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#58a6ff] to-[#a371f7] p-4 md:p-5" role="main" aria-label="Multi-factor authentication setup page">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#000000] to-[#000000] p-4 md:p-5" role="main" aria-label="Multi-factor authentication setup page">
       <div className="card w-full max-w-full md:max-w-[560px] /95  rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.3)] p-4 md:p-10" style={{ border: '1px solid var(--border-subtle)' }}>
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 md:w-16 h-14 md:h-16 bg-[#58a6ff]/[0.15] rounded-full mb-4">
-            <Shield className="w-7 md:w-8 h-7 md:h-8 text-[#58a6ff]" />
+          <div className="inline-flex items-center justify-center w-14 md:w-16 h-14 md:h-16 bg-[#000000]/[0.15] rounded-full mb-4">
+            <Shield className="w-7 md:w-8 h-7 md:h-8 text-[#000000]" />
           </div>
           <h1 className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             Two-Factor Authentication
@@ -111,7 +111,7 @@ export default function MFASetupPage() {
           {[1, 2, 3].map((s) => (
             <div
               key={s}
-              className={`flex-1 h-1 rounded-sm transition-colors ${s <= step ? 'bg-[#58a6ff]' : 'bg-[#161b22]/60 '}`}
+              className={`flex-1 h-1 rounded-sm transition-colors ${s <= step ? 'bg-[#000000]' : 'bg-[#161b22]/60 '}`}
               aria-label={`Step ${s} ${s === step ? 'current' : s < step ? 'completed' : 'pending'}`}
             />
           ))}
@@ -143,7 +143,7 @@ export default function MFASetupPage() {
 
             <button
               onClick={() => setStep(2)}
-              style={{color: "var(--text-primary)"}} className="w-full px-4 py-3 md:py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-all hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)]"
+              style={{color: "var(--text-primary)"}} className="w-full px-4 py-3 md:py-3.5 bg-gradient-to-br from-[#000000] to-[#000000]  border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] transition-all hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)]"
               aria-label="Continue to next step"
             >
               Continue
@@ -184,7 +184,7 @@ export default function MFASetupPage() {
                 </code>
                 <button
                   onClick={copySecret}
-                  className={`px-2 py-2 ${copied ? 'bg-emerald-600' : 'bg-[#21262d]'} border border-white/10 rounded-md cursor-pointer transition-all`}
+                  className={`px-2 py-2 ${copied ? 'bg-emerald-600' : 'bg-[#FFFFFF]'} border border-white/10 rounded-md cursor-pointer transition-all`}
                   aria-label={copied ? 'Copied' : 'Copy secret key'}
                 >
                   {copied ? <Check style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} /> : <Copy style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />}
@@ -208,7 +208,7 @@ export default function MFASetupPage() {
                   placeholder="Enter 6-digit code"
                   disabled={isLoading}
                   maxLength={6}
-                  className={`w-full px-3.5 py-3.5 text-lg tracking-[0.5em] text-center ${error ? 'border-2 border-red-500' : 'border-2 border-white/10 focus:border-[#58a6ff]'} rounded-2xl  outline-none transition-all font-mono ${isLoading ? 'bg-[#161b22]' : 'bg-white'}`}
+                  className={`w-full px-3.5 py-3.5 text-lg tracking-[0.5em] text-center ${error ? 'border-2 border-red-500' : 'border-2 border-white/10 focus:border-[#000000]'} rounded-2xl  outline-none transition-all font-mono ${isLoading ? 'bg-[#161b22]' : 'bg-white'}`}
                   aria-label="Enter 6-digit verification code"
                   aria-invalid={error ? 'true' : 'false'}
                   aria-describedby={error ? 'code-error' : undefined}
@@ -228,7 +228,7 @@ export default function MFASetupPage() {
                 <button
                   type="button"
                   onClick={() => setStep(1)}
-                  style={{color: "var(--text-primary)"}} className="flex-1 px-4 py-3.5 bg-[#21262d]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#30363d] transition-colors"
+                  style={{color: "var(--text-primary)"}} className="flex-1 px-4 py-3.5 bg-[#FFFFFF]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 hover:bg-[#30363d] transition-colors"
                   aria-label="Go back to previous step"
                 >
                   <ArrowLeft style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -237,7 +237,7 @@ export default function MFASetupPage() {
                 <button
                   type="submit"
                   disabled={isLoading || verificationCode.length !== 6}
-                  className={`flex-[2] px-4 py-3.5 ${isLoading || verificationCode.length !== 6 ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-br from-[#58a6ff] to-[#a371f7] cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)]'} text-white border-0 rounded-2xl  text-base font-semibold`}
+                  className={`flex-[2] px-4 py-3.5 ${isLoading || verificationCode.length !== 6 ? 'bg-gray-400 cursor-not-allowed' : 'bg-gradient-to-br from-[#000000] to-[#000000] cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)]'} text-white border-0 rounded-2xl  text-base font-semibold`}
                   aria-label={isLoading ? 'Verifying...' : 'Verify code'}
                 >
                   Verify & Continue
@@ -262,7 +262,7 @@ export default function MFASetupPage() {
                 {backupCodes.map((code, index) => (
                   <div
                     key={index}
-                    style={{color: "var(--text-primary)"}} className="px-3 py-3 bg-[#21262d] rounded-lg text-sm font-mono text-center  font-medium"
+                    style={{color: "var(--text-primary)"}} className="px-3 py-3 bg-[#FFFFFF] rounded-lg text-sm font-mono text-center  font-medium"
                   >
                     {code}
                   </div>
@@ -279,7 +279,7 @@ export default function MFASetupPage() {
             <div className="flex flex-col gap-3">
               <button
                 onClick={downloadBackupCodes}
-                style={{color: "var(--text-primary)"}} className="w-full px-4 py-3.5 bg-[#21262d]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 transition-colors hover:bg-[#30363d]"
+                style={{color: "var(--text-primary)"}} className="w-full px-4 py-3.5 bg-[#FFFFFF]  border-0 rounded-2xl  text-base font-semibold cursor-pointer flex items-center justify-center gap-2 transition-colors hover:bg-[#30363d]"
                 aria-label="Download backup codes"
               >
                 <Download style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -288,7 +288,7 @@ export default function MFASetupPage() {
 
               <button
                 onClick={() => navigate('/settings')}
-                style={{color: "var(--text-primary)"}} className="w-full px-4 py-3.5 bg-gradient-to-br from-[#58a6ff] to-[#a371f7]  border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)] transition-shadow"
+                style={{color: "var(--text-primary)"}} className="w-full px-4 py-3.5 bg-gradient-to-br from-[#000000] to-[#000000]  border-0 rounded-xl text-base font-semibold cursor-pointer shadow-[0_4px_12px_rgba(102,126,234,0.4)] hover:shadow-[0_6px_16px_rgba(102,126,234,0.5)] transition-shadow"
                 aria-label="Complete setup and go to settings"
               >
                 Complete Setup
@@ -301,7 +301,7 @@ export default function MFASetupPage() {
         <div className="mt-8 pt-6 border-t text-center" style={{ borderColor: 'var(--border-subtle)' }}>
           <Link
             to="/settings"
-            className="text-[#58a6ff] no-underline text-sm font-semibold hover:text-[#3d9df0] transition-colors"
+            className="text-[#000000] no-underline text-sm font-semibold hover:text-[#3d9df0] transition-colors"
           >
             Cancel and return to settings
           </Link>

@@ -23,7 +23,7 @@ export default function ReportsPage() {
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-4xl font-bold mb-2 bg-gradient-to-r from-[#000000] to-[#000000] bg-clip-text text-transparent" style={{ color: 'var(--text-primary)' }}>
             Reports Dashboard
           </h1>
           <p style={{color: "var(--text-secondary)"}} className=" text-lg">
@@ -33,7 +33,7 @@ export default function ReportsPage() {
 
         {/* Stats Overview */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#000000]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                 <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,7 +46,7 @@ export default function ReportsPage() {
             <p style={{color: "var(--text-secondary)"}} className=" text-sm">Requires review</p>
           </div>
 
-          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#000000]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                 <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -59,7 +59,7 @@ export default function ReportsPage() {
             <p style={{color: "var(--text-secondary)"}} className=" text-sm">Being investigated</p>
           </div>
 
-          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#000000]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                 <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,7 +72,7 @@ export default function ReportsPage() {
             <p style={{color: "var(--text-secondary)"}} className=" text-sm">Last 24 hours</p>
           </div>
 
-          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#58a6ff]/30 transition-all">
+          <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6 hover:border-[#000000]/30 transition-all">
             <div className="flex items-center justify-between mb-4">
               <div style={{ width: "64px", height: "64px", flexShrink: 0 }}>
                 <svg style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@ export default function ReportsPage() {
                   { id: 4, type: 'inappropriate', reason: 'NSFW content without warning', reported: 'poster321', reportedBy: 'auto_detect', time: '34m ago', severity: 'high', status: 'under_review' },
                   { id: 5, type: 'copyright', reason: 'Unauthorized use of copyrighted material', reported: 'copycat654', reportedBy: 'copyright_bot', time: '45m ago', severity: 'medium', status: 'pending' }
                 ].map(report => (
-                  <div key={report.id} className="p-4 hover:bg-[#21262d]/50 transition-colors">
+                  <div key={report.id} className="p-4 hover:bg-[#FFFFFF]/50 transition-colors">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-2">
@@ -129,13 +129,13 @@ export default function ReportsPage() {
                       </div>
                     </div>
                     <div className="flex gap-2">
-                      <button style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  text-sm rounded-lg transition-colors">
+                      <button style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-gradient-to-r from-[#000000] to-[#000000] hover:opacity-90  text-sm rounded-lg transition-colors">
                         Review
                       </button>
                       <button style={{color: "var(--text-primary)"}} className="px-4 py-2 bg-red-600 hover:bg-red-500  text-sm rounded-lg transition-colors">
                         Take Action
                       </button>
-                      <button style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2 bg-[#21262d] border  hover:bg-[#30363d]  text-sm rounded-lg transition-colors">
+                      <button style={{borderColor: "var(--border-subtle)"}} className="px-4 py-2 bg-[#FFFFFF] border  hover:bg-[#30363d]  text-sm rounded-lg transition-colors">
                         Dismiss
                       </button>
                     </div>
@@ -151,19 +151,19 @@ export default function ReportsPage() {
             <div style={{borderColor: "var(--border-subtle)"}} className="card   border  rounded-2xl  p-6">
               <h3 style={{color: "var(--text-primary)"}} className="text-lg font-bold  mb-4">Quick Actions</h3>
               <div className="space-y-3">
-                <button style={{color: "var(--text-primary)"}} className="w-full px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
+                <button style={{color: "var(--text-primary)"}} className="w-full px-4 py-3 bg-gradient-to-r from-[#000000] to-[#000000] hover:opacity-90  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
                   <span>View All Reports</span>
                   <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
-                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
+                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#FFFFFF] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
                   <span>Export Reports</span>
                   <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </button>
-                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
+                <button style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#FFFFFF] border  hover:bg-[#30363d]  rounded-lg font-medium transition-all text-left flex items-center justify-between group">
                   <span>View Analytics</span>
                   <svg style={{ width: "24px", height: "24px", flexShrink: 0 }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -177,11 +177,11 @@ export default function ReportsPage() {
               <h3 style={{color: "var(--text-primary)"}} className="text-lg font-bold  mb-4">Report Categories</h3>
               <div className="space-y-3">
                 {[
-                  { name: 'Spam', count: 45, color: 'text-[#58a6ff]' },
+                  { name: 'Spam', count: 45, color: 'text-[#000000]' },
                   { name: 'Harassment', count: 28, color: 'text-red-400' },
                   { name: 'Misinformation', count: 19, color: 'text-yellow-400' },
                   { name: 'Inappropriate', count: 32, color: 'text-orange-400' },
-                  { name: 'Copyright', count: 12, color: 'text-[#a371f7]' }
+                  { name: 'Copyright', count: 12, color: 'text-[#000000]' }
                 ].map((category, index) => (
                   <div key={index} className="flex items-center justify-between">
                     <span style={{color: "var(--text-secondary)"}} className="">{category.name}</span>

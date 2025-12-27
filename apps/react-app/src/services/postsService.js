@@ -419,6 +419,108 @@ class PostsService {
       };
     }
   }
+
+  /**
+   * Like a post
+   * @param {string} postId
+   */
+  async likePost(postId) {
+    try {
+      const response = await api.post(`/posts/${postId}/like`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Like post error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to like post'
+      };
+    }
+  }
+
+  /**
+   * Unlike a post
+   * @param {string} postId
+   */
+  async unlikePost(postId) {
+    try {
+      const response = await api.delete(`/posts/${postId}/like`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Unlike post error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to unlike post'
+      };
+    }
+  }
+
+  /**
+   * Repost a post
+   * @param {string} postId
+   */
+  async repost(postId) {
+    try {
+      const response = await api.post(`/posts/${postId}/repost`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Repost error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to repost'
+      };
+    }
+  }
+
+  /**
+   * Unrepost a post
+   * @param {string} postId
+   */
+  async unrepost(postId) {
+    try {
+      const response = await api.delete(`/posts/${postId}/repost`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Unrepost error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to unrepost'
+      };
+    }
+  }
+
+  /**
+   * Bookmark a post
+   * @param {string} postId
+   */
+  async bookmarkPost(postId) {
+    try {
+      const response = await api.post(`/posts/${postId}/bookmark`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Bookmark error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to bookmark post'
+      };
+    }
+  }
+
+  /**
+   * Unbookmark a post
+   * @param {string} postId
+   */
+  async unbookmarkPost(postId) {
+    try {
+      const response = await api.delete(`/posts/${postId}/bookmark`);
+      return { success: true, data: response.data };
+    } catch (error) {
+      console.error('Unbookmark error:', error);
+      return {
+        success: false,
+        error: error.data?.message || error.message || 'Failed to unbookmark post'
+      };
+    }
+  }
 }
 
 export default new PostsService();

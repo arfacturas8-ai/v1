@@ -373,7 +373,9 @@ export default function AccountRecoveryPage() {
                       width: '100%',
                       minHeight: '48px',
                       padding: isMobile ? '12px 20px' : '14px 24px',
-                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       color: 'var(--text-primary)',
                       fontSize: isMobile ? '14px' : '16px',
                       fontWeight: '500',
@@ -457,7 +459,9 @@ export default function AccountRecoveryPage() {
                       width: '100%',
                       minHeight: '48px',
                       padding: isMobile ? '12px 20px' : '14px 24px',
-                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       color: 'var(--text-primary)',
                       fontSize: isMobile ? '14px' : '16px',
                       fontWeight: '500',
@@ -545,7 +549,9 @@ export default function AccountRecoveryPage() {
                       width: '100%',
                       minHeight: '48px',
                       padding: isMobile ? '12px 20px' : '14px 24px',
-                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       color: 'var(--text-primary)',
                       fontSize: isMobile ? '14px' : '16px',
                       fontWeight: '500',
@@ -634,7 +640,9 @@ export default function AccountRecoveryPage() {
                       width: '100%',
                       minHeight: '48px',
                       padding: isMobile ? '12px 20px' : '14px 24px',
-                      background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       color: 'var(--text-primary)',
                       fontSize: isMobile ? '14px' : '16px',
                       fontWeight: '500',
@@ -730,7 +738,7 @@ export default function AccountRecoveryPage() {
                       fontFamily: 'monospace',
                       letterSpacing: '0.1em'
                     }}
-                    onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                    onFocus={(e) => e.target.style.borderColor = '#000000'}
                     onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                   />
                 </div>
@@ -760,7 +768,9 @@ export default function AccountRecoveryPage() {
                     width: '100%',
                     minHeight: '48px',
                     padding: isMobile ? '12px 20px' : '14px 24px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'var(--text-primary)',
                     fontSize: isMobile ? '14px' : '16px',
                     fontWeight: '500',
@@ -786,7 +796,7 @@ export default function AccountRecoveryPage() {
                     disabled={loading}
                     style={{
                       fontSize: isMobile ? '12px' : '14px',
-                      color: '#58a6ff',
+                      color: '#000000',
                       background: 'transparent',
                       border: 'none',
                       cursor: loading ? 'not-allowed' : 'pointer',
@@ -796,7 +806,7 @@ export default function AccountRecoveryPage() {
                       transition: 'color 0.2s'
                     }}
                     onMouseEnter={(e) => !loading && (e.target.style.color = '#79c0ff')}
-                    onMouseLeave={(e) => !loading && (e.target.style.color = '#58a6ff')}
+                    onMouseLeave={(e) => !loading && (e.target.style.color = '#000000')}
                   >
                     Didn't receive a code? Resend
                   </button>
@@ -868,7 +878,7 @@ export default function AccountRecoveryPage() {
                       opacity: loading ? 0.5 : 1,
                       cursor: loading ? 'not-allowed' : 'text'
                     }}
-                    onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                    onFocus={(e) => e.target.style.borderColor = '#000000'}
                     onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                   />
                   <p style={{
@@ -908,7 +918,7 @@ export default function AccountRecoveryPage() {
                       opacity: loading ? 0.5 : 1,
                       cursor: loading ? 'not-allowed' : 'text'
                     }}
-                    onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                    onFocus={(e) => e.target.style.borderColor = '#000000'}
                     onBlur={(e) => e.target.style.borderColor = 'var(--border-subtle)'}
                   />
                 </div>
@@ -939,7 +949,9 @@ export default function AccountRecoveryPage() {
                     width: '100%',
                     minHeight: '48px',
                     padding: isMobile ? '12px 20px' : '14px 24px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'var(--text-primary)',
                     fontSize: isMobile ? '14px' : '16px',
                     fontWeight: '500',
@@ -1056,7 +1068,9 @@ export default function AccountRecoveryPage() {
                   width: '100%',
                   minHeight: '48px',
                   padding: isMobile ? '12px 20px' : '14px 24px',
-                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: 'var(--text-primary)',
                   fontSize: isMobile ? '14px' : '16px',
                   fontWeight: '500',
@@ -1086,12 +1100,12 @@ export default function AccountRecoveryPage() {
             }}>
               Still need help?{' '}
               <Link to="/contact" style={{
-                color: '#58a6ff',
+                color: '#000000',
                 textDecoration: 'none',
                 transition: 'color 0.2s'
               }}
               onMouseEnter={(e) => e.target.style.color = '#79c0ff'}
-              onMouseLeave={(e) => e.target.style.color = '#58a6ff'}
+              onMouseLeave={(e) => e.target.style.color = '#000000'}
               >Contact Support</Link>
             </p>
           </div>

@@ -10,14 +10,14 @@ const postSchemas = {
     title: z.string().min(3).max(300),
     content: z.string().optional(),
     url: z.string().url().optional(),
-    communityId: z.string().uuid(),
+    communityId: z.string().cuid(),
     type: z.enum(['text', 'link', 'image', 'video', 'poll']).default('text'),
     tags: z.array(z.string()).max(10).optional(),
     nsfw: z.boolean().default(false),
     spoiler: z.boolean().default(false),
     scheduled: z.boolean().default(false),
     scheduledFor: z.string().datetime().optional(),
-    crosspostFrom: z.string().uuid().optional(),
+    crosspostFrom: z.string().cuid().optional(),
     pollOptions: z.array(z.string()).min(2).max(6).optional(),
     pollDuration: z.number().min(1).max(7).optional()
   }),
@@ -35,7 +35,7 @@ const postSchemas = {
   }),
   
   save: z.object({
-    categoryId: z.string().uuid().optional()
+    categoryId: z.string().cuid().optional()
   }),
   
   report: z.object({
@@ -44,7 +44,7 @@ const postSchemas = {
   }),
   
   crosspost: z.object({
-    targetCommunityId: z.string().uuid(),
+    targetCommunityId: z.string().cuid(),
     title: z.string().min(3).max(300).optional()
   }),
   

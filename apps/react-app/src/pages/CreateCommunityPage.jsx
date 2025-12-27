@@ -4,15 +4,27 @@
  * Updated: 2025-12-19
  */
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Upload, X, AlertCircle, CheckCircle, Loader } from 'lucide-react'
+import { Upload, X, AlertCircle, CheckCircle, Loader, Lock } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 import communityService from '../services/communityService'
 import fileUploadService from '../services/fileUploadService'
 import { getErrorMessage } from '../utils/errorUtils'
 
 function CreateCommunityPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
+
+  // Check if user is admin
+  const isAdmin = user?.isAdmin || user?.role === 'admin' || user?.role === 'super_admin'
+
+  // Redirect non-admins after mount
+  useEffect(() => {
+    if (user && !isAdmin) {
+      setTimeout(() => navigate('/home'), 2000)
+    }
+  }, [user, isAdmin, navigate])
   const [formData, setFormData] = useState({
     name: '',
     displayName: '',
@@ -212,6 +224,82 @@ function CreateCommunityPage() {
     }
   }
 
+  // Show admin-only message
+  if (!isAdmin) {
+    return (
+      <div
+        role="main"
+        style={{
+          minHeight: '100vh',
+          padding: '48px 16px',
+          background: '#FAFAFA',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <div style={{
+          maxWidth: '480px',
+          margin: '0 auto',
+          background: 'white',
+          borderRadius: '20px',
+          padding: '48px 40px',
+          boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+          textAlign: 'center'
+        }}>
+          <div style={{
+            width: '64px',
+            height: '64px',
+            background: '#FAFAFA',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: '0 auto 24px'
+          }}>
+            <Lock size={32} color="#666666" />
+          </div>
+          <h1 style={{
+            fontSize: '24px',
+            fontWeight: '600',
+            color: '#1A1A1A',
+            marginBottom: '12px'
+          }}>
+            Admin Access Required
+          </h1>
+          <p style={{
+            fontSize: '15px',
+            color: '#666666',
+            lineHeight: '1.6',
+            marginBottom: '24px'
+          }}>
+            Only administrators can create communities. If you believe you should have access, please contact support.
+          </p>
+          <button
+            onClick={() => navigate('/home')}
+            style={{
+              padding: '12px 24px',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: '10px',
+              fontSize: '15px',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.85'}
+            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+          >
+            Go Back Home
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div
       role="main"
@@ -234,7 +322,9 @@ function CreateCommunityPage() {
           fontSize: '32px',
           fontWeight: '700',
           marginBottom: '8px',
-          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text'
@@ -422,7 +512,7 @@ function CreateCommunityPage() {
               gap: '12px',
               transition: 'all 0.2s',
               cursor: creating || success ? 'not-allowed' : 'pointer',
-              background: creating || success ? '#E5E5E5' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: creating || success ? '#E5E5E5' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
               color: 'white',
               boxShadow: creating || success ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.3)'
             }}

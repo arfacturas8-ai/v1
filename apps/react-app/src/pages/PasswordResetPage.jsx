@@ -16,7 +16,7 @@ import authService from '../services/authService';
 import { useResponsive } from '../hooks/useResponsive';
 
 export default function PasswordResetPage() {
-  const { isMobile } = useResponsive();
+  const { isMobile, isTablet, isDesktop } = useResponsive();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const token = searchParams.get('token');
@@ -162,10 +162,8 @@ export default function PasswordResetPage() {
     return 'Strong';
   };
 
-  // Determine responsive values
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
-  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
+  // Use responsive hook values
+  const pagePadding = isDesktop ? '80px' : isTablet ? '24px' : '16px';
 
   return (
     <div
@@ -203,7 +201,9 @@ export default function PasswordResetPage() {
               width: '48px',
               height: '48px',
               marginBottom: '16px',
-              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               boxShadow: 'var(--shadow-md)',
             }}
             aria-hidden="true"
@@ -318,12 +318,14 @@ export default function PasswordResetPage() {
                 color: 'white',
                 background: loading
                   ? 'var(--bg-tertiary)'
-                  : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: loading ? 'none' : 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: loading ? 'none' : 'blur(40px) saturate(200%)',
                 borderRadius: '12px',
-                border: 'none',
+                border: loading ? 'none' : '1px solid rgba(88, 166, 255, 0.3)',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.6 : 1,
-                boxShadow: loading ? 'none' : 'var(--shadow-sm)',
+                boxShadow: loading ? 'none' : '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
               }}
               aria-label={loading ? 'Sending reset email' : 'Send reset link'}
             >
@@ -533,12 +535,14 @@ export default function PasswordResetPage() {
                 color: 'white',
                 background: loading
                   ? 'var(--bg-tertiary)'
-                  : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: loading ? 'none' : 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: loading ? 'none' : 'blur(40px) saturate(200%)',
                 borderRadius: '12px',
-                border: 'none',
+                border: loading ? 'none' : '1px solid rgba(88, 166, 255, 0.3)',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.6 : 1,
-                boxShadow: loading ? 'none' : 'var(--shadow-sm)',
+                boxShadow: loading ? 'none' : '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
               }}
               aria-label={loading ? 'Resetting password' : 'Reset password'}
             >
@@ -584,10 +588,13 @@ export default function PasswordResetPage() {
                 fontSize: '16px',
                 lineHeight: '1.5',
                 color: 'white',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                border: '1px solid rgba(88, 166, 255, 0.3)',
                 borderRadius: '12px',
                 textDecoration: 'none',
-                boxShadow: 'var(--shadow-sm)',
+                boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
               }}
             >
               Go to Login
@@ -632,11 +639,13 @@ export default function PasswordResetPage() {
                 fontSize: '16px',
                 lineHeight: '1.5',
                 color: 'white',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 borderRadius: '12px',
-                border: 'none',
+                border: '1px solid rgba(88, 166, 255, 0.3)',
                 cursor: 'pointer',
-                boxShadow: 'var(--shadow-sm)',
+                boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
               }}
               aria-label="Request new password reset link"
             >

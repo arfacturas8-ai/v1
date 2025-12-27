@@ -179,11 +179,11 @@ export const MOCK_USER_DATA = {
   nfts: [
     {
       id: 1,
-      name: 'CRYB Genesis #001',
-      collection: 'CRYB Genesis Collection',
+      name: 'Digital Collectible #001',
+      collection: 'Digital Collectibles',
       image: '🚀',
       rarity: 'Legendary',
-      traits: ['Founder', 'Early Adopter', 'Genesis'],
+      traits: ['Founder', 'Early Adopter'],
       isProfilePic: true,
       value: '0.5 ETH'
     },

@@ -140,7 +140,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
             </h2>
             <button
               onClick={onClose}
-              style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#21262d] rounded-lg transition-colors "
+              style={{color: "var(--text-secondary)"}} className="p-2 hover:bg-[#FFFFFF] rounded-lg transition-colors "
               aria-label="Close modal"
             >
               <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -156,7 +156,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search users..."
-                style={{borderColor: "var(--border-subtle)"}} className="w-full pl-10 pr-4 py-3 bg-[#21262d] border  rounded-2xl  focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
+                style={{borderColor: "var(--border-subtle)"}} className="w-full pl-10 pr-4 py-3 bg-[#FFFFFF] border  rounded-2xl  focus:outline-none focus:border-[#000000]  placeholder-[#8b949e]"
                 aria-label="Search users"
               />
             </div>
@@ -169,13 +169,13 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                     key={user.id}
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    style={{color: "var(--text-primary)"}} className="flex items-center gap-2 px-3 py-2 bg-[#58a6ff]/20 rounded-lg "
+                    style={{color: "var(--text-primary)"}} className="flex items-center gap-2 px-3 py-2 bg-[#000000]/20 rounded-lg "
                   >
                     <span className="text-2xl">{user.avatar}</span>
                     <span className="font-medium text-sm">{user.username}</span>
                     <button
                       onClick={() => toggleUserSelection(user)}
-                      className="p-1 hover:bg-[#58a6ff]/30 rounded"
+                      className="p-1 hover:bg-[#000000]/30 rounded"
                       aria-label={`Remove ${user.username}`}
                     >
                       <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -197,7 +197,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                   value={groupName}
                   onChange={(e) => setGroupName(e.target.value)}
                   placeholder="Group name (optional)"
-                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#21262d] border  rounded-2xl  focus:outline-none focus:border-[#58a6ff]  placeholder-[#8b949e]"
+                  style={{borderColor: "var(--border-subtle)"}} className="w-full px-4 py-3 bg-[#FFFFFF] border  rounded-2xl  focus:outline-none focus:border-[#000000]  placeholder-[#8b949e]"
                   aria-label="Group name"
                 />
               </motion.div>
@@ -228,16 +228,15 @@ const NewMessageModal = ({ isOpen, onClose }) => {
                       onClick={() => toggleUserSelection(user)}
                       className={`w-full flex items-center gap-4 p-3 rounded-2xl  transition-all ${
                         isSelected
-                          ? 'bg-[#58a6ff]/20 ring-2 ring-[#58a6ff]'
-                          : 'hover:bg-[#21262d]'
+                          ? 'bg-[#000000]/20 ring-2 ring-[#000000]'
+                          : 'hover:bg-[#FFFFFF]'
                       }`}
                       aria-pressed={isSelected}
                     >
                       <div className="relative">
                         <div className="text-3xl">{user.avatar}</div>
                         <div
-                          style={{ width: "24px", height: "24px", flexShrink: 0 }}
-                          style={{ backgroundColor: getStatusColor(user.status) }}
+                          style={{ width: "24px", height: "24px", flexShrink: 0, backgroundColor: getStatusColor(user.status) }}
                           aria-label={`Status: ${user.status}`}
                         />
                       </div>
@@ -263,7 +262,7 @@ const NewMessageModal = ({ isOpen, onClose }) => {
           <div style={{borderColor: "var(--border-subtle)"}} className="p-6 border-t  flex gap-3">
             <button
               onClick={onClose}
-              style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-6 py-3 bg-[#21262d] hover:bg-[#30363d]  rounded-2xl  font-medium transition-colors border "
+              style={{borderColor: "var(--border-subtle)"}} className="flex-1 px-6 py-3 bg-[#FFFFFF] hover:bg-[#30363d]  rounded-2xl  font-medium transition-colors border "
             >
               Cancel
             </button>
@@ -273,7 +272,9 @@ const NewMessageModal = ({ isOpen, onClose }) => {
               style={{
                 flex: 1,
                 padding: '12px 24px',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 border: 'none',
                 borderRadius: '12px',
                 color: '#ffffff',

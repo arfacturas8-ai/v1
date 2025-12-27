@@ -32,19 +32,19 @@ const Web3Dashboard = () => {
   const mockNFTs = [
     {
       id: 1,
-      name: 'CRYB Genesis #001',
+      name: 'Digital Collectible #001',
       image: 'https://via.placeholder.com/200x200/6366f1/ffffff?text=NFT+1',
       traits: { rarity: 'Legendary', power: 95 }
     },
     {
       id: 2,
-      name: 'CRYB Genesis #024',
+      name: 'Digital Collectible #024',
       image: 'https://via.placeholder.com/200x200/8b5cf6/ffffff?text=NFT+2',
       traits: { rarity: 'Epic', power: 78 }
     },
     {
       id: 3,
-      name: 'CRYB Genesis #156',
+      name: 'Digital Collectible #156',
       image: 'https://via.placeholder.com/200x200/06b6d4/ffffff?text=NFT+3',
       traits: { rarity: 'Rare', power: 65 }
     }

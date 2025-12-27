@@ -55,9 +55,22 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
     try {
       const { bucket, userId, filename } = request.params;
 
+      // SECURITY: Sanitize all path components to prevent directory traversal attacks
+      const sanitizedBucket = path.basename(bucket);
+      const sanitizedUserId = path.basename(userId);
+      const sanitizedFilename = path.basename(filename);
+
+      // Validate that sanitization didn't change the values
+      if (bucket !== sanitizedBucket || userId !== sanitizedUserId || filename !== sanitizedFilename) {
+        return reply.code(400).send({
+          success: false,
+          error: 'Invalid path parameters - directory traversal detected'
+        });
+      }
+
       // SECURITY: Verify user has permission to access this file
       // Users can only access their own files unless they have special permissions
-      if (request.userId !== userId) {
+      if (request.userId !== sanitizedUserId) {
         // TODO: Add additional checks for shared files or public files
         return reply.code(403).send({
           success: false,
@@ -65,20 +78,11 @@ const uploadRoutes: FastifyPluginAsync = async (fastify) => {
         });
       }
 
-      // SECURITY: Sanitize filename to prevent directory traversal attacks
-      const sanitizedFilename = path.basename(filename);
-      if (filename !== sanitizedFilename) {
-        return reply.code(400).send({
-          success: false,
-          error: 'Invalid filename'
-        });
-      }
-
-      // Construct file path
+      // Construct file path using sanitized components
       const filePath = path.join(
         process.env.LOCAL_STORAGE_PATH || '/var/www/uploads',
-        bucket,
-        userId,
+        sanitizedBucket,
+        sanitizedUserId,
         sanitizedFilename
       );
       

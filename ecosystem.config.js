@@ -35,7 +35,15 @@ module.exports = {
         MINIO_ACCESS_KEY: 'minioadmin',
         MINIO_SECRET_KEY: 'minioadmin123',
         MINIO_USE_SSL: 'false',
-        MINIO_BUCKET_NAME: 'cryb-uploads'
+        MINIO_BUCKET_NAME: 'cryb-uploads',
+        SMTP_HOST: 'smtp.gmail.com',
+        SMTP_PORT: '587',
+        SMTP_USER: 'therealcryb@gmail.com',
+        SMTP_PASS: 'urnc xnci abxl nyvv',
+        SMTP_FROM: 'CRYB Platform <therealcryb@gmail.com>',
+        EMAIL_ENABLED: 'true',
+        EMAIL_PROVIDER: 'smtp',
+        RESEND_API_KEY: 're_5vUBhwDq_3CQi2v64qF7H6ZtYL5Zw8vfn'
       }
     },
     {

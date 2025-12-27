@@ -140,7 +140,7 @@ function ChatInterface({
       socketService.off('user_stopped_typing', handleUserStoppedTyping)
       socketService.off('user_status_changed', handleUserStatusChanged)
     }
-  }, [currentChannel, user?.id])
+  }, [currentChannel, user?.id, getChannelName, addNotification])
 
   // Load messages when channel changes
   useEffect(() => {
@@ -174,7 +174,7 @@ function ChatInterface({
 
   const addNotification = useCallback((notification) => {
     setNotifications(prev => [notification, ...prev].slice(0, 10))
-    
+
     // Auto-remove after 5 seconds
     setTimeout(() => {
       setNotifications(prev => prev.filter(n => n.id !== notification.id))
@@ -182,7 +182,7 @@ function ChatInterface({
   }, [])
 
   // Message operations
-  const loadChannelMessages = async (channelId, options = {}) => {
+  const loadChannelMessages = useCallback(async (channelId, options = {}) => {
     setLoadingMessages(true)
     try {
       const result = await channelService.getMessages(channelId, options)
@@ -201,49 +201,60 @@ function ChatInterface({
     } finally {
       setLoadingMessages(false)
     }
-  }
+  }, [])
 
   const sendMessage = async (content, type = 'text', attachments = []) => {
     if (!currentChannel || !content.trim()) return
 
-    try {
-      const tempMessage = {
-        id: `temp_${Date.now()}`,
-        content,
-        type,
-        attachments,
-        userId: user.id,
-        username: user.username,
-        avatar: user.avatar,
-        timestamp: new Date().toISOString(),
-        channelId: currentChannel,
-        replyTo: replyToMessage?.id,
-        pending: true
-      }
+    const tempMessage = {
+      id: `temp_${Date.now()}`,
+      content,
+      type,
+      attachments,
+      userId: user.id,
+      username: user.username,
+      avatar: user.avatar,
+      timestamp: new Date().toISOString(),
+      channelId: currentChannel,
+      replyTo: replyToMessage?.id,
+      pending: true
+    }
 
+    try {
       // Optimistic update
       setMessages(prev => [...prev, tempMessage])
       setReplyToMessage(null)
 
       // Send via socket
       const result = socketService.sendMessage(currentChannel, content, attachments)
-      
-      if (result.tempId) {
-        // Update temp message with actual ID when received
-        setTimeout(() => {
-          setMessages(prev => 
-            prev.map(msg => 
-              msg.id === tempMessage.id 
-                ? { ...msg, id: result.id || msg.id, pending: false }
+
+      // Listen for message confirmation
+      const handleMessageSent = (confirmedMessage) => {
+        if (confirmedMessage.tempId === result.tempId) {
+          setMessages(prev =>
+            prev.map(msg =>
+              msg.id === tempMessage.id
+                ? { ...msg, id: confirmedMessage.id, pending: false }
                 : msg
             )
           )
-        }, 1000)
+          socketService.off('message_sent', handleMessageSent)
+        }
       }
+
+      socketService.on('message_sent', handleMessageSent)
+
+      // Timeout after 10 seconds
+      setTimeout(() => {
+        socketService.off('message_sent', handleMessageSent)
+        setMessages(prev =>
+          prev.map(msg => msg.id === tempMessage.id ? { ...msg, pending: false } : msg)
+        )
+      }, 10000)
     } catch (error) {
       console.error('Failed to send message:', error)
       // Remove failed message
-      setMessages(prev => prev.filter(msg => msg.id !== tempMessage.id))
+      setMessages(prev => prev.filter(msg => msg.id === tempMessage.id))
     }
   }
 
@@ -348,7 +359,7 @@ function ChatInterface({
   const channelMembers = onlineUsers.size || 1
 
   return (
-    <div className="flex h-full" style={{ background: 'var(--bg-primary)' }}>
+    <div className="flex h-full" style={{ background: '#FAFAFA' }}>
       {/* Channel Sidebar */}
       <div className="overflow-hidden">
         <ChannelSidebar
@@ -374,14 +385,14 @@ function ChatInterface({
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Channel Header - Light Theme Style */}
-        <div className="h-14 flex items-center justify-between px-4 glass-strong" style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+        <div className="h-14 flex items-center justify-between px-4 glass-strong" style={{ borderBottom: '1px solid #E8EAED', background: '#FFFFFF' }}>
           <div className="flex items-center justify-between w-full">
             <div className="flex items-center gap-3">
               {sidebarCollapsed && (
                 <button
                   onClick={() => setSidebarCollapsed(false)}
                   className="btn-ghost"
-                  style={{ color: 'var(--text-secondary)' }}
+                  style={{ color: '#666666' }}
                   aria-label="Show sidebar"
                 >
                   <Hash style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -389,20 +400,19 @@ function ChatInterface({
               )}
 
               <div className="flex items-center gap-2">
-                <div style={{width: "48px", height: "48px", flexShrink: 0, borderRadius: 'var(--radius-lg)',
-                  background: 'var(--bg-tertiary)'}}>
+                <div style={{ width: "40px", height: "40px", flexShrink: 0, borderRadius: '12px', background: '#F0F2F5', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   {isVoiceChannel ? (
-                    <Volume2 style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--brand-primary)'}} />
+                    <Volume2 style={{ width: "20px", height: "20px", flexShrink: 0, color: '#58a6ff' }} />
                   ) : (
-                    <Hash style={{width: "24px", height: "24px", flexShrink: 0, color: 'var(--brand-primary)'}} />
+                    <Hash style={{ width: "20px", height: "20px", flexShrink: 0, color: '#58a6ff' }} />
                   )}
                 </div>
                 <div>
-                  <h2 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  <h2 className="font-semibold" style={{ color: '#1A1A1A', fontSize: '15px' }}>
                     {currentChannelData?.name || 'General'}
                   </h2>
                   {currentChannelData?.description && (
-                    <span className="hidden md:block text-xs" style={{ color: 'var(--text-secondary)' }}>
+                    <span className="hidden md:block text-xs" style={{ color: '#666666' }}>
                       {currentChannelData.description}
                     </span>
                   )}
@@ -414,11 +424,11 @@ function ChatInterface({
               {/* Voice call controls */}
               {isVoiceChannel && (
                 <>
-                  <button className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Start voice call">
-                    <Phone style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <button className="btn-ghost" style={{ color: '#666666' }} aria-label="Start voice call">
+                    <Phone style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                   </button>
-                  <button className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Start video call">
-                    <Video style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <button className="btn-ghost" style={{ color: '#666666' }} aria-label="Start video call">
+                    <Video style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                   </button>
                 </>
               )}
@@ -430,10 +440,10 @@ function ChatInterface({
                   setRightPanelOpen(true)
                 }}
                 className="btn-ghost"
-                style={{ color: 'var(--text-secondary)' }}
+                style={{ color: '#666666' }}
                 aria-label="Search messages"
               >
-                <Search style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <Search style={{ width: "20px", height: "20px", flexShrink: 0 }} />
               </button>
 
               {/* Members */}
@@ -443,9 +453,9 @@ function ChatInterface({
                   setRightPanelOpen(!rightPanelOpen)
                 }}
                 className="hidden md:flex items-center gap-1 btn-ghost"
-                style={{ color: 'var(--text-secondary)' }}
+                style={{ color: '#666666' }}
               >
-                <Users style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <Users style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                 <span className="text-sm">{channelMembers}</span>
               </button>
 
@@ -457,10 +467,10 @@ function ChatInterface({
                     setRightPanelOpen(!rightPanelOpen)
                   }}
                   className="btn-ghost"
-                  style={{ color: 'var(--text-secondary)' }}
+                  style={{ color: '#666666' }}
                   aria-label="Notifications"
                 >
-                  <Bell style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                  <Bell style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                 </button>
                 {notifications.length > 0 && (
                   <span className="badge-count" style={{ position: 'absolute', top: '-4px', right: '-4px' }}>
@@ -470,14 +480,14 @@ function ChatInterface({
               </div>
 
               {/* Settings */}
-              <button className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Settings">
-                <Settings style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+              <button className="btn-ghost" style={{ color: '#666666' }} aria-label="Settings">
+                <Settings style={{ width: "20px", height: "20px", flexShrink: 0 }} />
               </button>
 
               {/* Close (mobile) */}
               {isMobile && onClose && (
-                <button onClick={onClose} className="btn-ghost" style={{ color: 'var(--text-secondary)' }} aria-label="Close chat">
-                  <X style={{ width: "24px", height: "24px", flexShrink: 0 }} />
+                <button onClick={onClose} className="btn-ghost" style={{ color: '#666666' }} aria-label="Close chat">
+                  <X style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                 </button>
               )}
             </div>

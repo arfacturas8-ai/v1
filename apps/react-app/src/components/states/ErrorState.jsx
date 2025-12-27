@@ -65,7 +65,7 @@ export const ErrorState = ({
   paddingRight: '24px',
   paddingTop: '12px',
   paddingBottom: '12px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px',
   fontWeight: '500',
   display: 'flex',

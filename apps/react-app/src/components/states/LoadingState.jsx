@@ -38,7 +38,7 @@ export const LoadingState = ({
 }}>
             <div style={{
   borderRadius: '50%',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   height: '48px',
   width: '48px'
 }}></div>
@@ -49,12 +49,12 @@ export const LoadingState = ({
 }}>
               <div style={{
   height: '16px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
               <div style={{
   height: '16px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
             </div>

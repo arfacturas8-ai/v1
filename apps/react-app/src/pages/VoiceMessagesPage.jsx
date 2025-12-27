@@ -195,7 +195,9 @@ const VoiceMessagesPage = () => {
         >
           {/* Header */}
           <div style={{
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             color: '#FFFFFF',
             padding: isMobile ? '20px 24px' : '32px'
           }}>
@@ -245,7 +247,7 @@ const VoiceMessagesPage = () => {
                         height: isMobile ? '112px' : '128px',
                         borderRadius: '50%',
                         transition: 'all 0.3s',
-                        background: isRecording ? '#EF4444' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: isRecording ? '#EF4444' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         boxShadow: '0 8px 24px rgba(99, 102, 241, 0.3)',
                         display: 'flex',
                         alignItems: 'center',
@@ -321,7 +323,9 @@ const VoiceMessagesPage = () => {
                       aria-label={isPlaying ? 'Pause' : 'Play'}
                       style={{
                         padding: isMobile ? '12px' : '16px',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         color: '#FFFFFF',
                         borderRadius: '50%',
                         transition: 'all 0.2s',
@@ -357,7 +361,9 @@ const VoiceMessagesPage = () => {
                         <motion.div
                           style={{
                             height: '100%',
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                             width: `${(playbackTime / duration) * 100}%`
                           }}
                         />
@@ -442,7 +448,9 @@ const VoiceMessagesPage = () => {
                       aria-label="Send voice message"
                       style={{
                         padding: isMobile ? '12px' : '16px',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         color: '#FFFFFF',
                         borderRadius: '14px',
                         boxShadow: '0 2px 8px rgba(99, 102, 241, 0.2)',

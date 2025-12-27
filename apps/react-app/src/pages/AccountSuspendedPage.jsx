@@ -64,7 +64,7 @@ const AccountSuspendedPage = () => {
           fontSize: isMobile ? '30px' : '36px',
           fontWeight: 'bold',
           marginBottom: '16px',
-          color: '#000000'
+          color: '#1A1A1A'
         }}>Account Suspended</h1>
 
         <p style={{
@@ -111,7 +111,9 @@ const AccountSuspendedPage = () => {
               minWidth: '140px',
               minHeight: '48px',
               padding: '12px 24px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               border: 'none',
               borderRadius: '12px',
               color: 'white',

@@ -2163,3 +2163,16 @@ enum PostType {
   QUOTE
   THREAD
 }
+
+model BradWaitlist {
+  id          String   @id @default(cuid())
+  name        String
+  email       String   @unique
+  phone       String?
+  interest    String
+  submittedAt DateTime @default(now())
+
+  @@index([submittedAt])
+  @@index([interest])
+  @@map("brad_waitlist")
+}

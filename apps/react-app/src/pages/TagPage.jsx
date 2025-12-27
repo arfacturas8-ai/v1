@@ -57,7 +57,9 @@ const TagPage = () => {
     <div style={{ minHeight: '100vh', background: '#FAFAFA', paddingTop: '64px' }} role="main" aria-label="Tag page">
       {/* Hero Section */}
       <div style={{
-        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
         color: 'white'
       }}>
         <div style={{
@@ -124,7 +126,7 @@ const TagPage = () => {
                 cursor: 'pointer',
                 border: 'none',
                 background: isFollowing ? 'rgba(255,255,255,0.2)' : 'white',
-                color: isFollowing ? 'white' : '#6366F1',
+                color: isFollowing ? 'white' : '#000000',
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px'
@@ -183,7 +185,7 @@ const TagPage = () => {
                 background: viewMode === 'grid' ? 'white' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                color: viewMode === 'grid' ? '#6366F1' : '#666'
+                color: viewMode === 'grid' ? '#000000' : '#666'
               }}
               aria-label="Grid view"
             >
@@ -197,7 +199,7 @@ const TagPage = () => {
                 background: viewMode === 'list' ? 'white' : 'transparent',
                 border: 'none',
                 cursor: 'pointer',
-                color: viewMode === 'list' ? '#6366F1' : '#666'
+                color: viewMode === 'list' ? '#000000' : '#666'
               }}
               aria-label="List view"
             >

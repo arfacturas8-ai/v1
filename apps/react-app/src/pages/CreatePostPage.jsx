@@ -11,11 +11,9 @@ import { useNavigate, Link } from 'react-router-dom'
 import { Plus, FileText, AlertCircle, CheckCircle, Link as LinkIcon, Image as ImageIcon, Loader } from 'lucide-react'
 import { Button } from '../components/ui/button'
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '../components/ui/card'
-import { RichTextEditor } from '../components/social/RichTextEditor'
 import communityService from '../services/communityService'
 import postsService from '../services/postsService'
 import { cn } from '../lib/utils'
-import { motion } from 'framer-motion'
 import { useResponsive } from '../hooks/useResponsive'
 import { useAuth } from '../contexts/AuthContext'
 import { getErrorMessage } from '../utils/errorUtils';
@@ -105,25 +103,33 @@ function CreatePostPage() {
     setLoading(true)
 
     try {
-      const postData = {
-        title: formData.title.trim(),
-        content: formData.content.trim(),
-        communityId: formData.community,
-        type: formData.type,
-        url: formData.type === 'link' ? formData.url : undefined
-      }
+      let result;
 
       if (formData.type === 'image' && formData.image) {
+        // For image posts, use FormData
         const uploadFormData = new FormData()
+        uploadFormData.append('title', formData.title.trim())
+        uploadFormData.append('content', formData.content.trim())
+        uploadFormData.append('communityId', formData.community)
+        uploadFormData.append('type', 'image')
         uploadFormData.append('file', formData.image)
-        uploadFormData.append('type', 'post-image')
-        postData.media = formData.image
+
+        result = await postsService.createPost(uploadFormData)
+      } else {
+        // For text/link posts, use JSON
+        const postData = {
+          title: formData.title.trim(),
+          content: formData.content.trim(),
+          communityId: formData.community,
+          type: formData.type,
+          url: formData.type === 'link' ? formData.url.trim() : undefined
+        }
+
+        result = await postsService.createPost(postData)
       }
 
-      const result = await postsService.createPost(postData)
-
       if (result.success) {
-        const postId = result.data?.post?.id || result.post?.id
+        const postId = result.data?.post?.id || result.data?.id || result.post?.id || result.id
         if (postId) {
           navigate(`/post/${postId}`)
         } else {
@@ -157,11 +163,7 @@ function CreatePostPage() {
       }}
     >
       <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-        >
+        <div>
           {/* Header */}
           <div style={{ marginBottom: '24px' }}>
             <h1 style={{
@@ -271,7 +273,7 @@ function CreatePostPage() {
                             ? '2px solid transparent'
                             : '2px solid #E5E5E5',
                           background: isSelected
-                            ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                            ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                             : '#FAFAFA',
                           display: 'flex',
                           flexDirection: 'column',
@@ -399,20 +401,34 @@ function CreatePostPage() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <RichTextEditor
+                  <textarea
+                    name="content"
                     value={formData.content}
-                    onChange={(value) => {
-                      setFormData(prev => ({ ...prev, content: value }))
-                      if (errors.content) {
-                        setErrors(prev => ({ ...prev, content: '' }))
-                      }
-                    }}
+                    onChange={handleInputChange}
                     placeholder="Share your thoughts..."
+                    rows={8}
                     style={{
+                      width: '100%',
+                      padding: '16px',
                       background: '#FAFAFA',
                       borderRadius: '16px',
                       border: errors.content ? '1px solid #EF4444' : '1px solid #E5E5E5',
-                      color: '#000000'
+                      color: '#000000',
+                      fontSize: '15px',
+                      fontFamily: 'inherit',
+                      resize: 'vertical',
+                      outline: 'none',
+                      transition: 'border-color 0.2s ease'
+                    }}
+                    onFocus={(e) => {
+                      if (!errors.content) {
+                        e.target.style.borderColor = '#000000'
+                      }
+                    }}
+                    onBlur={(e) => {
+                      if (!errors.content) {
+                        e.target.style.borderColor = '#E5E5E5'
+                      }
                     }}
                   />
                   {errors.content && (
@@ -559,7 +575,9 @@ function CreatePostPage() {
                         />
                         <span style={{
                           fontWeight: '600',
-                          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                           WebkitBackgroundClip: 'text',
                           WebkitTextFillColor: 'transparent',
                           fontSize: '15px'
@@ -717,7 +735,9 @@ function CreatePostPage() {
                     disabled={loading}
                     style={{
                       flex: 1,
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       color: '#FFFFFF',
                       padding: '14px 24px',
                       borderRadius: '16px',
@@ -806,7 +826,7 @@ function CreatePostPage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    color: '#6366F1',
+                    color: '#000000',
                     fontSize: '15px'
                   }}>
                     <AlertCircle size={20} />
@@ -830,7 +850,7 @@ function CreatePostPage() {
               </CardContent>
             </Card>
           </form>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

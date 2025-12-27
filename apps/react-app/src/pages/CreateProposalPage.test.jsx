@@ -1120,7 +1120,7 @@ describe('CreateProposalPage', () => {
       const icon = screen.getByTestId('icon-vote')
       expect(icon).toHaveClass('w-8')
       expect(icon).toHaveClass('h-8')
-      expect(icon).toHaveClass('text-[#58a6ff]')
+      expect(icon).toHaveClass('text-[#000000]')
     })
   })
 

@@ -1005,8 +1005,7 @@ function MessageComposer({
             <button
               onClick={editingMessage ? handleSaveEdit : handleSendMessage}
               disabled={disabled || (!content.trim() && attachments.length === 0 && !audioBlob)}
-              style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  disabled:opacity-50"
-              style={{ borderRadius: 'var(--radius-lg)', padding: 'var(--space-2)' }}
+              style={{color: "var(--text-primary)", borderRadius: 'var(--radius-lg)', padding: 'var(--space-2)'}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  disabled:opacity-50"
             >
               <Send style={{ width: "24px", height: "24px", flexShrink: 0 }} />
             </button>

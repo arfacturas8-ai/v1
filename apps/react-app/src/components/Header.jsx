@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import apiService from '../services/api'
+import { useResponsive } from '../hooks/useResponsive'
 
 const iconMap = {
   Home: Home,
@@ -26,6 +27,7 @@ function Header() {
   const location = useLocation()
   const navigate = useNavigate()
   const { logout, user } = useAuth()
+  const { isMobile, isTablet, isDesktop } = useResponsive()
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
@@ -100,8 +102,7 @@ function Header() {
   const navItems = [
     { path: '/home', label: 'Home', icon: 'Home' },
     { path: '/communities', label: 'Communities', icon: 'Hash' },
-    { path: '/nft-marketplace', label: 'Explore', icon: 'ShoppingBag' },
-    { path: '/crypto', label: 'Stats', icon: 'Coins' },
+    { path: '/discover', label: 'Discover', icon: 'ShoppingBag' },
     { path: '/messages', label: 'Messages', icon: 'MessageCircle' }
   ]
 
@@ -115,33 +116,40 @@ function Header() {
         left: 0,
         right: 0,
         zIndex: 50,
-        backgroundColor: '#FFFFFF',
-        borderBottom: '1px solid var(--border-subtle)',
-        boxShadow: isScrolled ? '0 1px 3px rgba(0,0,0,0.08)' : 'none'
+        backgroundColor: 'rgba(255, 255, 255, 0.85)',
+        backdropFilter: 'blur(20px) saturate(180%)',
+        WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+        boxShadow: isScrolled ? '0 2px 16px rgba(0, 0, 0, 0.04)' : 'none',
+        transition: 'all 0.2s ease'
       }}>
         <div style={{
-          maxWidth: '1280px',
+          maxWidth: '1440px',
           margin: '0 auto',
-          padding: '0 16px',
+          padding: isMobile ? '0 12px' : '0 24px',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: '64px'
+          height: isMobile ? '56px' : '64px',
+          gap: isMobile ? '8px' : '16px'
         }}>
             {/* Logo */}
             <Link to="/home" style={{
               display: 'flex',
               alignItems: 'center',
               textDecoration: 'none',
-              gap: '8px'
+              flexShrink: 0
             }}>
               <span style={{
-                fontSize: '24px',
+                fontSize: isMobile ? '20px' : '24px',
                 fontWeight: '900',
-                background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
+                backgroundClip: 'text',
+                letterSpacing: '-0.5px'
               }}>
                 CRYB
               </span>
@@ -149,9 +157,10 @@ function Header() {
 
             {/* Desktop Navigation */}
             <nav style={{
-              display: window.innerWidth >= 768 ? 'flex' : 'none',
+              display: !isMobile ? 'flex' : 'none',
               alignItems: 'center',
-              gap: '4px'
+              gap: '2px',
+              flexShrink: 0
             }}>
               {navItems.map((item) => {
                 const Icon = iconMap[item.icon]
@@ -163,25 +172,32 @@ function Header() {
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: '8px',
-                      padding: '8px 16px',
-                      borderRadius: '8px',
+                      gap: '6px',
+                      padding: '8px 14px',
+                      borderRadius: '10px',
                       fontSize: '14px',
-                      fontWeight: '500',
+                      fontWeight: isActive ? '600' : '500',
                       textDecoration: 'none',
                       color: isActive ? '#1A1A1A' : '#666666',
-                      backgroundColor: isActive ? 'rgba(88, 166, 255, 0.1)' : 'transparent',
-                      transition: 'all 0.2s'
+                      backgroundColor: isActive ? 'rgba(88, 166, 255, 0.12)' : 'transparent',
+                      transition: 'all 0.2s ease',
+                      position: 'relative'
                     }}
                     onMouseEnter={(e) => {
-                      if (!isActive) e.currentTarget.style.backgroundColor = '#F8F9FA'
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+                        e.currentTarget.style.color = '#1A1A1A'
+                      }
                     }}
                     onMouseLeave={(e) => {
-                      if (!isActive) e.currentTarget.style.backgroundColor = 'transparent'
+                      if (!isActive) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                        e.currentTarget.style.color = '#666666'
+                      }
                     }}
                   >
-                    <Icon size={18} />
-                    <span>{item.label}</span>
+                    <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+                    {!isTablet && <span>{item.label}</span>}
                   </Link>
                 )
               })}
@@ -189,48 +205,52 @@ function Header() {
 
             {/* Desktop Search */}
             <form onSubmit={handleSearch} style={{
-              display: window.innerWidth >= 1024 ? 'flex' : 'none',
+              display: !isMobile && !isTablet ? 'flex' : 'none',
               flex: '1 1 auto',
-              maxWidth: '480px',
-              margin: '0 32px',
+              maxWidth: '420px',
+              margin: '0 auto',
               position: 'relative'
             }}>
               <div style={{
                 position: 'absolute',
-                left: '12px',
+                left: '14px',
                 top: '50%',
                 transform: 'translateY(-50%)',
                 display: 'flex',
                 alignItems: 'center',
-                pointerEvents: 'none'
+                pointerEvents: 'none',
+                zIndex: 1
               }}>
-                <Search size={18} style={{color: '#999999'}} />
+                <Search size={17} style={{color: '#999999'}} />
               </div>
               <input
                 type="search"
-                placeholder="Search CRYB..."
+                placeholder="Search communities, posts..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 style={{
                   width: '100%',
-                  height: '40px',
-                  paddingLeft: '40px',
+                  height: '38px',
+                  paddingLeft: '42px',
                   paddingRight: '16px',
-                  backgroundColor: '#F8F9FA',
-                  border: '1px solid #E8EAED',
-                  borderRadius: '12px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.03)',
+                  border: '1px solid rgba(0, 0, 0, 0.08)',
+                  borderRadius: '10px',
                   fontSize: '14px',
                   color: '#1A1A1A',
                   outline: 'none',
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s ease',
+                  fontWeight: '400'
                 }}
                 onFocus={(e) => {
-                  e.target.style.borderColor = '#58a6ff'
+                  e.target.style.borderColor = 'rgba(88, 166, 255, 0.4)'
                   e.target.style.backgroundColor = '#FFFFFF'
+                  e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.08)'
                 }}
                 onBlur={(e) => {
-                  e.target.style.borderColor = '#E8EAED'
-                  e.target.style.backgroundColor = '#F8F9FA'
+                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                  e.target.style.backgroundColor = 'rgba(0, 0, 0, 0.03)'
+                  e.target.style.boxShadow = 'none'
                 }}
               />
             </form>
@@ -239,7 +259,8 @@ function Header() {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px'
+              gap: isMobile ? '4px' : '6px',
+              flexShrink: 0
             }}>
               {user ? (
                 <>
@@ -252,44 +273,48 @@ function Header() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '40px',
-                        height: '40px',
-                        borderRadius: '8px',
+                        width: isMobile ? '36px' : '38px',
+                        height: isMobile ? '36px' : '38px',
+                        borderRadius: '10px',
                         border: 'none',
-                        backgroundColor: 'transparent',
-                        color: '#666666',
+                        backgroundColor: isNotificationOpen ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+                        color: isNotificationOpen ? '#1A1A1A' : '#666666',
                         cursor: 'pointer',
-                        transition: 'all 0.2s',
+                        transition: 'all 0.2s ease',
                         position: 'relative'
                       }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = '#F8F9FA'
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
                         e.currentTarget.style.color = '#1A1A1A'
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent'
-                        e.currentTarget.style.color = '#666666'
+                        if (!isNotificationOpen) {
+                          e.currentTarget.style.backgroundColor = 'transparent'
+                          e.currentTarget.style.color = '#666666'
+                        }
                       }}
                     >
-                      <Bell size={20} />
+                      <Bell size={19} strokeWidth={2} />
                       {unreadCount > 0 && (
                         <span style={{
                           position: 'absolute',
-                          top: '-4px',
-                          right: '-4px',
+                          top: '4px',
+                          right: '4px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          minWidth: '18px',
-                          height: '18px',
+                          minWidth: '16px',
+                          height: '16px',
                           padding: '0 4px',
-                          fontSize: '11px',
-                          fontWeight: '600',
+                          fontSize: '10px',
+                          fontWeight: '700',
                           color: '#FFFFFF',
-                          backgroundColor: '#ef4444',
-                          borderRadius: '9999px'
+                          background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                          borderRadius: '9999px',
+                          border: '2px solid rgba(255, 255, 255, 0.9)',
+                          boxShadow: '0 2px 4px rgba(239, 68, 68, 0.3)'
                         }}>
-                          {unreadCount}
+                          {unreadCount > 9 ? '9+' : unreadCount}
                         </span>
                       )}
                     </button>
@@ -346,66 +371,94 @@ function Header() {
                   <button
                     onClick={() => navigate('/submit')}
                     style={{
-                      display: window.innerWidth >= 640 ? 'flex' : 'none',
+                      display: !isMobile ? 'flex' : 'none',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      gap: '8px',
-                      height: '40px',
-                      padding: '0 16px',
-                      background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                      gap: '6px',
+                      height: '38px',
+                      padding: '0 14px',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                      backdropFilter: 'blur(40px) saturate(200%)',
+                      WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       color: '#FFFFFF',
-                      border: 'none',
-                      borderRadius: '12px',
+                      border: '1px solid rgba(88, 166, 255, 0.3)',
+                      borderRadius: '10px',
                       fontSize: '14px',
                       fontWeight: '600',
                       cursor: 'pointer',
-                      transition: 'opacity 0.2s'
+                      transition: 'all 0.2s ease',
+                      boxShadow: '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-1px)'
+                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(88, 166, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+                    }}
                   >
-                    <Plus size={18} />
-                    <span>Create</span>
+                    <Plus size={17} strokeWidth={2.5} />
+                    {!isTablet && <span>Create</span>}
                   </button>
 
                   {/* User Menu */}
                   <div style={{position: 'relative'}} ref={userMenuRef}>
                     <button
                       onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                      aria-label="User menu"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '8px',
-                        height: '40px',
-                        padding: '4px 12px 4px 4px',
-                        backgroundColor: '#FFFFFF',
-                        border: '1px solid #E8EAED',
-                        borderRadius: '12px',
+                        gap: isMobile ? '0' : '6px',
+                        height: isMobile ? '36px' : '38px',
+                        padding: isMobile ? '0' : '3px 10px 3px 3px',
+                        backgroundColor: isUserMenuOpen ? 'rgba(0, 0, 0, 0.03)' : 'transparent',
+                        border: isMobile ? 'none' : '1px solid rgba(0, 0, 0, 0.08)',
+                        borderRadius: '10px',
                         cursor: 'pointer',
-                        transition: 'border-color 0.2s'
+                        transition: 'all 0.2s ease'
                       }}
-                      onMouseEnter={(e) => e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.3)'}
-                      onMouseLeave={(e) => e.currentTarget.style.borderColor = '#E8EAED'}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.25)'
+                        e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.03)'
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isUserMenuOpen) {
+                          e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                          e.currentTarget.style.backgroundColor = 'transparent'
+                        }
+                      }}
                     >
                       <div style={{
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        width: '32px',
-                        height: '32px',
+                        width: isMobile ? '36px' : '32px',
+                        height: isMobile ? '36px' : '32px',
                         borderRadius: '8px',
-                        background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         color: '#FFFFFF',
-                        fontSize: '14px',
-                        fontWeight: '600',
-                        flexShrink: 0
+                        fontSize: '13px',
+                        fontWeight: '700',
+                        flexShrink: 0,
+                        boxShadow: '0 2px 6px rgba(88, 166, 255, 0.2)'
                       }}>
                         {user?.username?.charAt(0).toUpperCase() || 'U'}
                       </div>
-                      <ChevronDown size={16} style={{
-                        color: '#666666',
-                        display: window.innerWidth >= 640 ? 'block' : 'none'
-                      }} />
+                      {!isMobile && (
+                        <ChevronDown
+                          size={15}
+                          strokeWidth={2.5}
+                          style={{
+                            color: '#666666',
+                            transition: 'transform 0.2s ease',
+                            transform: isUserMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)'
+                          }}
+                        />
+                      )}
                     </button>
 
                     {isUserMenuOpen && (
@@ -466,52 +519,62 @@ function Header() {
                   {/* Mobile Menu Button */}
                   <button
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                    aria-label="Menu"
                     style={{
-                      display: window.innerWidth < 768 ? 'flex' : 'none',
+                      display: isMobile ? 'flex' : 'none',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '8px',
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
                       border: 'none',
-                      backgroundColor: 'transparent',
-                      color: '#666666',
+                      backgroundColor: isMobileMenuOpen ? 'rgba(0, 0, 0, 0.04)' : 'transparent',
+                      color: isMobileMenuOpen ? '#1A1A1A' : '#666666',
                       cursor: 'pointer',
-                      transition: 'all 0.2s'
+                      transition: 'all 0.2s ease'
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = '#F8F9FA'
+                      e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
                       e.currentTarget.style.color = '#1A1A1A'
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent'
-                      e.currentTarget.style.color = '#666666'
+                      if (!isMobileMenuOpen) {
+                        e.currentTarget.style.backgroundColor = 'transparent'
+                        e.currentTarget.style.color = '#666666'
+                      }
                     }}
                   >
-                    {isMobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                    {isMobileMenuOpen ? <X size={20} strokeWidth={2.5} /> : <Menu size={20} strokeWidth={2.5} />}
                   </button>
                 </>
               ) : (
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '12px'
+                  gap: isMobile ? '6px' : '8px'
                 }}>
                   <Link
                     to="/login"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      height: '40px',
-                      padding: '0 16px',
+                      height: '38px',
+                      padding: isMobile ? '0 12px' : '0 14px',
                       fontSize: '14px',
                       fontWeight: '500',
                       color: '#666666',
                       textDecoration: 'none',
-                      transition: 'color 0.2s'
+                      borderRadius: '10px',
+                      transition: 'all 0.2s ease'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#1A1A1A'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#1A1A1A'
+                      e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = '#666666'
+                      e.currentTarget.style.backgroundColor = 'transparent'
+                    }}
                   >
                     Sign In
                   </Link>
@@ -521,48 +584,48 @@ function Header() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      height: '40px',
-                      padding: '0 20px',
-                      background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+                      height: '38px',
+                      padding: isMobile ? '0 14px' : '0 18px',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                      backdropFilter: 'blur(40px) saturate(200%)',
+                      WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       color: '#FFFFFF',
-                      borderRadius: '12px',
+                      border: '1px solid rgba(88, 166, 255, 0.3)',
+                      borderRadius: '10px',
                       fontSize: '14px',
                       fontWeight: '600',
                       textDecoration: 'none',
-                      transition: 'opacity 0.2s'
+                      transition: 'all 0.2s ease',
+                      boxShadow: '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-1px)'
+                      e.currentTarget.style.boxShadow = '0 6px 24px rgba(88, 166, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)'
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+                    }}
                   >
-                    Get Started
+                    {isMobile ? 'Sign Up' : 'Get Started'}
                   </Link>
                 </div>
               )}
             </div>
           </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile Menu - Removed redundant search bar */}
         {isMobileMenuOpen && user && (
-          <div className="md:hidden bg-white  border-t" style={{ borderColor: 'var(--border-subtle)' }}>
-            <div className="p-4 space-y-2">
-              {/* Mobile Search */}
-              <form onSubmit={handleSearch} className="mb-4">
-                <div className="relative flex items-center">
-                  <div className="absolute left-3 flex items-center justify-center pointer-events-none">
-                    <Search style={{width: "18px", height: "18px", flexShrink: 0, color: 'var(--text-secondary)'}} />
-                  </div>
-                  <input
-                    type="search"
-                    placeholder="Search CRYB..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full h-11 pl-11 pr-4 bg-white border rounded-lg text-sm outline-none focus:border-[#58a6ff]/50"
-                    style={{ color: 'var(--text-primary)', borderColor: 'var(--border-subtle)' }}
-                  />
-                </div>
-              </form>
-
-              {/* Mobile Nav Items */}
+          <div style={{
+            display: isMobile ? 'block' : 'none',
+            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(20px) saturate(180%)',
+            WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+            borderTop: '1px solid rgba(0, 0, 0, 0.06)',
+            padding: '12px'
+          }}>
+            {/* Mobile Nav Items */}
+            <div style={{display: 'flex', flexDirection: 'column', gap: '4px', marginBottom: '12px'}}>
               {navItems.map((item) => {
                 const Icon = iconMap[item.icon]
                 const isActive = location.pathname === item.path
@@ -571,38 +634,68 @@ function Header() {
                     key={item.path}
                     to={item.path}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
-                      isActive
-                        ? 'bg-[#58a6ff]/10'
-                        : 'hover:bg-[#F8F9FA]'
-                    }`}
-                    style={{ color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)' }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '12px 16px',
+                      borderRadius: '12px',
+                      fontSize: '15px',
+                      fontWeight: isActive ? '600' : '500',
+                      textDecoration: 'none',
+                      color: isActive ? '#1A1A1A' : '#666666',
+                      backgroundColor: isActive ? 'rgba(88, 166, 255, 0.12)' : 'transparent',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onTouchStart={(e) => {
+                      if (!isActive) e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.04)'
+                    }}
+                    onTouchEnd={(e) => {
+                      if (!isActive) e.currentTarget.style.backgroundColor = 'transparent'
+                    }}
                   >
-                    <Icon size={20} />
+                    <Icon size={21} strokeWidth={isActive ? 2.5 : 2} />
                     <span>{item.label}</span>
                   </Link>
                 )
               })}
-
-              <div className="pt-4 border-t" style={{ borderColor: 'var(--border-subtle)' }}>
-                <button
-                  onClick={() => {
-                    navigate('/submit')
-                    setIsMobileMenuOpen(false)
-                  }}
-                  style={{color: "var(--text-primary)"}} className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90  rounded-lg text-sm font-semibold transition-all"
-                >
-                  <Plus size={18} />
-                  <span>Create Post</span>
-                </button>
-              </div>
             </div>
+
+            {/* Create Post Button */}
+            <button
+              onClick={() => {
+                navigate('/submit')
+                setIsMobileMenuOpen(false)
+              }}
+              style={{
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                padding: '14px 16px',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(88, 166, 255, 0.3)',
+                borderRadius: '12px',
+                fontSize: '15px',
+                fontWeight: '600',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+              }}
+            >
+              <Plus size={19} strokeWidth={2.5} />
+              <span>Create Post</span>
+            </button>
           </div>
         )}
       </header>
 
       {/* Header Spacer */}
-      <div style={{height: '64px'}}></div>
+      <div style={{height: isMobile ? '56px' : '64px'}}></div>
     </>
   )
 }

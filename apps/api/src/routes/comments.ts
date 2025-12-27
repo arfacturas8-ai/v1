@@ -27,7 +27,10 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
    */
   fastify.get('/', async (request, reply) => {
     try {
-      const { postId, limit = 50 } = request.query as any;
+      const { postId, limit = 50 } = z.object({
+        postId: z.string().cuid().optional(),
+        limit: z.coerce.number().min(1).max(500).default(50),
+      }).parse(request.query);
 
       let whereClause: any = {};
       if (postId) {
@@ -63,7 +66,7 @@ const commentRoutes: FastifyPluginAsync = async (fastify) => {
           },
         },
         orderBy: { createdAt: 'desc' },
-        take: parseInt(limit),
+        take: limit,
       });
 
       return reply.send({

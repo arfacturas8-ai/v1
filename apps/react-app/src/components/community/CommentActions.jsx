@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import ConfirmationModal from '../modals/ConfirmationModal'
 
 const CommentActions = ({
   comment,
@@ -10,7 +11,13 @@ const CommentActions = ({
   onAward
 }) => {
   const [showMoreMenu, setShowMoreMenu] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const moreMenuRef = useRef(null)
+
+  const confirmDeleteComment = () => {
+    setShowDeleteModal(false)
+    onDelete?.(comment.id)
+  }
 
   const formatNumber = (num) => {
     if (num >= 1000000) return `${(num / 1000000).toFixed(1)}M`
@@ -92,10 +99,8 @@ const CommentActions = ({
         </svg>
       ),
       onClick: () => {
-        if (window.confirm('Are you sure you want to delete this comment?')) {
-          onDelete?.(comment.id)
-        }
         setShowMoreMenu(false)
+        setShowDeleteModal(true)
       },
       show: canDelete,
       danger: true
@@ -209,10 +214,20 @@ const CommentActions = ({
           onClick={() => setShowMoreMenu(false)}
         />
       )}
+
+      {/* Delete Comment Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={confirmDeleteComment}
+        title="Delete Comment"
+        message="Are you sure you want to delete this comment? This action cannot be undone."
+        confirmText="Delete Comment"
+        cancelText="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }
-
-
 
 export default CommentActions

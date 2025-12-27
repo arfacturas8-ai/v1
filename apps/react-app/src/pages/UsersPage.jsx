@@ -318,12 +318,12 @@ function UsersPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
-            className="w-full pl-12 pr-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#a371f7] transition-colors"
+            className="w-full pl-12 pr-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#000000] transition-colors"
           />
         </div>
         <div className="flex gap-3">
           <select
-            className="px-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm cursor-pointer focus:outline-none focus:border-[#a371f7] transition-colors"
+            className="px-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm cursor-pointer focus:outline-none focus:border-[#000000] transition-colors"
             value={filterRole}
             onChange={(e) => setFilterRole(e.target.value)}
           >
@@ -334,7 +334,7 @@ function UsersPage() {
             <option value="user">User</option>
           </select>
           <select
-            className="px-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm cursor-pointer focus:outline-none focus:border-[#a371f7] transition-colors"
+            className="px-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm cursor-pointer focus:outline-none focus:border-[#000000] transition-colors"
             value={filterStatus}
             onChange={(e) => setFilterStatus(e.target.value)}
           >
@@ -349,7 +349,7 @@ function UsersPage() {
       {/* Bulk Actions */}
       {selectedUsers.length > 0 && (
         <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-2xl shadow-sm p-4 mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-          <span className="font-semibold text-[#a371f7]">{selectedUsers.length} users selected</span>
+          <span className="font-semibold text-[#000000]">{selectedUsers.length} users selected</span>
           <div className="flex flex-wrap gap-3">
             <button className="px-4 py-2 bg-white border border-rgb(var(--color-neutral-200)) rounded-lg text-primary text-sm font-semibold flex items-center gap-2 hover:bg-rgb(var(--color-neutral-50)) transition-colors" onClick={() => handleBulkAction('ban')}>
               <Ban size={16} />
@@ -390,7 +390,7 @@ function UsersPage() {
                         type="checkbox"
                         checked={selectedUsers.length === users.length && users.length > 0}
                         onChange={handleSelectAll}
-                        className="accent-[#a371f7]"
+                        className="accent-[#000000]"
                       />
                     </th>
                     <th className="px-4 py-4 text-left text-sm font-semibold text-secondary uppercase tracking-wide">User</th>
@@ -410,7 +410,7 @@ function UsersPage() {
                           type="checkbox"
                           checked={selectedUsers.includes(user.id)}
                           onChange={() => handleSelectUser(user.id)}
-                          className="accent-[#a371f7]"
+                          className="accent-[#000000]"
                         />
                       </td>
                       <td className="px-4 py-4">
@@ -488,7 +488,7 @@ function UsersPage() {
           {/* Pagination */}
           <div className="flex justify-center items-center gap-6">
             <button
-              className="px-5 py-2.5 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#a371f7] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#000000] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
               disabled={currentPage === 1}
             >
@@ -499,7 +499,7 @@ function UsersPage() {
               Page {currentPage} of {totalPages}
             </div>
             <button
-              className="px-5 py-2.5 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#a371f7] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary flex items-center gap-2 hover:bg-purple-500/20 hover:border-[#000000] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
               disabled={currentPage === totalPages}
             >

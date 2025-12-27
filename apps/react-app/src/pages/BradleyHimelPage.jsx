@@ -1,5 +1,5 @@
 /**
- * CRYB Platform - Bradley Himel Landing Page
+ * Bradley Himel Landing Page
  * Modern iOS Aesthetic - Lead Generator & Waitlist
  *
  * DESIGN PRINCIPLES:
@@ -11,7 +11,7 @@
  */
 
 import React, { useState } from 'react';
-import { Mail, Phone, Globe, Linkedin, Twitter, Instagram, CheckCircle, Sparkles } from 'lucide-react';
+import { Mail, Phone, Globe, Linkedin, Twitter, Instagram, CheckCircle } from 'lucide-react';
 
 export default function BradleyHimelPage() {
   const [formData, setFormData] = useState({
@@ -27,11 +27,28 @@ export default function BradleyHimelPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('https://api.cryb.ai/api/v1/brad-waitlist/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    setSubmitted(true);
-    setLoading(false);
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitted(true);
+      } else {
+        alert(data.error || 'Failed to submit form. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('Failed to submit form. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -42,24 +59,29 @@ export default function BradleyHimelPage() {
   };
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: '#FAFAFA',
-      paddingBottom: '48px'
-    }}>
+    <>
+      <style>{`
+        @media (max-width: 640px) {
+          [style*="display: flex"][style*=gap] {
+            flex-wrap: inherit;
+          }
+        }
+      `}</style>
+      <div style={{
+        minHeight: '100vh',
+        background: '#FAFAFA',
+        paddingBottom: '48px'
+      }}>
       {/* Hero Banner */}
       <div style={{
         height: '240px',
-        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
         position: 'relative',
         overflow: 'visible'
       }}>
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'url(https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1200&h=400&fit=crop) center/cover',
-          opacity: 0.2
-        }} />
+
         <div style={{
           position: 'absolute',
           top: '24px',
@@ -68,21 +90,19 @@ export default function BradleyHimelPage() {
           display: 'flex',
           alignItems: 'center',
           gap: '12px',
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(20px)',
+          background: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(40px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(180%)',
           padding: '12px 24px',
           borderRadius: '100px',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-          border: '1px solid rgba(255, 255, 255, 0.5)'
+          border: '1px solid rgba(255, 255, 255, 0.3)'
         }}>
-          <Sparkles style={{ width: '20px', height: '20px', color: '#6366F1' }} />
+          <img src="/crypto.svg" alt="Logo" style={{ width: '58px', height: '58px' }} />
           <span style={{
             fontSize: '14px',
             fontWeight: '600',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
+            color: 'white'
           }}>Join the Future of Social</span>
         </div>
 
@@ -130,7 +150,7 @@ export default function BradleyHimelPage() {
 
           <p style={{
             fontSize: '16px',
-            color: '#6366F1',
+            color: '#000000',
             fontWeight: '600',
             marginBottom: '4px'
           }}>Founder & CEO</p>
@@ -139,7 +159,7 @@ export default function BradleyHimelPage() {
             fontSize: '15px',
             color: '#666666',
             marginBottom: '24px'
-          }}>CRYB Platform</p>
+          }}>Building the Future of Community Management</p>
 
 
           {/* Quick Links */}
@@ -157,8 +177,10 @@ export default function BradleyHimelPage() {
                 alignItems: 'center',
                 gap: '8px',
                 padding: '12px 20px',
-                background: 'white',
-                border: '1px solid rgba(0, 0, 0, 0.08)',
+                background: 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(40px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 borderRadius: '12px',
                 color: '#666666',
                 textDecoration: 'none',
@@ -189,8 +211,10 @@ export default function BradleyHimelPage() {
                 alignItems: 'center',
                 gap: '8px',
                 padding: '12px 20px',
-                background: 'white',
-                border: '1px solid rgba(0, 0, 0, 0.08)',
+                background: 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(40px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 borderRadius: '12px',
                 color: '#666666',
                 textDecoration: 'none',
@@ -221,8 +245,10 @@ export default function BradleyHimelPage() {
                 alignItems: 'center',
                 gap: '8px',
                 padding: '12px 20px',
-                background: 'white',
-                border: '1px solid rgba(0, 0, 0, 0.08)',
+                background: 'rgba(255, 255, 255, 0.7)',
+                backdropFilter: 'blur(40px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+                border: '1px solid rgba(255, 255, 255, 0.3)',
                 borderRadius: '12px',
                 color: '#666666',
                 textDecoration: 'none',
@@ -248,11 +274,13 @@ export default function BradleyHimelPage() {
 
         {/* Waitlist Form */}
         <div style={{
-          background: 'white',
+          background: 'rgba(255, 255, 255, 0.7)',
+          backdropFilter: 'blur(40px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(40px) saturate(180%)',
           borderRadius: '24px',
           padding: '32px',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
-          border: '1px solid rgba(0, 0, 0, 0.06)',
+          border: '1px solid rgba(255, 255, 255, 0.3)',
           marginBottom: '32px'
         }}>
           {!submitted ? (
@@ -263,7 +291,7 @@ export default function BradleyHimelPage() {
                 color: '#000000',
                 marginBottom: '8px',
                 textAlign: 'center'
-              }}>Join the CRYB Waitlist</h2>
+              }}>Join the Waitlist</h2>
 
               <p style={{
                 fontSize: '15px',
@@ -437,26 +465,28 @@ export default function BradleyHimelPage() {
                   style={{
                     width: '100%',
                     height: '56px',
-                    background: loading ? '#D1D5DB' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: loading ? '#D1D5DB' : 'linear-gradient(135deg, rgba(99, 102, 241, 0.85) 0%, rgba(139, 92, 246, 0.85) 100%)',
+                    backdropFilter: loading ? 'none' : 'blur(40px) saturate(180%)',
+                    WebkitBackdropFilter: loading ? 'none' : 'blur(40px) saturate(180%)',
                     color: 'white',
-                    border: 'none',
+                    border: loading ? 'none' : '1px solid rgba(255, 255, 255, 0.3)',
                     borderRadius: '14px',
                     fontSize: '16px',
                     fontWeight: '600',
                     cursor: loading ? 'not-allowed' : 'pointer',
                     transition: 'all 0.2s ease',
-                    boxShadow: loading ? 'none' : '0 4px 16px rgba(99, 102, 241, 0.3)'
+                    boxShadow: loading ? 'none' : '0 4px 16px rgba(99, 102, 241, 0.3), 0 8px 32px rgba(0, 0, 0, 0.08)'
                   }}
                   onMouseEnter={(e) => {
                     if (!loading) {
                       e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.4)';
+                      e.currentTarget.style.boxShadow = '0 8px 24px rgba(99, 102, 241, 0.4), 0 12px 40px rgba(0, 0, 0, 0.12)';
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!loading) {
                       e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3)';
+                      e.currentTarget.style.boxShadow = '0 4px 16px rgba(99, 102, 241, 0.3), 0 8px 32px rgba(0, 0, 0, 0.08)';
                     }
                   }}
                 >
@@ -492,7 +522,7 @@ export default function BradleyHimelPage() {
                 lineHeight: '1.6',
                 marginBottom: '24px'
               }}>
-                Thank you for your interest in CRYB. We'll reach out soon with exclusive early access information.
+                Thank you for your interest. We'll reach out soon with exclusive early access information.
               </p>
 
               <button
@@ -535,8 +565,10 @@ export default function BradleyHimelPage() {
             style={{
               display: 'inline-block',
               padding: '16px 32px',
-              background: 'white',
-              border: '1px solid rgba(0, 0, 0, 0.08)',
+              background: 'rgba(255, 255, 255, 0.7)',
+              backdropFilter: 'blur(40px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(40px) saturate(180%)',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: '14px',
               color: '#666666',
               textDecoration: 'none',
@@ -554,10 +586,11 @@ export default function BradleyHimelPage() {
               e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
             }}
           >
-            Learn More About CRYB
+            Learn More
           </a>
         </div>
       </div>
     </div>
+    </>
   );
 }

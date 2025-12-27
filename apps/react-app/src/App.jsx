@@ -39,6 +39,7 @@ import { usePageTracking } from './hooks/useAnalytics'
 // Lazy-loaded pages
 const LandingPage = lazy(() => import('./pages/LandingPage'))
 const BradleyHimelPage = lazy(() => import('./pages/BradleyHimelPage'))
+const BradWaitlistAdminPage = lazy(() => import('./pages/BradWaitlistAdminPage'))
 const DocProgressPage = lazy(() => import('./pages/DocProgressPage'))
 const LoginPage = lazy(() => import('./pages/LoginPage'))
 const RegisterPage = lazy(() => import('./pages/RegisterPage'))
@@ -62,7 +63,6 @@ const GuidelinesPage = lazy(() => import('./pages/GuidelinesPage'))
 const PrivacyPage = lazy(() => import('./pages/PrivacyPage'))
 const TermsPage = lazy(() => import('./pages/TermsPage'))
 const TokenEconomicsPage = lazy(() => import('./pages/TokenEconomicsPage'))
-const CryptoPage = lazy(() => import('./pages/CryptoPage'))
 const NFTMarketplacePage = lazy(() => import('./pages/NFTMarketplacePage'))
 const BotManagementPage = lazy(() => import('./pages/BotManagementPage'))
 const VoiceChatPage = lazy(() => import('./pages/VoiceChatPage'))
@@ -92,7 +92,7 @@ const OAuthCallbackPage = lazy(() => import('./pages/OAuthCallbackPage'))
 const CreateHubPage = lazy(() => import('./pages/CreateHubPage'))
 
 // COMING SOON - Crypto Features
-const MarketsPage = lazy(() => import('./pages/MarketsPage'))
+// REMOVED: MarketsPage (cryptocurrency prices) - const MarketsPage = lazy(() => import('./pages/MarketsPage'))
 const TradePage = lazy(() => import('./pages/TradePage'))
 const PortfolioPage = lazy(() => import('./pages/PortfolioPage'))
 const NFTMintPage = lazy(() => import('./pages/NFTMintPage'))
@@ -142,7 +142,7 @@ const CommunityRulesPage = lazy(() => import('./pages/CommunityRulesPage'))
 const EventsCalendarPage = lazy(() => import('./pages/EventsCalendarPage'))
 const EventDetailsPage = lazy(() => import('./pages/EventDetailsPage'))
 const CommunityStorePage = lazy(() => import('./pages/CommunityStorePage'))
-const CommunityLeaderboardPage = lazy(() => import('./pages/CommunityLeaderboardPage'))
+// REMOVED: CommunityLeaderboardPage (karma/rewards system) - const CommunityLeaderboardPage = lazy(() => import('./pages/CommunityLeaderboardPage'))
 const CommunityWikiPage = lazy(() => import('./pages/CommunityWikiPage'))
 
 // NEW SCREENS - User Profile & Settings
@@ -152,6 +152,7 @@ const PrivacySettingsPage = lazy(() => import('./pages/PrivacySettingsPage'))
 const NotificationSettingsPage = lazy(() => import('./pages/NotificationSettingsPage'))
 const AppearanceSettingsPage = lazy(() => import('./pages/AppearanceSettingsPage'))
 const SecuritySettingsPage = lazy(() => import('./pages/SecuritySettingsPage'))
+const WalletPage = lazy(() => import('./pages/WalletPage'))
 const WalletSettingsPage = lazy(() => import('./pages/WalletSettingsPage'))
 const IntegrationsPage = lazy(() => import('./pages/IntegrationsPage'))
 const BillingPage = lazy(() => import('./pages/BillingPage'))
@@ -184,8 +185,8 @@ function AppLayout({ children }) {
         <MobileHeader />
       </div>
 
-      {/* Main Content with bottom padding for mobile nav */}
-      <main className="pb-16 lg:pb-0">{children}</main>
+      {/* Main Content with bottom padding for mobile nav + safe area */}
+      <main className="pb-20 md:pb-0">{children}</main>
 
       {/* Mobile Bottom Navigation */}
       <MobileBottomNav />
@@ -231,7 +232,7 @@ export default function App() {
                     <Web3Provider autoConnect={false}>
                       <AnalyticsWrapper>
                     {/* Global UI Components */}
-                    <CookieConsent />
+                    {/* <CookieConsent /> */}
                     <TermsAcceptanceModal />
                     <CommandPalette isOpen={isCommandPaletteOpen} onClose={closeCommandPalette} />
                     <KeyboardShortcutsModal
@@ -245,6 +246,7 @@ export default function App() {
                     <Route path="/" element={<LazyRoute component={LandingPage} name="LandingPage" />} />
                   <Route path="/landing" element={<LazyRoute component={LandingPage} name="LandingPage" />} />
                   <Route path="/brad" element={<LazyRoute component={BradleyHimelPage} name="BradleyHimelPage" />} />
+                  <Route path="/admin/brad-waitlist" element={<LazyRoute component={BradWaitlistAdminPage} name="BradWaitlistAdminPage" />} />
                   <Route path="/doc-progress" element={<LazyRoute component={DocProgressPage} name="DocProgressPage" />} />
                   <Route path="/login" element={<LazyRoute component={LoginPage} name="LoginPage" />} />
                   <Route path="/register" element={<LazyRoute component={RegisterPage} name="RegisterPage" />} />
@@ -302,7 +304,7 @@ export default function App() {
                     element={
                       <ProtectedRoute>
                         <AppLayout>
-                          <LazyRoute component={WalletSettingsPage} name="WalletSettingsPage" />
+                          <LazyRoute component={WalletPage} name="WalletPage" />
                         </AppLayout>
                       </ProtectedRoute>
                     }
@@ -344,7 +346,9 @@ export default function App() {
                     path="/messages"
                     element={
                       <ProtectedRoute>
-                        <LazyRoute component={DirectMessagesPage} name="DirectMessagesPage" />
+                        <AppLayout>
+                          <LazyRoute component={DirectMessagesPage} name="DirectMessagesPage" />
+                        </AppLayout>
                       </ProtectedRoute>
                     }
                   />
@@ -353,7 +357,9 @@ export default function App() {
                     path="/direct-messages"
                     element={
                       <ProtectedRoute>
-                        <LazyRoute component={DirectMessagesPage} name="DirectMessagesPage" />
+                        <AppLayout>
+                          <LazyRoute component={DirectMessagesPage} name="DirectMessagesPage" />
+                        </AppLayout>
                       </ProtectedRoute>
                     }
                   />
@@ -384,7 +390,9 @@ export default function App() {
                     path="/messages/:conversationId"
                     element={
                       <ProtectedRoute>
-                        <LazyRoute component={DirectMessagesPage} name="DirectMessagesPage" />
+                        <AppLayout>
+                          <LazyRoute component={DirectMessagesPage} name="DirectMessagesPage" />
+                        </AppLayout>
                       </ProtectedRoute>
                     }
                   />
@@ -672,39 +680,7 @@ export default function App() {
                     }
                   />
 
-                  <Route
-                    path="/crypto"
-                    element={
-                      <ProtectedRoute>
-                        <AppLayout>
-                          <LazyRoute component={CryptoPage} name="CryptoPage" />
-                        </AppLayout>
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  {/* Governance (DAO features in CryptoPage) */}
-                  <Route
-                    path="/governance"
-                    element={
-                      <ProtectedRoute>
-                        <AppLayout>
-                          <LazyRoute component={CryptoPage} name="CryptoPage" />
-                        </AppLayout>
-                      </ProtectedRoute>
-                    }
-                  />
-
-                  <Route
-                    path="/nft-marketplace"
-                    element={
-                      <ProtectedRoute>
-                        <AppLayout>
-                          <LazyRoute component={NFTMarketplacePage} name="NFTMarketplacePage" />
-                        </AppLayout>
-                      </ProtectedRoute>
-                    }
-                  />
+                  {/* Crypto/Governance/NFT Marketplace routes removed per user request */}
 
                   <Route
                     path="/bots"
@@ -777,7 +753,8 @@ export default function App() {
                   <Route path="/community/:id/events" element={<ProtectedRoute><AppLayout><LazyRoute component={EventsCalendarPage} name="EventsCalendarPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/community/:id/events/:eventId" element={<ProtectedRoute><AppLayout><LazyRoute component={EventDetailsPage} name="EventDetailsPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/community/:id/store" element={<ProtectedRoute><AppLayout><LazyRoute component={CommunityStorePage} name="CommunityStorePage" /></AppLayout></ProtectedRoute>} />
-                  <Route path="/community/:id/leaderboard" element={<ProtectedRoute><AppLayout><LazyRoute component={CommunityLeaderboardPage} name="CommunityLeaderboardPage" /></AppLayout></ProtectedRoute>} />
+                  {/* REMOVED: Leaderboard route (karma/rewards system) */}
+                  {/* <Route path="/community/:id/leaderboard" element={<ProtectedRoute><AppLayout><LazyRoute component={CommunityLeaderboardPage} name="CommunityLeaderboardPage" /></AppLayout></ProtectedRoute>} /> */}
                   <Route path="/community/:id/wiki" element={<ProtectedRoute><AppLayout><LazyRoute component={CommunityWikiPage} name="CommunityWikiPage" /></AppLayout></ProtectedRoute>} />
 
                   {/* ========== NEW ROUTES - USER PROFILE & SETTINGS ========== */}
@@ -789,13 +766,13 @@ export default function App() {
                   <Route path="/settings/security" element={<ProtectedRoute><AppLayout><LazyRoute component={SecuritySettingsPage} name="SecuritySettingsPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/settings/security/passkey" element={<ProtectedRoute><AppLayout><LazyRoute component={PasskeySetupPage} name="PasskeySetupPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/settings/wallet" element={<ProtectedRoute><AppLayout><LazyRoute component={WalletSettingsPage} name="WalletSettingsPage" /></AppLayout></ProtectedRoute>} />
-                  <Route path="/settings/integrations" element={<ProtectedRoute><AppLayout><LazyRoute component={IntegrationsPage} name="IntegrationsPage" /></AppLayout></ProtectedRoute>} />
+                  {/* Integrations route removed per user request */}
                   <Route path="/settings/billing" element={<ProtectedRoute><AppLayout><LazyRoute component={BillingPage} name="BillingPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/settings/language" element={<ProtectedRoute><AppLayout><LazyRoute component={LanguageRegionPage} name="LanguageRegionPage" /></AppLayout></ProtectedRoute>} />
                   <Route path="/settings/data-privacy" element={<ProtectedRoute><AppLayout><LazyRoute component={DataPrivacyPage} name="DataPrivacyPage" /></AppLayout></ProtectedRoute>} />
 
                   {/* ========== COMING SOON ROUTES - CRYPTO FEATURES ========== */}
-                  <Route path="/markets" element={<ProtectedRoute><LazyRoute component={MarketsPage} name="MarketsPage" /></ProtectedRoute>} />
+                  {/* REMOVED: <Route path="/markets" element={<ProtectedRoute><LazyRoute component={MarketsPage} name="MarketsPage" /></ProtectedRoute>} /> */}
                   <Route path="/trade" element={<ProtectedRoute><LazyRoute component={TradePage} name="TradePage" /></ProtectedRoute>} />
                   <Route path="/swap" element={<ProtectedRoute><LazyRoute component={TradePage} name="TradePage" /></ProtectedRoute>} />
                   <Route path="/portfolio" element={<ProtectedRoute><LazyRoute component={PortfolioPage} name="PortfolioPage" /></ProtectedRoute>} />

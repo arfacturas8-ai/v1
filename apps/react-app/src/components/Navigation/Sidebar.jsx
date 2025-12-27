@@ -96,11 +96,9 @@ function Sidebar() {
     </div>
   )
 
-  // User stats for sidebar
+  // User stats for sidebar (karma/rewards removed per user request)
   const userStats = [
-    { label: 'Posts', value: '24', icon: 'TrendingUp' },
-    { label: 'Karma', value: '1,247', icon: 'Star' },
-    { label: 'Awards', value: '8', icon: 'Award' }
+    { label: 'Posts', value: '24', icon: 'TrendingUp' }
   ]
 
   return (

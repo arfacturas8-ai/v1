@@ -9,12 +9,14 @@ import {
 } from 'lucide-react'
 import nftService from '../services/nftService'
 import { useToast } from '../contexts/ToastContext'
+import { useResponsive } from '../hooks/useResponsive'
 
 /**
  * NFTDetailPage Component
  * Detailed view of an NFT with metadata, history, and purchase options
  */
 const NFTDetailPage = () => {
+  const { isMobile, isTablet, isDesktop } = useResponsive()
   const { nftId } = useParams()
   const navigate = useNavigate()
   const { showSuccess, showError } = useToast()
@@ -23,10 +25,6 @@ const NFTDetailPage = () => {
   const [nftData, setNftData] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
 
   useEffect(() => {
     loadNFTData()
@@ -149,7 +147,9 @@ const NFTDetailPage = () => {
               onClick={loadNFTData}
               style={{
                 padding: '14px 28px',
-                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '12px',
@@ -170,7 +170,7 @@ const NFTDetailPage = () => {
               style={{
                 padding: '14px 28px',
                 background: '#FFFFFF',
-                color: '#58a6ff',
+                color: '#1A1A1A',
                 border: '1px solid #E8EAED',
                 borderRadius: '12px',
                 fontSize: '16px',
@@ -217,7 +217,9 @@ const NFTDetailPage = () => {
             onClick={() => navigate('/nft-marketplace')}
             style={{
               padding: '14px 28px',
-              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               color: '#FFFFFF',
               border: 'none',
               borderRadius: '12px',
@@ -387,7 +389,7 @@ const NFTDetailPage = () => {
                   width: '24px',
                   height: '24px',
                   margin: '0 auto 8px',
-                  color: '#58a6ff'
+                  color: '#1A1A1A'
                 }} />
                 <div style={{
                   fontSize: isMobile ? '18px' : '24px',
@@ -439,7 +441,7 @@ const NFTDetailPage = () => {
                   width: '24px',
                   height: '24px',
                   margin: '0 auto 8px',
-                  color: '#a371f7'
+                  color: '#1A1A1A'
                 }} />
                 <div style={{
                   fontSize: isMobile ? '18px' : '24px',
@@ -529,7 +531,9 @@ const NFTDetailPage = () => {
                   onClick={handlePurchase}
                   style={{
                     padding: '14px 24px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '12px',
@@ -600,7 +604,9 @@ const NFTDetailPage = () => {
                       width: '48px',
                       height: '48px',
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       flexShrink: 0
                     }} />
                     <div style={{
@@ -625,7 +631,9 @@ const NFTDetailPage = () => {
                       width: '48px',
                       height: '48px',
                       borderRadius: '50%',
-                      background: 'linear-gradient(135deg, #a371f7 0%, #58a6ff 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       flexShrink: 0
                     }} />
                     <div style={{
@@ -719,7 +727,7 @@ const NFTDetailPage = () => {
                           <ExternalLink style={{
                             width: '16px',
                             height: '16px',
-                            color: '#58a6ff'
+                            color: '#1A1A1A'
                           }} />
                         </div>
                       </div>
@@ -791,7 +799,7 @@ const NFTDetailPage = () => {
                         }}>{attr.value}</div>
                         <div style={{
                           fontSize: '12px',
-                          color: '#58a6ff',
+                          color: '#1A1A1A',
                           background: 'rgba(88, 166, 255, 0.1)',
                           padding: '4px 10px',
                           borderRadius: '8px',
@@ -832,7 +840,7 @@ const NFTDetailPage = () => {
                             height: '10px',
                             borderRadius: '50%',
                             background: item.event === 'Sale' ? '#10B981' :
-                                       item.event === 'Transfer' ? '#58a6ff' : '#a371f7',
+                                       item.event === 'Transfer' ? '#000000' : '#000000',
                             flexShrink: 0
                           }} />
                           <div>

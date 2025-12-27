@@ -16,7 +16,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom'
 import {
   User, Users, MessageSquare, Star, Trophy, Calendar, MapPin,
   Link as LinkIcon, Mail, UserPlus, UserMinus, Edit3,
-  Award, Bookmark, Share2,
+  Bookmark, Share2,
   ChevronUp, ChevronDown, Zap, Crown, Shield, Image,
   Wallet, Copy, CheckCircle, ExternalLink, Grid3x3, Activity, X, BarChart3
 } from 'lucide-react'
@@ -72,6 +72,8 @@ function ProfilePage() {
     location: '',
     website: ''
   })
+  const [avatarFile, setAvatarFile] = useState(null)
+  const [avatarPreview, setAvatarPreview] = useState(null)
   const [saveLoading, setSaveLoading] = useState(false)
   const [saveError, setSaveError] = useState(null)
   const [saveSuccess, setSaveSuccess] = useState(false)
@@ -88,6 +90,7 @@ function ProfilePage() {
 
     try {
       const targetUsername = username || currentUser?.username
+      const isOwnProfileView = !username || targetUsername === currentUser?.username
 
       if (!targetUsername) {
         navigate('/login')
@@ -95,49 +98,57 @@ function ProfilePage() {
       }
 
       // Check if viewing own profile
-      setIsOwnProfile(targetUsername === currentUser?.username)
+      setIsOwnProfile(isOwnProfileView)
+
+      // If viewing own profile and currentUser data is available, use it as fallback
+      if (isOwnProfileView && currentUser) {
+        setUser(currentUser)
+        setIsFollowing(false)
+      }
 
       // Fetch user profile data from API
       const userResponse = await userService.getUserProfile(targetUsername)
 
-      if (!userResponse.success || !userResponse.user) {
+      if (userResponse.success && userResponse.user) {
+        setUser(userResponse.user)
+        setIsFollowing(userResponse.user.isFollowing || false)
+
+        // Fetch user's posts, NFTs, and activities in parallel
+        const [postsResponse, nftsResponse] = await Promise.all([
+          postsService.getPosts({ authorId: userResponse.user.id, limit: 20 }),
+          nftService.getMyNFTs(userResponse.user.id).catch(() => ({ success: false, nfts: [] }))
+        ])
+
+        if (postsResponse.success) {
+          setPosts(postsResponse.posts || [])
+        }
+
+        if (nftsResponse.success) {
+          setNfts(nftsResponse.nfts || nftsResponse.data || [])
+        }
+
+        // Comments, followers, following would come from additional API calls
+        // For now, set empty arrays - implement when backend endpoints are ready
+        setComments([])
+        setFollowers([])
+        setFollowing([])
+        setSavedPosts([])
+        setActivities([])
+      } else if (!isOwnProfileView || !currentUser) {
+        // Only show error if not viewing own profile or no fallback data
         setError('User not found')
-        setLoading(false)
-        return
       }
-
-      setUser(userResponse.user)
-      setIsFollowing(userResponse.user.isFollowing || false)
-
-      // Fetch user's posts, NFTs, and activities in parallel
-      const [postsResponse, nftsResponse] = await Promise.all([
-        postsService.getPosts({ authorId: userResponse.user.id, limit: 20 }),
-        nftService.getMyNFTs(userResponse.user.id).catch(() => ({ success: false, nfts: [] }))
-      ])
-
-      if (postsResponse.success) {
-        setPosts(postsResponse.posts || [])
-      }
-
-      if (nftsResponse.success) {
-        setNfts(nftsResponse.nfts || nftsResponse.data || [])
-      }
-
-      // Comments, followers, following would come from additional API calls
-      // For now, set empty arrays - implement when backend endpoints are ready
-      setComments([])
-      setFollowers([])
-      setFollowing([])
-      setSavedPosts([])
-      setActivities([])
 
     } catch (error) {
       console.error('Error loading profile:', error)
-      setError(error.message || 'Failed to load profile data')
+      // If viewing own profile and we have currentUser, don't show error
+      if (!isOwnProfile || !currentUser) {
+        setError(error.message || 'Failed to load profile data')
+      }
     } finally {
       setLoading(false)
     }
-  }, [username, currentUser, navigate])
+  }, [username, currentUser, navigate, isOwnProfile])
 
   useEffect(() => {
     loadProfileData()
@@ -228,6 +239,32 @@ function ProfilePage() {
     }))
   }, [])
 
+  const handleAvatarChange = useCallback((e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setSaveError('Please select an image file')
+      return
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setSaveError('Image size must be less than 5MB')
+      return
+    }
+
+    setAvatarFile(file)
+
+    // Create preview
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setAvatarPreview(reader.result)
+    }
+    reader.readAsDataURL(file)
+  }, [])
+
   const handleSave = useCallback(async () => {
     setSaveLoading(true)
     setSaveError(null)
@@ -268,6 +305,26 @@ function ProfilePage() {
         }
       }
 
+      // Upload avatar if selected
+      let avatarUrl = user?.avatar
+      if (avatarFile) {
+        try {
+          const formData = new FormData()
+          formData.append('avatar', avatarFile)
+          const avatarResponse = await userService.uploadAvatar(formData)
+
+          if (avatarResponse.success && avatarResponse.data?.url) {
+            avatarUrl = avatarResponse.data.url
+          } else {
+            throw new Error(avatarResponse.error || 'Failed to upload avatar')
+          }
+        } catch (avatarError) {
+          setSaveError('Failed to upload avatar: ' + (avatarError.message || 'Unknown error'))
+          setSaveLoading(false)
+          return
+        }
+      }
+
       // Prepare data for API
       const updateData = {
         displayName: editFormData.displayName.trim(),
@@ -283,8 +340,13 @@ function ProfilePage() {
         // Update local user state with new data
         setUser(prev => ({
           ...prev,
-          ...updateData
+          ...updateData,
+          avatar: avatarUrl
         }))
+
+        // Reset avatar states
+        setAvatarFile(null)
+        setAvatarPreview(null)
 
         setSaveSuccess(true)
 
@@ -318,11 +380,9 @@ function ProfilePage() {
   const userStatsData = useMemo(() => {
     if (!user) return []
     return [
-      { label: 'Posts', value: user?.stats?.totalPosts || 0, icon: MessageSquare, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
-      { label: 'Karma', value: (user?.karma || 0).toLocaleString(), icon: Zap, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
-      { label: 'Followers', value: (user?.followerCount || 0).toLocaleString(), icon: Users, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
-      { label: 'NFTs', value: user?.nftCount || 0, icon: Image, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' },
-      { label: 'Awards', value: user?.stats?.totalAwards || 0, icon: Trophy, color: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' }
+      { label: 'Posts', value: user?.stats?.totalPosts || 0, icon: MessageSquare, color: '#1A1A1A' },
+      { label: 'Following', value: (user?.followingCount || 0).toLocaleString(), icon: UserPlus, color: '#1A1A1A' },
+      { label: 'Followers', value: (user?.followerCount || 0).toLocaleString(), icon: Users, color: '#1A1A1A' }
     ]
   }, [user])
 
@@ -413,7 +473,7 @@ function ProfilePage() {
               fontSize: '28px',
               fontWeight: '700',
               marginBottom: '12px',
-              color: '#000000'
+              color: '#1A1A1A'
             }}>Error Loading Profile</h2>
             <p style={{
               color: '#666666',
@@ -425,7 +485,9 @@ function ProfilePage() {
               <button
                 onClick={loadProfileData}
                 style={{
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: 'white',
                   padding: '14px 28px',
                   borderRadius: '14px',
@@ -507,7 +569,7 @@ function ProfilePage() {
               fontSize: '28px',
               fontWeight: '700',
               marginBottom: '12px',
-              color: '#000000'
+              color: '#1A1A1A'
             }}>User not found</h2>
             <p style={{
               color: '#666666',
@@ -517,7 +579,9 @@ function ProfilePage() {
             }}>The user you're looking for doesn't exist or has been deleted.</p>
             <Link to="/">
               <button style={{
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: 'white',
                 padding: '14px 28px',
                 borderRadius: '14px',
@@ -554,7 +618,7 @@ function ProfilePage() {
         <div
           style={{
             height: isMobile ? '256px' : '320px',
-            background: user.bannerImage ? `url(${user.bannerImage}) center/cover` : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 50%, #6366F1 100%)',
+            background: user.bannerImage ? `url(${user.bannerImage}) center/cover` : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
             position: 'relative',
             overflow: 'hidden',
             transform: `translateY(${scrollY * 0.5}px)`
@@ -618,7 +682,9 @@ function ProfilePage() {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)'
                       }}>
                         <User style={{ color: 'white', width: '64px', height: '64px' }} />
                       </div>
@@ -629,7 +695,9 @@ function ProfilePage() {
                       position: 'absolute',
                       bottom: '-8px',
                       right: '-8px',
-                      background: '#6366F1',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       borderRadius: '50%',
                       padding: '6px',
                       border: '2px solid #FAFAFA',
@@ -658,7 +726,7 @@ function ProfilePage() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        color: '#000000',
+                        color: '#1A1A1A',
                         flexWrap: 'wrap'
                       }}>
                         {user.displayName || user.username}
@@ -674,12 +742,12 @@ function ProfilePage() {
                                 fontSize: '14px',
                                 padding: '4px 8px',
                                 borderRadius: '12px',
-                                background: 'rgba(99, 102, 241, 0.1)',
-                                border: '1px solid rgba(99, 102, 241, 0.2)'
+                                background: 'rgba(88, 166, 255, 0.1)',
+                                border: '1px solid rgba(88, 166, 255, 0.2)'
                               }}
                               title={badge.name}
                             >
-                              <BadgeIcon style={{ width: '20px', height: '20px', color: '#6366F1' }} />
+                              <BadgeIcon style={{ width: '20px', height: '20px', color: '#58a6ff' }} />
                             </span>
                           )
                         })}
@@ -726,7 +794,7 @@ function ProfilePage() {
                               textDecoration: 'none',
                               transition: 'color 0.2s ease'
                             }}
-                            onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                            onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                             onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                           >
                             <LinkIcon style={{ width: '20px', height: '20px' }} />
@@ -778,28 +846,26 @@ function ProfilePage() {
                           <button
                             onClick={handleFollow}
                             style={{
-                              minHeight: '48px',
-                              padding: '12px 16px',
-                              background: isFollowing ? 'white' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                              border: isFollowing ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
-                              borderRadius: '14px',
-                              fontWeight: '600',
-                              fontSize: '15px',
+                              minHeight: '40px',
+                              padding: '10px 20px',
+                              background: isFollowing ? 'white' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                              border: isFollowing ? '1px solid #E5E5E5' : 'none',
+                              borderRadius: '10px',
+                              fontWeight: '500',
+                              fontSize: '14px',
                               transition: 'all 0.2s ease',
                               display: 'flex',
                               alignItems: 'center',
                               gap: '8px',
-                              color: isFollowing ? '#666666' : 'white',
+                              color: isFollowing ? '#1A1A1A' : 'white',
                               cursor: 'pointer',
-                              boxShadow: isFollowing ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.25)'
+                              boxShadow: isFollowing ? 'none' : '0 4px 12px rgba(88, 166, 255, 0.3)'
                             }}
                             onMouseEnter={(e) => {
-                              e.currentTarget.style.transform = 'translateY(-2px)'
-                              e.currentTarget.style.boxShadow = isFollowing ? '0 4px 12px rgba(0, 0, 0, 0.08)' : '0 8px 20px rgba(99, 102, 241, 0.35)'
+                              e.currentTarget.style.opacity = '0.85'
                             }}
                             onMouseLeave={(e) => {
-                              e.currentTarget.style.transform = 'translateY(0)'
-                              e.currentTarget.style.boxShadow = isFollowing ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.25)'
+                              e.currentTarget.style.opacity = '1'
                             }}
                             aria-label={isFollowing ? 'Unfollow user' : 'Follow user'}
                           >
@@ -818,27 +884,25 @@ function ProfilePage() {
                           <button
                             onClick={handleShowMessageModal}
                             style={{
-                              minHeight: '48px',
-                              padding: '12px 16px',
+                              minHeight: '40px',
+                              padding: '10px 20px',
                               background: 'white',
-                              border: '1px solid rgba(0, 0, 0, 0.08)',
-                              borderRadius: '14px',
-                              fontWeight: '600',
-                              fontSize: '15px',
+                              border: '1px solid #E5E5E5',
+                              borderRadius: '10px',
+                              fontWeight: '500',
+                              fontSize: '14px',
                               transition: 'all 0.2s ease',
                               display: 'flex',
                               alignItems: 'center',
                               gap: '8px',
-                              color: '#666666',
+                              color: '#1A1A1A',
                               cursor: 'pointer'
                             }}
                             onMouseEnter={(e) => {
-                              e.currentTarget.style.transform = 'translateY(-2px)'
-                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+                              e.currentTarget.style.background = '#FAFAFA'
                             }}
                             onMouseLeave={(e) => {
-                              e.currentTarget.style.transform = 'translateY(0)'
-                              e.currentTarget.style.boxShadow = 'none'
+                              e.currentTarget.style.background = 'white'
                             }}
                             aria-label="Send message"
                           >
@@ -909,7 +973,7 @@ function ProfilePage() {
                             <span style={{
                               fontSize: '24px',
                               fontWeight: '700',
-                              color: '#000000'
+                              color: '#1A1A1A'
                             }}>{stat.value}</span>
                           </div>
                           <span style={{
@@ -960,11 +1024,10 @@ function ProfilePage() {
                       alignItems: 'center',
                       gap: '8px',
                       whiteSpace: 'nowrap',
-                      borderBottom: activeTab === tab.id ? '2px solid #6366F1' : '2px solid transparent',
-                      color: activeTab === tab.id ? '#6366F1' : '#666666',
+                      color: activeTab === tab.id ? '#58a6ff' : '#666666',
                       background: 'transparent',
                       border: 'none',
-                      borderBottom: activeTab === tab.id ? '2px solid #6366F1' : '2px solid transparent',
+                      borderBottom: activeTab === tab.id ? '2px solid #58a6ff' : '2px solid transparent',
                       cursor: 'pointer'
                     }}
                     aria-label={`View ${tab.label}`}
@@ -1034,7 +1097,7 @@ function ProfilePage() {
                               fontSize: '18px',
                               fontWeight: '600',
                               marginBottom: '8px',
-                              color: '#000000',
+                              color: '#1A1A1A',
                               transition: 'color 0.2s ease'
                             }}>
                               {post.title}
@@ -1067,10 +1130,6 @@ function ProfilePage() {
                               <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                                 <MessageSquare style={{ width: '20px', height: '20px' }} />
                                 <span>{post.commentCount || 0}</span>
-                              </div>
-                              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                <Award style={{ width: '20px', height: '20px' }} />
-                                <span>{post.awardCount || 0}</span>
                               </div>
                               <span>{formatTimeAgo(post.created)}</span>
                             </div>
@@ -1120,7 +1179,7 @@ function ProfilePage() {
                           <Link
                             to={`/post/${comment.postId}`}
                             style={{
-                              color: '#6366F1',
+                              color: '#1A1A1A',
                               textDecoration: 'none',
                               transition: 'opacity 0.2s ease'
                             }}
@@ -1187,7 +1246,7 @@ function ProfilePage() {
                           fontSize: '18px',
                           fontWeight: '600',
                           marginBottom: '8px',
-                          color: '#000000'
+                          color: '#1A1A1A'
                         }}>{post.title}</h3>
                         <p style={{
                           fontSize: '14px',
@@ -1237,7 +1296,7 @@ function ProfilePage() {
                       display: 'flex',
                       alignItems: 'center',
                       gap: '8px',
-                      color: '#000000'
+                      color: '#1A1A1A'
                     }}>
                       <User style={{ width: '20px', height: '20px' }} />
                       About
@@ -1267,7 +1326,7 @@ function ProfilePage() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        color: '#000000'
+                        color: '#1A1A1A'
                       }}>
                         <LinkIcon style={{ width: '20px', height: '20px' }} />
                         Social Links
@@ -1283,7 +1342,7 @@ function ProfilePage() {
                               display: 'flex',
                               alignItems: 'center',
                               gap: '8px',
-                              color: '#6366F1',
+                              color: '#1A1A1A',
                               textDecoration: 'none',
                               transition: 'opacity 0.2s ease',
                               fontSize: '15px'
@@ -1315,7 +1374,7 @@ function ProfilePage() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '8px',
-                        color: '#000000'
+                        color: '#1A1A1A'
                       }}>
                         <Wallet style={{ width: '20px', height: '20px' }} />
                         Wallet Address
@@ -1372,7 +1431,7 @@ function ProfilePage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    color: '#000000'
+                    color: '#1A1A1A'
                   }}>
                     <Trophy style={{ width: '20px', height: '20px' }} />
                     Achievements
@@ -1410,13 +1469,13 @@ function ProfilePage() {
                             alignItems: 'center',
                             justifyContent: 'center'
                           }}>
-                            <BadgeIcon style={{ width: '20px', height: '20px', color: '#6366F1' }} />
+                            <BadgeIcon style={{ width: '20px', height: '20px', color: '#58a6ff' }} />
                           </div>
                           <div style={{ flex: 1 }}>
                             <h4 style={{
                               fontWeight: '600',
                               fontSize: '14px',
-                              color: '#000000'
+                              color: '#1A1A1A'
                             }}>{badge.name}</h4>
                             <p style={{
                               fontSize: '13px',
@@ -1445,7 +1504,7 @@ function ProfilePage() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}>
                   <Users style={{ width: '20px', height: '20px' }} />
                   Connections
@@ -1466,7 +1525,7 @@ function ProfilePage() {
                       fontSize: '28px',
                       fontWeight: '700',
                       marginBottom: '4px',
-                      color: '#000000'
+                      color: '#1A1A1A'
                     }}>
                       {user.followerCount?.toLocaleString() || 0}
                     </div>
@@ -1486,7 +1545,7 @@ function ProfilePage() {
                       fontSize: '28px',
                       fontWeight: '700',
                       marginBottom: '4px',
-                      color: '#000000'
+                      color: '#1A1A1A'
                     }}>
                       {user.followingCount?.toLocaleString() || 0}
                     </div>
@@ -1514,7 +1573,7 @@ function ProfilePage() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
-                    color: '#000000'
+                    color: '#1A1A1A'
                   }}>
                     <Image style={{ width: '20px', height: '20px' }} />
                     NFT Collection
@@ -1537,7 +1596,7 @@ function ProfilePage() {
                           cursor: 'pointer'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.borderColor = '#6366F1'
+                          e.currentTarget.style.borderColor = '#58a6ff'
                           e.currentTarget.style.transform = 'scale(1.05)'
                         }}
                         onMouseLeave={(e) => {
@@ -1564,7 +1623,9 @@ function ProfilePage() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)'
                           }}>
                             <Image style={{ color: 'white', width: '48px', height: '48px' }} />
                           </div>
@@ -1604,85 +1665,7 @@ function ProfilePage() {
                 </div>
               )}
 
-              {/* Activity Stats */}
-              <div style={{
-                background: 'white',
-                border: '1px solid rgba(0, 0, 0, 0.06)',
-                borderRadius: '20px',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
-                padding: '24px'
-              }}>
-                <h3 style={{
-                  fontSize: '18px',
-                  fontWeight: '600',
-                  marginBottom: '16px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  color: '#000000'
-                }}>
-                  <Activity style={{ width: '20px', height: '20px' }} />
-                  Activity
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}>
-                    <span style={{
-                      fontSize: '14px',
-                      color: '#666666'
-                    }}>Total Karma</span>
-                    <span style={{
-                      fontWeight: '600',
-                      color: '#000000'
-                    }}>{user.karma?.toLocaleString() || 0}</span>
-                  </div>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}>
-                    <span style={{
-                      fontSize: '14px',
-                      color: '#666666'
-                    }}>Posts Created</span>
-                    <span style={{
-                      fontWeight: '600',
-                      color: '#000000'
-                    }}>{user.stats?.totalPosts || 0}</span>
-                  </div>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}>
-                    <span style={{
-                      fontSize: '14px',
-                      color: '#666666'
-                    }}>Comments Made</span>
-                    <span style={{
-                      fontWeight: '600',
-                      color: '#000000'
-                    }}>{user.stats?.totalComments || 0}</span>
-                  </div>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}>
-                    <span style={{
-                      fontSize: '14px',
-                      color: '#666666'
-                    }}>Awards Received</span>
-                    <span style={{
-                      fontWeight: '600',
-                      color: '#000000'
-                    }}>{user.stats?.totalAwards || 0}</span>
-                  </div>
-                </div>
-              </div>
+              {/* Activity Stats removed - karma/rewards system removed per user request */}
             </div>
           </div>
         </div>
@@ -1700,10 +1683,12 @@ function ProfilePage() {
             borderRadius: '24px',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08)',
             border: '1px solid rgba(0, 0, 0, 0.06)',
-            padding: '32px',
+            padding: isMobile ? '24px 16px' : '32px',
             maxWidth: '672px',
             width: '100%',
-            margin: '0 16px'
+            margin: '0 16px',
+            maxHeight: '90vh',
+            overflowY: 'auto'
           }}>
             <div style={{
               display: 'flex',
@@ -1714,7 +1699,7 @@ function ProfilePage() {
               <h2 style={{
                 fontSize: '28px',
                 fontWeight: '700',
-                color: '#000000'
+                color: '#1A1A1A'
               }}>Edit Profile</h2>
               <button
                 onClick={handleCloseEditModal}
@@ -1741,13 +1726,76 @@ function ProfilePage() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {/* Avatar Upload */}
+              <div style={{ textAlign: 'center', marginBottom: '8px' }}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  marginBottom: '12px',
+                  color: '#1A1A1A'
+                }}>
+                  Profile Picture
+                </label>
+                <div style={{ position: 'relative', display: 'inline-block' }}>
+                  <div style={{
+                    width: '120px',
+                    height: '120px',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    border: '3px solid rgba(99, 102, 241, 0.2)',
+                    marginBottom: '12px'
+                  }}>
+                    <img
+                      src={avatarPreview || user?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(user?.displayName || user?.username || 'User')}&size=120&background=6366F1&color=fff`}
+                      alt="Avatar preview"
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
+                      }}
+                    />
+                  </div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleAvatarChange}
+                    style={{ display: 'none' }}
+                    id="avatar-upload"
+                  />
+                  <label
+                    htmlFor="avatar-upload"
+                    style={{
+                      display: 'inline-block',
+                      padding: '8px 16px',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                      color: 'white',
+                      borderRadius: '20px',
+                      fontSize: '13px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s ease'
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+                  >
+                    Change Photo
+                  </label>
+                </div>
+                <p style={{ fontSize: '12px', color: '#999999', marginTop: '8px' }}>
+                  JPG, PNG or GIF. Max size 5MB.
+                </p>
+              </div>
+
               <div>
                 <label style={{
                   display: 'block',
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}>
                   Display Name
                 </label>
@@ -1763,13 +1811,13 @@ function ProfilePage() {
                     borderRadius: '14px',
                     padding: '14px 16px',
                     fontSize: '15px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     outline: 'none',
                     transition: 'all 0.2s ease',
                     height: '52px'
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.borderColor = '#58a6ff'
                     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
                   }}
                   onBlur={(e) => {
@@ -1785,7 +1833,7 @@ function ProfilePage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}>
                   Bio
                 </label>
@@ -1802,14 +1850,14 @@ function ProfilePage() {
                     borderRadius: '14px',
                     padding: '14px 16px',
                     fontSize: '15px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     outline: 'none',
                     transition: 'all 0.2s ease',
                     resize: 'none',
                     fontFamily: 'inherit'
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.borderColor = '#58a6ff'
                     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
                   }}
                   onBlur={(e) => {
@@ -1832,7 +1880,7 @@ function ProfilePage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}>
                   Location
                 </label>
@@ -1848,13 +1896,13 @@ function ProfilePage() {
                     borderRadius: '14px',
                     padding: '14px 16px',
                     fontSize: '15px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     outline: 'none',
                     transition: 'all 0.2s ease',
                     height: '52px'
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.borderColor = '#58a6ff'
                     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
                   }}
                   onBlur={(e) => {
@@ -1870,7 +1918,7 @@ function ProfilePage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}>
                   Website
                 </label>
@@ -1886,13 +1934,13 @@ function ProfilePage() {
                     borderRadius: '14px',
                     padding: '14px 16px',
                     fontSize: '15px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     outline: 'none',
                     transition: 'all 0.2s ease',
                     height: '52px'
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.borderColor = '#58a6ff'
                     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
                   }}
                   onBlur={(e) => {
@@ -1946,29 +1994,31 @@ function ProfilePage() {
                   disabled={saveLoading}
                   style={{
                     flex: 1,
-                    minHeight: '56px',
-                    padding: '16px',
-                    background: saveLoading ? '#D1D5DB' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    minHeight: '44px',
+                    padding: '12px 16px',
+                    background: saveLoading ? '#E5E5E5' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                     color: 'white',
-                    borderRadius: '14px',
-                    fontWeight: '600',
-                    fontSize: '15px',
+                    borderRadius: '10px',
+                    fontWeight: '500',
+                    fontSize: '14px',
                     transition: 'all 0.2s ease',
                     border: 'none',
                     cursor: saveLoading ? 'not-allowed' : 'pointer',
                     opacity: saveLoading ? 0.5 : 1,
-                    boxShadow: saveLoading ? 'none' : '0 4px 12px rgba(99, 102, 241, 0.25)'
+                    boxShadow: saveLoading ? 'none' : '0 4px 12px rgba(88, 166, 255, 0.3)'
                   }}
                   onMouseEnter={(e) => {
                     if (!saveLoading) {
-                      e.currentTarget.style.transform = 'translateY(-2px)'
-                      e.currentTarget.style.boxShadow = '0 8px 20px rgba(99, 102, 241, 0.35)'
+                      e.currentTarget.style.opacity = '0.9'
+                      e.currentTarget.style.transform = 'translateY(-1px)'
+                      e.currentTarget.style.boxShadow = '0 6px 16px rgba(88, 166, 255, 0.4)'
                     }
                   }}
                   onMouseLeave={(e) => {
                     if (!saveLoading) {
+                      e.currentTarget.style.opacity = '1'
                       e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.25)'
+                      e.currentTarget.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
                     }
                   }}
                 >
@@ -2037,7 +2087,7 @@ function ProfilePage() {
               <h2 style={{
                 fontSize: '28px',
                 fontWeight: '700',
-                color: '#000000'
+                color: '#1A1A1A'
               }}>Send Message to @{user.username}</h2>
               <button
                 onClick={() => setShowMessageModal(false)}
@@ -2070,7 +2120,7 @@ function ProfilePage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   marginBottom: '8px',
-                  color: '#000000'
+                  color: '#1A1A1A'
                 }}>
                   Message
                 </label>
@@ -2084,14 +2134,14 @@ function ProfilePage() {
                     borderRadius: '14px',
                     padding: '14px 16px',
                     fontSize: '15px',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     outline: 'none',
                     transition: 'all 0.2s ease',
                     resize: 'none',
                     fontFamily: 'inherit'
                   }}
                   onFocus={(e) => {
-                    e.currentTarget.style.borderColor = '#6366F1'
+                    e.currentTarget.style.borderColor = '#58a6ff'
                     e.currentTarget.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
                   }}
                   onBlur={(e) => {
@@ -2109,7 +2159,9 @@ function ProfilePage() {
                   flex: 1,
                   minHeight: '56px',
                   padding: '16px',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: 'white',
                   borderRadius: '14px',
                   fontWeight: '600',

@@ -1,13 +1,13 @@
 import React, { memo, useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { Shield, AlertTriangle, ChevronLeft, CheckCircle } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 const CommunityRulesPage = () => {
+  const { isMobile } = useResponsive()
   const { communityName } = useParams()
   const [rules, setRules] = useState([])
   const [loading, setLoading] = useState(true)
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
   useEffect(() => {
     // Simulate fetching rules
@@ -70,7 +70,9 @@ const CommunityRulesPage = () => {
           <h1 style={{
             fontSize: isMobile ? '28px' : '36px',
             fontWeight: '700',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -113,7 +115,9 @@ const CommunityRulesPage = () => {
                     width: '32px',
                     height: '32px',
                     flexShrink: 0,
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     borderRadius: '50%',
                     display: 'flex',
                     alignItems: 'center',

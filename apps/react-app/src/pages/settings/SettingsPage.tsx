@@ -26,14 +26,8 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-// Mock user data - replace with actual user context/API
-const MOCK_USER = {
-  name: 'John Doe',
-  username: '@johndoe',
-  email: 'john@example.com',
-  avatar: null,
-  verified: true,
-};
+// User data from auth context
+import { useAuth } from '../../contexts/AuthContext';
 
 interface SettingItemProps {
   icon: React.ReactNode;
@@ -132,6 +126,15 @@ const SettingGroup: React.FC<SettingGroupProps> = ({ title, children }) => {
 
 const SettingsPage: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+
+  const displayUser = {
+    name: user?.displayName || user?.username || 'User',
+    username: user?.username ? `@${user.username}` : '@user',
+    email: user?.email || 'No email set',
+    avatar: user?.avatar || null,
+    verified: user?.verified || false,
+  };
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
@@ -167,14 +170,18 @@ const SettingsPage: React.FC = () => {
               fontSize: 'var(--text-2xl)',
               fontWeight: 'var(--font-bold)',
             }}>
-              {MOCK_USER.name.charAt(0)}
+              {displayUser.avatar ? (
+                <img src={displayUser.avatar} alt={displayUser.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 'var(--radius-full)' }} />
+              ) : (
+                displayUser.name.charAt(0)
+              )}
             </div>
             <div style={{ flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
                 <h3 style={{ fontWeight: 'var(--font-semibold)', fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
-                  {MOCK_USER.name}
+                  {displayUser.name}
                 </h3>
-                {MOCK_USER.verified && (
+                {displayUser.verified && (
                   <div style={{
                     width: '20px',
                     height: '20px',
@@ -194,8 +201,8 @@ const SettingsPage: React.FC = () => {
                   </div>
                 )}
               </div>
-              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{MOCK_USER.username}</div>
-              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{MOCK_USER.email}</div>
+              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{displayUser.username}</div>
+              <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{displayUser.email}</div>
             </div>
           </div>
         </div>

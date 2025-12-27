@@ -275,7 +275,7 @@ function ChatPage({ user, onNavigate }) {
             style={{
               fontSize: '24px',
               fontWeight: 600,
-              color: '#000000',
+              color: '#1A1A1A',
               marginBottom: '8px'
             }}
           >
@@ -296,7 +296,9 @@ function ChatPage({ user, onNavigate }) {
               padding: '0 24px',
               borderRadius: '16px',
               border: 'none',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               color: '#FFFFFF',
               fontSize: '15px',
               fontWeight: 500,
@@ -344,7 +346,7 @@ function ChatPage({ user, onNavigate }) {
               height: '48px',
               margin: '0 auto 16px',
               border: '4px solid #E0E0E0',
-              borderTopColor: '#6366F1',
+              borderTopColor: '#58a6ff',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite'
             }}
@@ -374,7 +376,7 @@ function ChatPage({ user, onNavigate }) {
           display: 'flex',
           overflow: 'hidden',
           background: '#FAFAFA',
-          color: '#000000',
+          color: '#1A1A1A',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
         }}
         role="main"
@@ -430,7 +432,7 @@ function ChatPage({ user, onNavigate }) {
                       }}
                       onMouseEnter={(e) => {
                         e.currentTarget.style.background = '#F5F5F5'
-                        e.currentTarget.style.color = '#000000'
+                        e.currentTarget.style.color = '#58a6ff'
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.background = 'transparent'
@@ -452,7 +454,7 @@ function ChatPage({ user, onNavigate }) {
                     <span
                       style={{
                         marginRight: '8px',
-                        color: '#6366F1',
+                        color: '#1A1A1A',
                         fontSize: '20px'
                       }}
                       aria-hidden="true"
@@ -463,7 +465,7 @@ function ChatPage({ user, onNavigate }) {
                       style={{
                         fontWeight: 600,
                         fontSize: '16px',
-                        color: '#000000',
+                        color: '#1A1A1A',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         whiteSpace: 'nowrap'
@@ -514,7 +516,7 @@ function ChatPage({ user, onNavigate }) {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#F5F5F5'
-                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.color = '#58a6ff'
                       e.currentTarget.style.transform = 'translateY(-2px)'
                     }}
                     onMouseLeave={(e) => {
@@ -552,7 +554,7 @@ function ChatPage({ user, onNavigate }) {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#F5F5F5'
-                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.color = '#58a6ff'
                       e.currentTarget.style.transform = 'translateY(-2px)'
                     }}
                     onMouseLeave={(e) => {
@@ -602,7 +604,7 @@ function ChatPage({ user, onNavigate }) {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#F5F5F5'
-                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.color = '#58a6ff'
                       e.currentTarget.style.transform = 'translateY(-2px)'
                     }}
                     onMouseLeave={(e) => {
@@ -685,7 +687,7 @@ function ChatPage({ user, onNavigate }) {
                   style={{
                     fontSize: '24px',
                     fontWeight: 600,
-                    color: '#000000',
+                    color: '#1A1A1A',
                     marginBottom: '12px'
                   }}
                 >

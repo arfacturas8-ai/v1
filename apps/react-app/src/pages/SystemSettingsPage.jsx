@@ -40,14 +40,14 @@ const SystemSettingsPage = () => {
                 { key: 'hardwareAcceleration', label: 'Hardware Acceleration', desc: 'Use GPU for rendering when available' },
                 { key: 'reducedMotion', label: 'Reduced Motion', desc: 'Minimize animations and transitions' }
               ].map(item => (
-                <div key={item.key} className="flex items-center justify-between p-3 rounded-lg bg-[#21262d]">
+                <div key={item.key} className="flex items-center justify-between p-3 rounded-lg bg-white">
                   <div className="flex-1 min-w-0 pr-4">
                     <p style={{color: "var(--text-primary)"}} className=" font-medium text-sm md:text-base">{item.label}</p>
                     <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm ">{item.desc}</p>
                   </div>
                   <button
                     onClick={() => updateSetting(item.key, !settings[item.key])}
-                    style={{ borderColor: "var(--border-subtle)", background: settings[item.key] ? '#58a6ff' : '#21262d' }} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
+                    style={{ borderColor: "var(--border-subtle)", background: settings[item.key] ? '#000000' : '#E8EAED' }} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
                     aria-label={`Toggle ${item.label}`}
                     aria-pressed={settings[item.key]}
                   >
@@ -66,14 +66,14 @@ const SystemSettingsPage = () => {
               <Volume2 style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Audio</h2>
             </div>
-            <div className="flex items-center justify-between p-3 rounded-lg bg-[#21262d]">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-white">
               <div className="flex-1 min-w-0 pr-4">
                 <p style={{color: "var(--text-primary)"}} className=" font-medium text-sm md:text-base">Sound Effects</p>
                 <p style={{color: "var(--text-secondary)"}} className="text-xs md:text-sm ">Play sounds for notifications and actions</p>
               </div>
               <button
                 onClick={() => updateSetting('soundEffects', !settings.soundEffects)}
-                style={{ borderColor: "var(--border-subtle)", background: settings.soundEffects ? '#58a6ff' : '#21262d' }} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
+                style={{ borderColor: "var(--border-subtle)", background: settings.soundEffects ? '#000000' : '#E8EAED' }} className="w-12 h-6 rounded-full transition-colors border  flex-shrink-0 relative"
                 aria-label="Toggle sound effects"
                 aria-pressed={settings.soundEffects}
               >
@@ -90,7 +90,7 @@ const SystemSettingsPage = () => {
               <HardDrive style={{ width: "24px", height: "24px", flexShrink: 0 }} aria-hidden="true" />
               <h2 style={{color: "var(--text-primary)"}} className="text-base md:text-lg font-semibold ">Storage</h2>
             </div>
-            <div className="p-4 rounded-lg mb-4 bg-[#21262d]">
+            <div className="p-4 rounded-lg mb-4 bg-white">
               <div className="flex justify-between mb-2 text-sm md:text-base">
                 <span style={{color: "var(--text-secondary)"}} className="">Cache Size</span>
                 <span style={{color: "var(--text-primary)"}} className="">128 MB</span>

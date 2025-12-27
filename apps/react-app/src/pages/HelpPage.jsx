@@ -7,7 +7,7 @@
  * - Cards: white with subtle shadows
  * - Border radius: 16-24px for modern iOS feel
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Icons: 20px standard size
  * - Hover: translateY(-2px) for interactive elements
  */
@@ -16,15 +16,13 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, ChevronDown, Mail, MessageCircle, Bug } from 'lucide-react'
 import LandingHeader from '../components/LandingHeader'
+import { useResponsive } from '../hooks/useResponsive'
 
 function HelpPage() {
+  const { isMobile, isTablet, isDesktop } = useResponsive()
   const [activeSection, setActiveSection] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
   const [expandedItems, setExpandedItems] = useState({})
-
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 640
 
   const sections = [
     { id: 'getting-started', title: 'Getting Started' },
@@ -240,9 +238,9 @@ function HelpPage() {
                       paddingRight: '16px',
                       fontSize: '14px',
                       fontWeight: isActive ? '500' : '400',
-                      color: isActive ? '#6366F1' : '#666',
+                      color: isActive ? '#000000' : '#666',
                       background: isActive ? 'rgba(99, 102, 241, 0.1)' : 'transparent',
-                      borderLeft: isActive ? '2px solid #6366F1' : '2px solid transparent',
+                      borderLeft: isActive ? '2px solid #000000' : '2px solid transparent',
                       border: 'none',
                       cursor: 'pointer',
                       display: 'flex',
@@ -287,7 +285,9 @@ function HelpPage() {
             fontSize: isMobile ? '32px' : '48px',
             fontWeight: '600',
             marginBottom: '16px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
@@ -384,7 +384,7 @@ function HelpPage() {
                           transition: 'color 0.2s ease'
                         }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.color = '#6366F1'
+                          e.currentTarget.style.color = '#000000'
                         }}
                         onMouseLeave={(e) => {
                           e.currentTarget.style.color = '#000'
@@ -402,7 +402,7 @@ function HelpPage() {
                           <ChevronDown
                             size={20}
                             style={{
-                              color: '#6366F1',
+                              color: '#000000',
                               transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
                               transition: 'transform 0.2s'
                             }}
@@ -489,7 +489,7 @@ function HelpPage() {
                       borderRadius: '8px',
                       background: 'rgba(99, 102, 241, 0.1)'
                     }}>
-                      <Icon size={24} style={{ color: '#6366F1' }} />
+                      <Icon size={24} style={{ color: '#000000' }} />
                     </div>
                     <h3 style={{ fontSize: '18px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>
                       {item.title}
@@ -509,7 +509,7 @@ function HelpPage() {
                           style={{
                             display: 'inline-block',
                             marginTop: '16px',
-                            color: '#6366F1',
+                            color: '#000000',
                             fontSize: '14px',
                             fontWeight: '500',
                             textDecoration: 'none'
@@ -523,7 +523,7 @@ function HelpPage() {
                           style={{
                             display: 'inline-block',
                             marginTop: '16px',
-                            color: '#6366F1',
+                            color: '#000000',
                             fontSize: '14px',
                             fontWeight: '500',
                             textDecoration: 'none'

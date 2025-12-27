@@ -22,7 +22,6 @@ import Post from '../components/community/Post'
 import UserProfile from '../components/community/UserProfile'
 import LoadingSpinner from '../components/community/LoadingSpinner'
 import ReportingSystem from '../components/ReportingSystem'
-import AwardModal from '../components/community/AwardModal'
 import { useToast } from '../contexts/ToastContext'
 import { SkeletonPost, SkeletonCard } from '../components/ui/SkeletonLoader'
 import { EmptySearch } from '../components/ui/EmptyState'
@@ -61,7 +60,6 @@ function SearchPage() {
 
   // Modal states
   const [reportModal, setReportModal] = useState({ isOpen: false, contentType: null, contentId: null, contentData: null })
-  const [awardModal, setAwardModal] = useState({ isOpen: false, post: null })
 
   // Cache for search results to avoid duplicate requests
   const searchCacheRef = useRef(new Map())
@@ -277,39 +275,6 @@ function SearchPage() {
     }
   }, [showSuccess, showError])
 
-  const handlePostAward = useCallback((postId) => {
-    const post = results?.posts?.find(p => p?.id === postId)
-    if (!post) return
-
-    setAwardModal({
-      isOpen: true,
-      post: post
-    })
-  }, [results?.posts])
-
-  const handleAwardSubmit = useCallback(async (postId, awardId) => {
-    try {
-      // Award API call would go here
-      // await postsService.awardPost(postId, awardId)
-
-      showSuccess('Award given successfully!')
-      setAwardModal({ isOpen: false, post: null })
-
-      // Update post awards count if needed
-      setResults(prev => ({
-        ...prev,
-        posts: prev?.posts?.map(p =>
-          p?.id === postId
-            ? { ...p, awardCount: (p?.awardCount || 0) + 1 }
-            : p
-        ) || []
-      }))
-    } catch (error) {
-      console.error('Award submission failed:', error)
-      showError('Failed to give award')
-    }
-  }, [showSuccess, showError])
-
   const handleUserFollow = useCallback(async (username) => {
     try {
       // Optimistic update
@@ -461,11 +426,13 @@ function SearchPage() {
             fontSize: isMobile ? '28px' : '32px',
             fontWeight: '700',
             marginBottom: '24px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
-            color: '#000000'
+            color: '#1A1A1A'
           }}>
             Search
           </h1>
@@ -509,7 +476,7 @@ function SearchPage() {
                 border: '1px solid rgba(0, 0, 0, 0.06)',
                 borderRadius: '16px',
                 background: 'white',
-                color: '#000000',
+                color: '#1A1A1A',
                 outline: 'none',
                 transition: 'all 0.2s ease',
                 boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
@@ -554,7 +521,7 @@ function SearchPage() {
                     fontSize: '15px',
                     fontWeight: isActive ? '600' : '500',
                     color: isActive ? 'white' : '#666666',
-                    background: isActive ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : 'white',
+                    background: isActive ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : 'white',
                     border: 'none',
                     borderRadius: '14px',
                     cursor: 'pointer',
@@ -637,7 +604,7 @@ function SearchPage() {
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
-                  color: '#000000',
+                  color: '#1A1A1A',
                   gap: '16px'
                 }}>
                   Communities
@@ -649,7 +616,9 @@ function SearchPage() {
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'white'
                   }}>
                     {filteredResults?.communities?.length || 0}
@@ -681,7 +650,7 @@ function SearchPage() {
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
-                  color: '#000000',
+                  color: '#1A1A1A',
                   gap: '16px'
                 }}>
                   Posts
@@ -693,7 +662,9 @@ function SearchPage() {
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'white'
                   }}>
                     {filteredResults?.posts?.length || 0}
@@ -708,7 +679,6 @@ function SearchPage() {
                       onShare={() => handlePostShare(post?.id)}
                       onSave={() => handlePostSave(post?.id)}
                       onReport={() => handlePostReport(post?.id)}
-                      onAward={() => handlePostAward(post?.id)}
                     />
                   ))}
                 </div>
@@ -724,7 +694,7 @@ function SearchPage() {
                   fontSize: isMobile ? '20px' : '24px',
                   fontWeight: '600',
                   marginBottom: '24px',
-                  color: '#000000',
+                  color: '#1A1A1A',
                   gap: '16px'
                 }}>
                   Users
@@ -736,7 +706,9 @@ function SearchPage() {
                     fontSize: '14px',
                     fontWeight: '600',
                     borderRadius: '12px',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'white'
                   }}>
                     {filteredResults?.users?.length || 0}
@@ -774,14 +746,6 @@ function SearchPage() {
           />
         )}
 
-        {awardModal.isOpen && (
-          <AwardModal
-            isOpen={awardModal.isOpen}
-            onClose={() => setAwardModal({ isOpen: false, post: null })}
-            post={awardModal.post}
-            onAward={handleAwardSubmit}
-          />
-        )}
       </div>
     </>
   )

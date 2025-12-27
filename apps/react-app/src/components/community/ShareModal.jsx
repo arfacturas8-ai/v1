@@ -84,68 +84,174 @@ const ShareModal = ({ post, onClose, onShare }) => {
   ]
 
   return (
-    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 flex items-center justify-center p-4 z-50 /40" onClick={onClose}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: isMobile ? '16px' : '20px',
+        background: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 9999
+      }}
+      onClick={onClose}
+    >
       <div
         ref={modalRef}
-        className="w-full max-w-lg sm:max-w-xl rounded-2xl bg-white"
+        style={{
+          width: '100%',
+          maxWidth: isMobile ? '100%' : isTablet ? '640px' : '576px',
+          background: '#FFFFFF',
+          borderRadius: '16px',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+          overflow: 'hidden'
+        }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[var(--border-subtle)]">
-          <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">Share Post</h3>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: isMobile ? '16px 20px' : '20px 24px',
+          borderBottom: '1px solid #E8EAED'
+        }}>
+          <h3 style={{
+            fontSize: isMobile ? '18px' : '20px',
+            fontWeight: '700',
+            color: '#1A1A1A',
+            margin: 0
+          }}>
+            Share Post
+          </h3>
           <button
             onClick={onClose}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-[var(--text-primary)]"
+            style={{
+              minHeight: '40px',
+              minWidth: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              color: '#666666'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#F0F2F5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             aria-label="Close modal"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
             </svg>
           </button>
         </div>
 
-        <div className="px-4 sm:px-6 py-4 space-y-4">
+        <div style={{
+          padding: isMobile ? '16px 20px' : '20px 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px'
+        }}>
           {/* Post Preview */}
-          <div className="p-3 border border-[var(--border-subtle)] rounded-xl bg-gray-50">
-            <h4 className="text-sm sm:text-base font-medium mb-1 text-[var(--text-primary)]">
+          <div style={{
+            padding: '16px',
+            border: '1px solid #E8EAED',
+            borderRadius: '12px',
+            background: '#F8F9FA'
+          }}>
+            <h4 style={{
+              fontSize: isMobile ? '14px' : '15px',
+              fontWeight: '600',
+              color: '#1A1A1A',
+              marginBottom: '4px',
+              margin: 0
+            }}>
               {post.title}
             </h4>
-            <p className="text-xs text-[var(--text-secondary)]">
-              r/{post.community} • u/{post.author}
+            <p style={{
+              fontSize: '13px',
+              color: '#666666',
+              margin: 0
+            }}>
+              c/{post.community} • u/{post.author}
             </p>
           </div>
 
           {/* Copy URL */}
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-2 text-[var(--text-primary)]">Post URL</label>
-            <div className="flex flex-col sm:flex-row gap-2">
+            <label style={{
+              display: 'block',
+              fontSize: isMobile ? '13px' : '14px',
+              fontWeight: '600',
+              color: '#1A1A1A',
+              marginBottom: '8px'
+            }}>
+              Post URL
+            </label>
+            <div style={{
+              display: 'flex',
+              flexDirection: isMobile ? 'column' : 'row',
+              gap: '8px'
+            }}>
               <input
                 ref={urlInputRef}
                 type="text"
                 value={postUrl}
                 readOnly
-                className="flex-1 px-3 py-2 min-h-[44px] text-sm rounded-lg bg-white border border-[var(--border-subtle)] focus:border-blue-500 focus:outline-none text-[var(--text-primary)]"
+                style={{
+                  flex: 1,
+                  padding: '12px 16px',
+                  minHeight: '44px',
+                  fontSize: '14px',
+                  borderRadius: '12px',
+                  background: '#FFFFFF',
+                  border: '1px solid #E8EAED',
+                  color: '#1A1A1A',
+                  outline: 'none'
+                }}
+                onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                onBlur={(e) => e.target.style.borderColor = '#E8EAED'}
               />
               <button
                 onClick={copyToClipboard}
-                className={`min-h-[44px] px-4 py-2 text-sm rounded-lg flex items-center justify-center gap-2 transition-all ${
-                  copied
-                    ? 'bg-green-600 hover:bg-green-700 text-white'
-                    : 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white hover:opacity-90'
-                }`}
+                style={{
+                  minHeight: '44px',
+                  padding: '12px 20px',
+                  fontSize: '14px',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '8px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                  transition: 'opacity 0.2s',
+                  background: copied ? '#10B981' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                  color: '#FFFFFF'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
               >
                 {copied ? (
                   <>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                       <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                     </svg>
-                    <span className="hidden sm:inline">Copied!</span>
+                    {!isMobile && <span>Copied!</span>}
                   </>
                 ) : (
                   <>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                       <path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/>
                     </svg>
-                    <span className="hidden sm:inline">Copy</span>
+                    {!isMobile && <span>Copy</span>}
                   </>
                 )}
               </button>
@@ -154,15 +260,45 @@ const ShareModal = ({ post, onClose, onShare }) => {
 
           {/* Share Options */}
           <div>
-            <label className="block text-xs sm:text-sm font-medium mb-2 text-[var(--text-primary)]">Share to</label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label style={{
+              display: 'block',
+              fontSize: isMobile ? '13px' : '14px',
+              fontWeight: '600',
+              color: '#1A1A1A',
+              marginBottom: '8px'
+            }}>
+              Share to
+            </label>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+              gap: '12px'
+            }}>
               {shareOptions.map((option) => (
                 <a
                   key={option.name}
                   href={option.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex items-center gap-3 p-3 min-h-[44px] border border-[var(--border-subtle)] rounded-xl ${option.color} hover:bg-gray-50 transition-colors font-medium text-sm`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '12px 16px',
+                    minHeight: '48px',
+                    border: '1px solid #E8EAED',
+                    borderRadius: '12px',
+                    fontWeight: '600',
+                    fontSize: '14px',
+                    textDecoration: 'none',
+                    color: option.name === 'Twitter' ? '#1DA1F2' :
+                           option.name === 'Facebook' ? '#1877F2' :
+                           option.name === 'CRYB' ? '#FF4500' :
+                           '#0A66C2',
+                    transition: 'background 0.2s'
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = '#F8F9FA'}
+                  onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
                   onClick={() => {
                     onShare?.(post.id, option.name.toLowerCase())
                     onClose()

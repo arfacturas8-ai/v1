@@ -188,7 +188,7 @@ const Web3Dashboard = () => {
         <div style={{
   padding: '16px',
   borderRadius: '12px',
-  border: '1px solid var(--border-subtle)'
+  border: '1px solid #E8EAED'
 }}>
           <div style={{
   display: 'flex',
@@ -242,10 +242,10 @@ const Web3Dashboard = () => {
         </div>
       ) : (
         <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: '#FFFFFF',
   padding: '16px',
   borderRadius: '12px',
-  border: '1px solid var(--border-subtle)',
+  border: '1px solid #E8EAED',
   textAlign: 'center'
 }}>
           <div className="mb-4">
@@ -604,7 +604,7 @@ const Web3Dashboard = () => {
   display: 'flex',
   alignItems: 'center',
   padding: '12px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: '#F8F9FA',
   borderRadius: '12px'
 }}>
                         <div style={{
@@ -627,7 +627,7 @@ const Web3Dashboard = () => {
   display: 'flex',
   alignItems: 'center',
   padding: '12px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: '#F8F9FA',
   borderRadius: '12px'
 }}>
                         <div style={{
@@ -650,7 +650,7 @@ const Web3Dashboard = () => {
   display: 'flex',
   alignItems: 'center',
   padding: '12px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: '#F8F9FA',
   borderRadius: '12px'
 }}>
                         <div style={{

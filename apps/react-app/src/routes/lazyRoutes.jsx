@@ -27,7 +27,6 @@ export const SettingsPage = lazy(() => import('../pages/SettingsPage'));
 export const AccountSettingsPage = lazy(() => import('../pages/AccountSettingsPage'));
 
 // Web3 & Crypto
-export const CryptoPage = lazy(() => import('../pages/CryptoPage'));
 export const NFTMarketplacePage = lazy(() => import('../pages/NFTMarketplacePage'));
 export const NFTGalleryPage = lazy(() => import('../pages/NFTGalleryPage'));
 export const NFTDetailPage = lazy(() => import('../pages/NFTDetailPage'));

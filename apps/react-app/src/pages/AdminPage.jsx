@@ -2,25 +2,85 @@
  * AdminPage.jsx
  * iOS-styled admin dashboard with modern card-based interface
  */
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useResponsive } from '../hooks/useResponsive'
+import apiService from '../services/api'
 
 function AdminPage() {
   const { user, isAuthenticated } = useAuth()
   const navigate = useNavigate()
   const { isMobile, isTablet } = useResponsive()
 
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalCommunities: 0,
+    totalPosts: 0,
+    pendingReports: 0,
+    usersGrowth: '+0%',
+    communitiesGrowth: '+0',
+    postsGrowth: '+0',
+  })
+  const [systemHealth, setSystemHealth] = useState({
+    apiStatus: 'Loading...',
+    apiPercent: 0,
+    database: '0%',
+    databasePercent: 0,
+    cache: '0%',
+    cachePercent: 0,
+  })
+  const [recentActivity, setRecentActivity] = useState([])
+
   const isAdmin = user?.role === 'admin' || user?.isAdmin === true
 
-  if (!isAuthenticated) {
-    navigate('/login')
-    return null
-  }
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
 
-  if (!isAdmin) {
-    navigate('/forbidden')
+    if (!isAdmin) {
+      navigate('/forbidden')
+      return
+    }
+
+    loadAdminData()
+  }, [isAuthenticated, isAdmin, navigate])
+
+  const loadAdminData = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      // Fetch admin stats
+      const statsResponse = await apiService.get('/admin/stats')
+      if (statsResponse.success && statsResponse.data) {
+        setStats(statsResponse.data)
+      }
+
+      // Fetch system health
+      const healthResponse = await apiService.get('/admin/system-health')
+      if (healthResponse.success && healthResponse.data) {
+        setSystemHealth(healthResponse.data)
+      }
+
+      // Fetch recent activity
+      const activityResponse = await apiService.get('/admin/recent-activity')
+      if (activityResponse.success && activityResponse.data) {
+        setRecentActivity(activityResponse.data.activities || [])
+      }
+    } catch (err) {
+      console.error('Failed to load admin data:', err)
+      setError(err.message || 'Failed to load admin data')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  if (!isAuthenticated || !isAdmin) {
     return null
   }
 
@@ -51,7 +111,9 @@ function AdminPage() {
               fontSize: isMobile ? '28px' : '40px',
               fontWeight: 'bold',
               marginBottom: '8px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -80,12 +142,44 @@ function AdminPage() {
             marginBottom: isMobile ? '24px' : '32px'
           }}
         >
-          {[
-            { label: 'Total Users', value: '45.2K', change: '+12% from last month', color: '#6366F1', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
-            { label: 'Communities', value: '892', change: '+8 new this week', color: '#10b981', iconPath: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
-            { label: 'Total Posts', value: '128.5K', change: '+234 today', color: '#8B5CF6', iconPath: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
-            { label: 'Pending Reports', value: '24', change: 'Requires attention', color: '#f59e0b', iconPath: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
-          ].map((stat, index) => (
+          {loading ? (
+            // Loading state
+            Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={index}
+                style={{
+                  background: 'white',
+                  borderRadius: '20px',
+                  padding: isMobile ? '16px' : '24px',
+                  boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
+                  height: '100px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <div style={{ color: '#999', fontSize: '14px' }}>Loading...</div>
+              </div>
+            ))
+          ) : error ? (
+            // Error state
+            <div style={{
+              gridColumn: isMobile ? '1' : 'span 4',
+              background: 'white',
+              borderRadius: '20px',
+              padding: '24px',
+              textAlign: 'center',
+              color: '#ef4444'
+            }}>
+              {error}
+            </div>
+          ) : (
+            [
+              { label: 'Total Users', value: stats.totalUsers?.toLocaleString() || '0', change: stats.usersGrowth || '+0%', color: '#58a6ff', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+              { label: 'Communities', value: stats.totalCommunities?.toLocaleString() || '0', change: stats.communitiesGrowth || '+0', color: '#10b981', iconPath: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
+              { label: 'Total Posts', value: stats.totalPosts?.toLocaleString() || '0', change: stats.postsGrowth || '+0', color: '#a371f7', iconPath: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+              { label: 'Pending Reports', value: stats.pendingReports?.toLocaleString() || '0', change: stats.pendingReports > 0 ? 'Requires attention' : 'No pending', color: '#f59e0b', iconPath: 'M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
+            ].map((stat, index) => (
             <div
               key={index}
               style={{
@@ -137,7 +231,8 @@ function AdminPage() {
                 <p style={{ color: '#666666', fontSize: '12px', margin: 0 }}>{stat.change}</p>
               </div>
             </div>
-          ))}
+            ))
+          )}
         </div>
 
         {/* Quick Actions & System Health */}
@@ -163,7 +258,7 @@ function AdminPage() {
               </h2>
               <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: '16px' }}>
                 {[
-                  { label: 'Manage Users', desc: 'View and manage all users', color: '#6366F1', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
+                  { label: 'Manage Users', desc: 'View and manage all users', color: '#58a6ff', iconPath: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z' },
                   { label: 'Communities', desc: 'Manage communities', color: '#10b981', iconPath: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z' },
                   { label: 'Moderation', desc: 'Review reports & flags', color: '#ef4444', iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
                   { label: 'Settings', desc: 'Platform configuration', color: '#f59e0b', iconPath: 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z' }
@@ -248,11 +343,14 @@ function AdminPage() {
                 System Health
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {[
-                  { label: 'API Status', value: 'Operational', percent: 100, color: '#10b981' },
-                  { label: 'Database', value: '98.2%', percent: 98.2, color: '#10b981' },
-                  { label: 'Cache', value: '85.4%', percent: 85.4, color: '#f59e0b' }
-                ].map((item, index) => (
+                {loading ? (
+                  <div style={{ color: '#999', fontSize: '14px', textAlign: 'center', padding: '16px' }}>Loading...</div>
+                ) : (
+                  [
+                    { label: 'API Status', value: systemHealth.apiStatus || 'Loading...', percent: systemHealth.apiPercent || 0, color: systemHealth.apiPercent >= 95 ? '#10b981' : systemHealth.apiPercent >= 70 ? '#f59e0b' : '#ef4444' },
+                    { label: 'Database', value: systemHealth.database || '0%', percent: systemHealth.databasePercent || 0, color: systemHealth.databasePercent >= 95 ? '#10b981' : systemHealth.databasePercent >= 70 ? '#f59e0b' : '#ef4444' },
+                    { label: 'Cache', value: systemHealth.cache || '0%', percent: systemHealth.cachePercent || 0, color: systemHealth.cachePercent >= 95 ? '#10b981' : systemHealth.cachePercent >= 70 ? '#f59e0b' : '#ef4444' }
+                  ].map((item, index) => (
                   <div key={index}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
                       <span style={{ color: '#666666', fontSize: '12px' }}>{item.label}</span>
@@ -278,7 +376,8 @@ function AdminPage() {
                       />
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 
@@ -294,12 +393,12 @@ function AdminPage() {
                 Recent Activity
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {[
-                  { action: 'User banned', time: '2m ago', icon: '🚫' },
-                  { action: 'Community created', time: '15m ago', icon: '✨' },
-                  { action: 'Report resolved', time: '1h ago', icon: '✅' },
-                  { action: 'Settings updated', time: '2h ago', icon: '⚙️' }
-                ].map((item, index) => (
+                {loading ? (
+                  <div style={{ color: '#999', fontSize: '14px', textAlign: 'center', padding: '16px' }}>Loading...</div>
+                ) : recentActivity.length === 0 ? (
+                  <div style={{ color: '#999', fontSize: '14px', textAlign: 'center', padding: '16px' }}>No recent activity</div>
+                ) : (
+                  recentActivity.slice(0, 4).map((item, index) => (
                   <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span style={{ fontSize: '20px', flexShrink: 0 }}>{item.icon}</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
@@ -307,7 +406,8 @@ function AdminPage() {
                       <p style={{ color: '#666666', fontSize: '11px', margin: 0 }}>{item.time}</p>
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -332,7 +432,9 @@ function AdminPage() {
           <button
             style={{
               padding: '14px 28px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               color: 'white',
               border: 'none',
               borderRadius: '14px',

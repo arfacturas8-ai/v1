@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Clock, ArrowLeft, Home, AlertCircle } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 export default function RateLimitedPage() {
+  const { isMobile } = useResponsive()
   const navigate = useNavigate()
   const [countdown, setCountdown] = useState(60)
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -75,7 +75,9 @@ export default function RateLimitedPage() {
           fontWeight: '700',
           lineHeight: 1,
           marginBottom: '20px',
-          background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text'
@@ -114,7 +116,7 @@ export default function RateLimitedPage() {
             fontWeight: '700',
             marginBottom: '12px',
             letterSpacing: '0.05em',
-            color: '#58a6ff'
+            color: '#1A1A1A'
           }} aria-label={`${countdown} seconds remaining`}>
             {formatTime(countdown)}
           </div>
@@ -144,7 +146,7 @@ export default function RateLimitedPage() {
             <AlertCircle size={20} style={{
               marginTop: '2px',
               flexShrink: 0,
-              color: '#58a6ff'
+              color: '#1A1A1A'
             }} aria-hidden="true" />
             <div>
               <h3 style={{
@@ -190,7 +192,9 @@ export default function RateLimitedPage() {
                 alignItems: 'center',
                 gap: '8px',
                 padding: isMobile ? '12px 20px' : '14px 32px',
-                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: '#FFFFFF',
                 borderRadius: '12px',
                 fontWeight: '600',
@@ -216,7 +220,7 @@ export default function RateLimitedPage() {
                 gap: '8px',
                 padding: isMobile ? '12px 20px' : '14px 32px',
                 background: '#FFFFFF',
-                color: '#58a6ff',
+                color: '#1A1A1A',
                 border: '1px solid #E8EAED',
                 borderRadius: '12px',
                 textDecoration: 'none',
@@ -244,12 +248,12 @@ export default function RateLimitedPage() {
             <Link
               to="/help"
               style={{
-                color: '#58a6ff',
+                color: '#1A1A1A',
                 textDecoration: 'underline',
                 fontWeight: '600',
                 transition: 'color 0.2s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#a371f7'}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
               onMouseLeave={(e) => e.currentTarget.style.color = '#58a6ff'}
             >
               Contact support

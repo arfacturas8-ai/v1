@@ -32,7 +32,9 @@ import {
   MessageSquare,
   X,
   Check,
-  CheckCheck
+  CheckCheck,
+  Share2,
+  Copy
 } from 'lucide-react'
 import { formatDistanceToNow } from 'date-fns'
 import {
@@ -134,7 +136,7 @@ const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) =>
 
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
-          <span style={{ fontWeight: 600, fontSize: '15px', color: '#000000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span style={{ fontWeight: 600, fontSize: '15px', color: '#1A1A1A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {conversation.user.displayName}
           </span>
           {conversation.lastMessage && (
@@ -173,7 +175,9 @@ const ConversationItem = memo(({ conversation, isActive, onClick, navigate }) =>
       {conversation.unreadCount > 0 && (
         <div
           style={{
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             color: '#FFFFFF',
             fontSize: '12px',
             fontWeight: 600,
@@ -254,12 +258,12 @@ const Message = memo(({ message, isOwn, user }) => {
         )}
 
         <div style={{
-          background: isOwn ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FFFFFF',
+          background: isOwn ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#FFFFFF',
           padding: '12px 16px',
           borderRadius: '20px',
           borderTopLeftRadius: isOwn ? '20px' : '4px',
           borderTopRightRadius: isOwn ? '4px' : '20px',
-          color: isOwn ? '#FFFFFF' : '#000000',
+          color: isOwn ? '#FFFFFF' : '#1A1A1A',
           boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
         }}>
           {message.type === 'text' && (
@@ -412,7 +416,7 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
           alignItems: 'center',
           justifyContent: 'space-between'
         }}>
-          <h2 id="new-conversation-title" style={{ fontSize: '20px', fontWeight: 600, margin: 0, color: '#000000' }}>
+          <h2 id="new-conversation-title" style={{ fontSize: '20px', fontWeight: 600, margin: 0, color: '#1A1A1A' }}>
             New Conversation
           </h2>
           <button
@@ -432,7 +436,7 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = '#F5F5F5'
-              e.currentTarget.style.color = '#000000'
+              e.currentTarget.style.color = '#58a6ff'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = 'transparent'
@@ -460,14 +464,14 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
                 background: '#FAFAFA',
                 border: '1px solid #E0E0E0',
                 borderRadius: '16px',
-                color: '#000000',
+                color: '#1A1A1A',
                 fontSize: '15px',
                 outline: 'none',
                 transition: 'all 0.2s'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#6366F1'
-                e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+                e.target.style.borderColor = '#58a6ff'
+                e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
               }}
               onBlur={(e) => {
                 e.target.style.borderColor = '#E0E0E0'
@@ -509,7 +513,7 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
                 >
                   <img src={user.avatar || '/default-avatar.png'} alt={user.displayName} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '15px', fontWeight: 600, color: '#000000', marginBottom: '2px' }}>{user.displayName}</div>
+                    <div style={{ fontSize: '15px', fontWeight: 600, color: '#1A1A1A', marginBottom: '2px' }}>{user.displayName}</div>
                     <div style={{ fontSize: '13px', color: '#666666' }}>@{user.username}</div>
                   </div>
                 </div>
@@ -523,6 +527,50 @@ const NewConversationModal = memo(({ isOpen, onClose, onCreateConversation }) =>
                 <p style={{ margin: 0 }}>Type at least 2 characters to search</p>
               </div>
             )}
+          </div>
+
+          {/* Share Invite Link Section */}
+          <div style={{ marginTop: '16px', paddingTop: '16px', borderTop: '1px solid #F0F0F0' }}>
+            <button
+              onClick={() => {
+                const inviteLink = `${window.location.origin}/messages`
+                navigator.clipboard.writeText(inviteLink)
+                  .then(() => alert('Invite link copied to clipboard!'))
+                  .catch(() => alert('Failed to copy link'))
+              }}
+              style={{
+                width: '100%',
+                height: '48px',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                border: 'none',
+                borderRadius: '14px',
+                color: '#FFFFFF',
+                fontSize: '15px',
+                fontWeight: 600,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.9'
+                e.currentTarget.style.transform = 'translateY(-1px)'
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(88, 166, 255, 0.4)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1'
+                e.currentTarget.style.transform = 'translateY(0)'
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
+              }}
+            >
+              <Share2 size={18} />
+              Share Invite Link
+            </button>
           </div>
         </div>
       </div>
@@ -902,7 +950,7 @@ function DirectMessagesPage() {
 
   if (!isAuthenticated) {
     return (
-      <div style={{ display: 'flex', height: '100vh', background: '#FAFAFA', color: '#000000', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+      <div style={{ display: 'flex', minHeight: '100vh', paddingTop: '64px', background: '#FAFAFA', color: '#1A1A1A', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', padding: '48px 24px', textAlign: 'center' }}>
           <AlertCircle size={48} style={{ color: '#666666' }} />
           <h2 style={{ fontSize: '24px', fontWeight: 600, margin: 0 }}>Authentication Required</h2>
@@ -913,7 +961,7 @@ function DirectMessagesPage() {
   }
 
   return (
-    <div role="main" aria-label="Direct messages page" style={{ display: 'flex', height: '100vh', background: '#FAFAFA', color: '#000000', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
+    <div role="main" aria-label="Direct messages page" style={{ display: 'flex', minHeight: '100vh', paddingTop: isMobile ? '64px' : '64px', background: '#FAFAFA', color: '#1A1A1A', fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif' }}>
       {/* Left Sidebar - Conversations List */}
       <div style={{
         width: '320px',
@@ -930,28 +978,33 @@ function DirectMessagesPage() {
               onClick={() => setShowNewConversation(true)}
               aria-label="Start new conversation"
               style={{
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 border: 'none',
-                borderRadius: '14px',
-                width: '40px',
-                height: '40px',
+                borderRadius: '12px',
+                width: '44px',
+                height: '44px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
                 transition: 'all 0.2s',
-                color: '#FFFFFF'
+                color: '#FFFFFF',
+                boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)'
               }}
               onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.9'
                 e.currentTarget.style.transform = 'translateY(-2px)'
-                e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.3)'
+                e.currentTarget.style.boxShadow = '0 6px 16px rgba(88, 166, 255, 0.4)'
               }}
               onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1'
                 e.currentTarget.style.transform = 'translateY(0)'
-                e.currentTarget.style.boxShadow = 'none'
+                e.currentTarget.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
               }}
             >
-              <Plus size={20} />
+              <Plus size={22} strokeWidth={2.5} />
             </button>
           </div>
 
@@ -970,14 +1023,14 @@ function DirectMessagesPage() {
                 background: '#FAFAFA',
                 border: '1px solid #E0E0E0',
                 borderRadius: '16px',
-                color: '#000000',
+                color: '#1A1A1A',
                 fontSize: '15px',
                 outline: 'none',
                 transition: 'all 0.2s'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#6366F1'
-                e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
+                e.target.style.borderColor = '#58a6ff'
+                e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)'
               }}
               onBlur={(e) => {
                 e.target.style.borderColor = '#E0E0E0'
@@ -1024,7 +1077,7 @@ function DirectMessagesPage() {
                     style={{
                       background: 'transparent',
                       border: 'none',
-                      color: '#000000',
+                      color: '#1A1A1A',
                       cursor: 'pointer',
                       padding: '8px',
                       borderRadius: '12px',
@@ -1103,7 +1156,7 @@ function DirectMessagesPage() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#F5F5F5'
-                    e.currentTarget.style.color = '#000000'
+                    e.currentTarget.style.color = '#58a6ff'
                     e.currentTarget.style.transform = 'translateY(-2px)'
                   }}
                   onMouseLeave={(e) => {
@@ -1131,7 +1184,7 @@ function DirectMessagesPage() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#F5F5F5'
-                    e.currentTarget.style.color = '#000000'
+                    e.currentTarget.style.color = '#58a6ff'
                     e.currentTarget.style.transform = 'translateY(-2px)'
                   }}
                   onMouseLeave={(e) => {
@@ -1158,7 +1211,7 @@ function DirectMessagesPage() {
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = '#F5F5F5'
-                    e.currentTarget.style.color = '#000000'
+                    e.currentTarget.style.color = '#58a6ff'
                     e.currentTarget.style.transform = 'translateY(-2px)'
                   }}
                   onMouseLeave={(e) => {
@@ -1248,7 +1301,9 @@ function DirectMessagesPage() {
                     onClick={handleFileSend}
                     aria-label="Send file"
                     style={{
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       border: 'none',
                       color: '#FFFFFF',
                       padding: '10px',
@@ -1301,7 +1356,7 @@ function DirectMessagesPage() {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#EEEEEE'
-                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.color = '#58a6ff'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'transparent'
@@ -1327,7 +1382,7 @@ function DirectMessagesPage() {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.background = '#EEEEEE'
-                      e.currentTarget.style.color = '#000000'
+                      e.currentTarget.style.color = '#58a6ff'
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.background = 'transparent'
@@ -1349,7 +1404,7 @@ function DirectMessagesPage() {
                     flex: 1,
                     background: 'transparent',
                     border: 'none',
-                    color: '#000000',
+                    color: '#1A1A1A',
                     fontSize: '15px',
                     outline: 'none',
                     resize: 'none',
@@ -1364,7 +1419,7 @@ function DirectMessagesPage() {
                   disabled={!messageInput.trim()}
                   aria-label="Send message"
                   style={{
-                    background: messageInput.trim() ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#E0E0E0',
+                    background: messageInput.trim() ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#E0E0E0',
                     border: 'none',
                     color: messageInput.trim() ? '#FFFFFF' : '#999999',
                     padding: '10px',

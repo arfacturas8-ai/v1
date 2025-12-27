@@ -18,7 +18,7 @@ export function PageLoader({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  background: 'rgba(20, 20, 20, 0.6)'
+  background: 'rgba(0, 0, 0, 0.5)'
 }}
       >
         <div style={{
@@ -108,7 +108,7 @@ export function PageLoader({
             <div
               style={{
   width: '256px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '50%',
   overflow: 'hidden'
 }}
@@ -255,7 +255,7 @@ export function BarLoader({
   position: 'relative',
   overflow: 'hidden',
   borderRadius: '50%',
-  background: 'rgba(20, 20, 20, 0.6)'
+  background: 'rgba(0, 0, 0, 0.5)'
 }}
       style={{ width, height }}
       role="status"

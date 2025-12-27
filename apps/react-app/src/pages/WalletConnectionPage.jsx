@@ -7,6 +7,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { Wallet, Check, AlertCircle, ExternalLink, Shield, Zap } from 'lucide-react'
+import apiService from '../services/api'
 
 const WALLETS = [
   {
@@ -21,7 +22,7 @@ const WALLETS = [
     name: 'WalletConnect',
     description: 'Connect with mobile wallets',
     icon: '🔗',
-    color: '#6366F1'
+    color: '#000000'
   },
   {
     id: 'coinbase',
@@ -35,7 +36,7 @@ const WALLETS = [
     name: 'Phantom',
     description: 'Solana & Ethereum support',
     icon: '👻',
-    color: '#8B5CF6'
+    color: '#000000'
   }
 ]
 
@@ -83,21 +84,21 @@ export default function WalletConnectionPage() {
         if (accounts.length > 0) {
           setConnectedAddress(accounts[0])
 
-          await fetch('/api/wallet/connect', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({
+          try {
+            await apiService.post('/wallet/connect', {
               address: accounts[0],
               walletType: walletId
-            }),
-          })
+            })
 
-          setTimeout(() => {
-            navigate('/crypto')
-          }, 1500)
+            setTimeout(() => {
+              navigate('/crypto')
+            }, 1500)
+          } catch (apiError) {
+            console.error('Failed to save wallet connection:', apiError)
+            setError('Failed to save wallet connection. Please try again.')
+            setIsConnecting(false)
+            return
+          }
         }
       } else {
         setTimeout(() => {
@@ -208,11 +209,13 @@ export default function WalletConnectionPage() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <Link
-              to="/crypto"
+              to="/wallet"
               style={{
                 display: 'block',
                 textDecoration: 'none',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: '#FFFFFF',
                 borderRadius: '16px',
                 padding: '16px',
@@ -224,7 +227,7 @@ export default function WalletConnectionPage() {
               onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              Go to Crypto Dashboard
+              Go to Wallet
             </Link>
 
             <button
@@ -286,7 +289,7 @@ export default function WalletConnectionPage() {
             }}
             aria-hidden="true"
           >
-            <Wallet size={32} style={{ color: '#6366F1' }} />
+            <Wallet size={32} style={{ color: '#000000' }} />
           </div>
           <h1
             style={{
@@ -339,7 +342,7 @@ export default function WalletConnectionPage() {
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                 }}
               >
-                <Icon size={20} style={{ color: '#6366F1' }} aria-hidden="true" />
+                <Icon size={20} style={{ color: '#000000' }} aria-hidden="true" />
                 <span style={{ fontSize: '14px', fontWeight: '600', color: '#666666' }}>
                   {feature.label}
                 </span>
@@ -426,7 +429,7 @@ export default function WalletConnectionPage() {
                   width: '24px',
                   height: '24px',
                   border: '2px solid #E5E7EB',
-                  borderTopColor: '#6366F1',
+                  borderTopColor: '#000000',
                   borderRadius: '50%',
                   animation: 'spin 0.6s linear infinite'
                 }} role="status" aria-label="Connecting..." />
@@ -466,11 +469,11 @@ export default function WalletConnectionPage() {
         >
           <p style={{ fontSize: '14px', color: '#666666', lineHeight: '1.6' }}>
             By connecting your wallet, you agree to our{' '}
-            <Link to="/terms" style={{ color: '#6366F1', textDecoration: 'underline' }}>
+            <Link to="/terms" style={{ color: '#000000', textDecoration: 'underline' }}>
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link to="/privacy" style={{ color: '#6366F1', textDecoration: 'underline' }}>
+            <Link to="/privacy" style={{ color: '#000000', textDecoration: 'underline' }}>
               Privacy Policy
             </Link>
             .
@@ -495,7 +498,7 @@ export default function WalletConnectionPage() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              color: '#6366F1',
+              color: '#000000',
               fontSize: '14px',
               fontWeight: '600',
               textDecoration: 'none'

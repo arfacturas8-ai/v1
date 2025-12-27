@@ -118,55 +118,89 @@ export const Modal = ({
     full: 'max-w-full mx-4',
   };
 
+  const getSizeMaxWidth = () => {
+    switch (size) {
+      case 'sm': return '448px';
+      case 'md': return '512px';
+      case 'lg': return '672px';
+      case 'xl': return '896px';
+      case 'full': return 'calc(100% - 32px)';
+      default: return '512px';
+    }
+  };
+
   return createPortal(
     <div
       style={{
-  position: 'fixed',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '16px'
-}}
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '16px',
+        background: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 9999
+      }}
       role="dialog"
       aria-modal="true"
     >
       <div
         style={{
-  position: 'absolute'
-}}
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0
+        }}
         onClick={handleBackdropClick}
         aria-hidden="true"
       />
       <div
         ref={modalRef}
-        className={cn(
-          'relative w-full bg-bg-secondary rounded-lg shadow-2xl',
-          'border border-border',
-          'max-h-[90vh] overflow-y-auto scrollbar-thin',
-          'animate-zoom-in',
-          'focus:outline-none',
-          sizes[size],
-          className
-        )}
+        style={{
+          position: 'relative',
+          width: '100%',
+          maxWidth: getSizeMaxWidth(),
+          background: '#FFFFFF',
+          borderRadius: '16px',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+          maxHeight: '90vh',
+          overflowY: 'auto',
+          outline: 'none'
+        }}
+        className={className}
         tabIndex={-1}
       >
         {showCloseButton && !preventClose && (
-          <IconButton
-            variant="ghost"
-            size="sm"
-            aria-label="Close modal"
+          <button
             onClick={handleClose}
+            aria-label="Close modal"
             style={{
-  position: 'absolute'
-}}
+              position: 'absolute',
+              top: '16px',
+              right: '16px',
+              width: '32px',
+              height: '32px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              color: '#666666',
+              transition: 'background 0.2s'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#F0F2F5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           >
-            <svg style={{
-  width: '20px',
-  height: '20px'
-}} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg style={{ width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
-          </IconButton>
+          </button>
         )}
         {children}
       </div>
@@ -175,26 +209,59 @@ export const Modal = ({
   );
 };
 
-export const ModalHeader = ({ children, className }) => (
-  <div className={cn('px-6 py-4 border-b border-border', className)}>
+export const ModalHeader = ({ children, className, style }) => (
+  <div
+    className={className}
+    style={{
+      padding: '20px 24px',
+      borderBottom: '1px solid #E8EAED',
+      ...style
+    }}
+  >
     {children}
   </div>
 );
 
-export const ModalTitle = ({ children, className }) => (
-  <h2 className={cn('text-2xl font-semibold text-text-primary', className)}>
+export const ModalTitle = ({ children, className, style }) => (
+  <h2
+    className={className}
+    style={{
+      fontSize: '20px',
+      fontWeight: '700',
+      color: '#1A1A1A',
+      margin: 0,
+      ...style
+    }}
+  >
     {children}
   </h2>
 );
 
-export const ModalBody = ({ children, className }) => (
-  <div className={cn('px-6 py-4', className)}>
+export const ModalBody = ({ children, className, style }) => (
+  <div
+    className={className}
+    style={{
+      padding: '24px',
+      ...style
+    }}
+  >
     {children}
   </div>
 );
 
-export const ModalFooter = ({ children, className }) => (
-  <div className={cn('px-6 py-4 border-t border-border flex items-center justify-end gap-3', className)}>
+export const ModalFooter = ({ children, className, style }) => (
+  <div
+    className={className}
+    style={{
+      padding: '20px 24px',
+      borderTop: '1px solid #E8EAED',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      gap: '12px',
+      ...style
+    }}
+  >
     {children}
   </div>
 );

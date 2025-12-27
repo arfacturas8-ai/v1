@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
-// import { useWeb3Auth } from '../hooks/useWeb3Auth';
+import { useWeb3Auth } from '../hooks/useWeb3Auth';
 
 const Web3Context = createContext(null);
 

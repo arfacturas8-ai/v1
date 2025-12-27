@@ -5,7 +5,7 @@ import {
   TrendingUp, Gift,
   MoreHorizontal, Map, Link
 } from 'lucide-react'
-import KarmaSystem from '../KarmaSystem'
+// REMOVED: Karma system - import KarmaSystem from '../KarmaSystem'
 import AwardNotificationSystem from '../community/AwardNotificationSystem'
 const EnhancedUserProfile = ({ 
   userId, 
@@ -937,7 +937,6 @@ const EnhancedUserProfile = ({
 
       {/* Modals */}
       {showKarmaModal && (
-        <KarmaSystem user={user} onClose={() => setShowKarmaModal(false)} />
       )}
       
       {showNotifications && (

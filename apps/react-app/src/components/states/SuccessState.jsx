@@ -71,7 +71,7 @@ export const SuccessState = ({
             paddingRight: '24px',
             paddingTop: '12px',
             paddingBottom: '12px',
-            background: 'linear-gradient(to right, #58a6ff, #a371f7)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
             border: 'none',
             borderRadius: '12px',
             fontSize: '14px',

@@ -80,7 +80,7 @@ export const ProgressIndicator = ({
       )}
       <div style={{
   width: '100%',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '50%',
   height: '8px',
   overflow: 'hidden'

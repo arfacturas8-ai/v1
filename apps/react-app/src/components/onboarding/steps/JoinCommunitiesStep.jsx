@@ -224,7 +224,7 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
 }}>
                 <span>{community.members.toLocaleString()} members</span>
                 <span style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   paddingLeft: '8px',
   paddingRight: '8px',
   paddingTop: '4px',
@@ -280,7 +280,7 @@ const JoinCommunitiesStep = ({ onComplete, onSkip }) => {
       )}
 
       <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '24px',
   borderRadius: '12px'
 }}>

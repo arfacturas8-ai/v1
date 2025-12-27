@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Bot, Plus, Settings, Trash2, RefreshCw, Copy, Eye, EyeOff, Activity, Power, PowerOff, Search, Filter, TrendingUp, Zap, Command } from 'lucide-react'
 import botService from '../services/botService'
+import ConfirmationModal from '../components/modals/ConfirmationModal'
 
 const BotManagementPage = () => {
   const [bots, setBots] = useState([])
@@ -28,6 +29,10 @@ const BotManagementPage = () => {
     activeBots: 0,
     commandsToday: 0
   })
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [botToDelete, setBotToDelete] = useState(null)
+  const [showRegenerateModal, setShowRegenerateModal] = useState(false)
+  const [botToRegenerate, setBotToRegenerate] = useState(null)
 
   const botTypes = botService.getBotTypes()
   const availablePermissions = botService.getAvailablePermissions()
@@ -93,13 +98,17 @@ const BotManagementPage = () => {
     }
   }
 
-  const handleDeleteBot = async (botId, botName) => {
-    if (!window.confirm(`Delete bot "${botName}"? This action cannot be undone.`)) {
-      return
-    }
+  const handleDeleteBot = (botId, botName) => {
+    setBotToDelete({ id: botId, name: botName })
+    setShowDeleteModal(true)
+  }
 
+  const confirmDeleteBot = async () => {
+    if (!botToDelete) return
+
+    setShowDeleteModal(false)
     try {
-      const response = await botService.deleteBot(botId)
+      const response = await botService.deleteBot(botToDelete.id)
       if (response?.success) {
         showMessage('Bot deleted successfully', 'success')
         loadBots()
@@ -109,16 +118,22 @@ const BotManagementPage = () => {
     } catch (error) {
       console.error('Bot deletion error:', error)
       showMessage(error?.message || 'Failed to delete bot', 'error')
+    } finally {
+      setBotToDelete(null)
     }
   }
 
-  const handleRegenerateToken = async (botId, botName) => {
-    if (!window.confirm(`Regenerate token for "${botName}"? The old token will stop working immediately.`)) {
-      return
-    }
+  const handleRegenerateToken = (botId, botName) => {
+    setBotToRegenerate({ id: botId, name: botName })
+    setShowRegenerateModal(true)
+  }
 
+  const confirmRegenerateToken = async () => {
+    if (!botToRegenerate) return
+
+    setShowRegenerateModal(false)
     try {
-      const response = await botService.regenerateToken(botId)
+      const response = await botService.regenerateToken(botToRegenerate.id)
       if (response?.success) {
         showMessage('Token regenerated successfully', 'success')
         loadBots()
@@ -227,7 +242,7 @@ const BotManagementPage = () => {
           <p className="text-sm sm:text-base text-[#666666]">Manage and configure your automation bots</p>
         </div>
         <button
-          style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-4 sm:px-6 py-3 rounded-xl text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
+          style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#000000] to-[#000000]  px-4 sm:px-6 py-3 rounded-xl text-sm sm:text-base font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-blue-500/30 transition-all"
           onClick={() => setShowCreateModal(true)}
           aria-label="Add new bot"
         >
@@ -250,7 +265,7 @@ const BotManagementPage = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
         <div className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm p-6 flex items-center gap-4 hover:border-blue-500/30 hover:-translate-y-0.5 transition-all">
-          <div className="w-14 h-14 rounded-2xl shadow-sm bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-[#58a6ff]">
+          <div className="w-14 h-14 rounded-2xl shadow-sm bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center text-[#000000]">
             <Bot size={24} />
           </div>
           <div>
@@ -287,7 +302,7 @@ const BotManagementPage = () => {
             placeholder="Search bots..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm sm:text-base placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#58a6ff] transition-all"
+            className="w-full pl-12 pr-4 py-3 bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm sm:text-base placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#000000] transition-all"
             aria-label="Search bots"
           />
         </div>
@@ -297,8 +312,8 @@ const BotManagementPage = () => {
               key={status}
               className={`px-4 sm:px-5 py-3 rounded-2xl shadow-sm text-sm font-medium border transition-all ${
                 filterStatus === status
-                  ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white border-transparent'
-                  : 'bg-white text-secondary border-rgb(var(--color-neutral-200)) hover:text-primary hover:border-[#58a6ff]'
+                  ? 'bg-gradient-to-r from-[#000000] to-[#000000] text-white border-transparent'
+                  : 'bg-white text-secondary border-rgb(var(--color-neutral-200)) hover:text-primary hover:border-[#000000]'
               }`}
               onClick={() => setFilterStatus(status)}
             >
@@ -311,7 +326,7 @@ const BotManagementPage = () => {
       {/* Loading State */}
       {loading && (
         <div className="text-center py-20 bg-white border-2 border-dashed border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm">
-          <RefreshCw size={48} className="mx-auto mb-4 text-[#58a6ff] " />
+          <RefreshCw size={48} className="mx-auto mb-4 text-[#000000] " />
           <p className="text-secondary">Loading bots...</p>
         </div>
       )}
@@ -319,11 +334,11 @@ const BotManagementPage = () => {
       {/* Error State */}
       {error && !loading && (
         <div className="text-center py-20 bg-white border-2 border-dashed border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm">
-          <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
+          <Bot size={48} className="mx-auto mb-4 text-[#000000]" />
           <h3 className="text-xl text-primary mb-2">Error Loading Bots</h3>
           <p className="text-secondary mb-6">{error || 'An error occurred'}</p>
           <button
-            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#000000] to-[#000000]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={loadBots}
           >
             <RefreshCw size={24} />
@@ -335,11 +350,11 @@ const BotManagementPage = () => {
       {/* Empty State */}
       {!loading && !error && (filteredBots?.length || 0) === 0 && searchQuery === '' && (
         <div className="text-center py-20 bg-white border-2 border-dashed border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm">
-          <Bot size={48} className="mx-auto mb-4 text-[#58a6ff]" />
+          <Bot size={48} className="mx-auto mb-4 text-[#000000]" />
           <h3 className="text-xl text-primary mb-2">No Bots Yet</h3>
           <p className="text-secondary mb-6">Create your first automation bot to get started</p>
           <button
-            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
+            style={{color: "var(--text-primary)"}} className="bg-gradient-to-r from-[#000000] to-[#000000]  px-6 py-3 rounded-xl font-semibold inline-flex items-center gap-2 hover:-translate-y-0.5 hover:shadow-lg transition-all"
             onClick={() => setShowCreateModal(true)}
             aria-label="Create your first bot"
           >
@@ -352,7 +367,7 @@ const BotManagementPage = () => {
       {/* No Results */}
       {!loading && !error && (filteredBots?.length || 0) === 0 && searchQuery !== '' && (
         <div className="text-center py-20 bg-white border-2 border-dashed border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm">
-          <Search size={48} className="mx-auto mb-4 text-[#58a6ff]" />
+          <Search size={48} className="mx-auto mb-4 text-[#000000]" />
           <h3 className="text-xl text-primary mb-2">No Results Found</h3>
           <p className="text-secondary">Try adjusting your search or filters</p>
         </div>
@@ -365,7 +380,7 @@ const BotManagementPage = () => {
             <div key={bot?.id || Math.random()} className="bg-white border border-rgb(var(--color-neutral-200)) rounded-2xl p-6 hover:border-blue-500/30 hover:shadow-lg transition-all">
               {/* Bot Header */}
               <div className="flex items-start gap-4 pb-4 mb-4 border-b border-rgb(var(--color-neutral-200))">
-                <div style={{color: "var(--text-primary)"}} className="w-16 h-16 rounded-2xl shadow-sm bg-gradient-to-br from-[#58a6ff] to-[#a371f7] flex items-center justify-center  flex-shrink-0">
+                <div style={{color: "var(--text-primary)"}} className="w-16 h-16 rounded-2xl shadow-sm bg-gradient-to-br from-[#000000] to-[#000000] flex items-center justify-center  flex-shrink-0">
                   {bot?.avatarUrl ? (
                     <img src={bot?.avatarUrl} alt={bot?.name || 'Bot'} className="w-full h-full object-cover rounded-2xl shadow-sm" />
                   ) : (
@@ -374,7 +389,7 @@ const BotManagementPage = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-lg font-semibold text-primary truncate mb-2">{bot?.name || 'Unnamed Bot'}</h3>
-                  <div className="inline-block px-3 py-1 bg-[#58a6ff]/20 text-[#58a6ff] rounded-md text-xs font-semibold">
+                  <div className="inline-block px-3 py-1 bg-[#000000]/20 text-[#000000] rounded-md text-xs font-semibold">
                     {bot?.type || 'Custom Bot'}
                   </div>
                 </div>
@@ -399,11 +414,11 @@ const BotManagementPage = () => {
               {/* Bot Stats */}
               <div className="flex gap-6 mb-4">
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-secondary">
-                  <Activity size={24} className="text-[#58a6ff] flex-shrink-0" />
+                  <Activity size={24} className="text-[#000000] flex-shrink-0" />
                   <span>{bot?.commandsToday || 0} commands today</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs sm:text-sm text-secondary">
-                  <Zap size={24} className="text-[#58a6ff] flex-shrink-0" />
+                  <Zap size={24} className="text-[#000000] flex-shrink-0" />
                   <span>Prefix: {bot?.prefix || '!'}</span>
                 </div>
               </div>
@@ -441,12 +456,12 @@ const BotManagementPage = () => {
                   {bot?.permissions && (bot?.permissions?.length || 0) > 0 ? (
                     <>
                       {(bot?.permissions || []).slice(0, 3).map((perm, idx) => (
-                        <span key={idx} className="bg-[#58a6ff]/20 text-[#58a6ff] px-3 py-1.5 rounded-lg text-xs font-medium">
+                        <span key={idx} className="bg-[#000000]/20 text-[#000000] px-3 py-1.5 rounded-lg text-xs font-medium">
                           {perm}
                         </span>
                       ))}
                       {(bot?.permissions?.length || 0) > 3 && (
-                        <span className="bg-[#58a6ff]/20 text-[#58a6ff] px-3 py-1.5 rounded-lg text-xs font-medium">
+                        <span className="bg-[#000000]/20 text-[#000000] px-3 py-1.5 rounded-lg text-xs font-medium">
                           +{(bot?.permissions?.length || 0) - 3} more
                         </span>
                       )}
@@ -460,7 +475,7 @@ const BotManagementPage = () => {
               {/* Actions */}
               <div className="flex gap-2 pt-4 border-t border-rgb(var(--color-neutral-200))">
                 <button
-                  className="flex-1 bg-rgb(var(--color-neutral-50)) text-secondary border border-rgb(var(--color-neutral-200)) px-3 py-2.5 rounded-2xl shadow-sm text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-rgb(var(--color-neutral-100)) hover:border-[#58a6ff] transition-all"
+                  className="flex-1 bg-rgb(var(--color-neutral-50)) text-secondary border border-rgb(var(--color-neutral-200)) px-3 py-2.5 rounded-2xl shadow-sm text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-rgb(var(--color-neutral-100)) hover:border-[#000000] transition-all"
                   onClick={() => viewActivityLogs(bot)}
                   aria-label={`View activity logs for ${bot?.name || 'bot'}`}
                 >
@@ -468,7 +483,7 @@ const BotManagementPage = () => {
                   Activity
                 </button>
                 <button
-                  className="flex-1 bg-rgb(var(--color-neutral-50)) text-secondary border border-rgb(var(--color-neutral-200)) px-3 py-2.5 rounded-2xl shadow-sm text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-rgb(var(--color-neutral-100)) hover:border-[#58a6ff] transition-all"
+                  className="flex-1 bg-rgb(var(--color-neutral-50)) text-secondary border border-rgb(var(--color-neutral-200)) px-3 py-2.5 rounded-2xl shadow-sm text-sm font-medium inline-flex items-center justify-center gap-2 hover:bg-rgb(var(--color-neutral-100)) hover:border-[#000000] transition-all"
                   onClick={() => handleRegenerateToken(bot?.id, bot?.name)}
                   aria-label={`Regenerate token for ${bot?.name || 'bot'}`}
                 >
@@ -509,7 +524,7 @@ const BotManagementPage = () => {
                 <label className="block font-semibold text-sm text-secondary mb-2">Bot Name *</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#58a6ff] transition-all"
+                  className="w-full px-3 py-2.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#000000] transition-all"
                   placeholder="Enter bot name"
                   value={newBotData.name}
                   onChange={(e) => setNewBotData({ ...newBotData, name: e.target.value })}
@@ -520,7 +535,7 @@ const BotManagementPage = () => {
               <div>
                 <label className="block font-semibold text-sm text-secondary mb-2">Description</label>
                 <textarea
-                  className="w-full px-3 py-2.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#58a6ff] transition-all resize-vertical min-h-[80px]"
+                  className="w-full px-3 py-2.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#000000] transition-all resize-vertical min-h-[80px]"
                   rows="3"
                   placeholder="What does this bot do?"
                   value={newBotData.description}
@@ -533,7 +548,7 @@ const BotManagementPage = () => {
                 <label className="block font-semibold text-sm text-secondary mb-2">Command Prefix</label>
                 <input
                   type="text"
-                  className="w-full px-3 py-2.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#58a6ff] transition-all"
+                  className="w-full px-3 py-2.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm text-primary text-sm placeholder:text-rgb(var(--color-neutral-400)) focus:outline-none focus:border-[#000000] transition-all"
                   placeholder="!"
                   value={newBotData.prefix}
                   onChange={(e) => setNewBotData({ ...newBotData, prefix: e.target.value })}
@@ -545,14 +560,14 @@ const BotManagementPage = () => {
                 <label className="block font-semibold text-sm text-secondary mb-2">Bot Type</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {botTypes.map((type) => (
-                    <label key={type.id} className="flex gap-3 p-4 bg-rgb(var(--color-neutral-50)) border-2 border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm cursor-pointer hover:border-[#58a6ff] hover:bg-rgb(var(--color-neutral-100)) transition-all">
+                    <label key={type.id} className="flex gap-3 p-4 bg-rgb(var(--color-neutral-50)) border-2 border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm cursor-pointer hover:border-[#000000] hover:bg-rgb(var(--color-neutral-100)) transition-all">
                       <input
                         type="radio"
                         name="botType"
                         value={type.id}
                         checked={newBotData.type === type.id}
                         onChange={(e) => setNewBotData({ ...newBotData, type: e.target.value })}
-                        className="mt-1 accent-[#58a6ff]"
+                        className="mt-1 accent-[#000000]"
                       />
                       <div>
                         <strong className="block text-sm text-primary mb-1">{type.name}</strong>
@@ -568,12 +583,12 @@ const BotManagementPage = () => {
                 <label className="block font-semibold text-sm text-secondary mb-2">Permissions *</label>
                 <div className="space-y-2.5">
                   {availablePermissions.map((permission) => (
-                    <label key={permission.id} className="flex gap-3 p-3.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm cursor-pointer hover:bg-rgb(var(--color-neutral-100)) hover:border-[#58a6ff] transition-all">
+                    <label key={permission.id} className="flex gap-3 p-3.5 bg-rgb(var(--color-neutral-50)) border border-rgb(var(--color-neutral-200)) rounded-2xl shadow-sm cursor-pointer hover:bg-rgb(var(--color-neutral-100)) hover:border-[#000000] transition-all">
                       <input
                         type="checkbox"
                         checked={newBotData.permissions.includes(permission.id)}
                         onChange={() => togglePermission(permission.id)}
-                        className="mt-1 accent-[#58a6ff]"
+                        className="mt-1 accent-[#000000]"
                       />
                       <div>
                         <strong className="block text-sm text-primary mb-1">{permission.name}</strong>
@@ -593,7 +608,7 @@ const BotManagementPage = () => {
                 Cancel
               </button>
               <button
-                style={{color: "var(--text-primary)"}} className="px-4 py-2.5 bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-lg transition-all"
+                style={{color: "var(--text-primary)"}} className="px-4 py-2.5 bg-gradient-to-r from-[#000000] to-[#000000]  rounded-xl font-semibold hover:-translate-y-0.5 hover:shadow-lg transition-all"
                 onClick={handleCreateBot}
               >
                 Create Bot
@@ -640,7 +655,7 @@ const BotManagementPage = () => {
                             <span className={`px-2.5 py-1 rounded-md text-xs font-semibold uppercase ${
                               log?.status === 'success' ? 'bg-emerald-500/20 text-emerald-400' :
                               log?.status === 'error' ? 'bg-red-500/20 text-red-400' :
-                              'bg-[#58a6ff]/20 text-[#58a6ff]'
+                              'bg-[#000000]/20 text-[#000000]'
                             }`}>
                               {log?.status || 'info'}
                             </span>
@@ -651,7 +666,7 @@ const BotManagementPage = () => {
                   </table>
                 ) : (
                   <div className="text-center py-12 text-secondary">
-                    <Activity size={48} className="mx-auto mb-4 text-[#58a6ff]" />
+                    <Activity size={48} className="mx-auto mb-4 text-[#000000]" />
                     <p>No activity logs yet</p>
                   </div>
                 )}
@@ -669,6 +684,36 @@ const BotManagementPage = () => {
           </div>
         </div>
       )}
+
+      {/* Delete Bot Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false)
+          setBotToDelete(null)
+        }}
+        onConfirm={confirmDeleteBot}
+        title="Delete Bot"
+        message={`Delete bot "${botToDelete?.name}"? This action cannot be undone.`}
+        confirmText="Delete Bot"
+        cancelText="Cancel"
+        variant="danger"
+      />
+
+      {/* Regenerate Token Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showRegenerateModal}
+        onClose={() => {
+          setShowRegenerateModal(false)
+          setBotToRegenerate(null)
+        }}
+        onConfirm={confirmRegenerateToken}
+        title="Regenerate Token"
+        message={`Regenerate token for "${botToRegenerate?.name}"? The old token will stop working immediately.`}
+        confirmText="Regenerate Token"
+        cancelText="Cancel"
+        variant="warning"
+      />
     </div>
   )
 }

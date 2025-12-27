@@ -15,24 +15,24 @@ const iconMap = {
 
 const colorMap = {
   danger: {
-    bg: 'bg-red-500/10',
-    text: 'text-red-500',
-    button: 'bg-red-600 hover:bg-red-700'
+    iconBg: 'rgba(239, 68, 68, 0.1)',
+    iconColor: '#EF4444',
+    buttonBg: 'linear-gradient(135deg, rgba(220, 38, 38, 0.9) 0%, rgba(185, 28, 28, 0.9) 100%)'
   },
   warning: {
-    bg: 'bg-yellow-500/10',
-    text: 'text-yellow-500',
-    button: 'bg-yellow-600 hover:bg-yellow-700'
+    iconBg: 'rgba(245, 158, 11, 0.1)',
+    iconColor: '#F59E0B',
+    buttonBg: 'linear-gradient(135deg, rgba(245, 158, 11, 0.9) 0%, rgba(217, 119, 6, 0.9) 100%)'
   },
   info: {
-    bg: 'bg-[#58a6ff]/10',
-    text: 'text-blue-500',
-    button: 'bg-[#58a6ff] hover:bg-blue-700'
+    iconBg: 'rgba(88, 166, 255, 0.1)',
+    iconColor: '#58a6ff',
+    buttonBg: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
   },
   success: {
-    bg: 'bg-green-500/10',
-    text: 'text-green-500',
-    button: 'bg-green-600 hover:bg-green-700'
+    iconBg: 'rgba(34, 197, 94, 0.1)',
+    iconColor: '#10B981',
+    buttonBg: 'linear-gradient(135deg, rgba(16, 185, 129, 0.9) 0%, rgba(5, 150, 105, 0.9) 100%)'
   }
 }
 
@@ -110,7 +110,7 @@ const ConfirmDialog = ({
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'var(--bg-tertiary)',
+              background: 'rgba(0, 0, 0, 0.5)',
               backdropFilter: 'blur(4px)'
             }}
           />
@@ -119,14 +119,13 @@ const ConfirmDialog = ({
           <div
             style={{
               position: 'relative',
-              background: 'rgba(20, 20, 20, 0.6)',
-              backdropFilter: 'blur(12px)',
-              borderRadius: '12px',
+              background: '#FFFFFF',
+              borderRadius: '16px',
               width: '100%',
               maxWidth: '480px',
               padding: '24px',
-              border: '1px solid var(--border-subtle)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+              border: '1px solid #E8EAED',
+              boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
             }}
           >
             {/* Close button */}
@@ -145,9 +144,7 @@ const ConfirmDialog = ({
                 opacity: loading ? 0.5 : 1
               }}
             >
-              <X size={20} style={{
-                color: '#666666'
-              }} />
+              <X size={20} style={{ color: '#666666' }} />
             </button>
 
             {/* Icon */}
@@ -155,27 +152,27 @@ const ConfirmDialog = ({
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              background: `${type === 'danger' ? 'rgba(239, 68, 68, 0.1)' : type === 'warning' ? 'rgba(245, 158, 11, 0.1)' : type === 'success' ? 'rgba(34, 197, 94, 0.1)' : 'rgba(59, 130, 246, 0.1)'}`,
+              background: colors.iconBg,
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               marginBottom: '16px'
             }}>
-              <Icon className={colors.text} size={24} />
+              <Icon size={24} style={{ color: colors.iconColor }} />
             </div>
 
             {/* Content */}
             <h3 style={{
-              fontWeight: '600',
+              fontWeight: '700',
               fontSize: '20px',
-              color: '#ffffff',
+              color: '#1A1A1A',
               marginBottom: '8px'
             }}>
               {title}
             </h3>
             <p style={{
               color: '#666666',
-              fontSize: '14px',
+              fontSize: '15px',
               lineHeight: '1.5',
               marginBottom: '24px'
             }}>
@@ -192,19 +189,22 @@ const ConfirmDialog = ({
                 onClick={handleClose}
                 disabled={loading}
                 style={{
-                  paddingLeft: '16px',
-                  paddingRight: '16px',
-                  paddingTop: '10px',
-                  paddingBottom: '10px',
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  paddingTop: '12px',
+                  paddingBottom: '12px',
                   color: '#666666',
-                  background: 'rgba(20, 20, 20, 0.6)',
-                  border: '1px solid var(--border-subtle)',
+                  background: '#F8F9FA',
+                  border: '1px solid #E8EAED',
                   borderRadius: '12px',
-                  fontSize: '14px',
-                  fontWeight: '500',
+                  fontSize: '15px',
+                  fontWeight: '600',
                   cursor: loading ? 'not-allowed' : 'pointer',
-                  opacity: loading ? 0.5 : 1
+                  opacity: loading ? 0.5 : 1,
+                  transition: 'background 0.2s'
                 }}
+                onMouseEnter={(e) => !loading && (e.currentTarget.style.background = '#F0F2F5')}
+                onMouseLeave={(e) => !loading && (e.currentTarget.style.background = '#F8F9FA')}
               >
                 {cancelLabel}
               </button>
@@ -212,22 +212,28 @@ const ConfirmDialog = ({
                 onClick={handleConfirm}
                 disabled={loading}
                 style={{
-                  paddingLeft: '16px',
-                  paddingRight: '16px',
-                  paddingTop: '10px',
-                  paddingBottom: '10px',
-                  color: '#ffffff',
-                  background: `${type === 'danger' ? 'linear-gradient(to right, #DC2626, #B91C1C)' : 'linear-gradient(to right, #58a6ff, #a371f7)'}`,
-                  border: 'none',
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  paddingTop: '12px',
+                  paddingBottom: '12px',
+                  color: '#FFFFFF',
+                  background: colors.buttonBg,
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                  border: type === 'info' ? '1px solid rgba(88, 166, 255, 0.3)' : 'none',
                   borderRadius: '12px',
-                  fontSize: '14px',
-                  fontWeight: '500',
+                  fontSize: '15px',
+                  fontWeight: '600',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
                   cursor: loading ? 'not-allowed' : 'pointer',
-                  opacity: loading ? 0.5 : 1
+                  opacity: loading ? 0.5 : 1,
+                  transition: 'opacity 0.2s',
+                  boxShadow: type === 'info' ? '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)' : '0 4px 16px rgba(0, 0, 0, 0.2)'
                 }}
+                onMouseEnter={(e) => !loading && (e.currentTarget.style.opacity = '0.9')}
+                onMouseLeave={(e) => !loading && (e.currentTarget.style.opacity = '1')}
               >
                 {loading && (
                   <svg style={{

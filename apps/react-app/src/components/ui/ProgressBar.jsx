@@ -57,7 +57,7 @@ const ProgressBar = ({
       )}
       <div style={{
   width: '100%',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '50%',
   overflow: 'hidden'
 }}>

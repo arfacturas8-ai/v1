@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 import { BookOpen, FileText, Search, Plus } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 const CommunityWikiPage = () => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024
+  const { isMobile, isTablet } = useResponsive()
 
   return (
     <div style={{
@@ -32,12 +32,14 @@ const CommunityWikiPage = () => {
             margin: '0 auto',
             marginBottom: isMobile ? '12px' : '16px'
           }}>
-            <BookOpen size={32} style={{ color: '#58a6ff' }} />
+            <BookOpen size={32} style={{ color: '#000000' }} />
           </div>
           <h1 style={{
             fontSize: isMobile ? '28px' : '36px',
             fontWeight: '700',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -120,7 +122,7 @@ const CommunityWikiPage = () => {
               justifyContent: 'center',
               marginBottom: '16px'
             }}>
-              <FileText size={24} style={{ color: '#58a6ff' }} />
+              <FileText size={24} style={{ color: '#000000' }} />
             </div>
             <h3 style={{
               fontSize: isMobile ? '15px' : '16px',
@@ -215,7 +217,7 @@ const CommunityWikiPage = () => {
               justifyContent: 'center',
               marginBottom: '16px'
             }}>
-              <FileText size={24} style={{ color: '#a371f7' }} />
+              <FileText size={24} style={{ color: '#000000' }} />
             </div>
             <h3 style={{
               fontSize: isMobile ? '15px' : '16px',
@@ -260,7 +262,9 @@ const CommunityWikiPage = () => {
               gap: '6px',
               height: '36px',
               padding: '0 16px',
-              background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               border: 'none',
               borderRadius: '18px',
               fontSize: '14px',

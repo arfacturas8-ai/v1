@@ -718,7 +718,7 @@ describe('AuditLogPage', () => {
       await user.click(nextButton)
       await waitFor(() => {
         const page2Button = screen.getByText('2')
-        expect(page2Button).toHaveClass('bg-[#58a6ff]')
+        expect(page2Button).toHaveClass('bg-[#000000]')
       })
     })
 
@@ -731,12 +731,12 @@ describe('AuditLogPage', () => {
       await user.click(screen.getByText('Next'))
       await waitFor(() => {
         const page2Button = screen.getByText('2')
-        expect(page2Button).toHaveClass('bg-[#58a6ff]')
+        expect(page2Button).toHaveClass('bg-[#000000]')
       })
       await user.click(screen.getByText('Previous'))
       await waitFor(() => {
         const page1Button = screen.getByText('1')
-        expect(page1Button).toHaveClass('bg-[#58a6ff]')
+        expect(page1Button).toHaveClass('bg-[#000000]')
       })
     })
 
@@ -792,7 +792,7 @@ describe('AuditLogPage', () => {
       await user.type(searchInput, 'test')
       await waitFor(() => {
         const page1Button = screen.getByText('1')
-        expect(page1Button).toHaveClass('bg-[#58a6ff]')
+        expect(page1Button).toHaveClass('bg-[#000000]')
       })
     })
   })

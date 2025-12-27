@@ -15,6 +15,21 @@ export default defineConfig({
       brotliSize: true,
     }),
 
+    // Copy standalone brad.html to dist
+    {
+      name: 'copy-brad-html',
+      closeBundle() {
+        const fs = require('fs')
+        const path = require('path')
+        const src = path.resolve(__dirname, 'public/brad.html')
+        const dest = path.resolve(__dirname, 'dist/brad.html')
+        if (fs.existsSync(src)) {
+          fs.copyFileSync(src, dest)
+          console.log('✓ Copied brad.html to dist/')
+        }
+      }
+    },
+
     // PWA temporarily disabled to fix caching issues
     // VitePWA({
     //   registerType: 'autoUpdate',

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Fingerprint, Smartphone, Laptop, Trash2, Plus, Shield, CheckCircle, AlertCircle } from 'lucide-react'
 import webAuthnService from '../../services/webAuthnService'
+import ConfirmationModal from '../modals/ConfirmationModal'
+
 const PasskeySettings = () => {
   const [passkeys, setPasskeys] = useState([])
   const [loading, setLoading] = useState(true)
@@ -8,6 +10,8 @@ const PasskeySettings = () => {
   const [isPlatformAvailable, setIsPlatformAvailable] = useState(false)
   const [message, setMessage] = useState('')
   const [registering, setRegistering] = useState(false)
+  const [showRemoveModal, setShowRemoveModal] = useState(false)
+  const [passkeyToRemove, setPasskeyToRemove] = useState(null)
 
   useEffect(() => {
     checkSupport()
@@ -67,13 +71,17 @@ const PasskeySettings = () => {
     }
   }
 
-  const handleRemovePasskey = async (credentialId, nickname) => {
-    if (!window.confirm(`Remove passkey "${nickname}"? You won't be able to use it to sign in anymore.`)) {
-      return
-    }
+  const handleRemovePasskey = (credentialId, nickname) => {
+    setPasskeyToRemove({ credentialId, nickname })
+    setShowRemoveModal(true)
+  }
 
+  const confirmRemovePasskey = async () => {
+    if (!passkeyToRemove) return
+
+    setShowRemoveModal(false)
     try {
-      const response = await webAuthnService.removePasskey(credentialId)
+      const response = await webAuthnService.removePasskey(passkeyToRemove.credentialId)
       if (response.success) {
         showMessage('Passkey removed successfully', 'success')
         loadPasskeys()
@@ -83,6 +91,8 @@ const PasskeySettings = () => {
     } catch (error) {
       console.error('Failed to remove passkey:', error)
       showMessage('Failed to remove passkey', 'error')
+    } finally {
+      setPasskeyToRemove(null)
     }
   }
 
@@ -246,6 +256,21 @@ const PasskeySettings = () => {
           </div>
         </>
       )}
+
+      {/* Remove Passkey Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showRemoveModal}
+        onClose={() => {
+          setShowRemoveModal(false)
+          setPasskeyToRemove(null)
+        }}
+        onConfirm={confirmRemovePasskey}
+        title="Remove Passkey"
+        message={`Remove passkey "${passkeyToRemove?.nickname}"? You won't be able to use it to sign in anymore.`}
+        confirmText="Remove Passkey"
+        cancelText="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }

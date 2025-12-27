@@ -189,13 +189,24 @@ export class ElasticsearchService {
     if (!this.isConnected) return;
 
     try {
+      const exists = await this.client.indices.exists({ index: name });
+      if (exists) {
+        // Index already exists, skip creation
+        return;
+      }
+
       await this.client.indices.create({
         index: name,
         body: {
           mappings: mapping
         }
       });
-    } catch (error) {
+    } catch (error: any) {
+      // Ignore "index already exists" errors - they're harmless
+      const errorString = String(error);
+      if (errorString.includes('resource_already_exists_exception') || errorString.includes('already exists')) {
+        return;
+      }
       console.error(`Failed to create index ${name}:`, error);
     }
   }

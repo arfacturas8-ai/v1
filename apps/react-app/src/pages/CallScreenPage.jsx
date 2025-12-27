@@ -7,7 +7,7 @@
  * - Cards: white with subtle shadows
  * - Border radius: 16-24px for modern iOS feel
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Icons: 20px standard size
  * - Hover: translateY(-2px) for interactive elements
  */
@@ -19,10 +19,12 @@ import {
   Phone, PhoneOff, Mic, MicOff, Video, VideoOff,
   Volume2, VolumeX, Monitor, MoreVertical, Users, MessageSquare
 } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 const CallScreenPage = () => {
   const navigate = useNavigate()
   const { callId } = useParams()
+  const { isMobile, isTablet } = useResponsive()
   const [isVideoEnabled, setIsVideoEnabled] = useState(true)
   const [isAudioEnabled, setIsAudioEnabled] = useState(true)
   const [isSpeakerOn, setIsSpeakerOn] = useState(true)
@@ -178,10 +180,10 @@ const CallScreenPage = () => {
           animate={{ opacity: 1, scale: 1 }}
           style={{
             position: 'absolute',
-            top: '24px',
-            right: '24px',
-            width: '192px',
-            height: '144px',
+            top: isMobile ? '16px' : '24px',
+            right: isMobile ? '16px' : '24px',
+            width: isMobile ? '120px' : isTablet ? '160px' : '192px',
+            height: isMobile ? '90px' : isTablet ? '120px' : '144px',
             background: '#FAFAFA',
             borderRadius: '16px',
             overflow: 'hidden',
@@ -220,19 +222,19 @@ const CallScreenPage = () => {
         top: 0,
         left: 0,
         right: 0,
-        padding: '24px',
+        padding: isMobile ? '16px' : '24px',
         background: 'linear-gradient(to bottom, rgba(255,255,255,0.9), transparent)'
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <h3 style={{ color: '#000', fontSize: '20px', fontWeight: '600' }}>
+            <h3 style={{ color: '#000', fontSize: isMobile ? '16px' : '20px', fontWeight: '600' }}>
               {participants[0]?.name || 'Call'}
             </h3>
             {callStatus === 'active' && (
-              <p style={{ color: '#666', fontSize: '14px' }}>{formatDuration(callDuration)}</p>
+              <p style={{ color: '#666', fontSize: isMobile ? '12px' : '14px' }}>{formatDuration(callDuration)}</p>
             )}
           </div>
-          <div style={{ display: 'flex', gap: '12px' }}>
+          <div style={{ display: 'flex', gap: isMobile ? '8px' : '12px' }}>
             <button
               style={{
                 padding: '12px',
@@ -275,16 +277,17 @@ const CallScreenPage = () => {
         bottom: 0,
         left: 0,
         right: 0,
-        padding: '32px',
+        padding: isMobile ? '24px 16px' : '32px',
         background: 'linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0.8), transparent)'
       }}>
         <div style={{
-          maxWidth: '600px',
+          maxWidth: isMobile ? '100%' : '600px',
           margin: '0 auto',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: '24px'
+          gap: isMobile ? '12px' : '24px',
+          flexWrap: isMobile ? 'wrap' : 'nowrap'
         }}>
           {/* Audio Toggle */}
           <motion.button
@@ -364,7 +367,7 @@ const CallScreenPage = () => {
               transition: 'all 0.2s ease',
               border: 'none',
               cursor: 'pointer',
-              background: isScreenSharing ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#fff',
+              background: isScreenSharing ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#fff',
               boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
             }}
             aria-label={isScreenSharing ? 'Stop sharing' : 'Share screen'}

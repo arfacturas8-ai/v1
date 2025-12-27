@@ -66,7 +66,7 @@ export const OnlineStatusIndicator: React.FC<OnlineStatusIndicatorProps> = ({
           height: dotSize,
           borderRadius: '50%',
           backgroundColor: online ? '#00D26A' : '#6E7681',
-          border: '2px solid #0D1117',
+          border: '2px solid #FAFAFA',
           boxShadow: online ? '0 0 8px rgba(0, 210, 106, 0.5)' : 'none',
           transition: 'all 0.3s ease',
         }}

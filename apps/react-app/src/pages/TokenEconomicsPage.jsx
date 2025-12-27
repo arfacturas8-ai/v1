@@ -89,6 +89,22 @@ function TokenEconomicsPage() {
   const [activeTab, setActiveTab] = useState('stake')
   const [message, setMessage] = useState('')
 
+  const handleStakeAmountChange = (e) => {
+    const value = e.target.value
+    // Allow empty string or valid positive numbers with up to 18 decimals
+    if (value === '' || (/^\d*\.?\d{0,18}$/.test(value) && parseFloat(value) >= 0)) {
+      setStakeAmount(value)
+    }
+  }
+
+  const handleUnstakeAmountChange = (e) => {
+    const value = e.target.value
+    // Allow empty string or valid positive numbers with up to 18 decimals
+    if (value === '' || (/^\d*\.?\d{0,18}$/.test(value) && parseFloat(value) >= 0)) {
+      setUnstakeAmount(value)
+    }
+  }
+
   useEffect(() => {
     if (state.isConnected && state.account) {
       loadUserTokenData()
@@ -234,8 +250,8 @@ function TokenEconomicsPage() {
   }
 
   const tokenDistribution = [
-    { category: 'Community & Users', percentage: 40, color: '#6366F1' },
-    { category: 'Development Team', percentage: 20, color: '#8B5CF6' },
+    { category: 'Community & Users', percentage: 40, color: '#000000' },
+    { category: 'Development Team', percentage: 20, color: '#000000' },
     { category: 'Ecosystem Growth', percentage: 15, color: '#10B981' },
     { category: 'Treasury Reserve', percentage: 15, color: '#F59E0B' },
     { category: 'Public Sale', percentage: 10, color: '#EC4899' }
@@ -291,7 +307,9 @@ function TokenEconomicsPage() {
                 padding: isMobile ? '12px 20px' : '14px 24px',
                 fontSize: isMobile ? '14px' : '16px',
                 fontWeight: '600',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: '#FFFFFF',
                 borderRadius: '16px',
                 border: 'none',
@@ -393,7 +411,9 @@ function TokenEconomicsPage() {
               padding: isMobile ? '16px 32px' : '18px 40px',
               fontSize: isMobile ? '16px' : '18px',
               fontWeight: '600',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               color: '#FFFFFF',
               borderRadius: '16px',
               border: 'none',
@@ -449,11 +469,11 @@ function TokenEconomicsPage() {
             marginBottom: isMobile ? '24px' : '32px'
           }}>
             {[
-              { icon: Coins, label: 'Total Supply', value: `${tokenStats.totalSupply} CRYB`, color: '#6366F1' },
+              { icon: Coins, label: 'Total Supply', value: `${tokenStats.totalSupply} CRYB`, color: '#000000' },
               { icon: TrendingUp, label: 'Circulating', value: `${tokenStats.circulatingSupply} CRYB`, color: '#10B981' },
               { icon: DollarSign, label: 'Price', value: `$${tokenStats.price}`, change: '+5.2%', color: '#F59E0B' },
               { icon: BarChart3, label: 'Market Cap', value: `$${formatNumber(tokenStats.marketCap)}`, color: '#EC4899' },
-              { icon: Wallet, label: 'Your Balance', value: `${tokenStats.yourBalance} CRYB`, color: '#8B5CF6' }
+              { icon: Wallet, label: 'Your Balance', value: `${tokenStats.yourBalance} CRYB`, color: '#000000' }
             ].map((stat, index) => {
               const Icon = stat.icon
               return (
@@ -635,7 +655,7 @@ function TokenEconomicsPage() {
               {/* Staking Stats */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                 {[
-                  { icon: Lock, label: 'Staked', value: `${stakingData.staked} CRYB`, color: '#6366F1' },
+                  { icon: Lock, label: 'Staked', value: `${stakingData.staked} CRYB`, color: '#000000' },
                   { icon: TrendingUp, label: 'APY', value: `${stakingData.apy}%`, color: '#10B981' },
                   { icon: Gift, label: 'Rewards Earned', value: `${stakingData.rewards} CRYB`, color: '#F59E0B' }
                 ].map((stat, index) => {
@@ -698,8 +718,8 @@ function TokenEconomicsPage() {
                         fontWeight: '600',
                         background: 'transparent',
                         border: 'none',
-                        borderBottom: activeTab === tab ? '2px solid #6366F1' : '2px solid transparent',
-                        color: activeTab === tab ? '#6366F1' : '#666666',
+                        borderBottom: activeTab === tab ? '2px solid #000000' : '2px solid transparent',
+                        color: activeTab === tab ? '#000000' : '#666666',
                         cursor: 'pointer',
                         transition: 'all 0.2s'
                       }}
@@ -723,10 +743,12 @@ function TokenEconomicsPage() {
                       </label>
                       <div style={{ position: 'relative' }}>
                         <input
-                          type="number"
+                          type="text"
+                          inputMode="decimal"
                           placeholder="0.00"
                           value={stakeAmount}
-                          onChange={(e) => setStakeAmount(e.target.value)}
+                          onChange={handleStakeAmountChange}
+                          min="0"
                           style={{
                             width: '100%',
                             padding: '16px',
@@ -751,7 +773,7 @@ function TokenEconomicsPage() {
                             fontSize: '12px',
                             fontWeight: '600',
                             background: 'rgba(99, 102, 241, 0.1)',
-                            color: '#6366F1',
+                            color: '#000000',
                             border: 'none',
                             cursor: 'pointer'
                           }}
@@ -778,7 +800,9 @@ function TokenEconomicsPage() {
                         padding: '16px',
                         fontSize: isMobile ? '14px' : '16px',
                         fontWeight: '600',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         color: '#FFFFFF',
                         borderRadius: '12px',
                         border: 'none',
@@ -806,10 +830,12 @@ function TokenEconomicsPage() {
                       </label>
                       <div style={{ position: 'relative' }}>
                         <input
-                          type="number"
+                          type="text"
+                          inputMode="decimal"
                           placeholder="0.00"
                           value={unstakeAmount}
-                          onChange={(e) => setUnstakeAmount(e.target.value)}
+                          onChange={handleUnstakeAmountChange}
+                          min="0"
                           style={{
                             width: '100%',
                             padding: '16px',
@@ -834,7 +860,7 @@ function TokenEconomicsPage() {
                             fontSize: '12px',
                             fontWeight: '600',
                             background: 'rgba(99, 102, 241, 0.1)',
-                            color: '#6366F1',
+                            color: '#000000',
                             border: 'none',
                             cursor: 'pointer'
                           }}
@@ -861,7 +887,9 @@ function TokenEconomicsPage() {
                         padding: '16px',
                         fontSize: isMobile ? '14px' : '16px',
                         fontWeight: '600',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         color: '#FFFFFF',
                         borderRadius: '12px',
                         border: 'none',
@@ -889,7 +917,7 @@ function TokenEconomicsPage() {
                     fontSize: isMobile ? '14px' : '16px',
                     fontWeight: '600',
                     background: '#FFFFFF',
-                    color: '#6366F1',
+                    color: '#000000',
                     borderRadius: '12px',
                     border: '1px solid #E5E7EB',
                     cursor: 'pointer',
@@ -936,7 +964,7 @@ function TokenEconomicsPage() {
                     borderRadius: '20px',
                     padding: isMobile ? '20px' : '24px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
-                    border: proposal.status === 'active' ? '1px solid #6366F1' : '1px solid #E5E7EB'
+                    border: proposal.status === 'active' ? '1px solid #000000' : '1px solid #E5E7EB'
                   }}
                 >
                   <div style={{
@@ -968,7 +996,7 @@ function TokenEconomicsPage() {
                           fontSize: '12px',
                           fontWeight: '600',
                           background: proposal.status === 'active' ? 'rgba(99, 102, 241, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                          color: proposal.status === 'active' ? '#6366F1' : '#10B981'
+                          color: proposal.status === 'active' ? '#000000' : '#10B981'
                         }}>
                           {proposal.status}
                         </span>
@@ -1124,12 +1152,12 @@ function TokenEconomicsPage() {
                       borderRadius: '12px',
                       padding: '12px',
                       textAlign: 'center',
-                      border: '1px solid #6366F1'
+                      border: '1px solid #000000'
                     }}>
                       <span style={{
                         fontSize: isMobile ? '14px' : '16px',
                         fontWeight: '600',
-                        color: '#6366F1'
+                        color: '#000000'
                       }}>
                         You voted on this proposal
                       </span>
@@ -1155,7 +1183,7 @@ function TokenEconomicsPage() {
               maxWidth: '512px',
               margin: '0 auto'
             }}>
-              <Gift size={isMobile ? 40 : 48} style={{ color: '#6366F1', marginBottom: isMobile ? '16px' : '24px' }} />
+              <Gift size={isMobile ? 40 : 48} style={{ color: '#000000', marginBottom: isMobile ? '16px' : '24px' }} />
               <h3 style={{
                 fontSize: isMobile ? '20px' : isTablet ? '24px' : '28px',
                 fontWeight: '700',
@@ -1180,7 +1208,9 @@ function TokenEconomicsPage() {
                   padding: isMobile ? '16px 32px' : '18px 40px',
                   fontSize: isMobile ? '16px' : '18px',
                   fontWeight: '600',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: '#FFFFFF',
                   borderRadius: '16px',
                   border: 'none',

@@ -9,7 +9,7 @@
  * - Buttons: 56px/48px height, 12-14px radius
  * - Icons: 20px
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04) cards, 0 8px 32px rgba(0,0,0,0.08) modals
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Hover: translateY(-2px) + enhanced shadow
  */
 
@@ -48,7 +48,9 @@ const WalletSettingsPage = () => {
                 width: '48px',
                 height: '48px',
                 borderRadius: '16px',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
@@ -77,7 +79,9 @@ const WalletSettingsPage = () => {
               style={{
                 height: '48px',
                 padding: '0 24px',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',
@@ -129,7 +133,9 @@ const WalletSettingsPage = () => {
                       width: '40px',
                       height: '40px',
                       borderRadius: '12px',
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -149,7 +155,7 @@ const WalletSettingsPage = () => {
                             fontWeight: 600,
                             borderRadius: '8px',
                             background: 'rgba(99, 102, 241, 0.1)',
-                            color: '#6366F1'
+                            color: '#000000'
                           }}
                         >
                           Primary
@@ -217,7 +223,7 @@ const WalletSettingsPage = () => {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
-            <Shield style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />
+            <Shield style={{ width: '20px', height: '20px', color: '#000000', flexShrink: 0 }} />
             <h2 style={{ color: '#000', fontSize: '20px', fontWeight: 700, margin: 0 }}>Security</h2>
           </div>
           <p style={{ color: '#666', fontSize: '15px', lineHeight: 1.6, marginBottom: '16px' }}>
@@ -231,7 +237,7 @@ const WalletSettingsPage = () => {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '8px',
-              color: '#6366F1',
+              color: '#000000',
               fontSize: '15px',
               fontWeight: 600,
               textDecoration: 'none',

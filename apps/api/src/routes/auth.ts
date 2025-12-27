@@ -1501,25 +1501,38 @@ export default async function authRoutes(fastify: FastifyInstance) {
       }
 
       // Check if user exists with this OAuth provider
+      // Map provider names to Prisma field names (snake_case)
+      const providerIdField = `${provider}_id` as 'google_id' | 'discord_id' | 'github_id';
+
       let user = await prisma.user.findFirst({
         where: {
           OR: [
             { email: oauthResult.user.email },
-            { [`${provider}Id`]: oauthResult.user.id }
+            { [providerIdField]: oauthResult.user.id }
           ]
         }
       });
 
       if (!user) {
         // Create new user from OAuth data
+        // Generate unique username by appending timestamp if needed
+        const baseUsername = oauthResult.user.email?.split('@')[0] || `${provider}_user`;
+        let username = baseUsername;
+        let usernameExists = await prisma.user.findUnique({ where: { username } });
+
+        // Append timestamp if username already exists
+        if (usernameExists) {
+          username = `${baseUsername}_${Date.now()}`;
+        }
+
         user = await prisma.user.create({
           data: {
-            username: oauthResult.user.email?.split('@')[0] || `${provider}_user_${Date.now()}`,
+            username,
             displayName: oauthResult.user.name || oauthResult.user.email?.split('@')[0] || 'OAuth User',
             email: oauthResult.user.email,
             avatar: oauthResult.user.picture,
             isVerified: true, // OAuth users are pre-verified
-            [`${provider}Id`]: oauthResult.user.id
+            [providerIdField]: oauthResult.user.id
           }
         });
       } else {
@@ -1527,7 +1540,7 @@ export default async function authRoutes(fastify: FastifyInstance) {
         user = await prisma.user.update({
           where: { id: user.id },
           data: {
-            [`${provider}Id`]: oauthResult.user.id,
+            [providerIdField]: oauthResult.user.id,
             avatar: user.avatar || oauthResult.user.picture,
             isVerified: true
           }

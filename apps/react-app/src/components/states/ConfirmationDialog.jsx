@@ -13,9 +13,9 @@ export const ConfirmationDialog = ({
   isLoading = false
 }) => {
   const variants = {
-    default: 'bg-[#58a6ff] hover:bg-[#58a6ff]',
-    danger: 'bg-red-500 hover:bg-red-600',
-    warning: 'bg-yellow-500 hover:bg-yellow-600'
+    default: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+    danger: 'linear-gradient(135deg, rgba(220, 38, 38, 0.9) 0%, rgba(185, 28, 28, 0.9) 100%)',
+    warning: 'linear-gradient(135deg, rgba(245, 158, 11, 0.9) 0%, rgba(217, 119, 6, 0.9) 100%)'
   };
 
   return (
@@ -29,7 +29,7 @@ export const ConfirmationDialog = ({
               left: 0,
               right: 0,
               bottom: 0,
-              background: 'var(--bg-tertiary)',
+              background: 'rgba(0, 0, 0, 0.5)',
               backdropFilter: 'blur(4px)',
               zIndex: 50
             }}
@@ -50,14 +50,13 @@ export const ConfirmationDialog = ({
           }}>
             <div
               style={{
-                background: 'rgba(20, 20, 20, 0.6)',
-                backdropFilter: 'blur(12px)',
-                borderRadius: '12px',
+                background: '#FFFFFF',
+                borderRadius: '16px',
                 width: '100%',
                 maxWidth: '480px',
                 padding: '24px',
-                border: '1px solid var(--border-subtle)',
-                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)'
+                border: '1px solid #E8EAED',
+                boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)'
               }}
               role="alertdialog"
               aria-labelledby="dialog-title"
@@ -82,9 +81,9 @@ export const ConfirmationDialog = ({
                     }} aria-hidden="true" />
                   )}
                   <h3 id="dialog-title" style={{
-                    fontWeight: '600',
+                    fontWeight: '700',
                     fontSize: '20px',
-                    color: '#ffffff'
+                    color: '#1A1A1A'
                   }}>
                     {title}
                   </h3>
@@ -107,8 +106,8 @@ export const ConfirmationDialog = ({
                 </button>
               </div>
               <p id="dialog-description" style={{
-                color: '#A0A0A0',
-                fontSize: '14px',
+                color: '#666666',
+                fontSize: '15px',
                 lineHeight: '1.5',
                 marginBottom: '24px'
               }}>
@@ -123,43 +122,51 @@ export const ConfirmationDialog = ({
                   onClick={onClose}
                   disabled={isLoading}
                   style={{
-                    paddingLeft: '16px',
-                    paddingRight: '16px',
-                    paddingTop: '10px',
-                    paddingBottom: '10px',
-                    background: 'rgba(20, 20, 20, 0.6)',
-                    border: '1px solid var(--border-subtle)',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
+                    background: '#F8F9FA',
+                    border: '1px solid #E8EAED',
                     borderRadius: '12px',
-                    fontSize: '14px',
-                    fontWeight: '500',
+                    fontSize: '15px',
+                    fontWeight: '600',
                     color: '#666666',
                     cursor: isLoading ? 'not-allowed' : 'pointer',
-                    opacity: isLoading ? 0.5 : 1
+                    opacity: isLoading ? 0.5 : 1,
+                    transition: 'background 0.2s'
                   }}
+                  onMouseEnter={(e) => !isLoading && (e.currentTarget.style.background = '#F0F2F5')}
+                  onMouseLeave={(e) => !isLoading && (e.currentTarget.style.background = '#F8F9FA')}
                 >
                   {cancelLabel}
                 </button>
                 <button
                   onClick={onConfirm}
                   disabled={isLoading}
-                  className={variants[variant]}
                   style={{
-                    paddingLeft: '16px',
-                    paddingRight: '16px',
-                    paddingTop: '10px',
-                    paddingBottom: '10px',
-                    background: variant === 'danger' ? 'linear-gradient(to right, #DC2626, #B91C1C)' : 'linear-gradient(to right, #58a6ff, #a371f7)',
-                    border: 'none',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    paddingTop: '12px',
+                    paddingBottom: '12px',
+                    background: variants[variant],
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                    border: variant === 'default' ? '1px solid rgba(88, 166, 255, 0.3)' : 'none',
                     borderRadius: '12px',
-                    fontSize: '14px',
-                    fontWeight: '500',
-                    color: '#ffffff',
+                    fontSize: '15px',
+                    fontWeight: '600',
+                    color: '#FFFFFF',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '8px',
                     cursor: isLoading ? 'not-allowed' : 'pointer',
-                    opacity: isLoading ? 0.5 : 1
+                    opacity: isLoading ? 0.5 : 1,
+                    transition: 'opacity 0.2s',
+                    boxShadow: variant === 'default' ? '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)' : '0 4px 16px rgba(0, 0, 0, 0.2)'
                   }}
+                  onMouseEnter={(e) => !isLoading && (e.currentTarget.style.opacity = '0.9')}
+                  onMouseLeave={(e) => !isLoading && (e.currentTarget.style.opacity = '1')}
                 >
                   {isLoading && (
                     <div style={{

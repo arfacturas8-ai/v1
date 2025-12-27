@@ -42,7 +42,6 @@ const CommandPalette = ({ isOpen, onClose }) => {
     { id: 'search', label: 'Search', icon: Search, action: () => navigate('/search'), keywords: 'search find' },
 
     // Web3
-    { id: 'crypto', label: 'Web3 Features', icon: Wallet, action: () => navigate('/crypto'), keywords: 'crypto web3 wallet nft' },
     { id: 'nft', label: 'NFT Marketplace', icon: TrendingUp, action: () => navigate('/nft-marketplace'), keywords: 'nft marketplace opensea' },
     { id: 'governance', label: 'DAO Governance', icon: Shield, action: () => navigate('/governance'), keywords: 'dao governance vote' },
 

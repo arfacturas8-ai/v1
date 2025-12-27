@@ -458,13 +458,13 @@ export default function DocProgressPage() {
 skinparam backgroundColor #0D1117
 skinparam activity {
   BackgroundColor #161B22
-  BorderColor #58a6ff
+  BorderColor #000000
   FontColor #ffffff
-  ArrowColor #a371f7
+  ArrowColor #000000
 }
 skinparam note {
   BackgroundColor #161B22
-  BorderColor #a371f7
+  BorderColor #000000
 }
 
 title CRYB Platform - Authentication Flow
@@ -539,13 +539,13 @@ stop
 skinparam backgroundColor #0D1117
 skinparam component {
   BackgroundColor #161B22
-  BorderColor #58a6ff
+  BorderColor #000000
   FontColor #ffffff
 }
 skinparam package {
   BackgroundColor #0D1117
-  BorderColor #a371f7
-  FontColor #58a6ff
+  BorderColor #000000
+  FontColor #000000
 }
 
 title CRYB Platform - API Architecture
@@ -656,12 +656,12 @@ end note
     realtimeFlow: `@startuml
 skinparam backgroundColor #0D1117
 skinparam participantBackgroundColor #161B22
-skinparam participantBorderColor #58a6ff
+skinparam participantBorderColor #000000
 skinparam participantFontColor #ffffff
-skinparam sequenceArrowColor #a371f7
+skinparam sequenceArrowColor #000000
 skinparam sequenceArrowFontColor #ffffff
 skinparam sequenceLifeLineBackgroundColor #0D1117
-skinparam sequenceLifeLineBorderColor #58a6ff
+skinparam sequenceLifeLineBorderColor #000000
 skinparam titleFontColor #ffffff
 
 title CRYB Platform - Real-time Communication Flow
@@ -731,12 +731,12 @@ deactivate Redis
     web3Flow: `@startuml
 skinparam backgroundColor #0D1117
 skinparam participantBackgroundColor #161B22
-skinparam participantBorderColor #58a6ff
+skinparam participantBorderColor #000000
 skinparam participantFontColor #ffffff
-skinparam sequenceArrowColor #a371f7
+skinparam sequenceArrowColor #000000
 skinparam sequenceArrowFontColor #ffffff
 skinparam sequenceLifeLineBackgroundColor #0D1117
-skinparam sequenceLifeLineBorderColor #58a6ff
+skinparam sequenceLifeLineBorderColor #000000
 skinparam titleFontColor #ffffff
 
 title CRYB Platform - Web3 Integration Flow
@@ -807,9 +807,9 @@ React -> React: Show Content
 skinparam backgroundColor #0D1117
 skinparam activity {
   BackgroundColor #161B22
-  BorderColor #58a6ff
+  BorderColor #000000
   FontColor #ffffff
-  ArrowColor #a371f7
+  ArrowColor #000000
 }
 
 title CRYB Platform - Media Processing Pipeline
@@ -930,12 +930,12 @@ stop
     componentArchitecture: `@startuml
 skinparam backgroundColor #0D1117
 skinparam componentBackgroundColor #161B22
-skinparam componentBorderColor #58a6ff
+skinparam componentBorderColor #000000
 skinparam componentFontColor #ffffff
 skinparam packageBackgroundColor #0D1117
-skinparam packageBorderColor #a371f7
-skinparam packageFontColor #58a6ff
-skinparam arrowColor #58a6ff
+skinparam packageBorderColor #000000
+skinparam packageFontColor #000000
+skinparam arrowColor #000000
 
 title CRYB Platform - Frontend Component Architecture
 
@@ -1065,12 +1065,12 @@ Web3Client --> ReactQuery
     securityArchitecture: `@startuml
 skinparam backgroundColor #0D1117
 skinparam componentBackgroundColor #161B22
-skinparam componentBorderColor #58a6ff
+skinparam componentBorderColor #000000
 skinparam componentFontColor #ffffff
 skinparam packageBackgroundColor #0D1117
-skinparam packageBorderColor #a371f7
-skinparam packageFontColor #58a6ff
-skinparam arrowColor #58a6ff
+skinparam packageBorderColor #000000
+skinparam packageFontColor #000000
+skinparam arrowColor #000000
 
 title CRYB Platform - Security Architecture
 
@@ -1184,12 +1184,12 @@ Grafana --> Uptime
     dataFlow: `@startuml
 skinparam backgroundColor #0D1117
 skinparam componentBackgroundColor #161B22
-skinparam componentBorderColor #58a6ff
+skinparam componentBorderColor #000000
 skinparam componentFontColor #ffffff
 skinparam databaseBackgroundColor #161B22
-skinparam databaseBorderColor #a371f7
+skinparam databaseBorderColor #000000
 skinparam databaseFontColor #ffffff
-skinparam arrowColor #58a6ff
+skinparam arrowColor #000000
 
 title CRYB Platform - Data Flow Diagram
 
@@ -1276,15 +1276,15 @@ SW --> IDB
     system: `@startuml
 skinparam backgroundColor #0D1117
 skinparam componentBackgroundColor #161B22
-skinparam componentBorderColor #58a6ff
+skinparam componentBorderColor #000000
 skinparam componentFontColor #ffffff
 skinparam packageBackgroundColor #0D1117
-skinparam packageBorderColor #a371f7
-skinparam packageFontColor #58a6ff
+skinparam packageBorderColor #000000
+skinparam packageFontColor #000000
 skinparam databaseBackgroundColor #161B22
-skinparam databaseBorderColor #a371f7
+skinparam databaseBorderColor #000000
 skinparam databaseFontColor #ffffff
-skinparam arrowColor #58a6ff
+skinparam arrowColor #000000
 
 title CRYB Platform - System Architecture (Production)
 
@@ -1374,15 +1374,15 @@ API --> Jaeger
     deployment: `@startuml
 skinparam backgroundColor #0D1117
 skinparam nodeBackgroundColor #161B22
-skinparam nodeBorderColor #a371f7
+skinparam nodeBorderColor #000000
 skinparam nodeFontColor #ffffff
 skinparam databaseBackgroundColor #161B22
-skinparam databaseBorderColor #58a6ff
+skinparam databaseBorderColor #000000
 skinparam databaseFontColor #ffffff
 skinparam componentBackgroundColor #161B22
-skinparam componentBorderColor #58a6ff
+skinparam componentBorderColor #000000
 skinparam componentFontColor #ffffff
-skinparam arrowColor #58a6ff
+skinparam arrowColor #000000
 
 title CRYB Platform - Production Deployment (PM2 + Docker)
 
@@ -1450,11 +1450,11 @@ prom --> alert
 skinparam backgroundColor #0D1117
 skinparam entity {
   BackgroundColor #161B22
-  BorderColor #58a6ff
+  BorderColor #000000
   FontColor #ffffff
 }
 skinparam relationship {
-  LineColor #a371f7
+  LineColor #000000
 }
 
 title CRYB Platform - Complete Database Schema (74 Tables)

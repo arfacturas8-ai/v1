@@ -18,23 +18,26 @@ const AppearanceSettingsPage = () => {
     <div
       role="main"
       aria-label="Appearance settings page"
-      className="min-h-screen p-4 sm:p-6"
-      style={{ background: 'var(--bg-primary)' }}
+      style={{
+        minHeight: '100vh',
+        padding: '16px',
+        background: '#FAFAFA'
+      }}
     >
-      <div className="max-w-3xl mx-auto">
+      <div style={{ maxWidth: '768px', margin: '0 auto' }}>
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 sm:mb-8"
+          style={{ marginBottom: '32px' }}
         >
-          <div className="flex items-center gap-3 mb-2">
-            <Palette style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-            <h1 style={{color: "var(--text-primary)"}} className="text-2xl sm:text-3xl font-bold  m-0">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+            <Palette style={{ width: "24px", height: "24px", flexShrink: 0, color: '#1A1A1A' }} />
+            <h1 style={{ color: '#1A1A1A', fontSize: '28px', fontWeight: 'bold', margin: 0 }}>
               Appearance
             </h1>
           </div>
-          <p style={{color: "var(--text-secondary)"}} className=" text-sm sm:text-base m-0">
+          <p style={{ color: '#666666', fontSize: '15px', margin: 0 }}>
             Customize how the app looks and feels
           </p>
         </motion.div>
@@ -44,29 +47,38 @@ const AppearanceSettingsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-2xl  p-4 sm:p-6 mb-4 sm:mb-6"
           style={{
-            background: 'rgba(22, 27, 34, 0.6)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid var(--border-subtle)'
+            borderRadius: '16px',
+            padding: '20px',
+            marginBottom: '20px',
+            background: '#FFFFFF',
+            border: '1px solid #E8EAED',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
           }}
         >
-          <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold  mb-3 sm:mb-4">
+          <h2 style={{ color: '#1A1A1A', fontSize: '17px', fontWeight: '600', marginBottom: '16px' }}>
             Theme
           </h2>
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {themes.map((t) => (
               <button
                 key={t.id}
                 onClick={() => setTheme(t.id)}
-                className="p-3 sm:p-4 rounded-2xl  cursor-pointer transition-all duration-200 flex flex-col items-center gap-2"
                 style={{
-                  background: theme === t.id ? 'rgba(88, 166, 255, 0.2)' : '#21262d',
-                  border: theme === t.id ? '2px solid #58a6ff' : '2px solid rgba(255, 255, 255, 0.1)'
+                  padding: '16px',
+                  borderRadius: '12px',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '8px',
+                  background: theme === t.id ? 'rgba(88, 166, 255, 0.1)' : '#FAFAFA',
+                  border: theme === t.id ? '2px solid #58a6ff' : '2px solid #E8EAED'
                 }}
               >
-                <t.icon style={{ width: "24px", height: "24px", flexShrink: 0, color: theme === t.id ? '#58a6ff' : '#8b949e' }} />
-                <span className="text-xs sm:text-sm font-medium" style={{ color: theme === t.id ? '#ffffff' : '#c9d1d9' }}>
+                <t.icon style={{ width: "24px", height: "24px", flexShrink: 0, color: theme === t.id ? '#58a6ff' : '#666666' }} />
+                <span style={{ fontSize: '14px', fontWeight: '500', color: theme === t.id ? '#1A1A1A' : '#666666' }}>
                   {t.label}
                 </span>
               </button>
@@ -79,17 +91,18 @@ const AppearanceSettingsPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="rounded-2xl  p-4 sm:p-6"
           style={{
-            background: 'rgba(22, 27, 34, 0.6)',
-            backdropFilter: 'blur(12px)',
-            border: '1px solid var(--border-subtle)'
+            borderRadius: '16px',
+            padding: '20px',
+            background: '#FFFFFF',
+            border: '1px solid #E8EAED',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
           }}
         >
-          <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold  mb-3 sm:mb-4">
+          <h2 style={{ color: '#1A1A1A', fontSize: '17px', fontWeight: '600', marginBottom: '16px' }}>
             Accent Color
           </h2>
-          <div className="flex flex-wrap gap-2 sm:gap-3">
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
             {colors.map((color) => (
               <button
                 key={color}
@@ -98,11 +111,17 @@ const AppearanceSettingsPage = () => {
                   width: "48px",
                   height: "48px",
                   flexShrink: 0,
+                  borderRadius: '12px',
                   background: color,
-                  border: accentColor === color ? '3px solid #ffffff' : '3px solid transparent'
+                  border: accentColor === color ? '3px solid #1A1A1A' : '3px solid transparent',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
-                {accentColor === color && <Check style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />}
+                {accentColor === color && <Check style={{ color: "#FFFFFF", width: "24px", height: "24px", flexShrink: 0 }} />}
               </button>
             ))}
           </div>

@@ -3,23 +3,78 @@
  * iOS-styled moderation queue with pending items
  * Design: #FAFAFA bg, #000/#666 text, white cards, 16-24px radius, gradient buttons
  */
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import apiService from '../services/api'
 
 export default function ModerationQueuePage() {
   const { user, isAuthenticated } = useAuth()
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [stats, setStats] = useState({
+    pendingReview: 0,
+    highPriority: 0,
+    processedToday: 0,
+    avgResponseTime: '0m'
+  })
+  const [queueItems, setQueueItems] = useState([])
+  const [priorityBreakdown, setPriorityBreakdown] = useState([
+    { priority: 'Critical', count: 0, color: '#ef4444' },
+    { priority: 'High', count: 0, color: '#f97316' },
+    { priority: 'Medium', count: 0, color: '#eab308' },
+    { priority: 'Low', count: 0, color: '#3b82f6' }
+  ])
+
   const isModerator = user?.role === 'moderator' || user?.role === 'admin'
 
-  if (!isAuthenticated) {
-    navigate('/login')
-    return null
-  }
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login')
+      return
+    }
 
-  if (!isModerator) {
-    navigate('/forbidden')
+    if (!isModerator) {
+      navigate('/forbidden')
+      return
+    }
+
+    loadModerationData()
+  }, [isAuthenticated, isModerator, navigate])
+
+  const loadModerationData = useCallback(async () => {
+    setLoading(true)
+    setError(null)
+
+    try {
+      // Fetch moderation queue stats
+      const statsResponse = await apiService.get('/moderation/queue/stats')
+      if (statsResponse.success && statsResponse.data) {
+        setStats(statsResponse.data)
+      }
+
+      // Fetch queue items
+      const queueResponse = await apiService.get('/moderation/queue/items')
+      if (queueResponse.success && queueResponse.data) {
+        setQueueItems(queueResponse.data.items || [])
+      }
+
+      // Fetch priority breakdown
+      const breakdownResponse = await apiService.get('/moderation/queue/priority-breakdown')
+      if (breakdownResponse.success && breakdownResponse.data) {
+        setPriorityBreakdown(breakdownResponse.data.breakdown || priorityBreakdown)
+      }
+    } catch (err) {
+      console.error('Failed to load moderation queue data:', err)
+      setError(err.message || 'Failed to load moderation queue data')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  if (!isAuthenticated || !isModerator) {
     return null
   }
 
@@ -32,7 +87,9 @@ export default function ModerationQueuePage() {
             fontSize: '40px',
             fontWeight: 'bold',
             marginBottom: '8px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
@@ -45,67 +102,81 @@ export default function ModerationQueuePage() {
         </div>
 
         {/* Stats Overview */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px', marginBottom: '32px' }}>
-          <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(234, 179, 8, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg style={{ color: '#eab308', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+        {loading ? (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px', marginBottom: '32px' }}>
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div key={index} style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', height: '120px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div style={{ color: '#999', fontSize: '14px' }}>Loading...</div>
               </div>
-              <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#eab308' }}>43</span>
-            </div>
-            <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>Pending Review</h3>
-            <p style={{ color: '#666666', fontSize: '12px' }}>Awaiting action</p>
+            ))}
           </div>
+        ) : error ? (
+          <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', marginBottom: '32px', textAlign: 'center', color: '#ef4444' }}>
+            {error}
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '24px', marginBottom: '32px' }}>
+            <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(234, 179, 8, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg style={{ color: '#eab308', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#eab308' }}>{stats.pendingReview?.toLocaleString() || '0'}</span>
+              </div>
+              <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>Pending Review</h3>
+              <p style={{ color: '#666666', fontSize: '12px' }}>Awaiting action</p>
+            </div>
 
-          <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(239, 68, 68, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg style={{ color: '#ef4444', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
+            <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(239, 68, 68, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg style={{ color: '#ef4444', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#ef4444' }}>{stats.highPriority?.toLocaleString() || '0'}</span>
               </div>
-              <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#ef4444' }}>12</span>
+              <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>High Priority</h3>
+              <p style={{ color: '#666666', fontSize: '12px' }}>Requires immediate attention</p>
             </div>
-            <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>High Priority</h3>
-            <p style={{ color: '#666666', fontSize: '12px' }}>Requires immediate attention</p>
-          </div>
 
-          <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg style={{ color: '#10b981', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
+            <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(16, 185, 129, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg style={{ color: '#10b981', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#10b981' }}>{stats.processedToday?.toLocaleString() || '0'}</span>
               </div>
-              <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#10b981' }}>127</span>
+              <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>Processed Today</h3>
+              <p style={{ color: '#666666', fontSize: '12px' }}>Last 24 hours</p>
             </div>
-            <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>Processed Today</h3>
-            <p style={{ color: '#666666', fontSize: '12px' }}>Last 24 hours</p>
-          </div>
 
-          <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
-              <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg style={{ color: '#3b82f6', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+            <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)', transition: 'transform 0.2s' }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
+                <div style={{ width: '48px', height: '48px', borderRadius: '12px', background: 'rgba(59, 130, 246, 0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <svg style={{ color: '#3b82f6', width: '20px', height: '20px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#3b82f6' }}>{stats.avgResponseTime || '0m'}</span>
               </div>
-              <span style={{ fontSize: '28px', fontWeight: 'bold', color: '#3b82f6' }}>8.5m</span>
+              <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>Avg Response Time</h3>
+              <p style={{ color: '#666666', fontSize: '12px' }}>Queue processing</p>
             </div>
-            <h3 style={{ color: '#000000', fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>Avg Response Time</h3>
-            <p style={{ color: '#666666', fontSize: '12px' }}>Queue processing</p>
           </div>
-        </div>
+        )}
 
         {/* Main Content */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '24px' }}>
@@ -122,13 +193,12 @@ export default function ModerationQueuePage() {
                 </select>
               </div>
               <div>
-                {[
-                  { id: 1, type: 'spam', content: 'Promotional link in comments', user: 'spammer123', priority: 'high', flagged: '5m ago', reports: 3 },
-                  { id: 2, type: 'harassment', content: 'Abusive language towards users', user: 'toxic456', priority: 'critical', flagged: '12m ago', reports: 8 },
-                  { id: 3, type: 'inappropriate', content: 'NSFW content without tag', user: 'poster789', priority: 'high', flagged: '18m ago', reports: 5 },
-                  { id: 4, type: 'misinformation', content: 'False health claims', user: 'misinfo321', priority: 'medium', flagged: '25m ago', reports: 2 },
-                  { id: 5, type: 'copyright', content: 'Copyrighted image usage', user: 'copier654', priority: 'medium', flagged: '34m ago', reports: 1 }
-                ].map(item => (
+                {loading ? (
+                  <div style={{ padding: '40px', textAlign: 'center', color: '#999' }}>Loading queue items...</div>
+                ) : queueItems.length === 0 ? (
+                  <div style={{ padding: '40px', textAlign: 'center', color: '#999' }}>No items in queue</div>
+                ) : (
+                  queueItems.map(item => (
                   <div key={item.id} style={{ padding: '20px', borderTop: '1px solid #F0F0F0', transition: 'background 0.2s' }}
                     onMouseEnter={(e) => e.currentTarget.style.background = '#FAFAFA'}
                     onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}>
@@ -153,7 +223,9 @@ export default function ModerationQueuePage() {
                       <p style={{ fontSize: '12px', color: '#666666' }}>User: <span style={{ color: '#000000', fontWeight: '500' }}>{item.user}</span></p>
                     </div>
                     <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                      <button style={{ padding: '10px 20px', background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', transition: 'transform 0.2s' }}
+                      <button style={{ padding: '10px 20px', background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)', color: 'white', border: 'none', borderRadius: '12px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', transition: 'transform 0.2s' }}
                         onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                         onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
                         Review
@@ -182,7 +254,8 @@ export default function ModerationQueuePage() {
                       </button>
                     </div>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
           </div>
@@ -193,7 +266,9 @@ export default function ModerationQueuePage() {
             <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
               <h3 style={{ color: '#000000', fontSize: '16px', fontWeight: 'bold', marginBottom: '16px' }}>Queue Settings</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <button style={{ padding: '14px 16px', background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)', color: 'white', border: 'none', borderRadius: '16px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'transform 0.2s' }}
+                <button style={{ padding: '14px 16px', background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)', color: 'white', border: 'none', borderRadius: '16px', fontSize: '14px', fontWeight: '600', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'transform 0.2s' }}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
                   onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}>
                   <span>Auto-assign Items</span>
@@ -224,17 +299,16 @@ export default function ModerationQueuePage() {
             <div style={{ background: '#FFFFFF', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>
               <h3 style={{ color: '#000000', fontSize: '16px', fontWeight: 'bold', marginBottom: '16px' }}>Priority Breakdown</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {[
-                  { priority: 'Critical', count: 12, color: '#ef4444' },
-                  { priority: 'High', count: 31, color: '#f97316' },
-                  { priority: 'Medium', count: 28, color: '#eab308' },
-                  { priority: 'Low', count: 15, color: '#3b82f6' }
-                ].map((item, index) => (
+                {loading ? (
+                  <div style={{ color: '#999', fontSize: '14px', textAlign: 'center', padding: '16px' }}>Loading...</div>
+                ) : (
+                  priorityBreakdown.map((item, index) => (
                   <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ color: '#666666', fontSize: '14px' }}>{item.priority}</span>
                     <span style={{ fontSize: '14px', fontWeight: '600', color: item.color }}>{item.count}</span>
                   </div>
-                ))}
+                  ))
+                )}
               </div>
             </div>
 
@@ -249,7 +323,7 @@ export default function ModerationQueuePage() {
                   'Escalate unclear cases to admin'
                 ].map((tip, index) => (
                   <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                    <svg style={{ width: '20px', height: '20px', flexShrink: 0, color: '#6366F1', marginTop: '2px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg style={{ width: '20px', height: '20px', flexShrink: 0, color: '#000000', marginTop: '2px' }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
                     <span style={{ color: '#666666', fontSize: '13px' }}>{tip}</span>

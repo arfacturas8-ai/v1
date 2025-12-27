@@ -215,21 +215,31 @@ const reactionRoutes: FastifyPluginAsync = async (fastify) => {
       const userId = request.userId;
 
       // Remove specific reaction type or all reactions from user
-      const whereClause = reactionType 
-        ? `AND reaction_type = '${reactionType}'::reaction_type`
-        : '';
-
-      const deletedReactions = await prisma.$queryRaw`
-        DELETE FROM enhanced_reactions 
-        WHERE user_id = ${userId}::text
-        AND (
-          (${contentType} = 'post' AND post_id = ${contentId}::text) OR
-          (${contentType} = 'comment' AND comment_id = ${contentId}::text) OR  
-          (${contentType} = 'message' AND message_id = ${contentId}::text)
-        )
-        ${whereClause ? prisma.$queryRawUnsafe(whereClause) : prisma.$queryRawUnsafe('')}
-        RETURNING *
-      ` as any[];
+      let deletedReactions;
+      if (reactionType) {
+        deletedReactions = await prisma.$queryRaw`
+          DELETE FROM enhanced_reactions
+          WHERE user_id = ${userId}::text
+          AND reaction_type = ${reactionType}::reaction_type
+          AND (
+            (${contentType} = 'post' AND post_id = ${contentId}::text) OR
+            (${contentType} = 'comment' AND comment_id = ${contentId}::text) OR
+            (${contentType} = 'message' AND message_id = ${contentId}::text)
+          )
+          RETURNING *
+        ` as any[];
+      } else {
+        deletedReactions = await prisma.$queryRaw`
+          DELETE FROM enhanced_reactions
+          WHERE user_id = ${userId}::text
+          AND (
+            (${contentType} = 'post' AND post_id = ${contentId}::text) OR
+            (${contentType} = 'comment' AND comment_id = ${contentId}::text) OR
+            (${contentType} = 'message' AND message_id = ${contentId}::text)
+          )
+          RETURNING *
+        ` as any[];
+      }
 
       if (deletedReactions.length === 0) {
         return reply.code(404).send({
@@ -287,37 +297,57 @@ const reactionRoutes: FastifyPluginAsync = async (fastify) => {
       const { page = 1, limit = 50, reactionType } = z.object({
         page: z.coerce.number().min(1).default(1),
         limit: z.coerce.number().min(1).max(100).default(50),
-        reactionType: z.string().optional()
+        reactionType: z.enum([
+          'like', 'love', 'laugh', 'wow', 'sad', 'angry',
+          'upvote', 'downvote', 'fire', 'rocket', 'heart_eyes',
+          'thinking', 'clap', 'thumbs_up', 'thumbs_down', 'custom_emoji'
+        ]).optional()
       }).parse(request.query);
 
       // Get reaction summary
       const summary = await prisma.$queryRaw`
-        SELECT * FROM reaction_summaries 
+        SELECT * FROM reaction_summaries
         WHERE content_type = ${contentType} AND content_id = ${contentId}
       ` as any[];
 
       // Get detailed reactions with user info
-      const reactionTypeFilter = reactionType 
-        ? `AND r.reaction_type = '${reactionType}'::reaction_type`
-        : '';
-
-      const reactions = await prisma.$queryRaw`
-        SELECT 
-          r.*,
-          u.username,
-          u.display_name,
-          u.avatar
-        FROM enhanced_reactions r
-        JOIN users u ON r.user_id = u.id
-        WHERE (
-          (${contentType} = 'post' AND r.post_id = ${contentId}::text) OR
-          (${contentType} = 'comment' AND r.comment_id = ${contentId}::text) OR  
-          (${contentType} = 'message' AND r.message_id = ${contentId}::text)
-        )
-        ${reactionTypeFilter ? prisma.$queryRawUnsafe(reactionTypeFilter) : prisma.$queryRawUnsafe('')}
-        ORDER BY r.created_at DESC
-        LIMIT ${limit} OFFSET ${(page - 1) * limit}
-      ` as any[];
+      let reactions;
+      if (reactionType) {
+        reactions = await prisma.$queryRaw`
+          SELECT
+            r.*,
+            u.username,
+            u.display_name,
+            u.avatar
+          FROM enhanced_reactions r
+          JOIN users u ON r.user_id = u.id
+          WHERE (
+            (${contentType} = 'post' AND r.post_id = ${contentId}::text) OR
+            (${contentType} = 'comment' AND r.comment_id = ${contentId}::text) OR
+            (${contentType} = 'message' AND r.message_id = ${contentId}::text)
+          )
+          AND r.reaction_type = ${reactionType}::reaction_type
+          ORDER BY r.created_at DESC
+          LIMIT ${limit} OFFSET ${(page - 1) * limit}
+        ` as any[];
+      } else {
+        reactions = await prisma.$queryRaw`
+          SELECT
+            r.*,
+            u.username,
+            u.display_name,
+            u.avatar
+          FROM enhanced_reactions r
+          JOIN users u ON r.user_id = u.id
+          WHERE (
+            (${contentType} = 'post' AND r.post_id = ${contentId}::text) OR
+            (${contentType} = 'comment' AND r.comment_id = ${contentId}::text) OR
+            (${contentType} = 'message' AND r.message_id = ${contentId}::text)
+          )
+          ORDER BY r.created_at DESC
+          LIMIT ${limit} OFFSET ${(page - 1) * limit}
+        ` as any[];
+      }
 
       // Get user's reactions if authenticated
       let userReactions = [];
@@ -363,57 +393,103 @@ const reactionRoutes: FastifyPluginAsync = async (fastify) => {
     try {
       const { contentType, period, limit } = reactionSchemas.trending.parse(request.query);
 
-      const contentTypeFilter = contentType 
-        ? `AND tr.content_type = '${contentType}'`
-        : '';
-
-      const trending = await prisma.$queryRaw`
-        SELECT 
-          tr.*,
-          rs.total_reactions,
-          rs.total_unique_users,
-          CASE tr.content_type
-            WHEN 'post' THEN (
-              SELECT json_build_object(
-                'id', p.id,
-                'title', p.title,
-                'community', json_build_object(
-                  'name', c.name,
-                  'display_name', c.display_name
-                ),
-                'user', json_build_object(
-                  'username', u.username,
-                  'display_name', u.display_name
+      let trending;
+      if (contentType) {
+        trending = await prisma.$queryRaw`
+          SELECT
+            tr.*,
+            rs.total_reactions,
+            rs.total_unique_users,
+            CASE tr.content_type
+              WHEN 'post' THEN (
+                SELECT json_build_object(
+                  'id', p.id,
+                  'title', p.title,
+                  'community', json_build_object(
+                    'name', c.name,
+                    'display_name', c.display_name
+                  ),
+                  'user', json_build_object(
+                    'username', u.username,
+                    'display_name', u.display_name
+                  )
                 )
+                FROM posts p
+                JOIN communities c ON p.community_id = c.id
+                JOIN users u ON p.user_id = u.id
+                WHERE p.id = tr.content_id
               )
-              FROM posts p 
-              JOIN communities c ON p.community_id = c.id
-              JOIN users u ON p.user_id = u.id
-              WHERE p.id = tr.content_id
-            )
-            WHEN 'comment' THEN (
-              SELECT json_build_object(
-                'id', co.id,
-                'content', co.content,
-                'user', json_build_object(
-                  'username', u.username,
-                  'display_name', u.display_name
+              WHEN 'comment' THEN (
+                SELECT json_build_object(
+                  'id', co.id,
+                  'content', co.content,
+                  'user', json_build_object(
+                    'username', u.username,
+                    'display_name', u.display_name
+                  )
                 )
+                FROM comments co
+                JOIN users u ON co.user_id = u.id
+                WHERE co.id = tr.content_id
               )
-              FROM comments co
-              JOIN users u ON co.user_id = u.id
-              WHERE co.id = tr.content_id
-            )
-            ELSE NULL
-          END as content_info
-        FROM trending_reactions tr
-        JOIN reaction_summaries rs ON tr.content_type = rs.content_type AND tr.content_id = rs.content_id
-        WHERE tr.trend_period = ${period}
-        AND tr.expires_at > NOW()
-        ${contentTypeFilter ? prisma.$queryRawUnsafe(contentTypeFilter) : prisma.$queryRawUnsafe('')}
-        ORDER BY tr.trend_score DESC
-        LIMIT ${limit}
-      ` as any[];
+              ELSE NULL
+            END as content_info
+          FROM trending_reactions tr
+          JOIN reaction_summaries rs ON tr.content_type = rs.content_type AND tr.content_id = rs.content_id
+          WHERE tr.trend_period = ${period}
+          AND tr.expires_at > NOW()
+          AND tr.content_type = ${contentType}
+          ORDER BY tr.trend_score DESC
+          LIMIT ${limit}
+        ` as any[];
+      } else {
+        trending = await prisma.$queryRaw`
+          SELECT
+            tr.*,
+            rs.total_reactions,
+            rs.total_unique_users,
+            CASE tr.content_type
+              WHEN 'post' THEN (
+                SELECT json_build_object(
+                  'id', p.id,
+                  'title', p.title,
+                  'community', json_build_object(
+                    'name', c.name,
+                    'display_name', c.display_name
+                  ),
+                  'user', json_build_object(
+                    'username', u.username,
+                    'display_name', u.display_name
+                  )
+                )
+                FROM posts p
+                JOIN communities c ON p.community_id = c.id
+                JOIN users u ON p.user_id = u.id
+                WHERE p.id = tr.content_id
+              )
+              WHEN 'comment' THEN (
+                SELECT json_build_object(
+                  'id', co.id,
+                  'content', co.content,
+                  'user', json_build_object(
+                    'username', u.username,
+                    'display_name', u.display_name
+                  )
+                )
+                FROM comments co
+                JOIN users u ON co.user_id = u.id
+                WHERE co.id = tr.content_id
+              )
+              ELSE NULL
+            END as content_info
+          FROM trending_reactions tr
+          JOIN reaction_summaries rs ON tr.content_type = rs.content_type AND tr.content_id = rs.content_id
+          WHERE tr.trend_period = ${period}
+          AND tr.expires_at > NOW()
+          ORDER BY tr.trend_score DESC
+          LIMIT ${limit}
+        ` as any[];
+      }
 
       return reply.send({
         success: true,
@@ -504,21 +580,36 @@ const reactionRoutes: FastifyPluginAsync = async (fastify) => {
       }).parse(request.query);
 
       const userId = request.userId;
-      const readFilter = unreadOnly ? 'AND is_read = false' : '';
 
-      const notifications = await prisma.$queryRaw`
-        SELECT 
-          rn.*,
-          u.username as reactor_username,
-          u.display_name as reactor_display_name,
-          u.avatar as reactor_avatar
-        FROM reaction_notifications rn
-        JOIN users u ON rn.reactor_user_id = u.id
-        WHERE rn.recipient_user_id = ${userId}::text
-        ${readFilter ? prisma.$queryRawUnsafe(readFilter) : prisma.$queryRawUnsafe('')}
-        ORDER BY rn.created_at DESC
-        LIMIT ${limit} OFFSET ${(page - 1) * limit}
-      ` as any[];
+      let notifications;
+      if (unreadOnly) {
+        notifications = await prisma.$queryRaw`
+          SELECT
+            rn.*,
+            u.username as reactor_username,
+            u.display_name as reactor_display_name,
+            u.avatar as reactor_avatar
+          FROM reaction_notifications rn
+          JOIN users u ON rn.reactor_user_id = u.id
+          WHERE rn.recipient_user_id = ${userId}::text
+          AND is_read = false
+          ORDER BY rn.created_at DESC
+          LIMIT ${limit} OFFSET ${(page - 1) * limit}
+        ` as any[];
+      } else {
+        notifications = await prisma.$queryRaw`
+          SELECT
+            rn.*,
+            u.username as reactor_username,
+            u.display_name as reactor_display_name,
+            u.avatar as reactor_avatar
+          FROM reaction_notifications rn
+          JOIN users u ON rn.reactor_user_id = u.id
+          WHERE rn.recipient_user_id = ${userId}::text
+          ORDER BY rn.created_at DESC
+          LIMIT ${limit} OFFSET ${(page - 1) * limit}
+        ` as any[];
+      }
 
       return reply.send({
         success: true,

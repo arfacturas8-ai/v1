@@ -4,14 +4,21 @@
  * Features: Explicit light theme colors, inline styles, iOS-style components
  */
 
-import React, { memo, useState } from 'react'
+import React, { memo, useState, useEffect } from 'react'
 import { useResponsive } from '../hooks/useResponsive'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../contexts/AuthContext'
+import apiService from '../services/api'
+import { useToast } from '../contexts/ToastContext'
 
 const EditProfilePage = () => {
   const { isMobile, isTablet } = useResponsive()
   const navigate = useNavigate()
+  const { user: currentUser, refreshUser } = useAuth()
+  const { showToast } = useToast()
 
+  const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState({
     displayName: '',
     username: '',
@@ -26,6 +33,46 @@ const EditProfilePage = () => {
 
   const [avatar, setAvatar] = useState(null)
   const [banner, setBanner] = useState(null)
+  const [avatarFile, setAvatarFile] = useState(null)
+  const [bannerFile, setBannerFile] = useState(null)
+
+  // Load current user data
+  useEffect(() => {
+    const loadUserData = async () => {
+      if (!currentUser) {
+        setLoading(false)
+        return
+      }
+
+      setLoading(true)
+      try {
+        const response = await apiService.get(`/users/${currentUser.id}`)
+        if (response.success && response.data) {
+          const userData = response.data
+          setFormData({
+            displayName: userData.displayName || '',
+            username: userData.username || '',
+            bio: userData.bio || '',
+            location: userData.location || '',
+            website: userData.website || '',
+            twitter: userData.socialLinks?.twitter || '',
+            github: userData.socialLinks?.github || '',
+            linkedin: userData.socialLinks?.linkedin || '',
+            profileVisibility: userData.profileVisibility || 'public'
+          })
+          if (userData.avatar) setAvatar(userData.avatar)
+          if (userData.banner) setBanner(userData.banner)
+        }
+      } catch (error) {
+        console.error('Failed to load user data:', error)
+        showToast('Failed to load profile data', 'error')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadUserData()
+  }, [currentUser])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -35,6 +82,7 @@ const EditProfilePage = () => {
   const handleAvatarChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+      setAvatarFile(file)
       setAvatar(URL.createObjectURL(file))
     }
   }
@@ -42,16 +90,96 @@ const EditProfilePage = () => {
   const handleBannerChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+      setBannerFile(file)
       setBanner(URL.createObjectURL(file))
     }
   }
 
-  const handleSave = () => {
-    console.log('Saving profile:', formData)
+  const handleSave = async () => {
+    if (!currentUser) {
+      showToast('You must be logged in to edit your profile', 'error')
+      return
+    }
+
+    setSaving(true)
+    try {
+      // Prepare form data for file uploads
+      const updateData = new FormData()
+      updateData.append('displayName', formData.displayName)
+      updateData.append('username', formData.username)
+      updateData.append('bio', formData.bio)
+      updateData.append('location', formData.location)
+      updateData.append('website', formData.website)
+      updateData.append('socialLinks', JSON.stringify({
+        twitter: formData.twitter,
+        github: formData.github,
+        linkedin: formData.linkedin
+      }))
+      updateData.append('profileVisibility', formData.profileVisibility)
+
+      // Add avatar if changed
+      if (avatarFile) {
+        updateData.append('avatar', avatarFile)
+      }
+
+      // Add banner if changed
+      if (bannerFile) {
+        updateData.append('banner', bannerFile)
+      }
+
+      const response = await apiService.put(`/users/${currentUser.id}`, updateData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+
+      if (response.success) {
+        showToast('Profile updated successfully!', 'success')
+        await refreshUser() // Refresh user context
+        navigate(-1) // Go back to previous page
+      } else {
+        throw new Error(response.message || 'Failed to update profile')
+      }
+    } catch (error) {
+      console.error('Failed to save profile:', error)
+      showToast(error.message || 'Failed to update profile', 'error')
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleCancel = () => {
     navigate(-1)
+  }
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          background: '#FAFAFA',
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: isMobile ? '56px' : '72px'
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <div
+            style={{
+              width: '48px',
+              height: '48px',
+              border: '4px solid rgba(88, 166, 255, 0.2)',
+              borderTop: '4px solid #58a6ff',
+              borderRadius: '50%',
+              margin: '0 auto 16px',
+              animation: 'spin 1s linear infinite'
+            }}
+          />
+          <p style={{ color: '#666666', fontSize: '15px' }}>Loading profile...</p>
+        </div>
+      </div>
+    )
   }
 
   const padding = isMobile ? '16px' : isTablet ? '24px' : '80px'
@@ -104,7 +232,7 @@ const EditProfilePage = () => {
             <div
               style={{
                 height: '160px',
-                background: banner ? `url(${banner})` : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: banner ? `url(${banner})` : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 position: 'relative',
@@ -221,7 +349,7 @@ const EditProfilePage = () => {
                     boxSizing: 'border-box',
                     transition: 'border-color 0.2s'
                   }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = '#000000' }}
                   onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                 />
               </div>
@@ -248,7 +376,7 @@ const EditProfilePage = () => {
                     boxSizing: 'border-box',
                     transition: 'border-color 0.2s'
                   }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = '#000000' }}
                   onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                 />
               </div>
@@ -276,7 +404,7 @@ const EditProfilePage = () => {
                     boxSizing: 'border-box',
                     transition: 'border-color 0.2s'
                   }}
-                  onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                  onFocus={(e) => { e.currentTarget.style.borderColor = '#000000' }}
                   onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                 />
               </div>
@@ -304,7 +432,7 @@ const EditProfilePage = () => {
                       boxSizing: 'border-box',
                       transition: 'border-color 0.2s'
                     }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#000000' }}
                     onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                   />
                 </div>
@@ -331,7 +459,7 @@ const EditProfilePage = () => {
                       boxSizing: 'border-box',
                       transition: 'border-color 0.2s'
                     }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#000000' }}
                     onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                   />
                 </div>
@@ -381,7 +509,7 @@ const EditProfilePage = () => {
                       boxSizing: 'border-box',
                       transition: 'border-color 0.2s'
                     }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#000000' }}
                     onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                   />
                 </div>
@@ -416,7 +544,7 @@ const EditProfilePage = () => {
                       gap: '12px',
                       padding: '12px 16px',
                       background: formData.profileVisibility === option ? 'rgba(99, 102, 241, 0.1)' : 'white',
-                      border: `1px solid ${formData.profileVisibility === option ? '#6366F1' : 'rgba(0, 0, 0, 0.06)'}`,
+                      border: `1px solid ${formData.profileVisibility === option ? '#000000' : 'rgba(0, 0, 0, 0.06)'}`,
                       borderRadius: '12px',
                       cursor: 'pointer',
                       transition: 'all 0.2s',
@@ -446,8 +574,8 @@ const EditProfilePage = () => {
                         width: '20px',
                         height: '20px',
                         borderRadius: '50%',
-                        border: `2px solid ${formData.profileVisibility === option ? '#6366F1' : 'rgba(0, 0, 0, 0.2)'}`,
-                        background: formData.profileVisibility === option ? '#6366F1' : 'transparent',
+                        border: `2px solid ${formData.profileVisibility === option ? '#000000' : 'rgba(0, 0, 0, 0.2)'}`,
+                        background: formData.profileVisibility === option ? '#000000' : 'transparent',
                         flexShrink: 0,
                         display: 'flex',
                         alignItems: 'center',
@@ -492,7 +620,9 @@ const EditProfilePage = () => {
               onClick={handleSave}
               style={{
                 padding: '12px 24px',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '12px',

@@ -7,7 +7,7 @@
  * - Cards: white with subtle shadows
  * - Border radius: 16-24px for modern iOS feel
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Icons: 20px standard size
  * - Hover: translateY(-2px) for interactive elements
  */
@@ -39,13 +39,15 @@ const BillingPage = () => {
             justifyContent: 'center',
             margin: '0 auto 16px'
           }}>
-            <CreditCard size={isMobile ? 28 : 32} style={{ color: '#6366F1' }} />
+            <CreditCard size={isMobile ? 28 : 32} style={{ color: '#000000' }} />
           </div>
           <h1 style={{
             fontSize: isMobile ? '24px' : '32px',
             fontWeight: '600',
             marginBottom: '8px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
@@ -80,14 +82,16 @@ const BillingPage = () => {
               justifyContent: 'center',
               marginBottom: '16px'
             }}>
-              <Receipt size={24} style={{ color: '#6366F1' }} />
+              <Receipt size={24} style={{ color: '#000000' }} />
             </div>
             <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>Current Plan</h3>
             <p style={{ color: '#666', fontSize: '14px', marginBottom: '16px' }}>Free Tier</p>
             <button style={{
               width: '100%',
               padding: '12px 20px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               border: 'none',
               borderRadius: '16px',
               color: '#fff',
@@ -135,7 +139,9 @@ const BillingPage = () => {
               <div style={{
                 width: '0%',
                 height: '100%',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 borderRadius: '8px'
               }} />
             </div>
@@ -162,7 +168,7 @@ const BillingPage = () => {
               justifyContent: 'center',
               marginBottom: '16px'
             }}>
-              <Clock size={24} style={{ color: '#8B5CF6' }} />
+              <Clock size={24} style={{ color: '#000000' }} />
             </div>
             <h3 style={{ fontSize: '16px', fontWeight: '600', color: '#000', marginBottom: '8px' }}>Next Billing</h3>
             <p style={{ color: '#666', fontSize: '14px', marginBottom: '16px' }}>No upcoming charges</p>

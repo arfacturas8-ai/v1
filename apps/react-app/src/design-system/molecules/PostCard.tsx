@@ -55,21 +55,20 @@ export const PostCard: React.FC<PostCardProps> = ({
   style,
 }) => {
   const cardStyle: React.CSSProperties = {
-    backgroundColor: 'var(--bg-secondary)',
-    borderRadius: 'var(--radius-lg)',
-    padding: 'var(--space-4)',
-    border: '1px solid var(--border-subtle)',
+    backgroundColor: '#FAFAFA',
+    borderRadius: '12px',
+    padding: '16px',
+    border: '1px solid #E5E5E5',
     cursor: onPostClick ? 'pointer' : 'default',
-    transition: 'all var(--transition-normal)',
-    boxShadow: 'var(--shadow-sm)',
+    transition: 'all 0.15s ease',
     ...style,
   };
 
   const headerStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'flex-start',
-    gap: 'var(--space-3)',
-    marginBottom: 'var(--space-3)',
+    gap: '12px',
+    marginBottom: '12px',
   };
 
   const userInfoStyle: React.CSSProperties = {
@@ -80,19 +79,19 @@ export const PostCard: React.FC<PostCardProps> = ({
   const nameRowStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: 'var(--space-2)',
+    gap: '8px',
   };
 
   const contentStyle: React.CSSProperties = {
-    marginBottom: 'var(--space-3)',
+    marginBottom: '12px',
   };
 
   const mediaGridStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: post.media && post.media.length === 1 ? '1fr' : '1fr 1fr',
-    gap: 'var(--space-2)',
-    marginBottom: 'var(--space-3)',
-    borderRadius: 'var(--radius-lg)',
+    gap: '8px',
+    marginBottom: '12px',
+    borderRadius: '12px',
     overflow: 'hidden',
   };
 
@@ -100,27 +99,27 @@ export const PostCard: React.FC<PostCardProps> = ({
     width: '100%',
     height: post.media && post.media.length === 1 ? '300px' : '150px',
     objectFit: 'cover',
-    backgroundColor: 'var(--bg-tertiary)',
+    backgroundColor: '#F8F9FA',
   };
 
   const quotedPostStyle: React.CSSProperties = {
-    border: '1px solid var(--border-default)',
-    borderRadius: 'var(--radius-lg)',
-    padding: 'var(--space-3)',
-    marginBottom: 'var(--space-3)',
-    backgroundColor: 'var(--bg-primary)',
+    border: '1px solid #E8EAED',
+    borderRadius: '12px',
+    padding: '12px',
+    marginBottom: '12px',
+    backgroundColor: '#FAFAFA',
   };
 
   const actionsStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: 'var(--space-6)',
+    gap: '24px',
   };
 
   const actionStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: 'var(--space-1)',
+    gap: '4px',
   };
 
   const formatTime = (date: Date | string): string => {
@@ -145,11 +144,21 @@ export const PostCard: React.FC<PostCardProps> = ({
     return `${(count / 1000000).toFixed(1)}M`;
   };
 
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  const dynamicCardStyle: React.CSSProperties = {
+    ...cardStyle,
+    backgroundColor: isHovered && onPostClick ? '#FFFFFF' : '#FAFAFA',
+    boxShadow: isHovered && onPostClick ? '0 2px 8px rgba(0, 0, 0, 0.06)' : 'none',
+  };
+
   return (
     <div
       className={className}
-      style={cardStyle}
+      style={dynamicCardStyle}
       onClick={onPostClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Header: Avatar + User Info */}
       <div style={headerStyle}>

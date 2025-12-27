@@ -27,12 +27,14 @@ const CommunityAnalyticsPage = () => {
             justifyContent: 'center',
             margin: '0 auto 16px'
           }}>
-            <BarChart3 size={32} style={{ color: '#6366F1' }} />
+            <BarChart3 size={32} style={{ color: '#000000' }} />
           </div>
           <h1 style={{
             fontSize: '32px',
             fontWeight: '700',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -56,7 +58,7 @@ const CommunityAnalyticsPage = () => {
             textAlign: 'center',
             boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
           }}>
-            <Users size={24} style={{ color: '#6366F1', margin: '0 auto 16px' }} />
+            <Users size={24} style={{ color: '#000000', margin: '0 auto 16px' }} />
             <div style={{ fontSize: '32px', fontWeight: '700', color: '#000', marginBottom: '4px' }}>0</div>
             <div style={{ fontSize: '14px', color: '#666' }}>Total Members</div>
           </div>
@@ -80,7 +82,7 @@ const CommunityAnalyticsPage = () => {
             textAlign: 'center',
             boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
           }}>
-            <Activity size={24} style={{ color: '#8B5CF6', margin: '0 auto 16px' }} />
+            <Activity size={24} style={{ color: '#000000', margin: '0 auto 16px' }} />
             <div style={{ fontSize: '32px', fontWeight: '700', color: '#000', marginBottom: '4px' }}>0</div>
             <div style={{ fontSize: '14px', color: '#666' }}>Active Users</div>
           </div>

@@ -222,7 +222,7 @@ export class EnhancedEmailService {
             <td align="center">
                 <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                     <tr>
-                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                             <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Welcome to {{appName}}!</h1>
                             <p style="color: rgba(255,255,255,0.95); margin: 6px 0 0 0; font-size: 13px; font-weight: 500;">Let's verify your email address</p>
                         </td>
@@ -238,7 +238,7 @@ export class EnhancedEmailService {
                                 <tr>
                                     <td align="center">
                                         <a href="{{verificationUrl}}"
-                                           style="display: inline-block; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
+                                           style="display: inline-block; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                                             Verify Email Address
                                         </a>
                                     </td>
@@ -290,7 +290,7 @@ export class EnhancedEmailService {
             <td align="center">
                 <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                     <tr>
-                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                             <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Password Reset</h1>
                             <p style="color: rgba(255,255,255,0.95); margin: 6px 0 0 0; font-size: 13px; font-weight: 500;">Secure your account</p>
                         </td>
@@ -306,7 +306,7 @@ export class EnhancedEmailService {
                                 <tr>
                                     <td align="center">
                                         <a href="{{resetUrl}}"
-                                           style="display: inline-block; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
+                                           style="display: inline-block; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                                             Reset Password
                                         </a>
                                     </td>
@@ -365,7 +365,7 @@ export class EnhancedEmailService {
             <td align="center">
                 <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                     <tr>
-                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                        <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                             <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">Welcome to {{appName}}!</h1>
                             <p style="color: rgba(255,255,255,0.95); margin: 6px 0 0 0; font-size: 13px; font-weight: 500;">Your journey starts here</p>
                         </td>
@@ -391,7 +391,7 @@ export class EnhancedEmailService {
                                 <tr>
                                     <td align="center">
                                         <a href="{{appUrl}}"
-                                           style="display: inline-block; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25); margin: 0 4px;">
+                                           style="display: inline-block; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: white; padding: 12px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25); margin: 0 4px;">
                                             Get Started
                                         </a>
                                         <a href="{{profileUrl}}"

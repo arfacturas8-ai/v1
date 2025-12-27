@@ -103,6 +103,7 @@ export default function Header() {
           {/* Logo */}
           <Link
             to="/home"
+            data-tour="home"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -113,7 +114,9 @@ export default function Header() {
             <div style={{
               width: '32px',
               height: '32px',
-              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               borderRadius: '8px',
               display: 'flex',
               alignItems: 'center',
@@ -147,14 +150,15 @@ export default function Header() {
               aria-label="Main navigation"
             >
               {[
-                { path: '/home', label: 'Home' },
-                { path: '/communities', label: 'Communities' },
-                { path: '/learn', label: 'Learn' },
-                { path: '/discover', label: 'Discover' }
-              ].map(({ path, label }) => (
+                { path: '/home', label: 'Home', dataTour: null },
+                { path: '/communities', label: 'Communities', dataTour: 'communities' },
+                { path: '/learn', label: 'Learn', dataTour: null },
+                { path: '/discover', label: 'Discover', dataTour: null }
+              ].map(({ path, label, dataTour }) => (
                 <Link
                   key={path}
                   to={path}
+                  data-tour={dataTour}
                   style={{
                     padding: '8px 16px',
                     borderRadius: '9999px',
@@ -162,7 +166,7 @@ export default function Header() {
                     fontWeight: '500',
                     color: isActiveRoute(path) ? '#FFFFFF' : '#666666',
                     background: isActiveRoute(path)
-                      ? 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)'
+                      ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                       : 'transparent',
                     textDecoration: 'none',
                     transition: 'all 0.2s',
@@ -234,6 +238,7 @@ export default function Header() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 aria-label="Search"
+                data-tour="search"
                 style={{
                   width: '100%',
                   height: '44px',
@@ -299,6 +304,7 @@ export default function Header() {
             <button
               onClick={() => navigate('/create')}
               aria-label="Create new post"
+              data-tour="create-post"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -306,7 +312,9 @@ export default function Header() {
                 height: '40px',
                 paddingLeft: '16px',
                 paddingRight: '16px',
-                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '9999px',
@@ -329,6 +337,7 @@ export default function Header() {
             <button
               onClick={() => navigate('/notifications')}
               aria-label="Notifications"
+              data-tour="notifications"
               style={{
                 width: '40px',
                 height: '40px',
@@ -357,11 +366,14 @@ export default function Header() {
                 aria-label={`User menu for ${user.username || 'user'}`}
                 aria-haspopup="true"
                 aria-expanded={showUserMenu}
+                data-tour="profile"
                 style={{
                   width: '40px',
                   height: '40px',
                   borderRadius: '50%',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   border: '2px solid #FFFFFF',
                   boxShadow: '0 2px 8px rgba(0, 0, 0, 0.12)',
                   display: 'flex',
@@ -457,6 +469,7 @@ export default function Header() {
                     <Link
                       to="/settings"
                       onClick={() => setShowUserMenu(false)}
+                      data-tour="settings"
                       style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -552,7 +565,9 @@ export default function Header() {
                     height: '40px',
                     paddingLeft: '20px',
                     paddingRight: '20px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
                     border: 'none',
                     borderRadius: '9999px',
@@ -611,7 +626,7 @@ export default function Header() {
                   fontWeight: '500',
                   color: isActiveRoute(path) ? '#FFFFFF' : '#1A1A1A',
                   background: isActiveRoute(path)
-                    ? 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)'
+                    ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                     : 'transparent',
                   textDecoration: 'none',
                   transition: 'background 0.2s'

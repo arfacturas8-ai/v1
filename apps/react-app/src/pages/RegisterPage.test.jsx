@@ -1196,7 +1196,7 @@ describe('RegisterPage - Login Link', () => {
   it('has proper styling for login link', () => {
     renderWithProviders();
     const loginLink = screen.getByRole('link', { name: /Sign in/i });
-    expect(loginLink).toHaveClass('text-[#58a6ff]');
+    expect(loginLink).toHaveClass('text-[#000000]');
   });
 });
 

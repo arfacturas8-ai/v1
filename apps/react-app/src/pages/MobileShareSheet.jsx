@@ -10,7 +10,9 @@ const MobileShareSheet = ({ isOpen, onClose, content }) => {
         <h3 id="share-sheet-title" style={styles.title}>Share</h3>
         <div style={styles.grid}>
           <button style={styles.shareButton}>
-            <div style={{...styles.iconCircle, background: '#58a6ff'}}>
+            <div style={{...styles.iconCircle, background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)'}}>
               <Copy style={styles.shareIcon} />
             </div>
             <span style={styles.shareLabel}>Copy</span>

@@ -93,7 +93,7 @@ function Web3Integration({
   if (state.isInitializing) {
     return (
       <div style={{
-  border: '1px solid var(--border-subtle)',
+  border: '1px solid #E8EAED',
   borderRadius: '12px',
   padding: '24px'
 }}>
@@ -131,7 +131,7 @@ function Web3Integration({
   return (
     <Web3ErrorBoundary>
       <div style={{
-  border: '1px solid var(--border-subtle)',
+  border: '1px solid #E8EAED',
   borderRadius: '12px',
   overflow: 'hidden'
 }}>
@@ -593,8 +593,8 @@ export function Web3HeaderIntegration({ className = '' }) {
         variant="outline"
       />
       {state.isConnected && (
-        <NFTProfileBadge 
-          collection="CRYB Genesis"
+        <NFTProfileBadge
+          collection="Digital Collectibles"
           rarity="legendary"
           size="sm"
         />

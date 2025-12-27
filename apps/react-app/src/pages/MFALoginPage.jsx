@@ -214,7 +214,7 @@ export default function MFALoginPage() {
               borderRadius: '50%',
               marginBottom: '16px'
             }}>
-              <Shield style={{ width: '28px', height: '28px', color: '#58a6ff' }} />
+              <Shield style={{ width: '28px', height: '28px', color: '#000000' }} />
             </div>
             <h1 style={{
               fontSize: '24px',
@@ -269,7 +269,7 @@ export default function MFALoginPage() {
                       color: '#1A1A1A',
                       transition: 'all 0.2s ease'
                     }}
-                    onFocus={(e) => e.currentTarget.style.borderColor = '#58a6ff'}
+                    onFocus={(e) => e.currentTarget.style.borderColor = '#000000'}
                     onBlur={(e) => e.currentTarget.style.borderColor = '#E8EAED'}
                     aria-label={`Digit ${index + 1}`}
                   />
@@ -353,7 +353,7 @@ export default function MFALoginPage() {
                   disabled={loading}
                   style={{
                     fontSize: '14px',
-                    color: '#58a6ff',
+                    color: '#000000',
                     background: 'transparent',
                     border: 'none',
                     cursor: loading ? 'not-allowed' : 'pointer',
@@ -364,8 +364,8 @@ export default function MFALoginPage() {
                     transition: 'color 0.2s ease',
                     opacity: loading ? 0.5 : 1
                   }}
-                  onMouseEnter={(e) => !loading && (e.currentTarget.style.color = '#a371f7')}
-                  onMouseLeave={(e) => !loading && (e.currentTarget.style.color = '#58a6ff')}
+                  onMouseEnter={(e) => !loading && (e.currentTarget.style.color = '#000000')}
+                  onMouseLeave={(e) => !loading && (e.currentTarget.style.color = '#000000')}
                 >
                   <Key style={{ width: '16px', height: '16px' }} />
                   Use backup code instead
@@ -407,7 +407,7 @@ export default function MFALoginPage() {
                       transition: 'all 0.2s ease'
                     }}
                     onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#58a6ff'
+                      e.currentTarget.style.borderColor = '#000000'
                       e.currentTarget.style.background = '#FFFFFF'
                     }}
                     onBlur={(e) => {
@@ -482,9 +482,11 @@ export default function MFALoginPage() {
                   style={{
                     width: '100%',
                     padding: '14px 16px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: loading ? 'rgba(88, 166, 255, 0.5)' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: loading ? 'none' : 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: loading ? 'none' : 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
-                    border: 'none',
+                    border: loading ? 'none' : '1px solid rgba(88, 166, 255, 0.3)',
                     borderRadius: '12px',
                     fontSize: '16px',
                     fontWeight: '600',
@@ -494,7 +496,8 @@ export default function MFALoginPage() {
                     justifyContent: 'center',
                     gap: '8px',
                     transition: 'opacity 0.2s ease',
-                    opacity: loading ? 0.5 : 1
+                    opacity: loading ? 0.5 : 1,
+                    boxShadow: loading ? 'none' : '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                   }}
                   onMouseEnter={(e) => !loading && (e.currentTarget.style.opacity = '0.9')}
                   onMouseLeave={(e) => !loading && (e.currentTarget.style.opacity = '1')}
@@ -517,7 +520,7 @@ export default function MFALoginPage() {
                     disabled={loading}
                     style={{
                       fontSize: '14px',
-                      color: '#58a6ff',
+                      color: '#000000',
                       background: 'transparent',
                       border: 'none',
                       cursor: loading ? 'not-allowed' : 'pointer',
@@ -525,8 +528,8 @@ export default function MFALoginPage() {
                       transition: 'color 0.2s ease',
                       opacity: loading ? 0.5 : 1
                     }}
-                    onMouseEnter={(e) => !loading && (e.currentTarget.style.color = '#a371f7')}
-                    onMouseLeave={(e) => !loading && (e.currentTarget.style.color = '#58a6ff')}
+                    onMouseEnter={(e) => !loading && (e.currentTarget.style.color = '#000000')}
+                    onMouseLeave={(e) => !loading && (e.currentTarget.style.color = '#000000')}
                   >
                     Use authenticator code instead
                   </button>
@@ -547,12 +550,12 @@ export default function MFALoginPage() {
             }}>
               Lost access to your authenticator?{' '}
               <Link to="/account-recovery" style={{
-                color: '#58a6ff',
+                color: '#000000',
                 textDecoration: 'none',
                 transition: 'color 0.2s ease'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#a371f7'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#58a6ff'}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#000000'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#000000'}
               >
                 Recover your account
               </Link>

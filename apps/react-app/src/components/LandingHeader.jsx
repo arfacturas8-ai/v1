@@ -61,7 +61,9 @@ export default function LandingHeader() {
             style={{
               fontSize: isMobile ? '20px' : '24px',
               fontWeight: '700',
-              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -74,10 +76,13 @@ export default function LandingHeader() {
 
         {/* Desktop Nav */}
         {!isMobile && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '28px', height: '100%' }}>
             <Link
               to="/tokenomics"
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '100%',
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#666666',
@@ -92,6 +97,9 @@ export default function LandingHeader() {
             <Link
               to="/help"
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '100%',
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#666666',
@@ -106,6 +114,9 @@ export default function LandingHeader() {
             <Link
               to="/guidelines"
               style={{
+                display: 'flex',
+                alignItems: 'center',
+                height: '100%',
                 fontSize: '14px',
                 fontWeight: '500',
                 color: '#666666',
@@ -122,7 +133,7 @@ export default function LandingHeader() {
 
         {/* Desktop CTA */}
         {!isMobile && (
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '100%' }}>
             <Link
               to="/login"
               style={{
@@ -135,17 +146,24 @@ export default function LandingHeader() {
                 fontSize: '13px',
                 fontWeight: '600',
                 color: '#1A1A1A',
-                background: 'transparent',
-                border: 'none',
+                background: 'rgba(255, 255, 255, 0.5)',
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                border: '1px solid rgba(0, 0, 0, 0.06)',
                 borderRadius: '16px',
                 textDecoration: 'none',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
               }}
               onMouseEnter={(e) => {
-                e.target.style.background = 'rgba(0, 0, 0, 0.04)'
+                e.target.style.background = 'rgba(255, 255, 255, 0.7)'
+                e.target.style.transform = 'translateY(-1px)'
+                e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = 'transparent'
+                e.target.style.background = 'rgba(255, 255, 255, 0.5)'
+                e.target.style.transform = 'translateY(0)'
+                e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
               }}
             >
               Sign In
@@ -156,26 +174,30 @@ export default function LandingHeader() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                height: '28px',
-                paddingLeft: '12px',
-                paddingRight: '12px',
-                fontSize: '12px',
+                height: '32px',
+                paddingLeft: '14px',
+                paddingRight: '14px',
+                fontSize: '13px',
                 fontWeight: '600',
                 color: '#FFFFFF',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                border: 'none',
-                borderRadius: '14px',
-                boxShadow: '0 2px 6px rgba(88, 166, 255, 0.25)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                border: '1px solid rgba(88, 166, 255, 0.3)',
+                borderRadius: '16px',
+                boxShadow: '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                 textDecoration: 'none',
                 transition: 'all 0.2s ease'
               }}
               onMouseEnter={(e) => {
                 e.target.style.transform = 'translateY(-1px)'
-                e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
+                e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 1) 0%, rgba(163, 113, 247, 1) 100%)'
+                e.target.style.boxShadow = '0 6px 20px rgba(88, 166, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
               }}
               onMouseLeave={(e) => {
                 e.target.style.transform = 'translateY(0)'
-                e.target.style.boxShadow = '0 2px 6px rgba(88, 166, 255, 0.25)'
+                e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                e.target.style.boxShadow = '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
               }}
             >
               Get Started
@@ -294,7 +316,9 @@ export default function LandingHeader() {
                 fontSize: '15px',
                 fontWeight: '600',
                 color: '#FFFFFF',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 borderRadius: '21px',
                 boxShadow: '0 2px 6px rgba(88, 166, 255, 0.25)',
                 textDecoration: 'none'

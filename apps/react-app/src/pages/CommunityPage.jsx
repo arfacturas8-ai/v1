@@ -17,12 +17,13 @@ import {
   Users, Plus, TrendingUp, MessageSquare, ChevronUp, ChevronDown,
   Share2, Bookmark, MoreHorizontal, Calendar, Shield, Clock,
   Eye, Star, Filter, ArrowUp, ArrowDown, Flame, Zap, WifiOff,
-  CheckCircle, UserPlus
+  CheckCircle, UserPlus, Hash, MessageCircle
 } from 'lucide-react'
 import { Card, Button, Input, Textarea } from '../components/ui'
 import offlineStorage from '../services/offlineStorage'
 import communityService from '../services/communityService'
 import postsService from '../services/postsService'
+import channelService from '../services/channelService'
 import { useAuth } from '../contexts/AuthContext'
 import {
   SkipToContent,
@@ -31,11 +32,18 @@ import {
   useErrorAnnouncement,
   AccessibleFormField
 } from '../utils/accessibility.jsx'
+import ChannelSidebar from '../components/community/ChannelSidebar'
+import CreateChannelModal from '../components/community/CreateChannelModal'
+import ChatInterface from '../components/chat/ChatInterface'
+import { useResponsive } from '../hooks/useResponsive'
 
 function CommunityPage() {
   const { communityName } = useParams()
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { isMobile, isTablet } = useResponsive()
+
+  // Core state
   const [community, setCommunity] = useState(null)
   const [posts, setPosts] = useState([])
   const [isJoined, setIsJoined] = useState(false)
@@ -47,6 +55,13 @@ function CommunityPage() {
   const [userVotes, setUserVotes] = useState({})
   const [isOffline, setIsOffline] = useState(!navigator.onLine)
   const [joinLoading, setJoinLoading] = useState(false)
+
+  // Channels state
+  const [activeTab, setActiveTab] = useState('feed') // 'feed' or 'channels'
+  const [channels, setChannels] = useState([])
+  const [activeChannel, setActiveChannel] = useState(null)
+  const [showCreateChannel, setShowCreateChannel] = useState(false)
+  const [currentUserInVoice, setCurrentUserInVoice] = useState(null)
 
   // Accessibility: Announce loading and error states to screen readers
   useLoadingAnnouncement(loading, `Loading ${communityName} community`)
@@ -100,6 +115,23 @@ function CommunityPage() {
     }
   }, [communityName, sortBy])
 
+  // Load channels for community
+  const loadChannels = useCallback(async () => {
+    if (!community?.id) return
+
+    try {
+      const response = await channelService.getChannels(community.id)
+      if (response.success && response.channels) {
+        setChannels(response.channels)
+        if (response.channels.length > 0 && !activeChannel) {
+          setActiveChannel(response.channels[0].id)
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load channels:', err)
+    }
+  }, [community?.id, activeChannel])
+
   useEffect(() => {
     loadCommunity()
 
@@ -115,6 +147,13 @@ function CommunityPage() {
       window.removeEventListener('offline', handleOffline)
     }
   }, [communityName, loadCommunity])
+
+  // Load channels when community loads
+  useEffect(() => {
+    if (community?.id) {
+      loadChannels()
+    }
+  }, [community?.id, loadChannels])
 
   const handleJoin = useCallback(async () => {
     if (!user) {
@@ -147,6 +186,37 @@ function CommunityPage() {
       setJoinLoading(false)
     }
   }, [isJoined, community, user, navigate])
+
+  // Channel handlers
+  const handleCreateChannel = useCallback(async (channelData) => {
+    try {
+      const response = await channelService.createChannel({
+        ...channelData,
+        communityId: community.id
+      })
+
+      if (response.success && response.channel) {
+        setChannels(prev => [...prev, response.channel])
+        announce(`Created channel #${response.channel.name}`)
+        return response
+      }
+    } catch (err) {
+      console.error('Failed to create channel:', err)
+      throw err
+    }
+  }, [community])
+
+  const handleChannelSelect = useCallback((channel) => {
+    setActiveChannel(channel.id)
+  }, [])
+
+  const handleJoinVoice = useCallback((channelId) => {
+    if (channelId) {
+      setCurrentUserInVoice(channelId)
+    } else {
+      setCurrentUserInVoice(null)
+    }
+  }, [])
 
   const handleCreatePost = useCallback(async (e) => {
     e.preventDefault()
@@ -274,14 +344,16 @@ function CommunityPage() {
             <div style={{ padding: '16px', borderRadius: '50%', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.2)', display: 'inline-flex', marginBottom: '24px' }}>
               <Shield style={{ width: "48px", height: "48px", flexShrink: 0, color: '#ef4444' }} />
             </div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#000000' }}>Error Loading Community</h2>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#1A1A1A' }}>Error Loading Community</h2>
             <p style={{ marginBottom: '24px', color: '#666666' }}>{typeof error === "string" ? error : getErrorMessage(error, "An error occurred")}</p>
             <Button
               onClick={loadCommunity}
               variant="primary"
               style={{
                 width: '100%',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: 'white',
                 height: '56px',
                 borderRadius: '14px',
@@ -310,15 +382,17 @@ function CommunityPage() {
             <div style={{ padding: '16px', borderRadius: '50%', background: '#FAFAFA', border: '1px solid rgba(0, 0, 0, 0.08)', display: 'inline-flex', marginBottom: '24px' }}>
               <Users style={{width: "48px", height: "48px", flexShrink: 0, color: '#999999'}} />
             </div>
-            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#000000' }}>Community Not Found</h2>
+            <h2 style={{ fontSize: '24px', fontWeight: '700', marginBottom: '12px', color: '#1A1A1A' }}>Community Not Found</h2>
             <p style={{ marginBottom: '24px', color: '#666666' }}>c/{communityName} doesn't exist yet.</p>
-            <div style={{ display: 'flex', flexDirection: window.innerWidth < 640 ? 'column' : 'row', gap: '12px' }}>
+            <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '12px' }}>
               <Link to="/create-community" style={{ flex: 1 }}>
                 <Button
                   variant="primary"
                   style={{
                     width: '100%',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'white',
                     height: '56px',
                     borderRadius: '14px',
@@ -405,9 +479,6 @@ function CommunityPage() {
     setSortBy(newSortBy)
   }, [])
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
-
   return (
     <>
       <SkipToContent targetId="community-main-content" />
@@ -423,8 +494,14 @@ function CommunityPage() {
           </div>
         )}
 
-        {/* Community Header */}
-        <div style={{ background: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.06)' }}>
+        {/* Community Header - Glassy Effect */}
+        <div style={{
+          backgroundColor: 'rgba(255, 255, 255, 0.85)',
+          backdropFilter: 'blur(20px) saturate(180%)',
+          WebkitBackdropFilter: 'blur(20px) saturate(180%)',
+          borderBottom: '1px solid rgba(0, 0, 0, 0.06)',
+          boxShadow: '0 1px 3px rgba(0, 0, 0, 0.04)'
+        }}>
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '24px 16px' : '32px 24px' }}>
             <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', gap: '16px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
@@ -432,7 +509,9 @@ function CommunityPage() {
                 <div style={{
                   width: isMobile ? '64px' : '80px',
                   height: isMobile ? '64px' : '80px',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   borderRadius: '20px',
                   display: 'flex',
                   alignItems: 'center',
@@ -448,7 +527,7 @@ function CommunityPage() {
 
                 {/* Community Info */}
                 <div style={{ flex: 1 }}>
-                  <h1 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '700', marginBottom: '4px', color: '#000000' }}>
+                  <h1 style={{ fontSize: isMobile ? '24px' : '32px', fontWeight: '700', marginBottom: '4px', color: '#1A1A1A' }}>
                     c/{community?.displayName}
                   </h1>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '14px', color: '#666666', flexWrap: 'wrap' }}>
@@ -461,7 +540,7 @@ function CommunityPage() {
                       {community?.onlineCount} online
                     </span>
                     {community?.trending && (
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#6366F1' }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#58a6ff' }}>
                         <TrendingUp style={{ width: "16px", height: "16px", flexShrink: 0 }} />
                         Trending
                       </span>
@@ -478,19 +557,31 @@ function CommunityPage() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '8px',
-                  height: '56px',
-                  paddingLeft: '24px',
-                  paddingRight: '24px',
-                  borderRadius: '14px',
-                  fontSize: '16px',
+                  height: '44px',
+                  paddingLeft: '20px',
+                  paddingRight: '20px',
+                  borderRadius: '10px',
+                  fontSize: '14px',
                   fontWeight: '600',
-                  border: isJoined ? '1px solid rgba(0, 0, 0, 0.08)' : 'none',
+                  border: isJoined ? '1px solid #E5E5E5' : 'none',
                   cursor: 'pointer',
-                  background: isJoined ? 'white' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
-                  color: isJoined ? '#666666' : 'white',
-                  boxShadow: isJoined ? 'none' : '0 4px 16px rgba(99, 102, 241, 0.2)',
+                  background: isJoined ? 'white' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                  color: isJoined ? '#1A1A1A' : 'white',
+                  boxShadow: isJoined ? 'none' : '0 4px 12px rgba(88, 166, 255, 0.3)',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isJoined) {
+                    e.currentTarget.style.transform = 'translateY(-1px)'
+                    e.currentTarget.style.boxShadow = '0 6px 16px rgba(88, 166, 255, 0.4)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isJoined) {
+                    e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
+                  }
                 }}
                 aria-label={isJoined ? `Leave ${community?.displayName}` : `Join ${community?.displayName}`}
               >
@@ -512,11 +603,72 @@ function CommunityPage() {
             {community?.description && (
               <p style={{ marginTop: '16px', maxWidth: '900px', color: '#666666', lineHeight: '1.5' }}>{community.description}</p>
             )}
+
+            {/* Tab Navigation */}
+            <div style={{ display: 'flex', gap: '8px', marginTop: '24px', borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '0' }}>
+              <button
+                onClick={() => setActiveTab('feed')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '12px 20px',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: activeTab === 'feed' ? '3px solid #58a6ff' : '3px solid transparent',
+                  color: activeTab === 'feed' ? '#58a6ff' : '#666666',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  marginBottom: '-1px',
+                }}
+              >
+                <MessageSquare size={18} />
+                Feed
+              </button>
+              <button
+                onClick={() => setActiveTab('channels')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '12px 20px',
+                  background: 'transparent',
+                  border: 'none',
+                  borderBottom: activeTab === 'channels' ? '3px solid #58a6ff' : '3px solid transparent',
+                  color: activeTab === 'channels' ? '#58a6ff' : '#666666',
+                  fontSize: '15px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                  marginBottom: '-1px',
+                }}
+              >
+                <Hash size={18} />
+                Channels
+                {channels.length > 0 && (
+                  <span style={{
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                    color: '#FFFFFF',
+                    borderRadius: '10px',
+                    padding: '2px 8px',
+                    fontSize: '12px',
+                    fontWeight: '700'
+                  }}>
+                    {channels.length}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Main Content */}
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '24px 16px' : '32px 24px' }}>
+        {/* Main Content - Feed View */}
+        {activeTab === 'feed' && (
+          <div style={{ maxWidth: '1280px', margin: '0 auto', padding: isMobile ? '24px 16px' : '32px 24px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'minmax(0, 2fr) minmax(0, 1fr)', gap: '24px' }} id="community-main-content">
             {/* Posts Section */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -565,7 +717,7 @@ function CommunityPage() {
                             padding: '0 16px',
                             background: '#FAFAFA',
                             border: '1px solid rgba(0, 0, 0, 0.06)',
-                            color: '#000000',
+                            color: '#1A1A1A',
                             fontSize: '16px',
                             outline: 'none'
                           }}
@@ -590,7 +742,7 @@ function CommunityPage() {
                             padding: '16px',
                             background: '#FAFAFA',
                             border: '1px solid rgba(0, 0, 0, 0.06)',
-                            color: '#000000',
+                            color: '#1A1A1A',
                             fontSize: '16px',
                             outline: 'none',
                             resize: 'vertical'
@@ -604,7 +756,9 @@ function CommunityPage() {
                           type="submit"
                           variant="primary"
                           style={{
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                             color: 'white',
                             height: '48px',
                             paddingLeft: '24px',
@@ -668,7 +822,7 @@ function CommunityPage() {
                           whiteSpace: 'nowrap',
                           border: 'none',
                           cursor: 'pointer',
-                          background: isActive ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FAFAFA',
+                          background: isActive ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#FAFAFA',
                           color: isActive ? 'white' : '#666666',
                           boxShadow: isActive ? '0 2px 8px rgba(99, 102, 241, 0.15)' : 'none'
                         }}
@@ -689,7 +843,7 @@ function CommunityPage() {
                     <div style={{ marginBottom: '16px', display: 'inline-block' }}>
                       <MessageSquare style={{width: "64px", height: "64px", flexShrink: 0, color: '#999999'}} />
                     </div>
-                    <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px', color: '#000000' }}>No posts yet</h3>
+                    <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '8px', color: '#1A1A1A' }}>No posts yet</h3>
                     <p style={{ color: '#666666' }}>Be the first to post in this community!</p>
                   </div>
                 ) : (
@@ -726,7 +880,7 @@ function CommunityPage() {
                                 border: 'none',
                                 background: 'transparent',
                                 cursor: 'pointer',
-                                color: userVotes[post.id] === 'up' ? '#6366F1' : '#999999'
+                                color: userVotes[post.id] === 'up' ? '#58a6ff' : '#999999'
                               }}
                               aria-label={`Upvote post: ${post.title}`}
                             >
@@ -735,7 +889,7 @@ function CommunityPage() {
                             <span style={{
                               fontSize: '14px',
                               fontWeight: '700',
-                              color: post.score > 0 ? '#6366F1' : post.score < 0 ? '#8B5CF6' : '#999999'
+                              color: post.score > 0 ? '#1A1A1A' : post.score < 0 ? '#1A1A1A' : '#999999'
                             }}>
                               {post.score}
                             </span>
@@ -748,7 +902,7 @@ function CommunityPage() {
                                 border: 'none',
                                 background: 'transparent',
                                 cursor: 'pointer',
-                                color: userVotes[post.id] === 'down' ? '#8B5CF6' : '#999999'
+                                color: userVotes[post.id] === 'down' ? '#58a6ff' : '#999999'
                               }}
                               aria-label={`Downvote post: ${post.title}`}
                             >
@@ -764,12 +918,12 @@ function CommunityPage() {
                                   <span style={{
                                     display: 'inline-block',
                                     padding: '4px 8px',
-                                    background: 'rgba(99, 102, 241, 0.1)',
-                                    color: '#6366F1',
+                                    background: 'rgba(88, 166, 255, 0.1)',
+                                    color: '#58a6ff',
                                     fontSize: '12px',
                                     borderRadius: '8px',
                                     marginBottom: '8px',
-                                    border: '1px solid rgba(99, 102, 241, 0.2)',
+                                    border: '1px solid rgba(88, 166, 255, 0.2)',
                                     fontWeight: '600'
                                   }}>
                                     Pinned
@@ -785,10 +939,10 @@ function CommunityPage() {
                                       fontWeight: '600',
                                       transition: 'color 0.2s ease',
                                       marginBottom: '8px',
-                                      color: '#000000'
+                                      color: '#1A1A1A'
                                     }}
-                                    onMouseEnter={(e) => e.target.style.color = '#6366F1'}
-                                    onMouseLeave={(e) => e.target.style.color = '#000000'}
+                                    onMouseEnter={(e) => e.target.style.color = '#58a6ff'}
+                                    onMouseLeave={(e) => e.target.style.color = '#1A1A1A'}
                                   >
                                     {post.title}
                                   </h3>
@@ -825,7 +979,7 @@ function CommunityPage() {
                                   color: '#666666',
                                   textDecoration: 'none'
                                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                                 onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                               >
                                 <MessageSquare style={{ width: "18px", height: "18px", flexShrink: 0 }} />
@@ -844,7 +998,7 @@ function CommunityPage() {
                                   fontSize: '14px',
                                   padding: 0
                                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                                 onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                               >
                                 <Share2 style={{ width: "18px", height: "18px", flexShrink: 0 }} />
@@ -863,7 +1017,7 @@ function CommunityPage() {
                                   fontSize: '14px',
                                   padding: 0
                                 }}
-                                onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                                 onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                               >
                                 <Bookmark style={{ width: "18px", height: "18px", flexShrink: 0 }} />
@@ -883,7 +1037,7 @@ function CommunityPage() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               {/* About Community */}
               <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
-                <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: '#000000' }}>About Community</h2>
+                <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: '#1A1A1A' }}>About Community</h2>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                   {communityStats.map((stat, index) => {
                     const Icon = stat.icon
@@ -893,7 +1047,7 @@ function CommunityPage() {
                           <Icon style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                           <span>{stat.label}</span>
                         </div>
-                        <span style={{ fontWeight: '600', color: '#000000' }}>{stat.value}</span>
+                        <span style={{ fontWeight: '600', color: '#1A1A1A' }}>{stat.value}</span>
                       </div>
                     )
                   })}
@@ -903,7 +1057,7 @@ function CommunityPage() {
                         <Calendar style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                         <span>Created</span>
                       </div>
-                      <span style={{ fontWeight: '600', color: '#000000' }}>
+                      <span style={{ fontWeight: '600', color: '#1A1A1A' }}>
                         {new Date(community.createdAt).toLocaleDateString()}
                       </span>
                     </div>
@@ -914,7 +1068,7 @@ function CommunityPage() {
               {/* Community Rules */}
               {displayRules.length > 0 && (
                 <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
-                  <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: '#000000' }}>
+                  <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: '#1A1A1A' }}>
                     <Shield style={{ width: "20px", height: "20px", flexShrink: 0 }} />
                     Rules
                   </h2>
@@ -932,7 +1086,7 @@ function CommunityPage() {
               {/* Moderators */}
               {displayModerators.length > 0 && (
                 <div style={{ background: 'white', border: '1px solid rgba(0, 0, 0, 0.06)', borderRadius: '20px', padding: '24px', boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)' }}>
-                  <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: '#000000' }}>Moderators</h2>
+                  <h2 style={{ fontSize: '18px', fontWeight: '700', marginBottom: '16px', color: '#1A1A1A' }}>Moderators</h2>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {displayModerators.map((mod, index) => (
                       <Link
@@ -947,14 +1101,16 @@ function CommunityPage() {
                           textDecoration: 'none',
                           fontSize: '15px'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.color = '#6366F1'}
+                        onMouseEnter={(e) => e.currentTarget.style.color = '#58a6ff'}
                         onMouseLeave={(e) => e.currentTarget.style.color = '#666666'}
                       >
                         <div style={{
                           width: '32px',
                           height: '32px',
                           flexShrink: 0,
-                          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                           borderRadius: '50%',
                           display: 'flex',
                           alignItems: 'center',
@@ -973,7 +1129,99 @@ function CommunityPage() {
               )}
             </div>
           </div>
-        </div>
+          </div>
+        )}
+
+        {/* Main Content - Channels View */}
+        {activeTab === 'channels' && (
+          <div
+            style={{
+              display: 'flex',
+              height: `calc(100vh - ${isMobile ? '200px' : '240px'})`,
+              maxWidth: '1920px',
+              margin: '0 auto',
+              background: '#FFFFFF',
+            }}
+          >
+            {/* Channel Sidebar */}
+            {(!isMobile || !activeChannel) && (
+              <ChannelSidebar
+                community={community}
+                channels={channels}
+                activeChannelId={activeChannel}
+                onChannelSelect={handleChannelSelect}
+                onCreateChannel={() => setShowCreateChannel(true)}
+                onJoinVoice={handleJoinVoice}
+                currentUserInVoice={currentUserInVoice}
+                isMobile={isMobile}
+              />
+            )}
+
+            {/* Chat Interface */}
+            {activeChannel && (
+              <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                <ChatInterface
+                  user={user}
+                  servers={[{ id: community.id, name: community.name, channels }]}
+                  channels={channels}
+                  onClose={() => setActiveChannel(null)}
+                  isMobile={isMobile}
+                />
+              </div>
+            )}
+
+            {/* Empty State for Channels */}
+            {!activeChannel && channels.length === 0 && (
+              <div
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '48px',
+                  textAlign: 'center',
+                }}
+              >
+                <Hash size={64} color="#CCCCCC" style={{ marginBottom: '16px' }} />
+                <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#1A1A1A', marginBottom: '8px' }}>
+                  No Channels Yet
+                </h3>
+                <p style={{ fontSize: '15px', color: '#666666', marginBottom: '24px', maxWidth: '400px' }}>
+                  Get started by creating your first channel. Channels let members chat in real-time about different topics.
+                </p>
+                <button
+                  onClick={() => setShowCreateChannel(true)}
+                  style={{
+                    padding: '12px 24px',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    color: '#FFFFFF',
+                    border: 'none',
+                    borderRadius: '10px',
+                    fontSize: '15px',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                  }}
+                >
+                  <Plus size={18} />
+                  Create First Channel
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Create Channel Modal */}
+        {showCreateChannel && (
+          <CreateChannelModal
+            community={community}
+            onClose={() => setShowCreateChannel(false)}
+            onCreate={handleCreateChannel}
+          />
+        )}
       </div>
     </>
   )

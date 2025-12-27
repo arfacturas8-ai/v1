@@ -4,7 +4,7 @@
  * White backgrounds, 16px rounded corners, subtle shadows
  */
 
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useState } from 'react';
 
 /**
  * Card Component
@@ -20,25 +20,47 @@ export const Card = forwardRef(
       as: Component = 'div',
       children,
       onClick,
+      style,
       ...props
     },
     ref
   ) => {
-    // Build className
-    const cardClass = [
-      'card',
-      variant === 'elevated' && 'card-elevated',
-      (interactive || onClick) && 'card-interactive',
-      padding === 'compact' && 'card-compact',
-      padding === 'spacious' && 'card-spacious',
-      className
-    ].filter(Boolean).join(' ');
+    const [isHovered, setIsHovered] = useState(false);
+
+    // Padding variants
+    const paddingMap = {
+      compact: '12px',
+      default: '20px',
+      spacious: '24px'
+    };
+
+    // Base card styles
+    const baseStyle = {
+      background: '#FFFFFF',
+      border: '1px solid #E8EAED',
+      borderRadius: '16px',
+      padding: paddingMap[padding] || paddingMap.default,
+      boxShadow: variant === 'elevated' ? '0 2px 8px rgba(0,0,0,0.08)' : '0 1px 3px rgba(0,0,0,0.04)',
+      transition: 'all 0.2s',
+      cursor: (interactive || onClick) ? 'pointer' : 'default',
+      ...style
+    };
+
+    // Interactive hover styles
+    const hoverStyle = (interactive || onClick) && isHovered ? {
+      transform: 'translateY(-2px)',
+      boxShadow: variant === 'elevated' ? '0 4px 16px rgba(0,0,0,0.12)' : '0 2px 8px rgba(0,0,0,0.08)',
+      borderColor: '#CCCCCC'
+    } : {};
 
     return (
       <Component
         ref={ref}
-        className={cardClass}
+        className={className}
+        style={{ ...baseStyle, ...hoverStyle }}
         onClick={onClick}
+        onMouseEnter={() => (interactive || onClick) && setIsHovered(true)}
+        onMouseLeave={() => (interactive || onClick) && setIsHovered(false)}
         role={onClick ? 'button' : undefined}
         tabIndex={onClick ? 0 : undefined}
         onKeyDown={
@@ -65,11 +87,17 @@ Card.displayName = 'Card';
  * CardHeader Component
  */
 export const CardHeader = forwardRef(
-  ({ className = '', children, ...props }, ref) => {
+  ({ className = '', style, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={`flex flex-col gap-1.5 ${className}`}
+        className={className}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+          ...style
+        }}
         {...props}
       >
         {children}
@@ -84,11 +112,19 @@ CardHeader.displayName = 'CardHeader';
  * CardTitle Component
  */
 export const CardTitle = forwardRef(
-  ({ className = '', as: Component = 'h3', children, ...props }, ref) => {
+  ({ className = '', as: Component = 'h3', style, children, ...props }, ref) => {
     return (
       <Component
         ref={ref}
-        className={`text-lg font-semibold text-[var(--text-primary)] leading-tight ${className}`}
+        className={className}
+        style={{
+          fontSize: '18px',
+          fontWeight: '600',
+          color: '#1A1A1A',
+          lineHeight: '1.3',
+          margin: 0,
+          ...style
+        }}
         {...props}
       >
         {children}
@@ -103,11 +139,18 @@ CardTitle.displayName = 'CardTitle';
  * CardDescription Component
  */
 export const CardDescription = forwardRef(
-  ({ className = '', children, ...props }, ref) => {
+  ({ className = '', style, children, ...props }, ref) => {
     return (
       <p
         ref={ref}
-        className={`text-sm text-[var(--text-secondary)] ${className}`}
+        className={className}
+        style={{
+          fontSize: '14px',
+          color: '#666666',
+          lineHeight: '1.5',
+          margin: 0,
+          ...style
+        }}
         {...props}
       >
         {children}
@@ -122,9 +165,9 @@ CardDescription.displayName = 'CardDescription';
  * CardContent Component
  */
 export const CardContent = forwardRef(
-  ({ className = '', children, ...props }, ref) => {
+  ({ className = '', style, children, ...props }, ref) => {
     return (
-      <div ref={ref} className={className} {...props}>
+      <div ref={ref} className={className} style={style} {...props}>
         {children}
       </div>
     );
@@ -137,12 +180,18 @@ CardContent.displayName = 'CardContent';
  * CardFooter Component
  */
 export const CardFooter = forwardRef(
-  ({ className = '', children, ...props }, ref) => {
+  ({ className = '', style, children, ...props }, ref) => {
     return (
       <div
         ref={ref}
-        className={`flex items-center gap-2 ${className}`}
-        style={{ marginTop: 'var(--space-4)' }}
+        className={className}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '8px',
+          marginTop: '16px',
+          ...style
+        }}
         {...props}
       >
         {children}
@@ -160,6 +209,7 @@ export const CardImage = forwardRef(
   (
     {
       className = '',
+      style,
       src,
       alt,
       aspectRatio = '1/1',
@@ -174,8 +224,14 @@ export const CardImage = forwardRef(
 
     return (
       <div
-        className={`relative overflow-hidden bg-[var(--bg-tertiary)] ${className}`}
-        style={{ aspectRatio }}
+        className={className}
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          background: '#F0F2F5',
+          aspectRatio,
+          ...style
+        }}
       >
         {!error && src ? (
           <img
@@ -183,18 +239,34 @@ export const CardImage = forwardRef(
             src={src}
             alt={alt}
             loading={loading}
-            className={`h-full w-full transition-transform duration-300 ${
-              objectFit === 'cover' ? 'object-cover' : 'object-contain'
-            } group-hover:scale-105`}
+            style={{
+              height: '100%',
+              width: '100%',
+              objectFit: objectFit === 'cover' ? 'cover' : 'contain',
+              transition: 'transform 0.3s'
+            }}
             onError={() => setError(true)}
             {...props}
           />
         ) : fallback ? (
-          <div className="flex h-full w-full items-center justify-center">
+          <div style={{
+            display: 'flex',
+            height: '100%',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
             {fallback}
           </div>
         ) : (
-          <div className="flex h-full w-full items-center justify-center">
+          <div style={{
+            display: 'flex',
+            height: '100%',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#999999'
+          }}>
             <svg
               style={{ width: "64px", height: "64px", flexShrink: 0 }}
               fill="none"
@@ -221,16 +293,49 @@ CardImage.displayName = 'CardImage';
  * CardBadge Component
  */
 export const CardBadge = forwardRef(
-  ({ className = '', variant = 'default', children, ...props }, ref) => {
-    const badgeClass = [
-      'badge',
-      variant !== 'default' && `badge-${variant}`,
-      'absolute top-2 right-2 z-10',
-      className
-    ].filter(Boolean).join(' ');
+  ({ className = '', variant = 'default', style, children, ...props }, ref) => {
+    // Badge variant styles
+    const variantStyles = {
+      default: {
+        background: '#58a6ff',
+        color: '#FFFFFF'
+      },
+      success: {
+        background: '#10B981',
+        color: '#FFFFFF'
+      },
+      warning: {
+        background: '#F59E0B',
+        color: '#FFFFFF'
+      },
+      danger: {
+        background: '#EF4444',
+        color: '#FFFFFF'
+      },
+      secondary: {
+        background: '#F0F2F5',
+        color: '#1A1A1A'
+      }
+    };
 
     return (
-      <span ref={ref} className={badgeClass} {...props}>
+      <span
+        ref={ref}
+        className={className}
+        style={{
+          position: 'absolute',
+          top: '8px',
+          right: '8px',
+          zIndex: 10,
+          padding: '4px 12px',
+          borderRadius: '9999px',
+          fontSize: '12px',
+          fontWeight: '600',
+          ...variantStyles[variant] || variantStyles.default,
+          ...style
+        }}
+        {...props}
+      >
         {children}
       </span>
     );

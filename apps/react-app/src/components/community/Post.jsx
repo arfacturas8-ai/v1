@@ -60,14 +60,14 @@ const Post = ({
 
   return (
     <article
-      className="card"
       style={{
-        backgroundColor: 'var(--bg-secondary)',
-        border: '1px solid var(--border-subtle)',
-        borderRadius: 'var(--radius-xl)',
-        padding: 'var(--space-3)',
-        boxShadow: 'var(--shadow-sm)',
-        transition: 'all var(--transition-normal)'
+        backgroundColor: '#FFFFFF',
+        border: '1px solid #E8EAED',
+        borderRadius: '16px',
+        padding: isMobile ? '16px' : '20px',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
+        transition: 'all 0.2s',
+        marginBottom: '8px'
       }}
       role="article"
       aria-labelledby={`post-${post.id}-title`}

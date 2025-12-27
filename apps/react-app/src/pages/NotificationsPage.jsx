@@ -51,9 +51,9 @@ const NotificationIcon = ({ type }) => {
   const getIcon = () => {
     switch (type) {
       case NOTIFICATION_TYPES.MESSAGE:
-        return <MessageSquare style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />
+        return <MessageSquare style={{ width: '20px', height: '20px', color: '#58a6ff', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.MENTION:
-        return <AtSign style={{ width: '20px', height: '20px', color: '#8B5CF6', flexShrink: 0 }} />
+        return <AtSign style={{ width: '20px', height: '20px', color: '#a371f7', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.REACTION:
         return <Heart style={{ width: '20px', height: '20px', color: '#EF4444', flexShrink: 0 }} />
       case NOTIFICATION_TYPES.FOLLOW:
@@ -93,10 +93,10 @@ const NotificationCard = ({
         backgroundColor: 'white',
         borderWidth: '1px',
         borderStyle: 'solid',
-        borderColor: isSelected ? '#6366F1' : 'rgba(0, 0, 0, 0.06)',
+        borderColor: isSelected ? '#58a6ff' : 'rgba(0, 0, 0, 0.06)',
         borderRadius: '16px',
         borderLeftWidth: !notification.isRead ? '4px' : '1px',
-        borderLeftColor: !notification.isRead ? '#6366F1' : 'rgba(0, 0, 0, 0.06)',
+        borderLeftColor: !notification.isRead ? '#58a6ff' : 'rgba(0, 0, 0, 0.06)',
         minHeight: '72px',
         padding: '20px',
         transition: 'all 0.2s ease',
@@ -122,7 +122,7 @@ const NotificationCard = ({
               borderWidth: '1px',
               borderColor: 'rgba(0, 0, 0, 0.1)',
               cursor: 'pointer',
-              accentColor: '#6366F1'
+              accentColor: '#58a6ff'
             }}
             aria-label={`Select notification: ${notification.title}`}
           />
@@ -135,7 +135,9 @@ const NotificationCard = ({
               width: '48px',
               height: '48px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -153,12 +155,14 @@ const NotificationCard = ({
                 right: '-2px',
                 width: '14px',
                 height: '14px',
-                backgroundColor: '#6366F1',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 borderRadius: '50%',
                 borderWidth: '2px',
                 borderStyle: 'solid',
                 borderColor: 'white',
-                boxShadow: '0 0 12px rgba(99, 102, 241, 0.6)'
+                boxShadow: '0 0 12px rgba(88, 166, 255, 0.6)'
               }}
             />
           )}
@@ -174,7 +178,7 @@ const NotificationCard = ({
               <NotificationIcon type={notification.type} />
               <span
                 style={{
-                  color: !notification.isRead ? '#000000' : '#666666',
+                  color: !notification.isRead ? '#1A1A1A' : '#666666',
                   fontWeight: 600,
                   fontSize: '15px',
                   overflow: 'hidden',
@@ -217,7 +221,7 @@ const NotificationCard = ({
                 e.stopPropagation()
                 onMarkAsRead(notification.id)
               }}
-              icon={<Check style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />}
+              icon={<Check style={{ width: '20px', height: '20px', color: '#58a6ff', flexShrink: 0 }} />}
               label="Mark as read"
               hoverBg="rgba(99, 102, 241, 0.08)"
             />
@@ -308,12 +312,14 @@ function NotificationsPage() {
       if (response.success && response.data) {
         setNotifications(response.data.notifications || [])
       } else {
+        // If API returns empty or not found, just show empty state (not an error)
         setNotifications([])
       }
     } catch (err) {
-      console.error('Failed to load notifications:', err)
-      setError('Failed to load notifications. Please try again later.')
+      console.error('Notifications API not available yet:', err)
+      // Gracefully show empty state when API doesn't exist yet
       setNotifications([])
+      setError(null) // Don't show error UI, just empty state
     } finally {
       setLoading(false)
     }
@@ -505,13 +511,13 @@ function NotificationsPage() {
                 <BackButton onClick={() => navigate(-1)} />
               )}
               <div style={{ width: '24px', height: '24px', flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Bell style={{ width: '20px', height: '20px', color: '#6366F1', flexShrink: 0 }} />
+                <Bell style={{ width: '20px', height: '20px', color: '#58a6ff', flexShrink: 0 }} />
               </div>
               <h1
                 style={{
                   fontSize: '24px',
                   fontWeight: 700,
-                  color: '#000000',
+                  color: '#1A1A1A',
                   margin: 0,
                   letterSpacing: '-0.02em'
                 }}
@@ -522,7 +528,9 @@ function NotificationsPage() {
                 <span
                   style={{
                     padding: '6px 12px',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: 'white',
                     fontSize: '12px',
                     fontWeight: 600,
@@ -652,7 +660,7 @@ function NotificationsPage() {
               style={{
                 fontSize: '20px',
                 fontWeight: 600,
-                color: '#000000',
+                color: '#1A1A1A',
                 marginBottom: '8px',
                 letterSpacing: '-0.01em'
               }}
@@ -688,7 +696,7 @@ function NotificationsPage() {
               style={{
                 fontSize: '20px',
                 fontWeight: 600,
-                color: '#000000',
+                color: '#1A1A1A',
                 marginBottom: '8px',
                 letterSpacing: '-0.01em'
               }}
@@ -783,7 +791,7 @@ const HeaderButton = ({ onClick, disabled, icon, text, label }) => {
         borderStyle: 'solid',
         borderColor: 'rgba(0, 0, 0, 0.06)',
         backgroundColor: isHovered && !disabled ? 'rgba(0, 0, 0, 0.02)' : 'white',
-        color: '#000000',
+        color: '#1A1A1A',
         fontSize: '14px',
         fontWeight: 500,
         cursor: disabled ? 'not-allowed' : 'pointer',
@@ -843,7 +851,7 @@ const FilterButton = ({ isActive, onClick, label }) => {
         borderStyle: 'solid',
         borderColor: isActive ? 'transparent' : 'rgba(0, 0, 0, 0.06)',
         background: isActive
-          ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+          ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
           : 'white',
         color: isActive ? 'white' : '#666666',
         fontSize: '14px',
@@ -868,7 +876,9 @@ const BulkActionButton = ({ onClick, icon, text, primary, danger, label }) => {
   const getStyles = () => {
     if (primary) {
       return {
-        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
         color: 'white',
         shadow: isHovered ? '0 8px 24px rgba(99, 102, 241, 0.35)' : '0 4px 16px rgba(99, 102, 241, 0.25)'
       }
@@ -882,7 +892,7 @@ const BulkActionButton = ({ onClick, icon, text, primary, danger, label }) => {
     }
     return {
       background: 'white',
-      color: '#000000',
+      color: '#1A1A1A',
       shadow: isHovered ? '0 4px 12px rgba(0, 0, 0, 0.08)' : 'none'
     }
   }
@@ -932,7 +942,9 @@ const ActionButton = ({ onClick, text, label }) => {
         padding: '0 32px',
         borderRadius: '16px',
         border: 'none',
-        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
         color: 'white',
         fontSize: '15px',
         fontWeight: 600,

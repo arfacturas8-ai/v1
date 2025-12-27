@@ -13,10 +13,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import LandingHeader from '../components/LandingHeader';
+import { useResponsive } from '../hooks/useResponsive';
 
 function GuidelinesPage() {
+  const { isMobile } = useResponsive();
   const [activeSection, setActiveSection] = useState('');
-  const [isMobile, setIsMobile] = useState(false);
 
   const sections = [
     { id: 'introduction', title: 'Introduction' },
@@ -28,16 +29,6 @@ function GuidelinesPage() {
     { id: 'reporting', title: 'Reporting Violations' },
     { id: 'appeals', title: 'Appeals Process' }
   ];
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -124,9 +115,9 @@ function GuidelinesPage() {
                     cursor: 'pointer',
                     borderRadius: '8px',
                     transition: 'all 0.2s ease',
-                    color: activeSection === section.id ? '#58a6ff' : '#666666',
+                    color: activeSection === section.id ? '#000000' : '#666666',
                     fontWeight: activeSection === section.id ? '500' : '400',
-                    borderLeft: activeSection === section.id ? '2px solid #58a6ff' : '2px solid transparent',
+                    borderLeft: activeSection === section.id ? '2px solid #000000' : '2px solid transparent',
                     paddingLeft: activeSection === section.id ? '10px' : '12px',
                     fontFamily: 'inherit',
                   }}
@@ -166,7 +157,9 @@ function GuidelinesPage() {
             style={{
               fontSize: isMobile ? '36px' : '48px',
               fontWeight: '700',
-              background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -236,7 +229,7 @@ function GuidelinesPage() {
                 padding: '20px',
                 background: 'rgba(88, 166, 255, 0.08)',
                 border: '1px solid rgba(88, 166, 255, 0.3)',
-                borderLeft: '4px solid #58a6ff',
+                borderLeft: '4px solid #000000',
                 borderRadius: '12px',
               }}
             >
@@ -1376,12 +1369,12 @@ function GuidelinesPage() {
                 <Link
                   to="/help"
                   style={{
-                    color: '#58a6ff',
+                    color: '#000000',
                     textDecoration: 'none',
                     transition: 'color 0.2s ease',
                   }}
                   onMouseEnter={(e) => (e.target.style.color = '#1a6bc0')}
-                  onMouseLeave={(e) => (e.target.style.color = '#58a6ff')}
+                  onMouseLeave={(e) => (e.target.style.color = '#000000')}
                 >
                   Visit Help Center
                 </Link>
@@ -1391,12 +1384,12 @@ function GuidelinesPage() {
                 <Link
                   to="/terms"
                   style={{
-                    color: '#58a6ff',
+                    color: '#000000',
                     textDecoration: 'none',
                     transition: 'color 0.2s ease',
                   }}
                   onMouseEnter={(e) => (e.target.style.color = '#1a6bc0')}
-                  onMouseLeave={(e) => (e.target.style.color = '#58a6ff')}
+                  onMouseLeave={(e) => (e.target.style.color = '#000000')}
                 >
                   Read our Terms
                 </Link>

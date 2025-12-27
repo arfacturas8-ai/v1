@@ -49,8 +49,8 @@ const SharedMediaGalleryPage = () => {
     const colors = {
       PDF: '#EF4444',
       Excel: '#10B981',
-      Word: '#6366F1',
-      ZIP: '#8B5CF6'
+      Word: '#000000',
+      ZIP: '#000000'
     }
     return colors[type] || '#666666'
   }
@@ -118,9 +118,9 @@ const SharedMediaGalleryPage = () => {
                   fontWeight: 500,
                   transition: 'all 0.2s',
                   background: activeTab === tab.id ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)' : 'transparent',
-                  color: activeTab === tab.id ? '#6366F1' : '#666666',
+                  color: activeTab === tab.id ? '#000000' : '#666666',
                   border: 'none',
-                  borderBottom: activeTab === tab.id ? '2px solid #6366F1' : '2px solid transparent',
+                  borderBottom: activeTab === tab.id ? '2px solid #000000' : '2px solid transparent',
                   cursor: 'pointer'
                 }}
                 onMouseEnter={(e) => {
@@ -138,7 +138,7 @@ const SharedMediaGalleryPage = () => {
                 {tab.label}
                 <span style={{
                   padding: '2px 8px',
-                  background: activeTab === tab.id ? '#6366F1' : '#E0E0E0',
+                  background: activeTab === tab.id ? '#000000' : '#E0E0E0',
                   color: activeTab === tab.id ? '#FFFFFF' : '#666666',
                   borderRadius: '12px',
                   fontSize: '12px',
@@ -175,7 +175,7 @@ const SharedMediaGalleryPage = () => {
                 transition: 'all 0.2s'
               }}
               onFocus={(e) => {
-                e.target.style.borderColor = '#6366F1'
+                e.target.style.borderColor = '#000000'
                 e.target.style.boxShadow = '0 0 0 3px rgba(99, 102, 241, 0.1)'
               }}
               onBlur={(e) => {
@@ -218,7 +218,7 @@ const SharedMediaGalleryPage = () => {
                 padding: '8px',
                 borderRadius: '8px',
                 background: viewMode === 'grid' ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)' : 'transparent',
-                color: viewMode === 'grid' ? '#6366F1' : '#666666',
+                color: viewMode === 'grid' ? '#000000' : '#666666',
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'all 0.2s'
@@ -233,7 +233,7 @@ const SharedMediaGalleryPage = () => {
                 padding: '8px',
                 borderRadius: '8px',
                 background: viewMode === 'list' ? 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)' : 'transparent',
-                color: viewMode === 'list' ? '#6366F1' : '#666666',
+                color: viewMode === 'list' ? '#000000' : '#666666',
                 border: 'none',
                 cursor: 'pointer',
                 transition: 'all 0.2s'
@@ -394,7 +394,7 @@ const SharedMediaGalleryPage = () => {
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#6366F1'
+                  e.currentTarget.style.borderColor = '#000000'
                   e.currentTarget.style.transform = 'translateY(-2px)'
                   e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.1)'
                 }}
@@ -459,7 +459,7 @@ const SharedMediaGalleryPage = () => {
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)'
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = '#6366F1'
+                  e.currentTarget.style.borderColor = '#000000'
                   e.currentTarget.style.transform = 'translateY(-2px)'
                   e.currentTarget.style.boxShadow = '0 4px 12px rgba(99, 102, 241, 0.1)'
                 }}
@@ -470,11 +470,11 @@ const SharedMediaGalleryPage = () => {
                 }}
               >
                 <div style={{ width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <Link size={32} style={{ color: '#6366F1' }} />
+                  <Link size={32} style={{ color: '#000000' }} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 500, color: '#000000', marginBottom: '4px' }}>{item.title}</div>
-                  <div style={{ fontSize: '14px', color: '#6366F1', marginBottom: '4px' }}>{item.url}</div>
+                  <div style={{ fontSize: '14px', color: '#000000', marginBottom: '4px' }}>{item.url}</div>
                   <div style={{ fontSize: '12px', color: '#666666' }}>{item.date}</div>
                 </div>
                 <a

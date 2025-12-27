@@ -7,7 +7,7 @@
  * - Cards: white with subtle shadows
  * - Border radius: 16-24px for modern iOS feel
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Icons: 20px standard size
  * - Hover: translateY(-2px) for interactive elements
  *
@@ -182,7 +182,7 @@ function VoiceChatPage() {
           }}>
             <div style={{ maxWidth: '1280px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                <Phone size={20} aria-hidden="true" style={{ color: '#6366F1', flexShrink: 0 }} />
+                <Phone size={20} aria-hidden="true" style={{ color: '#58a6ff', flexShrink: 0 }} />
                 <div>
                   <h1 style={{ fontWeight: '600', fontSize: '20px', color: '#000', margin: 0 }}>{currentChannel?.name}</h1>
                   <p style={{ color: '#666', fontSize: '14px', margin: 0 }}>{currentChannel?.description}</p>
@@ -317,7 +317,7 @@ function VoiceChatPage() {
                         alignItems: 'center',
                         gap: '8px',
                         color: '#fff',
-                        background: isVideoEnabled ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#666',
+                        background: isVideoEnabled ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#666',
                         border: 'none',
                         cursor: 'pointer'
                       }}
@@ -341,7 +341,7 @@ function VoiceChatPage() {
                         alignItems: 'center',
                         gap: '8px',
                         color: '#fff',
-                        background: isScreenSharing ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#666',
+                        background: isScreenSharing ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#666',
                         border: 'none',
                         cursor: 'pointer'
                       }}
@@ -367,7 +367,7 @@ function VoiceChatPage() {
                       max="100"
                       value={volume}
                       onChange={(e) => setVolume(Number(e.target.value))}
-                      style={{ width: '100%', accentColor: '#6366F1' }}
+                      style={{ width: '100%', accentColor: '#58a6ff' }}
                     />
                   </div>
                 </div>
@@ -393,7 +393,7 @@ function VoiceChatPage() {
                           padding: '12px',
                           borderRadius: '16px',
                           transition: 'all 0.2s ease',
-                          background: channel.id === activeChannel ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FAFAFA',
+                          background: channel.id === activeChannel ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#FAFAFA',
                           color: channel.id === activeChannel ? '#fff' : '#000',
                           border: 'none',
                           cursor: 'pointer'

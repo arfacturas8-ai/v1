@@ -336,12 +336,12 @@ const MultiChainManager = () => {
         <div className=" space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '16px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
           <div style={{
@@ -351,7 +351,7 @@ const MultiChainManager = () => {
             {[1, 2, 3].map(i => (
               <div key={i} style={{
   height: '128px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
             ))}
@@ -595,7 +595,7 @@ const MultiChainManager = () => {
 }}>
             {topAssets.map(([asset, value]) => (
               <div key={asset} style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '12px',
   borderRadius: '12px',
   textAlign: 'center'
@@ -688,7 +688,7 @@ const MultiChainManager = () => {
                       <div style={{
   width: '32px',
   height: '32px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '50%',
   display: 'flex',
   alignItems: 'center',
@@ -772,7 +772,7 @@ const MultiChainManager = () => {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '16px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px'
 }}>
                   <div style={{
@@ -863,7 +863,7 @@ const MultiChainManager = () => {
                     key={network.chainId}
                     style={{
   padding: '16px',
-  background: 'rgba(20, 20, 20, 0.6)'
+  background: 'rgba(0, 0, 0, 0.5)'
 }}
                     onClick={() => !isCurrentNetwork && handleNetworkSwitch(network.chainId)}
                   >

@@ -6,8 +6,10 @@ import React, { useState, useEffect } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate, Link } from 'react-router-dom'
 import { Fingerprint, Smartphone, Key, Check, AlertCircle, Loader2, QrCode, ArrowLeft, Shield } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 export default function PasskeySetupPage() {
+  const { isMobile } = useResponsive()
   const navigate = useNavigate()
   const [step, setStep] = useState(1) // 1: intro, 2: setup, 3: success
   const [deviceName, setDeviceName] = useState('')
@@ -16,8 +18,6 @@ export default function PasskeySetupPage() {
   const [qrCode, setQrCode] = useState('')
   const [isSupported, setIsSupported] = useState(true)
   const [registeredDevice, setRegisteredDevice] = useState(null)
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
   useEffect(() => {
     // Check if WebAuthn is supported
@@ -281,7 +281,7 @@ export default function PasskeySetupPage() {
                   borderRadius: '50%',
                   marginBottom: '16px'
                 }}>
-                  <Fingerprint style={{ width: '32px', height: '32px', color: '#58a6ff' }} />
+                  <Fingerprint style={{ width: '32px', height: '32px', color: '#000000' }} />
                 </div>
                 <h1 style={{
                   fontSize: '28px',
@@ -311,7 +311,7 @@ export default function PasskeySetupPage() {
                   background: '#F5F5F5',
                   borderRadius: '16px'
                 }}>
-                  <Shield style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
+                  <Shield style={{ width: '24px', height: '24px', color: '#000000', flexShrink: 0 }} />
                   <div>
                     <h3 style={{
                       fontSize: '16px',
@@ -336,7 +336,7 @@ export default function PasskeySetupPage() {
                   background: '#F5F5F5',
                   borderRadius: '16px'
                 }}>
-                  <Fingerprint style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
+                  <Fingerprint style={{ width: '24px', height: '24px', color: '#000000', flexShrink: 0 }} />
                   <div>
                     <h3 style={{
                       fontSize: '16px',
@@ -361,7 +361,7 @@ export default function PasskeySetupPage() {
                   background: '#F5F5F5',
                   borderRadius: '16px'
                 }}>
-                  <Key style={{ width: '24px', height: '24px', color: '#58a6ff', flexShrink: 0 }} />
+                  <Key style={{ width: '24px', height: '24px', color: '#000000', flexShrink: 0 }} />
                   <div>
                     <h3 style={{
                       fontSize: '16px',
@@ -384,14 +384,16 @@ export default function PasskeySetupPage() {
                 style={{
                   width: '100%',
                   padding: '14px 24px',
-                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: '#FFFFFF',
-                  border: 'none',
+                  border: '1px solid rgba(88, 166, 255, 0.3)',
                   borderRadius: '12px',
                   fontSize: '16px',
                   fontWeight: '600',
                   cursor: 'pointer',
-                  boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                  boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
@@ -416,7 +418,7 @@ export default function PasskeySetupPage() {
                   borderRadius: '50%',
                   marginBottom: '16px'
                 }}>
-                  <Smartphone style={{ width: '32px', height: '32px', color: '#58a6ff' }} />
+                  <Smartphone style={{ width: '32px', height: '32px', color: '#000000' }} />
                 </div>
                 <h1 style={{
                   fontSize: '28px',
@@ -468,7 +470,7 @@ export default function PasskeySetupPage() {
                       opacity: loading ? 0.5 : 1
                     }}
                     onFocus={(e) => {
-                      e.currentTarget.style.borderColor = '#58a6ff'
+                      e.currentTarget.style.borderColor = '#000000'
                       e.currentTarget.style.background = '#FFFFFF'
                     }}
                     onBlur={(e) => {
@@ -514,7 +516,7 @@ export default function PasskeySetupPage() {
                         gap: '8px',
                         marginBottom: '8px'
                       }}>
-                        <QrCode style={{ width: '20px', height: '20px', color: '#58a6ff' }} />
+                        <QrCode style={{ width: '20px', height: '20px', color: '#000000' }} />
                         <h3 style={{
                           fontSize: '16px',
                           fontWeight: '600',
@@ -591,9 +593,11 @@ export default function PasskeySetupPage() {
                   style={{
                     flex: 1,
                     padding: '12px 24px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: (loading || !deviceName.trim()) ? 'rgba(88, 166, 255, 0.5)' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: (loading || !deviceName.trim()) ? 'none' : 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: (loading || !deviceName.trim()) ? 'none' : 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
-                    border: 'none',
+                    border: (loading || !deviceName.trim()) ? 'none' : '1px solid rgba(88, 166, 255, 0.3)',
                     borderRadius: '12px',
                     fontSize: '16px',
                     fontWeight: '600',
@@ -602,7 +606,7 @@ export default function PasskeySetupPage() {
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: '8px',
-                    boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                    boxShadow: (loading || !deviceName.trim()) ? 'none' : '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                     transition: 'all 0.2s ease',
                     opacity: (loading || !deviceName.trim()) ? 0.5 : 1
                   }}
@@ -724,14 +728,16 @@ export default function PasskeySetupPage() {
                   style={{
                     flex: 1,
                     padding: '12px 24px',
-                    background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
-                    border: 'none',
+                    border: '1px solid rgba(88, 166, 255, 0.3)',
                     borderRadius: '12px',
                     fontSize: '16px',
                     fontWeight: '600',
                     cursor: 'pointer',
-                    boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                    boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                     transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
@@ -756,12 +762,12 @@ export default function PasskeySetupPage() {
             }}>
               Need help?{' '}
               <Link to="/help" style={{
-                color: '#58a6ff',
+                color: '#000000',
                 transition: 'color 0.2s ease',
                 textDecoration: 'none'
               }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#a371f7'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#58a6ff'}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#000000'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#000000'}
               >
                 Learn more about passkeys
               </Link>

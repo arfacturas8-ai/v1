@@ -106,49 +106,151 @@ const AwardModal = ({ post, onClose, onAward }) => {
   const userCoins = 1250 // This would come from user context/API
 
   return (
-    <div style={{background: "var(--bg-primary)"}} className="fixed inset-0 flex items-center justify-center p-4 z-50 /40" onClick={onClose}>
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: isMobile ? '16px' : '20px',
+        background: 'rgba(0, 0, 0, 0.5)',
+        zIndex: 9999
+      }}
+      onClick={onClose}
+    >
       <div
         ref={modalRef}
-        className="w-full max-w-lg sm:max-w-xl rounded-2xl bg-white max-h-[90vh] overflow-y-auto"
+        style={{
+          width: '100%',
+          maxWidth: isMobile ? '100%' : isTablet ? '640px' : '576px',
+          background: '#FFFFFF',
+          borderRadius: '16px',
+          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
+          maxHeight: '90vh',
+          overflowY: 'auto'
+        }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-[var(--border-subtle)]">
-          <h3 className="text-base sm:text-lg font-semibold text-[var(--text-primary)]">Give Award</h3>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: isMobile ? '16px 20px' : '20px 24px',
+          borderBottom: '1px solid #E8EAED'
+        }}>
+          <h3 style={{
+            fontSize: isMobile ? '18px' : '20px',
+            fontWeight: '700',
+            color: '#1A1A1A',
+            margin: 0
+          }}>
+            Give Award
+          </h3>
           <button
             onClick={onClose}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg hover:bg-gray-100 transition-colors text-[var(--text-primary)]"
+            style={{
+              minHeight: '40px',
+              minWidth: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              transition: 'background 0.2s',
+              color: '#666666'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = '#F0F2F5'}
+            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
             aria-label="Close modal"
           >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
               <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
             </svg>
           </button>
         </div>
 
-        <div className="px-4 sm:px-6 py-4 space-y-4">
+        <div style={{
+          padding: isMobile ? '16px 20px' : '20px 24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px'
+        }}>
           {/* User Coins Display */}
-          <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-[var(--border-subtle)]">
-            <div className="flex items-center gap-2">
-              <span className="text-lg">🪙</span>
-              <span className="text-sm sm:text-base font-medium text-[var(--text-primary)]">Your Coins</span>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '16px',
+            borderRadius: '12px',
+            background: '#F8F9FA',
+            border: '1px solid #E8EAED'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '18px' }}>🪙</span>
+              <span style={{
+                fontSize: isMobile ? '14px' : '15px',
+                fontWeight: '600',
+                color: '#1A1A1A'
+              }}>
+                Your Coins
+              </span>
             </div>
-            <span className="text-sm sm:text-base font-bold text-[var(--text-primary)]">{userCoins.toLocaleString()}</span>
+            <span style={{
+              fontSize: isMobile ? '14px' : '15px',
+              fontWeight: '700',
+              color: '#1A1A1A'
+            }}>
+              {userCoins.toLocaleString()}
+            </span>
           </div>
 
           {/* Post Preview */}
-          <div className="p-3 border border-[var(--border-subtle)] rounded-xl bg-gray-50">
-            <h4 className="text-sm sm:text-base font-medium mb-1 text-[var(--text-primary)]">
+          <div style={{
+            padding: '16px',
+            border: '1px solid #E8EAED',
+            borderRadius: '12px',
+            background: '#F8F9FA'
+          }}>
+            <h4 style={{
+              fontSize: isMobile ? '14px' : '15px',
+              fontWeight: '600',
+              color: '#1A1A1A',
+              marginBottom: '4px',
+              margin: 0
+            }}>
               {post.title}
             </h4>
-            <p className="text-xs text-[var(--text-secondary)]">
+            <p style={{
+              fontSize: '13px',
+              color: '#666666',
+              margin: 0
+            }}>
               c/{post.community} • u/{post.author}
             </p>
           </div>
 
           {/* Awards Grid */}
           <div>
-            <h4 className="text-sm sm:text-base font-medium mb-3 text-[var(--text-primary)]">Choose an Award</h4>
-            <div className="grid grid-cols-1 gap-3">
+            <h4 style={{
+              fontSize: isMobile ? '14px' : '15px',
+              fontWeight: '600',
+              color: '#1A1A1A',
+              marginBottom: '12px',
+              margin: 0
+            }}>
+              Choose an Award
+            </h4>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gap: '12px'
+            }}>
               {awards.map((award) => {
                 const canAfford = userCoins >= award.cost
                 const isSelected = selectedAward?.id === award.id
@@ -158,47 +260,112 @@ const AwardModal = ({ post, onClose, onAward }) => {
                     key={award.id}
                     onClick={() => canAfford && setSelectedAward(award)}
                     disabled={!canAfford}
-                    className={`flex items-start gap-3 p-3 border rounded-xl min-h-[44px] transition-all ${
-                      isSelected
-                        ? 'border-blue-500 bg-blue-500/10'
-                        : 'border-[var(--border-subtle)] hover:border-gray-300'
-                    } ${!canAfford ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'flex-start',
+                      gap: '12px',
+                      padding: '16px',
+                      border: isSelected ? '2px solid #58a6ff' : '1px solid #E8EAED',
+                      borderRadius: '12px',
+                      minHeight: '48px',
+                      background: isSelected ? 'rgba(88, 166, 255, 0.1)' : '#FFFFFF',
+                      cursor: !canAfford ? 'not-allowed' : 'pointer',
+                      opacity: !canAfford ? 0.5 : 1,
+                      transition: 'all 0.2s',
+                      textAlign: 'left'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (canAfford && !isSelected) {
+                        e.currentTarget.style.borderColor = '#CCCCCC';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (canAfford && !isSelected) {
+                        e.currentTarget.style.borderColor = '#E8EAED';
+                      }
+                    }}
                   >
-                    <div className="flex-shrink-0">
-                      <span className="text-2xl">{award.emoji}</span>
+                    <div style={{ flexShrink: 0 }}>
+                      <span style={{ fontSize: '32px' }}>{award.emoji}</span>
                     </div>
 
-                    <div className="flex-1 text-left">
-                      <div className="flex items-start justify-between gap-2 mb-1">
-                        <h5 className="text-sm sm:text-base font-medium text-[var(--text-primary)]">
+                    <div style={{ flex: 1 }}>
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        justifyContent: 'space-between',
+                        gap: '8px',
+                        marginBottom: '4px'
+                      }}>
+                        <h5 style={{
+                          fontSize: isMobile ? '14px' : '15px',
+                          fontWeight: '600',
+                          color: '#1A1A1A',
+                          margin: 0
+                        }}>
                           {award.name}
                         </h5>
-                        <div className="flex items-center gap-1 flex-shrink-0">
-                          <span className="text-sm">🪙</span>
-                          <span className="text-sm font-medium text-[var(--text-primary)]">{award.cost}</span>
+                        <div style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          flexShrink: 0
+                        }}>
+                          <span style={{ fontSize: '14px' }}>🪙</span>
+                          <span style={{
+                            fontSize: '14px',
+                            fontWeight: '600',
+                            color: '#1A1A1A'
+                          }}>
+                            {award.cost}
+                          </span>
                         </div>
                       </div>
 
-                      <p className="text-xs text-[var(--text-secondary)] line-clamp-2 mb-2">
+                      <p style={{
+                        fontSize: '13px',
+                        color: '#666666',
+                        marginBottom: '8px',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        margin: '0 0 8px 0'
+                      }}>
                         {award.description}
                       </p>
 
                       {award.premium && (
-                        <div className="flex items-center">
-                          <span className="text-xs px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400">Premium</span>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{
+                            fontSize: '12px',
+                            padding: '4px 12px',
+                            borderRadius: '9999px',
+                            background: 'rgba(245, 158, 11, 0.2)',
+                            color: '#F59E0B',
+                            fontWeight: '600'
+                          }}>
+                            Premium
+                          </span>
                         </div>
                       )}
 
                       {!canAfford && (
-                        <p className="text-xs text-red-400 mt-1">
+                        <p style={{
+                          fontSize: '12px',
+                          color: '#EF4444',
+                          marginTop: '4px',
+                          margin: '4px 0 0 0'
+                        }}>
                           Insufficient coins
                         </p>
                       )}
                     </div>
 
                     {isSelected && (
-                      <div className="flex-shrink-0 text-blue-500">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                      <div style={{ flexShrink: 0, color: '#58a6ff' }}>
+                        <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
                           <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
                         </svg>
                       </div>
@@ -211,50 +378,127 @@ const AwardModal = ({ post, onClose, onAward }) => {
 
           {/* Selected Award Summary */}
           {selectedAward && (
-            <div className="p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-xl">{selectedAward.emoji}</span>
+            <div style={{
+              padding: '16px',
+              borderRadius: '12px',
+              background: 'rgba(88, 166, 255, 0.1)',
+              border: '1px solid rgba(88, 166, 255, 0.2)'
+            }}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                marginBottom: '12px'
+              }}>
+                <span style={{ fontSize: '28px' }}>{selectedAward.emoji}</span>
                 <div>
-                  <h5 className="text-sm sm:text-base font-medium text-[var(--text-primary)]">{selectedAward.name}</h5>
-                  <p className="text-xs text-[var(--text-secondary)]">
+                  <h5 style={{
+                    fontSize: isMobile ? '14px' : '15px',
+                    fontWeight: '600',
+                    color: '#1A1A1A',
+                    margin: 0,
+                    marginBottom: '4px'
+                  }}>
+                    {selectedAward.name}
+                  </h5>
+                  <p style={{
+                    fontSize: '13px',
+                    color: '#666666',
+                    margin: 0
+                  }}>
                     Cost: 🪙 {selectedAward.cost} coins
                   </p>
                 </div>
               </div>
 
-              <p className="text-xs text-[var(--text-secondary)] mb-2">
+              <p style={{
+                fontSize: '13px',
+                color: '#666666',
+                marginBottom: '12px',
+                margin: '0 0 12px 0'
+              }}>
                 {selectedAward.description}
               </p>
 
               {selectedAward.premium && (
-                <div className="text-xs text-blue-500 mb-2">
+                <div style={{
+                  fontSize: '13px',
+                  color: '#58a6ff',
+                  marginBottom: '12px'
+                }}>
                   ✨ This award includes CRYB Premium benefits
                 </div>
               )}
 
-              <div className="text-xs text-[var(--text-secondary)]">
+              <div style={{
+                fontSize: '13px',
+                color: '#666666'
+              }}>
                 Remaining coins after purchase: 🪙 {(userCoins - selectedAward.cost).toLocaleString()}
               </div>
             </div>
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-2 justify-end px-4 sm:px-6 py-4 border-t border-[var(--border-subtle)]">
+        <div style={{
+          display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: '12px',
+          justifyContent: 'flex-end',
+          padding: isMobile ? '16px 20px' : '20px 24px',
+          borderTop: '1px solid #E8EAED'
+        }}>
           <button
             onClick={onClose}
-            className="min-h-[44px] px-4 py-2 text-sm sm:text-base rounded-lg bg-gray-100 hover:bg-gray-200 transition-colors text-[var(--text-primary)]"
             disabled={isSubmitting}
+            style={{
+              minHeight: '48px',
+              padding: '12px 20px',
+              fontSize: isMobile ? '14px' : '15px',
+              borderRadius: '12px',
+              background: '#F8F9FA',
+              border: '1px solid #E8EAED',
+              color: '#666666',
+              fontWeight: '600',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+              transition: 'background 0.2s'
+            }}
+            onMouseEnter={(e) => !isSubmitting && (e.currentTarget.style.background = '#F0F2F5')}
+            onMouseLeave={(e) => !isSubmitting && (e.currentTarget.style.background = '#F8F9FA')}
           >
             Cancel
           </button>
           <button
             onClick={handleAwardSubmit}
             disabled={!selectedAward || isSubmitting}
-            style={{color: "var(--text-primary)"}} className="min-h-[44px] px-4 py-2 text-sm sm:text-base rounded-lg bg-gradient-to-r from-[#58a6ff] to-[#a371f7]  hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            style={{
+              minHeight: '48px',
+              padding: '12px 20px',
+              fontSize: isMobile ? '14px' : '15px',
+              borderRadius: '12px',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+              border: 'none',
+              color: '#FFFFFF',
+              fontWeight: '600',
+              cursor: !selectedAward || isSubmitting ? 'not-allowed' : 'pointer',
+              opacity: !selectedAward || isSubmitting ? 0.5 : 1,
+              transition: 'opacity 0.2s'
+            }}
+            onMouseEnter={(e) => {
+              if (selectedAward && !isSubmitting) {
+                e.currentTarget.style.opacity = '0.9';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (selectedAward && !isSubmitting) {
+                e.currentTarget.style.opacity = '1';
+              }
+            }}
           >
             {isSubmitting ? (
               <>
-                <div style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 Giving Award...
               </>
             ) : (

@@ -216,26 +216,7 @@ function MobileMenu() {
 }}>24</div>
                   <div className="text-xs text-tertiary">Posts</div>
                 </div>
-                <div style={{
-  textAlign: 'center',
-  padding: '8px',
-  borderRadius: '12px'
-}}>
-                  <div style={{
-  fontWeight: 'bold'
-}}>1.2k</div>
-                  <div className="text-xs text-tertiary">Karma</div>
-                </div>
-                <div style={{
-  textAlign: 'center',
-  padding: '8px',
-  borderRadius: '12px'
-}}>
-                  <div style={{
-  fontWeight: 'bold'
-}}>8</div>
-                  <div className="text-xs text-tertiary">Awards</div>
-                </div>
+                {/* Karma and Awards removed per user request */}
               </div>
             </div>
           )}

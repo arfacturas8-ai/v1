@@ -16,15 +16,12 @@ import {
   Menu,
   X
 } from 'lucide-react';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function LandingPage() {
+  const { isMobile, isTablet, isDesktop } = useResponsive();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Responsive breakpoints
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,13 +36,13 @@ export default function LandingPage() {
       title: 'True Ownership',
       desc: 'Your communities, your data, your keys. On-chain forever.',
       icon: Lock,
-      color: '#58a6ff'
+      color: '#1A1A1A'
     },
     {
       title: 'NFT Membership',
       desc: 'Tokenized access. Tradeable invites. Programmable permissions.',
       icon: Image,
-      color: '#a371f7'
+      color: '#1A1A1A'
     },
     {
       title: 'DAO Governance',
@@ -63,13 +60,13 @@ export default function LandingPage() {
       title: 'E2E Encrypted',
       desc: 'Zero-knowledge proofs. Messages only you can read.',
       icon: Shield,
-      color: '#58a6ff'
+      color: '#1A1A1A'
     },
     {
       title: 'Earn While You Vibe',
       desc: 'Creator rewards, staking, yield farming on your social graph.',
       icon: TrendingUp,
-      color: '#a371f7'
+      color: '#1A1A1A'
     }
   ];
 
@@ -100,7 +97,9 @@ export default function LandingPage() {
             width: '500px',
             height: '500px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             opacity: 0.04,
             filter: 'blur(80px)'
           }}
@@ -113,7 +112,9 @@ export default function LandingPage() {
             width: '600px',
             height: '600px',
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #00D26A 0%, #58a6ff 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             opacity: 0.03,
             filter: 'blur(80px)'
           }}
@@ -162,7 +163,9 @@ export default function LandingPage() {
               style={{
                 fontSize: isMobile ? '20px' : '24px',
                 fontWeight: '700',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -175,10 +178,13 @@ export default function LandingPage() {
 
           {/* Desktop Nav */}
           {!isMobile && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '28px', height: '100%' }}>
               <Link
                 to="/tokenomics"
                 style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  height: '100%',
                   fontSize: '14px',
                   fontWeight: '500',
                   color: '#666666',
@@ -193,6 +199,9 @@ export default function LandingPage() {
               <Link
                 to="/help"
                 style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  height: '100%',
                   fontSize: '14px',
                   fontWeight: '500',
                   color: '#666666',
@@ -207,6 +216,9 @@ export default function LandingPage() {
               <Link
                 to="/guidelines"
                 style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  height: '100%',
                   fontSize: '14px',
                   fontWeight: '500',
                   color: '#666666',
@@ -223,7 +235,7 @@ export default function LandingPage() {
 
           {/* Desktop CTA - Smaller */}
           {!isMobile && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', height: '100%' }}>
               <Link
                 to="/login"
                 style={{
@@ -236,17 +248,24 @@ export default function LandingPage() {
                   fontSize: '13px',
                   fontWeight: '600',
                   color: '#1A1A1A',
-                  background: 'transparent',
-                  border: 'none',
+                  background: 'rgba(255, 255, 255, 0.5)',
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
                   borderRadius: '16px',
                   textDecoration: 'none',
-                  transition: 'all 0.2s ease'
+                  transition: 'all 0.2s ease',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(0, 0, 0, 0.04)'
+                  e.target.style.background = 'rgba(255, 255, 255, 0.7)'
+                  e.target.style.transform = 'translateY(-1px)'
+                  e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = 'transparent'
+                  e.target.style.background = 'rgba(255, 255, 255, 0.5)'
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                 }}
               >
                 Sign In
@@ -257,26 +276,30 @@ export default function LandingPage() {
                   display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  height: '28px',
-                  paddingLeft: '12px',
-                  paddingRight: '12px',
-                  fontSize: '12px',
+                  height: '32px',
+                  paddingLeft: '14px',
+                  paddingRight: '14px',
+                  fontSize: '13px',
                   fontWeight: '600',
                   color: '#FFFFFF',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                  border: 'none',
-                  borderRadius: '14px',
-                  boxShadow: '0 2px 6px rgba(88, 166, 255, 0.25)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                  border: '1px solid rgba(88, 166, 255, 0.3)',
+                  borderRadius: '16px',
+                  boxShadow: '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-1px)'
-                  e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
+                  e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 1) 0%, rgba(163, 113, 247, 1) 100%)'
+                  e.target.style.boxShadow = '0 6px 20px rgba(88, 166, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 2px 6px rgba(88, 166, 255, 0.25)'
+                  e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  e.target.style.boxShadow = '0 4px 16px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                 }}
               >
                 Get Started
@@ -378,9 +401,9 @@ export default function LandingPage() {
                   marginBottom: '10px',
                   fontSize: '15px',
                   fontWeight: '600',
-                  color: '#58a6ff',
+                  color: '#1A1A1A',
                   background: '#FFFFFF',
-                  border: '1.5px solid #58a6ff',
+                  border: '1.5px solid #1A1A1A',
                   borderRadius: '21px',
                   textDecoration: 'none'
                 }}
@@ -397,9 +420,11 @@ export default function LandingPage() {
                   fontSize: '15px',
                   fontWeight: '600',
                   color: '#FFFFFF',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   borderRadius: '21px',
-                  boxShadow: '0 2px 6px rgba(88, 166, 255, 0.25)',
+                  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.25)',
                   textDecoration: 'none'
                 }}
               >
@@ -430,10 +455,10 @@ export default function LandingPage() {
                 gap: '8px',
                 marginBottom: '32px',
                 padding: '6px 14px',
-                background: 'rgba(88, 166, 255, 0.08)',
+                background: 'rgba(0, 0, 0, 0.08)',
                 backdropFilter: 'blur(40px) saturate(200%)',
                 WebkitBackdropFilter: 'blur(40px) saturate(200%)',
-                border: '1px solid rgba(88, 166, 255, 0.15)',
+                border: '1px solid rgba(0, 0, 0, 0.15)',
                 borderRadius: '20px'
               }}
             >
@@ -442,14 +467,16 @@ export default function LandingPage() {
                   width: '6px',
                   height: '6px',
                   borderRadius: '50%',
-                  background: '#58a6ff'
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)'
                 }}
               />
               <span
                 style={{
                   fontSize: '12px',
                   fontWeight: '600',
-                  color: '#58a6ff',
+                  color: '#1A1A1A',
                   letterSpacing: '0.01em'
                 }}
               >
@@ -471,7 +498,9 @@ export default function LandingPage() {
               <br />
               <span
                 style={{
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text'
@@ -494,8 +523,8 @@ export default function LandingPage() {
               }}
             >
               The first truly decentralized social platform. Crypto-native communities with{' '}
-              <span style={{ color: '#58a6ff', fontWeight: '600' }}>NFT membership</span>,{' '}
-              <span style={{ color: '#a371f7', fontWeight: '600' }}>DAO governance</span>, and{' '}
+              <span style={{ color: '#1A1A1A', fontWeight: '600' }}>NFT membership</span>,{' '}
+              <span style={{ color: '#1A1A1A', fontWeight: '600' }}>DAO governance</span>, and{' '}
               <span style={{ color: '#1A1A1A', fontWeight: '600' }}>real ownership</span>.
             </p>
 
@@ -522,21 +551,25 @@ export default function LandingPage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   color: '#FFFFFF',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
-                  border: 'none',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                  border: '1px solid rgba(88, 166, 255, 0.3)',
                   borderRadius: '20px',
-                  boxShadow: '0 4px 12px rgba(88, 166, 255, 0.3)',
+                  boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.transform = 'translateY(-2px)'
-                  e.target.style.boxShadow = '0 6px 20px rgba(88, 166, 255, 0.4)'
+                  e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 1) 0%, rgba(163, 113, 247, 1) 100%)'
+                  e.target.style.boxShadow = '0 8px 32px rgba(88, 166, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                 }}
                 onMouseLeave={(e) => {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
+                  e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  e.target.style.boxShadow = '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                 }}
               >
                 Get Started Free
@@ -556,22 +589,25 @@ export default function LandingPage() {
                   fontSize: '14px',
                   fontWeight: '600',
                   color: '#1A1A1A',
-                  background: 'rgba(255, 255, 255, 0.4)',
+                  background: 'rgba(255, 255, 255, 0.5)',
                   backdropFilter: 'blur(40px) saturate(200%)',
                   WebkitBackdropFilter: 'blur(40px) saturate(200%)',
-                  border: '1.5px solid rgba(0, 0, 0, 0.08)',
+                  border: '1px solid rgba(0, 0, 0, 0.08)',
                   borderRadius: '20px',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
                   textDecoration: 'none',
                   transition: 'all 0.2s ease',
                   width: isMobile ? '100%' : 'auto'
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.6)'
-                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.12)'
+                  e.target.style.background = 'rgba(255, 255, 255, 0.7)'
+                  e.target.style.transform = 'translateY(-2px)'
+                  e.target.style.boxShadow = '0 6px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.background = 'rgba(255, 255, 255, 0.4)'
-                  e.target.style.borderColor = 'rgba(0, 0, 0, 0.08)'
+                  e.target.style.background = 'rgba(255, 255, 255, 0.5)'
+                  e.target.style.transform = 'translateY(0)'
+                  e.target.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                 }}
               >
                 Explore Platform
@@ -608,28 +644,32 @@ export default function LandingPage() {
                   style={{
                     textAlign: 'center',
                     padding: '24px 16px',
-                    background: 'rgba(255, 255, 255, 0.4)',
+                    background: 'rgba(255, 255, 255, 0.5)',
                     backdropFilter: 'blur(40px) saturate(200%)',
                     WebkitBackdropFilter: 'blur(40px) saturate(200%)',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    border: '1px solid rgba(255, 255, 255, 0.4)',
                     borderRadius: '20px',
-                    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
                     transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)'
+                    e.currentTarget.style.boxShadow = '0 6px 24px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)'
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                   }}
                 >
                   <div
                     style={{
                       fontSize: isDesktop ? '44px' : isTablet ? '36px' : '28px',
                       fontWeight: '700',
-                      background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       WebkitBackgroundClip: 'text',
                       WebkitTextFillColor: 'transparent',
                       backgroundClip: 'text',
@@ -681,7 +721,9 @@ export default function LandingPage() {
               >
                 <span
                   style={{
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text'
@@ -716,24 +758,24 @@ export default function LandingPage() {
                   key={i}
                   style={{
                     padding: '28px',
-                    background: 'rgba(255, 255, 255, 0.45)',
+                    background: 'rgba(255, 255, 255, 0.5)',
                     backdropFilter: 'blur(40px) saturate(200%)',
                     WebkitBackdropFilter: 'blur(40px) saturate(200%)',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    border: '1px solid rgba(255, 255, 255, 0.4)',
                     borderRadius: '20px',
-                    boxShadow: '0 2px 12px rgba(0, 0, 0, 0.06)',
+                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     cursor: 'pointer'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.12)'
-                    e.currentTarget.style.borderColor = 'rgba(88, 166, 255, 0.4)'
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.6)'
+                    e.currentTarget.style.boxShadow = '0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.06)'
-                    e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
+                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.5)'
+                    e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)'
                   }}
                 >
                   <div
@@ -796,12 +838,12 @@ export default function LandingPage() {
                 position: 'relative',
                 overflow: 'hidden',
                 padding: isDesktop ? '72px 52px' : isTablet ? '56px 36px' : '44px 24px',
-                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.08) 0%, rgba(163, 113, 247, 0.08) 100%)',
                 backdropFilter: 'blur(40px) saturate(200%)',
                 WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 borderRadius: '24px',
-                border: '1px solid rgba(255, 255, 255, 0.2)',
-                boxShadow: '0 20px 60px rgba(88, 166, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
+                border: '1px solid rgba(88, 166, 255, 0.15)',
+                boxShadow: '0 20px 60px rgba(88, 166, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
                 textAlign: 'center'
               }}
             >
@@ -810,7 +852,7 @@ export default function LandingPage() {
                 style={{
                   position: 'absolute',
                   inset: 0,
-                  background: 'radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 50%)',
+                  background: 'radial-gradient(circle at 30% 50%, rgba(88, 166, 255, 0.06) 0%, transparent 50%)',
                   pointerEvents: 'none'
                 }}
               />
@@ -821,7 +863,12 @@ export default function LandingPage() {
                     fontSize: isDesktop ? '44px' : isTablet ? '36px' : '28px',
                     fontWeight: '700',
                     marginBottom: '18px',
-                    color: '#FFFFFF',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
                     letterSpacing: '-0.02em'
                   }}
                 >
@@ -833,8 +880,9 @@ export default function LandingPage() {
                     margin: '0 auto',
                     fontSize: isDesktop ? '18px' : '16px',
                     marginBottom: '36px',
-                    color: 'rgba(255, 255, 255, 0.95)',
-                    lineHeight: '1.6'
+                    color: '#1A1A1A',
+                    lineHeight: '1.6',
+                    opacity: 0.85
                   }}
                 >
                   Join thousands of communities building the future of social. Your keys, your community, your rules.
@@ -851,25 +899,25 @@ export default function LandingPage() {
                     paddingRight: '20px',
                     fontSize: '14px',
                     fontWeight: '600',
-                    color: '#58a6ff',
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    backdropFilter: 'blur(10px)',
-                    WebkitBackdropFilter: 'blur(10px)',
-                    border: '1px solid rgba(255, 255, 255, 0.3)',
+                    color: '#FFFFFF',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                    border: '1px solid rgba(88, 166, 255, 0.3)',
                     borderRadius: '20px',
-                    boxShadow: '0 4px 16px rgba(0, 0, 0, 0.15)',
+                    boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                     textDecoration: 'none',
                     transition: 'all 0.2s ease'
                   }}
                   onMouseEnter={(e) => {
                     e.target.style.transform = 'translateY(-2px)'
-                    e.target.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)'
-                    e.target.style.background = '#FFFFFF'
+                    e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 1) 0%, rgba(163, 113, 247, 1) 100%)'
+                    e.target.style.boxShadow = '0 8px 32px rgba(88, 166, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                   }}
                   onMouseLeave={(e) => {
                     e.target.style.transform = 'translateY(0)'
-                    e.target.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.15)'
-                    e.target.style.background = 'rgba(255, 255, 255, 0.95)'
+                    e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                    e.target.style.boxShadow = '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                   }}
                 >
                   Get Started Free
@@ -910,7 +958,9 @@ export default function LandingPage() {
                   style={{
                     fontSize: '24px',
                     fontWeight: '700',
-                    background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     backgroundClip: 'text'

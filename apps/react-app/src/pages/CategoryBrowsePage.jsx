@@ -18,17 +18,17 @@ const CategoryBrowsePage = () => {
 
   const categories = [
     { id: 'gaming', name: 'Gaming', icon: Gamepad, color: 'from-purple-500 to-blue-500', count: 15234 },
-    { id: 'music', name: 'Music', icon: Music, color: 'from-pink-500 to-[#a371f7]', count: 12893 },
+    { id: 'music', name: 'Music', icon: Music, color: 'from-pink-500 to-[#000000]', count: 12893 },
     { id: 'movies', name: 'Movies & TV', icon: Film, color: 'from-red-500 to-pink-500', count: 9876 },
     { id: 'books', name: 'Books', icon: Book, color: 'from-orange-500 to-red-500', count: 7654 },
-    { id: 'tech', name: 'Technology', icon: Code, color: 'from-[#58a6ff] to-cyan-500', count: 18392 },
+    { id: 'tech', name: 'Technology', icon: Code, color: 'from-[#000000] to-cyan-500', count: 18392 },
     { id: 'art', name: 'Art & Design', icon: Palette, color: 'from-yellow-500 to-orange-500', count: 11234 },
     { id: 'lifestyle', name: 'Lifestyle', icon: Heart, color: 'from-pink-500 to-red-500', count: 8912 },
     { id: 'food', name: 'Food & Cooking', icon: Utensils, color: 'from-green-500 to-yellow-500', count: 9543 },
     { id: 'travel', name: 'Travel', icon: Plane, color: 'from-cyan-500 to-blue-500', count: 6789 },
     { id: 'photography', name: 'Photography', icon: Camera, color: 'from-gray-500 to-gray-700', count: 5432 },
     { id: 'fitness', name: 'Fitness', icon: Dumbbell, color: 'from-green-500 to-emerald-500', count: 7321 },
-    { id: 'business', name: 'Business', icon: Briefcase, color: 'from-[#58a6ff] to-[#a371f7]', count: 10234 }
+    { id: 'business', name: 'Business', icon: Briefcase, color: 'from-[#000000] to-[#000000]', count: 10234 }
   ]
 
   const trendingTopics = [
@@ -47,7 +47,7 @@ const CategoryBrowsePage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
-          <h1 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-bold mb-4 bg-gradient-to-r from-[#58a6ff] to-[#a371f7] bg-clip-text text-transparent`}>
+          <h1 className={`${isMobile ? 'text-3xl' : 'text-5xl'} font-bold mb-4 bg-gradient-to-r from-[#000000] to-[#000000] bg-clip-text text-transparent`}>
             Browse Categories
           </h1>
           <p className={`${isMobile ? 'text-base' : 'text-xl'} text-secondary`}>
@@ -73,11 +73,11 @@ const CategoryBrowsePage = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => navigate(`/tag/${topic.name.toLowerCase().replace(/\s+/g, '-')}`)}
-                className="p-6 bg-white rounded-2xl shadow-sm border border-rgb(var(--color-neutral-200)) hover:border-[#58a6ff]/50 transition-all cursor-pointer"
+                className="p-6 bg-white rounded-2xl shadow-sm border border-rgb(var(--color-neutral-200)) hover:border-[#000000]/50 transition-all cursor-pointer"
               >
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-semibold text-primary">{topic.name}</h3>
-                  <span className="text-[#58a6ff] font-bold">#{index + 1}</span>
+                  <span className="text-[#000000] font-bold">#{index + 1}</span>
                 </div>
                 <p className="text-sm text-secondary">{topic.posts.toLocaleString()} posts</p>
               </motion.div>
@@ -142,7 +142,7 @@ const CategoryBrowsePage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 + index * 0.1 }}
-                className={`${isMobile ? 'p-4' : 'p-6'} bg-white rounded-2xl shadow-sm border border-rgb(var(--color-neutral-200)) hover:border-[#58a6ff]/50 transition-all cursor-pointer`}
+                className={`${isMobile ? 'p-4' : 'p-6'} bg-white rounded-2xl shadow-sm border border-rgb(var(--color-neutral-200)) hover:border-[#000000]/50 transition-all cursor-pointer`}
               >
                 <div className="flex items-center gap-4 mb-3">
                   <div className={`${isMobile ? 'text-3xl' : 'text-4xl'}`}>{community.icon}</div>
@@ -153,7 +153,7 @@ const CategoryBrowsePage = () => {
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-secondary">{community.members} members</span>
-                  <button className={`${isMobile ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'} bg-gradient-to-r from-[#58a6ff] to-[#a371f7] hover:opacity-90 text-white rounded-lg transition-colors`}>
+                  <button className={`${isMobile ? 'px-3 py-1.5 text-xs' : 'px-4 py-2 text-sm'} bg-gradient-to-r from-[#000000] to-[#000000] hover:opacity-90 text-white rounded-lg transition-colors`}>
                     Join
                   </button>
                 </div>

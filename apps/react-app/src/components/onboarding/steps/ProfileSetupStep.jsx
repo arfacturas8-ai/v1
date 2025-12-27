@@ -145,7 +145,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
   height: '96px',
   borderRadius: '50%',
   overflow: 'hidden',
-  background: 'rgba(20, 20, 20, 0.6)'
+  background: 'rgba(0, 0, 0, 0.5)'
 }}>
               {avatarPreview ? (
                 <img src={avatarPreview} alt="Avatar preview" style={{
@@ -354,7 +354,7 @@ const ProfileSetupStep = ({ onComplete, onSkip }) => {
   borderRadius: '12px',
   fontWeight: '500',
   color: '#A0A0A0',
-  background: 'rgba(20, 20, 20, 0.6)'
+  background: 'rgba(0, 0, 0, 0.5)'
 }}
         >
           {isLoading ? (

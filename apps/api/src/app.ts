@@ -61,6 +61,7 @@ import statusRoutes from './routes/status';
 import gdprRoutes from './routes/gdpr';
 import securityRoutes from './routes/security';
 import apiKeyRoutes from './routes/api-keys';
+import bradWaitlistRoutes from './routes/brad-waitlist';
 // import enhancedUploadRoutes from './routes/enhanced-uploads'; // Temporarily disabled
 // import mediaManagementRoutes from './routes/media-management'; // Temporarily disabled
 // import queueAdminRoutes from './routes/queue-admin'; // Temporarily disabled
@@ -1002,6 +1003,7 @@ Real-time features use Socket.io. Connect to \`/socket.io\` and authenticate wit
   await app.register(metricsRoutes, { prefix: '/api/v1/metrics' }); // Public metrics endpoint
   await app.register(securityRoutes, { prefix: '/api/v1/security' }); // Security monitoring and CSP reports
   await app.register(apiKeyRoutes, { prefix: '/api/v1/api-keys' }); // API key management
+  await app.register(bradWaitlistRoutes, { prefix: '/api/v1/brad-waitlist' }); // Brad's waitlist (public)
   // await app.register(enhancedSearchRoutes, { prefix: '/api/v1/search/enhanced' }); // Temporarily disabled
   // Server discovery routes are integrated into servers.ts to avoid conflicts
   

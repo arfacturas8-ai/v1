@@ -139,7 +139,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
         </div>
 
         <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '16px',
   borderRadius: '12px'
 }}>
@@ -207,7 +207,7 @@ const FirstPostStep = ({ onComplete, onSkip }) => {
   borderRadius: '12px',
   fontWeight: '500',
   color: '#A0A0A0',
-  background: 'rgba(20, 20, 20, 0.6)'
+  background: 'rgba(0, 0, 0, 0.5)'
 }}
         >
           {isSubmitting ? (

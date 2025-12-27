@@ -13,8 +13,11 @@ import { Calendar, Clock, MapPin, Users, Plus, ChevronLeft, ChevronRight, X } fr
 import apiService from '../services/api'
 import { useAuth } from '../contexts/AuthContext'
 import { useLoadingAnnouncement, useErrorAnnouncement } from '../utils/accessibility'
+import ConfirmationModal from '../components/modals/ConfirmationModal'
+import { useResponsive } from '../hooks/useResponsive'
 
 const EventsCalendarPage = () => {
+  const { isMobile, isTablet } = useResponsive()
   const { user, isAuthenticated } = useAuth()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -31,10 +34,12 @@ const EventsCalendarPage = () => {
     location: '',
     type: 'general'
   })
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
+  const [eventToDelete, setEventToDelete] = useState(null)
 
   const eventCategories = {
-    general: { bg: 'rgba(99, 102, 241, 0.1)', text: '#6366F1', border: 'rgba(99, 102, 241, 0.3)', hover: 'rgba(99, 102, 241, 0.2)' },
-    meeting: { bg: 'rgba(139, 92, 246, 0.1)', text: '#8B5CF6', border: 'rgba(139, 92, 246, 0.3)', hover: 'rgba(139, 92, 246, 0.2)' },
+    general: { bg: 'rgba(99, 102, 241, 0.1)', text: '#000000', border: 'rgba(99, 102, 241, 0.3)', hover: 'rgba(99, 102, 241, 0.2)' },
+    meeting: { bg: 'rgba(139, 92, 246, 0.1)', text: '#000000', border: 'rgba(139, 92, 246, 0.3)', hover: 'rgba(139, 92, 246, 0.2)' },
     workshop: { bg: 'rgba(16, 185, 129, 0.1)', text: '#10B981', border: 'rgba(16, 185, 129, 0.3)', hover: 'rgba(16, 185, 129, 0.2)' },
     social: { bg: 'rgba(245, 158, 11, 0.1)', text: '#F59E0B', border: 'rgba(245, 158, 11, 0.3)', hover: 'rgba(245, 158, 11, 0.2)' },
     deadline: { bg: 'rgba(239, 68, 68, 0.1)', text: '#EF4444', border: 'rgba(239, 68, 68, 0.3)', hover: 'rgba(239, 68, 68, 0.2)' }
@@ -109,13 +114,17 @@ const EventsCalendarPage = () => {
     }
   }
 
-  const handleDeleteEvent = async (eventId) => {
-    if (!window.confirm('Are you sure you want to delete this event?')) {
-      return
-    }
+  const handleDeleteEvent = (eventId) => {
+    setEventToDelete(eventId)
+    setShowDeleteModal(true)
+  }
 
+  const confirmDeleteEvent = async () => {
+    if (!eventToDelete) return
+
+    setShowDeleteModal(false)
     try {
-      const response = await apiService.delete(`/events/${eventId}`)
+      const response = await apiService.delete(`/events/${eventToDelete}`)
 
       if (response.success) {
         setSelectedEvent(null)
@@ -126,6 +135,8 @@ const EventsCalendarPage = () => {
     } catch (err) {
       console.error('Failed to delete event:', err)
       setError(err.message || 'Failed to delete event')
+    } finally {
+      setEventToDelete(null)
     }
   }
 
@@ -226,15 +237,15 @@ const EventsCalendarPage = () => {
       {/* Header */}
       <div style={{
         display: 'flex',
-        flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+        flexDirection: isMobile ? 'column' : 'row',
         justifyContent: 'space-between',
-        alignItems: window.innerWidth < 640 ? 'flex-start' : 'center',
+        alignItems: isMobile ? 'flex-start' : 'center',
         gap: '16px',
         marginBottom: '24px'
       }}>
         <div>
           <h1 style={{
-            fontSize: window.innerWidth < 640 ? '24px' : '32px',
+            fontSize: isMobile ? '24px' : '32px',
             fontWeight: '700',
             color: '#000000',
             marginBottom: '8px'
@@ -248,7 +259,9 @@ const EventsCalendarPage = () => {
         <button
           onClick={() => setShowCreateModal(true)}
           style={{
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             color: '#FFFFFF',
             padding: '12px 24px',
             borderRadius: '16px',
@@ -314,7 +327,7 @@ const EventsCalendarPage = () => {
       {/* Main Grid Layout */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: window.innerWidth < 1024 ? '1fr' : '1fr 350px',
+        gridTemplateColumns: isTablet || isMobile ? '1fr' : '1fr 350px',
         gap: '24px'
       }}>
         {/* Calendar Section */}
@@ -326,12 +339,12 @@ const EventsCalendarPage = () => {
         }}>
           {/* Calendar Header */}
           <div style={{
-            padding: window.innerWidth < 640 ? '16px' : '24px',
+            padding: isMobile ? '16px' : '24px',
             borderBottom: '1px solid #F0F0F0'
           }}>
             <div style={{
               display: 'flex',
-              flexDirection: window.innerWidth < 640 ? 'column' : 'row',
+              flexDirection: isMobile ? 'column' : 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
               gap: '16px'
@@ -430,7 +443,7 @@ const EventsCalendarPage = () => {
           </div>
 
           {/* Calendar Grid */}
-          <div style={{ padding: window.innerWidth < 640 ? '16px' : '24px' }}>
+          <div style={{ padding: isMobile ? '16px' : '24px' }}>
             {/* Day headers */}
             <div style={{
               display: 'grid',
@@ -458,7 +471,7 @@ const EventsCalendarPage = () => {
                 padding: '48px 0'
               }}>
                 <Calendar size={48} style={{
-                  color: '#6366F1',
+                  color: '#000000',
                   margin: '0 auto 16px'
                 }} />
                 <h3 style={{
@@ -479,7 +492,9 @@ const EventsCalendarPage = () => {
                 <button
                   onClick={() => setShowCreateModal(true)}
                   style={{
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
                     padding: '12px 24px',
                     borderRadius: '16px',
@@ -525,7 +540,7 @@ const EventsCalendarPage = () => {
                         borderRadius: '12px',
                         border: dayObj.isCurrentMonth
                           ? isToday
-                            ? '2px solid #6366F1'
+                            ? '2px solid #000000'
                             : '1px solid #E5E5E5'
                           : 'none',
                         background: dayObj.isCurrentMonth
@@ -560,7 +575,7 @@ const EventsCalendarPage = () => {
                             fontSize: '14px',
                             fontWeight: '600',
                             marginBottom: '4px',
-                            color: isToday ? '#6366F1' : '#666666'
+                            color: isToday ? '#000000' : '#666666'
                           }}>
                             {dayObj.day}
                           </div>
@@ -648,7 +663,7 @@ const EventsCalendarPage = () => {
               alignItems: 'center',
               gap: '8px'
             }}>
-              <Clock size={24} style={{ color: '#6366F1' }} aria-hidden="true" />
+              <Clock size={24} style={{ color: '#000000' }} aria-hidden="true" />
               Upcoming Events
             </h2>
           </div>
@@ -897,7 +912,7 @@ const EventsCalendarPage = () => {
                   color: '#666666',
                   fontSize: '14px'
                 }}>
-                  <Clock size={20} style={{ color: '#6366F1' }} aria-hidden="true" />
+                  <Clock size={20} style={{ color: '#000000' }} aria-hidden="true" />
                   <span>{new Date(selectedEvent.startDate).toLocaleString()}</span>
                 </div>
                 {selectedEvent.location && (
@@ -908,7 +923,7 @@ const EventsCalendarPage = () => {
                     color: '#666666',
                     fontSize: '14px'
                   }}>
-                    <MapPin size={20} style={{ color: '#6366F1' }} aria-hidden="true" />
+                    <MapPin size={20} style={{ color: '#000000' }} aria-hidden="true" />
                     <span>{selectedEvent.location}</span>
                   </div>
                 )}
@@ -920,7 +935,7 @@ const EventsCalendarPage = () => {
                     color: '#666666',
                     fontSize: '14px'
                   }}>
-                    <Users size={20} style={{ color: '#6366F1' }} aria-hidden="true" />
+                    <Users size={20} style={{ color: '#000000' }} aria-hidden="true" />
                     <span>{selectedEvent.attendees.length} attendees</span>
                   </div>
                 )}
@@ -1291,7 +1306,9 @@ const EventsCalendarPage = () => {
                   type="submit"
                   style={{
                     padding: '12px 24px',
-                    background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                    background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                     color: '#FFFFFF',
                     borderRadius: '12px',
                     border: 'none',
@@ -1318,6 +1335,21 @@ const EventsCalendarPage = () => {
           </div>
         </div>
       )}
+
+      {/* Delete Event Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false)
+          setEventToDelete(null)
+        }}
+        onConfirm={confirmDeleteEvent}
+        title="Delete Event"
+        message="Are you sure you want to delete this event? This action cannot be undone."
+        confirmText="Delete Event"
+        cancelText="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }

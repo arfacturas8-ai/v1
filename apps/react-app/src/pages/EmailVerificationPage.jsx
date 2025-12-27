@@ -15,7 +15,7 @@ import authService from '../services/authService';
 import { useResponsive } from '../hooks/useResponsive';
 
 export default function EmailVerificationPage() {
-  const { isMobile } = useResponsive();
+  const { isMobile, isTablet, isDesktop } = useResponsive();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [status, setStatus] = useState('verifying');
@@ -84,7 +84,7 @@ export default function EmailVerificationPage() {
             style={{
               width: '64px',
               height: '64px',
-              border: '4px solid #58a6ff',
+              border: '4px solid #000000',
               borderTopColor: 'transparent',
               animation: 'spin 1s linear infinite',
             }}
@@ -145,10 +145,9 @@ export default function EmailVerificationPage() {
     }
   };
 
-  // Determine responsive values
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
-  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
+  // Use responsive hook values
+  const { isDesktop, isTablet } = useResponsive();
+  const pagePadding = isDesktop ? '80px' : isTablet ? '24px' : '16px';
 
   return (
     <div
@@ -233,10 +232,13 @@ export default function EmailVerificationPage() {
                   fontSize: '16px',
                   lineHeight: '1.5',
                   color: 'white',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                  border: '1px solid rgba(88, 166, 255, 0.3)',
                   borderRadius: '12px',
                   textDecoration: 'none',
-                  boxShadow: 'var(--shadow-sm)',
+                  boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                 }}
                 aria-label="Go to home page"
               >
@@ -268,11 +270,13 @@ export default function EmailVerificationPage() {
                   fontSize: '16px',
                   lineHeight: '1.5',
                   color: 'white',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                  backdropFilter: 'blur(40px) saturate(200%)',
+                  WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   borderRadius: '12px',
-                  border: 'none',
+                  border: '1px solid rgba(88, 166, 255, 0.3)',
                   cursor: 'pointer',
-                  boxShadow: 'var(--shadow-sm)',
+                  boxShadow: '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                 }}
                 aria-label="Resend verification email"
               >
@@ -288,9 +292,9 @@ export default function EmailVerificationPage() {
                   paddingRight: '24px',
                   fontSize: '14px',
                   lineHeight: '1.5',
-                  color: '#58a6ff',
+                  color: '#000000',
                   background: 'transparent',
-                  border: '2px solid #58a6ff',
+                  border: '2px solid #000000',
                   borderRadius: '12px',
                   textDecoration: 'none',
                 }}
@@ -333,7 +337,7 @@ export default function EmailVerificationPage() {
               to="/help"
               className="underline transition-colors"
               style={{
-                color: '#58a6ff',
+                color: '#000000',
                 textDecoration: 'underline',
               }}
             >

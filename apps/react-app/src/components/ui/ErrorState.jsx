@@ -89,7 +89,7 @@ export function ErrorState({
             width: '100%',
             maxWidth: '600px',
             textAlign: 'left',
-            background: 'rgba(20, 20, 20, 0.6)',
+            background: 'rgba(0, 0, 0, 0.5)',
             border: '1px solid var(--border-subtle)',
             marginBottom: '16px'
           }}

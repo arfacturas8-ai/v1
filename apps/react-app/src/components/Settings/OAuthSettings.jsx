@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Link2, Unlink, CheckCircle, ExternalLink, Shield } from 'lucide-react'
 import oauthService from '../../services/oauthService'
+import ConfirmationModal from '../modals/ConfirmationModal'
+
 const OAuthSettings = () => {
   const [connectedProviders, setConnectedProviders] = useState([])
   const [loading, setLoading] = useState(true)
   const [message, setMessage] = useState('')
   const [processing, setProcessing] = useState({})
+  const [showDisconnectModal, setShowDisconnectModal] = useState(false)
+  const [providerToDisconnect, setProviderToDisconnect] = useState(null)
 
   const availableProviders = oauthService.getAvailableProviders()
 
@@ -38,12 +42,18 @@ const OAuthSettings = () => {
     }
   }
 
-  const handleDisconnect = async (providerId, providerName) => {
-    if (!window.confirm(`Disconnect ${providerName}? You won't be able to sign in with this account.`)) {
-      return
-    }
+  const handleDisconnect = (providerId, providerName) => {
+    setProviderToDisconnect({ providerId, providerName })
+    setShowDisconnectModal(true)
+  }
 
+  const confirmDisconnect = async () => {
+    if (!providerToDisconnect) return
+
+    const { providerId, providerName } = providerToDisconnect
+    setShowDisconnectModal(false)
     setProcessing(prev => ({ ...prev, [providerId]: true }))
+
     try {
       const response = await oauthService.disconnectProvider(providerId)
       if (response.success) {
@@ -56,6 +66,7 @@ const OAuthSettings = () => {
       showMessage(`Failed to disconnect ${providerName}`, 'error')
     } finally {
       setProcessing(prev => ({ ...prev, [providerId]: false }))
+      setProviderToDisconnect(null)
     }
   }
 
@@ -218,6 +229,21 @@ const OAuthSettings = () => {
           View Help Center
         </a>
       </div>
+
+      {/* Disconnect Provider Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDisconnectModal}
+        onClose={() => {
+          setShowDisconnectModal(false)
+          setProviderToDisconnect(null)
+        }}
+        onConfirm={confirmDisconnect}
+        title="Disconnect OAuth Provider"
+        message={`Disconnect ${providerToDisconnect?.providerName}? You won't be able to sign in with this account.`}
+        confirmText="Disconnect"
+        cancelText="Cancel"
+        variant="warning"
+      />
     </div>
   )
 }

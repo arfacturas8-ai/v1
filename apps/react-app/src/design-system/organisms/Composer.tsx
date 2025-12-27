@@ -73,37 +73,37 @@ export const Composer: React.FC<ComposerProps> = ({
   const canPost = content.trim().length > 0 && !isOverLimit && !isPosting;
 
   const containerStyle: React.CSSProperties = {
-    backgroundColor: colors['bg-secondary'],
-    borderRadius: radii.lg,
-    padding: spacing[4],
-    border: `1px solid ${colors['border-default']}`,
+    backgroundColor: '#FAFAFA',
+    borderRadius: '12px',
+    padding: '16px',
+    border: '1px solid #E5E5E5',
     ...style,
   };
 
   const contentAreaStyle: React.CSSProperties = {
     display: 'flex',
-    gap: spacing[3],
-    marginBottom: spacing[3],
+    gap: '12px',
+    marginBottom: '12px',
   };
 
   const textareaWrapperStyle: React.CSSProperties = {
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    gap: spacing[2],
+    gap: '8px',
   };
 
   const textareaStyle: React.CSSProperties = {
     width: '100%',
     minHeight: '80px',
     maxHeight: '300px',
-    padding: spacing[2],
+    padding: '0',
     fontSize: '15px',
     lineHeight: '1.5',
-    color: colors['text-primary'],
-    backgroundColor: colors['bg-tertiary'],
-    border: `1px solid ${colors['border-default']}`,
-    borderRadius: radii.md,
+    color: '#000000',
+    backgroundColor: 'transparent',
+    border: 'none',
+    borderRadius: '0',
     outline: 'none',
     resize: 'none',
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", "Roboto", "Helvetica Neue", Arial, sans-serif',
@@ -114,23 +114,25 @@ export const Composer: React.FC<ComposerProps> = ({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingLeft: currentUser ? '52px' : '0', // Align with textarea (avatar width + gap)
+    paddingTop: '12px',
+    borderTop: '1px solid #E5E5E5',
   };
 
   const toolbarLeftStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: spacing[2],
+    gap: '8px',
   };
 
   const toolbarRightStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
-    gap: spacing[3],
+    gap: '12px',
   };
 
   const charCountStyle: React.CSSProperties = {
     fontSize: '13px',
-    color: isOverLimit ? colors['error'] : colors['text-muted'],
+    color: isOverLimit ? '#EF4444' : '#999999',
     fontWeight: isOverLimit ? '600' : '400',
   };
 

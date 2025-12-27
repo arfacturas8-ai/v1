@@ -99,7 +99,7 @@ export class EmailService {
                 <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                       <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
                       <p style="margin: 6px 0 0; color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
@@ -120,7 +120,7 @@ export class EmailService {
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
                           <td align="center">
-                            <a href="${verificationUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
+                            <a href="${verificationUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                               Verify Email Address
                             </a>
                           </td>
@@ -181,7 +181,7 @@ export class EmailService {
                 <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                       <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
                       <p style="margin: 6px 0 0; color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
@@ -202,7 +202,7 @@ export class EmailService {
                       <table width="100%" cellpadding="0" cellspacing="0">
                         <tr>
                           <td align="center">
-                            <a href="${resetUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
+                            <a href="${resetUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                               Reset Password
                             </a>
                           </td>
@@ -269,7 +269,7 @@ export class EmailService {
                 <table width="600" cellpadding="0" cellspacing="0" style="background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; overflow: hidden; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08); border: 1px solid rgba(255, 255, 255, 0.9);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                    <td style="padding: 32px 32px 24px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                       <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
                       <p style="margin: 6px 0 0; color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
@@ -319,7 +319,7 @@ export class EmailService {
                       <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 28px;">
                         <tr>
                           <td align="center">
-                            <a href="${platformUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
+                            <a href="${platformUrl}" style="display: inline-block; padding: 12px 32px; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 15px; font-weight: 600; box-shadow: 0 4px 12px rgba(88, 166, 255, 0.25);">
                               Explore CRYB Now
                             </a>
                           </td>
@@ -561,7 +561,7 @@ export class EmailService {
                 <table width="600" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #1A1A1B 0%, #2A2A2B 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                       <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
                       <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
@@ -572,7 +572,7 @@ export class EmailService {
                     <td style="padding: 40px;">
                       <h2 style="margin: 0 0 16px; color: #ffffff; font-size: 28px; font-weight: 600;">You're Invited! 🎉</h2>
                       <p style="margin: 0 0 24px; color: #b4b4b5; font-size: 16px; line-height: 1.6;">
-                        <strong style="color: #58a6ff;">${inviterName}</strong> has invited you to join <strong style="background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">CRYB</strong> - the next-generation community platform where conversations come alive!
+                        <strong style="color: #58a6ff;">${inviterName}</strong> has invited you to join <strong style="background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">CRYB</strong> - the next-generation community platform where conversations come alive!
                       </p>
 
                       <!-- Invitation Card -->
@@ -616,7 +616,7 @@ export class EmailService {
                       <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 32px;">
                         <tr>
                           <td align="center">
-                            <a href="${invitationUrl}" style="display: inline-block; padding: 18px 56px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700; box-shadow: 0 8px 24px rgba(88, 166, 255, 0.4); letter-spacing: 0.5px;">
+                            <a href="${invitationUrl}" style="display: inline-block; padding: 18px 56px; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: #ffffff; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: 700; box-shadow: 0 8px 24px rgba(88, 166, 255, 0.4); letter-spacing: 0.5px;">
                               Accept Invitation & Join CRYB
                             </a>
                           </td>
@@ -679,7 +679,7 @@ export class EmailService {
                 <table width="600" cellpadding="0" cellspacing="0" style="background: linear-gradient(135deg, #1A1A1B 0%, #2A2A2B 100%); border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);">
                   <!-- Header -->
                   <tr>
-                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%);">
+                    <td style="padding: 40px 40px 30px; text-align: center; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%);">
                       <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.02em;">CRYB</h1>
                       <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px; font-weight: 500;">Next-Generation Community Platform</p>
                     </td>
@@ -703,7 +703,7 @@ export class EmailService {
                         <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 24px;">
                           <tr>
                             <td align="center">
-                              <a href="${notification.actionUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, #58a6ff 0%, #a371f7 100%); color: #ffffff; text-decoration: none; border-radius: 10px; font-size: 15px; font-weight: 600; box-shadow: 0 6px 20px rgba(88, 166, 255, 0.3);">
+                              <a href="${notification.actionUrl}" style="display: inline-block; padding: 14px 32px; background: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%); color: #ffffff; text-decoration: none; border-radius: 10px; font-size: 15px; font-weight: 600; box-shadow: 0 6px 20px rgba(88, 166, 255, 0.3);">
                                 View Details
                               </a>
                             </td>
@@ -1033,6 +1033,253 @@ export class EmailService {
 
       return false;
     }
+  }
+
+  async sendWaitlistConfirmationEmail(email: string, name: string): Promise<boolean> {
+    if (!this.isEnabled) {
+      console.log(`🎉 [DEV MODE] Waitlist confirmation email for ${email}`);
+      return true;
+    }
+
+    try {
+      const template = this.getWaitlistConfirmationTemplate(name);
+
+      if (this.provider === 'resend') {
+        return await this.sendWithResend(email, template.subject, template.html);
+      }
+
+      if (!this.transporter) {
+        console.error('SMTP transporter not initialized');
+        return false;
+      }
+
+      await this.transporter.sendMail({
+        from: process.env.SMTP_FROM || 'Bradley Himel <brad@cryb.ai>',
+        to: email,
+        subject: template.subject,
+        html: template.html,
+        text: template.text
+      });
+
+      await prisma.emailLog.create({
+        data: {
+          to: email,
+          type: 'WAITLIST',
+          status: 'SENT',
+          sentAt: new Date()
+        }
+      });
+
+      return true;
+    } catch (error) {
+      console.error('Failed to send waitlist confirmation email:', error);
+
+      await prisma.emailLog.create({
+        data: {
+          to: email,
+          type: 'WAITLIST',
+          status: 'FAILED',
+          error: (error as Error).message,
+          sentAt: new Date()
+        }
+      });
+
+      return false;
+    }
+  }
+
+  private getWaitlistConfirmationTemplate(name: string): EmailTemplate {
+    return {
+      subject: "You're on the list! 🎉",
+      html: `
+        <!DOCTYPE html>
+        <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <!--[if mso]>
+          <xml>
+            <o:OfficeDocumentSettings>
+              <o:AllowPNG/>
+              <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+          </xml>
+          <![endif]-->
+          <style type="text/css">
+            /* Client-specific Styles */
+            body { margin: 0; padding: 0; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+            table, td { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+            img { border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+            /* iOS Blue Links */
+            a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+            /* Gmail Blue Links */
+            u + #body a { color: inherit; text-decoration: none; font-size: inherit; font-family: inherit; font-weight: inherit; line-height: inherit; }
+          </style>
+        </head>
+        <body id="body" style="margin: 0; padding: 0; background-color: #FAFAFA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji'; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;">
+          <!-- Wrapper Table -->
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FAFAFA;">
+            <tr>
+              <td align="center" style="padding: 40px 20px;">
+                <!-- Main Container -->
+                <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; width: 100%; background-color: #FFFFFF; border-radius: 16px; overflow: hidden;">
+
+                  <!-- Header with gradient (Outlook fallback with solid color) -->
+                  <tr>
+                    <td align="center" style="padding: 40px 32px; text-align: center; background-color: #6366F1; background-image: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);">
+                      <!--[if gte mso 9]>
+                      <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="width:536px;height:auto;">
+                      <v:fill type="gradient" color="#6366F1" color2="#8B5CF6" angle="135"/>
+                      <v:textbox inset="0,0,0,0">
+                      <![endif]-->
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td align="center">
+                            <!-- Icon Circle -->
+                            <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin: 0 auto 16px;">
+                              <tr>
+                                <td align="center" style="width: 60px; height: 60px; background-color: rgba(255, 255, 255, 0.2); border-radius: 30px; font-size: 32px; line-height: 60px; text-align: center;">
+                                  ✨
+                                </td>
+                              </tr>
+                            </table>
+                            <h1 style="margin: 0; padding: 0; color: #FFFFFF; font-size: 32px; font-weight: 700; line-height: 1.2; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;">You're In!</h1>
+                            <p style="margin: 8px 0 0; padding: 0; color: rgba(255, 255, 255, 0.95); font-size: 15px; font-weight: 500; line-height: 1.4;">Welcome to the exclusive waitlist</p>
+                          </td>
+                        </tr>
+                      </table>
+                      <!--[if gte mso 9]>
+                      </v:textbox>
+                      </v:rect>
+                      <![endif]-->
+                    </td>
+                  </tr>
+
+                  <!-- Content -->
+                  <tr>
+                    <td style="padding: 40px 32px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td>
+                            <p style="margin: 0 0 20px; padding: 0; color: #1A1A1A; font-size: 17px; font-weight: 600; line-height: 1.4;">Hey ${name},</p>
+
+                            <p style="margin: 0 0 24px; padding: 0; color: #666666; font-size: 15px; font-weight: 400; line-height: 1.6;">
+                              You're officially on the waitlist for something special. While I can't share all the details yet, I can tell you this: <strong style="font-weight: 600;">Building the Future of Community Management</strong>.
+                            </p>
+
+                            <p style="margin: 0 0 28px; padding: 0; color: #666666; font-size: 15px; font-weight: 400; line-height: 1.6;">
+                              And you're about to get <strong style="font-weight: 600;">early access</strong> before anyone else.
+                            </p>
+                          </td>
+                        </tr>
+
+                        <!-- FOMO Section -->
+                        <tr>
+                          <td style="padding: 0 0 28px;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #F5F5FF; border-radius: 12px; border-left: 4px solid #6366F1;">
+                              <tr>
+                                <td style="padding: 24px;">
+                                  <p style="margin: 0 0 12px; padding: 0; color: #6366F1; font-size: 16px; font-weight: 700; line-height: 1.3;">
+                                    ⚡ Why Early Access Matters
+                                  </p>
+                                  <p style="margin: 0; padding: 0; color: #666666; font-size: 14px; font-weight: 400; line-height: 1.7;">
+                                    • <strong style="font-weight: 600;">Shape the product:</strong> Your feedback will directly influence what we build<br/>
+                                    • <strong style="font-weight: 600;">Founding member perks:</strong> Exclusive features &amp; recognition<br/>
+                                    • <strong style="font-weight: 600;">Be first:</strong> Get access before the public launch<br/>
+                                    • <strong style="font-weight: 600;">Connect early:</strong> Network with other innovators and early adopters
+                                  </p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+
+                        <!-- What's Next -->
+                        <tr>
+                          <td style="padding: 0 0 28px;">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #FAFAFA; border-radius: 12px; border: 1px solid #E5E5E5;">
+                              <tr>
+                                <td style="padding: 24px;">
+                                  <p style="margin: 0 0 12px; padding: 0; color: #1A1A1A; font-size: 16px; font-weight: 600; line-height: 1.3;">
+                                    What happens next?
+                                  </p>
+                                  <p style="margin: 0; padding: 0; color: #666666; font-size: 14px; font-weight: 400; line-height: 1.7;">
+                                    1️⃣ Keep an eye on your inbox – I'll be sending updates<br/>
+                                    2️⃣ You'll get your exclusive invite link soon<br/>
+                                    3️⃣ Be ready to be among the first to experience something new
+                                  </p>
+                                </td>
+                              </tr>
+                            </table>
+                          </td>
+                        </tr>
+
+                        <!-- Signature -->
+                        <tr>
+                          <td>
+                            <p style="margin: 0; padding: 0; color: #666666; font-size: 15px; font-weight: 400; line-height: 1.6;">
+                              Talk soon,<br/>
+                              <strong style="color: #1A1A1A; font-weight: 600;">Bradley Himel</strong><br/>
+                              <span style="color: #999999; font-size: 13px;">Founder</span>
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+
+                  <!-- Footer -->
+                  <tr>
+                    <td style="padding: 24px 32px; border-top: 1px solid #E5E5E5;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td align="center">
+                            <p style="margin: 0 0 8px; padding: 0; color: #999999; font-size: 13px; font-weight: 400; line-height: 1.4; text-align: center;">
+                              You're receiving this because you joined the waitlist.
+                            </p>
+                            <p style="margin: 0; padding: 0; color: #CCCCCC; font-size: 12px; font-weight: 400; line-height: 1.4; text-align: center;">
+                              Questions? Reply to this email anytime.
+                            </p>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </body>
+        </html>
+      `,
+      text: `
+Hey ${name},
+
+You're officially on the waitlist for something special. While I can't share all the details yet, I can tell you this: we're building the future of how people connect online.
+
+And you're about to get early access before anyone else.
+
+Why Early Access Matters:
+• Shape the product: Your feedback will directly influence what we build
+• Founding member perks: Exclusive features & recognition
+• Be first: Get access before the public launch
+• Connect early: Network with other innovators and early adopters
+
+What happens next?
+1. Keep an eye on your inbox – I'll be sending updates
+2. You'll get your exclusive invite link soon
+3. Be ready to be among the first to experience something new
+
+Talk soon,
+Bradley Himel
+Founder
+
+---
+You're receiving this because you joined the waitlist.
+Questions? Reply to this email anytime.
+      `
+    };
   }
 }
 

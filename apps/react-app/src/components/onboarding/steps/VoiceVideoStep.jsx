@@ -98,7 +98,7 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '50%',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   color: '#A0A0A0'
 }}>
                 {permissions.microphone === true ? 'Granted' :
@@ -128,7 +128,7 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
   paddingTop: '4px',
   paddingBottom: '4px',
   borderRadius: '50%',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   color: '#A0A0A0'
 }}>
                 {permissions.camera === true ? 'Granted' :
@@ -195,7 +195,7 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
 
         {permissions.microphone && (
           <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '16px',
   borderRadius: '12px'
 }}>
@@ -217,7 +217,7 @@ const VoiceVideoStep = ({ onComplete, onSkip }) => {
   paddingTop: '8px',
   paddingBottom: '8px',
   borderRadius: '12px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   color: '#ffffff'
 }}
             >

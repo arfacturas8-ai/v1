@@ -135,6 +135,79 @@
   --z-modal: 1400;
   --z-popover: 1500;
   --z-tooltip: 1600;
+  --z-notification: 1700;
+
+  /* ===== ALTERNATIVE NAMING CONVENTIONS (Aliases for compatibility) ===== */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-text-primary: var(--text-primary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-primary-500: var(--brand-primary);
+  --color-error-500: var(--color-error);
+  --color-error-bg: var(--color-error-light);
+  --accent-primary: var(--brand-primary);
+  --accent-secondary: var(--brand-secondary);
+  --cryb-primary: var(--brand-primary);
+  --cryb-secondary: var(--brand-secondary);
+  --error: var(--color-error);
+  --success: var(--color-success);
+  --error-color: var(--color-error);
+  --success-color: var(--color-success);
+  --info-color: var(--color-info);
+  --warning-color: var(--color-warning);
+  --semantic-error: var(--color-error);
+  --primary-trust: var(--brand-primary);
+  --hover-bg: var(--bg-hover);
+  --text-muted: var(--text-tertiary);
+  --border-primary: var(--brand-primary);
+  --border-hover: var(--border-strong);
+
+  /* ===== RADIX UI COLOR SYSTEM (iOS Light Theme Compatible) ===== */
+  --blue-9: #58a6ff;
+  --blue-11: #4593e6;
+  --blue-contrast: #FFFFFF;
+  --gray-1: #FAFAFA;
+  --gray-2: #F8F9FA;
+  --gray-3: #F0F2F5;
+  --gray-6: #E8EAED;
+  --gray-11: #666666;
+  --gray-12: #1A1A1A;
+  --green-3: #E6F9F0;
+  --green-6: #00D26A;
+  --green-11: #00A854;
+  --red-3: #FFE8E8;
+  --red-6: #FF3B3B;
+  --red-9: #FF3B3B;
+  --red-11: #CC2F2F;
+
+  /* ===== NEUTRAL COLORS ===== */
+  --color-neutral-50: #FAFAFA;
+  --color-neutral-100: #F8F9FA;
+  --color-neutral-200: #F0F2F5;
+  --color-neutral-300: #E8EAED;
+  --color-neutral-400: #D1D5DB;
+  --color-neutral-500: #9CA3AF;
+  --color-neutral-600: #666666;
+  --color-neutral-900: #1A1A1A;
+
+  /* ===== GLASSMORPHISM & BLUR ===== */
+  --bg-glass: rgba(255, 255, 255, 0.7);
+  --blur-md: blur(12px);
+
+  /* ===== FONT SIZES (Aliases) ===== */
+  --font-size-xs: var(--text-xs);
+  --font-size-sm: var(--text-sm);
+  --font-size-md: var(--text-base);
+  --font-size-lg: var(--text-lg);
+
+  /* ===== SPACING (Aliases) ===== */
+  --space-md: var(--space-4);
+  --space-lg: var(--space-6);
+  --space-xl: var(--space-8);
+
+  /* ===== TOUCH TARGETS ===== */
+  --touch-target-lg: 44px;
 }
 
 /* ===== RESET ===== */

@@ -26,10 +26,6 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Responsive breakpoints
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
-
   useEffect(() => {
     if (isAuthenticated && !authLoading) {
       const from = location.state?.from?.pathname || '/home';
@@ -76,10 +72,10 @@ export default function LoginPage() {
         overflow: 'hidden',
         background: '#F8F9FA',
         color: '#1A1A1A',
-        paddingLeft: isDesktop ? '80px' : isTabletView ? '24px' : '16px',
-        paddingRight: isDesktop ? '80px' : isTabletView ? '24px' : '16px',
-        paddingTop: '48px',
-        paddingBottom: '48px'
+        paddingLeft: isMobile ? '16px' : isTablet ? '24px' : '80px',
+        paddingRight: isMobile ? '16px' : isTablet ? '24px' : '80px',
+        paddingTop: '24px',
+        paddingBottom: '24px'
       }}
       role="main"
       aria-label="Login page"
@@ -89,13 +85,15 @@ export default function LoginPage() {
         <div
           style={{
             position: 'absolute',
-            width: isDesktop ? '320px' : '256px',
-            height: isDesktop ? '320px' : '256px',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            width: isMobile ? '200px' : isTablet ? '256px' : '320px',
+            height: isMobile ? '200px' : isTablet ? '256px' : '320px',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             borderRadius: '50%',
             filter: 'blur(80px)',
             opacity: 0.04,
-            top: '64px',
+            top: isMobile ? '32px' : '64px',
             left: '32px'
           }}
         />
@@ -104,7 +102,9 @@ export default function LoginPage() {
             position: 'absolute',
             width: isDesktop ? '320px' : '256px',
             height: isDesktop ? '320px' : '256px',
-            background: 'linear-gradient(135deg, #00D26A 0%, #58a6ff 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             borderRadius: '50%',
             filter: 'blur(80px)',
             opacity: 0.03,
@@ -126,7 +126,7 @@ export default function LoginPage() {
         <div
           style={{
             borderRadius: '20px',
-            padding: isDesktop ? '48px' : isTabletView ? '36px' : '28px',
+            padding: isDesktop ? '32px' : isTabletView ? '28px' : '24px',
             background: '#FFFFFF',
             boxShadow: '0 4px 8px rgba(0, 0, 0, 0.12)',
             border: '1px solid #E8EAED'
@@ -136,14 +136,14 @@ export default function LoginPage() {
           <div
             style={{
               textAlign: 'center',
-              marginBottom: '32px'
+              marginBottom: '24px'
             }}
           >
             <div
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                marginBottom: '20px'
+                marginBottom: '16px'
               }}
             >
               <div
@@ -151,17 +151,19 @@ export default function LoginPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  width: '64px',
-                  height: '64px',
-                  borderRadius: '16px',
-                  background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '12px',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   boxShadow: '0 4px 16px rgba(88, 166, 255, 0.25)'
                 }}
                 aria-hidden="true"
               >
-                <div style={{ width: '32px', height: '32px', flexShrink: 0 }}>
+                <div style={{ width: '24px', height: '24px', flexShrink: 0 }}>
                   <Sparkles
-                    size={32}
+                    size={24}
                     strokeWidth={2}
                     style={{ color: '#FFFFFF' }}
                     aria-hidden="true"
@@ -171,20 +173,20 @@ export default function LoginPage() {
             </div>
             <h1
               style={{
-                fontSize: isDesktop ? '28px' : '24px',
+                fontSize: isDesktop ? '24px' : '20px',
                 fontWeight: '700',
                 lineHeight: '1.3',
-                marginBottom: '8px',
+                marginBottom: '6px',
                 color: '#1A1A1A',
                 letterSpacing: '-0.01em',
-                margin: '0 0 8px 0'
+                margin: '0 0 6px 0'
               }}
             >
               Welcome back
             </h1>
             <p
               style={{
-                fontSize: '15px',
+                fontSize: '14px',
                 lineHeight: '1.5',
                 color: '#666666',
                 margin: 0
@@ -198,13 +200,13 @@ export default function LoginPage() {
           {error && (
             <div
               style={{
-                marginBottom: '24px',
-                padding: '16px',
+                marginBottom: '16px',
+                padding: '12px',
                 background: 'rgba(255, 59, 59, 0.08)',
                 border: '1px solid rgba(255, 59, 59, 0.15)',
                 borderRadius: '12px',
                 color: '#FF3B3B',
-                fontSize: '14px',
+                fontSize: '13px',
                 lineHeight: '1.5'
               }}
               role="alert"
@@ -220,7 +222,7 @@ export default function LoginPage() {
             style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: '20px'
+              gap: '16px'
             }}
           >
             {/* Email Field */}
@@ -496,25 +498,29 @@ export default function LoginPage() {
                 color: '#FFFFFF',
                 background: loading
                   ? '#D1D5DB'
-                  : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                  : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                backdropFilter: 'blur(40px) saturate(200%)',
+                WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                border: loading ? 'none' : '1px solid rgba(88, 166, 255, 0.3)',
                 borderRadius: '9999px',
-                border: 'none',
                 cursor: loading ? 'not-allowed' : 'pointer',
                 opacity: loading ? 0.6 : 1,
-                boxShadow: loading ? 'none' : '0 4px 12px rgba(88, 166, 255, 0.3)',
+                boxShadow: loading ? 'none' : '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                 transition: 'all 0.2s ease'
               }}
               aria-label="Sign in to your account"
               onMouseEnter={(e) => {
                 if (!loading) {
                   e.target.style.transform = 'translateY(-1px)'
-                  e.target.style.boxShadow = '0 6px 20px rgba(88, 166, 255, 0.4)'
+                  e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 1) 0%, rgba(163, 113, 247, 1) 100%)'
+                  e.target.style.boxShadow = '0 8px 32px rgba(88, 166, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                 }
               }}
               onMouseLeave={(e) => {
                 if (!loading) {
                   e.target.style.transform = 'translateY(0)'
-                  e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.3)'
+                  e.target.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  e.target.style.boxShadow = '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
                 }
               }}
             >

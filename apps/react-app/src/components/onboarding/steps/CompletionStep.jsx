@@ -251,7 +251,7 @@ const CompletionStep = ({ onComplete }) => {
 
       {/* Community Guidelines Reminder */}
       <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '24px',
   borderRadius: '12px'
 }}>

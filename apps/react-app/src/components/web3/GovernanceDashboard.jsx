@@ -304,19 +304,19 @@ const GovernanceDashboard = () => {
         <div className=" space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '16px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
               <div key={i} style={{
   height: '96px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
             ))}
@@ -932,7 +932,7 @@ const GovernanceDashboard = () => {
           {selectedProposal && (
             <div className="space-y-4 mt-4">
               <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '16px',
   borderRadius: '12px'
 }}>

@@ -194,8 +194,8 @@ const NFTProfileSystem = () => {
           // Mock metadata - in real implementation would fetch from IPFS
           return {
             tokenId,
-            name: `CRYB Genesis #${tokenId}`,
-            description: `Unique CRYB NFT #${tokenId}`,
+            name: `Digital Collectible #${tokenId}`,
+            description: `Unique Digital NFT #${tokenId}`,
             image: `https://api.cryb.ai/nft/${tokenId}/image`,
             attributes: [
               { trait_type: 'Rarity', value: Math.random() > 0.8 ? 'Legendary' : Math.random() > 0.5 ? 'Rare' : 'Common' },

@@ -132,7 +132,7 @@ const OnboardingOverlay = () => {
 
         {/* Footer with navigation */}
         <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   paddingLeft: '24px',
   paddingRight: '24px',
   paddingTop: '16px',

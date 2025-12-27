@@ -33,7 +33,6 @@ export default function ProfileDemoPage() {
       stats: {
         totalPosts: 287,
         totalComments: 1542,
-        totalAwards: 68
       },
       badges: [
         { id: 'verified', name: 'Verified Creator', icon: 'shield' },
@@ -68,7 +67,6 @@ export default function ProfileDemoPage() {
       stats: {
         totalPosts: 542,
         totalComments: 3280,
-        totalAwards: 156
       },
       badges: [
         { id: 'verified', name: 'Verified User', icon: 'shield' },
@@ -100,7 +98,6 @@ export default function ProfileDemoPage() {
       stats: {
         totalPosts: 198,
         totalComments: 956,
-        totalAwards: 42
       },
       badges: [
         { id: 'collector', name: 'Master Collector', icon: 'crown' },
@@ -151,7 +148,7 @@ export default function ProfileDemoPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${
                 activeProfile === 'web3'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
+                  : 'bg-[#FFFFFF]/50 text-slate-400 hover:text-white hover:bg-[#FFFFFF]'
               }`}
             >
               Web3 Creator
@@ -161,7 +158,7 @@ export default function ProfileDemoPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${
                 activeProfile === 'influencer'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
+                  : 'bg-[#FFFFFF]/50 text-slate-400 hover:text-white hover:bg-[#FFFFFF]'
               }`}
             >
               Crypto Influencer
@@ -171,7 +168,7 @@ export default function ProfileDemoPage() {
               className={`px-4 py-2 rounded-lg font-medium transition-all whitespace-nowrap ${
                 activeProfile === 'collector'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
+                  : 'bg-[#FFFFFF]/50 text-slate-400 hover:text-white hover:bg-[#FFFFFF]'
               }`}
             >
               NFT Collector
@@ -292,7 +289,7 @@ export default function ProfileDemoPage() {
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
                 activeTab === 'nfts'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
+                  : 'bg-[#FFFFFF]/50 text-slate-400 hover:text-white hover:bg-[#FFFFFF]'
               }`}
             >
               <Grid3x3 style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -303,7 +300,7 @@ export default function ProfileDemoPage() {
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
                 activeTab === 'activity'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
+                  : 'bg-[#FFFFFF]/50 text-slate-400 hover:text-white hover:bg-[#FFFFFF]'
               }`}
             >
               <Activity style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -314,7 +311,7 @@ export default function ProfileDemoPage() {
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
                 activeTab === 'wallet'
                   ? 'bg-gradient-to-r from-[#58a6ff] to-[#a371f7] text-white'
-                  : 'bg-[#21262d]/50 text-slate-400 hover:text-white hover:bg-[#21262d]'
+                  : 'bg-[#FFFFFF]/50 text-slate-400 hover:text-white hover:bg-[#FFFFFF]'
               }`}
             >
               <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
@@ -351,7 +348,7 @@ export default function ProfileDemoPage() {
                       <Wallet style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                       <span style={{color: "var(--text-primary)"}} className=" font-semibold">{nft.price}</span>
                     </div>
-                    <button className="p-2 hover:bg-[#21262d] rounded-lg transition-colors">
+                    <button className="p-2 hover:bg-[#FFFFFF] rounded-lg transition-colors">
                       <ExternalLink style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                     </button>
                   </div>
@@ -393,11 +390,11 @@ export default function ProfileDemoPage() {
             <div className="card /50 backdrop-blur border border-slate-800/50 rounded-2xl  p-6">
               <div className="flex items-center justify-between mb-6">
                 <h3 style={{color: "var(--text-primary)"}} className="text-xl font-bold ">Wallet Address</h3>
-                <button className="p-2 hover:bg-[#21262d] rounded-lg transition-colors">
+                <button className="p-2 hover:bg-[#FFFFFF] rounded-lg transition-colors">
                   <Copy style={{ width: "24px", height: "24px", flexShrink: 0 }} />
                 </button>
               </div>
-              <div className="bg-[#21262d]/50 border border-slate-700/50 rounded-lg p-4 mb-4">
+              <div className="bg-[#FFFFFF]/50 border border-slate-700/50 rounded-lg p-4 mb-4">
                 <p className="text-slate-300 text-sm font-mono break-all">{currentProfile.walletAddress}</p>
               </div>
               {currentProfile.ensName && (
@@ -421,7 +418,6 @@ export default function ProfileDemoPage() {
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Awards Received</span>
-                  <span style={{color: "var(--text-primary)"}} className=" font-semibold">{currentProfile.stats.totalAwards}</span>
                 </div>
               </div>
             </div>

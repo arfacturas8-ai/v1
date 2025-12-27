@@ -240,7 +240,7 @@
 
   /* Background with Gradient */
   --color-background: #000;
-  --gradient-background: linear-gradient(180deg, #000000 0%, #0a0314 50%, #0f0520 100%);
+  --gradient-background: linear-gradient(180deg, #58a6ff 0%, #7b8fd9 50%, #a371f7 100%);
   --gradient-primary: linear-gradient(135deg, #8467c5 0%, #ab85ff 100%);
   --gradient-surface: linear-gradient(135deg, rgba(132, 103, 197, 0.1) 0%, rgba(171, 133, 255, 0.1) 100%);
 

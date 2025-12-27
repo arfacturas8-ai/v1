@@ -537,7 +537,7 @@ describe('CallScreenPage', () => {
 
       await waitFor(() => {
         const screenShareButton = screen.getByLabelText('Stop sharing')
-        expect(screenShareButton).toHaveClass('bg-[#58a6ff]')
+        expect(screenShareButton).toHaveClass('bg-[#000000]')
       })
     })
 

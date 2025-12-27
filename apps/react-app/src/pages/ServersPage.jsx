@@ -7,7 +7,7 @@
  * - Cards: white with subtle shadows
  * - Border radius: 16-24px for modern iOS feel
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Icons: 20px standard size
  * - Hover: translateY(-2px) for interactive elements
  */
@@ -145,7 +145,9 @@ function ServersPage() {
             <div style={{
               width: '64px',
               height: '64px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               borderRadius: '16px',
               display: 'flex',
               alignItems: 'center',
@@ -287,13 +289,12 @@ function ServersPage() {
               style={{
                 padding: '16px 32px',
                 fontWeight: '500',
-                borderBottom: activeTab === 'discover' ? '2px solid #6366F1' : '2px solid transparent',
                 transition: 'all 0.2s ease',
                 minHeight: '44px',
                 background: 'none',
                 border: 'none',
-                borderBottom: activeTab === 'discover' ? '2px solid #6366F1' : '2px solid transparent',
-                color: activeTab === 'discover' ? '#6366F1' : '#666',
+                borderBottom: activeTab === 'discover' ? '2px solid #000000' : '2px solid transparent',
+                color: activeTab === 'discover' ? '#000000' : '#666',
                 cursor: 'pointer'
               }}
             >
@@ -304,13 +305,12 @@ function ServersPage() {
               style={{
                 padding: '16px 32px',
                 fontWeight: '500',
-                borderBottom: activeTab === 'myServers' ? '2px solid #6366F1' : '2px solid transparent',
                 transition: 'all 0.2s ease',
                 minHeight: '44px',
                 background: 'none',
                 border: 'none',
-                borderBottom: activeTab === 'myServers' ? '2px solid #6366F1' : '2px solid transparent',
-                color: activeTab === 'myServers' ? '#6366F1' : '#666',
+                borderBottom: activeTab === 'myServers' ? '2px solid #000000' : '2px solid transparent',
+                color: activeTab === 'myServers' ? '#000000' : '#666',
                 cursor: 'pointer'
               }}
             >
@@ -335,7 +335,7 @@ function ServersPage() {
                   border: 'none',
                   transition: 'all 0.2s ease',
                   minHeight: '44px',
-                  background: selectedCategory === category.id ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#fff',
+                  background: selectedCategory === category.id ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#fff',
                   color: selectedCategory === category.id ? '#fff' : '#000',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
                   cursor: 'pointer'

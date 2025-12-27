@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { ShoppingBag, Grid, List, DollarSign, Heart, Search, TrendingUp, Filter, ChevronDown, Wallet, Sparkles, ArrowUpDown, X, CheckCircle, Flame, Clock, Activity, Users } from 'lucide-react'
 import { Button, Input } from '../components/ui'
 import nftService from '../services/nftService'
-import { useWeb3Auth } from '../lib/hooks/useWeb3Auth'
+import useWeb3Auth from '../lib/hooks/useWeb3Auth'
 import { Web3OperationSkeleton, SkeletonBox } from '../components/web3/Web3Skeletons'
 import { useToast } from '../contexts/ToastContext'
 import {
@@ -13,8 +13,10 @@ import {
   useLoadingAnnouncement,
   useErrorAnnouncement
 } from '../utils/accessibility.jsx'
+import { useResponsive } from '../hooks/useResponsive'
 
 const NFTMarketplacePage = () => {
+  const { isMobile, isTablet, isDesktop } = useResponsive()
   const [listings, setListings] = useState([])
   const [loading, setLoading] = useState(true)
   const [viewMode, setViewMode] = useState('grid')
@@ -30,10 +32,6 @@ const NFTMarketplacePage = () => {
   const [selectedCollections, setSelectedCollections] = useState(new Set())
   const [featuredCarouselIndex, setFeaturedCarouselIndex] = useState(0)
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024
-
   // Web3 Integration
   const { state: web3State, actions: web3Actions } = useWeb3Auth()
   const { showError } = useToast()
@@ -44,16 +42,6 @@ const NFTMarketplacePage = () => {
 
   // Featured Collections for Hero Carousel
   const featuredCollections = useMemo(() => [
-    {
-      id: 1,
-      name: 'Cryb.ai Genesis Collection',
-      description: 'Exclusive NFTs for early platform adopters',
-      image: 'https://via.placeholder.com/1200x400/667eea/ffffff?text=Cryb.ai+Genesis',
-      floorPrice: '0.5',
-      totalVolume: '125.8',
-      items: 10000,
-      verified: true
-    },
     {
       id: 2,
       name: 'Crypto Legends',
@@ -94,7 +82,6 @@ const NFTMarketplacePage = () => {
 
   // Available Collections
   const availableCollections = useMemo(() => [
-    { id: 'cryb-genesis', name: 'Cryb.ai Genesis', verified: true, count: 10000 },
     { id: 'crypto-legends', name: 'Crypto Legends', verified: true, count: 5000 },
     { id: 'meta-worlds', name: 'Meta Worlds', verified: true, count: 3000 },
     { id: 'pixel-punks', name: 'Pixel Punks', verified: false, count: 8000 },
@@ -300,7 +287,7 @@ const NFTMarketplacePage = () => {
             background: 'rgba(88, 166, 255, 0.1)',
             border: '1px solid rgba(88, 166, 255, 0.3)',
             borderRadius: '9999px',
-            color: '#58a6ff',
+            color: '#1A1A1A',
             fontSize: '14px',
             fontWeight: '600',
             marginBottom: '16px',
@@ -496,7 +483,9 @@ const NFTMarketplacePage = () => {
               onClick={handleConnectWallet}
               style={{
                 padding: '10px 24px',
-                background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: '12px',
@@ -732,7 +721,9 @@ const NFTMarketplacePage = () => {
                 style={{
                   width: '100%',
                   padding: '12px 16px',
-                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '12px',
@@ -1028,7 +1019,9 @@ const NFTMarketplacePage = () => {
                 onClick={loadListings}
                 style={{
                   padding: '14px 28px',
-                  background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: '12px',
@@ -1228,7 +1221,9 @@ const NFTMarketplacePage = () => {
                         style={{
                           width: '100%',
                           padding: '12px 16px',
-                          background: 'linear-gradient(90deg, #58a6ff 0%, #a371f7 100%)',
+                          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                           color: '#FFFFFF',
                           border: 'none',
                           borderRadius: '12px',

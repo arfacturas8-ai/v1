@@ -98,7 +98,7 @@ const CreateProposalPage = () => {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-            <Vote style={{ width: '32px', height: '32px', color: '#6366F1' }} aria-hidden="true" />
+            <Vote style={{ width: '32px', height: '32px', color: '#000000' }} aria-hidden="true" />
             <h1 style={{ fontSize: '28px', fontWeight: '700', color: '#000', margin: 0 }}>
               Create Proposal
             </h1>
@@ -245,7 +245,7 @@ const CreateProposalPage = () => {
                 width: '100%',
                 height: '56px',
                 padding: '0 24px',
-                background: loading ? '#E5E5E5' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: loading ? '#E5E5E5' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '16px',

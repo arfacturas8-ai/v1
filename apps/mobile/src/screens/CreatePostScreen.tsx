@@ -141,7 +141,7 @@ export function CreatePostScreen() {
               mediaTypes: ImagePicker.MediaTypeOptions.Images,
               quality: 0.8,
             });
-            if (!result.canceled) {
+            if (!result.canceled && result.assets && result.assets[0]) {
               updateDraft({ images: [...draft.images, result.assets[0].uri] });
             }
           } else if (buttonIndex === 1) {
@@ -167,7 +167,7 @@ export function CreatePostScreen() {
               mediaTypes: ImagePicker.MediaTypeOptions.Images,
               quality: 0.8,
             });
-            if (!result.canceled) {
+            if (!result.canceled && result.assets && result.assets[0]) {
               updateDraft({ images: [...draft.images, result.assets[0].uri] });
             }
           }},

@@ -127,22 +127,6 @@ export const PERMISSIONS = {
 
 // Community configurations
 export const COMMUNITY_CONFIGS = {
-  'cryb-genesis': {
-    id: 'cryb-genesis',
-    name: 'CRYB Genesis',
-    description: 'Exclusive community for CRYB Genesis NFT holders',
-    accessLevel: 'nft_holder',
-    requirements: [
-      {
-        type: ACCESS_REQUIREMENT_TYPES.NFT_OWNERSHIP,
-        nftContract: '0x0987654321098765432109876543210987654321',
-        requiredTokenIds: [1, 2, 3, 4, 5], // Genesis NFTs
-        minCount: 1
-      }
-    ],
-    features: ['exclusive_drops', 'early_access', 'governance_rights'],
-    memberLimit: 1000
-  },
   'diamond-tier': {
     id: 'diamond-tier',
     name: 'Diamond Tier',

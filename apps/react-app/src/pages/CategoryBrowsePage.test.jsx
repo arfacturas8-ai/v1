@@ -536,7 +536,7 @@ describe('CategoryBrowsePage', () => {
       renderWithRouter(<CategoryBrowsePage />)
       const joinButtons = screen.getAllByRole('button', { name: /Join/i })
       joinButtons.forEach((button) => {
-        expect(button.className).toContain('bg-[#58a6ff]')
+        expect(button.className).toContain('bg-[#000000]')
       })
     })
 

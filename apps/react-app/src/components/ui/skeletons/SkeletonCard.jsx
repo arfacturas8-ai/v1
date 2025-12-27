@@ -16,7 +16,7 @@ export function SkeletonCard({
   return (
     <div
       style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px',
   border: '1px solid var(--border-subtle)',
   padding: '16px'
@@ -76,7 +76,7 @@ export function SkeletonPostCard({
   return (
     <article
       style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px',
   border: '1px solid var(--border-subtle)',
   overflow: 'hidden'
@@ -180,7 +180,7 @@ export function SkeletonCommunityCard({ className = '' }) {
   return (
     <div
       style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px',
   border: '1px solid var(--border-subtle)',
   overflow: 'hidden'
@@ -234,7 +234,7 @@ export function SkeletonUserCard({ showBio = true, className = '' }) {
   return (
     <div
       style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px',
   border: '1px solid var(--border-subtle)',
   padding: '16px'

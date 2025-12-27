@@ -244,8 +244,8 @@ function TokenEconomicsPage() {
   }
 
   const tokenDistribution = [
-    { category: 'Community & Users', percentage: 40, color: '#58a6ff' },
-    { category: 'Development Team', percentage: 20, color: '#a371f7' },
+    { category: 'Community & Users', percentage: 40, color: '#000000' },
+    { category: 'Development Team', percentage: 20, color: '#000000' },
     { category: 'Ecosystem Growth', percentage: 15, color: '#10b981' },
     { category: 'Treasury Reserve', percentage: 15, color: '#f59e0b' },
     { category: 'Public Sale', percentage: 10, color: '#ec4899' }
@@ -643,7 +643,7 @@ function TokenEconomicsPage() {
                   )}
 
                   {proposal.hasVoted && (
-                    <div className="mt-4 sm:mt-6 bg-[#58a6ff]/10 border border-blue-500/30 rounded-lg px-4 py-3 text-center">
+                    <div className="mt-4 sm:mt-6 bg-[#000000]/10 border border-blue-500/30 rounded-lg px-4 py-3 text-center">
                       <span className="text-blue-400 text-sm sm:text-base font-semibold">You voted on this proposal</span>
                     </div>
                   )}

@@ -20,6 +20,7 @@ import PasskeySettings from '../components/Settings/PasskeySettings'
 import OAuthSettings from '../components/Settings/OAuthSettings'
 import { useLoadingAnnouncement, useErrorAnnouncement } from '../utils/accessibility'
 import { useResponsive } from '../hooks/useResponsive'
+import ConfirmationModal from '../components/modals/ConfirmationModal'
 
 function SettingsPage() {
   const navigate = useNavigate()
@@ -40,6 +41,10 @@ function SettingsPage() {
   const [loading, setLoading] = useState(false)
   const [dataLoading, setDataLoading] = useState(true)
   const [message, setMessage] = useState('')
+
+  // Confirmation modals state
+  const [showExportModal, setShowExportModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
   const [avatarPreview, setAvatarPreview] = useState(null)
   const [profileData, setProfileData] = useState({
     displayName: '',
@@ -60,8 +65,11 @@ function SettingsPage() {
     messagePrivacy: 'friends',
     onlineStatus: true,
     showEmail: false,
-    showLocation: false
+    showLocation: false,
+    hideSensitiveContent: true,
+    mutedWords: []
   })
+  const [newMutedWord, setNewMutedWord] = useState('')
   const [blockedUsers, setBlockedUsers] = useState([])
 
   // Appearance Settings State
@@ -151,7 +159,9 @@ function SettingsPage() {
           messagePrivacy: 'friends',
           onlineStatus: true,
           showEmail: false,
-          showLocation: false
+          showLocation: false,
+          hideSensitiveContent: true,
+          mutedWords: []
         })
 
         // Load appearance settings
@@ -322,10 +332,6 @@ function SettingsPage() {
   }
 
   const handleExportData = async () => {
-    if (!window.confirm('This will download all your data in JSON format. Continue?')) {
-      return
-    }
-
     setLoading(true)
     try {
       const response = await userService.exportUserData()
@@ -341,6 +347,7 @@ function SettingsPage() {
         document.body.removeChild(a)
         URL.revokeObjectURL(url)
         showMessage('Your data has been downloaded successfully!')
+        setShowExportModal(false)
       } else {
         showMessage('Failed to export data', 'error')
       }
@@ -352,19 +359,13 @@ function SettingsPage() {
     }
   }
 
-  const handleDeleteAccount = async () => {
-    const confirmation = window.prompt('WARNING: This action cannot be undone!\n\nType "DELETE MY ACCOUNT" to confirm account deletion:')
-
-    if (confirmation !== 'DELETE MY ACCOUNT') {
-      showMessage('Account deletion cancelled', 'error')
-      return
-    }
-
+  const handleDeleteAccount = async (confirmationText) => {
     setLoading(true)
     try {
-      const response = await userService.deleteAccountGDPR({ confirmation: 'DELETE MY ACCOUNT' })
+      const response = await userService.deleteAccountGDPR({ confirmation: confirmationText })
       if (response.success) {
         showMessage('Your account deletion request has been submitted. You will be logged out shortly.')
+        setShowDeleteModal(false)
         // Use navigate or logout instead of window.location
         setTimeout(() => {
           authService.logout()
@@ -579,8 +580,8 @@ function SettingsPage() {
     { id: 'security', label: 'Security', icon: '🛡️' },
     { id: 'notifications', label: 'Notifications', icon: '🔔' },
     { id: 'appearance', label: 'Appearance', icon: '🎨' },
-    { id: 'integrations', label: 'Integrations', icon: '🔗' },
-    { id: 'wallet', label: 'Wallet', icon: '👛' }
+    { id: 'wallet', label: 'Wallet', icon: '👛' },
+    { id: 'about', label: 'About', icon: 'ℹ️' }
   ]
 
   if (dataLoading) {
@@ -618,7 +619,7 @@ function SettingsPage() {
           fontWeight: 500,
           background: message.type === 'error'
             ? 'rgba(239, 68, 68, 0.9)'
-            : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
           color: 'white',
           backdropFilter: 'blur(8px)'
         }}>
@@ -643,7 +644,7 @@ function SettingsPage() {
             fontSize: '24px',
             fontWeight: 'bold',
             padding: '32px 24px',
-            color: '#000000',
+            color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
             margin: 0
           }}>Settings</h1>
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '4px', padding: '0 12px' }}>
@@ -656,22 +657,20 @@ function SettingsPage() {
                   alignItems: 'center',
                   gap: '12px',
                   padding: '12px 16px',
-                  borderRadius: '12px',
+                  borderRadius: '8px',
                   transition: 'all 0.2s',
-                  background: activeTab === tab.id
-                    ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
-                    : 'transparent',
+                  background: activeTab === tab.id ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : 'transparent',
                   color: activeTab === tab.id ? 'white' : '#666666',
                   border: 'none',
                   cursor: 'pointer',
-                  fontSize: '15px',
-                  fontWeight: 500,
-                  boxShadow: activeTab === tab.id ? '0 4px 12px rgba(99, 102, 241, 0.25)' : 'none',
-                  minHeight: '44px'
+                  fontSize: '14px',
+                  fontWeight: activeTab === tab.id ? 500 : 400,
+                  boxShadow: 'none',
+                  minHeight: '40px'
                 }}
                 onMouseEnter={(e) => {
                   if (activeTab !== tab.id) {
-                    e.currentTarget.style.background = 'rgba(0, 0, 0, 0.04)'
+                    e.currentTarget.style.background = '#FAFAFA'
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -717,19 +716,17 @@ function SettingsPage() {
                   alignItems: 'center',
                   gap: '4px',
                   padding: '8px 12px',
-                  borderRadius: '12px',
+                  borderRadius: '8px',
                   transition: 'all 0.2s',
-                  background: activeTab === tab.id
-                    ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
-                    : 'transparent',
+                  background: activeTab === tab.id ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : 'transparent',
                   color: activeTab === tab.id ? 'white' : '#666666',
                   border: 'none',
                   cursor: 'pointer',
-                  fontSize: '12px',
-                  fontWeight: 500,
+                  fontSize: '11px',
+                  fontWeight: activeTab === tab.id ? 500 : 400,
                   flexShrink: 0,
-                  minHeight: '44px',
-                  minWidth: '72px'
+                  minHeight: '40px',
+                  minWidth: '68px'
                 }}
                 aria-label={`${tab.label} settings`}
                 aria-current={activeTab === tab.id ? 'page' : undefined}
@@ -760,7 +757,7 @@ function SettingsPage() {
                     fontSize: '32px',
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Profile Settings</h2>
                   <p style={{ color: '#666666', margin: 0 }}>Customize your public profile and personal information</p>
                 </div>
@@ -787,7 +784,9 @@ function SettingsPage() {
                         height: '96px',
                         borderRadius: '50%',
                         overflow: 'hidden',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center'
@@ -806,9 +805,11 @@ function SettingsPage() {
                       </div>
                       <div style={{ flex: 1 }}>
                         <label style={{
-                          display: 'inline-block',
+                          display: 'flex',
                           padding: '10px 24px',
-                          background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                           borderRadius: '12px',
                           fontWeight: 500,
                           cursor: 'pointer',
@@ -816,7 +817,6 @@ function SettingsPage() {
                           color: 'white',
                           fontSize: '15px',
                           minHeight: '44px',
-                          display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
                           border: 'none'
@@ -895,14 +895,14 @@ function SettingsPage() {
                         background: 'white',
                         border: '1px solid rgba(0, 0, 0, 0.06)',
                         borderRadius: '12px',
-                        color: '#000000',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         fontSize: '15px',
                         outline: 'none',
                         transition: 'border-color 0.2s',
                         minHeight: '48px',
                         boxSizing: 'border-box'
                       }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       aria-label="Display name"
                     />
@@ -929,7 +929,7 @@ function SettingsPage() {
                         background: 'white',
                         border: '1px solid rgba(0, 0, 0, 0.06)',
                         borderRadius: '12px',
-                        color: '#000000',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         fontSize: '15px',
                         outline: 'none',
                         transition: 'border-color 0.2s',
@@ -937,7 +937,7 @@ function SettingsPage() {
                         fontFamily: 'inherit',
                         boxSizing: 'border-box'
                       }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     />
                     <p style={{
@@ -967,14 +967,14 @@ function SettingsPage() {
                         background: 'white',
                         border: '1px solid rgba(0, 0, 0, 0.06)',
                         borderRadius: '12px',
-                        color: '#000000',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         fontSize: '15px',
                         outline: 'none',
                         transition: 'border-color 0.2s',
                         minHeight: '48px',
                         boxSizing: 'border-box'
                       }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     />
                   </div>
@@ -999,14 +999,14 @@ function SettingsPage() {
                         background: 'white',
                         border: '1px solid rgba(0, 0, 0, 0.06)',
                         borderRadius: '12px',
-                        color: '#000000',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         fontSize: '15px',
                         outline: 'none',
                         transition: 'border-color 0.2s',
                         minHeight: '48px',
                         boxSizing: 'border-box'
                       }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     />
                   </div>
@@ -1035,14 +1035,14 @@ function SettingsPage() {
                           background: 'white',
                           border: '1px solid rgba(0, 0, 0, 0.06)',
                           borderRadius: '12px',
-                          color: '#000000',
+                          color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                           fontSize: '15px',
                           outline: 'none',
                           transition: 'border-color 0.2s',
                           minHeight: '48px',
                           boxSizing: 'border-box'
                         }}
-                        onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                         onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       />
                       <input
@@ -1059,14 +1059,14 @@ function SettingsPage() {
                           background: 'white',
                           border: '1px solid rgba(0, 0, 0, 0.06)',
                           borderRadius: '12px',
-                          color: '#000000',
+                          color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                           fontSize: '15px',
                           outline: 'none',
                           transition: 'border-color 0.2s',
                           minHeight: '48px',
                           boxSizing: 'border-box'
                         }}
-                        onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                         onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       />
                       <input
@@ -1083,14 +1083,14 @@ function SettingsPage() {
                           background: 'white',
                           border: '1px solid rgba(0, 0, 0, 0.06)',
                           borderRadius: '12px',
-                          color: '#000000',
+                          color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                           fontSize: '15px',
                           outline: 'none',
                           transition: 'border-color 0.2s',
                           minHeight: '48px',
                           boxSizing: 'border-box'
                         }}
-                        onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                         onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                       />
                     </div>
@@ -1122,7 +1122,7 @@ function SettingsPage() {
                             fontWeight: 500,
                             transition: 'all 0.2s',
                             background: profileData.interests.includes(interest)
-                              ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+                              ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                               : 'white',
                             color: profileData.interests.includes(interest) ? 'white' : '#666666',
                             border: `1px solid ${profileData.interests.includes(interest) ? 'transparent' : 'rgba(0, 0, 0, 0.06)'}`,
@@ -1132,7 +1132,7 @@ function SettingsPage() {
                           }}
                           onMouseEnter={(e) => {
                             if (!profileData.interests.includes(interest)) {
-                              e.currentTarget.style.borderColor = '#6366F1'
+                              e.currentTarget.style.borderColor = '#58a6ff'
                             }
                           }}
                           onMouseLeave={(e) => {
@@ -1153,7 +1153,9 @@ function SettingsPage() {
                     style={{
                       width: '100%',
                       padding: '12px 24px',
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       borderRadius: '12px',
                       fontWeight: 500,
                       transition: 'opacity 0.2s',
@@ -1185,7 +1187,7 @@ function SettingsPage() {
                     fontSize: '32px',
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Account Settings</h2>
                   <p style={{ color: '#666666', margin: 0 }}>Manage your email, password, and account preferences</p>
                 </div>
@@ -1202,7 +1204,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Email Address</h3>
                   <div>
                     <label style={{
@@ -1249,7 +1251,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Change Password</h3>
                   <form onSubmit={handlePasswordSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
                     <div>
@@ -1272,7 +1274,7 @@ function SettingsPage() {
                             background: 'white',
                             border: `1px solid ${passwordErrors.currentPassword ? '#EF4444' : 'rgba(0, 0, 0, 0.06)'}`,
                             borderRadius: '12px',
-                            color: '#000000',
+                            color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                             fontSize: '15px',
                             outline: 'none',
                             transition: 'border-color 0.2s',
@@ -1281,7 +1283,7 @@ function SettingsPage() {
                           }}
                           onFocus={(e) => {
                             if (!passwordErrors.currentPassword) {
-                              e.currentTarget.style.borderColor = '#6366F1'
+                              e.currentTarget.style.borderColor = '#58a6ff'
                             }
                           }}
                           onBlur={(e) => {
@@ -1338,7 +1340,7 @@ function SettingsPage() {
                             background: 'white',
                             border: `1px solid ${passwordErrors.newPassword ? '#EF4444' : 'rgba(0, 0, 0, 0.06)'}`,
                             borderRadius: '12px',
-                            color: '#000000',
+                            color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                             fontSize: '15px',
                             outline: 'none',
                             transition: 'border-color 0.2s',
@@ -1347,7 +1349,7 @@ function SettingsPage() {
                           }}
                           onFocus={(e) => {
                             if (!passwordErrors.newPassword) {
-                              e.currentTarget.style.borderColor = '#6366F1'
+                              e.currentTarget.style.borderColor = '#58a6ff'
                             }
                           }}
                           onBlur={(e) => {
@@ -1423,7 +1425,7 @@ function SettingsPage() {
                             background: 'white',
                             border: `1px solid ${passwordErrors.confirmPassword ? '#EF4444' : 'rgba(0, 0, 0, 0.06)'}`,
                             borderRadius: '12px',
-                            color: '#000000',
+                            color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                             fontSize: '15px',
                             outline: 'none',
                             transition: 'border-color 0.2s',
@@ -1432,7 +1434,7 @@ function SettingsPage() {
                           }}
                           onFocus={(e) => {
                             if (!passwordErrors.confirmPassword) {
-                              e.currentTarget.style.borderColor = '#6366F1'
+                              e.currentTarget.style.borderColor = '#58a6ff'
                             }
                           }}
                           onBlur={(e) => {
@@ -1475,7 +1477,9 @@ function SettingsPage() {
                       style={{
                         width: '100%',
                         padding: '12px 24px',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         borderRadius: '12px',
                         fontWeight: 500,
                         transition: 'opacity 0.2s',
@@ -1498,6 +1502,54 @@ function SettingsPage() {
                   </form>
                 </div>
 
+                {/* Export Data (GDPR) */}
+                <div style={{
+                  background: '#F8F9FA',
+                  border: '1px solid #E8EAED',
+                  borderRadius: '16px',
+                  padding: '24px'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '8px',
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  }}>Export Your Data</h3>
+                  <p style={{
+                    marginBottom: '16px',
+                    color: '#666666'
+                  }}>
+                    Download a copy of all your data in JSON format. This includes your profile, posts, messages, and settings.
+                  </p>
+                  <button
+                    onClick={() => setShowExportModal(true)}
+                    disabled={loading}
+                    style={{
+                      padding: '12px 24px',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                      borderRadius: '12px',
+                      fontWeight: 500,
+                      transition: 'background 0.2s',
+                      opacity: loading ? 0.5 : 1,
+                      cursor: loading ? 'not-allowed' : 'pointer',
+                      color: 'white',
+                      border: 'none',
+                      fontSize: '15px',
+                      minHeight: '48px'
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!loading) e.currentTarget.style.background = 'linear-gradient(135deg, #4a93e6 0%, #8b68e6 100%)'
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!loading) e.currentTarget.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                    }}
+                  >
+                    Export My Data
+                  </button>
+                </div>
+
                 {/* Delete Account */}
                 <div style={{
                   background: 'rgba(239, 68, 68, 0.1)',
@@ -1509,7 +1561,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Delete Account</h3>
                   <p style={{
                     marginBottom: '16px',
@@ -1518,7 +1570,7 @@ function SettingsPage() {
                     Once you delete your account, there is no going back. Please be certain.
                   </p>
                   <button
-                    onClick={handleDeleteAccount}
+                    onClick={() => setShowDeleteModal(true)}
                     disabled={loading}
                     style={{
                       padding: '12px 24px',
@@ -1554,7 +1606,7 @@ function SettingsPage() {
                     fontSize: '32px',
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Privacy Settings</h2>
                   <p style={{ color: '#666666', margin: 0 }}>Control your privacy and who can see your information</p>
                 </div>
@@ -1577,14 +1629,14 @@ function SettingsPage() {
                         background: 'white',
                         border: '1px solid rgba(0, 0, 0, 0.06)',
                         borderRadius: '12px',
-                        color: '#000000',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         fontSize: '15px',
                         outline: 'none',
                         transition: 'border-color 0.2s',
                         minHeight: '48px',
                         cursor: 'pointer'
                       }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     >
                       <option value="public">Public - Anyone can view</option>
@@ -1610,14 +1662,14 @@ function SettingsPage() {
                         background: 'white',
                         border: '1px solid rgba(0, 0, 0, 0.06)',
                         borderRadius: '12px',
-                        color: '#000000',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         fontSize: '15px',
                         outline: 'none',
                         transition: 'border-color 0.2s',
                         minHeight: '48px',
                         cursor: 'pointer'
                       }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     >
                       <option value="everyone">Everyone</option>
@@ -1643,14 +1695,14 @@ function SettingsPage() {
                         background: 'white',
                         border: '1px solid rgba(0, 0, 0, 0.06)',
                         borderRadius: '12px',
-                        color: '#000000',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         fontSize: '15px',
                         outline: 'none',
                         transition: 'border-color 0.2s',
                         minHeight: '48px',
                         cursor: 'pointer'
                       }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     >
                       <option value="everyone">Everyone</option>
@@ -1691,13 +1743,193 @@ function SettingsPage() {
                     />
                   </div>
 
+                  {/* Content Moderation Section */}
+                  <div style={{ marginTop: '32px' }}>
+                    <h3 style={{
+                      fontSize: '18px',
+                      fontWeight: 600,
+                      marginBottom: '16px',
+                      color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                    }}>Content Moderation</h3>
+
+                    <ToggleSwitch
+                      label="Hide Sensitive Content"
+                      description="Automatically filter potentially sensitive or explicit content"
+                      checked={privacySettings.hideSensitiveContent}
+                      onChange={(checked) => setPrivacySettings({ ...privacySettings, hideSensitiveContent: checked })}
+                    />
+
+                    {/* Muted Words */}
+                    <div style={{
+                      marginTop: '24px',
+                      padding: '20px',
+                      background: '#F9FAFB',
+                      borderRadius: '12px',
+                      border: '1px solid #E5E7EB'
+                    }}>
+                      <h4 style={{
+                        fontSize: '15px',
+                        fontWeight: 600,
+                        marginBottom: '8px',
+                        color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                      }}>Muted Words</h4>
+                      <p style={{
+                        fontSize: '13px',
+                        color: '#666666',
+                        marginBottom: '16px',
+                        lineHeight: '1.5'
+                      }}>
+                        Posts containing these words will be hidden from your feed. Words are case-insensitive.
+                      </p>
+
+                      {/* Add new muted word */}
+                      <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
+                        <input
+                          type="text"
+                          value={newMutedWord}
+                          onChange={(e) => setNewMutedWord(e.target.value)}
+                          onKeyPress={(e) => {
+                            if (e.key === 'Enter' && newMutedWord.trim()) {
+                              e.preventDefault()
+                              if (!privacySettings.mutedWords.includes(newMutedWord.trim().toLowerCase())) {
+                                setPrivacySettings({
+                                  ...privacySettings,
+                                  mutedWords: [...privacySettings.mutedWords, newMutedWord.trim().toLowerCase()]
+                                })
+                                setNewMutedWord('')
+                              }
+                            }
+                          }}
+                          placeholder="Type a word and press Enter"
+                          style={{
+                            flex: 1,
+                            padding: '10px 14px',
+                            border: '1px solid #D1D5DB',
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                            outline: 'none',
+                            transition: 'border-color 0.2s'
+                          }}
+                          onFocus={(e) => e.target.style.borderColor = '#58a6ff'}
+                          onBlur={(e) => e.target.style.borderColor = '#D1D5DB'}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (newMutedWord.trim() && !privacySettings.mutedWords.includes(newMutedWord.trim().toLowerCase())) {
+                              setPrivacySettings({
+                                ...privacySettings,
+                                mutedWords: [...privacySettings.mutedWords, newMutedWord.trim().toLowerCase()]
+                              })
+                              setNewMutedWord('')
+                            }
+                          }}
+                          disabled={!newMutedWord.trim()}
+                          style={{
+                            padding: '10px 20px',
+                            background: newMutedWord.trim() ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#E5E7EB',
+                            color: newMutedWord.trim() ? 'white' : '#9CA3AF',
+                            border: 'none',
+                            borderRadius: '8px',
+                            fontSize: '14px',
+                            fontWeight: 500,
+                            cursor: newMutedWord.trim() ? 'pointer' : 'not-allowed',
+                            transition: 'all 0.2s',
+                            minHeight: '40px',
+                            boxShadow: newMutedWord.trim() ? '0 2px 8px rgba(88, 166, 255, 0.3)' : 'none',
+                          }}
+                          onMouseEnter={(e) => {
+                            if (newMutedWord.trim()) {
+                              e.currentTarget.style.background = 'linear-gradient(135deg, #4a93e6 0%, #8b68e6 100%)'
+                              e.currentTarget.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.4)'
+                            }
+                          }}
+                          onMouseLeave={(e) => {
+                            if (newMutedWord.trim()) {
+                              e.currentTarget.style.background = 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                              e.currentTarget.style.boxShadow = '0 2px 8px rgba(88, 166, 255, 0.3)'
+                            }
+                          }}
+                        >
+                          Add
+                        </button>
+                      </div>
+
+                      {/* Muted words list */}
+                      {privacySettings.mutedWords.length > 0 && (
+                        <div style={{
+                          display: 'flex',
+                          flexWrap: 'wrap',
+                          gap: '8px'
+                        }}>
+                          {privacySettings.mutedWords.map((word, index) => (
+                            <div
+                              key={index}
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                padding: '6px 12px',
+                                background: '#FFFFFF',
+                                border: '1px solid #D1D5DB',
+                                borderRadius: '20px',
+                                fontSize: '13px',
+                                color: '#374151'
+                              }}
+                            >
+                              <span>{word}</span>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setPrivacySettings({
+                                    ...privacySettings,
+                                    mutedWords: privacySettings.mutedWords.filter((_, i) => i !== index)
+                                  })
+                                }}
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  color: '#9CA3AF',
+                                  cursor: 'pointer',
+                                  padding: '2px',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  transition: 'color 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#EF4444'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = '#9CA3AF'}
+                                aria-label={`Remove ${word}`}
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {privacySettings.mutedWords.length === 0 && (
+                        <p style={{
+                          fontSize: '13px',
+                          color: '#9CA3AF',
+                          fontStyle: 'italic',
+                          textAlign: 'center',
+                          padding: '12px'
+                        }}>
+                          No muted words yet. Add words you want to filter from your feed.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
                   <button
                     type="submit"
                     disabled={loading}
                     style={{
                       width: '100%',
                       padding: '12px 24px',
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       borderRadius: '12px',
                       fontWeight: 500,
                       transition: 'opacity 0.2s',
@@ -1732,7 +1964,7 @@ function SettingsPage() {
                       fontSize: '20px',
                       fontWeight: 600,
                       marginBottom: '16px',
-                      color: '#000000'
+                      color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                     }}>Blocked Users ({blockedUsers.length})</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                       {blockedUsers.map(user => (
@@ -1746,12 +1978,13 @@ function SettingsPage() {
                         }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                             <div style={{
-                              color: '#000000',
                               width: '48px',
                               height: '48px',
                               flexShrink: 0,
                               borderRadius: '50%',
-                              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
@@ -1761,7 +1994,7 @@ function SettingsPage() {
                               {user.username[0].toUpperCase()}
                             </div>
                             <div>
-                              <div style={{ fontWeight: 500, color: '#000000' }}>{user.username}</div>
+                              <div style={{ fontWeight: 500, color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' }}>{user.username}</div>
                               <div style={{ fontSize: '14px', color: '#666666' }}>{user.displayName}</div>
                             </div>
                           </div>
@@ -1800,7 +2033,7 @@ function SettingsPage() {
                     fontSize: '32px',
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Security</h2>
                   <p style={{ color: '#666666', margin: 0 }}>Manage your account security and authentication</p>
                 </div>
@@ -1817,7 +2050,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Two-Factor Authentication</h3>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
                     <div>
@@ -1841,7 +2074,7 @@ function SettingsPage() {
                         transition: 'all 0.2s',
                         background: twoFactorEnabled
                           ? '#EF4444'
-                          : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                          : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                         color: 'white',
                         border: 'none',
                         cursor: 'pointer',
@@ -1880,7 +2113,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Passkeys</h3>
                   <PasskeySettings />
                 </div>
@@ -1897,7 +2130,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Active Sessions</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {activeSessions.map(session => (
@@ -1910,13 +2143,15 @@ function SettingsPage() {
                         borderRadius: '12px'
                       }}>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 500, marginBottom: '4px', color: '#000000' }}>{session.device}</div>
+                          <div style={{ fontWeight: 500, marginBottom: '4px', color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' }}>{session.device}</div>
                           <div style={{ fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', color: '#666666' }}>
                             {session.location} • {session.lastActive}
                             {session.current && (
                               <span style={{
                                 padding: '2px 8px',
-                                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                                 fontSize: '12px',
                                 borderRadius: '999px',
                                 color: 'white',
@@ -1965,7 +2200,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Login History</h3>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                     {loginHistory.map(login => (
@@ -1981,12 +2216,14 @@ function SettingsPage() {
                           width: '8px',
                           height: '8px',
                           borderRadius: '50%',
-                          background: '#6366F1',
+                          background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                           marginTop: '8px',
                           flexShrink: 0
                         }}></div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 500, marginBottom: '4px', color: '#000000' }}>{login.device}</div>
+                          <div style={{ fontWeight: 500, marginBottom: '4px', color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' }}>{login.device}</div>
                           <div style={{ fontSize: '14px', color: '#666666' }}>
                             {login.location} • {login.timestamp}
                           </div>
@@ -2020,7 +2257,7 @@ function SettingsPage() {
                     fontSize: '32px',
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Notification Preferences</h2>
                   <p style={{ color: '#666666', margin: 0 }}>Choose what notifications you want to receive</p>
                 </div>
@@ -2113,7 +2350,9 @@ function SettingsPage() {
                     style={{
                       width: '100%',
                       padding: '12px 24px',
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       borderRadius: '12px',
                       fontWeight: 500,
                       transition: 'opacity 0.2s',
@@ -2145,7 +2384,7 @@ function SettingsPage() {
                     fontSize: '32px',
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Appearance</h2>
                   <p style={{ color: '#666666', margin: 0 }}>Customize how the app looks and feels</p>
                 </div>
@@ -2163,7 +2402,7 @@ function SettingsPage() {
                       fontSize: '20px',
                       fontWeight: 600,
                       marginBottom: '16px',
-                      color: '#000000'
+                      color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                     }}>Theme</h3>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
                       <div>
@@ -2180,7 +2419,9 @@ function SettingsPage() {
                       </div>
                       <div style={{
                         padding: '10px 24px',
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         borderRadius: '12px',
                         color: 'white',
                         fontWeight: 500,
@@ -2206,14 +2447,14 @@ function SettingsPage() {
                       background: 'white',
                       border: '1px solid rgba(0, 0, 0, 0.06)',
                       borderRadius: '12px',
-                      color: '#000000',
+                      color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                       fontSize: '15px',
                       outline: 'none',
                       transition: 'border-color 0.2s',
                       minHeight: '48px',
                       cursor: 'pointer'
                     }}
-                    onFocus={(e) => { e.currentTarget.style.borderColor = '#6366F1' }}
+                    onFocus={(e) => { e.currentTarget.style.borderColor = '#58a6ff' }}
                     onBlur={(e) => { e.currentTarget.style.borderColor = 'rgba(0, 0, 0, 0.06)' }}
                     >
                       <option value="en">English</option>
@@ -2263,7 +2504,9 @@ function SettingsPage() {
                     style={{
                       width: '100%',
                       padding: '12px 24px',
-                      background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                      background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                       borderRadius: '12px',
                       fontWeight: 500,
                       transition: 'opacity 0.2s',
@@ -2287,55 +2530,6 @@ function SettingsPage() {
               </div>
             )}
 
-            {/* Integrations Tab */}
-            {activeTab === 'integrations' && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                <div>
-                  <h2 style={{
-                    fontSize: '32px',
-                    fontWeight: 'bold',
-                    marginBottom: '8px',
-                    color: '#000000'
-                  }}>Integrations</h2>
-                  <p style={{ color: '#666666', margin: 0 }}>Connect third-party apps and manage API access</p>
-                </div>
-
-                {/* OAuth Settings */}
-                <div style={{
-                  background: 'white',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
-                  borderRadius: '16px',
-                  padding: '24px',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
-                }}>
-                  <h3 style={{
-                    fontSize: '20px',
-                    fontWeight: 600,
-                    marginBottom: '16px',
-                    color: '#000000'
-                  }}>Connected Apps</h3>
-                  <OAuthSettings />
-                </div>
-
-                {/* API Keys */}
-                <div style={{
-                  background: 'white',
-                  border: '1px solid rgba(0, 0, 0, 0.06)',
-                  borderRadius: '16px',
-                  padding: '24px',
-                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
-                }}>
-                  <h3 style={{
-                    fontSize: '20px',
-                    fontWeight: 600,
-                    marginBottom: '16px',
-                    color: '#000000'
-                  }}>API Keys</h3>
-                  <APIKeysSettings />
-                </div>
-              </div>
-            )}
-
             {/* Wallet Tab */}
             {activeTab === 'wallet' && (
               <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
@@ -2344,7 +2538,7 @@ function SettingsPage() {
                     fontSize: '32px',
                     fontWeight: 'bold',
                     marginBottom: '8px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Web3 Wallet</h2>
                   <p style={{ color: '#666666', margin: 0 }}>Connect and manage your cryptocurrency wallets</p>
                 </div>
@@ -2361,7 +2555,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Wallet Connection</h3>
                   <WalletConnectButton />
                 </div>
@@ -2378,7 +2572,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Token Balances</h3>
                   <TokenBalanceDisplay />
                 </div>
@@ -2395,7 +2589,7 @@ function SettingsPage() {
                     fontSize: '20px',
                     fontWeight: 600,
                     marginBottom: '16px',
-                    color: '#000000'
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
                   }}>Saved Addresses</h3>
                   <p style={{
                     marginBottom: '16px',
@@ -2423,9 +2617,277 @@ function SettingsPage() {
                 </div>
               </div>
             )}
+
+            {/* About Tab */}
+            {activeTab === 'about' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <div>
+                  <h2 style={{
+                    fontSize: '32px',
+                    fontWeight: 'bold',
+                    marginBottom: '8px',
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  }}>About</h2>
+                  <p style={{ color: '#666666', margin: 0 }}>App information and legal resources</p>
+                </div>
+
+                {/* App Info */}
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '20px',
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  }}>App Information</h3>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    {/* App Version */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#666666', fontSize: '15px' }}>Version</span>
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px', fontWeight: 500 }}>1.0.0</span>
+                    </div>
+
+                    {/* Build Number */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#666666', fontSize: '15px' }}>Build</span>
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px', fontWeight: 500 }}>2025.12.21</span>
+                    </div>
+
+                    {/* Platform */}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ color: '#666666', fontSize: '15px' }}>Platform</span>
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px', fontWeight: 500 }}>Web</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Company Info */}
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '20px',
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  }}>Company</h3>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                    <div>
+                      <p style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>CRYB Platform</p>
+                      <p style={{ color: '#666666', fontSize: '14px', lineHeight: '1.5', margin: 0 }}>
+                        The world's best decentralized social platform, combining the best features of Discord,
+                        Twitter, and Web3 technologies.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Legal Links */}
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '20px',
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  }}>Legal & Policies</h3>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <Link
+                      to="/terms"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        background: '#F8F9FA',
+                        textDecoration: 'none',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = '#E8EAED' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#F8F9FA' }}
+                    >
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px' }}>Terms of Service</span>
+                      <span style={{ color: '#666666' }}>→</span>
+                    </Link>
+
+                    <Link
+                      to="/privacy"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        background: '#F8F9FA',
+                        textDecoration: 'none',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = '#E8EAED' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#F8F9FA' }}
+                    >
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px' }}>Privacy Policy</span>
+                      <span style={{ color: '#666666' }}>→</span>
+                    </Link>
+
+                    <Link
+                      to="/privacy#cookies"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        background: '#F8F9FA',
+                        textDecoration: 'none',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = '#E8EAED' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#F8F9FA' }}
+                    >
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px' }}>Cookie Policy</span>
+                      <span style={{ color: '#666666' }}>→</span>
+                    </Link>
+
+                    <Link
+                      to="/guidelines"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        background: '#F8F9FA',
+                        textDecoration: 'none',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = '#E8EAED' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#F8F9FA' }}
+                    >
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px' }}>Community Guidelines</span>
+                      <span style={{ color: '#666666' }}>→</span>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Support */}
+                <div style={{
+                  background: 'white',
+                  border: '1px solid rgba(0, 0, 0, 0.06)',
+                  borderRadius: '16px',
+                  padding: '24px',
+                  boxShadow: '0 1px 3px rgba(0, 0, 0, 0.08)'
+                }}>
+                  <h3 style={{
+                    fontSize: '20px',
+                    fontWeight: 600,
+                    marginBottom: '20px',
+                    color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
+                  }}>Support</h3>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <Link
+                      to="/help"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        background: '#F8F9FA',
+                        textDecoration: 'none',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = '#E8EAED' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#F8F9FA' }}
+                    >
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px' }}>Help Center</span>
+                      <span style={{ color: '#666666' }}>→</span>
+                    </Link>
+
+                    <a
+                      href="mailto:support@cryb.ai"
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        padding: '12px',
+                        borderRadius: '8px',
+                        background: '#F8F9FA',
+                        textDecoration: 'none',
+                        transition: 'background 0.2s'
+                      }}
+                      onMouseEnter={(e) => { e.currentTarget.style.background = '#E8EAED' }}
+                      onMouseLeave={(e) => { e.currentTarget.style.background = '#F8F9FA' }}
+                    >
+                      <span style={{ color: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)', fontSize: '15px' }}>Contact Support</span>
+                      <span style={{ color: '#666666' }}>→</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Copyright Footer */}
+                <div style={{
+                  textAlign: 'center',
+                  padding: '24px 0',
+                  borderTop: '1px solid rgba(0, 0, 0, 0.06)'
+                }}>
+                  <p style={{ color: '#999999', fontSize: '13px', margin: 0 }}>
+                    © 2025 CRYB Platform. All rights reserved.
+                  </p>
+                  <p style={{ color: '#CCCCCC', fontSize: '12px', marginTop: '8px' }}>
+                    Made with ❤️ for the decentralized web
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </main>
       </div>
+
+      {/* Export Data Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showExportModal}
+        onClose={() => setShowExportModal(false)}
+        onConfirm={handleExportData}
+        title="Export Your Data"
+        message="This will download all your data including profile information, posts, messages, and settings in JSON format. The file will be saved to your downloads folder."
+        confirmText="Export Data"
+        cancelText="Cancel"
+        variant="default"
+      />
+
+      {/* Delete Account Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        onConfirm={handleDeleteAccount}
+        title="Delete Account"
+        message="⚠️ WARNING: This action cannot be undone! All your data will be permanently deleted. Type 'DELETE MY ACCOUNT' to confirm."
+        confirmText="Delete Account"
+        cancelText="Cancel"
+        variant="danger"
+        requiresInput={true}
+        inputPlaceholder="Type: DELETE MY ACCOUNT"
+        inputValidation={(val) => val === 'DELETE MY ACCOUNT'}
+      />
     </div>
   )
 }
@@ -2468,7 +2930,7 @@ const ToggleSwitch = ({ label, description, checked, onChange }) => {
           borderRadius: '999px',
           transition: 'all 0.2s',
           background: checked
-            ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)'
+            ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'
             : '#E5E5E5',
           border: checked ? 'none' : '2px solid rgba(0, 0, 0, 0.06)'
         }}></span>

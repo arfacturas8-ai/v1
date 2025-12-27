@@ -274,8 +274,14 @@ export default function PostCreationForm({
         postData.mediaFiles
       );
 
+      // Validate response contains post ID
+      const postId = result.post?.id || result.id || result.data?.id || result.data?.post?.id;
+
+      if (!postId) {
+        throw new Error('Post created but ID not returned from server');
+      }
+
       if (result.success || result.post) {
-        const postId = result.post?.id || result.id;
         Alert.alert(
           'Success!',
           'Your post has been created successfully.',

@@ -17,55 +17,59 @@ const PrivacySettingsPage = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 sm:p-6" style={{ background: 'var(--bg-primary)' }} role="main" aria-label="Privacy settings page">
-      <div className="max-w-4xl mx-auto">
+    <div style={{ minHeight: '100vh', padding: '16px', background: '#FAFAFA' }} role="main" aria-label="Privacy settings page">
+      <div style={{ maxWidth: '896px', margin: '0 auto' }}>
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
           {/* Header */}
-          <div className="mb-6 sm:mb-8">
-            <div className="flex items-center gap-3 mb-2">
-              <div style={{ width: "48px", height: "48px", flexShrink: 0, background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)' }}>
-                <Shield style={{ color: "var(--text-primary)", width: "24px", height: "24px", flexShrink: 0 }} />
+          <div style={{ marginBottom: '32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+              <div style={{ width: "48px", height: "48px", flexShrink: 0, borderRadius: '12px', background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Shield style={{ color: "#FFFFFF", width: "24px", height: "24px", flexShrink: 0 }} />
               </div>
-              <h1 style={{color: "var(--text-primary)"}} className="text-xl sm:text-2xl font-bold ">Privacy Settings</h1>
+              <h1 style={{ color: '#1A1A1A', fontSize: '24px', fontWeight: 'bold', margin: 0 }}>Privacy Settings</h1>
             </div>
-            <p className="text-sm sm:text-base text-[#666666]">Control who can see your information and how your data is used</p>
+            <p style={{ fontSize: '15px', color: '#666666', margin: 0 }}>Control who can see your information and how your data is used</p>
           </div>
 
           {/* Profile Visibility */}
-          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
-            <div className="flex items-center gap-3 mb-3 sm:mb-4">
-              <Globe style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Profile Visibility</h2>
+          <div style={{ borderRadius: '16px', padding: '20px', marginBottom: '16px', background: '#FFFFFF', border: '1px solid #E8EAED', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <Globe style={{ width: "24px", height: "24px", flexShrink: 0, color: '#1A1A1A' }} />
+              <h2 style={{ color: '#1A1A1A', fontSize: '17px', fontWeight: '600', margin: 0 }}>Profile Visibility</h2>
             </div>
-            <div className="space-y-2 sm:space-y-3">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
               {['public', 'friends', 'private'].map(option => (
-                <label key={option} className="flex items-center gap-3 p-2 sm:p-3 rounded-lg cursor-pointer" style={{ background: settings.profileVisibility === option ? 'rgba(88, 166, 255, 0.1)' : 'transparent', border: settings.profileVisibility === option ? '1px solid rgba(88, 166, 255, 0.3)' : '1px solid transparent' }}>
-                  <input type="radio" name="visibility" checked={settings.profileVisibility === option} onChange={() => updateSetting('profileVisibility', option)} className="sr-only" />
-                  <div style={{ width: "24px", height: "24px", flexShrink: 0, borderColor: settings.profileVisibility === option ? '#58a6ff' : '#666666', background: settings.profileVisibility === option ? '#58a6ff' : 'transparent' }} />
-                  <span style={{color: "var(--text-primary)"}} className="text-sm sm:text-base  capitalize">{option}</span>
+                <label key={option} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '12px', cursor: 'pointer', background: settings.profileVisibility === option ? 'rgba(88, 166, 255, 0.1)' : '#FAFAFA', border: settings.profileVisibility === option ? '2px solid #000000' : '2px solid #E8EAED', transition: 'all 0.2s' }}>
+                  <input type="radio" name="visibility" checked={settings.profileVisibility === option} onChange={() => updateSetting('profileVisibility', option)} style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0,0,0,0)', whiteSpace: 'nowrap', border: 0 }} />
+                  <div style={{ width: "20px", height: "20px", flexShrink: 0, borderRadius: '50%', border: `2px solid ${settings.profileVisibility === option ? '#000000' : '#CCCCCC'}`, background: settings.profileVisibility === option ? '#000000' : '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {settings.profileVisibility === option && <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#FFFFFF' }} />}
+                  </div>
+                  <span style={{ color: '#1A1A1A', fontSize: '15px', fontWeight: '500', textTransform: 'capitalize' }}>{option}</span>
                 </label>
               ))}
             </div>
           </div>
 
           {/* Toggle Settings */}
-          <div className="rounded-2xl  p-4 sm:p-6 mb-3 sm:mb-4" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
-            <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold  mb-3 sm:mb-4">Activity & Status</h2>
-            <div className="space-y-3 sm:space-y-4">
+          <div style={{ borderRadius: '16px', padding: '20px', marginBottom: '16px', background: '#FFFFFF', border: '1px solid #E8EAED', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <h2 style={{ color: '#1A1A1A', fontSize: '17px', fontWeight: '600', marginBottom: '16px' }}>Activity & Status</h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {[
                 { key: 'showOnlineStatus', icon: Eye, label: 'Show Online Status', desc: 'Let others see when you are online' },
                 { key: 'showActivity', icon: Bell, label: 'Show Activity Status', desc: 'Display your recent activity to friends' }
               ].map(item => (
-                <div key={item.key} className="flex items-center justify-between gap-3 p-3 rounded-lg" style={{ background: '#1A1A1A' }}>
-                  <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                    <item.icon style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-                    <div className="min-w-0">
-                      <p style={{color: "var(--text-primary)"}} className="text-sm sm:text-base  font-medium">{item.label}</p>
-                      <p className="text-xs sm:text-sm text-[#666666]">{item.desc}</p>
+                <div key={item.key} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', padding: '12px', borderRadius: '12px', background: '#FAFAFA' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
+                    <item.icon style={{ width: "24px", height: "24px", flexShrink: 0, color: '#666666' }} />
+                    <div style={{ minWidth: 0 }}>
+                      <p style={{ color: '#1A1A1A', fontSize: '15px', fontWeight: '500', margin: 0 }}>{item.label}</p>
+                      <p style={{ fontSize: '13px', color: '#666666', margin: 0 }}>{item.desc}</p>
                     </div>
                   </div>
-                  <button onClick={() => updateSetting(item.key, !settings[item.key])} className="w-12 h-6 rounded-full transition-colors flex-shrink-0" style={{ background: settings[item.key] ? '#58a6ff' : '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
-                    <div style={{ width: "24px", height: "24px", flexShrink: 0, transform: settings[item.key] ? 'translateX(26px)' : 'translateX(2px)' }} />
+                  <button onClick={() => updateSetting(item.key, !settings[item.key])} style={{ width: '48px', height: '28px', borderRadius: '14px', transition: 'all 0.2s', flexShrink: 0, background: settings[item.key] ? '#000000' : '#CCCCCC', border: 'none', cursor: 'pointer', position: 'relative', padding: 0 }}>
+                    <div style={{ width: "24px", height: "24px", borderRadius: '50%', background: '#FFFFFF', boxShadow: '0 2px 4px rgba(0,0,0,0.2)', position: 'absolute', top: '2px', left: settings[item.key] ? '22px' : '2px', transition: 'left 0.2s' }} />
                   </button>
                 </div>
               ))}
@@ -73,13 +77,13 @@ const PrivacySettingsPage = () => {
           </div>
 
           {/* Direct Messages */}
-          <div className="rounded-2xl  p-4 sm:p-6" style={{ background: 'rgba(20, 20, 20, 0.6)', backdropFilter: 'blur(12px)', border: '1px solid var(--border-subtle)' }}>
-            <div className="flex items-center gap-3 mb-3 sm:mb-4">
-              <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0 }} />
-              <h2 style={{color: "var(--text-primary)"}} className="text-base sm:text-lg font-semibold ">Direct Messages</h2>
+          <div style={{ borderRadius: '16px', padding: '20px', background: '#FFFFFF', border: '1px solid #E8EAED', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+              <MessageSquare style={{ width: "24px", height: "24px", flexShrink: 0, color: '#1A1A1A' }} />
+              <h2 style={{ color: '#1A1A1A', fontSize: '17px', fontWeight: '600', margin: 0 }}>Direct Messages</h2>
             </div>
-            <p className="text-sm sm:text-base text-[#666666] mb-3 sm:mb-4">Control who can send you direct messages</p>
-            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} className="w-full p-2 sm:p-3 rounded-lg text-sm sm:text-base  outline-none" style={{ color: "var(--text-primary)", background: '#1A1A1A', border: '1px solid var(--border-subtle)' }}>
+            <p style={{ fontSize: '15px', color: '#666666', marginBottom: '16px' }}>Control who can send you direct messages</p>
+            <select value={settings.allowDirectMessages} onChange={(e) => updateSetting('allowDirectMessages', e.target.value)} style={{ width: '100%', padding: '12px', borderRadius: '12px', fontSize: '15px', outline: 'none', color: '#1A1A1A', background: '#FAFAFA', border: '1px solid #E8EAED', cursor: 'pointer' }}>
               <option value="everyone">Everyone</option>
               <option value="friends">Friends Only</option>
               <option value="none">No One</option>

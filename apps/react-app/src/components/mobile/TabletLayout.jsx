@@ -27,25 +27,27 @@ export const ResponsiveLayout = ({
     const checkViewport = () => {
       const width = window.innerWidth
       const height = window.innerHeight
-      
+
       setIsTablet(width >= 768 && width < 1024)
       setIsLandscape(width > height)
-      
+
       // Auto-collapse sidebar on small tablets in portrait
       if (width < 900 && height > width) {
         setSidebarCollapsed(true)
       }
     }
-    
+
+    const handleOrientationChange = () => {
+      setTimeout(checkViewport, 100)
+    }
+
     checkViewport()
     window.addEventListener('resize', checkViewport)
-    window.addEventListener('orientationchange', () => {
-      setTimeout(checkViewport, 100)
-    })
-    
+    window.addEventListener('orientationchange', handleOrientationChange)
+
     return () => {
       window.removeEventListener('resize', checkViewport)
-      window.removeEventListener('orientationchange', checkViewport)
+      window.removeEventListener('orientationchange', handleOrientationChange)
     }
   }, [])
   
@@ -142,15 +144,17 @@ export const SplitViewLayout = ({
       setOrientation(width > height ? 'landscape' : 'portrait')
     }
     
+    const handleOrientationChangeDelayed = () => {
+      setTimeout(checkOrientation, 100)
+    }
+
     checkOrientation()
     window.addEventListener('resize', checkOrientation)
-    window.addEventListener('orientationchange', () => {
-      setTimeout(checkOrientation, 100)
-    })
-    
+    window.addEventListener('orientationchange', handleOrientationChangeDelayed)
+
     return () => {
       window.removeEventListener('resize', checkOrientation)
-      window.removeEventListener('orientationchange', checkOrientation)
+      window.removeEventListener('orientationchange', handleOrientationChangeDelayed)
     }
   }, [])
   
@@ -341,16 +345,18 @@ export const useOrientation = () => {
       setIsTablet(width >= 768 && width < 1024)
     }
     
-    handleOrientationChange()
-    
-    window.addEventListener('resize', handleOrientationChange)
-    window.addEventListener('orientationchange', () => {
+    const handleOrientationChangeDelayed = () => {
       setTimeout(handleOrientationChange, 100)
-    })
-    
+    }
+
+    handleOrientationChange()
+
+    window.addEventListener('resize', handleOrientationChange)
+    window.addEventListener('orientationchange', handleOrientationChangeDelayed)
+
     return () => {
       window.removeEventListener('resize', handleOrientationChange)
-      window.removeEventListener('orientationchange', handleOrientationChange)
+      window.removeEventListener('orientationchange', handleOrientationChangeDelayed)
     }
   }, [])
   

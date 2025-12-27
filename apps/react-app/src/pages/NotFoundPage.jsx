@@ -29,7 +29,7 @@ export default function NotFoundPage() {
       <div style={{
         textAlign: 'center',
         maxWidth: '800px',
-        color: '#000000'
+        color: '#1A1A1A'
       }}>
         <div
           aria-hidden="true"
@@ -38,7 +38,9 @@ export default function NotFoundPage() {
             fontWeight: 'bold',
             lineHeight: '1',
             marginBottom: isMobile ? '16px' : '20px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -52,7 +54,7 @@ export default function NotFoundPage() {
           fontSize: isMobile ? '24px' : '32px',
           fontWeight: '600',
           marginBottom: isMobile ? '16px' : '24px',
-          color: '#000000'
+          color: '#1A1A1A'
         }}>
           Page Not Found
         </h1>
@@ -87,7 +89,9 @@ export default function NotFoundPage() {
               paddingTop: '12px',
               paddingBottom: '12px',
               height: '48px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               borderRadius: '12px',
               color: 'white',
               fontSize: '16px',
@@ -123,7 +127,7 @@ export default function NotFoundPage() {
               background: 'white',
               border: '1px solid rgba(0, 0, 0, 0.06)',
               borderRadius: '12px',
-              color: '#6366F1',
+              color: '#1A1A1A',
               fontSize: '16px',
               fontWeight: '600',
               textDecoration: 'none',
@@ -157,7 +161,7 @@ export default function NotFoundPage() {
             <Link
               to="/communities"
               style={{
-                color: '#6366F1',
+                color: '#58a6ff',
                 textDecoration: 'underline'
               }}
             >

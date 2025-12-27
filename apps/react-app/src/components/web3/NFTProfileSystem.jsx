@@ -27,8 +27,8 @@ const NFTProfileSystem = () => {
   // Mock NFT metadata for development
   const mockNFTMetadata = {
     1: {
-      name: 'CRYB Genesis #1',
-      description: 'First NFT in the CRYB Genesis collection with unique cosmic traits',
+      name: 'Digital Collectible #1',
+      description: 'First NFT in the digital collection with unique cosmic traits',
       image: 'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?w=400',
       attributes: [
         { trait_type: 'Rarity', value: 'Legendary' },
@@ -40,7 +40,7 @@ const NFTProfileSystem = () => {
       staked: false
     },
     42: {
-      name: 'CRYB Genesis #42',
+      name: 'Digital Collectible #42',
       description: 'Rare NFT with unique nebula traits and diamond eyes',
       image: 'https://images.unsplash.com/photo-1635236066167-80e8a0ca42b3?w=400',
       attributes: [
@@ -53,7 +53,7 @@ const NFTProfileSystem = () => {
       staked: true
     },
     123: {
-      name: 'CRYB Genesis #123',
+      name: 'Digital Collectible #123',
       description: 'Ultra-rare legendary NFT with maximum stats and galaxy background',
       image: 'https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=400',
       attributes: [
@@ -66,7 +66,7 @@ const NFTProfileSystem = () => {
       staked: false
     },
     456: {
-      name: 'CRYB Genesis #456',
+      name: 'Digital Collectible #456',
       description: 'Common NFT with standard traits perfect for beginners',
       image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400',
       attributes: [
@@ -351,7 +351,7 @@ const NFTProfileSystem = () => {
         <div className=" space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
           <div style={{
@@ -361,7 +361,7 @@ const NFTProfileSystem = () => {
             {[1, 2, 3].map(i => (
               <div key={i} style={{
   height: '256px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
             ))}
@@ -420,7 +420,7 @@ const NFTProfileSystem = () => {
 
         {/* Current Profile Section */}
         <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '16px',
   borderRadius: '12px'
 }}>
@@ -452,7 +452,7 @@ const NFTProfileSystem = () => {
   width: '64px',
   height: '64px',
   borderRadius: '50%',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center'
@@ -846,7 +846,7 @@ const NFTProfileSystem = () => {
 }}>
               <h4 style={{
   fontWeight: '600'
-}}>CRYB Genesis Collection</h4>
+}}>Digital Collectibles</h4>
               <p className="text-sm text-blue-600 mb-3">
                 Mint unique NFTs with cosmic traits and varying rarity levels
               </p>
@@ -889,7 +889,7 @@ const NFTProfileSystem = () => {
             </div>
 
             <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '12px',
   borderRadius: '12px'
 }}>
@@ -988,7 +988,7 @@ const NFTProfileSystem = () => {
                   key={nft.tokenId}
                   style={{
   padding: '12px',
-  background: 'rgba(20, 20, 20, 0.6)'
+  background: 'rgba(0, 0, 0, 0.5)'
 }}
                   onClick={() => handleSetProfilePicture(nft.tokenId)}
                 >
@@ -1133,7 +1133,7 @@ const NFTProfileSystem = () => {
 }}>
                     {selectedNFT.metadata.attributes.map((attr, index) => (
                       <div key={index} style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '8px',
   borderRadius: '4px'
 }}>

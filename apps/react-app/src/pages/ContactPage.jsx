@@ -7,7 +7,7 @@
  * - Cards: white with subtle shadows
  * - Border radius: 16-24px for modern iOS feel
  * - Shadows: 0 2px 8px rgba(0,0,0,0.04)
- * - Gradient: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)
+ * - Gradient: linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)
  * - Icons: 20px standard size
  * - Hover: translateY(-2px) for interactive elements
  */
@@ -130,7 +130,9 @@ function ContactPage() {
                 style={{
                   display: 'block',
                   padding: '14px 24px',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   color: '#fff',
                   borderRadius: '16px',
                   textDecoration: 'none',
@@ -153,7 +155,7 @@ function ContactPage() {
                 style={{
                   padding: '14px 24px',
                   background: '#fff',
-                  color: '#6366F1',
+                  color: '#1A1A1A',
                   border: '1px solid rgba(0,0,0,0.06)',
                   borderRadius: '16px',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)',
@@ -182,7 +184,9 @@ function ContactPage() {
             fontSize: '40px',
             fontWeight: '600',
             marginBottom: '12px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text'
@@ -380,7 +384,7 @@ function ContactPage() {
                   justifyContent: 'center',
                   gap: '8px',
                   transition: 'transform 0.2s ease',
-                  background: isLoading ? '#ccc' : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: isLoading ? '#ccc' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
                   cursor: isLoading ? 'not-allowed' : 'pointer'
                 }}
                 onMouseEnter={(e) => {
@@ -399,7 +403,7 @@ function ContactPage() {
                   textAlign: 'center',
                   padding: '14px 24px',
                   background: '#fff',
-                  color: '#6366F1',
+                  color: '#1A1A1A',
                   border: '1px solid rgba(0,0,0,0.06)',
                   borderRadius: '16px',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.04)',

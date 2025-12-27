@@ -338,7 +338,7 @@ export default function PostDetailPage() {
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.transform = 'translateY(-2px)'
-              e.currentTarget.style.color = '#000000'
+              e.currentTarget.style.color = '#58a6ff'
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.transform = 'translateY(0)'
@@ -394,7 +394,9 @@ export default function PostDetailPage() {
                                 to={`/c/${post.community.name}`}
                                 style={{
                                   fontWeight: '600',
-                                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                                   WebkitBackgroundClip: 'text',
                                   WebkitTextFillColor: 'transparent',
                                   textDecoration: 'none'
@@ -436,7 +438,7 @@ export default function PostDetailPage() {
                           fontSize: isMobile ? '22px' : '28px',
                           fontWeight: '700',
                           marginBottom: '12px',
-                          color: '#000000',
+                          color: '#1A1A1A',
                           wordBreak: 'break-word'
                         }}>
                           {post.title}
@@ -451,7 +453,7 @@ export default function PostDetailPage() {
                             fontSize: '12px',
                             fontWeight: '600',
                             background: 'rgba(99, 102, 241, 0.1)',
-                            color: '#6366F1',
+                            color: '#1A1A1A',
                             marginBottom: '12px'
                           }}>
                             {post.flair}
@@ -513,7 +515,9 @@ export default function PostDetailPage() {
                               alignItems: 'center',
                               gap: '8px',
                               marginBottom: '16px',
-                              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                               WebkitBackgroundClip: 'text',
                               WebkitTextFillColor: 'transparent',
                               textDecoration: 'none',
@@ -702,7 +706,7 @@ export default function PostDetailPage() {
                             fontSize: '15px',
                             border: '1px solid #E5E5E5',
                             background: '#FAFAFA',
-                            color: '#000000',
+                            color: '#1A1A1A',
                             outline: 'none',
                             transition: 'all 0.2s ease',
                             opacity: submittingComment ? 0.5 : 1,
@@ -716,7 +720,9 @@ export default function PostDetailPage() {
                           disabled={!newComment.trim() || submittingComment}
                           size="sm"
                           style={{
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                             color: '#FFFFFF',
                             padding: '10px 20px',
                             borderRadius: '12px',
@@ -770,7 +776,9 @@ export default function PostDetailPage() {
                       onClick={() => navigate('/login')}
                       size="sm"
                       style={{
-                        background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                        background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                         color: '#FFFFFF',
                         padding: '10px 20px',
                         borderRadius: '12px',
@@ -811,7 +819,7 @@ export default function PostDetailPage() {
                   }}>
                     <CardTitle style={{
                       fontSize: '18px',
-                      color: '#000000',
+                      color: '#1A1A1A',
                       fontWeight: '600'
                     }}>
                       Comments ({comments.length})
@@ -871,7 +879,9 @@ export default function PostDetailPage() {
                             width: '64px',
                             height: '64px',
                             borderRadius: '16px',
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center'
@@ -882,7 +892,7 @@ export default function PostDetailPage() {
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <CardTitle style={{
                             fontSize: '16px',
-                            color: '#000000',
+                            color: '#1A1A1A',
                             fontWeight: '600',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
@@ -914,7 +924,9 @@ export default function PostDetailPage() {
                           size="sm"
                           style={{
                             width: '100%',
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                             color: '#FFFFFF',
                             padding: '10px',
                             borderRadius: '12px',
@@ -952,7 +964,7 @@ export default function PostDetailPage() {
                     <CardHeader style={{ paddingBottom: '12px' }}>
                       <CardTitle style={{
                         fontSize: '16px',
-                        color: '#000000',
+                        color: '#1A1A1A',
                         fontWeight: '600'
                       }}>
                         About the Author
@@ -982,7 +994,9 @@ export default function PostDetailPage() {
                             width: '48px',
                             height: '48px',
                             borderRadius: '50%',
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -998,7 +1012,7 @@ export default function PostDetailPage() {
                             to={`/u/${post.author.username}`}
                             style={{
                               fontWeight: '600',
-                              color: '#000000',
+                              color: '#1A1A1A',
                               textDecoration: 'none',
                               display: 'block',
                               overflow: 'hidden',
@@ -1063,7 +1077,7 @@ export default function PostDetailPage() {
                   <CardHeader style={{ paddingBottom: '12px' }}>
                     <CardTitle style={{
                       fontSize: '16px',
-                      color: '#000000',
+                      color: '#1A1A1A',
                       fontWeight: '600'
                     }}>
                       Post Info
@@ -1082,7 +1096,7 @@ export default function PostDetailPage() {
                       <span style={{ color: '#666666' }}>Posted</span>
                       <time dateTime={post.createdAt} style={{
                         fontWeight: '600',
-                        color: '#000000'
+                        color: '#1A1A1A'
                       }}>
                         {new Date(post.createdAt).toLocaleDateString('en-US', {
                           year: 'numeric',
@@ -1099,7 +1113,7 @@ export default function PostDetailPage() {
                         <span style={{ color: '#666666' }}>Last edited</span>
                         <time dateTime={post.updatedAt} style={{
                           fontWeight: '600',
-                          color: '#000000'
+                          color: '#1A1A1A'
                         }}>
                           {formatTimeAgo(post.updatedAt)}
                         </time>
@@ -1112,7 +1126,7 @@ export default function PostDetailPage() {
                       <span style={{ color: '#666666' }}>Comments</span>
                       <span style={{
                         fontWeight: '600',
-                        color: '#000000'
+                        color: '#1A1A1A'
                       }}>
                         {comments.length}
                       </span>
@@ -1125,7 +1139,7 @@ export default function PostDetailPage() {
                         <span style={{ color: '#666666' }}>Views</span>
                         <span style={{
                           fontWeight: '600',
-                          color: '#000000'
+                          color: '#1A1A1A'
                         }}>
                           {formatNumber(post.viewCount)}
                         </span>

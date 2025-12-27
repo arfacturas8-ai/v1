@@ -75,7 +75,31 @@ export default function ServerErrorPage() {
             {/* Try Again Button with Gradient */}
             <button
               onClick={handleRefresh}
-              style={{color: "var(--text-primary)"}} className="inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-3 sm:py-3.5 text-base font-semibold  bg-gradient-to-br from-[#58a6ff] to-[#a371f7] border-none rounded-xl cursor-pointer transition-all shadow-[0_4px_12px_rgba(88,166,255,0.4)] hover:-translate-y-0.5 hover:shadow-[0_6px_20px_rgba(59,130,246,0.5)]"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 32px',
+                fontSize: '16px',
+                fontWeight: '600',
+                color: '#FFFFFF',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: '0 4px 12px rgba(88, 166, 255, 0.4)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)'
+                e.target.style.boxShadow = '0 6px 20px rgba(88, 166, 255, 0.5)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)'
+                e.target.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.4)'
+              }}
               aria-label="Try again by refreshing the page"
             >
               <RefreshCw size={18} aria-hidden="true" />
@@ -85,7 +109,31 @@ export default function ServerErrorPage() {
             {/* Go Home Button */}
             <button
               onClick={handleGoHome}
-              style={{borderColor: "var(--border-subtle)"}} className="card card inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-3 sm:py-3.5 text-base font-semibold text-[#e2e8f0] /60  border border-white/10 rounded-2xl  cursor-pointer transition-all backdrop-blur-[10px] hover:  hover: hover:-translate-y-0.5"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '12px 32px',
+                fontSize: '16px',
+                fontWeight: '600',
+                color: '#1A1A1A',
+                background: '#FFFFFF',
+                border: '1px solid #E8EAED',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.transform = 'translateY(-2px)'
+                e.target.style.background = '#F9FAFB'
+                e.target.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.transform = 'translateY(0)'
+                e.target.style.background = '#FFFFFF'
+                e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)'
+              }}
               aria-label="Go to home page"
             >
               <Home size={18} aria-hidden="true" />

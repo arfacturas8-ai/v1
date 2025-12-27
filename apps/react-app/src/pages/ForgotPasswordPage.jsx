@@ -16,7 +16,7 @@ import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
 import { useResponsive } from '../hooks/useResponsive';
 
 export default function ForgotPasswordPage() {
-  const { isMobile } = useResponsive();
+  const { isMobile, isTablet, isDesktop } = useResponsive();
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -66,10 +66,8 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  // Determine responsive values
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
-  const isTabletView = typeof window !== 'undefined' && window.innerWidth >= 640 && window.innerWidth < 1024;
-  const pagePadding = isDesktop ? '80px' : isTabletView ? '24px' : '16px';
+  // Use responsive hook values
+  const pagePadding = isDesktop ? '80px' : isTablet ? '24px' : '16px';
 
   if (isSubmitted) {
     return (
@@ -106,7 +104,9 @@ export default function ForgotPasswordPage() {
               style={{
                 width: '48px',
                 height: '48px',
-                background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               }}
               aria-hidden="true"
             >
@@ -345,12 +345,14 @@ export default function ForgotPasswordPage() {
               color: 'white',
               background: isLoading
                 ? 'var(--bg-tertiary)'
-                : 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+                : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+              backdropFilter: isLoading ? 'none' : 'blur(40px) saturate(200%)',
+              WebkitBackdropFilter: isLoading ? 'none' : 'blur(40px) saturate(200%)',
               borderRadius: '12px',
-              border: 'none',
+              border: isLoading ? 'none' : '1px solid rgba(88, 166, 255, 0.3)',
               cursor: isLoading ? 'not-allowed' : 'pointer',
               opacity: isLoading ? 0.6 : 1,
-              boxShadow: isLoading ? 'none' : 'var(--shadow-sm)',
+              boxShadow: isLoading ? 'none' : '0 6px 24px rgba(88, 166, 255, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
             }}
             aria-label={isLoading ? 'Sending reset email...' : 'Send reset email'}
           >

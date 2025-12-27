@@ -84,7 +84,7 @@ export function DiscoverScreen({ navigation }: DiscoverScreenProps) {
       <View style={styles.communityHeader}>
         <View style={[styles.avatar, { backgroundColor: colors.primary + '20' }]}>
           <Text style={[styles.avatarText, { color: colors.primary }]}>
-            {community.name[0].toUpperCase()}
+            {community.name?.[0]?.toUpperCase() || '?'}
           </Text>
         </View>
 

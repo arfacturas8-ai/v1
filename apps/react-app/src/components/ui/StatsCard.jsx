@@ -73,8 +73,8 @@ const StatsCard = ({
   }, []);
 
   const getTrendColor = () => {
-    if (!trend) return 'var(--text-tertiary)';
-    return trend === 'up' ? 'var(--success)' : trend === 'down' ? 'var(--error)' : 'var(--text-tertiary)';
+    if (!trend) return '#999999';
+    return trend === 'up' ? '#10B981' : trend === 'down' ? '#EF4444' : '#999999';
   };
 
   const getTrendIcon = () => {
@@ -84,17 +84,36 @@ const StatsCard = ({
   };
 
   return (
-    <div className={`card depth-enhanced hover-lift ${className}`}>
+    <div
+      style={{
+        background: '#FFFFFF',
+        border: '1px solid #E8EAED',
+        borderRadius: '16px',
+        padding: '20px',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+        transition: 'all 0.2s'
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = 'translateY(-2px)';
+        e.currentTarget.style.boxShadow = '0 4px 16px rgba(0,0,0,0.12)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = 'translateY(0)';
+        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.08)';
+      }}
+      className={className}
+    >
       <div style={{
-  display: 'flex',
-  alignItems: 'flex-start',
-  justifyContent: 'space-between'
-}}>
+        display: 'flex',
+        alignItems: 'flex-start',
+        justifyContent: 'space-between',
+        marginBottom: '16px'
+      }}>
         <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px'
-}}>
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px'
+        }}>
           {icon && (
             <div
               style={{
@@ -113,57 +132,71 @@ const StatsCard = ({
           )}
           <div>
             <h3 style={{
-  fontWeight: '500'
-}}>
+              fontWeight: '600',
+              fontSize: '15px',
+              color: '#1A1A1A',
+              margin: 0
+            }}>
               {title}
             </h3>
           </div>
         </div>
-        
+
         {trend && trendValue && (
           <div style={{
-  display: 'flex',
-  alignItems: 'center',
-  gap: '4px'
-}}>
+            display: 'flex',
+            alignItems: 'center',
+            gap: '4px'
+          }}>
             <span style={{ color: getTrendColor() }}>
               {getTrendIcon()}
             </span>
-            <span style={{ color: getTrendColor(), fontWeight: '500' }}>
+            <span style={{ color: getTrendColor(), fontWeight: '600', fontSize: '14px' }}>
               {trendValue}
             </span>
           </div>
         )}
       </div>
-      
-      <div className="mb-2">
+
+      <div style={{ marginBottom: '8px' }}>
         <div
-          style={{ fontWeight: 'bold', color }}
+          style={{
+            fontWeight: '700',
+            fontSize: '28px',
+            color,
+            marginBottom: '4px'
+          }}
         >
           {formatValue(animatedValue, format)}
         </div>
         {subtitle && (
-          <p className="text-sm text-tertiary">
+          <p style={{
+            fontSize: '13px',
+            color: '#666666',
+            margin: 0
+          }}>
             {subtitle}
           </p>
         )}
       </div>
-      
+
       {/* Progress bar for visual enhancement */}
-      <div className="mt-4">
+      <div style={{ marginTop: '16px' }}>
         <div style={{
           width: '100%',
-          borderRadius: '50%',
+          borderRadius: '9999px',
           height: '4px',
-          overflow: 'hidden'
+          overflow: 'hidden',
+          background: '#F0F2F5'
         }}>
           <div
             style={{
               height: '4px',
-              borderRadius: '50%',
+              borderRadius: '9999px',
               backgroundColor: color,
               width: isVisible ? '100%' : '0%',
-              boxShadow: `0 0 8px ${color}40`
+              boxShadow: `0 0 8px ${color}40`,
+              transition: 'width 2s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           />
         </div>

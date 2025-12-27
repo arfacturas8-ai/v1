@@ -1,9 +1,9 @@
 import React, { memo } from 'react'
 import { Store, ShoppingBag, Tag, Gift } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 const CommunityStorePage = () => {
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024
+  const { isMobile, isTablet } = useResponsive()
 
   return (
     <div style={{
@@ -37,7 +37,9 @@ const CommunityStorePage = () => {
           <h1 style={{
             fontSize: isMobile ? '28px' : '36px',
             fontWeight: '700',
-            background: 'linear-gradient(135deg, #58a6ff 0%, #a371f7 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',

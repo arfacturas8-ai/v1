@@ -116,7 +116,7 @@ function FloatingActionButton() {
   paddingRight: '16px',
   paddingTop: '8px',
   paddingBottom: '8px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   border: '1px solid var(--border-subtle)',
   borderRadius: '12px'
 }}>

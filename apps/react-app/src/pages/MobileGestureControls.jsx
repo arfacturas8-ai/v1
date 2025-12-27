@@ -27,7 +27,7 @@ const MobileGestureControls = () => {
       margin: '0 auto'
     },
     card: {
-      background: 'rgba(20, 20, 20, 0.6)',
+      background: 'rgba(0, 0, 0, 0.5)',
       backdropFilter: 'blur(12px)',
       border: '1px solid var(--border-subtle)',
       borderRadius: '12px',
@@ -37,7 +37,7 @@ const MobileGestureControls = () => {
     icon: {
       width: isMobile ? '40px' : '48px',
       height: isMobile ? '40px' : '48px',
-      color: '#58a6ff',
+      color: '#000000',
       marginBottom: `${spacing.md}px`
     },
     title: {

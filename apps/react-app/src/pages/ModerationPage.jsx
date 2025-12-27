@@ -11,6 +11,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { useResponsive } from '../hooks/useResponsive'
 import apiService from '../services/api'
 import { useLoadingAnnouncement, useErrorAnnouncement } from '../utils/accessibility'
+import ConfirmationModal from '../components/modals/ConfirmationModal'
 
 export default function ModerationPage() {
   const { user, isAuthenticated } = useAuth()
@@ -33,6 +34,8 @@ export default function ModerationPage() {
     avgResponseTime: '0m'
   })
   const [processingReport, setProcessingReport] = useState(null)
+  const [showRemoveModal, setShowRemoveModal] = useState(false)
+  const [reportToRemove, setReportToRemove] = useState(null)
 
   useLoadingAnnouncement(loading, 'Loading moderation dashboard')
   useErrorAnnouncement(error)
@@ -94,14 +97,18 @@ export default function ModerationPage() {
     }
   }, [navigate])
 
-  const handleRemoveContent = useCallback(async (reportId) => {
-    if (!window.confirm('Are you sure you want to remove this content?')) {
-      return
-    }
+  const handleRemoveContent = useCallback((reportId) => {
+    setReportToRemove(reportId)
+    setShowRemoveModal(true)
+  }, [])
 
-    setProcessingReport(reportId)
+  const confirmRemoveContent = useCallback(async () => {
+    if (!reportToRemove) return
+
+    setProcessingReport(reportToRemove)
+    setShowRemoveModal(false)
     try {
-      const response = await apiService.post(`/moderation/reports/${reportId}/remove-content`)
+      const response = await apiService.post(`/moderation/reports/${reportToRemove}/remove-content`)
       if (response.success) {
         loadModerationData()
       } else {
@@ -112,8 +119,9 @@ export default function ModerationPage() {
       setError(err.message || 'Failed to remove content')
     } finally {
       setProcessingReport(null)
+      setReportToRemove(null)
     }
-  }, [])
+  }, [reportToRemove])
 
   const handleDismissReport = useCallback(async (reportId) => {
     setProcessingReport(reportId)
@@ -162,7 +170,7 @@ export default function ModerationPage() {
               width: '64px',
               height: '64px',
               border: '4px solid #E5E5E5',
-              borderTopColor: '#6366F1',
+              borderTopColor: '#000000',
               borderRadius: '50%',
               animation: 'spin 1s linear infinite',
               margin: '0 auto 16px'
@@ -219,7 +227,9 @@ export default function ModerationPage() {
               onClick={loadModerationData}
               style={{
                 padding: '12px 24px',
-                background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '16px',
@@ -252,7 +262,7 @@ export default function ModerationPage() {
     { label: 'Pending Reports', value: stats.pendingReports, desc: 'Requires immediate attention', color: '#ef4444', iconPath: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
     { label: 'Flagged Content', value: stats.flaggedContent, desc: 'Auto-detected violations', color: '#3b82f6', iconPath: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
     { label: 'Resolved Today', value: stats.resolvedToday, desc: 'Closed in last 24h', color: '#10b981', iconPath: 'M5 13l4 4L19 7' },
-    { label: 'Active Bans', value: stats.activeBans, desc: 'Temporary suspensions', color: '#8B5CF6', iconPath: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' }
+    { label: 'Active Bans', value: stats.activeBans, desc: 'Temporary suspensions', color: '#000000', iconPath: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' }
   ]
 
   return (
@@ -279,7 +289,9 @@ export default function ModerationPage() {
               fontSize: isMobile ? '28px' : '40px',
               fontWeight: 'bold',
               marginBottom: '8px',
-              background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+              background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text'
@@ -383,7 +395,7 @@ export default function ModerationPage() {
               {reports.length === 0 ? (
                 <div style={{ padding: isMobile ? '32px' : '48px', textAlign: 'center' }}>
                   <svg
-                    style={{ width: '64px', height: '64px', color: '#6366F1', margin: '0 auto 16px' }}
+                    style={{ width: '64px', height: '64px', color: '#000000', margin: '0 auto 16px' }}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -433,7 +445,9 @@ export default function ModerationPage() {
                           disabled={processingReport === report.id}
                           style={{
                             padding: '10px 20px',
-                            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                             color: 'white',
                             border: 'none',
                             borderRadius: '12px',
@@ -544,7 +558,7 @@ export default function ModerationPage() {
                     onClick={() => handleQuickAction(item.action)}
                     style={{
                       padding: '14px 16px',
-                      background: item.primary ? 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)' : '#FAFAFA',
+                      background: item.primary ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#FAFAFA',
                       color: item.primary ? 'white' : '#000000',
                       border: 'none',
                       borderRadius: '16px',
@@ -597,7 +611,7 @@ export default function ModerationPage() {
                   { label: 'Actions Today', value: moderatorStats.actionsToday, color: '#000000' },
                   { label: 'This Week', value: moderatorStats.actionsThisWeek, color: '#000000' },
                   { label: 'Accuracy Rate', value: `${moderatorStats.accuracyRate}%`, color: '#10b981' },
-                  { label: 'Avg Response Time', value: moderatorStats.avgResponseTime, color: '#6366F1' }
+                  { label: 'Avg Response Time', value: moderatorStats.avgResponseTime, color: '#000000' }
                 ].map((item, index) => (
                   <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ color: '#666666', fontSize: '14px' }}>{item.label}</span>
@@ -628,7 +642,7 @@ export default function ModerationPage() {
                 ].map((text, index) => (
                   <div key={index} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <svg
-                      style={{ width: '20px', height: '20px', flexShrink: 0, color: '#6366F1', marginTop: '2px' }}
+                      style={{ width: '20px', height: '20px', flexShrink: 0, color: '#000000', marginTop: '2px' }}
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -644,6 +658,21 @@ export default function ModerationPage() {
           </div>
         </div>
       </div>
+
+      {/* Remove Content Confirmation Modal */}
+      <ConfirmationModal
+        isOpen={showRemoveModal}
+        onClose={() => {
+          setShowRemoveModal(false)
+          setReportToRemove(null)
+        }}
+        onConfirm={confirmRemoveContent}
+        title="Remove Content"
+        message="Are you sure you want to remove this reported content? This action cannot be undone."
+        confirmText="Remove Content"
+        cancelText="Cancel"
+        variant="danger"
+      />
     </div>
   )
 }

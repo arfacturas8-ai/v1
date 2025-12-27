@@ -35,8 +35,6 @@ const categories = [
 function CommunityCard({ community, onJoin, onLeave, isMobile }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
-  const cryptoKey = community.name?.toLowerCase() || 'bitcoin';
-  const colorConfig = cryptoColors[cryptoKey] || cryptoColors.bitcoin;
 
   const handleCardClick = () => {
     navigate(`/community/${community.name || community.id}`);
@@ -51,22 +49,31 @@ function CommunityCard({ community, onJoin, onLeave, isMobile }) {
     }
   };
 
+  // Get crypto-specific gradient or use default
+  const getIconGradient = () => {
+    const communityName = community.name?.toLowerCase();
+    if (cryptoColors[communityName]) {
+      return cryptoColors[communityName].gradient;
+    }
+    return 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)'; // Default gradient
+  };
+
   return (
     <div
       onClick={handleCardClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        padding: '24px',
-        background: colorConfig.gradient,
-        borderRadius: '16px',
-        border: 'none',
+        padding: '20px',
+        background: '#FFFFFF',
+        borderRadius: '12px',
+        border: '1px solid #E5E5E5',
         boxShadow: isHovered
-          ? '0 12px 24px rgba(0, 0, 0, 0.15)'
-          : '0 4px 12px rgba(0, 0, 0, 0.12)',
+          ? '0 4px 12px rgba(0, 0, 0, 0.08)'
+          : '0 1px 2px rgba(0, 0, 0, 0.06)',
         cursor: 'pointer',
         transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
-        transform: isHovered ? 'translateY(-4px)' : 'translateY(0)',
+        transform: isHovered ? 'translateY(-2px)' : 'translateY(0)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -76,90 +83,62 @@ function CommunityCard({ community, onJoin, onLeave, isMobile }) {
         style={{
           width: '48px',
           height: '48px',
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.2)',
+          borderRadius: '8px',
+          background: getIconGradient(),
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginBottom: '16px',
-          backdropFilter: 'blur(10px)',
+          marginBottom: '12px',
         }}
       >
-        <Bitcoin size={28} strokeWidth={2} style={{ color: '#FFFFFF' }} />
+        <Bitcoin size={24} strokeWidth={2} style={{ color: '#FFFFFF' }} />
       </div>
 
       {/* Community Name */}
       <h3
         style={{
-          fontSize: '18px',
+          fontSize: '16px',
           fontWeight: '600',
-          color: '#FFFFFF',
-          marginBottom: '8px',
+          color: '#000000',
+          marginBottom: '4px',
           lineHeight: '1.3',
         }}
       >
         {community.displayName || community.name}
       </h3>
 
-      {/* Coin Holders */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          marginBottom: '12px',
-        }}
-      >
-        <Bitcoin size={14} strokeWidth={2} style={{ color: 'rgba(255, 255, 255, 0.8)' }} />
-        <span
+      {/* Description */}
+      {community.description && (
+        <p
           style={{
             fontSize: '13px',
-            color: 'rgba(255, 255, 255, 0.9)',
-            fontWeight: '500',
+            color: '#666666',
+            marginBottom: '12px',
+            lineHeight: '1.4',
           }}
         >
-          {formatNumber(community.coinHolders || 3859)} Coin Holders
-        </span>
-      </div>
+          {community.description}
+        </p>
+      )}
 
       {/* Members */}
       <div
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: '8px',
-          marginBottom: '16px',
+          gap: '4px',
+          marginBottom: '12px',
         }}
       >
-        <div style={{ display: 'flex', marginRight: '4px' }}>
-          <div
-            style={{
-              width: '20px',
-              height: '20px',
-              borderRadius: '50%',
-              background: 'rgba(255, 255, 255, 0.3)',
-              border: '2px solid rgba(255, 255, 255, 0.5)',
-            }}
-          />
-          <div
-            style={{
-              width: '20px',
-              height: '20px',
-              borderRadius: '50%',
-              background: 'rgba(255, 255, 255, 0.3)',
-              border: '2px solid rgba(255, 255, 255, 0.5)',
-              marginLeft: '-8px',
-            }}
-          />
-        </div>
+        <Users size={12} strokeWidth={2} style={{ color: '#666666' }} />
         <span
           style={{
-            fontSize: '14px',
-            color: '#FFFFFF',
-            fontWeight: '600',
+            fontSize: '13px',
+            color: '#666666',
+            fontWeight: '400',
           }}
         >
-          {formatNumber(community.members || community.memberCount || 15867)} Members
+          {formatNumber(community.members || community.memberCount || community.stats?.members || 0)} Members
         </span>
       </div>
 
@@ -168,25 +147,33 @@ function CommunityCard({ community, onJoin, onLeave, isMobile }) {
         onClick={handleButtonClick}
         style={{
           width: '100%',
-          height: '44px',
-          borderRadius: '12px',
-          fontSize: '15px',
+          height: '36px',
+          borderRadius: '8px',
+          fontSize: '14px',
           fontWeight: '600',
-          border: community.isJoined ? '1px solid rgba(255, 255, 255, 0.3)' : 'none',
+          border: community.isJoined ? '1px solid #E5E5E5' : 'none',
           cursor: 'pointer',
-          background: community.isJoined
-            ? 'rgba(255, 255, 255, 0.2)'
-            : 'rgba(255, 255, 255, 0.95)',
-          color: community.isJoined ? '#FFFFFF' : '#1A1A1A',
-          backdropFilter: community.isJoined ? 'blur(10px)' : 'none',
+          background: community.isJoined ? '#FAFAFA' : 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+          color: community.isJoined ? '#000000' : '#FFFFFF',
           transition: 'all 0.2s ease',
+          boxShadow: community.isJoined ? 'none' : '0 2px 8px rgba(88, 166, 255, 0.3)',
           fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif',
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'scale(0.98)';
+          if (!community.isJoined) {
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(88, 166, 255, 0.4)';
+          } else {
+            e.currentTarget.style.opacity = '0.85';
+          }
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'scale(1)';
+          if (!community.isJoined) {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 2px 8px rgba(88, 166, 255, 0.3)';
+          } else {
+            e.currentTarget.style.opacity = '1';
+          }
         }}
         aria-label={community.isJoined ? 'Leave community' : 'Join community'}
       >
@@ -220,24 +207,11 @@ function CommunitiesPage() {
         if (result.success && result.communities) {
           setCommunities(result.communities);
         } else {
-          // Mock data for display
-          setCommunities([
-            { name: 'solana', displayName: 'Solana', coinHolders: 3859, members: 15867, isJoined: false },
-            { name: 'bitcoin', displayName: 'Bitcoin', coinHolders: 8542, members: 28943, isJoined: false },
-            { name: 'ethereum', displayName: 'Ethereum', coinHolders: 7234, members: 24521, isJoined: true },
-            { name: 'cardano', displayName: 'Cardano', coinHolders: 2910, members: 12430, isJoined: false },
-            { name: 'polygon', displayName: 'Polygon', coinHolders: 3145, members: 14289, isJoined: false },
-            { name: 'avalanche', displayName: 'Avalanche', coinHolders: 2567, members: 11842, isJoined: false },
-          ]);
+          setCommunities([]);
         }
       } catch (err) {
         console.error('Error loading communities:', err);
-        // Mock data fallback
-        setCommunities([
-          { name: 'solana', displayName: 'Solana', coinHolders: 3859, members: 15867, isJoined: false },
-          { name: 'bitcoin', displayName: 'Bitcoin', coinHolders: 8542, members: 28943, isJoined: false },
-          { name: 'ethereum', displayName: 'Ethereum', coinHolders: 7234, members: 24521, isJoined: true },
-        ]);
+        setCommunities([]);
       } finally {
         setLoading(false);
       }
@@ -308,7 +282,7 @@ function CommunitiesPage() {
     <div
       style={{
         minHeight: '100vh',
-        background: '#F8F9FA',
+        background: '#FAFAFA',
         paddingTop: isMobile ? '76px' : '92px',
         paddingBottom: isMobile ? '96px' : '48px',
       }}
@@ -350,18 +324,18 @@ function CommunitiesPage() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search Cryptos, Articles, NFT's..."
+            placeholder="Search Communities..."
             style={{
               width: '100%',
               height: '44px',
               paddingLeft: '44px',
               paddingRight: '16px',
-              fontSize: '16px',
+              fontSize: '15px',
               lineHeight: '1.5',
               borderRadius: '12px',
               background: '#FFFFFF',
-              border: '1px solid #E8EAED',
-              color: '#1A1A1A',
+              border: '1px solid #E5E5E5',
+              color: '#000000',
               outline: 'none',
               transition: 'all 0.2s ease',
               boxShadow: 'none',
@@ -369,11 +343,11 @@ function CommunitiesPage() {
             }}
             aria-label="Search communities"
             onFocus={(e) => {
-              e.target.style.borderColor = '#58a6ff';
-              e.target.style.boxShadow = '0 0 0 3px rgba(88, 166, 255, 0.1)';
+              e.target.style.borderColor = '#000000';
+              e.target.style.boxShadow = '0 0 0 3px rgba(0, 0, 0, 0.05)';
             }}
             onBlur={(e) => {
-              e.target.style.borderColor = '#E8EAED';
+              e.target.style.borderColor = '#E5E5E5';
               e.target.style.boxShadow = 'none';
             }}
           />
@@ -401,23 +375,23 @@ function CommunitiesPage() {
                   justifyContent: 'center',
                   gap: '8px',
                   padding: '10px 20px',
-                  background: isActive ? '#1A1A1A' : '#FFFFFF',
-                  border: '1px solid #E8EAED',
+                  background: isActive ? 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)' : '#FFFFFF',
+                  border: isActive ? 'none' : '1px solid #E5E5E5',
                   borderRadius: '9999px',
                   color: isActive ? '#FFFFFF' : '#666666',
-                  fontSize: '15px',
-                  fontWeight: '500',
+                  fontSize: '14px',
+                  fontWeight: isActive ? '600' : '400',
                   cursor: 'pointer',
                   transition: 'all 0.2s ease',
                   whiteSpace: 'nowrap',
-                  boxShadow: 'none',
+                  boxShadow: isActive ? '0 4px 12px rgba(88, 166, 255, 0.3)' : 'none',
                   fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif',
                 }}
                 aria-label={`Filter by ${category.label}`}
                 aria-pressed={isActive}
                 onMouseEnter={(e) => {
                   if (!isActive) {
-                    e.currentTarget.style.background = '#F0F2F5';
+                    e.currentTarget.style.background = '#FAFAFA';
                   }
                 }}
                 onMouseLeave={(e) => {
@@ -436,8 +410,8 @@ function CommunitiesPage() {
         <h2
           style={{
             fontSize: isMobile ? '20px' : '24px',
-            fontWeight: '700',
-            color: '#1A1A1A',
+            fontWeight: '600',
+            color: '#000000',
             marginBottom: '20px',
             lineHeight: '1.3',
             letterSpacing: '-0.01em',

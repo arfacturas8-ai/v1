@@ -61,7 +61,7 @@ export default function MaintenancePage() {
       >
         <div style={{
           textAlign: 'center',
-          color: '#000000',
+          color: '#1A1A1A',
           maxWidth: isMobile ? '100%' : '700px',
           paddingLeft: isMobile ? '0' : '16px',
           paddingRight: isMobile ? '0' : '16px'
@@ -85,7 +85,7 @@ export default function MaintenancePage() {
                 width: isMobile ? '48px' : '64px',
                 height: isMobile ? '48px' : '64px',
                 flexShrink: 0,
-                color: '#6366F1'
+                color: '#1A1A1A'
               }}
               className="animate-wiggle"
               aria-hidden="true"
@@ -96,7 +96,9 @@ export default function MaintenancePage() {
             fontSize: isMobile ? '32px' : '48px',
             fontWeight: 'bold',
             marginBottom: isMobile ? '16px' : '24px',
-            background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+            background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -136,7 +138,7 @@ export default function MaintenancePage() {
                   height: isMobile ? '24px' : '28px',
                   flexShrink: 0,
                   marginBottom: '16px',
-                  color: '#6366F1',
+                  color: '#1A1A1A',
                   marginLeft: 'auto',
                   marginRight: 'auto',
                   display: 'block'
@@ -153,7 +155,7 @@ export default function MaintenancePage() {
               <div style={{
                 fontSize: isMobile ? '20px' : '24px',
                 fontWeight: 'bold',
-                color: '#000000'
+                color: '#1A1A1A'
               }}>
                 {getTimeRemaining()}
               </div>
@@ -189,7 +191,7 @@ export default function MaintenancePage() {
               <div style={{
                 fontSize: isMobile ? '20px' : '24px',
                 fontWeight: 'bold',
-                color: '#000000'
+                color: '#1A1A1A'
               }}>
                 {formatTime(estimatedEnd)}
               </div>
@@ -210,7 +212,7 @@ export default function MaintenancePage() {
               fontWeight: '600',
               marginBottom: '16px',
               textAlign: 'center',
-              color: '#000000'
+              color: '#1A1A1A'
             }}>
               What's Being Improved?
             </h3>
@@ -219,7 +221,7 @@ export default function MaintenancePage() {
               padding: 0,
               margin: 0,
               fontSize: '14px',
-              color: '#000000',
+              color: '#1A1A1A',
               lineHeight: '2'
             }}>
               {[
@@ -249,7 +251,7 @@ export default function MaintenancePage() {
           }}>
             <p style={{
               fontSize: '16px',
-              color: '#000000',
+              color: '#1A1A1A',
               marginBottom: '16px',
               lineHeight: '1.6'
             }}>
@@ -270,7 +272,9 @@ export default function MaintenancePage() {
                   paddingTop: '8px',
                   paddingBottom: '8px',
                   height: '40px',
-                  background: 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
+                  background: 'linear-gradient(135deg, rgba(88, 166, 255, 0.9) 0%, rgba(163, 113, 247, 0.9) 100%)',
+                    backdropFilter: 'blur(40px) saturate(200%)',
+                    WebkitBackdropFilter: 'blur(40px) saturate(200%)',
                   border: 'none',
                   borderRadius: '8px',
                   color: 'white',
@@ -309,7 +313,7 @@ export default function MaintenancePage() {
                   background: 'white',
                   border: '1px solid rgba(0, 0, 0, 0.06)',
                   borderRadius: '8px',
-                  color: '#6366F1',
+                  color: '#1A1A1A',
                   textDecoration: 'none',
                   fontSize: '14px',
                   fontWeight: '600',
@@ -345,7 +349,7 @@ export default function MaintenancePage() {
             Questions?{' '}
             <a
               href="mailto:support@cryb.app"
-              style={{ color: '#6366F1', textDecoration: 'underline', fontWeight: '600' }}
+              style={{ color: '#1A1A1A', textDecoration: 'underline', fontWeight: '600' }}
             >
               Contact support
             </a>

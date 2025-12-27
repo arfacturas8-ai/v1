@@ -11,20 +11,41 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
 
     try {
       if (type === 'metamask') {
-        if (typeof window.ethereum !== 'undefined') {
+        if (typeof window.ethereum === 'undefined') {
+          setWalletStatus('error')
+          alert('MetaMask is not installed. Please install MetaMask extension from metamask.io')
+          return
+        }
+
+        try {
           const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-          if (accounts.length > 0) {
+          if (accounts && accounts.length > 0) {
             setWalletAddress(accounts[0])
             setWalletStatus('connected')
+
+            // Check network
+            const chainId = await window.ethereum.request({ method: 'eth_chainId' })
+            if (chainId !== '0x1') {
+              console.warn('Not on Ethereum mainnet. ChainId:', chainId)
+            }
+          } else {
+            throw new Error('No accounts returned')
           }
-        } else {
-          throw new Error('MetaMask not installed')
+        } catch (err) {
+          if (err.code === 4001) {
+            // User rejected
+            setWalletStatus('disconnected')
+            alert('Connection request rejected. Please try again.')
+          } else {
+            throw err
+          }
         }
       }
       // Add other wallet types here
     } catch (error) {
       console.error('Wallet connection failed:', error)
       setWalletStatus('error')
+      alert(`Failed to connect wallet: ${error.message}`)
     }
   }
 
@@ -110,10 +131,13 @@ const CryptoWalletStep = ({ onComplete, onSkip }) => {
                 style={{
   width: '100%',
   padding: '16px',
-  border: '1px solid var(--border-subtle)',
+  border: '1px solid #E8EAED',
   borderRadius: '12px',
   display: 'flex',
-  alignItems: 'center'
+  alignItems: 'center',
+  background: '#FFFFFF',
+  cursor: 'pointer',
+  transition: 'all 0.2s'
 }}
               >
                 <div style={{

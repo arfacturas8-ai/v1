@@ -273,17 +273,17 @@ const StakingDashboard = () => {
         <div className=" space-y-4">
           <div style={{
   height: '24px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '16px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
           <div style={{
   height: '96px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '4px'
 }}></div>
         </div>
@@ -435,7 +435,7 @@ const StakingDashboard = () => {
 
           <div className="space-y-4">
             <div style={{
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   padding: '16px',
   borderRadius: '12px'
 }}>
@@ -696,7 +696,7 @@ const StakingDashboard = () => {
   alignItems: 'center',
   justifyContent: 'space-between',
   padding: '12px',
-  background: 'rgba(20, 20, 20, 0.6)',
+  background: 'rgba(0, 0, 0, 0.5)',
   borderRadius: '12px'
 }}
               >
