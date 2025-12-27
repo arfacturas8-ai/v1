@@ -94,7 +94,7 @@ const WalletModal = ({ isOpen, onClose }) => {
         alignItems: 'center',
         justifyContent: 'center',
         padding: isMobile ? '16px' : '20px',
-        zIndex: 9999,
+        zIndex: 1100, // Modal layer
         background: 'rgba(0, 0, 0, 0.5)',
         backdropFilter: 'blur(8px)'
       }}

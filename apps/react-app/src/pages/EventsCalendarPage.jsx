@@ -1121,7 +1121,7 @@ const EventsCalendarPage = () => {
               </div>
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: window.innerWidth < 640 ? '1fr' : '1fr 1fr',
+                gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
                 gap: '16px'
               }}>
                 <div>

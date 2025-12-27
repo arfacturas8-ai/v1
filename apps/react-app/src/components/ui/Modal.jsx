@@ -142,7 +142,7 @@ export const Modal = ({
         justifyContent: 'center',
         padding: '16px',
         background: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 9999
+        zIndex: 1100 // Modal layer
       }}
       role="dialog"
       aria-modal="true"

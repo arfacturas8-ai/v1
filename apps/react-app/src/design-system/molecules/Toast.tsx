@@ -228,7 +228,7 @@ export const ToastContainer: React.FC<ToastContainerProps> = ({ toasts, position
     <div
       style={{
         position: 'fixed',
-        zIndex: 9999,
+        zIndex: 1200, // Toast/notification layer
         display: 'flex',
         flexDirection: 'column',
         gap: spacing[3],

@@ -99,7 +99,7 @@ const CookieConsent = () => {
         bottom: 0,
         left: 0,
         right: 0,
-        zIndex: 9999,
+        zIndex: 1200, // Toast/notification layer
         padding: '0 var(--space-4) var(--space-4)',
         pointerEvents: 'none',
       }}

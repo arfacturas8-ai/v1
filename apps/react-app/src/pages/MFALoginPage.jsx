@@ -6,18 +6,18 @@ import React, { useState, useEffect, useRef } from 'react'
 import { getErrorMessage } from "../utils/errorUtils";
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { Shield, ArrowLeft, Key, AlertCircle, Loader2 } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 
 export default function MFALoginPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { isMobile } = useResponsive()
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [rememberDevice, setRememberDevice] = useState(false)
   const [showBackupCodes, setShowBackupCodes] = useState(false)
   const inputRefs = useRef([])
-
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
 
   const email = location.state?.email || ''
 

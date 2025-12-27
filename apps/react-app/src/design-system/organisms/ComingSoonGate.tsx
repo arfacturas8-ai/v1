@@ -177,7 +177,7 @@ export const ComingSoonGate: React.FC<ComingSoonGateProps> = ({
         justifyContent: 'center',
         backgroundColor: colors['overlay-backdrop'],
         backdropFilter: 'blur(8px)',
-        zIndex: 9999,
+        zIndex: 1100, // Modal layer
         padding: spacing[6],
         ...style,
       }}

@@ -107,7 +107,7 @@ export const SkipToContent = ({ targetId = 'main-content' }) => (
       width: '1px',
       height: '1px',
       overflow: 'hidden',
-      zIndex: 9999
+      zIndex: 1200 // Toast/notification layer (accessibility priority)
     }}
     onFocus={(e) => {
       e.target.style.position = 'fixed'

@@ -8,12 +8,14 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { Wallet, TrendingUp, TrendingDown, Search, Grid, List, MoreVertical } from 'lucide-react'
+import { useResponsive } from '../hooks/useResponsive'
 import nftService from '../services/nftService'
 import apiService from '../services/api'
 
 export default function WalletPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { isMobile } = useResponsive()
   const [activeTab, setActiveTab] = useState('nfts')
   const [viewMode, setViewMode] = useState('grid')
   const [loading, setLoading] = useState(true)
@@ -21,13 +23,6 @@ export default function WalletPage() {
   const [nfts, setNFTs] = useState([])
   const [portfolioValue, setPortfolioValue] = useState(0)
   const [portfolioChange, setPortfolioChange] = useState(0)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
 
   useEffect(() => {
     loadWalletData()

@@ -100,7 +100,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
             fontSize: typography.fontSize.xs,
             lineHeight: typography.lineHeight.tight,
             boxShadow: shadows.lg,
-            zIndex: 9999,
+            zIndex: 1200, // Toast/notification layer
             maxWidth: '200px',
             pointerEvents: 'none',
             whiteSpace: 'nowrap',

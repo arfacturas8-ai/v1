@@ -1,5 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react'
 import { Upload, X, Image, Video, FileText, Music, Archive, AlertCircle, CheckCircle, Loader, Eye, Trash2, RotateCcw, ZoomIn } from 'lucide-react'
+import { useResponsive } from '../../hooks/useResponsive'
 import { getErrorMessage } from '../../utils/errorUtils'
 
 const MediaUploader = ({
@@ -19,6 +20,7 @@ const MediaUploader = ({
   existingFiles = [],
   disabled = false
 }) => {
+  const { isMobile } = useResponsive()
   const [files, setFiles] = useState(existingFiles)
   const [isDragging, setIsDragging] = useState(false)
   const [uploadProgress, setUploadProgress] = useState({})
@@ -26,7 +28,7 @@ const MediaUploader = ({
   const [previews, setPreviews] = useState({})
   const [selectedFile, setSelectedFile] = useState(null)
   const [imageEditor, setImageEditor] = useState({ open: false, file: null, transforms: {} })
-  
+
   const fileInputRef = useRef(null)
   const dropzoneRef = useRef(null)
 
@@ -382,7 +384,7 @@ const MediaUploader = ({
           }
         }}
       >
-        <Upload className="mx-auto mb-3 sm:mb-4 text-secondary" size={window.innerWidth < 640 ? 32 : 48} />
+        <Upload className="mx-auto mb-3 sm:mb-4 text-secondary" size={isMobile ? 32 : 48} />
         <h3 style={{
   fontWeight: '600'
 }}>

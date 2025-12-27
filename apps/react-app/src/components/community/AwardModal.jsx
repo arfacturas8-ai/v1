@@ -118,7 +118,7 @@ const AwardModal = ({ post, onClose, onAward }) => {
         justifyContent: 'center',
         padding: isMobile ? '16px' : '20px',
         background: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 9999
+        zIndex: 1100 // Modal layer
       }}
       onClick={onClose}
     >

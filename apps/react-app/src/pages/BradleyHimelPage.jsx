@@ -120,7 +120,7 @@ export default function BradleyHimelPage() {
           backgroundImage: 'url(/images/brad/bradley-himel.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          zIndex: 999999
+          zIndex: 1300 // Critical overlay
         }}>
         </div>
       </div>

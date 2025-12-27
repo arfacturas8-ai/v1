@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function LandingHeader() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  // Responsive breakpoints
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
+  const { isMobile, isTablet, isDesktop } = useResponsive();
 
   useEffect(() => {
     const handleScroll = () => {

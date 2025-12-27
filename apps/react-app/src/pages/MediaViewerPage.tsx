@@ -142,7 +142,7 @@ export default function MediaViewerPage() {
         right: 0,
         bottom: 0,
         backgroundColor: 'var(--bg-tertiary)',
-        zIndex: 9999,
+        zIndex: 1100, // Modal layer
         display: 'flex',
         flexDirection: 'column',
       }}

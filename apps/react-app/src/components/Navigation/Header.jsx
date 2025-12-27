@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, Search, Bell, User, Settings, LogOut, Plus, X } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext.jsx';
+import { useResponsive } from '../../hooks/useResponsive';
 
 /**
  * Header Component - iOS-style clean navigation
@@ -14,14 +15,10 @@ export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout, user } = useAuth();
+  const { isMobile, isTablet, isDesktop } = useResponsive();
   const [searchQuery, setSearchQuery] = useState('');
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-
-  // Responsive breakpoints
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-  const isTablet = typeof window !== 'undefined' && window.innerWidth >= 768 && window.innerWidth < 1024;
-  const isDesktop = typeof window !== 'undefined' && window.innerWidth >= 1024;
 
   const handleSearch = (e) => {
     e.preventDefault();

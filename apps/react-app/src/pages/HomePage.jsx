@@ -12,9 +12,10 @@
  * - Perfect responsive design
  */
 
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useResponsive } from '../hooks/useResponsive';
 import { useFeedQuery, useCreatePost } from '../hooks/api/usePosts';
 import { useTrendingTagsQuery } from '../hooks/api/useSearch';
 import { useSuggestedUsersQuery } from '../hooks/api/useUsers';
@@ -28,22 +29,8 @@ import {
 function HomePageContent() {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isMobile, isTablet } = useResponsive();
   const [activeTab, setActiveTab] = useState('algorithmic');
-
-  // Responsive breakpoints
-  const [isMobile, setIsMobile] = useState(false);
-  const [isTablet, setIsTablet] = useState(false);
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768);
-      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1280);
-    };
-
-    checkScreenSize();
-    window.addEventListener('resize', checkScreenSize);
-    return () => window.removeEventListener('resize', checkScreenSize);
-  }, []);
 
   // Fetch feed using React Query with infinite scroll
   const {
