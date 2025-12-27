@@ -27,7 +27,7 @@ const ToastContainer: React.FC = () => {
         position: 'fixed',
         top: '1rem',
         right: '1rem',
-        zIndex: 9999,
+        zIndex: 1200, // Toast/notification layer
         display: 'flex',
         flexDirection: 'column',
         gap: '0.5rem',
